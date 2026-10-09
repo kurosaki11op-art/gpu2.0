@@ -85,7 +85,8 @@ module tb_board;
 
     task set_cfg(input [4:0] flags, input [15:0] cap, input [31:0] th, input [1:0] conf);
         begin
-            send_byte(8'hC0); send_byte({2'd0, 1'b1, flags});   // bit5 thr_en = 1 send_byte(cap[7:0]); send_byte(cap[15:8]);
+            // flags byte: bit5 thr_en = 1 (threshold spikes)
+            send_byte(8'hC0); send_byte({2'd0, 1'b1, flags}); send_byte(cap[7:0]); send_byte(cap[15:8]);
             send_byte(th[7:0]); send_byte(th[15:8]); send_byte(th[23:16]); send_byte(th[31:24]);
             send_byte({6'd0, conf});
             expect_byte(8'hC1, "config");

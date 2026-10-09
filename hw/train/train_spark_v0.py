@@ -166,6 +166,7 @@ def main():
     ap.add_argument("--eval-bytes", type=int, default=3000)
     ap.add_argument("--ctx", type=int, default=1, help="bytes of context window (1 = SPARK v0)")
     ap.add_argument("--shared-emb", action="store_true", help="one embedding table for all context bytes")
+    ap.add_argument("--hidden", type=int, default=0, help="neurons per layer (default: chip size 128)")
     ap.add_argument("--threads", type=int, default=0)
     ap.add_argument("--warmup", type=int, default=100)
     ap.add_argument("--relax-steps", type=int, default=0,
@@ -177,6 +178,9 @@ def main():
     ap.add_argument("--relax-only", action="store_true",
                     help="evaluate the relaxed (non-integer) model: architecture ceiling only")
     a = ap.parse_args()
+    if a.hidden:
+        global H
+        H = a.hidden          # size study only: the v0 chip and golden model use 128
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(0)
     torch.set_num_threads(a.threads or os.cpu_count() or 4)
