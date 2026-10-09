@@ -22,8 +22,12 @@ CONFIGS = [
     ("event-driven + early exit", dict(sparse=1, exit_en=1, exit_th=64)),
     ("event-driven + recall", dict(sparse=1, recall=1, conf_th=1)),
     ("event-driven + energy cap 16", dict(sparse=1, cap=16)),
-    ("all think-less (change-only + exit + recall)",
+    ("all think-less, always on (change-only + exit + recall)",
      dict(sparse=1, delta=1, exit_en=1, exit_th=64, recall=1, conf_th=1)),
+    ("ADAPTIVE controller (recall + chooses change-only/full + adaptive exit)",
+     dict(sparse=1, adapt=1, exit_en=1, exit_th=64, recall=1, conf_th=1)),
+    ("ADAPTIVE controller, exit always succeeds (stress test)",
+     dict(sparse=1, adapt=1, exit_en=1, exit_th=-1000000, recall=1, conf_th=1)),
 ]
 
 
@@ -53,7 +57,7 @@ def main():
         gold = [g.step(b) for b in data]
         args = (f"+sparse={cfg.sparse} +delta={cfg.delta} +exit={cfg.exit_en} "
                 f"+exit_th={cfg.exit_th} +recall={cfg.recall} +conf_th={cfg.conf_th} "
-                f"+cap={cfg.cap} +n={len(data)}")
+                f"+cap={cfg.cap} +adapt={cfg.adapt} +n={len(data)}")
         sh(f"vvp -n sim.vvp {args}", BUILD)
         rtl = [list(map(int, ln.split())) for ln in open(os.path.join(BUILD, "rtl_out.txt"))]
         mism = 0

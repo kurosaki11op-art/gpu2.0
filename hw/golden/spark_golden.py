@@ -34,6 +34,8 @@ class Cfg:
         self.recall = 0      # 1: hippocampus-style recall table
         self.conf_th = 1     # recall confidence needed for bypass (0..3)
         self.cap = 0         # max non-zero events per stage per token (0 = off)
+        self.adapt = 0       # 1: adaptive controller (per-stage change-only vs full
+                             #    recompute, and adaptive early-exit probing)
         self.a = 230         # membrane decay, Q8 (230/256 ~ 0.9)
         self.acc_sh = 2      # accumulator -> membrane shift
         self.s_sh = 4        # membrane -> spike shift
@@ -111,10 +113,37 @@ class Golden:
         self.s = [np.zeros(H, np.int64), np.zeros(H, np.int64)]
         self.table = {}        # idx -> [valid, tag, value, conf]
         self.ctx_prev = 0
+        self.tok = 0           # token index
+        self.score = 8         # adaptive early-exit score (0..15)
 
     def _events(self, k, src):
         """Accumulate one stage. Returns (non-zero events, processed events)."""
         c, acc, sent, W = self.c, self.acc[k], self.sent[k], self.w.w[k]
+        if c.adapt:
+            # Adaptive controller: invariant acc == W @ sent. Pick the cheaper of
+            # change-only events and a full recompute from the current input.
+            n_nz = int(np.count_nonzero(src))
+            n_dl = int(np.count_nonzero(src != sent))
+            use_delta = n_dl <= n_nz
+            if not use_delta:
+                acc[:] = 0
+                newsent = np.zeros_like(sent)
+            nz = proc = 0
+            for j in range(len(src)):
+                v = int(src[j] - sent[j]) if use_delta else int(src[j])
+                if v == 0 or (c.cap and nz >= c.cap):
+                    continue
+                nz += 1
+                proc += 1
+                acc += W[:, j] * v
+                if use_delta:
+                    sent[j] = src[j]
+                else:
+                    newsent[j] = src[j]
+            if not use_delta:
+                sent[:] = newsent
+            self.delta_choices += int(use_delta)
+            return nz, proc
         if not c.delta:
             acc[:] = 0
         nz = proc = 0
@@ -152,6 +181,9 @@ class Golden:
     def step(self, b):
         c = self.c
         out = {"ev": [0, 0, 0, 0], "proc": [0, 0, 0, 0]}
+        tok = self.tok
+        self.tok += 1
+        self.delta_choices = 0
         ctx = ((self.ctx_prev << 8) | b) & 0xFFFFFFFF
         if c.recall:
             iu = rhash(self.ctx_prev)
@@ -173,12 +205,15 @@ class Golden:
 
         stage(0, self.w.emb[b])
         self._membrane(0, 0)
-        if c.exit_en:
+        try_exit = c.exit_en and ((not c.adapt) or self.score >= 4 or (tok & 15) == 0)
+        if try_exit:
             stage(2, self.s[0])
             idx, margin = self._argmax(2)
             if margin >= c.exit_th:
+                self.score = min(self.score + 2, 15)
                 out.update(pred=idx, path=1)
                 return out
+            self.score = max(self.score - 1, 0)
         stage(1, self.s[0])
         self._membrane(1, 1)
         stage(3, self.s[1])

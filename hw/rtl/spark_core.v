@@ -35,6 +35,12 @@ module spark_core #(
     input      [8:0]  cfg_a,        // membrane decay, Q8
     input      [3:0]  acc_sh,
     input      [3:0]  s_sh,
+    input             adapt_en,     // adaptive controller
+    // weight / embedding load port (weights are loaded at boot, e.g. from flash)
+    input             ld_we,
+    input      [2:0]  ld_sel,       // 0 emb, 1..4 = w0..w3
+    input      [10:0] ld_addr,
+    input      [63:0] ld_data,
     // results
     output reg        done,
     output reg [7:0]  pred,
@@ -49,12 +55,20 @@ module spark_core #(
     output     [15:0] pr0, pr1, pr2, pr3
 );
     // ------------------------------------------------------------------ states
-    localparam S_IDLE = 4'd0, S_RU_RD = 4'd1, S_RU_WR = 4'd2, S_RL_RD = 4'd3,
-               S_RL_DEC = 4'd4, S_ST_INIT = 4'd5, S_SC_RD = 4'd6, S_SC_WAIT = 4'd7,
-               S_EV_SEL = 4'd8, S_EV_RUN = 4'd9, S_SC_WB = 4'd10, S_PO_RUN = 4'd11,
-               S_ST_NEXT = 4'd12, S_DONE = 4'd13;
+    localparam S_IDLE = 5'd0, S_RU_RD = 5'd1, S_RU_WR = 5'd2, S_RL_RD = 5'd3,
+               S_RL_DEC = 5'd4, S_ST_INIT = 5'd5, S_SC_RD = 5'd6, S_SC_WAIT = 5'd7,
+               S_EV_SEL = 5'd8, S_EV_RUN = 5'd9, S_SC_WB = 5'd10, S_PO_RUN = 5'd11,
+               S_ST_NEXT = 5'd12, S_DONE = 5'd13,
+               S_PRE_RD = 5'd14, S_PRE_ACC = 5'd15, S_CLR = 5'd16;
 
-    reg [3:0]  state;
+    reg [4:0]  state;
+    // adaptive controller state
+    reg        use_delta;         // this stage: change-only (1) or full recompute (0)
+    reg [7:0]  n_nz, n_dl;        // pre-scan counts: non-zero inputs, changed inputs
+    reg [3:0]  score;             // early-exit usefulness score
+    reg [15:0] tokcnt, tokq;
+    wire       eff_delta = adapt_en ? use_delta : delta_en;
+    wire       try_exit  = exit_en && (!adapt_en || score >= 4'd4 || tokq[3:0] == 4'd0);
     reg [1:0]  stg;
     reg [7:0]  byte_r;
     reg [31:0] ctx, ctx_prev;
@@ -83,11 +97,11 @@ module spark_core #(
     reg  [9:0]  w1_ra;   wire [4*P-1:0] w1_rd;
     reg  [10:0] w2_ra;   wire [4*P-1:0] w2_rd;
     reg  [10:0] w3_ra;   wire [4*P-1:0] w3_rd;
-    spark_ram #(4*P, 1024, 10, EMB_HEX) u_emb (clk, 1'b0, 10'd0, {4*P{1'b0}}, emb_ra, emb_rd);
-    spark_ram #(4*P, 512,  9,  W0_HEX)  u_w0  (clk, 1'b0, 9'd0,  {4*P{1'b0}}, w0_ra, w0_rd);
-    spark_ram #(4*P, 1024, 10, W1_HEX)  u_w1  (clk, 1'b0, 10'd0, {4*P{1'b0}}, w1_ra, w1_rd);
-    spark_ram #(4*P, 2048, 11, W2_HEX)  u_w2  (clk, 1'b0, 11'd0, {4*P{1'b0}}, w2_ra, w2_rd);
-    spark_ram #(4*P, 2048, 11, W3_HEX)  u_w3  (clk, 1'b0, 11'd0, {4*P{1'b0}}, w3_ra, w3_rd);
+    spark_bram #(4*P, 1024, 10, EMB_HEX) u_emb (clk, ld_we && ld_sel == 3'd0, ld_addr[9:0], ld_data[4*P-1:0], emb_ra, emb_rd);
+    spark_bram #(4*P, 512,  9,  W0_HEX)  u_w0  (clk, ld_we && ld_sel == 3'd1, ld_addr[8:0], ld_data[4*P-1:0], w0_ra, w0_rd);
+    spark_bram #(4*P, 1024, 10, W1_HEX)  u_w1  (clk, ld_we && ld_sel == 3'd2, ld_addr[9:0], ld_data[4*P-1:0], w1_ra, w1_rd);
+    spark_bram #(4*P, 2048, 11, W2_HEX)  u_w2  (clk, ld_we && ld_sel == 3'd3, ld_addr, ld_data[4*P-1:0], w2_ra, w2_rd);
+    spark_bram #(4*P, 2048, 11, W3_HEX)  u_w3  (clk, ld_we && ld_sel == 3'd4, ld_addr, ld_data[4*P-1:0], w3_ra, w3_rd);
 
     reg acc_we [0:3]; reg [3:0] acc_wa [0:3]; reg [24*P-1:0] acc_wd [0:3]; reg [3:0] acc_ra [0:3];
     wire [24*P-1:0] acc_rd [0:3];
@@ -115,7 +129,7 @@ module spark_core #(
 
     // recall table entry: {valid[42], tag[41:10], value[9:2], conf[1:0]}
     reg        t_we; reg [9:0] t_wa, t_ra; reg [42:0] t_wd; wire [42:0] t_rd;
-    spark_ram #(43, 1024, 10) u_tab (clk, t_we, t_wa, t_wd, t_ra, t_rd);
+    spark_bram #(43, 1024, 10) u_tab (clk, t_we, t_wa, t_wd, t_ra, t_rd);
 
     function [9:0] rhash(input [31:0] x);
         reg [31:0] y;
@@ -139,16 +153,26 @@ module spark_core #(
     // per-lane event values from the freshly read words (SC_WAIT) and from the
     // latched words (EV_SEL)
     integer l0, l1, l2, l3, l4, l5;
-    reg [P-1:0] nzmask_rd;
+    reg [P-1:0] nzmask_rd, srcnz_rd, chg_rd;
+    reg [7:0]   pc_nz, pc_dl;
+    always @* begin
+        pc_nz = 8'd0; pc_dl = 8'd0;
+        for (l0 = 0; l0 < P; l0 = l0 + 1) begin
+            pc_nz = pc_nz + srcnz_rd[l0];
+            pc_dl = pc_dl + chg_rd[l0];
+        end
+    end
     reg signed [4:0] vlat [0:P-1];
     reg signed [4:0] vtmp;
     always @* begin
         for (l1 = 0; l1 < P; l1 = l1 + 1) begin
-            vtmp = delta_en ? ($signed(src_rd[4*l1 +: 4]) - $signed(sent_rd[4*l1 +: 4]))
-                            : $signed(src_rd[4*l1 +: 4]);
+            vtmp = eff_delta ? ($signed(src_rd[4*l1 +: 4]) - $signed(sent_rd[4*l1 +: 4]))
+                             : $signed(src_rd[4*l1 +: 4]);
             nzmask_rd[l1] = (vtmp != 0);
-            vlat[l1] = delta_en ? ($signed(srcw[4*l1 +: 4]) - $signed(sentw[4*l1 +: 4]))
-                               : $signed(srcw[4*l1 +: 4]);
+            srcnz_rd[l1]  = (src_rd[4*l1 +: 4] != 4'd0);
+            chg_rd[l1]    = (src_rd[4*l1 +: 4] != sent_rd[4*l1 +: 4]);
+            vlat[l1] = eff_delta ? ($signed(srcw[4*l1 +: 4]) - $signed(sentw[4*l1 +: 4]))
+                                 : $signed(srcw[4*l1 +: 4]);
         end
     end
     reg [3:0] sel;
@@ -242,7 +266,10 @@ module spark_core #(
                 end
             end
             S_SC_WB: begin
-                sn_we[stg] = delta_en; sn_wa[stg] = c[2:0];
+                sn_we[stg] = delta_en | adapt_en; sn_wa[stg] = c[2:0];
+            end
+            S_CLR: begin
+                acc_we[stg] = 1'b1; acc_wa[stg] = m[3:0]; acc_wd[stg] = {24*P{1'b0}};
             end
             S_PO_RUN: begin
                 if (m < nc) begin
@@ -250,7 +277,7 @@ module spark_core #(
                     h_ra[stg[0]] = m[2:0];
                 end
                 if (m >= 1) begin
-                    if (!delta_en) begin
+                    if (!delta_en && !adapt_en) begin
                         acc_we[stg] = 1'b1; acc_wa[stg] = m[3:0] - 4'd1; acc_wd[stg] = {24*P{1'b0}};
                     end
                     if (!is_head) begin
@@ -267,13 +294,14 @@ module spark_core #(
     always @(posedge clk) begin
         if (rst) begin
             state <= S_IDLE; done <= 1'b0; ctx_prev <= 32'd0; ctx <= 32'd0;
-            stg <= 2'd0;
+            stg <= 2'd0; score <= 4'd8; tokcnt <= 16'd0; tokq <= 16'd0;
         end else begin
             done <= 1'b0;
             if (state != S_IDLE) tok_cycles <= tok_cycles + 1;
             case (state)
                 S_IDLE: if (start) begin
                     byte_r <= in_byte; tok_cycles <= 32'd1;
+                    tokq <= tokcnt; tokcnt <= tokcnt + 16'd1;
                     wreads <= 0; cyc_engine <= 0; cyc_scan <= 0; cyc_post <= 0; cyc_recall <= 0;
                     for (kf = 0; kf < 4; kf = kf + 1) begin nzc[kf] <= 0; prc[kf] <= 0; end
                     if (recall_en) state <= S_RU_RD;
@@ -297,11 +325,34 @@ module spark_core #(
                         stg <= 2'd0; state <= S_ST_INIT;
                     end
                 end
-                S_ST_INIT: begin c <= 4'd0; state <= S_SC_RD; end
+                S_ST_INIT: begin
+                    c <= 4'd0; n_nz <= 8'd0; n_dl <= 8'd0;
+                    state <= adapt_en ? S_PRE_RD : S_SC_RD;
+                end
+                // adaptive pre-scan: count non-zero and changed inputs, then pick
+                // the cheaper way to update this stage
+                S_PRE_RD: begin cyc_scan <= cyc_scan + 1; state <= S_PRE_ACC; end
+                S_PRE_ACC: begin
+                    cyc_scan <= cyc_scan + 1;
+                    if (c + 1 == nin_ch) begin
+                        use_delta <= (n_dl + pc_dl) <= (n_nz + pc_nz);
+                        c <= 4'd0; m <= 5'd0;
+                        state <= ((n_dl + pc_dl) <= (n_nz + pc_nz)) ? S_SC_RD : S_CLR;
+                    end else begin
+                        n_nz <= n_nz + pc_nz; n_dl <= n_dl + pc_dl;
+                        c <= c + 1; state <= S_PRE_RD;
+                    end
+                end
+                S_CLR: begin
+                    cyc_scan <= cyc_scan + 1;
+                    if (m + 1 == nc) state <= S_SC_RD;
+                    m <= m + 1;
+                end
                 S_SC_RD:   begin cyc_scan <= cyc_scan + 1; state <= S_SC_WAIT; end
                 S_SC_WAIT: begin
                     cyc_scan <= cyc_scan + 1;
-                    srcw <= src_rd; sentw <= sent_rd;
+                    srcw <= src_rd;
+                    sentw <= (adapt_en && !use_delta) ? {4*P{1'b0}} : sent_rd;
                     mask <= sparse_en ? nzmask_rd : {P{1'b1}};
                     state <= S_EV_SEL;
                 end
@@ -314,7 +365,7 @@ module spark_core #(
                         ev_j <= c * P + sel;
                         ev_v <= vlat[sel];
                         mask[sel] <= 1'b0;
-                        if (delta_en) sentw[4*sel +: 4] <= srcw[4*sel +: 4];
+                        if (delta_en || adapt_en) sentw[4*sel +: 4] <= srcw[4*sel +: 4];
                         prc[stg] <= prc[stg] + 1;
                         if (vlat[sel] != 0) nzc[stg] <= nzc[stg] + 1;
                         e <= 5'd0;
@@ -344,10 +395,14 @@ module spark_core #(
                 end
                 S_ST_NEXT: begin
                     case (stg)
-                        2'd0: begin stg <= exit_en ? 2'd2 : 2'd1; state <= S_ST_INIT; end
+                        2'd0: begin stg <= try_exit ? 2'd2 : 2'd1; state <= S_ST_INIT; end
                         2'd2: if ($signed(t1 - t2) >= $signed(exit_th)) begin
                                   pred <= idx; path <= 2'd1; state <= S_DONE;
-                              end else begin stg <= 2'd1; state <= S_ST_INIT; end
+                                  score <= (score >= 4'd13) ? 4'd15 : score + 4'd2;
+                              end else begin
+                                  stg <= 2'd1; state <= S_ST_INIT;
+                                  score <= (score == 4'd0) ? 4'd0 : score - 4'd1;
+                              end
                         2'd1: begin stg <= 2'd3; state <= S_ST_INIT; end
                         default: begin pred <= idx; path <= 2'd0; state <= S_DONE; end
                     endcase
