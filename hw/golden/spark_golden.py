@@ -34,6 +34,10 @@ class Cfg:
         self.recall = 0      # 1: hippocampus-style recall table
         self.conf_th = 1     # recall confidence needed for bypass (0..3)
         self.cap = 0         # max non-zero events per stage per token (0 = off)
+        self.recall_mode = 0 # on a recall hit: 0 = answer and skip the network (lowest effort)
+                             #   1 = answer, but still update both neuron layers (fresh state)
+                             #   2 = also run the main head; network wins if its margin >= arb_th
+        self.arb_th = 64     # main-head margin above which the network overrides recall (mode 2)
         self.adapt = 0       # 1: adaptive controller (per-stage change-only vs full
                              #    recompute, and adaptive early-exit probing)
         self.a = 230         # membrane decay, Q8 (230/256 ~ 0.9)
@@ -263,9 +267,13 @@ class Golden:
             self.table[iu] = e
             self.ctx_prev = ctx
             e = self.table.get(rhash(ctx), [0, 0, 0, 0])
-            if e[0] and e[1] == ctx and e[3] >= c.conf_th:
-                out.update(pred=e[2], path=2)
+            rec_hit = bool(e[0] and e[1] == ctx and e[3] >= c.conf_th)
+            rec_val = e[2]
+            if rec_hit and c.recall_mode == 0:
+                out.update(pred=rec_val, path=2)
                 return out
+        else:
+            rec_hit, rec_val = False, 0
         self.ctx_prev = ctx
 
         def stage(k, src):
@@ -273,7 +281,7 @@ class Golden:
 
         stage(0, x_in)
         self._membrane(0, 0)
-        try_exit = c.exit_en and ((not c.adapt) or self.score >= 4 or (tok & 15) == 0)
+        try_exit = (not rec_hit) and c.exit_en and ((not c.adapt) or self.score >= 4 or (tok & 15) == 0)
         if try_exit:
             stage(2, self.s[0])
             idx, margin = self._argmax(2)
@@ -284,8 +292,14 @@ class Golden:
             self.score = max(self.score - 1, 0)
         stage(1, self.s[0])
         self._membrane(1, 1)
+        if rec_hit and c.recall_mode == 1:          # fresh state, recall answers
+            out.update(pred=rec_val, path=2)
+            return out
         stage(3, self.s[1])
-        idx, _ = self._argmax(3)
+        idx, margin = self._argmax(3)
+        if rec_hit and margin < c.arb_th:           # mode 2: recall unless network is confident
+            out.update(pred=rec_val, path=2)
+            return out
         out.update(pred=idx, path=0)
         return out
 

@@ -37,6 +37,8 @@ module spark_core #(
     input      [15:0] cap,
     input      [31:0] exit_th,      // signed
     input      [1:0]  conf_th,
+    input      [1:0]  recall_mode,  // 0 bypass network, 1 fresh state (layers, no heads), 2 arbitration
+    input      [15:0] arb_th,       // signed; mode 2: network wins if main-head margin >= arb_th
     input      [8:0]  cfg_a,        // membrane decay, Q8
     input      [3:0]  acc_sh,
     input      [3:0]  s_sh,
@@ -76,7 +78,9 @@ module spark_core #(
     reg [3:0]  score;             // early-exit usefulness score
     reg [15:0] tokcnt, tokq;
     wire       eff_delta = adapt_en ? use_delta : delta_en;
-    wire       try_exit  = exit_en && (!adapt_en || score >= 4'd4 || tokq[3:0] == 4'd0);
+    reg        rec_hit;           // recall table hit for this token (modes 1, 2)
+    reg [7:0]  rec_val;
+    wire       try_exit  = !rec_hit && exit_en && (!adapt_en || score >= 4'd4 || tokq[3:0] == 4'd0);
     reg [1:0]  stg;
     reg [7:0]  byte_r;
     reg [31:0] ctx, ctx_prev;
@@ -339,12 +343,13 @@ module spark_core #(
             state <= S_IDLE; done <= 1'b0; ctx_prev <= 32'd0; ctx <= 32'd0;
             stg <= 2'd0; score <= 4'd8; tokcnt <= 16'd0; tokq <= 16'd0;
             hist1 <= 8'd0; hist2 <= 8'd0; started <= 2'd0; byte_r <= 8'd0;
+            rec_hit <= 1'b0; rec_val <= 8'd0;
         end else begin
             done <= 1'b0;
             if (state != S_IDLE) tok_cycles <= tok_cycles + 1;
             case (state)
                 S_IDLE: if (start) begin
-                    byte_r <= in_byte; tok_cycles <= 32'd1;
+                    byte_r <= in_byte; tok_cycles <= 32'd1; rec_hit <= 1'b0;
                     hist1 <= byte_r; hist2 <= hist1;
                     if (started != CTX) started <= started + 2'd1;
                     tokq <= tokcnt; tokcnt <= tokcnt + 16'd1;
@@ -366,7 +371,12 @@ module spark_core #(
                 S_RL_DEC: begin
                     cyc_recall <= cyc_recall + 1;
                     if (t_rd[42] && t_rd[41:10] == ctx && t_rd[1:0] >= conf_th) begin
-                        pred <= t_rd[9:2]; path <= 2'd2; state <= S_DONE;
+                        if (recall_mode == 2'd0) begin
+                            pred <= t_rd[9:2]; path <= 2'd2; state <= S_DONE;
+                        end else begin
+                            rec_hit <= 1'b1; rec_val <= t_rd[9:2];
+                            stg <= 2'd0; state <= S_ST_INIT;
+                        end
                     end else begin
                         stg <= 2'd0; state <= S_ST_INIT;
                     end
@@ -464,8 +474,19 @@ module spark_core #(
                                   stg <= 2'd1; state <= S_ST_INIT;
                                   score <= (score == 4'd0) ? 4'd0 : score - 4'd1;
                               end
-                        2'd1: begin stg <= 2'd3; state <= S_ST_INIT; end
-                        default: begin pred <= idx; path <= 2'd0; state <= S_DONE; end
+                        2'd1: if (rec_hit && recall_mode == 2'd1) begin
+                                  pred <= rec_val; path <= 2'd2; state <= S_DONE;
+                              end else begin
+                                  stg <= 2'd3; state <= S_ST_INIT;
+                              end
+                        default: begin
+                            if (rec_hit && $signed(t1 - t2) < $signed({{16{arb_th[15]}}, arb_th})) begin
+                                pred <= rec_val; path <= 2'd2;
+                            end else begin
+                                pred <= idx; path <= 2'd0;
+                            end
+                            state <= S_DONE;
+                        end
                     endcase
                 end
                 S_DONE: begin done <= 1'b1; state <= S_IDLE; end

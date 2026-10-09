@@ -28,6 +28,10 @@ CONFIGS = [
      dict(sparse=1, adapt=1, exit_en=1, exit_th=64, recall=1, conf_th=1)),
     ("ADAPTIVE controller, exit always succeeds (stress test)",
      dict(sparse=1, adapt=1, exit_en=1, exit_th=-1000000, recall=1, conf_th=1)),
+    ("ADAPTIVE + recall effort 1 (fresh state: layers update, recall answers)",
+     dict(sparse=1, adapt=1, exit_en=1, exit_th=64, recall=1, conf_th=0, recall_mode=1)),
+    ("ADAPTIVE + recall effort 2 (arbitration: network overrides recall if confident)",
+     dict(sparse=1, adapt=1, exit_en=1, exit_th=64, recall=1, conf_th=0, recall_mode=2, arb_th=64)),
 ]
 
 
@@ -78,6 +82,7 @@ def main():
         args = (f"+sparse={cfg.sparse} +delta={cfg.delta} +exit={cfg.exit_en} "
                 f"+exit_th={cfg.exit_th} +recall={cfg.recall} +conf_th={cfg.conf_th} "
                 f"+cap={cfg.cap} +adapt={cfg.adapt} +n={len(data)} "
+                f"+rmode={cfg.recall_mode} +arb_th={cfg.arb_th} "
                 f"+a={cfg.a} +acc_sh={cfg.acc_sh} +s_sh={cfg.s_sh} +thr={thr}")
         sh(f"vvp -n sim.vvp {args}", BUILD)
         rtl = [list(map(int, ln.split())) for ln in open(os.path.join(BUILD, "rtl_out.txt"))]

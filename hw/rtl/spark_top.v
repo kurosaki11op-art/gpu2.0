@@ -22,7 +22,7 @@ module spark_top (
     spark_core u (
         .clk(clk), .rst(rst), .start(start), .in_byte(in_byte),
         .sparse_en(sparse_en), .delta_en(delta_en), .exit_en(exit_en), .recall_en(recall_en),
-        .cap(cap), .exit_th(exit_th), .conf_th(conf_th),
+        .cap(cap), .recall_mode(2'd0), .arb_th(16'sd64), .exit_th(exit_th), .conf_th(conf_th),
         .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(adapt_en),
         .ld_we(ld_we), .ld_sel(ld_sel), .ld_addr(ld_addr), .ld_data(ld_data),
         .done(done), .pred(pred), .path(path), .tok_cycles(tok_cycles), .wreads(wreads),

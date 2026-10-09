@@ -22,21 +22,21 @@
     ]
   },
   "recall": {
-    "accuracy": 0.6653326663331666,
-    "events_per_token": 189.613,
+    "accuracy": 0.6903451725862931,
+    "events_per_token": 94.75,
     "paths_full_exit_recall": [
-      1261,
+      634,
       0,
-      739
+      1366
     ]
   },
   "adaptive (recall + change-only/full + adaptive exit)": {
-    "accuracy": 0.6693346673336669,
-    "events_per_token": 163.3355,
+    "accuracy": 0.6918459229614807,
+    "events_per_token": 86.7295,
     "paths_full_exit_recall": [
-      490,
-      771,
-      739
+      254,
+      380,
+      1366
     ]
   },
   "dense_events_per_token": 448.0

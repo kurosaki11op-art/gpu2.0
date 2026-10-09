@@ -12,7 +12,8 @@
 //                              that have per-neuron thresholds, i.e. th0/th1)
 //                   c1 cap[7:0], c2 cap[15:8]       (0 = no energy cap)
 //                   c3..c6 exit_th[31:0], little-endian, two's complement
-//                   c7 conf_th (bits [1:0])
+//                   c7 bits [1:0] conf_th, [3:2] recall_mode (0 bypass network,
+//                      1 fresh state, 2 arbitration), [7:4] arb_th/16 (mode 2)
 //                 reply: 0xC1 (ack)
 //   0xD0 b        run one token (input byte b) through spark_core.
 //                 reply (7 bytes): pred, path, cyc[7:0], cyc[15:8], cyc[23:16],
@@ -75,6 +76,8 @@ module spark_board_top #(
     reg [15:0] cap = 16'd0;
     reg [31:0] exit_th = 32'd64;
     reg [1:0]  conf_th = 2'd1;
+    reg [1:0]  recall_mode = 2'd0;
+    reg [15:0] arb_th = 16'd64;
 
     // ------------------------------------------------------------ core
     reg        start = 1'b0;
@@ -88,7 +91,7 @@ module spark_board_top #(
                  .TH0_HEX(TH0_HEX), .TH1_HEX(TH1_HEX)) u_core (
         .clk(clk), .rst(rst), .start(start), .in_byte(in_byte),
         .sparse_en(sparse_en), .delta_en(delta_en), .exit_en(exit_en), .recall_en(recall_en),
-        .cap(cap), .exit_th(exit_th), .conf_th(conf_th),
+        .cap(cap), .recall_mode(recall_mode), .arb_th(arb_th), .exit_th(exit_th), .conf_th(conf_th),
         .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(adapt_en), .thr_en(thr_en),
         .ld_we(1'b0), .ld_sel(3'd0), .ld_addr(11'd0), .ld_data(64'd0),
         .done(done), .pred(pred), .path(path), .tok_cycles(tok_cycles), .wreads(wreads),
@@ -137,6 +140,8 @@ module spark_board_top #(
                 cap       <= {cfgb[2], cfgb[1]};
                 exit_th   <= {cfgb[6], cfgb[5], cfgb[4], cfgb[3]};
                 conf_th   <= rx_data[1:0];
+                recall_mode <= rx_data[3:2];
+                arb_th    <= {8'd0, rx_data[7:4], 4'd0};
                 cfg_led   <= ~cfg_led;
                 rbuf[0] <= 8'hC1; rlen <= 4'd1; cnt <= 4'd0; state <= S_TX;
             end

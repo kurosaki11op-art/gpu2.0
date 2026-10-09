@@ -26,13 +26,13 @@ module tb_board;
     // ---------------------------------------------------- reference core
     reg r_rst = 1, r_start = 0; reg [7:0] r_byte = 0;
     reg r_sparse = 1, r_delta = 0, r_exit = 0, r_recall = 0, r_adapt = 0;
-    reg [15:0] r_cap = 0; reg [31:0] r_exit_th = 64; reg [1:0] r_conf = 1;
+    reg [15:0] r_cap = 0; reg [31:0] r_exit_th = 64; reg [1:0] r_conf = 1; reg [1:0] r_rmode = 0; reg [15:0] r_arb = 64;
     wire r_done; wire [7:0] r_pred; wire [1:0] r_path; wire [31:0] r_cyc;
     wire [31:0] x0, x1, x2, x3, x4; wire [15:0] y0, y1, y2, y3, y4, y5, y6, y7;
     spark_core ref_core (
         .clk(clk), .rst(r_rst), .start(r_start), .in_byte(r_byte),
         .sparse_en(r_sparse), .delta_en(r_delta), .exit_en(r_exit), .recall_en(r_recall),
-        .cap(r_cap), .exit_th(r_exit_th), .conf_th(r_conf),
+        .cap(r_cap), .recall_mode(r_rmode), .arb_th(r_arb), .exit_th(r_exit_th), .conf_th(r_conf),
         .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(r_adapt), .thr_en(1'b1),
         .ld_we(1'b0), .ld_sel(3'd0), .ld_addr(11'd0), .ld_data(64'd0),
         .done(r_done), .pred(r_pred), .path(r_path), .tok_cycles(r_cyc), .wreads(x0),
@@ -95,7 +95,7 @@ module tb_board;
                 $display("ERROR: config registers not applied"); errors = errors + 1;
             end
             {r_adapt, r_recall, r_exit, r_delta, r_sparse} = flags;
-            r_cap = cap; r_exit_th = th; r_conf = conf;
+            r_cap = cap; r_exit_th = th; r_conf = conf; r_rmode = 0; r_arb = 0;
         end
     endtask
 
