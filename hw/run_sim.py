@@ -40,11 +40,27 @@ def sh(cmd, cwd):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--weights", help="trained model .npz (default: random demo weights)")
+    ap.add_argument("--text", help="input text file (default: built-in Python-like text)")
+    ap.add_argument("--cfg-json", help="JSON with model constants a/acc_sh/s_sh/exit_th/conf_th")
+    ap.add_argument("--tag", default="", help="suffix for result files")
+    ap.add_argument("--max-bytes", type=int, default=0)
+    a = ap.parse_args()
     os.makedirs(BUILD, exist_ok=True)
     os.makedirs(RES, exist_ok=True)
-    wts = sg.Weights()
+    wts = sg.Weights.from_npz(a.weights) if a.weights else sg.Weights()
     wts.export_hex(BUILD)
-    data = sg.stim_text()
+    data = open(a.text, "rb").read() if a.text else sg.stim_text()
+    if a.max_bytes:
+        data = data[:a.max_bytes]
+    model_cfg = json.load(open(a.cfg_json)) if a.cfg_json else {}
+    consts = {k: model_cfg[k] for k in ("a", "acc_sh", "s_sh") if k in model_cfg}
+    if "exit_th" in model_cfg:
+        for _, ov in CONFIGS:
+            if "exit_th" in ov and ov["exit_th"] > -1000:
+                ov["exit_th"] = model_cfg["exit_th"]
     with open(os.path.join(BUILD, "stim.hex"), "w") as f:
         f.write("\n".join(f"{b:02x}" for b in data) + "\n")
     sh("iverilog -g2012 -o sim.vvp ../rtl/spark_ram.v ../rtl/spark_core.v ../tb/tb_spark_core.v",
@@ -52,15 +68,17 @@ def main():
 
     rows = []
     for name, ov in CONFIGS:
-        cfg = sg.Cfg(**ov)
+        cfg = sg.Cfg(**{**ov, **consts})
         g = sg.Golden(wts, cfg)
         gold = [g.step(b) for b in data]
         args = (f"+sparse={cfg.sparse} +delta={cfg.delta} +exit={cfg.exit_en} "
                 f"+exit_th={cfg.exit_th} +recall={cfg.recall} +conf_th={cfg.conf_th} "
-                f"+cap={cfg.cap} +adapt={cfg.adapt} +n={len(data)}")
+                f"+cap={cfg.cap} +adapt={cfg.adapt} +n={len(data)} "
+                f"+a={cfg.a} +acc_sh={cfg.acc_sh} +s_sh={cfg.s_sh}")
         sh(f"vvp -n sim.vvp {args}", BUILD)
         rtl = [list(map(int, ln.split())) for ln in open(os.path.join(BUILD, "rtl_out.txt"))]
         mism = 0
+        correct = sum(1 for i, go in enumerate(gold[:-1]) if go["pred"] == data[i + 1])
         for go, r in zip(gold, rtl):
             exp = [go["pred"], go["path"]] + go["ev"] + go["proc"]
             if exp != r[:10]:
@@ -75,31 +93,32 @@ def main():
             recall_cycles=tot(15) / n,
             events_per_token=sum(sum(r[6:10]) for r in rtl) / n,
             full=paths[0], early_exit=paths[1], recall=paths[2],
+            next_byte_acc=correct / max(len(gold) - 1, 1),
             cfg=json.dumps(ov)))
         print(f"{name:48s} mismatches={rows[-1]['mismatches']:4d} "
               f"cycles/token={rows[-1]['cycles_per_token']:9.1f} "
               f"weight reads/token={rows[-1]['weight_reads_per_token']:8.1f}")
 
     base = rows[0]
-    with open(os.path.join(RES, "sim_results.csv"), "w", newline="") as f:
+    with open(os.path.join(RES, f"sim_results{a.tag}.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader()
         w.writerows(rows)
-    with open(os.path.join(RES, "sim_results.md"), "w") as f:
+    with open(os.path.join(RES, f"sim_results{a.tag}.md"), "w") as f:
         f.write("# SPARK core v0 — simulation results (MEASURED in RTL simulation)\n\n")
-        f.write(f"Input: {len(data)} bytes of Python-like text with repeated passages. "
-                "Demo weights (random, sparse int4), not trained L weights.\n"
+        f.write(f"Input: {len(data)} bytes ({a.text or 'built-in Python-like text with repeated passages'}). "
+                f"Weights: {a.weights or 'random sparse int4 demo weights (not trained)'}.\n"
                 "Every configuration is checked token-by-token against the bit-exact golden "
                 "model (prediction, path and per-stage event counts).\n\n")
-        f.write("| Configuration | Golden mismatches | Cycles/token | vs dense | Weight words read/token | vs dense | Events/token | Paths full / exit / recall |\n")
-        f.write("|---|---|---|---|---|---|---|---|\n")
+        f.write("| Configuration | Golden mismatches | Cycles/token | vs dense | Weight words read/token | vs dense | Events/token | Paths full / exit / recall | Next-byte accuracy |\n")
+        f.write("|---|---|---|---|---|---|---|---|---|\n")
         for r in rows:
             f.write(f"| {r['config']} | {r['mismatches']} | {r['cycles_per_token']:.0f} | "
                     f"{base['cycles_per_token'] / r['cycles_per_token']:.1f}x fewer | "
                     f"{r['weight_reads_per_token']:.0f} | "
                     f"{base['weight_reads_per_token'] / max(r['weight_reads_per_token'], 1e-9):.1f}x fewer | "
-                    f"{r['events_per_token']:.1f} | {r['full']} / {r['early_exit']} / {r['recall']} |\n")
-    print("wrote", os.path.join(RES, "sim_results.md"))
+                    f"{r['events_per_token']:.1f} | {r['full']} / {r['early_exit']} / {r['recall']} | {r['next_byte_acc']:.1%} |\n")
+    print("wrote", os.path.join(RES, f"sim_results{a.tag}.md"))
 
 
 if __name__ == "__main__":

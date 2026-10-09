@@ -1,0 +1,17 @@
+{
+  "a": 230,
+  "acc_sh": 2,
+  "s_sh": 4,
+  "exit_th": 1,
+  "conf_th": 1,
+  "train_data": "local CPython standard library .py files",
+  "train_bytes": 2700000,
+  "steps": 500,
+  "next_byte_accuracy_main": 0.39813271090363456,
+  "next_byte_accuracy_with_early_exit": 0.4084694898299433,
+  "early_exit_rate": 0.9846666666666667,
+  "firing_rate_layer0": 0.261125,
+  "firing_rate_layer1": 0.2777395833333333,
+  "torch_vs_golden_mismatches": 0,
+  "eval_bytes": 3000
+}

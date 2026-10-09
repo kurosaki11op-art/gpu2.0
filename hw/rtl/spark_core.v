@@ -59,7 +59,9 @@ module spark_core #(
                S_RL_DEC = 5'd4, S_ST_INIT = 5'd5, S_SC_RD = 5'd6, S_SC_WAIT = 5'd7,
                S_EV_SEL = 5'd8, S_EV_RUN = 5'd9, S_SC_WB = 5'd10, S_PO_RUN = 5'd11,
                S_ST_NEXT = 5'd12, S_DONE = 5'd13,
-               S_PRE_RD = 5'd14, S_PRE_ACC = 5'd15, S_CLR = 5'd16;
+               S_PRE_RD = 5'd14, S_PRE_ACC = 5'd15, S_CLR = 5'd16,
+               S_PO_LAT = 5'd17, S_PO_LANE = 5'd18, S_PO_WR = 5'd19;
+    localparam Q = 4;             // lanes per cycle in the membrane / argmax pass
 
     reg [4:0]  state;
     // adaptive controller state
@@ -103,12 +105,12 @@ module spark_core #(
     spark_bram #(4*P, 2048, 11, W2_HEX)  u_w2  (clk, ld_we && ld_sel == 3'd3, ld_addr, ld_data[4*P-1:0], w2_ra, w2_rd);
     spark_bram #(4*P, 2048, 11, W3_HEX)  u_w3  (clk, ld_we && ld_sel == 3'd4, ld_addr, ld_data[4*P-1:0], w3_ra, w3_rd);
 
-    reg acc_we [0:3]; reg [3:0] acc_wa [0:3]; reg [24*P-1:0] acc_wd [0:3]; reg [3:0] acc_ra [0:3];
-    wire [24*P-1:0] acc_rd [0:3];
-    spark_ram #(24*P, 8,  3) u_acc0 (clk, acc_we[0], acc_wa[0][2:0], acc_wd[0], acc_ra[0][2:0], acc_rd[0]);
-    spark_ram #(24*P, 8,  3) u_acc1 (clk, acc_we[1], acc_wa[1][2:0], acc_wd[1], acc_ra[1][2:0], acc_rd[1]);
-    spark_ram #(24*P, 16, 4) u_acc2 (clk, acc_we[2], acc_wa[2], acc_wd[2], acc_ra[2], acc_rd[2]);
-    spark_ram #(24*P, 16, 4) u_acc3 (clk, acc_we[3], acc_wa[3], acc_wd[3], acc_ra[3], acc_rd[3]);
+    reg acc_we [0:3]; reg [3:0] acc_wa [0:3]; reg [16*P-1:0] acc_wd [0:3]; reg [3:0] acc_ra [0:3];
+    wire [16*P-1:0] acc_rd [0:3];
+    spark_ram #(16*P, 8,  3) u_acc0 (clk, acc_we[0], acc_wa[0][2:0], acc_wd[0], acc_ra[0][2:0], acc_rd[0]);
+    spark_ram #(16*P, 8,  3) u_acc1 (clk, acc_we[1], acc_wa[1][2:0], acc_wd[1], acc_ra[1][2:0], acc_rd[1]);
+    spark_ram #(16*P, 16, 4) u_acc2 (clk, acc_we[2], acc_wa[2], acc_wd[2], acc_ra[2], acc_rd[2]);
+    spark_ram #(16*P, 16, 4) u_acc3 (clk, acc_we[3], acc_wa[3], acc_wd[3], acc_ra[3], acc_rd[3]);
 
     reg h_we [0:1]; reg [2:0] h_wa [0:1]; reg [16*P-1:0] h_wd [0:1]; reg [2:0] h_ra [0:1];
     wire [16*P-1:0] h_rd [0:1];
@@ -128,8 +130,11 @@ module spark_core #(
     spark_ram #(4*P, 8, 3) u_sn3 (clk, sn_we[3], sn_wa[3], sn_wd[3], sn_ra[3], sn_rd[3]);
 
     // recall table entry: {valid[42], tag[41:10], value[9:2], conf[1:0]}
+    // stored as two block RAMs (33-bit valid+tag, 10-bit value+conf) so each fits
+    // the 36-bit simple-dual-port block RAM mode
     reg        t_we; reg [9:0] t_wa, t_ra; reg [42:0] t_wd; wire [42:0] t_rd;
-    spark_bram #(43, 1024, 10) u_tab (clk, t_we, t_wa, t_wd, t_ra, t_rd);
+    spark_spram #(33, 1024, 10) u_tab_tag (clk, t_we, t_wa, t_wd[42:10], t_ra, t_rd[42:10]);
+    spark_spram #(10, 1024, 10) u_tab_dat (clk, t_we, t_wa, t_wd[9:0],   t_ra, t_rd[9:0]);
 
     function [9:0] rhash(input [31:0] x);
         reg [31:0] y;
@@ -138,7 +143,7 @@ module spark_core #(
 
     // ------------------------------------------------------- stage data muxes
     reg [4*P-1:0] src_rd, sent_rd, w_rd;
-    reg [24*P-1:0] acc_rd_s;
+    reg [16*P-1:0] acc_rd_s;
     always @* begin
         case (stg)
             2'd0: begin src_rd = emb_rd;  w_rd = w0_rd; end
@@ -182,46 +187,51 @@ module spark_core #(
     end
 
     // engine: acc += w * v for P lanes
-    reg [24*P-1:0] acc_new;
+    reg [16*P-1:0] acc_new;
     always @* begin
         for (l3 = 0; l3 < P; l3 = l3 + 1)
-            acc_new[24*l3 +: 24] = $signed(acc_rd_s[24*l3 +: 24])
+            acc_new[16*l3 +: 16] = $signed(acc_rd_s[16*l3 +: 16])
                                  + $signed(w_rd[4*l3 +: 4]) * ev_v;
     end
 
-    // membrane / spike pass for one chunk
-    reg [16*P-1:0] h_new;
-    reg [4*P-1:0]  s_new;
+    // post pass (membrane/spike or argmax): one chunk is latched, then
+    // processed Q lanes per cycle to keep the logic small
+    reg [16*P-1:0] po_acc, po_h, h_neww;
+    reg [4*P-1:0]  s_neww;
+    reg [1:0]      q;
+    reg [16*Q-1:0] h_grp;
+    reg [4*Q-1:0]  s_grp;
     reg signed [24:0] dec;
     reg signed [25:0] sum;
-    reg signed [15:0] hs;
+    reg signed [15:0] hs, hl, al;
     reg [16:0] mag;
     reg signed [4:0] sp;
     reg signed [16:0] hr;
-    wire [16*P-1:0] h_rd_s = h_rd[stg[0]];
     always @* begin
-        for (l4 = 0; l4 < P; l4 = l4 + 1) begin
-            dec = ($signed(h_rd_s[16*l4 +: 16]) * $signed({1'b0, cfg_a})) >>> 8;
-            sum = dec + ($signed(acc_rd_s[24*l4 +: 24]) >>> acc_sh);
+        for (l4 = 0; l4 < Q; l4 = l4 + 1) begin
+            hl  = po_h[16*(q*Q + l4) +: 16];
+            al  = po_acc[16*(q*Q + l4) +: 16];
+            dec = ($signed(hl) * $signed({1'b0, cfg_a})) >>> 8;
+            sum = dec + ($signed(al) >>> acc_sh);
             hs  = (sum > 26'sd32767) ? 16'sd32767 : (sum < -26'sd32768) ? -16'sd32768 : sum[15:0];
             mag = (hs < 0) ? (-{hs[15], hs}) : {1'b0, hs};
             mag = mag >> s_sh;
             if (mag > 17'd7) mag = 17'd7;
             sp  = (hs < 0) ? -$signed({1'b0, mag[3:0]}) : $signed({1'b0, mag[3:0]});
             hr  = $signed(hs) - ($signed(sp) <<< s_sh);
-            h_new[16*l4 +: 16] = hr[15:0];
-            s_new[4*l4 +: 4]   = sp[3:0];
+            h_grp[16*l4 +: 16] = hr[15:0];
+            s_grp[4*l4 +: 4]   = sp[3:0];
         end
     end
 
-    // argmax over one chunk, continuing the running top-1 / top-2
+    // argmax over Q lanes, continuing the running top-1 / top-2
     reg signed [31:0] n1, n2, xv;
     reg [7:0] nidx;
     always @* begin
         n1 = t1; n2 = t2; nidx = idx;
-        for (l5 = 0; l5 < P; l5 = l5 + 1) begin
-            xv = $signed(acc_rd_s[24*l5 +: 24]);
-            if (xv > n1) begin n2 = n1; n1 = xv; nidx = (m - 1) * P + l5; end
+        for (l5 = 0; l5 < Q; l5 = l5 + 1) begin
+            xv = $signed(po_acc[16*(q*Q + l5) +: 16]);
+            if (xv > n1) begin n2 = n1; n1 = xv; nidx = m * P + q * Q + l5; end
             else if (xv > n2) n2 = xv;
         end
     end
@@ -232,12 +242,12 @@ module spark_core #(
         emb_ra = {byte_r, c[1:0]};
         w0_ra = 9'd0; w1_ra = 10'd0; w2_ra = 11'd0; w3_ra = 11'd0;
         for (k = 0; k < 4; k = k + 1) begin
-            acc_we[k] = 1'b0; acc_wa[k] = 4'd0; acc_wd[k] = {24*P{1'b0}}; acc_ra[k] = 4'd0;
+            acc_we[k] = 1'b0; acc_wa[k] = 4'd0; acc_wd[k] = {16*P{1'b0}}; acc_ra[k] = 4'd0;
             sn_we[k] = 1'b0; sn_wa[k] = 3'd0; sn_wd[k] = sentw; sn_ra[k] = c[2:0];
         end
         for (k = 0; k < 2; k = k + 1) begin
-            h_we[k] = 1'b0; h_wa[k] = 3'd0; h_wd[k] = h_new; h_ra[k] = 3'd0;
-            s_we[k] = 1'b0; s_wa[k] = 3'd0; s_wd[k] = s_new; s_ra[k] = c[2:0];
+            h_we[k] = 1'b0; h_wa[k] = 3'd0; h_wd[k] = h_neww; h_ra[k] = 3'd0;
+            s_we[k] = 1'b0; s_wa[k] = 3'd0; s_wd[k] = s_neww; s_ra[k] = c[2:0];
         end
         t_we = 1'b0; t_wa = rhash(ctx_prev); t_ra = rhash(ctx_prev); t_wd = 43'd0;
 
@@ -269,21 +279,19 @@ module spark_core #(
                 sn_we[stg] = delta_en | adapt_en; sn_wa[stg] = c[2:0];
             end
             S_CLR: begin
-                acc_we[stg] = 1'b1; acc_wa[stg] = m[3:0]; acc_wd[stg] = {24*P{1'b0}};
+                acc_we[stg] = 1'b1; acc_wa[stg] = m[3:0]; acc_wd[stg] = {16*P{1'b0}};
             end
             S_PO_RUN: begin
-                if (m < nc) begin
-                    acc_ra[stg] = m[3:0];
-                    h_ra[stg[0]] = m[2:0];
+                acc_ra[stg] = m[3:0];
+                h_ra[stg[0]] = m[2:0];
+            end
+            S_PO_WR: begin
+                if (!delta_en && !adapt_en) begin
+                    acc_we[stg] = 1'b1; acc_wa[stg] = m[3:0]; acc_wd[stg] = {16*P{1'b0}};
                 end
-                if (m >= 1) begin
-                    if (!delta_en && !adapt_en) begin
-                        acc_we[stg] = 1'b1; acc_wa[stg] = m[3:0] - 4'd1; acc_wd[stg] = {24*P{1'b0}};
-                    end
-                    if (!is_head) begin
-                        h_we[stg[0]] = 1'b1; h_wa[stg[0]] = m[2:0] - 3'd1;
-                        s_we[stg[0]] = 1'b1; s_wa[stg[0]] = m[2:0] - 3'd1;
-                    end
+                if (!is_head) begin
+                    h_we[stg[0]] = 1'b1; h_wa[stg[0]] = m[2:0];
+                    s_we[stg[0]] = 1'b1; s_wa[stg[0]] = m[2:0];
                 end
             end
             default: ;
@@ -387,10 +395,24 @@ module spark_core #(
                         c <= c + 1; state <= S_SC_RD;
                     end
                 end
-                S_PO_RUN: begin
+                S_PO_RUN: begin cyc_post <= cyc_post + 1; state <= S_PO_LAT; end
+                S_PO_LAT: begin
                     cyc_post <= cyc_post + 1;
-                    if (m >= 1 && is_head) begin t1 <= n1; t2 <= n2; idx <= nidx; end
-                    if (m == nc) state <= S_ST_NEXT;
+                    po_acc <= acc_rd_s; po_h <= h_rd[stg[0]]; q <= 2'd0;
+                    state <= S_PO_LANE;
+                end
+                S_PO_LANE: begin
+                    cyc_post <= cyc_post + 1;
+                    h_neww[16*Q*q +: 16*Q] <= h_grp;
+                    s_neww[4*Q*q +: 4*Q]   <= s_grp;
+                    if (is_head) begin t1 <= n1; t2 <= n2; idx <= nidx; end
+                    q <= q + 2'd1;
+                    if (q == P / Q - 1) state <= S_PO_WR;
+                end
+                S_PO_WR: begin
+                    cyc_post <= cyc_post + 1;
+                    if (m + 1 == nc) state <= S_ST_NEXT;
+                    else state <= S_PO_RUN;
                     m <= m + 1;
                 end
                 S_ST_NEXT: begin

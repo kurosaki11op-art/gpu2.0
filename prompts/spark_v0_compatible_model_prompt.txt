@@ -1,0 +1,32 @@
+Train a small "L-Edge / SPARK v0" byte-level model whose weights can run on our SPARK core v0 chip design, and export it in the exact format below. This is a SEPARATE, small model with the same brain-inspired principles as L (spiking neurons with integer spike counts, a decaying membrane state, sparse firing), simplified to match what the v0 chip implements. Do not modify L itself.
+
+## Read first
+- In the hardware repo: docs/spark_v0_model_format.md (architecture, shapes and the EXACT integer rules) and hw/golden/spark_golden.py (the bit-exact reference: classes Cfg, Weights, Golden). If you do not have that repo, the rules are reproduced below.
+
+## Architecture (fixed)
+byte -> emb[256,64] -> layer 0 (128 spiking neurons, weights w0[128,64]) -> layer 1 (128 spiking neurons, w1[128,128]) -> main head w_main[256,128] -> 256 logits. Plus an exit head w_exit[256,128] on layer-0 spikes. All weights and embedding values are int4 in [-8, 7].
+
+## Exact inference rules (per byte, all integers, >> = arithmetic shift with floor)
+x = emb[b]
+layer: acc = W @ input; h = sat16(((h * a) >> 8) + (acc >> acc_sh)); mag = min(|h| >> s_sh, 7); s = sign(h) * mag; h = h - s * 2**s_sh   (h persists across bytes; sat16 clamps to [-32768, 32767])
+heads: logits = W_head @ spikes; prediction = argmax (lowest index wins ties); exit margin = top1 - top2.
+Default constants: a = 230, acc_sh = 2, s_sh = 4 (you may choose others; export them).
+
+## Training approach
+1. PyTorch, CPU or GPU. Train on byte-level text (use the same Python-code data as L, or any public text; report what you used). Sequence training with truncated BPTT through the membrane state (e.g. 64–256 bytes).
+2. Quantisation-aware training with straight-through estimators: weights fake-quantised to int4 (per-tensor scale fixed to an integer-friendly value, or learn in float and quantise with STE); spikes = the exact clamp/floor rule above with a surrogate gradient (e.g. straight-through on the rounding, triangle/sigmoid surrogate on the threshold). The membrane update must use the same floor-shift and saturation as the rules (simulate them in float with STE where needed).
+3. Loss: cross-entropy of the main head on the next byte + 0.3 x cross-entropy of the exit head (so early exit becomes useful) + a sparsity penalty on spike counts so that ~2–10% of neurons fire per byte (report the actual rate).
+4. Train until validation next-byte accuracy plateaus (report accuracy and bits/byte of the integer model on held-out text).
+5. Calibrate exit_th on a held-out calibration split: pick the smallest threshold for which early-exit predictions are at least as accurate as the main head on the tokens where it exits; report the exit rate.
+
+## Export and verify (REQUIRED)
+- Save `spark_v0_model.npz` with integer arrays: emb [256,64], w0 [128,64], w1 [128,128], w_exit [256,128], w_main [256,128], all in [-8, 7].
+- Save `spark_v0_config.json`: {"a": ..., "acc_sh": ..., "s_sh": ..., "exit_th": ..., "conf_th": 1, "train_data": "...", "val_accuracy": ..., "bits_per_byte": ..., "firing_rate_layer0": ..., "firing_rate_layer1": ...}
+- Write a pure-integer NumPy inference function following the rules above (or import hw/golden/spark_golden.py and use Golden with Cfg(a=..., acc_sh=..., s_sh=...)) and verify on 5,000 held-out bytes that its predictions equal your PyTorch integer-mode model's predictions exactly (0 mismatches). Report the result.
+- Also save `sample_eval.txt` (2,000–5,000 bytes of held-out text) for the hardware simulation.
+
+## Report (short markdown)
+Data, training time, model size, firing rates per layer, next-byte accuracy and bits/byte (integer model), exit-head accuracy and exit rate at the calibrated threshold, the exact-match verification result, and honest limits (this is a small simplified model, not full L).
+
+Give the three files (npz, json, sample_eval.txt) to the hardware session; it will run:
+python3 hw/run_sim.py --weights spark_v0_model.npz --cfg-json spark_v0_config.json --text sample_eval.txt --tag _trained

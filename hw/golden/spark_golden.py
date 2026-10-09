@@ -81,6 +81,23 @@ class Weights:
             sparse_int4((V, H), 0.5),   # stage 3 (main head)
         ]
 
+    @classmethod
+    def from_npz(cls, path):
+        """Load trained weights (see docs/spark_v0_model_format.md)."""
+        z = np.load(path)
+        self = cls.__new__(cls)
+        self.emb = z["emb"].astype(np.int64)
+        self.w = [z["w0"].astype(np.int64), z["w1"].astype(np.int64),
+                  z["w_exit"].astype(np.int64), z["w_main"].astype(np.int64)]
+        shapes = [(V, D), (H, D), (H, H), (V, H), (V, H)]
+        for name, arr, shp in zip(["emb", "w0", "w1", "w_exit", "w_main"],
+                                  [self.emb] + self.w, shapes):
+            if arr.shape != shp:
+                raise ValueError(f"{name}: shape {arr.shape}, expected {shp}")
+            if arr.min() < -8 or arr.max() > 7:
+                raise ValueError(f"{name}: values must be int4 in [-8, 7]")
+        return self
+
     def export_hex(self, outdir):
         os.makedirs(outdir, exist_ok=True)
 

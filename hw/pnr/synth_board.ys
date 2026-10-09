@@ -1,0 +1,3 @@
+read_verilog ../rtl/spark_ram.v ../rtl/spark_core.v ../board/uart_rx.v ../board/uart_tx.v ../board/spark_board_top.v
+synth_gowin -top spark_board_top -json board.json
+tee -o utilization_board.txt stat

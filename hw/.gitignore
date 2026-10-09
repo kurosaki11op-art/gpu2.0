@@ -6,3 +6,7 @@ synth/run.txt
 __pycache__/
 synth/synth_top.log
 synth/run_top.txt
+pnr/*.hex
+pnr/*.json
+pnr/*.log
+pnr/pnr_run.txt

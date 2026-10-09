@@ -51,3 +51,27 @@ module spark_bram #(
         rd <= mem[ra];
     end
 endmodule
+
+// Single-port block RAM: one address used for either a write or a read each
+// cycle (the recall unit never reads and writes in the same cycle).
+module spark_spram #(
+    parameter W = 64,
+    parameter DEPTH = 16,
+    parameter AW = 4
+) (
+    input              clk,
+    input              we,
+    input  [AW-1:0]    wa,
+    input  [W-1:0]     wd,
+    input  [AW-1:0]    ra,
+    output reg [W-1:0] rd
+);
+    (* ram_style = "block" *) reg [W-1:0] mem [0:DEPTH-1];
+    wire [AW-1:0] a = we ? wa : ra;
+    integer i;
+    initial for (i = 0; i < DEPTH; i = i + 1) mem[i] = {W{1'b0}};
+    always @(posedge clk) begin
+        if (we) mem[a] <= wd;
+        rd <= mem[a];
+    end
+endmodule

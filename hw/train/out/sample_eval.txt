@@ -1,0 +1,53 @@
+, need to close it
+        # chunk_left == None: No current chunk, should read next.
+        # This function returns non-zero or None if the last chunk has
+        # been read.
+        chunk_left = self.chunk_left
+        if not chunk_left: # Can be 0 or None
+            if chunk_left is not None:
+                # We are at the end of chunk, discard chunk end
+                self._safe_read(2)  # toss the CRLF at the end of the chunk
+            try:
+                chunk_left = self._read_next_chunk_size()
+            except ValueError:
+                raise IncompleteRead(b'')
+            if chunk_left == 0:
+                # last chunk: 1*("0") [ chunk-extension ] CRLF
+                self._read_and_discard_trailer()
+                # we read everything; close the "file"
+                self._close_conn()
+                chunk_left = None
+            self.chunk_left = chunk_left
+        return chunk_left
+
+    def _read_chunked(self, amt=None):
+        assert self.chunked != _UNKNOWN
+        value = []
+        try:
+            while (chunk_left := self._get_chunk_left()) is not None:
+                if amt is not None and amt <= chunk_left:
+                    value.append(self._safe_read(amt))
+                    self.chunk_left = chunk_left - amt
+                    break
+
+                value.append(self._safe_read(chunk_left))
+                if amt is not None:
+                    amt -= chunk_left
+                self.chunk_left = 0
+            return b''.join(value)
+        except IncompleteRead as exc:
+            raise IncompleteRead(b''.join(value)) from exc
+
+    def _readinto_chunked(self, b):
+        assert self.chunked != _UNKNOWN
+        total_bytes = 0
+        mvb = memoryview(b)
+        try:
+            while True:
+                chunk_left = self._get_chunk_left()
+                if chunk_left is None:
+                    return total_bytes
+
+                if len(mvb) <= chunk_left:
+                    n = self._safe_readinto(mvb)
+            
