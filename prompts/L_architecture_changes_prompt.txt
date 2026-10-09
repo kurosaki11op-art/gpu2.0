@@ -1,4 +1,4 @@
-You are working on **L**, a brain-inspired language model I designed. It does **not** use attention or transformers. Your job is to (1) remove every GPU inefficiency that can be fixed in software, (2) make L "hardware-ready" so it can run on a custom event-driven processor (first an FPGA prototype), and (3) produce honest, reproducible measurements. Do not change L's default behaviour silently: every change goes behind a config flag, and the original path stays available as the reference.
+You are working on **L**, a brain-inspired language model I designed. It does **not** use attention or transformers. Your job is to (1) remove every GPU inefficiency that can be fixed in software, (2) make L spend effort proportional to difficulty ("think less, work less": little work on easy input like "2+2", full work only on hard input), (3) make L "hardware-ready" so it can run on a custom event-driven processor (first an FPGA prototype), and (4) produce honest, reproducible measurements. Do not change L's default behaviour silently: every change goes behind a config flag, and the original path stays available as the reference.
 
 ## What L is (read the code to confirm each point before relying on it)
 - Spiking neurons that emit a small integer spike count in [-8, 8] instead of a float.
@@ -64,6 +64,23 @@ You are working on **L**, a brain-inspired language model I designed. It does **
 
 **End of Phase 2 report:** training time L vs transformer after all fixes (3 seeds), batch-1 and batch-64 inference energy/token, and the remaining gap per problem. The remaining gap is the honest motivation for custom hardware — state it plainly.
 
+## Phase 2B — "Think less, work less": effort proportional to difficulty
+Goal: L should spend little computation on easy/predictable input (the "2+2 problem") and full computation only on hard input, with the same output quality. Every mechanism goes behind its own flag, is trained/evaluated with 3 seeds, and is reported as: bits/byte change, average work per token (layers run, neurons fired, messages sent, state reads), and estimated energy per token. Report results split by **easy vs hard bytes** (define easy = low loss under the full model, e.g. bottom 50% per-byte loss; hard = top 10%).
+
+2B.1 **Delta (change-only) spikes** (`delta_spikes`): a neuron only emits a message when its spike count (or pre-spike activation) changes by more than a threshold `delta_th` since the last token; downstream layers keep the last received value. Train with the threshold in the loop (straight-through estimator). Sweep `delta_th` and report messages/token vs bits/byte. Reference: Delta Networks / EdgeDRNN (arXiv 2012.13600: 5–100× fewer operations).
+
+2B.2 **Lazy neuron updates** (`lazy_updates`): a neuron that receives no input event is not updated each token; store the token index of its last update and, when next touched, apply the accumulated decay in one step (`h <- a^Δt * h`, with `a^Δt` from a lookup table or shifts in hw_mode). Requires the decay between events to be input-independent for idle neurons — check this and adjust the neuron model behind the flag if needed. Prove bit-exact (integer path) or within tolerance (float path) vs eager updates. Report state reads/writes per token.
+
+2B.3 **Recall-bypass via the hippocampus** (`recall_bypass`): when the hash memory finds an exact match for the recent context with high confidence (define and calibrate a confidence score, e.g. match length + agreement of the stored continuation with a cheap first-layer prediction), output the recalled next byte directly and skip the deep layers for that token (still update the cheap state needed to stay consistent; document what is skipped and what is not). Report bypass rate, accuracy of bypassed bytes, bits/byte, and work saved. Test especially on copy/repetition-heavy code data.
+
+2B.4 **Early exit / confidence-gated depth** (`early_exit`): add a small output head after selected layers (e.g. after layer 1, 2, …). Train jointly (weighted sum of per-exit losses, or distillation from the final head). At inference, stop at the first layer whose head's confidence (max probability or entropy) passes a calibrated threshold. The skipped layers' recurrent state must stay valid: either (a) update skipped layers' state cheaply (membrane/fast-weight update without FFN), or (b) mark them stale and use lazy catch-up. Implement and compare both, and report quality and work saved for each. References: early-exit and Mixture-of-Depths (arXiv 2404.02258; survey arXiv 2403.07965).
+
+2B.5 **Hard per-token energy budget** (`energy_cap`): turn L's energy budget into a strict integer cap on spikes (or active neurons) per layer per token, enforced deterministically (e.g. keep the top-k by magnitude). This bounds worst-case energy and heat per token. Report bits/byte vs cap.
+
+2B.6 **Combined "think-less" mode**: enable the mechanisms that individually help, measure them together, and produce a table: work per token on easy vs hard bytes, bits/byte, and the share of tokens using each shortcut. Target: substantially less average work on easy bytes with bits/byte within seed noise of the full model. Report honestly if any mechanism hurts quality or saves nothing.
+
+Note: on a GPU these mechanisms may save little wall-clock time, because skipping work breaks batching. That is expected; the point is to measure the **work saved** (operations, messages, state accesses) that the custom hardware will turn into energy savings. Keep the cost model in Phase 3.5 consistent with these counters.
+
 ## Phase 3 — Hardware co-design ("L-HW" mode, behind `hw_mode=True`)
 Goal: a variant of L whose **inference path uses only integer arithmetic, shifts, comparisons, lookups and table reads**, so it can be implemented in Verilog on a small FPGA and later a chip.
 
@@ -76,6 +93,7 @@ Goal: a variant of L whose **inference path uses only integer arithmetic, shifts
 - No `exp`, `div`, `sqrt`, softmax or float LayerNorm in the inference path. Replace with: RMSNorm with integer approximation or a learned shift, piecewise-linear or 256-entry lookup-table nonlinearities, argmax / LUT-based sampling for the output byte.
 - Hippocampus: fixed hash function (multiplicative or xor-shift, documented constants), table size a power of two, bounded probes, integer keys.
 - Report bits/byte of float L vs L-HW (target: < 0.02 bits/byte drop) and firing rate per layer.
+- Carry the Phase 2B mechanisms that worked into hw_mode in integer form: delta threshold, lazy-decay lookup table, recall-bypass confidence as an integer comparison, early-exit thresholds as integer comparisons on logits, energy cap as an integer top-k.
 
 3.2 **L-Edge config:** a small byte-level model (~0.3M–1M params) trained with QAT for the FPGA. Target FPGA: Sipeed Tang Nano 20K (GW2AR-18: 20,736 LUT4, 15,552 FF, ~828 Kbit block RAM, 48 multipliers 18x18, 64 Mbit SDRAM on board). Print a memory budget: weights (bits), membrane state, fast-weight state for all heads/layers, hash table, and show what fits on-chip vs what must stream from SDRAM.
 
@@ -88,6 +106,7 @@ Goal: a variant of L whose **inference path uses only integer arithmetic, shifts
 ## Phase 4 — Final report (`results/REPORT.md`)
 - Tables: baseline vs each software fix; L vs transformer (3 seeds, equal compute) for quality, copying, training time, batch-1 and batch-64 inference energy/token.
 - The remaining GPU gap per problem after software fixes, labelled **measured**.
+- "Think-less" results (Phase 2B): work per token on easy vs hard bytes, bypass/early-exit rates, quality impact.
 - L-HW quantisation cost and the cost-model predictions, labelled **estimated**.
 - A list of what did not work and why.
 
