@@ -1,0 +1,76 @@
+You are working on **L**, a brain-inspired language model I designed (no attention, no transformer). Our project's core goal: **AI that uses less power, makes less heat and needs less cooling water**, by doing only the work each input actually needs. We are also designing a custom co-processor (SPARK) for L; this prompt covers the SOFTWARE level only.
+
+This prompt ties everything together into one measured "software efficiency stack" and adds the parts the earlier prompts did not cover: GPU power management, a full energy/heat/water/carbon accounting, an energy-proportional serving runtime, and a single honest end-to-end report.
+
+## Earlier prompts (check the repo for their results; reuse, do not duplicate)
+1. `L_architecture_changes_prompt` — GPU software fixes (fusion, scans, chunked delta rule, int8 spikes, hash table), think-less mechanisms (delta spikes, lazy updates, recall-bypass, early exit, energy cap), hw_mode, golden model, cost model.
+2. `L_metacognition_prompt` — uncertainty gate (instinct / flag / deliberate), skill memory, domain-routed experts.
+3. `L_hardware_hypotheses_prompt` — traces and hypotheses H1–H10 for the chip.
+If a piece does not exist yet, implement only the minimum needed here and say so in the report.
+
+## What L is (confirm in the code)
+Spiking neurons with integer spike counts in [-8, 8]; membrane recurrence h_t = a_t h_{t-1} + b_t; delta-rule fast-weight memory; hippocampus hash recall; homeostasis and an energy budget (2–10% of FFN neurons fire); byte-level; ~9M parameters; Python code data; laptop RTX 3050 6 GB.
+
+## Ground rules
+1. Explore first; write `docs/efficiency_stack_plan.md` listing what exists and what you will add.
+2. Every feature behind a config flag; defaults unchanged; reference paths kept; tests for flags-off equivalence.
+3. 3+ seeds for anything that depends on training; mean ± std. Measurement runs: repeat ≥ 5 times and report variance.
+4. Fit thresholds/policies on a calibration split, never on the evaluation split.
+5. Label every number MEASURED, MODELLED or ESTIMATED, and state every assumption (PUE, water-use factor, grid carbon factor, prices) in one config file `configs/sustainability.yaml` with its source.
+6. Honesty: report what does not help. If the transformer baseline wins somewhere, say so.
+7. One GPU job at a time on the RTX 3050.
+
+---
+
+## Part 1 — Energy measurement you can trust (`bench/energy/`)
+- GPU energy via NVML: use `nvmlDeviceGetTotalEnergyConsumption` if supported, validated against integrated `nvmlDeviceGetPowerUsage` samples at the fastest rate; report total and above-idle energy; record GPU temperature, clocks and throttle reasons during runs.
+- CPU/package energy via RAPL (`/sys/class/powercap` on Linux, or an equivalent tool on Windows) if available; otherwise state that it is not measured.
+- Whole-laptop energy: instructions and a CSV template for a plug-in wattmeter reading (manual entry), plus an idle baseline procedure.
+- Metrics: joules per token, joules per correctly predicted byte, joules per 1,000 bytes of output, average and peak watts, temperature rise (°C) over a fixed run.
+- Always measure warm (after warm-up), with fixed clocks noted, and with the laptop on mains power.
+
+## Part 2 — GPU power management experiments (no model changes)
+Reference: MIT Lincoln Laboratory found GPU power capping cut energy ~12–15% for ~3% longer training.
+- Sweep power limits (`nvidia-smi -pl`, if the laptop GPU allows it; if not, use clock locking `nvidia-smi -lgc` / application clocks, or report that neither is permitted) for: (a) L training, (b) L batch-1 generation, (c) the transformer baseline.
+- Report energy, time, joules/token, temperature and the energy–time trade-off curve; identify the "sweet spot" setting.
+- Never leave the GPU in a modified state: restore defaults at the end and document the commands.
+
+## Part 3 — Energy-proportional serving runtime (`serve/`)
+Build a small inference runtime for L that turns the think-less and metacognition mechanisms into an actual policy:
+- Per token: choose instinct / flag / deliberate path using the uncertainty gate (or confidence of the previous token if the gate is absent), apply early exit, recall-bypass, skill memory and energy cap where enabled.
+- A single user-facing knob `effort` (e.g. low / balanced / high) mapping to thresholds fitted on the calibration split, plus a hard `max_energy_per_token` setting.
+- Log per token: path, layers run, neurons fired, estimated work (from the cost model) and measured energy (from Part 1, averaged over windows).
+- Compare: always-full L vs runtime at each effort level vs the transformer baseline. Report quality (bits/byte, easy vs hard bytes), work and measured joules per token.
+- Note honestly that on a GPU, skipped work may not translate into proportional energy savings (batching and fixed overheads); show both measured GPU energy and modelled SPARK energy from the cost model side by side.
+
+## Part 4 — Batching and the memory wall (honest baseline)
+For L and the transformer: measure joules/token at batch sizes 1, 4, 16, 64 (where memory allows) and context lengths 256, 2K, 16K (transformer) / same lengths for L. Show where the transformer's energy grows with context (KV cache) and where L stays flat. This protects the project from the "just batch it" objection: report the numbers whichever way they come out.
+
+## Part 5 — Sustainability accounting (`analysis/sustainability.py`)
+Convert measured and modelled energy into heat, water and carbon, with all factors in `configs/sustainability.yaml`:
+- Heat: assume ~100% of electrical energy becomes heat (state it).
+- Facility energy = IT energy × PUE (default 1.56, Uptime Institute 2024; allow other values).
+- Water: on-site = facility energy × WUE (provide a range, e.g. ~0.3–1.8 L/kWh, citing the sources in the config) and optionally off-site water for electricity generation (configurable factor, clearly labelled as an assumption).
+- Carbon: India grid factor (CEA FY2023-24 weighted average ~0.727 tCO2/MWh; verify against the CEA document and note it is CO2-only).
+- Produce a table and plot for "1 million generated bytes / tokens" and for a scaled scenario (e.g. 1 billion queries per day), clearly labelled as a PROJECTION with every assumption visible.
+- Include a sensitivity analysis (vary PUE, WUE, carbon factor, savings %) so judges can see which assumptions matter.
+
+## Part 6 — Rebound awareness (short, honest)
+Add a section to the report explaining the rebound (Jevons) effect: cheaper AI can increase total use (Luccioni, Strubell, Crawford 2025, arXiv 2501.16548). Explain how the energy cap and effort knob help: they bound energy per request rather than only lowering cost. Do not overclaim.
+
+## Part 7 — One end-to-end report: `results/EFFICIENCY_STACK_REPORT.md`
+1. Executive summary in plain language (what we saved, how measured, what is projected).
+2. Tables: baseline L vs optimised L vs think-less runtime vs transformer: quality, joules/token (measured), work/token, watts, °C, and modelled SPARK energy.
+3. Power-capping sweet spot results.
+4. Easy-vs-hard energy plot (does energy follow difficulty?).
+5. Batch/context scaling plot.
+6. Sustainability table with ranges and sensitivity analysis.
+7. What did not work, limits, and what only custom hardware (SPARK) can deliver.
+8. A short list of the most persuasive 5 numbers for a pitch, each with its label (MEASURED / MODELLED / ESTIMATED) and source.
+
+## Do not
+- Do not change default behaviour without a flag or delete reference paths.
+- Do not leave the GPU power/clock settings modified after the run.
+- Do not fit anything on the evaluation split, or report single-seed training results as conclusions.
+- Do not present projections as measurements; do not claim world-scale savings from laptop measurements.
+- Do not commit large checkpoints, traces or datasets.
