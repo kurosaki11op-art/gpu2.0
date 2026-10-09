@@ -1,0 +1,95 @@
+You are working on **L**, a brain-inspired language model I designed. It does **not** use attention or transformers. We are designing a custom event-driven AI co-processor (SPARK) for L, first as an FPGA prototype (Sipeed Tang Nano 20K: ~828 Kbit on-chip block RAM, 8 MB SDRAM, 48 18x18 multipliers, 20,736 LUTs). Before we commit hardware features, we must test, in SOFTWARE, whether L's behaviour actually supports them. Your job is to run these experiments honestly and produce a clear go / no-go recommendation for each hardware feature.
+
+This is a MEASUREMENT task first. Do not change L's default behaviour. Only hypotheses H4, H6 and H7 require training variants; everything else analyses the existing trained model.
+
+## What L is (confirm in the code before relying on it)
+- Spiking neurons emitting integer spike counts in [-8, 8] (4-bit signed).
+- Membrane state per neuron: h_t = a_t * h_{t-1} + b_t.
+- Per-layer fast-weight memory (delta rule): S <- S + beta * (v - S k) k^T.
+- Hippocampus-like index: exact recall via hash lookups.
+- Homeostasis and an energy budget; only 2–10% of feed-forward (FFN) neurons fire per token.
+- Byte-level, ~9M parameters, trained on Python code, on a laptop RTX 3050 6 GB.
+- Other prompts may already have added: early exit, recall-bypass, delta (change-only) spikes, lazy updates, energy cap, an uncertainty gate (instinct / flag / deliberate paths), hw_mode (integer-only), a golden model and a cost model. Reuse whatever exists; do not duplicate it. If something a hypothesis needs does not exist, say so and test the part you can.
+
+## Ground rules
+1. Explore the repo first. Write `docs/hw_hypotheses_plan.md`: which model checkpoint(s) you use, which data split, and how each hypothesis will be measured.
+2. Use the held-out evaluation split for all analysis. Anything learned (thresholds, hot-neuron sets, predictors) must be fitted on a separate calibration split, never on the evaluation split.
+3. Use at least 3 trained seeds wherever a result depends on training (H4, H6, H7). For analysis-only hypotheses, run on every available checkpoint (3 seeds if they exist) and report mean ± std.
+4. Put all analysis code in `analysis/hw_hypotheses/`, one script per hypothesis, runnable from the command line, writing a CSV + a PNG plot to `results/hw_hypotheses/`.
+5. Training variants go behind config flags; default = current behaviour; tests in `tests/` check flags-off gives identical outputs.
+6. Everything must run on an RTX 3050 6 GB. One GPU job at a time.
+7. Honesty: if a hypothesis is false, say so clearly. A clear "no" is a useful result: it saves us from building the wrong hardware.
+
+## Shared setup: activity traces
+Write `analysis/hw_hypotheses/collect_traces.py` that runs L token by token on N bytes of evaluation data (start with N = 50,000; make it configurable) and records per token and per layer:
+- the set of active (non-zero spike) FFN neurons and their spike counts;
+- if they exist: the path taken (instinct / flag / deliberate), exit layer, recall-bypass hit, delta-spike messages;
+- per-byte loss (to label easy vs hard bytes: easy = bottom 50% of per-byte loss, hard = top 10%).
+Store traces compactly (e.g. sparse index lists in .npz). Reuse these traces for H2, H3, H5 and H1.
+
+## The hypotheses
+
+H1 — Energy proportionality (work follows difficulty)
+Claim: L's work per token rises with difficulty and falls on easy input, so a chip that only pays for work done has energy proportional to difficulty.
+Measure: per token, work counters (neurons fired, synaptic operations = sum over active neurons of their fan-out, weight bytes that would be fetched, state reads/writes, layers run). Plot work vs per-byte loss, and work distributions for easy vs hard bytes. Report the correlation (Spearman) and the easy/hard ratio of mean work. If the think-less mechanisms exist, show results with them off and on.
+Also report the same "work" counted the dense (GPU) way (every neuron, every layer) to show it is flat.
+Go criterion: hard bytes cost clearly more work than easy bytes (e.g. ratio ≥ 1.5×) with think-less mechanisms on.
+
+H2 — Predictable activity (prefetching works)
+Claim: the active neuron set at token t+1 overlaps strongly with the set at token t, so weights can be prefetched ahead of time.
+Measure per layer: Jaccard overlap between consecutive active sets; recall of a simple predictor "active at t+1 ⊆ active at t ∪ top-K most frequent neurons" for several K; the fraction of t+1 weight fetches that a prefetch of predicted neurons would have covered (hit rate) and how many extra (wasted) fetches it causes. Try 2–3 simple predictors (previous set; previous set ∪ hot set; a tiny linear predictor from the current spike vector trained on the calibration split).
+Go criterion: prefetch hit rate ≥ 70% with wasted fetches ≤ 1× the useful ones.
+
+H3 — Hot neurons (pin a few in on-chip memory)
+Claim: a small fraction of neurons does most of the firing.
+Measure per layer: firing frequency of every neuron over the trace; sorted curve; coverage = share of all spikes (and of all weight fetches) produced by the top 1%, 5%, 10%, 20% of neurons. Fit/plot on log-log to check for a heavy tail. Determine the "hot set" on the calibration split, then measure coverage on the evaluation split (does the hot set generalise?). Compute how many KB the hot neurons' weights need at 4-bit and 8-bit and whether that fits ~60–80 KB of on-chip RAM for the target L-Edge model size (state the model size you assume).
+Go criterion: top 10–20% of neurons cover ≥ 60% of fetches and the hot set generalises from calibration to evaluation within a few percentage points.
+
+H4 — Block-structured spikes (cheaper control, most of the saving)
+Claim: making neurons fire or stay silent in small groups keeps most of the sparsity benefit with far less hardware bookkeeping.
+Implement a flag `spike_groups=G` (G = 1 default, try 4 and 8): the energy budget / thresholding selects whole groups of G consecutive neurons (e.g. by group norm), and only selected groups emit spikes. Train with 3 seeds per G (same budget of active neurons per token as the baseline).
+Measure: bits/byte; active neurons per token; number of index entries the hardware would track per token (per neuron vs per group); weight fetch bytes and number of contiguous memory bursts (assume weights of one neuron are contiguous and a group's neurons are adjacent).
+Go criterion: bits/byte within seed noise (or < 0.01 bits/byte worse) of G = 1, with ≥ 3× fewer index entries and fewer bursts.
+
+H5 — Address-sorted spike queue (memory coalescing for events)
+Claim: sorting each token's active neurons by weight address turns scattered reads into fewer, longer burst reads.
+Measure with a simple memory model (document it): SDRAM with a configurable burst size (e.g. 32 or 64 bytes) and row/page size (e.g. 1–2 KB); count bursts, row openings and total bytes per token for (a) unsorted order, (b) sorted by address, (c) sorted + grouped from H4. Report per layer. No hardware needed; it is an analysis of the traces.
+Go criterion: sorting reduces row openings or bursts by ≥ 20%.
+
+H6 — Block-scaled 4-bit weights with power-of-two (shift) scales
+Claim: weights in 4-bit integers, where each block of B weights shares one power-of-two scale (so the scale is a bit-shift, not a multiply; inspired by OCP microscaling formats such as MXFP4, which share one scale per block of 32), keep L's quality.
+Implement quantisation-aware training (straight-through estimator) with flags for block size B (16, 32, 64) and scale type (power-of-two vs free float, as a reference). Compare against per-channel int8 and per-channel int4. 3 seeds each.
+Measure: bits/byte, weight storage bytes (including scales), and copy accuracy at 2,048 bytes if that test exists.
+Go criterion: block-scaled 4-bit with shift scales within 0.02 bits/byte of int8.
+
+H7 — Precision on demand
+Claim: easy/instinct tokens tolerate lower precision than hard/deliberate tokens.
+Using the H6 models (or post-training quantisation if H6 is not done yet), evaluate per-byte loss under 4-bit vs 8-bit weights, split by easy vs hard bytes and by path (if the uncertainty gate exists). Then test a mixed policy: 4-bit for easy/instinct tokens, 8-bit for hard/deliberate tokens (decide per token using a signal available BEFORE computing the token, e.g. the previous token's confidence; never use the true loss of the current token).
+Measure: bits/byte and the share of tokens run at 4-bit.
+Go criterion: the mixed policy matches 8-bit quality within seed noise while running ≥ 50% of tokens at 4-bit.
+
+H8 — (Hardware-only, document) Multi-stream interleaving
+No software experiment needed. Using the traces, estimate per token how many cycles the pipeline would wait for SDRAM (use the H5 memory model and an assumed clock, e.g. 50 MHz, and SDRAM latency/bandwidth figures for the Tang Nano 20K that you state explicitly). Estimate how many independent streams would be needed to hide that wait. Report as an estimate.
+
+H9 — (Hardware-only, document) Clock gating
+No experiment possible in software. Using the traces, report for each hardware unit (membrane unit, sparse engine, fast-weight unit, hippocampus, output head, skill memory if present) the fraction of tokens in which it is idle and could be clock-gated. Label as an estimate of opportunity, not a power measurement.
+
+H10 — (Long-term) Analog in-memory compatibility
+Simulate L with noisy low-precision matrix-vector products: add Gaussian noise to the outputs of weight multiplications at levels matching 3-bit and 4-bit effective precision (state how you map bits to noise), on the evaluation split, without retraining, then with noise-aware fine-tuning (1 seed is acceptable here; label it). Report bits/byte vs noise level. This is exploratory; label it as such.
+
+## Final report: `results/HW_HYPOTHESES_REPORT.md`
+For each hypothesis:
+- the claim in one sentence;
+- what was measured, on which data, with how many seeds;
+- the key number(s) and plot;
+- a verdict: SUPPORTED / PARTLY SUPPORTED / NOT SUPPORTED / NOT TESTED (with the reason);
+- the hardware recommendation: BUILD on the FPGA prototype / KEEP AS CHIP PROPOSAL / DROP, with a one-line reason.
+End with a table summarising all ten and a short "what to build first" list ordered by (evidence strength × expected energy saving ÷ hardware effort).
+Label every number MEASURED (from L's runs), MODELLED (from a memory or cycle model with stated assumptions) or ESTIMATED.
+
+## Do not
+- Do not change L's default behaviour or delete reference code paths.
+- Do not fit anything on the evaluation split.
+- Do not report single-seed training results as conclusions (except H10, labelled exploratory).
+- Do not invent hardware numbers: state every assumption (clock, burst size, latency, RAM size) explicitly.
+- Do not commit large trace files, checkpoints or datasets; keep traces out of git (add to .gitignore).
