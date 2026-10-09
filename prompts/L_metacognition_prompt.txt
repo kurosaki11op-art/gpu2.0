@@ -1,0 +1,107 @@
+You are working on **L**, a brain-inspired language model I designed. It does **not** use attention or transformers. This task adds three brain-inspired capabilities that today's language models lack, and measures each one honestly. Run it AFTER the main L optimisation prompt (L_architecture_changes_prompt) if that work exists in the repo; if it does not, read the code first and adapt.
+
+## Why (the problem we are solving)
+Today's AI models:
+1. Do not know what they don't know. They rarely abstain or ask, even when they can tell a request is unclear (CLAMBER, ACL 2024; arXiv 2605.25284; arXiv 2601.07767).
+2. Spend the same effort on easy and hard input ("2+2" problem), or overthink easy questions (arXiv 2412.21187).
+3. Have no procedural memory ("instinct", "muscle memory"): they re-derive familiar patterns from scratch every time. Agents add skill libraries outside the model (Voyager, arXiv 2305.16291), but the model itself has none.
+4. Mixture-of-Experts "experts" specialise by syntax/token, not by domain or skill (Mixtral, arXiv 2401.04088).
+
+Our goal is a single brain-like **metacognitive controller** in L that decides, per token and per segment: act on instinct (cheap), flag uncertainty (abstain / "ask"), or deliberate (full depth, wake only the relevant expert modules). On our custom hardware (SPARK), every "not needed" decision becomes hardware that stays switched off, which means less power, heat and cooling water. So every mechanism must also report how much WORK it saves.
+
+## What L is (confirm in the code before relying on it)
+- Spiking neurons emitting integer spike counts in [-8, 8].
+- Membrane state per neuron: h_t = a_t * h_{t-1} + b_t.
+- Per-layer fast-weight memory (delta rule): S <- S + beta * (v - S k) k^T.
+- Hippocampus-like index: exact pattern recall via hash lookups.
+- Homeostasis (adaptive thresholds) and an energy budget; 2–10% of FFN neurons fire per token.
+- Byte-level, constant cost per token, ~9M parameters, trained on Python code data, on a laptop RTX 3050 6 GB.
+- If the main prompt has been done, these may also exist: early-exit heads, recall-bypass, delta spikes, lazy updates, energy cap, hw_mode (integer-only path). Reuse them; do not duplicate.
+
+## Ground rules
+1. Explore the repo first and write `docs/L_metacognition_plan.md`: where each new piece will hook in, and which existing pieces (early exit, recall-bypass, energy budget) it reuses.
+2. Every new mechanism goes behind its own config flag; default = current behaviour; the reference path stays.
+3. Tests in `tests/` for every mechanism (shapes, flags off = identical outputs to before, determinism).
+4. 3+ seeds for every reported result; report mean ± std. Never present a single-seed result as a conclusion.
+5. Work-saved counters for everything: layers run per token, neurons fired, messages sent, state reads/writes, hash lookups, and the share of tokens taking each path. Keep them consistent with any existing cost model (analysis/cost_model.py if present).
+6. Honesty: if a mechanism does not work or hurts quality, keep it off and report it. Do not tune L more than any baseline.
+7. Everything must run on an RTX 3050 6 GB; one GPU job at a time.
+8. Design every decision so it can later become integer-only (thresholds, comparisons, counters, lookup tables) for the FPGA/chip; note in the plan how each would map to hardware.
+
+---
+
+## Phase M1 — Uncertainty gate ("know what you don't know") — DO THIS FIRST
+Goal: L produces a cheap, calibrated confidence signal per byte that predicts whether its own prediction is right.
+
+M1.1 Candidate signals (implement all, compare):
+- (a) max probability and entropy of the output distribution;
+- (b) the same from early-exit heads, if they exist (agreement between an early head and the final head);
+- (c) internal signals: firing rate / energy-budget pressure in the last layers, fast-weight prediction error ||v - S k|| (the delta-rule "surprise"), hippocampus hit/miss and match length;
+- (d) a tiny learned confidence head (e.g. a 1-layer probe on the last hidden state / spike counts) trained to predict "top-1 prediction is correct", trained on a held-out split, never on the eval split.
+
+M1.2 Measure, on held-out data:
+- calibration: expected calibration error (ECE) and reliability diagrams;
+- selective prediction: risk–coverage curve and AURC (if L only answers when confident, how does its error rate fall as coverage drops?);
+- AUROC of each signal for "prediction is wrong";
+- results split by easy vs hard bytes (define easy = bottom 50% per-byte loss under the full model, hard = top 10%), and by data type (code vs comments/strings vs whitespace if separable).
+
+M1.3 Three-way decision rule (flag `meta_gate`): using calibrated thresholds chosen on a validation split:
+- CONFIDENT + FAMILIAR → "instinct" path (cheapest available: recall-bypass / skill memory / early exit);
+- UNCERTAIN → "flag" path: L emits an uncertainty flag for that position/segment (the byte-level analogue of "ask before acting"); optionally still produce its best guess so quality can be measured;
+- otherwise → "deliberate" path: full depth (and, after M3, the relevant expert modules).
+Report the share of tokens per path, accuracy on each path, and work saved vs always-deliberate.
+
+M1.4 Segment-level "ask" test (small, honest demo): build a small synthetic evaluation where the next content is genuinely ambiguous vs genuinely determined (e.g. code with an undefined variable name that could be several things vs a repeated identifier; or a prompt prefix that continues two different ways in the training data). Report whether L's uncertainty flag fires more on the ambiguous cases than the determined ones (precision/recall). Clearly label this as a toy proxy for "asking clarifying questions", not proof of it.
+
+## Phase M2 — Skill memory ("instinct" / procedural memory)
+Goal: patterns that L handles repeatedly and correctly get "compiled" into a cheap fast path, like a human habit; mistakes are not compiled.
+
+M2.1 Design (flag `skill_memory`): a fixed-size store (power-of-two table) keyed by a hash of a short context window (try several window lengths, e.g. 8/16/32 bytes, possibly multiple tables) mapping to a predicted continuation (next byte or a short run of bytes) plus a confidence counter.
+- Promotion: when the full model predicts the same continuation for the same key correctly N times (N configurable, e.g. 3–8), the counter crosses a threshold and the entry becomes "compiled".
+- Use: on a compiled hit AND a confident uncertainty gate (M1), output from the skill memory and skip the deep layers (keep the minimal state updates needed for consistency; document exactly what is skipped, reusing recall-bypass logic if present).
+- Demotion: if a compiled skill is wrong (verified later, or when a periodic full-model check disagrees), decrement/evict it. Add periodic "audit" checks (run the full model on a small % of skill hits) and report the audit error rate.
+- Difference from the hippocampus: the hippocampus recalls specific past episodes (exact copies from this context); skill memory stores generalised habits learned across many contexts. Make that distinction explicit in the code and docs, and report their overlap.
+
+M2.2 Measure: skill-hit rate over time (does it grow as L "practises"?), accuracy of skill-path outputs vs full model, bits/byte with and without, work saved per token, memory size vs benefit (sweep table size). Test on Python code data where habits are common (indentation, `self.`, `def `, `return `, common idioms) and report per-pattern-type where possible.
+
+M2.3 Safety of habits: report the worst failure mode (wrong skills that persist) and how the audit/demotion handles it.
+
+## Phase M3 — Task/domain-routed expert modules (real specialisation, not token-level MoE)
+Goal: modules that genuinely specialise by domain/skill and stay asleep unless needed.
+
+M3.1 Design (flag `domain_experts`): split part of the FFN (or add small expert FFN blocks) into K expert modules (start K = 2–4). Route at SEGMENT level (e.g. per line, per 64–128 bytes, or per file), not per token, using a small router on a slowly-updated summary state (e.g. membrane/fast-weight summary). Only the selected expert(s) run; others stay silent (count them as skipped work).
+- Baseline to beat: token-level top-k MoE routing with the same total parameters and active parameters.
+- Data: create clearly different domains from what is available, e.g. Python code vs English prose (docstrings/comments or a small prose corpus) vs another language/format (JSON, Markdown, C). If only code is available, use file types or code vs comments.
+
+M3.2 Measure: (a) specialisation: mutual information between expert choice and domain label, routing confusion matrix, and compare with the token-level MoE baseline (the Mixtral finding predicts the baseline will specialise by syntax, not domain); (b) quality: bits/byte per domain vs a dense model with equal active compute; (c) work saved: share of expert parameters asleep per token; (d) stability: routing switches per 1,000 bytes (fewer switches = cheaper in hardware).
+
+M3.3 Combine with M1: when the gate says "deliberate", allow waking a second expert; when "instinct", wake none (or the cheapest). Report whether this beats a fixed policy.
+
+## Phase M4 — Combined metacognitive controller
+Enable the M1–M3 mechanisms that individually helped. Produce one table (3 seeds) comparing:
+- full L (always deliberate);
+- L + think-less mechanisms from the main prompt (if present);
+- L + metacognitive controller (M1 + M2 + M3).
+Columns: bits/byte (overall, easy, hard), share of tokens on instinct / flag / deliberate paths, accuracy per path, ECE, average work per token (layers, neurons fired, expert params active, state accesses, lookups), estimated energy per token from the cost model, and skill-memory and hash-table sizes.
+Target: much less average work on easy/familiar input, uncertainty flags concentrated on genuinely hard or ambiguous input, overall bits/byte within seed noise of full L.
+
+## Phase M5 — Hardware-readiness
+For each mechanism that survives, add an integer-only version for hw_mode (if hw_mode exists; otherwise document the design):
+- confidence as integer comparisons (e.g. top-1 minus top-2 logit margin vs threshold, or a small integer probe);
+- skill memory as a hash table with saturating integer counters;
+- segment router as an integer argmax over a small integer projection;
+- every path decision as a few comparisons that enable/disable hardware units (clock-gating signals).
+Extend the golden model and export scripts (golden/l_int.py, export/export_hw.py, if present) to include these, bit-exact with the PyTorch hw_mode path, and add their decisions to the exported test vectors.
+
+## Final report: `results/METACOGNITION_REPORT.md`
+- What each mechanism does, in plain language, with the brain analogy (prefrontal metacognition, basal-ganglia habits, specialised cortical areas).
+- All tables above (3 seeds), labelled MEASURED; cost-model energy numbers labelled ESTIMATED.
+- What did not work and why.
+- Honest limits: L is small and byte-level; the "flag" path is a proxy for asking clarifying questions, not a demonstration of it; results on Python code may not transfer to other domains.
+
+## Do not
+- Do not change default behaviour without a flag or remove the reference path.
+- Do not train any confidence head, router or threshold on the evaluation split.
+- Do not report single-seed results as conclusions, or compare a tuned L against an untuned baseline.
+- Do not claim L can do multi-role work (e.g. build landing pages); this task builds and measures the mechanisms at small scale only.
+- Do not commit large checkpoints or datasets.
