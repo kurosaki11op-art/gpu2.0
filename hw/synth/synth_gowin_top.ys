@@ -1,0 +1,3 @@
+read_verilog ../rtl/spark_ram.v ../rtl/spark_core.v ../rtl/spark_top.v
+synth_gowin -top spark_top -json spark_top.json
+tee -o utilization_top.txt stat

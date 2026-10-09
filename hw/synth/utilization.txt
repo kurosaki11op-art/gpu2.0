@@ -1,0 +1,35 @@
+
+4. Printing statistics.
+
+=== spark_core ===
+
+   Number of wires:              34991
+   Number of wire bits:          90235
+   Number of public wires:       34991
+   Number of public wire bits:   90235
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              53706
+     ALU                          4511
+     DFF                          2637
+     DFFE                          337
+     DFFR                           45
+     DFFRE                         337
+     DFFSE                           6
+     DPX9                           27
+     GND                             1
+     IBUF                          162
+     LUT1                        10139
+     LUT2                         4854
+     LUT3                         8546
+     LUT4                         7952
+     MUX2_LUT5                    7955
+     MUX2_LUT6                    3203
+     MUX2_LUT7                    1466
+     MUX2_LUT8                     586
+     OBUF                          331
+     RAM16SDP4                     608
+     SDPX9                           2
+     VCC                             1
+

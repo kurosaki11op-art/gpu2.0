@@ -4,3 +4,5 @@ synth/*.json
 synth/synth.log
 synth/run.txt
 __pycache__/
+synth/synth_top.log
+synth/run_top.txt

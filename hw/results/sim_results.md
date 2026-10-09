@@ -11,4 +11,6 @@ Every configuration is checked token-by-token against the bit-exact golden model
 | event-driven + early exit | 0 | 1477 | 2.9x fewer | 1119 | 3.2x fewer | 91.9 | 527 / 0 / 0 |
 | event-driven + recall | 0 | 514 | 8.5x fewer | 351 | 10.2x fewer | 36.5 | 367 / 0 / 160 |
 | event-driven + energy cap 16 | 0 | 469 | 9.3x fewer | 287 | 12.5x fewer | 29.9 | 527 / 0 / 0 |
-| all think-less (change-only + exit + recall) | 0 | 1486 | 2.9x fewer | 1169 | 3.1x fewer | 95.8 | 367 / 0 / 160 |
+| all think-less, always on (change-only + exit + recall) | 0 | 1486 | 2.9x fewer | 1169 | 3.1x fewer | 95.8 | 367 / 0 / 160 |
+| ADAPTIVE controller (recall + chooses change-only/full + adaptive exit) | 0 | 589 | 7.4x fewer | 371 | 9.7x fewer | 37.3 | 367 / 0 / 160 |
+| ADAPTIVE controller, exit always succeeds (stress test) | 0 | 559 | 7.8x fewer | 411 | 8.7x fewer | 28.2 | 0 / 367 / 160 |
