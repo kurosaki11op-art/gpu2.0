@@ -1,0 +1,6 @@
+build/
+synth/*.hex
+synth/*.json
+synth/synth.log
+synth/run.txt
+__pycache__/
