@@ -1,6 +1,30 @@
 # SPARK pitch: speaking script
 
-Read in slide order. The full deck runs ~4.5 min; for a strict 3-minute video, drop the principles, split and competition slides (~3:05).
+Two versions: the **3-minute video script** (use this for the PYP video) and the **full slide notes** (for live presentations and Q&A, ~7.5 min).
+
+## 3-minute video script (~420 words, 9 slides: cover, hook, twoplustwo, rootcause, evidence, solution, thinkless, proof, close)
+
+**[cover]** We are [team name] from [college]. This is SPARK: a brain-inspired co-processor that makes AI do only the work a question needs.
+
+**[hook]** Your brain runs on about 20 watts. One modern AI rack draws around 120 kilowatts. Data centres used 415 terawatt-hours in 2024, and that may double by 2030. Every joule becomes heat, and removing heat costs power and water. India's data centres could need 358 billion litres a year by 2030.
+
+**[twoplustwo]** Much of that work is wasted. AI spends the same effort on "two plus two" as on a hard problem. Reasoning models write about fourteen times more tokens per answer, with up to fifty times more CO2. One study found only a quarter of questions even needed the big model.
+
+**[rootcause]** The root cause is the chip. GPUs compute everything densely, and up to 84 percent of their energy can go on moving data, not computing. AI evolved to fit the GPU, not the brain.
+
+**[evidence]** We hit this ourselves. We built L, a brain-like language model with spiking neurons and a memory that learns while it reads. It already beats a same-size transformer. But 95 percent of its neurons are silent, and the GPU still computes them all.
+
+**[solution]** So we're building SPARK. It doesn't replace the GPU; it sits beside it, like Google's SparseCore beside the TPU. The GPU trains. SPARK runs brain-like AI with memory beside compute, 4-bit spikes, and on-chip learning and recall.
+
+**[thinkless]** Its rule: think less, work less. Skip silent neurons. Skip neurons that didn't change. Recall instead of recomputing. Stop early when the answer is clear. Cap the energy per token.
+
+**[proof]** Our prototype is one SPARK core on a 4,199-rupee FPGA. We'll prove identical output to the GPU, lower energy per token, and the saving from each switch, in watts and degrees.
+
+**[close]** Less work means less power, less heat and less water. We don't claim to replace GPUs, and our prototype is small. But we can show AI that thinks only as hard as it needs to. Thank you.
+
+---
+
+## Full slide notes
 
 ## 1. cover  (~43 words)
 
