@@ -1,0 +1,98 @@
+You are working on **L**, a brain-inspired language model I designed. It does **not** use attention or transformers. Your job is to (1) remove every GPU inefficiency that can be fixed in software, (2) make L "hardware-ready" so it can run on a custom event-driven processor (first an FPGA prototype), and (3) produce honest, reproducible measurements. Do not change L's default behaviour silently: every change goes behind a config flag, and the original path stays available as the reference.
+
+## What L is (read the code to confirm each point before relying on it)
+- Spiking neurons that emit a small integer spike count in [-8, 8] instead of a float.
+- A membrane state per neuron, updated token by token: `h_t = a_t * h_{t-1} + b_t`.
+- Per-layer error-correcting fast-weight memory: a small matrix per head (64x64 today), rewritten while reading via the delta rule `S <- S + beta * (v - S k) k^T`.
+- A hippocampus-like index: exact pattern recall via hash lookups (currently emulated with sorting on GPU).
+- Homeostasis (adaptive thresholds) and an energy budget that keeps most neurons silent (2–10% of FFN neurons fire per token).
+- Constant cost per token regardless of context length.
+
+## Measured baseline (laptop RTX 3050 6 GB, Python code data, mostly single runs)
+- ~9M params: L 1.018 bits/byte vs same-size transformer 1.082.
+- Copies a passage seen 2,048 bytes earlier with ~95% accuracy.
+- Energy: L 20 mJ/token vs transformer 44 mJ/token at 256-byte context and 222 mJ/token at 16K context.
+- Training: L 64 min vs transformer 55 min (L is ~15% slower).
+- Known GPU problems: dense compute ignores sparsity; spikes stored as fp32; sequential one-thread-per-neuron recurrence kernel; ~1,000 tiny 64x64 triangular solves per layer per step (~55% of forward time); ~3,300 kernel launches per training step; hash memory emulated with sorting; 6 GB VRAM spills to system RAM (~5x slowdown) when two jobs run.
+
+## Ground rules
+1. **Explore first.** Map the repo: model definition, custom kernels, training loop, eval scripts, configs. Write a short `docs/L_code_map.md` before changing anything.
+2. **Every change behind a flag** in the config (e.g. `use_parallel_scan`, `use_chunked_delta`, `spike_dtype`, `compile_mode`, `hw_mode`). Default = current behaviour.
+3. **Equivalence tests for every optimisation** (`tests/`): the optimised path must match the reference path on random inputs: forward outputs and gradients within `atol=1e-4, rtol=1e-3` in fp32 (state the tolerance used if it must be looser, and why). Integer paths must match **bit-exactly**.
+4. **Measure before and after each change** with the harness from Phase 1. Record results in `results/optimisation_log.md` as a table: change, wall time per step, tokens/s, peak VRAM, kernel launches per step, energy per token, bits/byte.
+5. **Honesty.** If a change does not help, keep it off and log it. If the transformer wins a comparison, report it. Never tune L more than the baseline.
+6. Keep everything runnable on an RTX 3050 6 GB laptop. Run one GPU job at a time.
+
+---
+
+## Phase 0 — Profile and verify assumptions
+- Reproduce the baseline numbers above (training time, bits/byte, energy) with the current code. If anything differs by >5%, report it.
+- Profile one training step and one batch-1 inference step with `torch.profiler` (and Nsight Systems if available). Produce a per-module time breakdown (membrane recurrence, spike quantisation, FFN, fast-weight memory, hippocampus, homeostasis, other) and the number of kernel launches.
+- **Check whether the membrane recurrence is linear in h.** If `a_t` and `b_t` depend only on the input (not on `h_{t-1}` or on the spike emitted from `h`), it is a linear recurrence and can be parallelised with a scan. If a spike/reset term feeds back from `h` into the update (e.g. subtract-on-spike, hard reset), it is non-linear. Report exactly which case applies, with the code lines.
+- Measure the actual per-layer firing rate (fraction of non-zero spikes) on the eval set, for batch 1 and for the training batch size, including the **union** of active neurons across the batch.
+- Measure what share of time and memory the hippocampus takes.
+
+## Phase 1 — Measurement harness (`bench/`)
+- `bench/train_bench.py`: fixed steps, warm-up excluded, reports time/step, tokens/s, peak VRAM, kernel launches.
+- `bench/infer_bench.py`: batch-1 autoregressive generation and batch-N throughput (N = 1, 8, 64), tokens/s and latency per token.
+- `bench/energy.py`: GPU energy via NVML (`nvmlDeviceGetTotalEnergyConsumption` if supported; validate it against integrated `nvmlDeviceGetPowerUsage` samples at the fastest rate because the counter can be off) and report both total energy and energy above idle. Also print instructions for a wall-plug meter reading.
+- `bench/seeds.sh`: run L and the transformer baseline with **3+ seeds**; report mean ± std of bits/byte.
+- **Fair baselines:** transformer with equal parameters *and* equal training FLOPs, learning rate tuned with the same budget as L; for the copy test also a transformer whose context window is ≥ 2,048 bytes.
+
+## Phase 2 — Software fixes on the GPU (one at a time, each behind a flag, each logged)
+2.1 **Kernel launch overhead.** Fuse elementwise chains (membrane update, homeostasis, threshold, spike quantisation, energy budget) into a single Triton kernel per layer. Try `torch.compile(mode="reduce-overhead")` (uses CUDA graphs) and `mode="max-autotune"`. Remove graph breaks: no `.item()`, no Python-side data-dependent control flow in the hot path; static shapes. Target: launches per step reduced by ≥5x.
+
+2.2 **Membrane recurrence.**
+- If linear: implement a chunked parallel associative scan over `(a_t, b_t)` pairs (combine `(a1,b1)∘(a2,b2) = (a1*a2, a2*b1 + b2)`), fp32 accumulation, in Triton. Reference: Martin & Cundy, ICLR 2018 (arXiv 1709.04057); Mamba-style scans.
+- If non-linear: (a) write a fused persistent kernel that keeps state in registers/shared memory across a chunk of time steps instead of one launch per step and one thread per neuron with an idle GPU; and (b) add an **ablation flag** that makes the reset linearisable (e.g. compute the reset from the previous step's *detached* spike or move it to a separate additive term) and measure the bits/byte cost. Do not switch the default unless bits/byte is unchanged within seed noise.
+
+2.3 **Fast-weight (delta-rule) memory.**
+- Training/prefill: implement the chunkwise-parallel delta rule with the WY / UT representation (Yang et al., NeurIPS 2024, arXiv 2406.06484), chunk size 64, so the ~1,000 tiny triangular solves become a few batched matmuls plus one small forward substitution per chunk. Prefer reusing `flash-linear-attention` (`fla.ops.delta_rule.chunk_delta_rule`, and the gated variant if L has decay) if its semantics match L exactly; otherwise write a Triton kernel following the same algorithm.
+- Inference: use the recurrent form (`S k`, error, rank-1 update) — there is no triangular solve token-by-token. Fuse it into one kernel per layer.
+- Equivalence test vs the current implementation. Target: fast-weight share of forward time from ~55% to <15%.
+
+2.4 **Spike representation.** Store spikes as `int8` (4x less memory/traffic than fp32) and optionally packed `int4` (2 per byte) for storage/activations saved for backward. Where spikes multiply weights, try int8 x int8 -> int32 matmul (`torch._int_mm`, requires dims that are multiples of 8, contiguous tensors) and compare against bf16. Keep gradients correct (straight-through estimator where needed).
+
+2.5 **Exploiting sparsity on the GPU.**
+- Batch-1 inference: implement a gather-based sparse FFN: find active neuron indices, `index_select` the matching weight rows/columns, compute only those. Sweep firing rate and find the break-even density vs dense on the RTX 3050.
+- Optional co-design flag: **block-structured sparsity** (neurons in groups of 16/32 fire or stay silent together, enforced by the energy budget at group level). Measure bits/byte cost vs GPU speedup. This is the GPU-friendly variant; the per-neuron variant is kept for the custom hardware.
+- References: Deja Vu (arXiv 2310.17157), PowerInfer (arXiv 2312.12456).
+
+2.6 **Hippocampus.** Replace sort-based emulation with a real GPU hash table: open addressing, power-of-two table size, multiplicative or xor-shift hash, bounded probe length (e.g. 8), written in Triton or via cuCollections through a C++ extension if feasible. Only do this if Phase 0 shows it takes >5% of time. Exact-recall behaviour must be unchanged (test it).
+
+2.7 **Memory.** bf16 autocast where numerically safe (keep the recurrent state and fast-weight state in fp32 unless tests show bf16 is fine), activation checkpointing per layer as a flag, no fp32 spike tensors, free intermediate buffers. Target: peak VRAM at least 30% lower.
+
+**End of Phase 2 report:** training time L vs transformer after all fixes (3 seeds), batch-1 and batch-64 inference energy/token, and the remaining gap per problem. The remaining gap is the honest motivation for custom hardware — state it plainly.
+
+## Phase 3 — Hardware co-design ("L-HW" mode, behind `hw_mode=True`)
+Goal: a variant of L whose **inference path uses only integer arithmetic, shifts, comparisons, lookups and table reads**, so it can be implemented in Verilog on a small FPGA and later a chip.
+
+3.1 **Quantisation-aware training (QAT)** with straight-through estimators:
+- Weights int4 or int8, per-output-channel scale restricted to a **power of two** (scale = shift).
+- Spikes already int in [-8, 8] (4-bit signed) — keep.
+- Membrane state `h` int16 with saturation; decay `a_t` quantised to 8 bits or to a shift (`h - (h >> k)` style); `b_t` int16.
+- Thresholds / homeostasis: integer thresholds updated by integer increments/decrements.
+- Fast-weight state `S` int16 with saturation; `beta` a power of two; keys/values int8. Head dimension configurable (64 default, try 32).
+- No `exp`, `div`, `sqrt`, softmax or float LayerNorm in the inference path. Replace with: RMSNorm with integer approximation or a learned shift, piecewise-linear or 256-entry lookup-table nonlinearities, argmax / LUT-based sampling for the output byte.
+- Hippocampus: fixed hash function (multiplicative or xor-shift, documented constants), table size a power of two, bounded probes, integer keys.
+- Report bits/byte of float L vs L-HW (target: < 0.02 bits/byte drop) and firing rate per layer.
+
+3.2 **L-Edge config:** a small byte-level model (~0.3M–1M params) trained with QAT for the FPGA. Target FPGA: Sipeed Tang Nano 20K (GW2AR-18: 20,736 LUT4, 15,552 FF, ~828 Kbit block RAM, 48 multipliers 18x18, 64 Mbit SDRAM on board). Print a memory budget: weights (bits), membrane state, fast-weight state for all heads/layers, hash table, and show what fits on-chip vs what must stream from SDRAM.
+
+3.3 **Integer golden model** `golden/l_int.py`: pure NumPy (no torch), int arithmetic only, that runs L-HW / L-Edge token by token and is **bit-exact** with the PyTorch `hw_mode` inference path on 10,000 bytes of held-out data. This is the reference the hardware will be verified against.
+
+3.4 **Export:** `export/export_hw.py` writes weights, scales/shifts, LUTs and hash constants as `.hex`/`.mem` files plus a `config.json`; and writes test vectors: for N input bytes, every intermediate per layer (membrane state, spike counts, active-neuron indices, fast-weight state checksum, hippocampus hit/miss, logits, output byte).
+
+3.5 **Analytic cost model** `analysis/cost_model.py`: per token, compute dense MACs vs event-driven MACs (using measured firing rates), bytes of weights read dense vs sparse, bytes of state read/written, hash lookups. Output a table that predicts the hardware gain. Keep it separate from measured numbers.
+
+## Phase 4 — Final report (`results/REPORT.md`)
+- Tables: baseline vs each software fix; L vs transformer (3 seeds, equal compute) for quality, copying, training time, batch-1 and batch-64 inference energy/token.
+- The remaining GPU gap per problem after software fixes, labelled **measured**.
+- L-HW quantisation cost and the cost-model predictions, labelled **estimated**.
+- A list of what did not work and why.
+
+## Do not
+- Do not change default behaviour without a flag, delete the reference path, or skip equivalence tests.
+- Do not report a single-seed result as a conclusion.
+- Do not compare an optimised L against an untuned transformer.
+- Do not commit large checkpoints or datasets.
