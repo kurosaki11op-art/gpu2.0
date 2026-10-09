@@ -29,3 +29,4 @@ build_chk/
 build_board/
 pnr2/*.fs
 train/out_x_*/
+pnr2/*.fs.gz
