@@ -14,7 +14,12 @@
 // Dense mode (sparse_en = 0) processes every input, as a GPU would.
 module spark_core #(
     parameter P = 8,
+    parameter CTX = 3,              // bytes of input context (embedding tables)
     parameter EMB_HEX = "emb.hex",
+    parameter EMB1_HEX = "emb1.hex",
+    parameter EMB2_HEX = "emb2.hex",
+    parameter TH0_HEX = "th0.hex",
+    parameter TH1_HEX = "th1.hex",
     parameter W0_HEX = "w0.hex",
     parameter W1_HEX = "w1.hex",
     parameter W2_HEX = "w2.hex",
@@ -36,6 +41,7 @@ module spark_core #(
     input      [3:0]  acc_sh,
     input      [3:0]  s_sh,
     input             adapt_en,     // adaptive controller
+    input             thr_en,       // 1: threshold spikes min((h-th)>>s_sh,7), 0: signed spikes
     // weight / embedding load port (weights are loaded at boot, e.g. from flash)
     input             ld_we,
     input      [2:0]  ld_sel,       // 0 emb, 1..4 = w0..w3
@@ -77,6 +83,9 @@ module spark_core #(
     // sizes derived from the lane count P
     localparam DM = 64, HM = 128, VM = 256;
     localparam CD = DM / P, CH = HM / P, CV = VM / P;     // chunks per vector
+    localparam CD0 = CD * CTX;                            // layer-0 input chunks (context window)
+    reg [7:0]  hist1, hist2;      // previous two input bytes
+    reg [1:0]  started;           // tokens seen, saturating at CTX
     localparam AWC = 6;                                   // chunk-address width
     reg [5:0]  c;                 // source chunk
     reg [P-1:0] mask;
@@ -92,16 +101,22 @@ module spark_core #(
     assign nz0 = nzc[0]; assign nz1 = nzc[1]; assign nz2 = nzc[2]; assign nz3 = nzc[3];
     assign pr0 = prc[0]; assign pr1 = prc[1]; assign pr2 = prc[2]; assign pr3 = prc[3];
 
-    wire [6:0] nin_ch = (stg == 2'd0) ? CD : CH;           // source chunks
+    wire [6:0] nin_ch = (stg == 2'd0) ? CD0 : CH;          // source chunks
     wire [6:0] nc     = (stg[1]) ? CV : CH;                 // output chunks
     wire       is_head = stg[1];
 
     // ---------------------------------------------------------------- memories
     // read addresses / write controls are driven combinationally below
-    reg  [11:0] emb_ra, w0_ra, w1_ra, w2_ra, w3_ra;
-    wire [4*P-1:0] emb_rd, w0_rd, w1_rd, w2_rd, w3_rd;
-    spark_bram #(4*P, VM*CD, 12, EMB_HEX) u_emb (clk, ld_we && ld_sel == 3'd0, ld_addr, ld_data[4*P-1:0], emb_ra, emb_rd);
-    spark_bram #(4*P, DM*CH, 12, W0_HEX)  u_w0  (clk, ld_we && ld_sel == 3'd1, ld_addr, ld_data[4*P-1:0], w0_ra, w0_rd);
+    reg  [11:0] emb_ra, emb1_ra, emb2_ra, w0_ra, w1_ra, w2_ra, w3_ra;
+    wire [4*P-1:0] emb_rd, emb1_rd, emb2_rd, w0_rd, w1_rd, w2_rd, w3_rd;
+    spark_bram #(4*P, VM*CD, 12, EMB_HEX)  u_emb  (clk, ld_we && ld_sel == 3'd0, ld_addr, ld_data[4*P-1:0], emb_ra, emb_rd);
+    spark_bram #(4*P, VM*CD, 12, EMB1_HEX) u_emb1 (clk, ld_we && ld_sel == 3'd5, ld_addr, ld_data[4*P-1:0], emb1_ra, emb1_rd);
+    spark_bram #(4*P, VM*CD, 12, EMB2_HEX) u_emb2 (clk, ld_we && ld_sel == 3'd6, ld_addr, ld_data[4*P-1:0], emb2_ra, emb2_rd);
+    spark_bram #(4*P, DM*CTX*CH, 12, W0_HEX) u_w0 (clk, ld_we && ld_sel == 3'd1, ld_addr, ld_data[4*P-1:0], w0_ra, w0_rd);
+    // per-neuron firing thresholds (16-bit), one word of P lanes per chunk
+    reg  [AWC-1:0] th_ra; wire [16*P-1:0] th0_rd, th1_rd;
+    spark_ram #(16*P, CH, AWC, TH0_HEX) u_th0 (clk, 1'b0, {AWC{1'b0}}, {16*P{1'b0}}, th_ra, th0_rd);
+    spark_ram #(16*P, CH, AWC, TH1_HEX) u_th1 (clk, 1'b0, {AWC{1'b0}}, {16*P{1'b0}}, th_ra, th1_rd);
     spark_bram #(4*P, HM*CH, 12, W1_HEX)  u_w1  (clk, ld_we && ld_sel == 3'd2, ld_addr, ld_data[4*P-1:0], w1_ra, w1_rd);
     spark_bram #(4*P, HM*CV, 12, W2_HEX)  u_w2  (clk, ld_we && ld_sel == 3'd3, ld_addr, ld_data[4*P-1:0], w2_ra, w2_rd);
     spark_bram #(4*P, HM*CV, 12, W3_HEX)  u_w3  (clk, ld_we && ld_sel == 3'd4, ld_addr, ld_data[4*P-1:0], w3_ra, w3_rd);
@@ -125,7 +140,7 @@ module spark_core #(
 
     reg sn_we [0:3]; reg [AWC-1:0] sn_wa [0:3]; reg [4*P-1:0] sn_wd [0:3]; reg [AWC-1:0] sn_ra [0:3];
     wire [4*P-1:0] sn_rd [0:3];
-    spark_ram #(4*P, CD, AWC) u_sn0 (clk, sn_we[0], sn_wa[0], sn_wd[0], sn_ra[0], sn_rd[0]);
+    spark_ram #(4*P, CD0, AWC) u_sn0 (clk, sn_we[0], sn_wa[0], sn_wd[0], sn_ra[0], sn_rd[0]);
     spark_ram #(4*P, CH, AWC) u_sn1 (clk, sn_we[1], sn_wa[1], sn_wd[1], sn_ra[1], sn_rd[1]);
     spark_ram #(4*P, CH, AWC) u_sn2 (clk, sn_we[2], sn_wa[2], sn_wd[2], sn_ra[2], sn_rd[2]);
     spark_ram #(4*P, CH, AWC) u_sn3 (clk, sn_we[3], sn_wa[3], sn_wd[3], sn_ra[3], sn_rd[3]);
@@ -147,7 +162,14 @@ module spark_core #(
     reg [16*P-1:0] acc_rd_s;
     always @* begin
         case (stg)
-            2'd0: begin src_rd = emb_rd;  w_rd = w0_rd; end
+            2'd0: begin
+                w_rd = w0_rd;
+                case (c / CD)
+                    0: src_rd = emb_rd;
+                    1: src_rd = (started > 2'd1) ? emb1_rd : {4*P{1'b0}};
+                    default: src_rd = (started > 2'd2) ? emb2_rd : {4*P{1'b0}};
+                endcase
+            end
             2'd1: begin src_rd = s_rd[0]; w_rd = w1_rd; end
             2'd2: begin src_rd = s_rd[0]; w_rd = w2_rd; end
             default: begin src_rd = s_rd[1]; w_rd = w3_rd; end
@@ -197,14 +219,15 @@ module spark_core #(
 
     // post pass (membrane/spike or argmax): one chunk is latched, then
     // processed Q lanes per cycle to keep the logic small
-    reg [16*P-1:0] po_acc, po_h, h_neww;
+    reg [16*P-1:0] po_acc, po_h, po_th, h_neww;
     reg [4*P-1:0]  s_neww;
     reg [1:0]      q;
     reg [16*Q-1:0] h_grp;
     reg [4*Q-1:0]  s_grp;
     reg signed [24:0] dec;
     reg signed [25:0] sum;
-    reg signed [15:0] hs, hl, al;
+    reg signed [15:0] hs, hl, al, tl;
+    reg signed [17:0] u, us;
     reg [16:0] mag;
     reg signed [4:0] sp;
     reg signed [16:0] hr;
@@ -219,6 +242,12 @@ module spark_core #(
             mag = mag >> s_sh;
             if (mag > 17'd7) mag = 17'd7;
             sp  = (hs < 0) ? -$signed({1'b0, mag[3:0]}) : $signed({1'b0, mag[3:0]});
+            if (thr_en) begin
+                tl = po_th[16*(q*Q + l4) +: 16];
+                u  = $signed(hs) - $signed(tl);
+                us = u >>> s_sh;
+                sp = (us < 0) ? 5'sd0 : (us > 7) ? 5'sd7 : us[4:0];
+            end
             hr  = $signed(hs) - ($signed(sp) <<< s_sh);
             h_grp[16*l4 +: 16] = hr[15:0];
             s_grp[4*l4 +: 4]   = sp[3:0];
@@ -240,7 +269,10 @@ module spark_core #(
     // ---------------------------------------------- memory port control (comb)
     integer k, kf;
     always @* begin
-        emb_ra = byte_r * CD + c;
+        emb_ra  = byte_r * CD + (c % CD);
+        emb1_ra = hist1 * CD + (c % CD);
+        emb2_ra = hist2 * CD + (c % CD);
+        th_ra = m;
         w0_ra = 12'd0; w1_ra = 12'd0; w2_ra = 12'd0; w3_ra = 12'd0;
         for (k = 0; k < 4; k = k + 1) begin
             acc_we[k] = 1'b0; acc_wa[k] = 0; acc_wd[k] = {16*P{1'b0}}; acc_ra[k] = 0;
@@ -304,12 +336,15 @@ module spark_core #(
         if (rst) begin
             state <= S_IDLE; done <= 1'b0; ctx_prev <= 32'd0; ctx <= 32'd0;
             stg <= 2'd0; score <= 4'd8; tokcnt <= 16'd0; tokq <= 16'd0;
+            hist1 <= 8'd0; hist2 <= 8'd0; started <= 2'd0; byte_r <= 8'd0;
         end else begin
             done <= 1'b0;
             if (state != S_IDLE) tok_cycles <= tok_cycles + 1;
             case (state)
                 S_IDLE: if (start) begin
                     byte_r <= in_byte; tok_cycles <= 32'd1;
+                    hist1 <= byte_r; hist2 <= hist1;
+                    if (started != CTX) started <= started + 2'd1;
                     tokq <= tokcnt; tokcnt <= tokcnt + 16'd1;
                     wreads <= 0; cyc_engine <= 0; cyc_scan <= 0; cyc_post <= 0; cyc_recall <= 0;
                     for (kf = 0; kf < 4; kf = kf + 1) begin nzc[kf] <= 0; prc[kf] <= 0; end
@@ -400,6 +435,7 @@ module spark_core #(
                 S_PO_LAT: begin
                     cyc_post <= cyc_post + 1;
                     po_acc <= acc_rd_s; po_h <= h_rd[stg[0]]; q <= 2'd0;
+                    po_th  <= stg[0] ? th1_rd : th0_rd;
                     state <= S_PO_LANE;
                 end
                 S_PO_LANE: begin

@@ -53,6 +53,8 @@ def main():
     os.makedirs(BUILD, exist_ok=True)
     os.makedirs(RES, exist_ok=True)
     wts = sg.Weights.from_npz(a.weights) if a.weights else sg.Weights()
+    wts.pad_ctx(3)                       # hardware has a 3-byte context window
+    thr = 1 if wts.th is not None else 0
     wts.export_hex(BUILD)
     data = open(a.text, "rb").read() if a.text else sg.stim_text()
     if a.max_bytes:
@@ -76,7 +78,7 @@ def main():
         args = (f"+sparse={cfg.sparse} +delta={cfg.delta} +exit={cfg.exit_en} "
                 f"+exit_th={cfg.exit_th} +recall={cfg.recall} +conf_th={cfg.conf_th} "
                 f"+cap={cfg.cap} +adapt={cfg.adapt} +n={len(data)} "
-                f"+a={cfg.a} +acc_sh={cfg.acc_sh} +s_sh={cfg.s_sh}")
+                f"+a={cfg.a} +acc_sh={cfg.acc_sh} +s_sh={cfg.s_sh} +thr={thr}")
         sh(f"vvp -n sim.vvp {args}", BUILD)
         rtl = [list(map(int, ln.split())) for ln in open(os.path.join(BUILD, "rtl_out.txt"))]
         mism = 0

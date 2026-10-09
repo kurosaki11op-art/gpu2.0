@@ -1,0 +1,43 @@
+{
+  "run": "hw/train/out_qat_sp0.05",
+  "eval_bytes": 2000,
+  "exit_th": 2,
+  "main path only": {
+    "accuracy": 0.59879939969985,
+    "events_per_token": 224.388,
+    "paths_full_exit_recall": [
+      2000,
+      0,
+      0
+    ],
+    "torch_vs_golden_mismatches": 0
+  },
+  "early exit": {
+    "accuracy": 0.6003001500750376,
+    "events_per_token": 189.5375,
+    "paths_full_exit_recall": [
+      53,
+      1947,
+      0
+    ]
+  },
+  "recall": {
+    "accuracy": 0.6623311655827914,
+    "events_per_token": 142.5,
+    "paths_full_exit_recall": [
+      1261,
+      0,
+      739
+    ]
+  },
+  "adaptive (recall + change-only/full + adaptive exit)": {
+    "accuracy": 0.6598299149574788,
+    "events_per_token": 110.939,
+    "paths_full_exit_recall": [
+      40,
+      1221,
+      739
+    ]
+  },
+  "dense_events_per_token": 448.0
+}

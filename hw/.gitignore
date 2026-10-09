@@ -12,3 +12,13 @@ pnr/*.log
 pnr/pnr_run.txt
 build*/
 pnr/*.fs
+train/out_scan_*/
+train/out_lr*/
+train/out_ctx3*/
+train/out_thr_*/
+train/out_sparse2/
+train/out_v0_long/
+train/__pycache__/
+pnr2/*.hex
+pnr2/*.json
+pnr2/*.log

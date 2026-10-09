@@ -47,11 +47,18 @@ def load_corpus(max_bytes):
     return np.frombuffer(data, dtype=np.uint8).copy()
 
 
+RELAX = [False]   # True: no rounding/floors (same value ranges) for pre-training
+
+
 def ste_round(x):
+    if RELAX[0]:
+        return x
     return x + (torch.round(x) - x).detach()
 
 
 def ste_floor(x):
+    if RELAX[0]:
+        return x
     return x + (torch.floor(x) - x).detach()
 
 
@@ -61,32 +68,47 @@ def q4(w):
 
 
 class SparkV0(torch.nn.Module):
-    def __init__(self, a=230, acc_sh=2, s_sh=4):
+    def __init__(self, a=230, acc_sh=2, s_sh=4, ctx=1, spike_mode="sym"):
         super().__init__()
-        self.a, self.acc_sh, self.s_sh = a, acc_sh, s_sh
+        self.a, self.acc_sh, self.s_sh, self.ctx = a, acc_sh, s_sh, ctx
+        self.spike_mode = spike_mode     # "sym": sign(h)*min(|h|>>s,7)  "thr": min((h-th)>>s,7), >=0
         g = torch.Generator().manual_seed(0)
         init = lambda *s, sc: torch.nn.Parameter(torch.randn(*s, generator=g) * sc)
         self.emb = init(V, D, sc=3.0)
-        self.w0 = init(H, D, sc=1.5)
+        # extra embedding tables for the previous ctx-1 bytes (context window)
+        self.embx = torch.nn.ParameterList([init(V, D, sc=3.0) for _ in range(ctx - 1)])
+        self.w0 = init(H, D * ctx, sc=1.5)
         self.w1 = init(H, H, sc=1.5)
         self.we = init(V, H, sc=1.5)
         self.wm = init(V, H, sc=1.5)
+        # per-neuron firing thresholds (integer, used when spike_mode == "thr")
+        self.th0 = torch.nn.Parameter(torch.zeros(H))
+        self.th1 = torch.nn.Parameter(torch.zeros(H))
 
-    def spike(self, h):
+    def spike(self, h, th=None):
         """Exact clamp/floor spike with a surrogate gradient."""
         step = 2.0 ** self.s_sh
+        if self.spike_mode == "thr":
+            u = h - ste_round(th)
+            if RELAX[0]:
+                return torch.clamp(u / step, 0.0, 7.0)
+            s_exact = torch.clamp(torch.floor(u / step), 0, 7)
+            s_soft = torch.clamp(u / step, -0.5, 7.5)
+            return s_soft + (s_exact - s_soft).detach()
+        if RELAX[0]:
+            return torch.clamp(h / step, -7.0, 7.0)
         mag_exact = torch.clamp(torch.floor(torch.abs(h) / step), max=7)
         s_exact = torch.sign(h) * mag_exact
         # surrogate: slope 1/step inside the active range, 0 outside
         s_soft = torch.clamp(h / step, -7.5, 7.5)
         return s_soft + (s_exact - s_soft).detach()
 
-    def layer(self, h, x, w):
+    def layer(self, h, x, w, th=None):
         acc = x @ q4(w).t()
         dec = ste_floor(h * self.a / 256.0)
         hv = dec + ste_floor(acc / 2.0 ** self.acc_sh)
         hv = hv + (torch.clamp(hv, -32768, 32767) - hv).detach()
-        s = self.spike(hv)
+        s = self.spike(hv, th)
         return hv - s * 2.0 ** self.s_sh, s
 
     def forward(self, seq, h0=None, h1=None):
@@ -95,12 +117,18 @@ class SparkV0(torch.nn.Module):
         if h0 is None:
             h0 = torch.zeros(B, H, dtype=self.emb.dtype)
             h1 = torch.zeros(B, H, dtype=self.emb.dtype)
-        emb = q4(self.emb)
+        embs = [q4(self.emb)] + [q4(e) for e in self.embx]
         outs_m, outs_e, rates = [], [], []
         for t in range(T):
-            x = emb[seq[:, t]]
-            h0, s0 = self.layer(h0, x, self.w0)
-            h1, s1 = self.layer(h1, s0, self.w1)
+            parts = []
+            for k, e in enumerate(embs):
+                if t - k >= 0:
+                    parts.append(e[seq[:, t - k]])
+                else:
+                    parts.append(torch.zeros(B, D, dtype=e.dtype))
+            x = torch.cat(parts, 1)
+            h0, s0 = self.layer(h0, x, self.w0, self.th0)
+            h1, s1 = self.layer(h1, s0, self.w1, self.th1)
             outs_e.append(s0 @ q4(self.we).t())
             outs_m.append(s1 @ q4(self.wm).t())
             rates.append(torch.cat([s0.abs(), s1.abs()], 1))
@@ -108,9 +136,14 @@ class SparkV0(torch.nn.Module):
 
     def export(self):
         with torch.no_grad():
-            return {k: q4(getattr(self, n)).round().to(torch.int64).numpy().astype(np.int8)
-                    for k, n in [("emb", "emb"), ("w0", "w0"), ("w1", "w1"),
-                                 ("w_exit", "we"), ("w_main", "wm")]}
+            out = {k: q4(getattr(self, n)).round().to(torch.int64).numpy().astype(np.int8)
+                   for k, n in [("emb", "emb"), ("w0", "w0"), ("w1", "w1"),
+                                ("w_exit", "we"), ("w_main", "wm")]}
+            out["th0"] = ste_round(self.th0).round().to(torch.int64).numpy().astype(np.int16)
+            out["th1"] = ste_round(self.th1).round().to(torch.int64).numpy().astype(np.int16)
+            for i, e in enumerate(self.embx):
+                out[f"emb{i + 1}"] = q4(e).round().to(torch.int64).numpy().astype(np.int8)
+            return out
 
 
 def main():
@@ -124,23 +157,36 @@ def main():
     ap.add_argument("--sparsity", type=float, default=0.02)
     ap.add_argument("--target-rate", type=float, default=0.08)
     ap.add_argument("--eval-bytes", type=int, default=3000)
+    ap.add_argument("--ctx", type=int, default=1, help="bytes of context window (1 = SPARK v0)")
+    ap.add_argument("--threads", type=int, default=0)
+    ap.add_argument("--warmup", type=int, default=100)
+    ap.add_argument("--relax-steps", type=int, default=0,
+                    help="first N steps without rounding (then exact integer QAT)")
+    ap.add_argument("--acc-sh", type=int, default=2)
+    ap.add_argument("--spike", default="sym", choices=["sym", "thr"])
+    ap.add_argument("--s-sh", type=int, default=4)
+    ap.add_argument("--decay", type=int, default=230)
+    ap.add_argument("--relax-only", action="store_true",
+                    help="evaluate the relaxed (non-integer) model: architecture ceiling only")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(0)
-    torch.set_num_threads(os.cpu_count() or 4)
+    torch.set_num_threads(a.threads or os.cpu_count() or 4)
 
     data = load_corpus(a.bytes)
     n = len(data)
     train, cal, test = data[: int(n * 0.9)], data[int(n * 0.9): int(n * 0.95)], data[int(n * 0.95):]
     print(f"corpus {n} bytes; train {len(train)} cal {len(cal)} test {len(test)}")
 
-    model = SparkV0()
+    model = SparkV0(a=a.decay, acc_sh=a.acc_sh, s_sh=a.s_sh, ctx=a.ctx, spike_mode=a.spike)
     opt = torch.optim.Adam(model.parameters(), lr=a.lr)
-    sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, a.steps)
+    sched = torch.optim.lr_scheduler.LambdaLR(
+        opt, lambda st: min(1.0, (st + 1) / a.warmup) * 0.5 * (1 + np.cos(np.pi * min(st, a.steps) / a.steps)))
     rng = np.random.default_rng(1)
     t0 = time.time()
     temp = 1.0 / 32.0          # logits are large integers; scale for the loss only
     for step in range(a.steps):
+        RELAX[0] = a.relax_only or step < a.relax_steps
         idx = rng.integers(0, len(train) - a.seq - 2, size=a.batch)
         seq = torch.from_numpy(np.stack([train[i:i + a.seq + 1] for i in idx]).astype(np.int64))
         lm, le, rates, _, _ = model(seq[:, :-1])
@@ -149,6 +195,7 @@ def main():
         loss_m = F.cross_entropy(lm[:, warm:].reshape(-1, V) * temp, tgt[:, warm:].reshape(-1))
         loss_e = F.cross_entropy(le[:, warm:].reshape(-1, V) * temp, tgt[:, warm:].reshape(-1))
         fire = (rates > 0).float().mean()
+        satur = (rates >= 6.99).float().mean()
         loss = loss_m + 0.3 * loss_e + a.sparsity * F.relu(rates.mean() - a.target_rate) * 10
         opt.zero_grad()
         loss.backward()
@@ -156,11 +203,30 @@ def main():
         sched.step()
         if step % 100 == 0 or step == a.steps - 1:
             print(f"step {step:5d} loss_main {loss_m.item():.3f} loss_exit {loss_e.item():.3f} "
-                  f"firing {fire.item():.3f} {time.time() - t0:.0f}s", flush=True)
+                  f"firing {fire.item():.3f} saturated {satur.item():.3f} {time.time() - t0:.0f}s", flush=True)
 
-    # ---- export and evaluate the exact integer model with the golden reference
+    # ---- export and evaluate the exact integer model
+    RELAX[0] = a.relax_only
     wts = model.export()
     np.savez(os.path.join(a.out, "spark_v0_model.npz"), **wts)
+    if a.ctx > 1 or a.spike != "sym":
+        with torch.no_grad():
+            m64 = model.double()
+            tb = test[:a.eval_bytes]
+            lm, le, rates, _, _ = m64(torch.from_numpy(tb.astype(np.int64))[None, :])
+            pm, pe = lm[0].argmax(-1).numpy(), le[0].argmax(-1).numpy()
+            srt = np.sort(le[0].numpy(), axis=1)
+            res = {"ctx": a.ctx, "steps": a.steps, "spike": a.spike,
+                   "next_byte_accuracy_main": float(np.mean(pm[:-1] == tb[1:])),
+                   "next_byte_accuracy_exit_head": float(np.mean(pe[:-1] == tb[1:])),
+                   "firing_rate": float((rates[0] > 0).double().mean()),
+                   "eval_bytes": int(len(tb)),
+                   "relaxed_eval": bool(a.relax_only),
+                   "note": "context-window model; evaluated with the exact integer PyTorch model "
+                           "(golden/RTL support for ctx>1 not built yet)"}
+        json.dump(res, open(os.path.join(a.out, "result.json"), "w"), indent=2)
+        print(json.dumps(res, indent=2))
+        return
     W = sg.Weights.from_npz(os.path.join(a.out, "spark_v0_model.npz"))
 
     def run_golden(text, cfg):

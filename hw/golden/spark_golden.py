@@ -39,6 +39,8 @@ class Cfg:
         self.a = 230         # membrane decay, Q8 (230/256 ~ 0.9)
         self.acc_sh = 2      # accumulator -> membrane shift
         self.s_sh = 4        # membrane -> spike shift
+        self.spike_mode = "sym"  # "sym": sign(h)*min(|h|>>s_sh,7); "thr": min((h-th)>>s_sh,7) if >0
+        self.ctx = 1         # bytes of input context (1 = v0; 3 = context window)
         for k, v in kw.items():
             setattr(self, k, v)
 
@@ -50,7 +52,11 @@ def sat16(x):
     return max(-32768, min(32767, x))
 
 
-def spike(h, s_sh):
+def spike(h, s_sh, th=None):
+    if th is not None:                       # threshold spike: one-sided, 0..7
+        u = h - th
+        s = min(max(u >> s_sh, 0), 7)
+        return s, h - s * (1 << s_sh)
     mag = min(abs(h) >> s_sh, 7)
     s = mag if h >= 0 else -mag
     return s, h - s * (1 << s_sh)
@@ -63,6 +69,7 @@ def rhash(x):
 class Weights:
     def __init__(self, seed=1):
         rng = np.random.default_rng(seed)
+        self.embx, self.th = [], None
 
         def sparse_int4(shape, density):
             w = rng.integers(-7, 8, size=shape)
@@ -87,15 +94,28 @@ class Weights:
         z = np.load(path)
         self = cls.__new__(cls)
         self.emb = z["emb"].astype(np.int64)
+        self.embx = [z[f"emb{i}"].astype(np.int64) for i in range(1, 8) if f"emb{i}" in z]
+        self.th = [z["th0"].astype(np.int64), z["th1"].astype(np.int64)] if "th0" in z else None
         self.w = [z["w0"].astype(np.int64), z["w1"].astype(np.int64),
                   z["w_exit"].astype(np.int64), z["w_main"].astype(np.int64)]
-        shapes = [(V, D), (H, D), (H, H), (V, H), (V, H)]
+        ctx = 1 + len(self.embx)
+        shapes = [(V, D), (H, D * ctx), (H, H), (V, H), (V, H)]
         for name, arr, shp in zip(["emb", "w0", "w1", "w_exit", "w_main"],
                                   [self.emb] + self.w, shapes):
             if arr.shape != shp:
                 raise ValueError(f"{name}: shape {arr.shape}, expected {shp}")
             if arr.min() < -8 or arr.max() > 7:
                 raise ValueError(f"{name}: values must be int4 in [-8, 7]")
+        return self
+
+    def pad_ctx(self, ctx=3):
+        """Pad to the hardware context size: extra embedding tables and the matching
+        layer-0 weight columns are zero, so they never create events."""
+        while len(self.embx) < ctx - 1:
+            self.embx.append(np.zeros((V, D), np.int64))
+        need = D * ctx - self.w[0].shape[1]
+        if need > 0:
+            self.w[0] = np.concatenate([self.w[0], np.zeros((H, need), np.int64)], axis=1)
         return self
 
     def export_hex(self, outdir):
@@ -107,10 +127,19 @@ class Weights:
                 word |= (int(v) & 0xF) << (4 * l)
             return f"{word:0{P}x}"  # P lanes x 4 bits = P hex digits
 
-        with open(os.path.join(outdir, "emb.hex"), "w") as f:
-            for b in range(V):
-                for c in range(D // P):
-                    f.write(lanes_hex(self.emb[b, c * P:(c + 1) * P]) + "\n")
+        for name, table in [("emb", self.emb)] + [(f"emb{i + 1}", t) for i, t in enumerate(self.embx)]:
+            with open(os.path.join(outdir, f"{name}.hex"), "w") as f:
+                for b in range(V):
+                    for c in range(D // P):
+                        f.write(lanes_hex(table[b, c * P:(c + 1) * P]) + "\n")
+        th = self.th if self.th is not None else [np.zeros(H, np.int64), np.zeros(H, np.int64)]
+        for k in range(2):
+            with open(os.path.join(outdir, f"th{k}.hex"), "w") as f:
+                for c in range(H // P):
+                    word = 0
+                    for l in range(P):
+                        word |= (int(th[k][c * P + l]) & 0xFFFF) << (16 * l)
+                    f.write(f"{word:0{4 * P}x}\n")
         for k, w in enumerate(self.w):
             nout, nin = w.shape
             with open(os.path.join(outdir, f"w{k}.hex"), "w") as f:
@@ -122,9 +151,12 @@ class Weights:
 class Golden:
     def __init__(self, wts, cfg):
         self.w, self.c = wts, cfg
+        self.ctx = 1 + len(getattr(wts, "embx", []))
+        self.hist = [0] * self.ctx           # last bytes seen (index 0 = current)
+        self.started = 0
         self.acc = [np.zeros(H, np.int64), np.zeros(H, np.int64),
                     np.zeros(V, np.int64), np.zeros(V, np.int64)]
-        self.sent = [np.zeros(D, np.int64), np.zeros(H, np.int64),
+        self.sent = [np.zeros(D * (1 + len(getattr(wts, "embx", []))), np.int64), np.zeros(H, np.int64),
                      np.zeros(H, np.int64), np.zeros(H, np.int64)]
         self.h = [np.zeros(H, np.int64), np.zeros(H, np.int64)]
         self.s = [np.zeros(H, np.int64), np.zeros(H, np.int64)]
@@ -182,7 +214,8 @@ class Golden:
         for i in range(H):
             hv = sat16(((int(self.h[layer][i]) * c.a) >> 8)
                        + (int(self.acc[k][i]) >> c.acc_sh))
-            s, hv = spike(hv, c.s_sh)
+            th = None if self.w.th is None else int(self.w.th[layer][i])
+            s, hv = spike(hv, c.s_sh, th)
             self.h[layer][i], self.s[layer][i] = hv, s
 
     def _argmax(self, k):
@@ -195,8 +228,18 @@ class Golden:
                 t2 = x
         return idx, t1 - t2
 
+    def _input(self, b):
+        """Context-window input: emb[b_t] ++ emb1[b_t-1] ++ ... (zeros before the start)."""
+        self.hist = [b] + self.hist[:-1]
+        self.started = min(self.started + 1, self.ctx)
+        parts = [self.w.emb[b]]
+        for k, e in enumerate(getattr(self.w, "embx", [])):
+            parts.append(e[self.hist[k + 1]] if self.started > k + 1 else np.zeros(D, np.int64))
+        return np.concatenate(parts)
+
     def step(self, b):
         c = self.c
+        x_in = self._input(b)
         out = {"ev": [0, 0, 0, 0], "proc": [0, 0, 0, 0]}
         tok = self.tok
         self.tok += 1
@@ -220,7 +263,7 @@ class Golden:
         def stage(k, src):
             out["ev"][k], out["proc"][k] = self._events(k, src)
 
-        stage(0, self.w.emb[b])
+        stage(0, x_in)
         self._membrane(0, 0)
         try_exit = c.exit_en and ((not c.adapt) or self.score >= 4 or (tok & 15) == 0)
         if try_exit:
