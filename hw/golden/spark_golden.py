@@ -62,8 +62,13 @@ def spike(h, s_sh, th=None):
     return s, h - s * (1 << s_sh)
 
 
+RECALL_ORDER = 3       # recall context: last 3 bytes (measured best)
+CTX_MASK = (1 << (8 * RECALL_ORDER)) - 1
+
+
 def rhash(x):
-    return (x ^ (x >> 10) ^ (x >> 20)) & ((1 << T_BITS) - 1)
+    """Multiplicative (Fibonacci) hash of the context -> table slot."""
+    return ((x * 0x9E3779B1) & 0xFFFFFFFF) >> (32 - T_BITS)
 
 
 class Weights:
@@ -95,6 +100,9 @@ class Weights:
         self = cls.__new__(cls)
         self.emb = z["emb"].astype(np.int64)
         self.embx = [z[f"emb{i}"].astype(np.int64) for i in range(1, 8) if f"emb{i}" in z]
+        if "shared_emb" in z and int(z["shared_emb"][0]) == 1:
+            # one table shared by all context positions
+            self.embx = [self.emb] * (int(z["ctx"][0]) - 1)
         self.th = [z["th0"].astype(np.int64), z["th1"].astype(np.int64)] if "th0" in z else None
         self.w = [z["w0"].astype(np.int64), z["w1"].astype(np.int64),
                   z["w_exit"].astype(np.int64), z["w_main"].astype(np.int64)]
@@ -244,7 +252,7 @@ class Golden:
         tok = self.tok
         self.tok += 1
         self.delta_choices = 0
-        ctx = ((self.ctx_prev << 8) | b) & 0xFFFFFFFF
+        ctx = ((self.ctx_prev << 8) | b) & CTX_MASK
         if c.recall:
             iu = rhash(self.ctx_prev)
             e = self.table.get(iu, [0, 0, 0, 0])

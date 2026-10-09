@@ -68,7 +68,7 @@ def q4(w):
 
 
 class SparkV0(torch.nn.Module):
-    def __init__(self, a=230, acc_sh=2, s_sh=4, ctx=1, spike_mode="sym"):
+    def __init__(self, a=230, acc_sh=2, s_sh=4, ctx=1, spike_mode="sym", shared_emb=False):
         super().__init__()
         self.a, self.acc_sh, self.s_sh, self.ctx = a, acc_sh, s_sh, ctx
         self.spike_mode = spike_mode     # "sym": sign(h)*min(|h|>>s,7)  "thr": min((h-th)>>s,7), >=0
@@ -76,7 +76,9 @@ class SparkV0(torch.nn.Module):
         init = lambda *s, sc: torch.nn.Parameter(torch.randn(*s, generator=g) * sc)
         self.emb = init(V, D, sc=3.0)
         # extra embedding tables for the previous ctx-1 bytes (context window)
-        self.embx = torch.nn.ParameterList([init(V, D, sc=3.0) for _ in range(ctx - 1)])
+        self.shared_emb = shared_emb      # one table for all context positions (saves chip memory)
+        self.embx = torch.nn.ParameterList(
+            [] if shared_emb else [init(V, D, sc=3.0) for _ in range(ctx - 1)])
         self.w0 = init(H, D * ctx, sc=1.5)
         self.w1 = init(H, H, sc=1.5)
         self.we = init(V, H, sc=1.5)
@@ -117,7 +119,10 @@ class SparkV0(torch.nn.Module):
         if h0 is None:
             h0 = torch.zeros(B, H, dtype=self.emb.dtype)
             h1 = torch.zeros(B, H, dtype=self.emb.dtype)
-        embs = [q4(self.emb)] + [q4(e) for e in self.embx]
+        if self.shared_emb:
+            embs = [q4(self.emb)] * self.ctx
+        else:
+            embs = [q4(self.emb)] + [q4(e) for e in self.embx]
         outs_m, outs_e, rates = [], [], []
         for t in range(T):
             parts = []
@@ -141,6 +146,8 @@ class SparkV0(torch.nn.Module):
                                 ("w_exit", "we"), ("w_main", "wm")]}
             out["th0"] = ste_round(self.th0).round().to(torch.int64).numpy().astype(np.int16)
             out["th1"] = ste_round(self.th1).round().to(torch.int64).numpy().astype(np.int16)
+            out["ctx"] = np.array([self.ctx], dtype=np.int16)
+            out["shared_emb"] = np.array([1 if self.shared_emb else 0], dtype=np.int16)
             for i, e in enumerate(self.embx):
                 out[f"emb{i + 1}"] = q4(e).round().to(torch.int64).numpy().astype(np.int8)
             return out
@@ -158,6 +165,7 @@ def main():
     ap.add_argument("--target-rate", type=float, default=0.08)
     ap.add_argument("--eval-bytes", type=int, default=3000)
     ap.add_argument("--ctx", type=int, default=1, help="bytes of context window (1 = SPARK v0)")
+    ap.add_argument("--shared-emb", action="store_true", help="one embedding table for all context bytes")
     ap.add_argument("--threads", type=int, default=0)
     ap.add_argument("--warmup", type=int, default=100)
     ap.add_argument("--relax-steps", type=int, default=0,
@@ -178,7 +186,8 @@ def main():
     train, cal, test = data[: int(n * 0.9)], data[int(n * 0.9): int(n * 0.95)], data[int(n * 0.95):]
     print(f"corpus {n} bytes; train {len(train)} cal {len(cal)} test {len(test)}")
 
-    model = SparkV0(a=a.decay, acc_sh=a.acc_sh, s_sh=a.s_sh, ctx=a.ctx, spike_mode=a.spike)
+    model = SparkV0(a=a.decay, acc_sh=a.acc_sh, s_sh=a.s_sh, ctx=a.ctx, spike_mode=a.spike,
+                    shared_emb=a.shared_emb)
     opt = torch.optim.Adam(model.parameters(), lr=a.lr)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda st: min(1.0, (st + 1) / a.warmup) * 0.5 * (1 + np.cos(np.pi * min(st, a.steps) / a.steps)))

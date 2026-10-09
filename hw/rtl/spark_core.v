@@ -152,9 +152,11 @@ module spark_core #(
     spark_spram #(33, 1024, 10) u_tab_tag (clk, t_we, t_wa, t_wd[42:10], t_ra, t_rd[42:10]);
     spark_spram #(10, 1024, 10) u_tab_dat (clk, t_we, t_wa, t_wd[9:0],   t_ra, t_rd[9:0]);
 
+    // recall context = last 3 bytes; multiplicative (Fibonacci) hash -> 10-bit slot
+    localparam [31:0] CTX_MASK = 32'h00FF_FFFF;
     function [9:0] rhash(input [31:0] x);
         reg [31:0] y;
-        begin y = x ^ (x >> 10) ^ (x >> 20); rhash = y[9:0]; end
+        begin y = x * 32'h9E37_79B1; rhash = y[31:22]; end
     endfunction
 
     // ------------------------------------------------------- stage data muxes
@@ -350,14 +352,14 @@ module spark_core #(
                     for (kf = 0; kf < 4; kf = kf + 1) begin nzc[kf] <= 0; prc[kf] <= 0; end
                     if (recall_en) state <= S_RU_RD;
                     else begin
-                        ctx_prev <= {ctx_prev[23:0], in_byte};
+                        ctx_prev <= {ctx_prev[23:0], in_byte} & CTX_MASK;
                         stg <= 2'd0; state <= S_ST_INIT;
                     end
                 end
                 S_RU_RD:  begin cyc_recall <= cyc_recall + 1; state <= S_RU_WR; end
                 S_RU_WR:  begin
                     cyc_recall <= cyc_recall + 1;
-                    ctx <= {ctx_prev[23:0], byte_r};
+                    ctx <= {ctx_prev[23:0], byte_r} & CTX_MASK;
                     state <= S_RL_RD;
                 end
                 S_RL_RD:  begin cyc_recall <= cyc_recall + 1; ctx_prev <= ctx; state <= S_RL_DEC; end

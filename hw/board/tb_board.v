@@ -33,7 +33,7 @@ module tb_board;
         .clk(clk), .rst(r_rst), .start(r_start), .in_byte(r_byte),
         .sparse_en(r_sparse), .delta_en(r_delta), .exit_en(r_exit), .recall_en(r_recall),
         .cap(r_cap), .exit_th(r_exit_th), .conf_th(r_conf),
-        .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(r_adapt),
+        .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(r_adapt), .thr_en(1'b1),
         .ld_we(1'b0), .ld_sel(3'd0), .ld_addr(11'd0), .ld_data(64'd0),
         .done(r_done), .pred(r_pred), .path(r_path), .tok_cycles(r_cyc), .wreads(x0),
         .cyc_engine(x1), .cyc_scan(x2), .cyc_post(x3), .cyc_recall(x4),
@@ -85,7 +85,7 @@ module tb_board;
 
     task set_cfg(input [4:0] flags, input [15:0] cap, input [31:0] th, input [1:0] conf);
         begin
-            send_byte(8'hC0); send_byte({3'd0, flags}); send_byte(cap[7:0]); send_byte(cap[15:8]);
+            send_byte(8'hC0); send_byte({2'd0, 1'b1, flags});   // bit5 thr_en = 1 send_byte(cap[7:0]); send_byte(cap[15:8]);
             send_byte(th[7:0]); send_byte(th[15:8]); send_byte(th[23:16]); send_byte(th[31:24]);
             send_byte({6'd0, conf});
             expect_byte(8'hC1, "config");

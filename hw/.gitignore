@@ -22,3 +22,10 @@ train/__pycache__/
 pnr2/*.hex
 pnr2/*.json
 pnr2/*.log
+build_board2/
+build_v2/
+build_v2demo/
+build_chk/
+build_board/
+pnr2/*.fs
+train/out_x_*/

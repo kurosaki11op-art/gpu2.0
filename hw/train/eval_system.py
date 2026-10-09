@@ -23,9 +23,11 @@ import train_spark_v0 as tr  # noqa: E402
 
 def load_torch(npz, cfg):
     z = np.load(npz)
-    ctx = 1 + sum(1 for k in z.files if k.startswith("emb") and k != "emb")
+    shared = "shared_emb" in z.files and int(z["shared_emb"][0]) == 1
+    ctx = int(z["ctx"][0]) if "ctx" in z.files else 1 + sum(
+        1 for k in z.files if k.startswith("emb") and k[3:].isdigit())
     m = tr.SparkV0(a=cfg["a"], acc_sh=cfg["acc_sh"], s_sh=cfg["s_sh"], ctx=ctx,
-                   spike_mode="thr" if "th0" in z.files else "sym").double()
+                   spike_mode="thr" if "th0" in z.files else "sym", shared_emb=shared).double()
     with torch.no_grad():
         m.emb.copy_(torch.from_numpy(z["emb"].astype(np.float64)))
         for i, e in enumerate(m.embx):
@@ -79,8 +81,8 @@ def main():
     systems = {
         "main path only": dict(),
         "early exit": dict(exit_en=1, exit_th=exit_th),
-        "recall": dict(recall=1, conf_th=1),
-        "adaptive (recall + change-only/full + adaptive exit)": dict(adapt=1, recall=1, conf_th=1,
+        "recall": dict(recall=1, conf_th=0),
+        "adaptive (recall + change-only/full + adaptive exit)": dict(adapt=1, recall=1, conf_th=0,
                                                                      exit_en=1, exit_th=exit_th),
     }
     out = {"run": a.run, "eval_bytes": int(len(test)), "exit_th": exit_th}

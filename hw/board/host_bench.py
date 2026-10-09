@@ -66,7 +66,7 @@ DEFAULT_CONFIGS = "dense,event,adaptive"
 
 def cfg_bytes(c):
     flags = (c["sparse"] & 1) | (c["delta"] & 1) << 1 | (c["exit_en"] & 1) << 2 \
-        | (c["recall"] & 1) << 3 | (c["adapt"] & 1) << 4
+        | (c["recall"] & 1) << 3 | (c["adapt"] & 1) << 4 | (c.get("thr", 1) & 1) << 5
     return bytes([0xC0, flags]) + struct.pack("<H", c["cap"] & 0xFFFF) \
         + struct.pack("<i", c["exit_th"]) + bytes([c["conf_th"] & 3])
 

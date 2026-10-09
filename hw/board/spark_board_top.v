@@ -7,7 +7,9 @@
 // Host -> FPGA command bytes (anything else is ignored while idle):
 //   0xC0 c0..c7   set config (8 bytes follow):
 //                   c0 flags: bit0 sparse_en, bit1 delta_en, bit2 exit_en,
-//                             bit3 recall_en, bit4 adapt_en
+//                             bit3 recall_en, bit4 adapt_en, bit5 thr_en
+//                             (thr_en = threshold spikes; must be 1 for models
+//                              that have per-neuron thresholds, i.e. th0/th1)
 //                   c1 cap[7:0], c2 cap[15:8]       (0 = no energy cap)
 //                   c3..c6 exit_th[31:0], little-endian, two's complement
 //                   c7 conf_th (bits [1:0])
@@ -36,7 +38,12 @@ module spark_board_top #(
     parameter W0_HEX  = "w0.hex",
     parameter W1_HEX  = "w1.hex",
     parameter W2_HEX  = "w2.hex",
-    parameter W3_HEX  = "w3.hex"
+    parameter W3_HEX  = "w3.hex",
+    parameter EMB1_HEX = "emb1.hex",
+    parameter EMB2_HEX = "emb2.hex",
+    parameter TH0_HEX  = "th0.hex",
+    parameter TH1_HEX  = "th1.hex",
+    parameter THR_DEFAULT = 1'b1           // power-on spike mode (1 = threshold spikes)
 ) (
     input        clk,            // 27 MHz
     input        btn_s1,         // reset button (active high when pressed; see .cst TODO)
@@ -64,6 +71,7 @@ module spark_board_top #(
 
     // ------------------------------------------------------------ config
     reg        sparse_en = 1'b1, delta_en = 1'b0, exit_en = 1'b0, recall_en = 1'b0, adapt_en = 1'b0;
+    reg        thr_en = THR_DEFAULT;
     reg [15:0] cap = 16'd0;
     reg [31:0] exit_th = 32'd64;
     reg [1:0]  conf_th = 2'd1;
@@ -76,11 +84,12 @@ module spark_board_top #(
     wire [31:0] wreads, ce, cs, cp, cr;
     wire [15:0] a0, a1, a2, a3, b0, b1, b2, b3;
     spark_core #(.EMB_HEX(EMB_HEX), .W0_HEX(W0_HEX), .W1_HEX(W1_HEX),
-                 .W2_HEX(W2_HEX), .W3_HEX(W3_HEX)) u_core (
+                 .W2_HEX(W2_HEX), .W3_HEX(W3_HEX), .EMB1_HEX(EMB1_HEX), .EMB2_HEX(EMB2_HEX),
+                 .TH0_HEX(TH0_HEX), .TH1_HEX(TH1_HEX)) u_core (
         .clk(clk), .rst(rst), .start(start), .in_byte(in_byte),
         .sparse_en(sparse_en), .delta_en(delta_en), .exit_en(exit_en), .recall_en(recall_en),
         .cap(cap), .exit_th(exit_th), .conf_th(conf_th),
-        .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(adapt_en),
+        .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(adapt_en), .thr_en(thr_en),
         .ld_we(1'b0), .ld_sel(3'd0), .ld_addr(11'd0), .ld_data(64'd0),
         .done(done), .pred(pred), .path(path), .tok_cycles(tok_cycles), .wreads(wreads),
         .cyc_engine(ce), .cyc_scan(cs), .cyc_post(cp), .cyc_recall(cr),
@@ -124,7 +133,7 @@ module spark_board_top #(
             cnt <= cnt + 4'd1;
             if (cnt == 4'd7) begin
                 sparse_en <= cfgb[0][0]; delta_en <= cfgb[0][1]; exit_en <= cfgb[0][2];
-                recall_en <= cfgb[0][3]; adapt_en <= cfgb[0][4];
+                recall_en <= cfgb[0][3]; adapt_en <= cfgb[0][4]; thr_en <= cfgb[0][5];
                 cap       <= {cfgb[2], cfgb[1]};
                 exit_th   <= {cfgb[6], cfgb[5], cfgb[4], cfgb[3]};
                 conf_th   <= rx_data[1:0];
