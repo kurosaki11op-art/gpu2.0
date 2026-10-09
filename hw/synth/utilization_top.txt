@@ -3,33 +3,33 @@
 
 === spark_top ===
 
-   Number of wires:              31984
-   Number of wire bits:          76617
-   Number of public wires:       31984
-   Number of public wire bits:   76617
+   Number of wires:              16702
+   Number of wire bits:          46989
+   Number of public wires:       16702
+   Number of public wire bits:   46989
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:              45898
-     ALU                          4153
-     DFF                          2637
-     DFFE                          273
+   Number of cells:              25650
+     ALU                          1698
+     DFF                          2125
+     DFFE                         1105
      DFFR                           45
-     DFFRE                         177
+     DFFRE                         179
      DFFSE                           6
      DPX9                           27
      GND                             1
      IBUF                          145
-     LUT1                         9867
-     LUT2                         4185
-     LUT3                         4259
-     LUT4                         6061
-     MUX2_LUT5                    8109
-     MUX2_LUT6                    3257
-     MUX2_LUT7                    1472
-     MUX2_LUT8                     570
+     LUT1                         4680
+     LUT2                         2798
+     LUT3                         3583
+     LUT4                         2892
+     MUX2_LUT5                    3724
+     MUX2_LUT6                    1337
+     MUX2_LUT7                     563
+     MUX2_LUT8                     216
      OBUF                           43
-     RAM16SDP4                     608
+     RAM16SDP4                     480
      SDPX9                           2
      VCC                             1
 

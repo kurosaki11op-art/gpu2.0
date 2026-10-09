@@ -10,3 +10,5 @@ pnr/*.hex
 pnr/*.json
 pnr/*.log
 pnr/pnr_run.txt
+build*/
+pnr/*.fs

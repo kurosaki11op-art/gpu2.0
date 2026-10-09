@@ -20,7 +20,7 @@ import os
 
 import numpy as np
 
-P = 16                 # lanes (weights processed per cycle)
+P = 8                  # lanes (weights processed per cycle); must match RTL
 D, H, V = 64, 128, 256
 T_BITS = 10            # recall table: 1024 entries
 

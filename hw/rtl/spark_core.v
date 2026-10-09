@@ -13,7 +13,7 @@
 // Event-driven: only non-zero (or, in delta mode, changed) inputs cost cycles.
 // Dense mode (sparse_en = 0) processes every input, as a GPU would.
 module spark_core #(
-    parameter P = 16,
+    parameter P = 8,
     parameter EMB_HEX = "emb.hex",
     parameter W0_HEX = "w0.hex",
     parameter W1_HEX = "w1.hex",
@@ -74,13 +74,17 @@ module spark_core #(
     reg [1:0]  stg;
     reg [7:0]  byte_r;
     reg [31:0] ctx, ctx_prev;
-    reg [3:0]  c;                 // source chunk
+    // sizes derived from the lane count P
+    localparam DM = 64, HM = 128, VM = 256;
+    localparam CD = DM / P, CH = HM / P, CV = VM / P;     // chunks per vector
+    localparam AWC = 6;                                   // chunk-address width
+    reg [5:0]  c;                 // source chunk
     reg [P-1:0] mask;
     reg [4*P-1:0] srcw, sentw;
-    reg [6:0]  ev_j;
+    reg [7:0]  ev_j;
     reg signed [4:0] ev_v;
-    reg [4:0]  e;                 // engine step 0..NC
-    reg [4:0]  m;                 // post-pass step 0..NCo
+    reg [6:0]  e;                 // engine step 0..NC
+    reg [6:0]  m;                 // post-pass step 0..NCo
     reg signed [31:0] t1, t2;
     reg [7:0]  idx;
     reg [15:0] nzc [0:3];
@@ -88,46 +92,43 @@ module spark_core #(
     assign nz0 = nzc[0]; assign nz1 = nzc[1]; assign nz2 = nzc[2]; assign nz3 = nzc[3];
     assign pr0 = prc[0]; assign pr1 = prc[1]; assign pr2 = prc[2]; assign pr3 = prc[3];
 
-    wire [3:0] nin_ch = (stg == 2'd0) ? 4'd4 : 4'd8;              // source chunks
-    wire [4:0] nc     = (stg[1]) ? 5'd16 : 5'd8;                   // output chunks
+    wire [6:0] nin_ch = (stg == 2'd0) ? CD : CH;           // source chunks
+    wire [6:0] nc     = (stg[1]) ? CV : CH;                 // output chunks
     wire       is_head = stg[1];
 
     // ---------------------------------------------------------------- memories
     // read addresses / write controls are driven combinationally below
-    reg  [9:0]  emb_ra;  wire [4*P-1:0] emb_rd;
-    reg  [8:0]  w0_ra;   wire [4*P-1:0] w0_rd;
-    reg  [9:0]  w1_ra;   wire [4*P-1:0] w1_rd;
-    reg  [10:0] w2_ra;   wire [4*P-1:0] w2_rd;
-    reg  [10:0] w3_ra;   wire [4*P-1:0] w3_rd;
-    spark_bram #(4*P, 1024, 10, EMB_HEX) u_emb (clk, ld_we && ld_sel == 3'd0, ld_addr[9:0], ld_data[4*P-1:0], emb_ra, emb_rd);
-    spark_bram #(4*P, 512,  9,  W0_HEX)  u_w0  (clk, ld_we && ld_sel == 3'd1, ld_addr[8:0], ld_data[4*P-1:0], w0_ra, w0_rd);
-    spark_bram #(4*P, 1024, 10, W1_HEX)  u_w1  (clk, ld_we && ld_sel == 3'd2, ld_addr[9:0], ld_data[4*P-1:0], w1_ra, w1_rd);
-    spark_bram #(4*P, 2048, 11, W2_HEX)  u_w2  (clk, ld_we && ld_sel == 3'd3, ld_addr, ld_data[4*P-1:0], w2_ra, w2_rd);
-    spark_bram #(4*P, 2048, 11, W3_HEX)  u_w3  (clk, ld_we && ld_sel == 3'd4, ld_addr, ld_data[4*P-1:0], w3_ra, w3_rd);
+    reg  [11:0] emb_ra, w0_ra, w1_ra, w2_ra, w3_ra;
+    wire [4*P-1:0] emb_rd, w0_rd, w1_rd, w2_rd, w3_rd;
+    spark_bram #(4*P, VM*CD, 12, EMB_HEX) u_emb (clk, ld_we && ld_sel == 3'd0, ld_addr, ld_data[4*P-1:0], emb_ra, emb_rd);
+    spark_bram #(4*P, DM*CH, 12, W0_HEX)  u_w0  (clk, ld_we && ld_sel == 3'd1, ld_addr, ld_data[4*P-1:0], w0_ra, w0_rd);
+    spark_bram #(4*P, HM*CH, 12, W1_HEX)  u_w1  (clk, ld_we && ld_sel == 3'd2, ld_addr, ld_data[4*P-1:0], w1_ra, w1_rd);
+    spark_bram #(4*P, HM*CV, 12, W2_HEX)  u_w2  (clk, ld_we && ld_sel == 3'd3, ld_addr, ld_data[4*P-1:0], w2_ra, w2_rd);
+    spark_bram #(4*P, HM*CV, 12, W3_HEX)  u_w3  (clk, ld_we && ld_sel == 3'd4, ld_addr, ld_data[4*P-1:0], w3_ra, w3_rd);
 
-    reg acc_we [0:3]; reg [3:0] acc_wa [0:3]; reg [16*P-1:0] acc_wd [0:3]; reg [3:0] acc_ra [0:3];
+    reg acc_we [0:3]; reg [AWC-1:0] acc_wa [0:3]; reg [16*P-1:0] acc_wd [0:3]; reg [AWC-1:0] acc_ra [0:3];
     wire [16*P-1:0] acc_rd [0:3];
-    spark_ram #(16*P, 8,  3) u_acc0 (clk, acc_we[0], acc_wa[0][2:0], acc_wd[0], acc_ra[0][2:0], acc_rd[0]);
-    spark_ram #(16*P, 8,  3) u_acc1 (clk, acc_we[1], acc_wa[1][2:0], acc_wd[1], acc_ra[1][2:0], acc_rd[1]);
-    spark_ram #(16*P, 16, 4) u_acc2 (clk, acc_we[2], acc_wa[2], acc_wd[2], acc_ra[2], acc_rd[2]);
-    spark_ram #(16*P, 16, 4) u_acc3 (clk, acc_we[3], acc_wa[3], acc_wd[3], acc_ra[3], acc_rd[3]);
+    spark_ram #(16*P, CH, AWC) u_acc0 (clk, acc_we[0], acc_wa[0], acc_wd[0], acc_ra[0], acc_rd[0]);
+    spark_ram #(16*P, CH, AWC) u_acc1 (clk, acc_we[1], acc_wa[1], acc_wd[1], acc_ra[1], acc_rd[1]);
+    spark_ram #(16*P, CV, AWC) u_acc2 (clk, acc_we[2], acc_wa[2], acc_wd[2], acc_ra[2], acc_rd[2]);
+    spark_ram #(16*P, CV, AWC) u_acc3 (clk, acc_we[3], acc_wa[3], acc_wd[3], acc_ra[3], acc_rd[3]);
 
-    reg h_we [0:1]; reg [2:0] h_wa [0:1]; reg [16*P-1:0] h_wd [0:1]; reg [2:0] h_ra [0:1];
+    reg h_we [0:1]; reg [AWC-1:0] h_wa [0:1]; reg [16*P-1:0] h_wd [0:1]; reg [AWC-1:0] h_ra [0:1];
     wire [16*P-1:0] h_rd [0:1];
-    spark_ram #(16*P, 8, 3) u_h0 (clk, h_we[0], h_wa[0], h_wd[0], h_ra[0], h_rd[0]);
-    spark_ram #(16*P, 8, 3) u_h1 (clk, h_we[1], h_wa[1], h_wd[1], h_ra[1], h_rd[1]);
+    spark_ram #(16*P, CH, AWC) u_h0 (clk, h_we[0], h_wa[0], h_wd[0], h_ra[0], h_rd[0]);
+    spark_ram #(16*P, CH, AWC) u_h1 (clk, h_we[1], h_wa[1], h_wd[1], h_ra[1], h_rd[1]);
 
-    reg s_we [0:1]; reg [2:0] s_wa [0:1]; reg [4*P-1:0] s_wd [0:1]; reg [2:0] s_ra [0:1];
+    reg s_we [0:1]; reg [AWC-1:0] s_wa [0:1]; reg [4*P-1:0] s_wd [0:1]; reg [AWC-1:0] s_ra [0:1];
     wire [4*P-1:0] s_rd [0:1];
-    spark_ram #(4*P, 8, 3) u_s0 (clk, s_we[0], s_wa[0], s_wd[0], s_ra[0], s_rd[0]);
-    spark_ram #(4*P, 8, 3) u_s1 (clk, s_we[1], s_wa[1], s_wd[1], s_ra[1], s_rd[1]);
+    spark_ram #(4*P, CH, AWC) u_s0 (clk, s_we[0], s_wa[0], s_wd[0], s_ra[0], s_rd[0]);
+    spark_ram #(4*P, CH, AWC) u_s1 (clk, s_we[1], s_wa[1], s_wd[1], s_ra[1], s_rd[1]);
 
-    reg sn_we [0:3]; reg [2:0] sn_wa [0:3]; reg [4*P-1:0] sn_wd [0:3]; reg [2:0] sn_ra [0:3];
+    reg sn_we [0:3]; reg [AWC-1:0] sn_wa [0:3]; reg [4*P-1:0] sn_wd [0:3]; reg [AWC-1:0] sn_ra [0:3];
     wire [4*P-1:0] sn_rd [0:3];
-    spark_ram #(4*P, 4, 2) u_sn0 (clk, sn_we[0], sn_wa[0][1:0], sn_wd[0], sn_ra[0][1:0], sn_rd[0]);
-    spark_ram #(4*P, 8, 3) u_sn1 (clk, sn_we[1], sn_wa[1], sn_wd[1], sn_ra[1], sn_rd[1]);
-    spark_ram #(4*P, 8, 3) u_sn2 (clk, sn_we[2], sn_wa[2], sn_wd[2], sn_ra[2], sn_rd[2]);
-    spark_ram #(4*P, 8, 3) u_sn3 (clk, sn_we[3], sn_wa[3], sn_wd[3], sn_ra[3], sn_rd[3]);
+    spark_ram #(4*P, CD, AWC) u_sn0 (clk, sn_we[0], sn_wa[0], sn_wd[0], sn_ra[0], sn_rd[0]);
+    spark_ram #(4*P, CH, AWC) u_sn1 (clk, sn_we[1], sn_wa[1], sn_wd[1], sn_ra[1], sn_rd[1]);
+    spark_ram #(4*P, CH, AWC) u_sn2 (clk, sn_we[2], sn_wa[2], sn_wd[2], sn_ra[2], sn_rd[2]);
+    spark_ram #(4*P, CH, AWC) u_sn3 (clk, sn_we[3], sn_wa[3], sn_wd[3], sn_ra[3], sn_rd[3]);
 
     // recall table entry: {valid[42], tag[41:10], value[9:2], conf[1:0]}
     // stored as two block RAMs (33-bit valid+tag, 10-bit value+conf) so each fits
@@ -239,15 +240,15 @@ module spark_core #(
     // ---------------------------------------------- memory port control (comb)
     integer k, kf;
     always @* begin
-        emb_ra = {byte_r, c[1:0]};
-        w0_ra = 9'd0; w1_ra = 10'd0; w2_ra = 11'd0; w3_ra = 11'd0;
+        emb_ra = byte_r * CD + c;
+        w0_ra = 12'd0; w1_ra = 12'd0; w2_ra = 12'd0; w3_ra = 12'd0;
         for (k = 0; k < 4; k = k + 1) begin
-            acc_we[k] = 1'b0; acc_wa[k] = 4'd0; acc_wd[k] = {16*P{1'b0}}; acc_ra[k] = 4'd0;
-            sn_we[k] = 1'b0; sn_wa[k] = 3'd0; sn_wd[k] = sentw; sn_ra[k] = c[2:0];
+            acc_we[k] = 1'b0; acc_wa[k] = 0; acc_wd[k] = {16*P{1'b0}}; acc_ra[k] = 0;
+            sn_we[k] = 1'b0; sn_wa[k] = 0; sn_wd[k] = sentw; sn_ra[k] = c;
         end
         for (k = 0; k < 2; k = k + 1) begin
-            h_we[k] = 1'b0; h_wa[k] = 3'd0; h_wd[k] = h_neww; h_ra[k] = 3'd0;
-            s_we[k] = 1'b0; s_wa[k] = 3'd0; s_wd[k] = s_neww; s_ra[k] = c[2:0];
+            h_we[k] = 1'b0; h_wa[k] = 0; h_wd[k] = h_neww; h_ra[k] = 0;
+            s_we[k] = 1'b0; s_wa[k] = 0; s_wd[k] = s_neww; s_ra[k] = c;
         end
         t_we = 1'b0; t_wa = rhash(ctx_prev); t_ra = rhash(ctx_prev); t_wd = 43'd0;
 
@@ -265,33 +266,33 @@ module spark_core #(
             S_RL_RD: t_ra = rhash(ctx);
             S_EV_RUN: begin
                 if (e < nc) begin
-                    w0_ra = {ev_j[5:0], e[2:0]};
-                    w1_ra = {ev_j[6:0], e[2:0]};
-                    w2_ra = {ev_j[6:0], e[3:0]};
-                    w3_ra = {ev_j[6:0], e[3:0]};
-                    acc_ra[stg] = e[3:0];
+                    w0_ra = ev_j * CH + e;
+                    w1_ra = ev_j * CH + e;
+                    w2_ra = ev_j * CV + e;
+                    w3_ra = ev_j * CV + e;
+                    acc_ra[stg] = e;
                 end
                 if (e >= 1) begin
-                    acc_we[stg] = 1'b1; acc_wa[stg] = e[3:0] - 4'd1; acc_wd[stg] = acc_new;
+                    acc_we[stg] = 1'b1; acc_wa[stg] = e - 1; acc_wd[stg] = acc_new;
                 end
             end
             S_SC_WB: begin
-                sn_we[stg] = delta_en | adapt_en; sn_wa[stg] = c[2:0];
+                sn_we[stg] = delta_en | adapt_en; sn_wa[stg] = c;
             end
             S_CLR: begin
-                acc_we[stg] = 1'b1; acc_wa[stg] = m[3:0]; acc_wd[stg] = {16*P{1'b0}};
+                acc_we[stg] = 1'b1; acc_wa[stg] = m; acc_wd[stg] = {16*P{1'b0}};
             end
             S_PO_RUN: begin
-                acc_ra[stg] = m[3:0];
-                h_ra[stg[0]] = m[2:0];
+                acc_ra[stg] = m;
+                h_ra[stg[0]] = m;
             end
             S_PO_WR: begin
                 if (!delta_en && !adapt_en) begin
-                    acc_we[stg] = 1'b1; acc_wa[stg] = m[3:0]; acc_wd[stg] = {16*P{1'b0}};
+                    acc_we[stg] = 1'b1; acc_wa[stg] = m; acc_wd[stg] = {16*P{1'b0}};
                 end
                 if (!is_head) begin
-                    h_we[stg[0]] = 1'b1; h_wa[stg[0]] = m[2:0];
-                    s_we[stg[0]] = 1'b1; s_wa[stg[0]] = m[2:0];
+                    h_we[stg[0]] = 1'b1; h_wa[stg[0]] = m;
+                    s_we[stg[0]] = 1'b1; s_wa[stg[0]] = m;
                 end
             end
             default: ;

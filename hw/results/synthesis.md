@@ -1,16 +1,22 @@
-# SPARK core v0 — synthesis results (Yosys 0.33, `synth_gowin`, target GW2AR-18 / Tang Nano 20K)
+# SPARK core — synthesis and place-and-route (target: Tang Nano 20K, Gowin GW2AR-18)
 
-Synthesis only (no place-and-route or timing yet). Counts from `yosys stat`.
+Tools: Yosys 0.33 (`synth_gowin`), nextpnr-himbaechel (built from source, GW2A-18C chip database from Apycula), `gowin_pack`.
 
-| Build | Block RAM (BSRAM, of 46) | LUT1–LUT4 cells (chip has 20,736 LUT4) | LUT-RAM cells (RAM16SDP4) | Flip-flops | Fits Tang Nano 20K? |
-|---|---|---|---|---|---|
-| 1. First attempt (weights as read-only memories) | 0 — weights became logic | 63,706 | 1,312 | ~3,450 | ✘ (~3× over) |
-| 2. Weight load port + block-RAM hints | 29 (27 DPX9 + 2 SDPX9) | 31,491 | 608 | ~3,360 | ✘ (~1.5× over) |
-| 3. Build 2 with neuron constants fixed at build time (`spark_top.v`) | 29 | 24,372 | 608 | ~3,140 | ✘ (~1.2× over) |
+## History of fitting the design
+| Build | Lanes | Block RAM (of 46) | LUT4 after place-and-route (of 20,736) | Result |
+|---|---|---|---|---|
+| 1. Weights as read-only memories | 16 | 0 (weights became logic) | — (~63.7k LUT cells at synthesis) | ✘ ~3× over |
+| 2. Weight load port + block-RAM hints | 16 | 29 | — (~31.5k at synthesis) | ✘ |
+| 3. + neuron constants fixed at build time | 16 | 29 | — (~24.4k at synthesis) | ✘ |
+| 4. + 16-bit accumulators, 4-lane post pass, single-port recall table | 16 | 29 | 19,743 (95%) | ✘ placement failed (too full) |
+| **5. Lane count parameterised, built with 8 lanes** | **8** | **29 (63%)** | **13,812 (66%)** | **✔ placed, routed, timing met** |
 
-## What this means
-- **Memory fits**: all weights (~460 Kbit), the embedding and the recall table sit in 29 of 46 block RAMs.
-- **Logic does not fit yet** on the ₹4,199 board: ~24k LUT cells vs 20.7k available. The remaining cost is the 16-lane wide datapath (16 parallel membrane updates, a 16-lane argmax chain, 384-bit-wide accumulator words held in LUT-RAM).
-- **Known fixes (next pass)**: process the membrane and argmax passes 4 lanes per cycle instead of 16 (they are a small share of cycles), move accumulators to block RAM, narrow the argmax compare to 24 bits. Expected to bring logic well under the limit; to be confirmed.
-- **Alternative board**: the PYNQ-Z2 (Xilinx XC7Z020, 53,200 6-input LUTs, 140 block RAMs) has ample room for build 3 as is; many college VLSI labs have one.
-- Timing (maximum clock) is not known until place-and-route; any tokens/second figure is MODELLED until then.
+## Final build (board top with UART, `hw/board/spark_board_top.v`)
+- LUT4: 13,812 / 20,736 (66%) · flip-flops: 3,899 / 15,552 (25%) · LUT-RAM (RAM16SDP4): 304 / 648 (46%) · block RAM: 29 / 46 (63%)
+- **Maximum clock: 54.4 MHz** (core clock domain) → **passes at the board's 27 MHz** with ~2× margin.
+- Bitstream: `hw/pnr/spark_tangnano20k.fs.gz` (gunzip before flashing). Contains the random demo weights.
+
+## Cautions before flashing
+- Pin numbers in `hw/board/tangnano20k.cst` are marked TODO (unverified against the Sipeed schematic); check them first. Wrong pins cannot damage the FPGA in most cases but the design will not respond.
+- Button S1 polarity is assumed active-high; if the heartbeat LED does not blink, invert it.
+- Every reported speed (tokens/s) is still MODELLED until measured on the board.

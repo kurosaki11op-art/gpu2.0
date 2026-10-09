@@ -48,6 +48,8 @@ def main():
     ap.add_argument("--tag", default="", help="suffix for result files")
     ap.add_argument("--max-bytes", type=int, default=0)
     a = ap.parse_args()
+    global BUILD
+    BUILD = os.path.join(HERE, f"build{a.tag}")   # separate folder per run: no collisions
     os.makedirs(BUILD, exist_ok=True)
     os.makedirs(RES, exist_ok=True)
     wts = sg.Weights.from_npz(a.weights) if a.weights else sg.Weights()
