@@ -1,0 +1,20 @@
+Warning: Replacing memory \s_ra with list of registers. See ../../rtl/spark_core.v:291
+Warning: Replacing memory \s_wd with list of registers. See ../../rtl/spark_core.v:291
+Warning: Replacing memory \s_wa with list of registers. See ../../rtl/spark_core.v:291
+Warning: Replacing memory \s_we with list of registers. See ../../rtl/spark_core.v:291
+Warning: Replacing memory \h_ra with list of registers. See ../../rtl/spark_core.v:290
+Warning: Replacing memory \h_wd with list of registers. See ../../rtl/spark_core.v:290
+Warning: Replacing memory \h_wa with list of registers. See ../../rtl/spark_core.v:290
+Warning: Replacing memory \h_we with list of registers. See ../../rtl/spark_core.v:290
+Warning: Replacing memory \sn_ra with list of registers. See ../../rtl/spark_core.v:287
+Warning: Replacing memory \sn_wd with list of registers. See ../../rtl/spark_core.v:287
+Warning: Replacing memory \sn_wa with list of registers. See ../../rtl/spark_core.v:287
+Warning: Replacing memory \sn_we with list of registers. See ../../rtl/spark_core.v:287
+Warning: Replacing memory \acc_ra with list of registers. See ../../rtl/spark_core.v:286
+Warning: Replacing memory \acc_wd with list of registers. See ../../rtl/spark_core.v:286
+Warning: Replacing memory \acc_wa with list of registers. See ../../rtl/spark_core.v:286
+Warning: Replacing memory \acc_we with list of registers. See ../../rtl/spark_core.v:286
+Warning: Replacing memory \vlat with list of registers. See ../../rtl/spark_core.v:209
+Warning: Replacing memory \rbuf with list of registers. See ../../rtl/spark_chip.v:81
+../spark_mem_sky130.v:29: Warning: Range [8:0] select out of bounds on signal `\wa': Setting 5 MSB bits to undef.
+../spark_mem_sky130.v:30: Warning: Range [8:0] select out of bounds on signal `\ra': Setting 5 MSB bits to undef.

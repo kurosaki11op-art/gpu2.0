@@ -32,9 +32,13 @@ module spark_chip #(
 
     // ------------------------------------------------------------ UART
     wire [7:0] rx_data; wire rx_valid;
-    reg  [7:0] tx_data; reg tx_send; wire tx_busy;
+    reg  [7:0] tx_data; reg tx_send; wire tx_busy, tx_line;
     uart_rx #(.CLK_HZ(CLK_HZ), .BAUD(BAUD)) u_rx (.clk(clk), .rst(rst), .rx(uart_rx), .data(rx_data), .valid(rx_valid));
-    uart_tx #(.CLK_HZ(CLK_HZ), .BAUD(BAUD)) u_tx (.clk(clk), .rst(rst), .send(tx_send), .data(tx_data), .tx(uart_tx), .busy(tx_busy));
+    uart_tx #(.CLK_HZ(CLK_HZ), .BAUD(BAUD)) u_tx (.clk(clk), .rst(rst), .send(tx_send), .data(tx_data), .tx(tx_line), .busy(tx_busy));
+    // Hold TX idle-high while reset is asserted: rs is set asynchronously by rst_n, so the line is
+    // never low after power-up (flip-flops may wake up as 0, which a host would read as a start bit).
+    // Found by the gate-level simulation with power-up value 0.
+    assign uart_tx = tx_line | rst;
 
     // ------------------------------------------------------------ configuration
     reg        sparse_en, delta_en, exit_en, recall_en, adapt_en, thr_en;
