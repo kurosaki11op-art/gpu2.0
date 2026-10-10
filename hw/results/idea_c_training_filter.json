@@ -1,0 +1,10 @@
+{
+ "out_c_random/gpu_model.pt": {
+  "accuracy": 0.6276222888200336,
+  "bits_per_byte": 2.0462339382509582
+ },
+ "out_c_spark/gpu_model.pt": {
+  "accuracy": 0.6218824605069335,
+  "bits_per_byte": 2.0683646748439726
+ }
+}
