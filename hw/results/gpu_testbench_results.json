@@ -1,0 +1,2354 @@
+{
+ "assumptions": {
+  "ETA_BW": 0.8,
+  "ETA_C": 0.5,
+  "LAUNCH_s": 2e-05,
+  "BUSY_FLOOR": 0.35,
+  "CTX": 1024,
+  "SPARK_J_per_byte": 1.04e-07,
+  "SPARK_s_per_byte": 8.38e-05,
+  "WUE_L_per_kWh": 1.8,
+  "gpus": {
+   "H100 SXM": {
+    "bw": 3350000000000.0,
+    "peak": 989000000000000.0,
+    "tdp": 700,
+    "idle": 70,
+    "e_bit": 3.9e-12,
+    "e_flop": 3.5e-13
+   },
+   "A100 SXM": {
+    "bw": 2039000000000.0,
+    "peak": 312000000000000.0,
+    "tdp": 400,
+    "idle": 50,
+    "e_bit": 3.9e-12,
+    "e_flop": 5e-13
+   },
+   "RTX 4090": {
+    "bw": 1008000000000.0,
+    "peak": 165000000000000.0,
+    "tdp": 450,
+    "idle": 20,
+    "e_bit": 7.25e-12,
+    "e_flop": 5e-13
+   },
+   "L4": {
+    "bw": 300000000000.0,
+    "peak": 121000000000000.0,
+    "tdp": 72,
+    "idle": 16,
+    "e_bit": 7.5e-12,
+    "e_flop": 5e-13
+   }
+  },
+  "models": {
+   "1.1B": {
+    "P": 1100000000.0,
+    "L": 24,
+    "kv": 2048
+   },
+   "7B": {
+    "P": 6700000000.0,
+    "L": 32,
+    "kv": 4096
+   },
+   "13B": {
+    "P": 13000000000.0,
+    "L": 40,
+    "kv": 5120
+   }
+  }
+ },
+ "settings": {
+  "safe": {
+   "byte_offload": 0.59065,
+   "token_offload": 0.2374810318664643,
+   "bytes_per_token": 5.058168942842691,
+   "results": [
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.36426610891461103,
+      "tokens_per_s": 1091.5949146665055,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 397.6310320765448
+     },
+     "spark_gpu": {
+      "J_per_token": 0.3076213676033567,
+      "tokens_per_s": 890.9253066677953,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 274.0676612695871
+     },
+     "energy_saving_x": 1.1841378632198638,
+     "throughput_x": 0.8161684290550062,
+     "water_mL_per_1k_gpu_only": 0.18213305445730552,
+     "water_mL_per_1k_spark": 0.15381068380167837
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.07243428055642076,
+      "tokens_per_s": 5546.091330052516,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 401.72713539255676
+     },
+     "spark_gpu": {
+      "J_per_token": 0.06903224097941882,
+      "tokens_per_s": 4641.416841330493,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 320.4074058766595
+     },
+     "energy_saving_x": 1.049281893919918,
+     "throughput_x": 0.836880708433365,
+     "water_mL_per_1k_gpu_only": 0.03621714027821038,
+     "water_mL_per_1k_spark": 0.03451612048970941
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.04116658466089456,
+      "tokens_per_s": 9854.817939593391,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 405.6891970279738
+     },
+     "spark_gpu": {
+      "J_per_token": 0.03498297568526186,
+      "tokens_per_s": 10322.125954937766,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 361.09868130179825
+     },
+     "energy_saving_x": 1.1767605200674174,
+     "throughput_x": 1.0474192438874885,
+     "water_mL_per_1k_gpu_only": 0.02058329233044728,
+     "water_mL_per_1k_spark": 0.01749148784263093
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 2.0840007182996523,
+      "tokens_per_s": 191.55177753187783,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.19404196800866
+     },
+     "spark_gpu": {
+      "J_per_token": 1.6198941274683007,
+      "tokens_per_s": 227.0319189256371,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 367.76767221549886
+     },
+     "energy_saving_x": 1.286504273928503,
+     "throughput_x": 1.1852248089311241,
+     "water_mL_per_1k_gpu_only": 1.0420003591498264,
+     "water_mL_per_1k_spark": 0.8099470637341505
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.33454321829972583,
+      "tokens_per_s": 1207.699426324639,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 404.0276528213774
+     },
+     "spark_gpu": {
+      "J_per_token": 0.3192882319230436,
+      "tokens_per_s": 1199.8586571208953,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 383.1007491896881
+     },
+     "energy_saving_x": 1.047778104081077,
+     "throughput_x": 0.9935076816028593,
+     "water_mL_per_1k_gpu_only": 0.16727160914986292,
+     "water_mL_per_1k_spark": 0.1596441159615218
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.1471013432997073,
+      "tokens_per_s": 2798.0199206490024,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 411.59248890680874
+     },
+     "spark_gpu": {
+      "J_per_token": 0.12906532075463725,
+      "tokens_per_s": 3095.320843037216,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.49857744511246
+     },
+     "energy_saving_x": 1.1397433674639672,
+     "throughput_x": 1.1062540406500232,
+     "water_mL_per_1k_gpu_only": 0.07355067164985366,
+     "water_mL_per_1k_spark": 0.06453266037731863
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 4.007461896597212,
+      "tokens_per_s": 99.65314755209754,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.3561916910106
+     },
+     "spark_gpu": {
+      "J_per_token": 3.0876274687061853,
+      "tokens_per_s": 123.82862696824016,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 382.33667003930987
+     },
+     "energy_saving_x": 1.2979097825802368,
+     "throughput_x": 1.2425962451763397,
+     "water_mL_per_1k_gpu_only": 2.003730948298606,
+     "water_mL_per_1k_spark": 1.5438137343530929
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6181755160000285,
+      "tokens_per_s": 654.2361792606963,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 404.43278770036807
+     },
+     "spark_gpu": {
+      "J_per_token": 0.5922527102047529,
+      "tokens_per_s": 663.5035877755412,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 392.9617980906414
+     },
+     "energy_saving_x": 1.0437698390376526,
+     "throughput_x": 1.0141652339149407,
+     "water_mL_per_1k_gpu_only": 0.30908775800001426,
+     "water_mL_per_1k_spark": 0.2961263551023765
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.2550376895074799,
+      "tokens_per_s": 1620.456448721375,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 413.2774686293955
+     },
+     "spark_gpu": {
+      "J_per_token": 0.22633444595435745,
+      "tokens_per_s": 1798.4876216448663,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 407.05969940076085
+     },
+     "energy_saving_x": 1.1268178311617258,
+     "throughput_x": 1.1098648304087204,
+     "water_mL_per_1k_gpu_only": 0.12751884475373995,
+     "water_mL_per_1k_spark": 0.11316722297717874
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.3595537425746859,
+      "tokens_per_s": 670.1320281698484,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 240.94847874763383
+     },
+     "spark_gpu": {
+      "J_per_token": 0.29562892704769567,
+      "tokens_per_s": 640.3003903939326,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 189.29131740037897
+     },
+     "energy_saving_x": 1.2162332900415962,
+     "throughput_x": 0.9554839396985891,
+     "water_mL_per_1k_gpu_only": 0.179776871287343,
+     "water_mL_per_1k_spark": 0.14781446352384783
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.07194731050012575,
+      "tokens_per_s": 3394.082245321138,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 244.1950891670839
+     },
+     "spark_gpu": {
+      "J_per_token": 0.06753613722732785,
+      "tokens_per_s": 3141.648005851518,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 212.17477084314902
+     },
+     "energy_saving_x": 1.0653157473005868,
+     "throughput_x": 0.9256251848883127,
+     "water_mL_per_1k_gpu_only": 0.03597365525006288,
+     "water_mL_per_1k_spark": 0.033768068613663924
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.041132335634995125,
+      "tokens_per_s": 6012.694038578946,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 247.31614926536352
+     },
+     "spark_gpu": {
+      "J_per_token": 0.03473440206875854,
+      "tokens_per_s": 6655.556449651112,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 231.17677371350084
+     },
+     "energy_saving_x": 1.184195874556054,
+     "throughput_x": 1.1069175326313632,
+     "water_mL_per_1k_gpu_only": 0.020566167817497562,
+     "water_mL_per_1k_spark": 0.017367201034379273
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 2.0687559308287296,
+      "tokens_per_s": 116.76433486935598,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 241.55691027025205
+     },
+     "spark_gpu": {
+      "J_per_token": 1.6002694017716714,
+      "tokens_per_s": 143.79466797688752,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 230.1102073013299
+     },
+     "energy_saving_x": 1.2927547877491083,
+     "throughput_x": 1.2314947722502334,
+     "water_mL_per_1k_gpu_only": 1.034377965414365,
+     "water_mL_per_1k_spark": 0.8001347008858358
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.3338985718289887,
+      "tokens_per_s": 735.9439311063984,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 245.73062754263808
+     },
+     "spark_gpu": {
+      "J_per_token": 0.3177184919128444,
+      "tokens_per_s": 749.83757113151,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 238.23726227949356
+     },
+     "energy_saving_x": 1.0509258363236307,
+     "throughput_x": 1.0188786664824103,
+     "water_mL_per_1k_gpu_only": 0.16694928591449434,
+     "water_mL_per_1k_spark": 0.1588592459564222
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.1480209976505075,
+      "tokens_per_s": 1704.1999146018775,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 252.2573715552796
+     },
+     "spark_gpu": {
+      "J_per_token": 0.12985491634530177,
+      "tokens_per_s": 1916.1845052970527,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 248.8259786375123
+     },
+     "energy_saving_x": 1.1398952139547776,
+     "throughput_x": 1.1243895090469462,
+     "water_mL_per_1k_gpu_only": 0.07401049882525375,
+     "water_mL_per_1k_spark": 0.06492745817265089
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.9804481386090687,
+      "tokens_per_s": 60.70190334256277,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 241.62077816993158
+     },
+     "spark_gpu": {
+      "J_per_token": 3.0594774447622752,
+      "tokens_per_s": 77.00783492984685,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 235.60373403784297
+     },
+     "energy_saving_x": 1.3010222204525368,
+     "throughput_x": 1.268623069284398,
+     "water_mL_per_1k_gpu_only": 1.9902240693045343,
+     "water_mL_per_1k_spark": 1.5297387223811376
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6174334868190297,
+      "tokens_per_s": 398.4602900317905,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 246.02272623325024
+     },
+     "spark_gpu": {
+      "J_per_token": 0.590661151925392,
+      "tokens_per_s": 409.7491419941694,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 242.02290021071713
+     },
+     "energy_saving_x": 1.0453260465943413,
+     "throughput_x": 1.0283311844236178,
+     "water_mL_per_1k_gpu_only": 0.3087167434095148,
+     "water_mL_per_1k_spark": 0.295330575962696
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.257110488412964,
+      "tokens_per_s": 986.6927736186631,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 253.6890609386366
+     },
+     "spark_gpu": {
+      "J_per_token": 0.22835300443477916,
+      "tokens_per_s": 1105.453926196712,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 252.4337253112418
+     },
+     "energy_saving_x": 1.1259343359609635,
+     "throughput_x": 1.120362848247582,
+     "water_mL_per_1k_gpu_only": 0.128555244206482,
+     "water_mL_per_1k_spark": 0.11417650221738958
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.6725474329015748,
+      "tokens_per_s": 333.54687392455503,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.3260938103047
+     },
+     "spark_gpu": {
+      "J_per_token": 0.5215824062231382,
+      "tokens_per_s": 369.0003075716812,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 192.4640683203156
+     },
+     "energy_saving_x": 1.289436577762656,
+     "throughput_x": 1.106292207838666,
+     "water_mL_per_1k_gpu_only": 0.3362737164507874,
+     "water_mL_per_1k_spark": 0.2607912031115691
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.13407156484602356,
+      "tokens_per_s": 1685.128407453339,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 225.92780255375678
+     },
+     "spark_gpu": {
+      "J_per_token": 0.12183457699859314,
+      "tokens_per_s": 1703.226073276756,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 207.51182817064839
+     },
+     "energy_saving_x": 1.1004393674512591,
+     "throughput_x": 1.010739636067715,
+     "water_mL_per_1k_gpu_only": 0.06703578242301178,
+     "water_mL_per_1k_spark": 0.06091728849929657
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.07637772184007979,
+      "tokens_per_s": 2978.0941674558967,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 227.46004793551052
+     },
+     "spark_gpu": {
+      "J_per_token": 0.06334612433746654,
+      "tokens_per_s": 3451.3518008564465,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 218.6297603093915
+     },
+     "energy_saving_x": 1.2057205178518808,
+     "throughput_x": 1.1589129177217525,
+     "water_mL_per_1k_gpu_only": 0.038188860920039897,
+     "water_mL_per_1k_spark": 0.03167306216873327
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.886435945409289,
+      "tokens_per_s": 57.79185575152532,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.60434554463657
+     },
+     "spark_gpu": {
+      "J_per_token": 2.9735848944772996,
+      "tokens_per_s": 73.4308321270393,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 218.35281320186246
+     },
+     "energy_saving_x": 1.306986712445098,
+     "throughput_x": 1.2706086553571385,
+     "water_mL_per_1k_gpu_only": 1.9432179727046446,
+     "water_mL_per_1k_spark": 1.48679244723865
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6224420217984445,
+      "tokens_per_s": 364.16000786124823,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 226.66849155129282
+     },
+     "spark_gpu": {
+      "J_per_token": 0.5880423190003112,
+      "tokens_per_s": 378.65537000891464,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 222.66538188196304
+     },
+     "energy_saving_x": 1.0584986857010799,
+     "throughput_x": 1.0398049259521913,
+     "water_mL_per_1k_gpu_only": 0.31122101089922233,
+     "water_mL_per_1k_spark": 0.2940211595001556
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.27272838712577935,
+      "tokens_per_s": 842.942219572175,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 229.8942719841438
+     },
+     "spark_gpu": {
+      "J_per_token": 0.2375348393195476,
+      "tokens_per_s": 960.1895783667835,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 228.0784772136581
+     },
+     "energy_saving_x": 1.148161625078025,
+     "throughput_x": 1.1390929960230443,
+     "water_mL_per_1k_gpu_only": 0.13636419356288967,
+     "water_mL_per_1k_spark": 0.11876741965977382
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 7.48104310666613,
+      "tokens_per_s": 30.02702432188827,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.63346331695845
+     },
+     "spark_gpu": {
+      "J_per_token": 5.716056646424947,
+      "tokens_per_s": 38.73185826491181,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 221.3934958635382
+     },
+     "energy_saving_x": 1.3087769365170787,
+     "throughput_x": 1.289899986415841,
+     "water_mL_per_1k_gpu_only": 3.740521553333065,
+     "water_mL_per_1k_spark": 2.858028323212474
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 1.1508413705555995,
+      "tokens_per_s": 197.08209016507328,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 226.8102227575352
+     },
+     "spark_gpu": {
+      "J_per_token": 1.0964949853034152,
+      "tokens_per_s": 204.91923715023705,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.69291592743625
+     },
+     "energy_saving_x": 1.0495637335150658,
+     "throughput_x": 1.0397659015012448,
+     "water_mL_per_1k_gpu_only": 0.5754206852777998,
+     "water_mL_per_1k_spark": 0.5482474926517076
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.47260547025797217,
+      "tokens_per_s": 487.93356745754807,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 230.60007310292448
+     },
+     "spark_gpu": {
+      "J_per_token": 0.417466097470528,
+      "tokens_per_s": 550.7624646336072,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 229.9246567438417
+     },
+     "energy_saving_x": 1.13208107944942,
+     "throughput_x": 1.128765269221871,
+     "water_mL_per_1k_gpu_only": 0.23630273512898609,
+     "water_mL_per_1k_spark": 0.20873304873526402
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.5582768746667041,
+      "tokens_per_s": 99.73722565614356,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.68098662723964
+     },
+     "spark_gpu": {
+      "J_per_token": 0.4327512711788773,
+      "tokens_per_s": 123.92574017456754,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 53.62902159232736
+     },
+     "energy_saving_x": 1.2900640895770839,
+     "throughput_x": 1.242522431913405,
+     "water_mL_per_1k_gpu_only": 0.27913843733335203,
+     "water_mL_per_1k_spark": 0.21637563558943865
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.11159754133332586,
+      "tokens_per_s": 503.014734978283,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.135207678010886
+     },
+     "spark_gpu": {
+      "J_per_token": 0.10136932703102328,
+      "tokens_per_s": 542.951842722981,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.03866290708258
+     },
+     "energy_saving_x": 1.1009004854019828,
+     "throughput_x": 1.0793955026912327,
+     "water_mL_per_1k_gpu_only": 0.05579877066666294,
+     "water_mL_per_1k_spark": 0.050684663515511645
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.06373904133332786,
+      "tokens_per_s": 887.4978182345596,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.5682601196909
+     },
+     "spark_gpu": {
+      "J_per_token": 0.05287516910793018,
+      "tokens_per_s": 1062.9298706009033,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.20259665789311
+     },
+     "energy_saving_x": 1.205462647376542,
+     "throughput_x": 1.1976704040978028,
+     "water_mL_per_1k_gpu_only": 0.031869520666663924,
+     "water_mL_per_1k_spark": 0.02643758455396509
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.2363538879999467,
+      "tokens_per_s": 17.21393199257485,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.71037573193628
+     },
+     "spark_gpu": {
+      "J_per_token": 2.4761837135332208,
+      "tokens_per_s": 22.360853927072014,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 55.36958231491108
+     },
+     "energy_saving_x": 1.3069926396462939,
+     "throughput_x": 1.2989974595413334,
+     "water_mL_per_1k_gpu_only": 1.6181769439999736,
+     "water_mL_per_1k_spark": 1.2380918567666104
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.5193412213333783,
+      "tokens_per_s": 108.45030301014728,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.322712819264844
+     },
+     "spark_gpu": {
+      "J_per_token": 0.49065147678677345,
+      "tokens_per_s": 114.38295727745336,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.12216690742091
+     },
+     "energy_saving_x": 1.0584727569444834,
+     "throughput_x": 1.0547038975700325,
+     "water_mL_per_1k_gpu_only": 0.25967061066668917,
+     "water_mL_per_1k_spark": 0.2453257383933867
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.2282327213333444,
+      "tokens_per_s": 250.9685293829857,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.27923043010623
+     },
+     "spark_gpu": {
+      "J_per_token": 0.19890808146577352,
+      "tokens_per_s": 288.46931464630245,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.37887793804258
+     },
+     "energy_saving_x": 1.1474280966940844,
+     "throughput_x": 1.149424253931414,
+     "water_mL_per_1k_gpu_only": 0.1141163606666722,
+     "water_mL_per_1k_spark": 0.09945404073288676
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 6.231683199999741,
+      "tokens_per_s": 8.940385509423246,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.713650180593966
+     },
+     "spark_gpu": {
+      "J_per_token": 4.761691485248674,
+      "tokens_per_s": 11.666711438041446,
+      "gpu_steps_frac": 0.7625189681335357,
+      "avg_power_W": 55.553280515375256
+     },
+     "energy_saving_x": 1.3087120867248496,
+     "throughput_x": 1.3049450077678002,
+     "water_mL_per_1k_gpu_only": 3.11584159999987,
+     "water_mL_per_1k_spark": 2.3808457426243375
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.9605455333334004,
+      "tokens_per_s": 58.67568968383222,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.36067164106172
+     },
+     "spark_gpu": {
+      "J_per_token": 0.9152401725685559,
+      "tokens_per_s": 61.4788341164406,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.26789874604472
+     },
+     "energy_saving_x": 1.0495010622596452,
+     "throughput_x": 1.047773523374209,
+     "water_mL_per_1k_gpu_only": 0.48027276666670027,
+     "water_mL_per_1k_spark": 0.457620086284278
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.39578078333330863,
+      "tokens_per_s": 145.24943564541402,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.48693541846296
+     },
+     "spark_gpu": {
+      "J_per_token": 0.3498413828799776,
+      "tokens_per_s": 164.80171942604642,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.65446142500615
+     },
+     "energy_saving_x": 1.1313149407172671,
+     "throughput_x": 1.1346117710802253,
+     "water_mL_per_1k_gpu_only": 0.19789039166665434,
+     "water_mL_per_1k_spark": 0.17492069143998884
+    }
+   ]
+  },
+  "balanced": {
+   "byte_offload": 0.69555,
+   "token_offload": 0.3603945371775418,
+   "bytes_per_token": 5.058168942842691,
+   "results": [
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.36426610891461103,
+      "tokens_per_s": 1091.5949146665055,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 397.6310320765448
+     },
+     "spark_gpu": {
+      "J_per_token": 0.26294638104269535,
+      "tokens_per_s": 990.2581942603534,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 260.38480847863434
+     },
+     "energy_saving_x": 1.3853246714031182,
+     "throughput_x": 0.9071663681787016,
+     "water_mL_per_1k_gpu_only": 0.18213305445730552,
+     "water_mL_per_1k_spark": 0.13147319052134768
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.07243428055642076,
+      "tokens_per_s": 5546.091330052516,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 401.72713539255676
+     },
+     "spark_gpu": {
+      "J_per_token": 0.06535157301046354,
+      "tokens_per_s": 4849.238241023937,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 316.9053469534076
+     },
+     "energy_saving_x": 1.1083785319876416,
+     "throughput_x": 0.8743523956678187,
+     "water_mL_per_1k_gpu_only": 0.03621714027821038,
+     "water_mL_per_1k_spark": 0.03267578650523177
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.04116658466089456,
+      "tokens_per_s": 9854.817939593391,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 405.6891970279738
+     },
+     "spark_gpu": {
+      "J_per_token": 0.0313023266664936,
+      "tokens_per_s": 11409.56335917395,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 357.14587939091905
+     },
+     "energy_saving_x": 1.3151285877084589,
+     "throughput_x": 1.1577650068332674,
+     "water_mL_per_1k_gpu_only": 0.02058329233044728,
+     "water_mL_per_1k_spark": 0.0156511633332468
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 2.0840007182996523,
+      "tokens_per_s": 191.55177753187783,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.19404196800866
+     },
+     "spark_gpu": {
+      "J_per_token": 1.3643283433924398,
+      "tokens_per_s": 265.74410560519254,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 362.56221536663793
+     },
+     "energy_saving_x": 1.5274920647897172,
+     "throughput_x": 1.3873225768472324,
+     "water_mL_per_1k_gpu_only": 1.0420003591498264,
+     "water_mL_per_1k_spark": 0.6821641716962199
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.33454321829972583,
+      "tokens_per_s": 1207.699426324639,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 404.0276528213774
+     },
+     "spark_gpu": {
+      "J_per_token": 0.30947295063035596,
+      "tokens_per_s": 1236.3860857535883,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 382.6280500764793
+     },
+     "energy_saving_x": 1.0810095603454357,
+     "throughput_x": 1.0237531448667245,
+     "water_mL_per_1k_gpu_only": 0.16727160914986292,
+     "water_mL_per_1k_spark": 0.154736475315178
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.1471013432997073,
+      "tokens_per_s": 2798.0199206490024,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 411.59248890680874
+     },
+     "spark_gpu": {
+      "J_per_token": 0.11925015251157507,
+      "tokens_per_s": 3350.6940099629987,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.5707717077086
+     },
+     "energy_saving_x": 1.2335526638880303,
+     "throughput_x": 1.197523286105055,
+     "water_mL_per_1k_gpu_only": 0.07355067164985366,
+     "water_mL_per_1k_spark": 0.059625076255787536
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 4.007461896597212,
+      "tokens_per_s": 99.65314755209754,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.3561916910106
+     },
+     "spark_gpu": {
+      "J_per_token": 2.596189768963956,
+      "tokens_per_s": 146.14965582202655,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 379.4322411827488
+     },
+     "energy_saving_x": 1.543593594160277,
+     "throughput_x": 1.4665834387781997,
+     "water_mL_per_1k_gpu_only": 2.003730948298606,
+     "water_mL_per_1k_spark": 1.298094884481978
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6181755160000285,
+      "tokens_per_s": 654.2361792606963,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 404.43278770036807
+     },
+     "spark_gpu": {
+      "J_per_token": 0.5769162211543759,
+      "tokens_per_s": 680.884462451172,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 392.8132911200587
+     },
+     "energy_saving_x": 1.0715169609256179,
+     "throughput_x": 1.0407319008566431,
+     "water_mL_per_1k_gpu_only": 0.30908775800001426,
+     "water_mL_per_1k_spark": 0.28845811057718795
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.2550376895074799,
+      "tokens_per_s": 1620.456448721375,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 413.2774686293955
+     },
+     "spark_gpu": {
+      "J_per_token": 0.21099817555549055,
+      "tokens_per_s": 1932.1810692315735,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 407.686680450719
+     },
+     "energy_saving_x": 1.2087198803309434,
+     "throughput_x": 1.1923684038260736,
+     "water_mL_per_1k_gpu_only": 0.12751884475373995,
+     "water_mL_per_1k_spark": 0.10549908777774528
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.3595537425746859,
+      "tokens_per_s": 670.1320281698484,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 240.94847874763383
+     },
+     "spark_gpu": {
+      "J_per_token": 0.25157368982587697,
+      "tokens_per_s": 725.4972722178017,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 182.51602573044104
+     },
+     "energy_saving_x": 1.4292183845756914,
+     "throughput_x": 1.0826184120749422,
+     "water_mL_per_1k_gpu_only": 0.179776871287343,
+     "water_mL_per_1k_spark": 0.12578684491293848
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.07194731050012575,
+      "tokens_per_s": 3394.082245321138,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 244.1950891670839
+     },
+     "spark_gpu": {
+      "J_per_token": 0.06388164543853758,
+      "tokens_per_s": 3298.8712077812256,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 210.73732084288048
+     },
+     "energy_saving_x": 1.126259507033963,
+     "throughput_x": 0.9719479285832969,
+     "water_mL_per_1k_gpu_only": 0.03597365525006288,
+     "water_mL_per_1k_spark": 0.03194082271926879
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.041132335634995125,
+      "tokens_per_s": 6012.694038578946,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 247.31614926536352
+     },
+     "spark_gpu": {
+      "J_per_token": 0.031079937049572952,
+      "tokens_per_s": 7403.014150489641,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 230.0852137743158
+     },
+     "energy_saving_x": 1.3234369030216648,
+     "throughput_x": 1.2312308098483067,
+     "water_mL_per_1k_gpu_only": 0.020566167817497562,
+     "water_mL_per_1k_spark": 0.015539968524786476
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 2.0687559308287296,
+      "tokens_per_s": 116.76433486935598,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 241.55691027025205
+     },
+     "spark_gpu": {
+      "J_per_token": 1.346824395885798,
+      "tokens_per_s": 169.4416348435912,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 228.2081274861217
+     },
+     "energy_saving_x": 1.536024991192799,
+     "throughput_x": 1.4511420377906852,
+     "water_mL_per_1k_gpu_only": 1.034377965414365,
+     "water_mL_per_1k_spark": 0.673412197942899
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.3338985718289887,
+      "tokens_per_s": 735.9439311063984,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 245.73062754263808
+     },
+     "spark_gpu": {
+      "J_per_token": 0.3079729423206175,
+      "tokens_per_s": 773.2946922597262,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 238.1538416561443
+     },
+     "energy_saving_x": 1.084181517093736,
+     "throughput_x": 1.050752183114243,
+     "water_mL_per_1k_gpu_only": 0.16694928591449434,
+     "water_mL_per_1k_spark": 0.15398647116030875
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.1480209976505075,
+      "tokens_per_s": 1704.1999146018775,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 252.2573715552796
+     },
+     "spark_gpu": {
+      "J_per_token": 0.120109527446978,
+      "tokens_per_s": 2077.204167579216,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 249.49201097883298
+     },
+     "energy_saving_x": 1.2323834819502635,
+     "throughput_x": 1.2188735310812857,
+     "water_mL_per_1k_gpu_only": 0.07401049882525375,
+     "water_mL_per_1k_spark": 0.060054763723489
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.9804481386090687,
+      "tokens_per_s": 60.70190334256277,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 241.62077816993158
+     },
+     "spark_gpu": {
+      "J_per_token": 2.571839356780498,
+      "tokens_per_s": 91.23352816804712,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 234.6379784005257
+     },
+     "energy_saving_x": 1.547704808278503,
+     "throughput_x": 1.5029764001498167,
+     "water_mL_per_1k_gpu_only": 1.9902240693045343,
+     "water_mL_per_1k_spark": 1.285919678390249
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6174334868190297,
+      "tokens_per_s": 398.4602900317905,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 246.02272623325024
+     },
+     "spark_gpu": {
+      "J_per_token": 0.5754335706439069,
+      "tokens_per_s": 420.64383741977383,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 242.0525853358155
+     },
+     "energy_saving_x": 1.0729882966823174,
+     "throughput_x": 1.0556731698062396,
+     "water_mL_per_1k_gpu_only": 0.3087167434095148,
+     "water_mL_per_1k_spark": 0.2877167853219535
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.257110488412964,
+      "tokens_per_s": 986.6927736186631,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 253.6890609386366
+     },
+     "spark_gpu": {
+      "J_per_token": 0.21312573425388412,
+      "tokens_per_s": 1188.5006487720464,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 253.30007343076002
+     },
+     "energy_saving_x": 1.2063793671518028,
+     "throughput_x": 1.2045295967996803,
+     "water_mL_per_1k_gpu_only": 0.128555244206482,
+     "water_mL_per_1k_spark": 0.10656286712694207
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.6725474329015748,
+      "tokens_per_s": 333.54687392455503,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.3260938103047
+     },
+     "spark_gpu": {
+      "J_per_token": 0.43905916945648865,
+      "tokens_per_s": 427.0674741766934,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 187.5078905138994
+     },
+     "energy_saving_x": 1.5317922496280427,
+     "throughput_x": 1.2803821818257897,
+     "water_mL_per_1k_gpu_only": 0.3362737164507874,
+     "water_mL_per_1k_spark": 0.21952958472824433
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.13407156484602356,
+      "tokens_per_s": 1685.128407453339,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 225.92780255375678
+     },
+     "spark_gpu": {
+      "J_per_token": 0.11495236033134511,
+      "tokens_per_s": 1797.1570350940149,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 206.58744307013902
+     },
+     "energy_saving_x": 1.1663228528719913,
+     "throughput_x": 1.066480766180887,
+     "water_mL_per_1k_gpu_only": 0.06703578242301178,
+     "water_mL_per_1k_spark": 0.05747618016567256
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.07637772184007979,
+      "tokens_per_s": 2978.0941674558967,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 227.46004793551052
+     },
+     "spark_gpu": {
+      "J_per_token": 0.056463935047859556,
+      "tokens_per_s": 3860.186639143257,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 217.96132766520012
+     },
+     "energy_saving_x": 1.3526815262758618,
+     "throughput_x": 1.2961936131257084,
+     "water_mL_per_1k_gpu_only": 0.038188860920039897,
+     "water_mL_per_1k_spark": 0.028231967523929778
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.886435945409289,
+      "tokens_per_s": 57.79185575152532,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.60434554463657
+     },
+     "spark_gpu": {
+      "J_per_token": 2.4967308719946972,
+      "tokens_per_s": 87.02079023766085,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 217.2674934917426
+     },
+     "energy_saving_x": 1.556609880945768,
+     "throughput_x": 1.5057621719538583,
+     "water_mL_per_1k_gpu_only": 1.9432179727046446,
+     "water_mL_per_1k_spark": 1.2483654359973486
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6224420217984445,
+      "tokens_per_s": 364.16000786124823,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 226.66849155129282
+     },
+     "spark_gpu": {
+      "J_per_token": 0.5696895030655198,
+      "tokens_per_s": 390.7635061541556,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 222.61386763710107
+     },
+     "energy_saving_x": 1.0925987199150793,
+     "throughput_x": 1.0730544203608536,
+     "water_mL_per_1k_gpu_only": 0.31122101089922233,
+     "water_mL_per_1k_spark": 0.28484475153275995
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.27272838712577935,
+      "tokens_per_s": 842.942219572175,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 229.8942719841438
+     },
+     "spark_gpu": {
+      "J_per_token": 0.21918218570010659,
+      "tokens_per_s": 1042.068548610592,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 228.4028621338073
+     },
+     "energy_saving_x": 1.24429997015787,
+     "throughput_x": 1.2362277323580744,
+     "water_mL_per_1k_gpu_only": 0.13636419356288967,
+     "water_mL_per_1k_spark": 0.10959109285005329
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 7.48104310666613,
+      "tokens_per_s": 30.02702432188827,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.63346331695845
+     },
+     "spark_gpu": {
+      "J_per_token": 4.798161293884854,
+      "tokens_per_s": 46.02942238773137,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 220.85659288068962
+     },
+     "energy_saving_x": 1.5591479003010065,
+     "throughput_x": 1.5329331969194868,
+     "water_mL_per_1k_gpu_only": 3.740521553333065,
+     "water_mL_per_1k_spark": 2.399080646942427
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 1.1508413705555995,
+      "tokens_per_s": 197.08209016507328,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 226.8102227575352
+     },
+     "spark_gpu": {
+      "J_per_token": 1.0678185503616904,
+      "tokens_per_s": 210.43283961292008,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.7040897439624
+     },
+     "energy_saving_x": 1.0777499324822442,
+     "throughput_x": 1.06774207355252,
+     "water_mL_per_1k_gpu_only": 0.5754206852777998,
+     "water_mL_per_1k_spark": 0.5339092751808452
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.47260547025797217,
+      "tokens_per_s": 487.93356745754807,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 230.60007310292448
+     },
+     "spark_gpu": {
+      "J_per_token": 0.38878997616288236,
+      "tokens_per_s": 592.48604638551,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 230.35263585106281
+     },
+     "energy_saving_x": 1.2155803884716812,
+     "throughput_x": 1.214276052932264,
+     "water_mL_per_1k_gpu_only": 0.23630273512898609,
+     "water_mL_per_1k_spark": 0.19439498808144115
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.5582768746667041,
+      "tokens_per_s": 99.73722565614356,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.68098662723964
+     },
+     "spark_gpu": {
+      "J_per_token": 0.36427230684067063,
+      "tokens_per_s": 146.2613572942706,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 53.27896202323151
+     },
+     "energy_saving_x": 1.5325811602551749,
+     "throughput_x": 1.46646707216947,
+     "water_mL_per_1k_gpu_only": 0.27913843733335203,
+     "water_mL_per_1k_spark": 0.18213615342033532
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.11159754133332586,
+      "tokens_per_s": 503.014734978283,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.135207678010886
+     },
+     "spark_gpu": {
+      "J_per_token": 0.09563648753174105,
+      "tokens_per_s": 575.1500895963753,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.005334372563496
+     },
+     "energy_saving_x": 1.1668929319083101,
+     "throughput_x": 1.1434060467855016,
+     "water_mL_per_1k_gpu_only": 0.05579877066666294,
+     "water_mL_per_1k_spark": 0.04781824376587052
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.06373904133332786,
+      "tokens_per_s": 887.4978182345596,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.5682601196909
+     },
+     "spark_gpu": {
+      "J_per_token": 0.04714235676977218,
+      "tokens_per_s": 1193.7611856524297,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.276715711933086
+     },
+     "energy_saving_x": 1.3520546213802684,
+     "throughput_x": 1.3450863327496392,
+     "water_mL_per_1k_gpu_only": 0.031869520666663924,
+     "water_mL_per_1k_spark": 0.023571178384886086
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.2363538879999467,
+      "tokens_per_s": 17.21393199257485,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.71037573193628
+     },
+     "spark_gpu": {
+      "J_per_token": 2.0792305622983367,
+      "tokens_per_s": 26.609240797060092,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 55.32674670480309
+     },
+     "energy_saving_x": 1.5565151583875099,
+     "throughput_x": 1.545796788818375,
+     "water_mL_per_1k_gpu_only": 1.6181769439999736,
+     "water_mL_per_1k_spark": 1.0396152811491683
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.5193412213333783,
+      "tokens_per_s": 108.45030301014728,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.322712819264844
+     },
+     "spark_gpu": {
+      "J_per_token": 0.47536366663323765,
+      "tokens_per_s": 118.09710371379114,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.1390722401535
+     },
+     "energy_saving_x": 1.092513496059999,
+     "throughput_x": 1.0889513485521682,
+     "water_mL_per_1k_gpu_only": 0.25967061066668917,
+     "water_mL_per_1k_spark": 0.23768183331661882
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.2282327213333444,
+      "tokens_per_s": 250.9685293829857,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.27923043010623
+     },
+     "spark_gpu": {
+      "J_per_token": 0.1836204330501936,
+      "tokens_per_s": 313.32048124650754,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.532042449978775
+     },
+     "energy_saving_x": 1.2429592804138296,
+     "throughput_x": 1.2484453011571457,
+     "water_mL_per_1k_gpu_only": 0.1141163606666722,
+     "water_mL_per_1k_spark": 0.0918102165250968
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 6.231683199999741,
+      "tokens_per_s": 8.940385509423246,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.713650180593966
+     },
+     "spark_gpu": {
+      "J_per_token": 3.997354661406459,
+      "tokens_per_s": 13.895401406518591,
+      "gpu_steps_frac": 0.6396054628224582,
+      "avg_power_W": 55.54484758446095
+     },
+     "energy_saving_x": 1.5589517888330526,
+     "throughput_x": 1.5542284381219036,
+     "water_mL_per_1k_gpu_only": 3.11584159999987,
+     "water_mL_per_1k_spark": 1.9986773307032295
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.9605455333334004,
+      "tokens_per_s": 58.67568968383222,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.36067164106172
+     },
+     "spark_gpu": {
+      "J_per_token": 0.8913528091600172,
+      "tokens_per_s": 63.14667490598721,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.285966066566075
+     },
+     "energy_saving_x": 1.0776266406100052,
+     "throughput_x": 1.0761982559769885,
+     "water_mL_per_1k_gpu_only": 0.48027276666670027,
+     "water_mL_per_1k_spark": 0.4456764045800087
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.39578078333330863,
+      "tokens_per_s": 145.24943564541402,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.48693541846296
+     },
+     "spark_gpu": {
+      "J_per_token": 0.32595433220334374,
+      "tokens_per_s": 177.35893064320595,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.81091179810535
+     },
+     "energy_saving_x": 1.2142215771699094,
+     "throughput_x": 1.2210645077904352,
+     "water_mL_per_1k_gpu_only": 0.19789039166665434,
+     "water_mL_per_1k_spark": 0.16297716610167187
+    }
+   ]
+  },
+  "aggressive": {
+   "byte_offload": 0.89845,
+   "token_offload": 0.6995447647951442,
+   "bytes_per_token": 5.058168942842691,
+   "results": [
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.36426610891461103,
+      "tokens_per_s": 1091.5949146665055,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 397.6310320765448
+     },
+     "spark_gpu": {
+      "J_per_token": 0.13967651071787546,
+      "tokens_per_s": 1430.2670357061972,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 199.7747089422406
+     },
+     "energy_saving_x": 2.6079267519101417,
+     "throughput_x": 1.3102543961036681,
+     "water_mL_per_1k_gpu_only": 0.18213305445730552,
+     "water_mL_per_1k_spark": 0.06983825535893773
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.07243428055642076,
+      "tokens_per_s": 5546.091330052516,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 401.72713539255676
+     },
+     "spark_gpu": {
+      "J_per_token": 0.053002226070720096,
+      "tokens_per_s": 5707.407189807987,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 302.50528615185624
+     },
+     "energy_saving_x": 1.3666271386370217,
+     "throughput_x": 1.0290864052096207,
+     "water_mL_per_1k_gpu_only": 0.03621714027821038,
+     "water_mL_per_1k_spark": 0.026501113035360048
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.04116658466089456,
+      "tokens_per_s": 9854.817939593391,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 405.6891970279738
+     },
+     "spark_gpu": {
+      "J_per_token": 0.021146214142245667,
+      "tokens_per_s": 16085.408261644552,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 340.14548766618327
+     },
+     "energy_saving_x": 1.9467590928558898,
+     "throughput_x": 1.632237993663862,
+     "water_mL_per_1k_gpu_only": 0.02058329233044728,
+     "water_mL_per_1k_spark": 0.010573107071122833
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 2.0840007182996523,
+      "tokens_per_s": 191.55177753187783,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.19404196800866
+     },
+     "spark_gpu": {
+      "J_per_token": 0.65915608733124,
+      "tokens_per_s": 501.87093642878,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 330.81128280166007
+     },
+     "energy_saving_x": 3.161619468216179,
+     "throughput_x": 2.620027560669643,
+     "water_mL_per_1k_gpu_only": 1.0420003591498264,
+     "water_mL_per_1k_spark": 0.32957804366562
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.33454321829972583,
+      "tokens_per_s": 1207.699426324639,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 404.0276528213774
+     },
+     "spark_gpu": {
+      "J_per_token": 0.26924100110489313,
+      "tokens_per_s": 1412.7109962141092,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 380.3597228925776
+     },
+     "energy_saving_x": 1.2425418748513408,
+     "throughput_x": 1.1697538024948613,
+     "water_mL_per_1k_gpu_only": 0.16727160914986292,
+     "water_mL_per_1k_spark": 0.13462050055244656
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.1471013432997073,
+      "tokens_per_s": 2798.0199206490024,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 411.59248890680874
+     },
+     "spark_gpu": {
+      "J_per_token": 0.09216608133431992,
+      "tokens_per_s": 4338.295146815631,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.8436633536948
+     },
+     "energy_saving_x": 1.596046410675932,
+     "throughput_x": 1.550487584023119,
+     "water_mL_per_1k_gpu_only": 0.07355067164985366,
+     "water_mL_per_1k_spark": 0.04608304066715996
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 4.007461896597212,
+      "tokens_per_s": 99.65314755209754,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 399.3561916910106
+     },
+     "spark_gpu": {
+      "J_per_token": 1.2401857456010945,
+      "tokens_per_s": 290.7738862200748,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 360.6136288831713
+     },
+     "energy_saving_x": 3.2313400720912746,
+     "throughput_x": 2.917859529404844,
+     "water_mL_per_1k_gpu_only": 2.003730948298606,
+     "water_mL_per_1k_spark": 0.6200928728005473
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6181755160000285,
+      "tokens_per_s": 654.2361792606963,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 404.43278770036807
+     },
+     "spark_gpu": {
+      "J_per_token": 0.5091247666117762,
+      "tokens_per_s": 770.0622643224093,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 392.0577705996826
+     },
+     "energy_saving_x": 1.2141925840967918,
+     "throughput_x": 1.1770401710168328,
+     "water_mL_per_1k_gpu_only": 0.30908775800001426,
+     "water_mL_per_1k_spark": 0.2545623833058881
+    },
+    {
+     "gpu": "H100 SXM",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.2550376895074799,
+      "tokens_per_s": 1620.456448721375,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 413.2774686293955
+     },
+     "spark_gpu": {
+      "J_per_token": 0.16867857213872323,
+      "tokens_per_s": 2430.7653797051225,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 410.01803345290153
+     },
+     "energy_saving_x": 1.5119744391583652,
+     "throughput_x": 1.5000498048701796,
+     "water_mL_per_1k_gpu_only": 0.12751884475373995,
+     "water_mL_per_1k_spark": 0.08433928606936161
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.3595537425746859,
+      "tokens_per_s": 670.1320281698484,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 240.94847874763383
+     },
+     "spark_gpu": {
+      "J_per_token": 0.13001386860277525,
+      "tokens_per_s": 1146.3799068323365,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 149.04528657576114
+     },
+     "energy_saving_x": 2.765502991632471,
+     "throughput_x": 1.710677685355729,
+     "water_mL_per_1k_gpu_only": 0.179776871287343,
+     "water_mL_per_1k_spark": 0.06500693430138764
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.07194731050012575,
+      "tokens_per_s": 3394.082245321138,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 244.1950891670839
+     },
+     "spark_gpu": {
+      "J_per_token": 0.05163614906280339,
+      "tokens_per_s": 3963.9260276238606,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 204.68187523631175
+     },
+     "energy_saving_x": 1.3933515919751984,
+     "throughput_x": 1.1678933334889785,
+     "water_mL_per_1k_gpu_only": 0.03597365525006288,
+     "water_mL_per_1k_spark": 0.025818074531401693
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.041132335634995125,
+      "tokens_per_s": 6012.694038578946,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 247.31614926536352
+     },
+     "spark_gpu": {
+      "J_per_token": 0.020995970785204775,
+      "tokens_per_s": 10727.158150358577,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 225.22709913319997
+     },
+     "energy_saving_x": 1.959058528695412,
+     "throughput_x": 1.784085150771094,
+     "water_mL_per_1k_gpu_only": 0.020566167817497562,
+     "water_mL_per_1k_spark": 0.01049798539260239
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 2.0687559308287296,
+      "tokens_per_s": 116.76433486935598,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 241.55691027025205
+     },
+     "spark_gpu": {
+      "J_per_token": 0.6475039166823238,
+      "tokens_per_s": 333.63629320071004,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 216.0308065948319
+     },
+     "energy_saving_x": 3.194970528407932,
+     "throughput_x": 2.857347610244219,
+     "water_mL_per_1k_gpu_only": 1.034377965414365,
+     "water_mL_per_1k_spark": 0.3237519583411619
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.3338985718289887,
+      "tokens_per_s": 735.9439311063984,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 245.73062754263808
+     },
+     "spark_gpu": {
+      "J_per_token": 0.2680423277104119,
+      "tokens_per_s": 887.0000782878036,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 237.75356566358047
+     },
+     "energy_saving_x": 1.2456934495425165,
+     "throughput_x": 1.2052549668482373,
+     "water_mL_per_1k_gpu_only": 0.16694928591449434,
+     "water_mL_per_1k_spark": 0.13402116385520596
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.1480209976505075,
+      "tokens_per_s": 1704.1999146018775,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 252.2573715552796
+     },
+     "spark_gpu": {
+      "J_per_token": 0.09321737296211145,
+      "tokens_per_s": 2704.216234862307,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 252.07993333535643
+     },
+     "energy_saving_x": 1.587912134261402,
+     "throughput_x": 1.5867951944441012,
+     "water_mL_per_1k_gpu_only": 0.07401049882525375,
+     "water_mL_per_1k_spark": 0.046608686481055726
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.9804481386090687,
+      "tokens_per_s": 60.70190334256277,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 241.62077816993158
+     },
+     "spark_gpu": {
+      "J_per_token": 1.2263194473494858,
+      "tokens_per_s": 186.08425474654513,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 228.19874044122417
+     },
+     "energy_saving_x": 3.245849315373933,
+     "throughput_x": 3.0655423388687573,
+     "water_mL_per_1k_gpu_only": 1.9902240693045343,
+     "water_mL_per_1k_spark": 0.613159723674743
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6174334868190297,
+      "tokens_per_s": 398.4602900317905,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 246.02272623325024
+     },
+     "spark_gpu": {
+      "J_per_token": 0.5081385142161766,
+      "tokens_per_s": 476.654669505979,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 242.20659555697085
+     },
+     "energy_saving_x": 1.2150889364712785,
+     "throughput_x": 1.1962413355367227,
+     "water_mL_per_1k_gpu_only": 0.3087167434095148,
+     "water_mL_per_1k_spark": 0.25406925710808836
+    },
+    {
+     "gpu": "A100 SXM",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.257110488412964,
+      "tokens_per_s": 986.6927736186631,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 253.6890609386366
+     },
+     "spark_gpu": {
+      "J_per_token": 0.17110568258226597,
+      "tokens_per_s": 1499.2848198733475,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 256.5361524896588
+     },
+     "energy_saving_x": 1.5026414350052213,
+     "throughput_x": 1.5195052198211305,
+     "water_mL_per_1k_gpu_only": 0.128555244206482,
+     "water_mL_per_1k_spark": 0.08555284129113297
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.6725474329015748,
+      "tokens_per_s": 333.54687392455503,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.3260938103047
+     },
+     "spark_gpu": {
+      "J_per_token": 0.21135616430406262,
+      "tokens_per_s": 754.8116864236036,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 159.53410281437377
+     },
+     "energy_saving_x": 3.1820573349071104,
+     "throughput_x": 2.262985341587505,
+     "water_mL_per_1k_gpu_only": 0.3362737164507874,
+     "water_mL_per_1k_spark": 0.10567808215203131
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.13407156484602356,
+      "tokens_per_s": 1685.128407453339,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 225.92780255375678
+     },
+     "spark_gpu": {
+      "J_per_token": 0.09191544180886795,
+      "tokens_per_s": 2204.1445947560096,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 202.59492423762683
+     },
+     "energy_saving_x": 1.4586402698777914,
+     "throughput_x": 1.3079980047853073,
+     "water_mL_per_1k_gpu_only": 0.06703578242301178,
+     "water_mL_per_1k_spark": 0.04595772090443397
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.07637772184007979,
+      "tokens_per_s": 2978.0941674558967,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 227.46004793551052
+     },
+     "spark_gpu": {
+      "J_per_token": 0.03747383275820536,
+      "tokens_per_s": 5734.531536489632,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 214.89487574506688
+     },
+     "energy_saving_x": 2.0381614641047343,
+     "throughput_x": 1.9255709235643423,
+     "water_mL_per_1k_gpu_only": 0.038188860920039897,
+     "water_mL_per_1k_spark": 0.018736916379102683
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.886435945409289,
+      "tokens_per_s": 57.79185575152532,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.60434554463657
+     },
+     "spark_gpu": {
+      "J_per_token": 1.1809669951448374,
+      "tokens_per_s": 177.83312320100603,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 210.01504914391376
+     },
+     "energy_saving_x": 3.2908929389111714,
+     "throughput_x": 3.077131213186772,
+     "water_mL_per_1k_gpu_only": 1.9432179727046446,
+     "water_mL_per_1k_spark": 0.5904834975724188
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.6224420217984445,
+      "tokens_per_s": 364.16000786124823,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 226.66849155129282
+     },
+     "spark_gpu": {
+      "J_per_token": 0.4945177302277928,
+      "tokens_per_s": 449.6605629820512,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 222.3651209788354
+     },
+     "energy_saving_x": 1.2586849444442068,
+     "throughput_x": 1.2347884261727615,
+     "water_mL_per_1k_gpu_only": 0.31122101089922233,
+     "water_mL_per_1k_spark": 0.24725886511389641
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.27272838712577935,
+      "tokens_per_s": 842.942219572175,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 229.8942719841438
+     },
+     "spark_gpu": {
+      "J_per_token": 0.16854033514781672,
+      "tokens_per_s": 1362.7023317291967,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 229.67030769635008
+     },
+     "energy_saving_x": 1.6181787397455065,
+     "throughput_x": 1.6166023009510897,
+     "water_mL_per_1k_gpu_only": 0.13636419356288967,
+     "water_mL_per_1k_spark": 0.08427016757390836
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 7.48104310666613,
+      "tokens_per_s": 30.02702432188827,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 224.63346331695845
+     },
+     "spark_gpu": {
+      "J_per_token": 2.265450043356681,
+      "tokens_per_s": 95.87041949322521,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 217.18964599755026
+     },
+     "energy_saving_x": 3.3022326528911616,
+     "throughput_x": 3.192804537189529,
+     "water_mL_per_1k_gpu_only": 3.740521553333065,
+     "water_mL_per_1k_spark": 1.1327250216783404
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 1.1508413705555995,
+      "tokens_per_s": 197.08209016507328,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 226.8102227575352
+     },
+     "spark_gpu": {
+      "J_per_token": 0.9411161850691466,
+      "tokens_per_s": 238.82513393188577,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 224.76219894460434
+     },
+     "energy_saving_x": 1.2228472836975424,
+     "throughput_x": 1.2118053636017818,
+     "water_mL_per_1k_gpu_only": 0.5754206852777998,
+     "water_mL_per_1k_spark": 0.47055809253457326
+    },
+    {
+     "gpu": "RTX 4090",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.47260547025797217,
+      "tokens_per_s": 487.93356745754807,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 230.60007310292448
+     },
+     "spark_gpu": {
+      "J_per_token": 0.30966102438590437,
+      "tokens_per_s": 749.0632967826077,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 231.95570781158503
+     },
+     "energy_saving_x": 1.52620263139414,
+     "throughput_x": 1.5351747589035856,
+     "water_mL_per_1k_gpu_only": 0.23630273512898609,
+     "water_mL_per_1k_spark": 0.1548305121929522
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 0.5582768746667041,
+      "tokens_per_s": 99.73722565614356,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.68098662723964
+     },
+     "spark_gpu": {
+      "J_per_token": 0.17532109042598656,
+      "tokens_per_s": 290.95852461763417,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 51.01116580469988
+     },
+     "energy_saving_x": 3.184310987972014,
+     "throughput_x": 2.9172510334381037,
+     "water_mL_per_1k_gpu_only": 0.27913843733335203,
+     "water_mL_per_1k_spark": 0.08766054521299328
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.11159754133332586,
+      "tokens_per_s": 503.014734978283,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.135207678010886
+     },
+     "spark_gpu": {
+      "J_per_token": 0.07646085260029567,
+      "tokens_per_s": 717.4793825971136,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 54.859085316509045
+     },
+     "energy_saving_x": 1.45953828054612,
+     "throughput_x": 1.4263585789948874,
+     "water_mL_per_1k_gpu_only": 0.05579877066666294,
+     "water_mL_per_1k_spark": 0.03823042630014783
+    },
+    {
+     "gpu": "L4",
+     "model": "1.1B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.06373904133332786,
+      "tokens_per_s": 887.4978182345596,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.5682601196909
+     },
+     "spark_gpu": {
+      "J_per_token": 0.031323686305243306,
+      "tokens_per_s": 1807.7026926033714,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.62391207625167
+     },
+     "energy_saving_x": 2.0348512212835725,
+     "throughput_x": 2.036853111593349,
+     "water_mL_per_1k_gpu_only": 0.031869520666663924,
+     "water_mL_per_1k_spark": 0.015661843152621653
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 3.2363538879999467,
+      "tokens_per_s": 17.21393199257485,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.71037573193628
+     },
+     "spark_gpu": {
+      "J_per_token": 0.9839339042618338,
+      "tokens_per_s": 55.92968638483088,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 55.03111468876658
+     },
+     "energy_saving_x": 3.289198465447658,
+     "throughput_x": 3.249094187717013,
+     "water_mL_per_1k_gpu_only": 1.6181769439999736,
+     "water_mL_per_1k_spark": 0.4919669521309169
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.5193412213333783,
+      "tokens_per_s": 108.45030301014728,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.322712819264844
+     },
+     "spark_gpu": {
+      "J_per_token": 0.4127596097722731,
+      "tokens_per_s": 136.2087836959207,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 56.22148440588418
+     },
+     "energy_saving_x": 1.258217153611295,
+     "throughput_x": 1.2559557688204537,
+     "water_mL_per_1k_gpu_only": 0.25967061066668917,
+     "water_mL_per_1k_spark": 0.20637980488613655
+    },
+    {
+     "gpu": "L4",
+     "model": "7B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.2282327213333444,
+      "tokens_per_s": 250.9685293829857,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.27923043010623
+     },
+     "spark_gpu": {
+      "J_per_token": 0.14143573403156548,
+      "tokens_per_s": 411.0231236695514,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 58.133357200149916
+     },
+     "energy_saving_x": 1.61368499195831,
+     "throughput_x": 1.6377476677257707,
+     "water_mL_per_1k_gpu_only": 0.1141163606666722,
+     "water_mL_per_1k_spark": 0.07071786701578274
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 1,
+     "gpu_only": {
+      "J_per_token": 6.231683199999741,
+      "tokens_per_s": 8.940385509423246,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 55.713650180593966
+     },
+     "spark_gpu": {
+      "J_per_token": 1.8883512030267364,
+      "tokens_per_s": 29.383434490345717,
+      "gpu_steps_frac": 0.30045523520485584,
+      "avg_power_W": 55.48624386890164
+     },
+     "energy_saving_x": 3.3000657875565262,
+     "throughput_x": 3.28659591461412,
+     "water_mL_per_1k_gpu_only": 3.11584159999987,
+     "water_mL_per_1k_spark": 0.9441756015133682
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 8,
+     "gpu_only": {
+      "J_per_token": 0.9605455333334004,
+      "tokens_per_s": 58.67568968383222,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 56.36067164106172
+     },
+     "spark_gpu": {
+      "J_per_token": 0.785823608829577,
+      "tokens_per_s": 71.74507806247276,
+      "gpu_steps_frac": 0.947395042994436,
+      "avg_power_W": 56.378976158812065
+     },
+     "energy_saving_x": 1.222342422066013,
+     "throughput_x": 1.222739407905788,
+     "water_mL_per_1k_gpu_only": 0.48027276666670027,
+     "water_mL_per_1k_spark": 0.3929118044147885
+    },
+    {
+     "gpu": "L4",
+     "model": "13B",
+     "batch": 32,
+     "gpu_only": {
+      "J_per_token": 0.39578078333330863,
+      "tokens_per_s": 145.24943564541402,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 57.48693541846296
+     },
+     "spark_gpu": {
+      "J_per_token": 0.2600396796976776,
+      "tokens_per_s": 224.57444042349917,
+      "gpu_steps_frac": 1.0,
+      "avg_power_W": 58.398265556011914
+     },
+     "energy_saving_x": 1.5220015029761758,
+     "throughput_x": 1.5461295214374189,
+     "water_mL_per_1k_gpu_only": 0.19789039166665434,
+     "water_mL_per_1k_spark": 0.13001983984883883
+    }
+   ]
+  }
+ }
+}
