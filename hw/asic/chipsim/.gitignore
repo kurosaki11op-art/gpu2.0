@@ -3,3 +3,4 @@
 *.npy
 gl0/
 gl1/
+*.log
