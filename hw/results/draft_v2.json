@@ -1,0 +1,718 @@
+{
+ "cal": {
+  "gpu_only_bytes_per_pass_tokens": 4.833011116481392,
+  "bytes_per_token": 4.833252779120348,
+  "rows": {
+   "tokens|per-byte|0.5|8": {
+    "bytes_per_pass": 6.482658022690438,
+    "draft_bytes_per_pass": 5.047325769854133
+   },
+   "tokens|per-byte|0.5|16": {
+    "bytes_per_pass": 6.6774624373956595,
+    "draft_bytes_per_pass": 7.535893155258765
+   },
+   "tokens|per-byte|0.5|32": {
+    "bytes_per_pass": 6.720094086021505,
+    "draft_bytes_per_pass": 9.670362903225806
+   },
+   "tokens|per-byte|0.5|64": {
+    "bytes_per_pass": 6.720094086021505,
+    "draft_bytes_per_pass": 10.544018817204302
+   },
+   "tokens|per-byte|0.6|8": {
+    "bytes_per_pass": 6.480557355800389,
+    "draft_bytes_per_pass": 5.032080362929358
+   },
+   "tokens|per-byte|0.6|16": {
+    "bytes_per_pass": 6.673006339673006,
+    "draft_bytes_per_pass": 7.5005005005005
+   },
+   "tokens|per-byte|0.6|32": {
+    "bytes_per_pass": 6.715580926796508,
+    "draft_bytes_per_pass": 9.601410342511754
+   },
+   "tokens|per-byte|0.6|64": {
+    "bytes_per_pass": 6.715580926796508,
+    "draft_bytes_per_pass": 10.472800537273338
+   },
+   "tokens|per-byte|0.7|8": {
+    "bytes_per_pass": 6.346874008251349,
+    "draft_bytes_per_pass": 4.17359568390987
+   },
+   "tokens|per-byte|0.7|16": {
+    "bytes_per_pass": 6.507972665148063,
+    "draft_bytes_per_pass": 6.034819394728278
+   },
+   "tokens|per-byte|0.7|32": {
+    "bytes_per_pass": 6.544175392670157,
+    "draft_bytes_per_pass": 7.486256544502618
+   },
+   "tokens|per-byte|0.7|64": {
+    "bytes_per_pass": 6.544175392670157,
+    "draft_bytes_per_pass": 8.073625654450261
+   },
+   "tokens|per-byte|0.8|8": {
+    "bytes_per_pass": 5.598824188129899,
+    "draft_bytes_per_pass": 1.3163493840985443
+   },
+   "tokens|per-byte|0.8|16": {
+    "bytes_per_pass": 5.6398759165256624,
+    "draft_bytes_per_pass": 1.4777213761985335
+   },
+   "tokens|per-byte|0.8|32": {
+    "bytes_per_pass": 5.649435028248588,
+    "draft_bytes_per_pass": 1.5559322033898304
+   },
+   "tokens|per-byte|0.8|64": {
+    "bytes_per_pass": 5.649435028248588,
+    "draft_bytes_per_pass": 1.5918079096045197
+   },
+   "tokens|per-byte|0.9|8": {
+    "bytes_per_pass": 5.344468198824158,
+    "draft_bytes_per_pass": 0.7479957242116515
+   },
+   "tokens|per-byte|0.9|16": {
+    "bytes_per_pass": 5.360225140712946,
+    "draft_bytes_per_pass": 0.7879924953095685
+   },
+   "tokens|per-byte|0.9|32": {
+    "bytes_per_pass": 5.360225140712946,
+    "draft_bytes_per_pass": 0.8040739748056821
+   },
+   "tokens|per-byte|0.9|64": {
+    "bytes_per_pass": 5.360225140712946,
+    "draft_bytes_per_pass": 0.8051460734387563
+   },
+   "tokens|cumulative|0.1|8": {
+    "bytes_per_pass": 6.589456342668863,
+    "draft_bytes_per_pass": 5.861285008237232
+   },
+   "tokens|cumulative|0.1|16": {
+    "bytes_per_pass": 6.765561569688769,
+    "draft_bytes_per_pass": 7.810554803788904
+   },
+   "tokens|cumulative|0.1|32": {
+    "bytes_per_pass": 6.7931385869565215,
+    "draft_bytes_per_pass": 8.486413043478262
+   },
+   "tokens|cumulative|0.1|64": {
+    "bytes_per_pass": 6.7931385869565215,
+    "draft_bytes_per_pass": 8.61616847826087
+   },
+   "tokens|cumulative|0.2|8": {
+    "bytes_per_pass": 6.478458049886621,
+    "draft_bytes_per_pass": 4.973113054745708
+   },
+   "tokens|cumulative|0.2|16": {
+    "bytes_per_pass": 6.609054857898215,
+    "draft_bytes_per_pass": 6.149041639127561
+   },
+   "tokens|cumulative|0.2|32": {
+    "bytes_per_pass": 6.633167495854063,
+    "draft_bytes_per_pass": 6.455058043117744
+   },
+   "tokens|cumulative|0.2|64": {
+    "bytes_per_pass": 6.633167495854063,
+    "draft_bytes_per_pass": 6.4792703150912105
+   },
+   "tokens|cumulative|0.3|8": {
+    "bytes_per_pass": 6.375199234937838,
+    "draft_bytes_per_pass": 4.247370098820529
+   },
+   "tokens|cumulative|0.3|16": {
+    "bytes_per_pass": 6.459625322997416,
+    "draft_bytes_per_pass": 4.938630490956072
+   },
+   "tokens|cumulative|0.3|32": {
+    "bytes_per_pass": 6.472168284789644,
+    "draft_bytes_per_pass": 5.0527508090614885
+   },
+   "tokens|cumulative|0.3|64": {
+    "bytes_per_pass": 6.472168284789644,
+    "draft_bytes_per_pass": 5.057281553398059
+   },
+   "tokens|cumulative|0.5|8": {
+    "bytes_per_pass": 6.117773019271948,
+    "draft_bytes_per_pass": 2.9535026001835423
+   },
+   "tokens|cumulative|0.5|16": {
+    "bytes_per_pass": 6.153538461538462,
+    "draft_bytes_per_pass": 3.0947692307692307
+   },
+   "tokens|cumulative|0.5|32": {
+    "bytes_per_pass": 6.157327586206897,
+    "draft_bytes_per_pass": 3.104064039408867
+   },
+   "tokens|cumulative|0.5|64": {
+    "bytes_per_pass": 6.157327586206897,
+    "draft_bytes_per_pass": 3.104064039408867
+   },
+   "tokens|cumulative|0.7|8": {
+    "bytes_per_pass": 5.776718659734257,
+    "draft_bytes_per_pass": 1.5935875216637783
+   },
+   "tokens|cumulative|0.7|16": {
+    "bytes_per_pass": 5.780057803468208,
+    "draft_bytes_per_pass": 1.608092485549133
+   },
+   "tokens|cumulative|0.7|32": {
+    "bytes_per_pass": 5.780057803468208,
+    "draft_bytes_per_pass": 1.608092485549133
+   },
+   "tokens|cumulative|0.7|64": {
+    "bytes_per_pass": 5.780057803468208,
+    "draft_bytes_per_pass": 1.608092485549133
+   },
+   "tokens|oracle|0|8": {
+    "bytes_per_pass": 6.655241264559068,
+    "draft_bytes_per_pass": 2.2046589018302827
+   },
+   "tokens|oracle|0|16": {
+    "bytes_per_pass": 6.900966183574879,
+    "draft_bytes_per_pass": 2.502070393374741
+   },
+   "tokens|oracle|0|32": {
+    "bytes_per_pass": 6.953755215577191,
+    "draft_bytes_per_pass": 2.547287899860918
+   },
+   "tokens|oracle|0|64": {
+    "bytes_per_pass": 6.953755215577191,
+    "draft_bytes_per_pass": 2.547287899860918
+   },
+   "bytes|per-byte|0.5|8": {
+    "bytes_per_pass": 3.2931006092540756,
+    "draft_bytes_per_pass": 4.389922608266096
+   },
+   "bytes|per-byte|0.5|16": {
+    "bytes_per_pass": 3.5302736098852603,
+    "draft_bytes_per_pass": 6.465666372462489
+   },
+   "bytes|per-byte|0.5|32": {
+    "bytes_per_pass": 3.57188783711377,
+    "draft_bytes_per_pass": 8.231827111984282
+   },
+   "bytes|per-byte|0.5|64": {
+    "bytes_per_pass": 3.5738027162258756,
+    "draft_bytes_per_pass": 8.939599714081487
+   },
+   "bytes|per-byte|0.6|8": {
+    "bytes_per_pass": 3.2860663818600067,
+    "draft_bytes_per_pass": 4.355241537955965
+   },
+   "bytes|per-byte|0.6|16": {
+    "bytes_per_pass": 3.522190912293061,
+    "draft_bytes_per_pass": 6.397499119408242
+   },
+   "bytes|per-byte|0.6|32": {
+    "bytes_per_pass": 3.5629787992161055,
+    "draft_bytes_per_pass": 8.120969178692322
+   },
+   "bytes|per-byte|0.6|64": {
+    "bytes_per_pass": 3.564884135472371,
+    "draft_bytes_per_pass": 8.822994652406416
+   },
+   "bytes|per-byte|0.7|8": {
+    "bytes_per_pass": 2.9680914217868803,
+    "draft_bytes_per_pass": 3.4321757197981597
+   },
+   "bytes|per-byte|0.7|16": {
+    "bytes_per_pass": 3.144496855345912,
+    "draft_bytes_per_pass": 4.807232704402516
+   },
+   "bytes|per-byte|0.7|32": {
+    "bytes_per_pass": 3.1744444444444446,
+    "draft_bytes_per_pass": 5.887619047619047
+   },
+   "bytes|per-byte|0.7|64": {
+    "bytes_per_pass": 3.174948404508652,
+    "draft_bytes_per_pass": 6.317669471344658
+   },
+   "bytes|per-byte|0.8|8": {
+    "bytes_per_pass": 1.948270823185582,
+    "draft_bytes_per_pass": 1.245884072089625
+   },
+   "bytes|per-byte|0.8|16": {
+    "bytes_per_pass": 1.9789234118345538,
+    "draft_bytes_per_pass": 1.3819513160498713
+   },
+   "bytes|per-byte|0.8|32": {
+    "bytes_per_pass": 1.9838309691498859,
+    "draft_bytes_per_pass": 1.4445987501239956
+   },
+   "bytes|per-byte|0.8|64": {
+    "bytes_per_pass": 1.9840277777777777,
+    "draft_bytes_per_pass": 1.4652777777777777
+   },
+   "bytes|per-byte|0.9|8": {
+    "bytes_per_pass": 1.5321382057764499,
+    "draft_bytes_per_pass": 0.6351030414464108
+   },
+   "bytes|per-byte|0.9|16": {
+    "bytes_per_pass": 1.5424186333487584,
+    "draft_bytes_per_pass": 0.6685947863643374
+   },
+   "bytes|per-byte|0.9|32": {
+    "bytes_per_pass": 1.54384746024394,
+    "draft_bytes_per_pass": 0.6818743245329628
+   },
+   "bytes|per-byte|0.9|64": {
+    "bytes_per_pass": 1.5439666486528218,
+    "draft_bytes_per_pass": 0.6833938083841581
+   },
+   "bytes|cumulative|0.1|8": {
+    "bytes_per_pass": 3.5012254901960786,
+    "draft_bytes_per_pass": 5.451680672268908
+   },
+   "bytes|cumulative|0.1|16": {
+    "bytes_per_pass": 3.7262902925284145,
+    "draft_bytes_per_pass": 7.0456493385504
+   },
+   "bytes|cumulative|0.1|32": {
+    "bytes_per_pass": 3.755680751173709,
+    "draft_bytes_per_pass": 7.617089201877934
+   },
+   "bytes|cumulative|0.1|64": {
+    "bytes_per_pass": 3.755680751173709,
+    "draft_bytes_per_pass": 7.704788732394366
+   },
+   "bytes|cumulative|0.2|8": {
+    "bytes_per_pass": 3.3685362977934985,
+    "draft_bytes_per_pass": 4.500421088091628
+   },
+   "bytes|cumulative|0.2|16": {
+    "bytes_per_pass": 3.528405081157375,
+    "draft_bytes_per_pass": 5.429604798870854
+   },
+   "bytes|cumulative|0.2|32": {
+    "bytes_per_pass": 3.5465508068806524,
+    "draft_bytes_per_pass": 5.664302181237808
+   },
+   "bytes|cumulative|0.2|64": {
+    "bytes_per_pass": 3.5465508068806524,
+    "draft_bytes_per_pass": 5.680617130696932
+   },
+   "bytes|cumulative|0.3|8": {
+    "bytes_per_pass": 3.165901535539022,
+    "draft_bytes_per_pass": 3.7468735159094506
+   },
+   "bytes|cumulative|0.3|16": {
+    "bytes_per_pass": 3.2731587561374798,
+    "draft_bytes_per_pass": 4.248772504091653
+   },
+   "bytes|cumulative|0.3|32": {
+    "bytes_per_pass": 3.2774500163880695,
+    "draft_bytes_per_pass": 4.3320222877745005
+   },
+   "bytes|cumulative|0.3|64": {
+    "bytes_per_pass": 3.2774500163880695,
+    "draft_bytes_per_pass": 4.3334972140281875
+   },
+   "bytes|cumulative|0.5|8": {
+    "bytes_per_pass": 2.767261657672617,
+    "draft_bytes_per_pass": 2.6214196762141966
+   },
+   "bytes|cumulative|0.5|16": {
+    "bytes_per_pass": 2.792766373411535,
+    "draft_bytes_per_pass": 2.7212679793324956
+   },
+   "bytes|cumulative|0.5|32": {
+    "bytes_per_pass": 2.794717719396311,
+    "draft_bytes_per_pass": 2.726802683063164
+   },
+   "bytes|cumulative|0.5|64": {
+    "bytes_per_pass": 2.794717719396311,
+    "draft_bytes_per_pass": 2.726802683063164
+   },
+   "bytes|cumulative|0.7|8": {
+    "bytes_per_pass": 2.17120833785691,
+    "draft_bytes_per_pass": 1.4946259906633372
+   },
+   "bytes|cumulative|0.7|16": {
+    "bytes_per_pass": 2.174040656593108,
+    "draft_bytes_per_pass": 1.5078812914447222
+   },
+   "bytes|cumulative|0.7|32": {
+    "bytes_per_pass": 2.174040656593108,
+    "draft_bytes_per_pass": 1.5078812914447222
+   },
+   "bytes|cumulative|0.7|64": {
+    "bytes_per_pass": 2.174040656593108,
+    "draft_bytes_per_pass": 1.5078812914447222
+   },
+   "bytes|oracle|0|8": {
+    "bytes_per_pass": 3.6144948490872943,
+    "draft_bytes_per_pass": 2.6144948490872943
+   },
+   "bytes|oracle|0|16": {
+    "bytes_per_pass": 3.93603621334383,
+    "draft_bytes_per_pass": 2.93603621334383
+   },
+   "bytes|oracle|0|32": {
+    "bytes_per_pass": 3.9926132960670793,
+    "draft_bytes_per_pass": 2.9926132960670793
+   },
+   "bytes|oracle|0|64": {
+    "bytes_per_pass": 3.9950059928086294,
+    "draft_bytes_per_pass": 2.9950059928086294
+   }
+  }
+ },
+ "test": {
+  "gpu_only_bytes_per_pass_tokens": 5.059195547685302,
+  "bytes_per_token": 5.058168942842691,
+  "rows": {
+   "tokens|per-byte|0.5|8": {
+    "bytes_per_pass": 5.94500594530321,
+    "draft_bytes_per_pass": 4.452734839476813
+   },
+   "tokens|per-byte|0.5|16": {
+    "bytes_per_pass": 5.952083333333333,
+    "draft_bytes_per_pass": 6.326488095238095
+   },
+   "tokens|per-byte|0.5|32": {
+    "bytes_per_pass": 5.952083333333333,
+    "draft_bytes_per_pass": 7.963690476190476
+   },
+   "tokens|per-byte|0.5|64": {
+    "bytes_per_pass": 5.952083333333333,
+    "draft_bytes_per_pass": 8.744940476190477
+   },
+   "tokens|per-byte|0.6|8": {
+    "bytes_per_pass": 5.937945368171022,
+    "draft_bytes_per_pass": 4.427256532066508
+   },
+   "tokens|per-byte|0.6|16": {
+    "bytes_per_pass": 5.94500594530321,
+    "draft_bytes_per_pass": 6.285969084423305
+   },
+   "tokens|per-byte|0.6|32": {
+    "bytes_per_pass": 5.94500594530321,
+    "draft_bytes_per_pass": 7.8882282996432815
+   },
+   "tokens|per-byte|0.6|64": {
+    "bytes_per_pass": 5.94500594530321,
+    "draft_bytes_per_pass": 8.660523186682521
+   },
+   "tokens|per-byte|0.7|8": {
+    "bytes_per_pass": 5.86825117370892,
+    "draft_bytes_per_pass": 3.7024647887323945
+   },
+   "tokens|per-byte|0.7|16": {
+    "bytes_per_pass": 5.875146886016451,
+    "draft_bytes_per_pass": 5.163337250293772
+   },
+   "tokens|per-byte|0.7|32": {
+    "bytes_per_pass": 5.875146886016451,
+    "draft_bytes_per_pass": 6.414512338425382
+   },
+   "tokens|per-byte|0.7|64": {
+    "bytes_per_pass": 5.875146886016451,
+    "draft_bytes_per_pass": 7.052291421856639
+   },
+   "tokens|per-byte|0.8|8": {
+    "bytes_per_pass": 5.504816955684007,
+    "draft_bytes_per_pass": 1.2358932012111203
+   },
+   "tokens|per-byte|0.8|16": {
+    "bytes_per_pass": 5.507849077389149,
+    "draft_bytes_per_pass": 1.4604792068300743
+   },
+   "tokens|per-byte|0.8|32": {
+    "bytes_per_pass": 5.507849077389149,
+    "draft_bytes_per_pass": 1.5877168824015422
+   },
+   "tokens|per-byte|0.8|64": {
+    "bytes_per_pass": 5.507849077389149,
+    "draft_bytes_per_pass": 1.5965298815753235
+   },
+   "tokens|per-byte|0.9|8": {
+    "bytes_per_pass": 5.334489197119232,
+    "draft_bytes_per_pass": 0.714857295278741
+   },
+   "tokens|per-byte|0.9|16": {
+    "bytes_per_pass": 5.334489197119232,
+    "draft_bytes_per_pass": 0.8074153107495332
+   },
+   "tokens|per-byte|0.9|32": {
+    "bytes_per_pass": 5.334489197119232,
+    "draft_bytes_per_pass": 0.8508935716190984
+   },
+   "tokens|per-byte|0.9|64": {
+    "bytes_per_pass": 5.334489197119232,
+    "draft_bytes_per_pass": 0.854094425180048
+   },
+   "tokens|cumulative|0.1|8": {
+    "bytes_per_pass": 6.041993957703927,
+    "draft_bytes_per_pass": 5.368882175226586
+   },
+   "tokens|cumulative|0.1|16": {
+    "bytes_per_pass": 6.0474750529180525,
+    "draft_bytes_per_pass": 6.782884789839734
+   },
+   "tokens|cumulative|0.1|32": {
+    "bytes_per_pass": 6.0474750529180525,
+    "draft_bytes_per_pass": 7.446930752948291
+   },
+   "tokens|cumulative|0.1|64": {
+    "bytes_per_pass": 6.0474750529180525,
+    "draft_bytes_per_pass": 7.495010583610523
+   },
+   "tokens|cumulative|0.2|8": {
+    "bytes_per_pass": 5.969850746268657,
+    "draft_bytes_per_pass": 4.408955223880597
+   },
+   "tokens|cumulative|0.2|16": {
+    "bytes_per_pass": 5.975201673140125,
+    "draft_bytes_per_pass": 5.299671347475351
+   },
+   "tokens|cumulative|0.2|32": {
+    "bytes_per_pass": 5.975201673140125,
+    "draft_bytes_per_pass": 5.632506722438004
+   },
+   "tokens|cumulative|0.2|64": {
+    "bytes_per_pass": 5.975201673140125,
+    "draft_bytes_per_pass": 5.639079772930983
+   },
+   "tokens|cumulative|0.3|8": {
+    "bytes_per_pass": 5.927385892116183,
+    "draft_bytes_per_pass": 3.6982809721398935
+   },
+   "tokens|cumulative|0.3|16": {
+    "bytes_per_pass": 5.930901542111506,
+    "draft_bytes_per_pass": 4.326809015421115
+   },
+   "tokens|cumulative|0.3|32": {
+    "bytes_per_pass": 5.930901542111506,
+    "draft_bytes_per_pass": 4.471826809015421
+   },
+   "tokens|cumulative|0.3|64": {
+    "bytes_per_pass": 5.930901542111506,
+    "draft_bytes_per_pass": 4.471826809015421
+   },
+   "tokens|cumulative|0.5|8": {
+    "bytes_per_pass": 5.827214452214452,
+    "draft_bytes_per_pass": 2.640734265734266
+   },
+   "tokens|cumulative|0.5|16": {
+    "bytes_per_pass": 5.8289128533955115,
+    "draft_bytes_per_pass": 2.845817545904984
+   },
+   "tokens|cumulative|0.5|32": {
+    "bytes_per_pass": 5.8289128533955115,
+    "draft_bytes_per_pass": 2.8571844943165257
+   },
+   "tokens|cumulative|0.5|64": {
+    "bytes_per_pass": 5.8289128533955115,
+    "draft_bytes_per_pass": 2.8571844943165257
+   },
+   "tokens|cumulative|0.7|8": {
+    "bytes_per_pass": 5.692855109592941,
+    "draft_bytes_per_pass": 1.4990037005408483
+   },
+   "tokens|cumulative|0.7|16": {
+    "bytes_per_pass": 5.692855109592941,
+    "draft_bytes_per_pass": 1.5140905209222886
+   },
+   "tokens|cumulative|0.7|32": {
+    "bytes_per_pass": 5.692855109592941,
+    "draft_bytes_per_pass": 1.5140905209222886
+   },
+   "tokens|cumulative|0.7|64": {
+    "bytes_per_pass": 5.692855109592941,
+    "draft_bytes_per_pass": 1.5140905209222886
+   },
+   "tokens|oracle|0|8": {
+    "bytes_per_pass": 6.091684434968017,
+    "draft_bytes_per_pass": 1.232713981114834
+   },
+   "tokens|oracle|0|16": {
+    "bytes_per_pass": 6.110296364191873,
+    "draft_bytes_per_pass": 1.2609227008860373
+   },
+   "tokens|oracle|0|32": {
+    "bytes_per_pass": 6.110296364191873,
+    "draft_bytes_per_pass": 1.2612282309807517
+   },
+   "tokens|oracle|0|64": {
+    "bytes_per_pass": 6.110296364191873,
+    "draft_bytes_per_pass": 1.2612282309807517
+   },
+   "bytes|per-byte|0.5|8": {
+    "bytes_per_pass": 2.233028137561411,
+    "draft_bytes_per_pass": 4.274452880750335
+   },
+   "bytes|per-byte|0.5|16": {
+    "bytes_per_pass": 2.280647736343939,
+    "draft_bytes_per_pass": 6.3368685140837036
+   },
+   "bytes|per-byte|0.5|32": {
+    "bytes_per_pass": 2.2827302819312862,
+    "draft_bytes_per_pass": 8.035612373016779
+   },
+   "bytes|per-byte|0.5|64": {
+    "bytes_per_pass": 2.2832515127297635,
+    "draft_bytes_per_pass": 8.817787418655097
+   },
+   "bytes|per-byte|0.6|8": {
+    "bytes_per_pass": 2.2280525846702317,
+    "draft_bytes_per_pass": 4.2463235294117645
+   },
+   "bytes|per-byte|0.6|16": {
+    "bytes_per_pass": 2.2754579588121517,
+    "draft_bytes_per_pass": 6.291955853908294
+   },
+   "bytes|per-byte|0.6|32": {
+    "bytes_per_pass": 2.277531032911969,
+    "draft_bytes_per_pass": 7.963329916865961
+   },
+   "bytes|per-byte|0.6|64": {
+    "bytes_per_pass": 2.2780498917872194,
+    "draft_bytes_per_pass": 8.737897254812621
+   },
+   "bytes|per-byte|0.7|8": {
+    "bytes_per_pass": 2.069004758948893,
+    "draft_bytes_per_pass": 3.421166977032899
+   },
+   "bytes|per-byte|0.7|16": {
+    "bytes_per_pass": 2.1082648113008644,
+    "draft_bytes_per_pass": 4.971537001897533
+   },
+   "bytes|per-byte|0.7|32": {
+    "bytes_per_pass": 2.1098217111509654,
+    "draft_bytes_per_pass": 6.225023736681084
+   },
+   "bytes|per-byte|0.7|64": {
+    "bytes_per_pass": 2.110266962118814,
+    "draft_bytes_per_pass": 6.808061622876438
+   },
+   "bytes|per-byte|0.8|8": {
+    "bytes_per_pass": 1.5736092532850736,
+    "draft_bytes_per_pass": 1.3418837044614054
+   },
+   "bytes|per-byte|0.8|16": {
+    "bytes_per_pass": 1.583452098178939,
+    "draft_bytes_per_pass": 1.615993665874901
+   },
+   "bytes|per-byte|0.8|32": {
+    "bytes_per_pass": 1.5839537462379218,
+    "draft_bytes_per_pass": 1.7472675431648979
+   },
+   "bytes|per-byte|0.8|64": {
+    "bytes_per_pass": 1.584204689480355,
+    "draft_bytes_per_pass": 1.762753485424588
+   },
+   "bytes|per-byte|0.9|8": {
+    "bytes_per_pass": 1.3453750420450723,
+    "draft_bytes_per_pass": 0.6748738647830475
+   },
+   "bytes|per-byte|0.9|16": {
+    "bytes_per_pass": 1.3500067503712705,
+    "draft_bytes_per_pass": 0.7528689077899284
+   },
+   "bytes|per-byte|0.9|32": {
+    "bytes_per_pass": 1.350371370695476,
+    "draft_bytes_per_pass": 0.7854827819041188
+   },
+   "bytes|per-byte|0.9|64": {
+    "bytes_per_pass": 1.3505537547271744,
+    "draft_bytes_per_pass": 0.7886952998379254
+   },
+   "bytes|cumulative|0.1|8": {
+    "bytes_per_pass": 2.3701114008058783,
+    "draft_bytes_per_pass": 5.313107371415027
+   },
+   "bytes|cumulative|0.1|16": {
+    "bytes_per_pass": 2.4197217180883244,
+    "draft_bytes_per_pass": 6.955716878402904
+   },
+   "bytes|cumulative|0.1|32": {
+    "bytes_per_pass": 2.4214795980142876,
+    "draft_bytes_per_pass": 7.720668361787141
+   },
+   "bytes|cumulative|0.1|64": {
+    "bytes_per_pass": 2.421772826350206,
+    "draft_bytes_per_pass": 7.770767740372972
+   },
+   "bytes|cumulative|0.2|8": {
+    "bytes_per_pass": 2.3050945136007375,
+    "draft_bytes_per_pass": 4.3759797141539885
+   },
+   "bytes|cumulative|0.2|16": {
+    "bytes_per_pass": 2.3486788021139167,
+    "draft_bytes_per_pass": 5.461538461538462
+   },
+   "bytes|cumulative|0.2|32": {
+    "bytes_per_pass": 2.3495065789473686,
+    "draft_bytes_per_pass": 5.835056390977444
+   },
+   "bytes|cumulative|0.2|64": {
+    "bytes_per_pass": 2.349782634238045,
+    "draft_bytes_per_pass": 5.843379156385853
+   },
+   "bytes|cumulative|0.3|8": {
+    "bytes_per_pass": 2.205447728275254,
+    "draft_bytes_per_pass": 3.631120423467137
+   },
+   "bytes|cumulative|0.3|16": {
+    "bytes_per_pass": 2.239028213166144,
+    "draft_bytes_per_pass": 4.358934169278997
+   },
+   "bytes|cumulative|0.3|32": {
+    "bytes_per_pass": 2.2400313620071683,
+    "draft_bytes_per_pass": 4.512992831541219
+   },
+   "bytes|cumulative|0.3|64": {
+    "bytes_per_pass": 2.2400313620071683,
+    "draft_bytes_per_pass": 4.513440860215054
+   },
+   "bytes|cumulative|0.5|8": {
+    "bytes_per_pass": 2.0522319138019496,
+    "draft_bytes_per_pass": 2.604617752693689
+   },
+   "bytes|cumulative|0.5|16": {
+    "bytes_per_pass": 2.0626031353135312,
+    "draft_bytes_per_pass": 2.853857260726073
+   },
+   "bytes|cumulative|0.5|32": {
+    "bytes_per_pass": 2.0626031353135312,
+    "draft_bytes_per_pass": 2.8652021452145213
+   },
+   "bytes|cumulative|0.5|64": {
+    "bytes_per_pass": 2.0626031353135312,
+    "draft_bytes_per_pass": 2.8652021452145213
+   },
+   "bytes|cumulative|0.7|8": {
+    "bytes_per_pass": 1.7504595185995624,
+    "draft_bytes_per_pass": 1.471859956236324
+   },
+   "bytes|cumulative|0.7|16": {
+    "bytes_per_pass": 1.7512259194395796,
+    "draft_bytes_per_pass": 1.493169877408056
+   },
+   "bytes|cumulative|0.7|32": {
+    "bytes_per_pass": 1.7512259194395796,
+    "draft_bytes_per_pass": 1.493169877408056
+   },
+   "bytes|cumulative|0.7|64": {
+    "bytes_per_pass": 1.7512259194395796,
+    "draft_bytes_per_pass": 1.493169877408056
+   },
+   "bytes|oracle|0|8": {
+    "bytes_per_pass": 2.4197217180883244,
+    "draft_bytes_per_pass": 1.4198427102238353
+   },
+   "bytes|oracle|0|16": {
+    "bytes_per_pass": 2.4837307501241925,
+    "draft_bytes_per_pass": 1.4838549428713363
+   },
+   "bytes|oracle|0|32": {
+    "bytes_per_pass": 2.486200895077076,
+    "draft_bytes_per_pass": 1.486325211337643
+   },
+   "bytes|oracle|0|64": {
+    "bytes_per_pass": 2.486819199204178,
+    "draft_bytes_per_pass": 1.486943546381497
+   }
+  }
+ }
+}
