@@ -60,6 +60,7 @@ def main():
     ap.add_argument("--spark", default=os.path.join(HERE, "..", "train", "out_qat_sp0.05", "spark_v0_model.npz"))
     ap.add_argument("--gpu", default=os.path.join(HERE, "out", "gpu_model.pt"))
     ap.add_argument("--out", default=os.path.join(HERE, "out"))
+    ap.add_argument("--hf", default="", help="Hugging Face model id to use as the GPU model instead of nanoGPT")
     a = ap.parse_args()
     torch.set_num_threads(2)
     data = tr.load_corpus(3_000_000)
@@ -67,14 +68,20 @@ def main():
     cal = data[int(n * 0.9): int(n * 0.9) + a.bytes]
     test = data[int(n * 0.95): int(n * 0.95) + a.bytes]
 
-    ck = torch.load(a.gpu)
-    m = GPT(GPTConfig(**ck["cfg"]))
-    m.load_state_dict(ck["state"])
-    m.eval()
-    P = m.get_num_params()
     W = sg.Weights.from_npz(a.spark)
-
-    gp = {k: gpu_preds(m, d) for k, d in (("cal", cal), ("test", test))}
+    if a.hf:
+        from hf_gpu import hf_next_byte_preds
+        from transformers import AutoConfig
+        gp = {k: hf_next_byte_preds(d, a.hf) for k, d in (("cal", cal), ("test", test))}
+        import transformers
+        P = sum(p.numel() for p in transformers.AutoModelForCausalLM.from_pretrained(a.hf).parameters())
+    else:
+        ck = torch.load(a.gpu)
+        m = GPT(GPTConfig(**ck["cfg"]))
+        m.load_state_dict(ck["state"])
+        m.eval()
+        P = m.get_num_params()
+        gp = {k: gpu_preds(m, d) for k, d in (("cal", cal), ("test", test))}
     acc = lambda p, d: float(np.mean(p[:-1] == d[1:]))  # noqa: E731
     gpu_only = {k: acc(gp[k], d) for k, d in (("cal", cal), ("test", test))}
     print(f"GPU-only ({P/1e6:.2f} M params) accuracy: cal {gpu_only['cal']:.1%}  test {gpu_only['test']:.1%}", flush=True)
@@ -135,7 +142,8 @@ def main():
            "constants": {"E_FLOP": E_FLOP, "E_HBM_BIT": E_HBM_BIT, "SPARK_J": SPARK_J},
            "rows": rows, "operating_points": summary}
     os.makedirs(a.out, exist_ok=True)
-    json.dump(out, open(os.path.join(a.out, "cascade_results.json"), "w"), indent=1)
+    out["gpu_model"] = a.hf or "nanoGPT byte model (trained here)"
+    json.dump(out, open(os.path.join(a.out, "cascade_results%s.json" % ("_" + a.hf.split("/")[-1] if a.hf else "")), "w"), indent=1)
     for e in summary:
         print(f"\n{e['operating_point']}: {e['setting']}  GPU used for {e['test']['gpu_fraction']:.1%} of tokens, "
               f"accuracy {e['test']['accuracy']:.1%} (GPU-only {gpu_only['test']:.1%})")
