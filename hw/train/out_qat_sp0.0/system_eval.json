@@ -1,7 +1,8 @@
 {
-  "run": "hw/train/out_qat_sp0.0",
+  "run": "/home/user/gpu2.0/hw/train/out_qat_sp0.0",
   "eval_bytes": 2000,
   "exit_th": 23,
+  "arb_th": 128,
   "main path only": {
     "accuracy": 0.6388194097048524,
     "events_per_token": 308.7745,
@@ -37,6 +38,24 @@
       254,
       380,
       1366
+    ]
+  },
+  "adaptive, recall effort 1 (fresh state)": {
+    "accuracy": 0.7163581790895448,
+    "events_per_token": 197.5415,
+    "paths_full_exit_recall": [
+      263,
+      371,
+      1366
+    ]
+  },
+  "adaptive, recall effort 2 (arbitration, arb_th=128)": {
+    "accuracy": 0.7383691845922962,
+    "events_per_token": 236.9355,
+    "paths_full_exit_recall": [
+      615,
+      371,
+      1014
     ]
   },
   "dense_events_per_token": 448.0

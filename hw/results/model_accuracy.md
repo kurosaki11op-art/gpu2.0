@@ -1,4 +1,4 @@
-# SPARK model accuracy — from 41% to 66% (MEASURED)
+# SPARK model accuracy — from 41% to 74% (MEASURED)
 
 Task: predict the next byte of Python source code (held-out files from the local CPython standard library; 2.7 MB training text). All "chip" models use the exact integer rules of the SPARK core and are verified bit-exact (0 mismatches) between PyTorch and the golden reference model; the RTL is verified bit-exact against the golden model.
 
@@ -42,6 +42,54 @@ Analysis showed the recall table was losing accuracy to hash collisions and an o
 | sparsity 0.05 | 66.0% | **68.1%** | **59 (≈7.6× less than dense)** | 68% of bytes |
 
 RTL updated and verified bit-exact (0 mismatches); board UART testbench passes (40 tokens, 5 configurations).
+
+## Recall effort dial — "think less when you can, think hard when you need to" (golden model, 2,000 held-out bytes)
+On a recall hit the chip can trust memory at three effort levels. Implemented in the golden model **and** the RTL;
+RTL verified bit-exact (0 mismatches, 5 configurations × 300 tokens); board UART testbench still passes.
+`arb_th` (effort 2) was chosen on the calibration split (128), never on the test split.
+
+| Effort on a recall hit | sparsity 0 | sparsity 0.05 | Work, events/token (sp0 / sp0.05) |
+|---|---|---|---|
+| Low (0): answer from memory, skip the network | 69.2% | 68.1% | 87 / 59 |
+| Medium (1): answer from memory, update neurons (fresh state) | 71.6% | 70.5% | 198 / 147 |
+| High (2): also run the main head; network overrides memory when confident | **73.8%** | **72.6%** | 237 / 172 |
+
+Dense processing ≈ 448 events/token. All settings use the adaptive controller (change-only vs full recompute, adaptive early exit).
+
+## Longer, harder test (20,000 bytes) — honest check
+The 2,000-byte test happens to be an easier stretch. On 20,000 held-out bytes (fast exact simulator, 0 mismatches vs golden):
+
+| | sparsity 0 | sparsity 0.05 |
+|---|---|---|
+| Network alone | 59.5% | 56.6% |
+| Chip today: one recall memory, effort 2 (arb_th 64) | 66.6% | 65.3% |
+| **Prototype: four memories (2/3/4/6-byte context) that "prime" the network** | **68.3%** | **67.4%** |
+
+Memory priming = every memory that recognises the context adds a confidence-weighted boost to its byte's score
+(memory biases perception) instead of an either/or switch. Settings tuned on the calibration split only. Needs
+4 × 1,024 recall slots (≈ 3 more block RAMs with 16-bit tags) — not yet in RTL.
+
+## On-chip learning — what we tried (20,000-byte calibration stream, sparsity-0.05 model, network alone 49.2%)
+| Brain-like learning rule | Accuracy | Verdict |
+|---|---|---|
+| Error-driven plasticity on the int4 output weights (pre-spike × error) | 41–49% | Hurts: int4 steps are too coarse, overwrites what was learned |
+| Intrinsic plasticity (per-output bias) | 33–48% | Hurts |
+| Fast synapses beside fixed slow weights, with forgetting | 46–49.7% | No real gain |
+| Learned memory-vs-network arbiter (counters per confidence bucket) | +0.1 to +0.7 points over a fixed threshold | Small gain |
+| **One-shot memory (the recall unit) + priming** | **+19 points over the network alone** | **Works** |
+
+Finding: on this chip the learning that pays off is the brain's *fast one-shot memory* (hippocampus-like recall
+table, written every token) plus a slow, fixed network — the "complementary learning systems" split. Online weight
+updates chase unpredictable bytes. Scripts: `hw/train/experiments/`.
+
+## Bigger network? (exact-integer, 3-byte context, 3,000-byte eval)
+| Neurons per layer | Main-path accuracy |
+|---|---|
+| 128 | 62.3% |
+| 192 | 62.4% |
+| 256 | 63.0% |
+
+Doubling the network barely helps; memory and how it is combined with the network matter far more.
 
 ## What did NOT help (network alone, exact-integer, 3,000-byte eval)
 | Change | Main-path accuracy |

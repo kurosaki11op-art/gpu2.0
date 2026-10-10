@@ -78,26 +78,36 @@ def main():
             break
 
     base = dict(a=cfg["a"], acc_sh=cfg["acc_sh"], s_sh=cfg["s_sh"], spike_mode=mode)
+    adaptive = dict(adapt=1, recall=1, conf_th=0, exit_en=1, exit_th=exit_th)
+
+    def run(text, ov):
+        g = sg.Golden(W, sg.Cfg(**base, **ov))
+        r = [g.step(int(b)) for b in text]
+        return (np.array([o["pred"] for o in r]), np.array([o["path"] for o in r]),
+                np.array([sum(o["proc"]) for o in r]))
+
+    # recall effort 2 (arbitration): pick arb_th on the calibration split
+    arb_th, best = 64, -1.0
+    for th in (16, 32, 64, 128, 256):
+        p, _, _ = run(cal, dict(adaptive, recall_mode=2, arb_th=th))
+        acc = float(np.mean(p[:-1] == cal[1:]))
+        print(f"  calibration arb_th={th}: {acc:.1%}", flush=True)
+        if acc > best:
+            arb_th, best = th, acc
     systems = {
         "main path only": dict(),
         "early exit": dict(exit_en=1, exit_th=exit_th),
         "recall": dict(recall=1, conf_th=0),
-        "adaptive (recall + change-only/full + adaptive exit)": dict(adapt=1, recall=1, conf_th=0,
-                                                                     exit_en=1, exit_th=exit_th),
+        "adaptive (recall + change-only/full + adaptive exit)": adaptive,
+        "adaptive, recall effort 1 (fresh state)": dict(adaptive, recall_mode=1),
+        f"adaptive, recall effort 2 (arbitration, arb_th={arb_th})": dict(adaptive, recall_mode=2, arb_th=arb_th),
     }
-    out = {"run": a.run, "eval_bytes": int(len(test)), "exit_th": exit_th}
+    out = {"run": a.run, "eval_bytes": int(len(test)), "exit_th": exit_th, "arb_th": arb_th}
     for name, ov in systems.items():
-        g = sg.Golden(W, sg.Cfg(**base, **ov))
-        preds, paths, events = [], [], []
-        for b in test:
-            o = g.step(int(b))
-            preds.append(o["pred"])
-            paths.append(o["path"])
-            events.append(sum(o["proc"]))
-        preds = np.array(preds)
+        preds, paths, events = run(test, ov)
         res = {"accuracy": float(np.mean(preds[:-1] == test[1:])),
                "events_per_token": float(np.mean(events)),
-               "paths_full_exit_recall": [int(np.sum(np.array(paths) == p)) for p in range(3)]}
+               "paths_full_exit_recall": [int(np.sum(paths == p)) for p in range(3)]}
         if name == "main path only":
             res["torch_vs_golden_mismatches"] = int(np.sum(preds != torch_pred))
         out[name] = res
