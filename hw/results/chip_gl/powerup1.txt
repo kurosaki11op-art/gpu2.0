@@ -1,0 +1,10 @@
+power-up 1:
+u_emb: 64 words written over UART, 0 wrong in SRAM
+u_emb1: 64 words written over UART, 0 wrong in SRAM
+u_emb2: 64 words written over UART, 0 wrong in SRAM
+u_w0: 64 words written over UART, 0 wrong in SRAM
+u_w1: 64 words written over UART, 0 wrong in SRAM
+u_w2: 64 words written over UART, 0 wrong in SRAM
+u_w3: 64 words written over UART, 0 wrong in SRAM
+PASS: chip pins only; 6 tokens over UART
+chip vs golden: 6 tokens, 0 mismatches, acc 20.0%

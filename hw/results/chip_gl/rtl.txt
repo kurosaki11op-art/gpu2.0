@@ -1,0 +1,2 @@
+PASS: chip pins only; 20 tokens over UART
+chip vs golden: 20 tokens, 0 mismatches, acc 36.8%
