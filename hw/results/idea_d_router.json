@@ -1,0 +1,27 @@
+{
+ "requests": 78,
+ "spearman": 0.18319655028515786,
+ "points": [
+  {
+   "fraction": 0.1,
+   "gpu_bits_easy": 1.5645962144966714,
+   "gpu_bits_rest": 1.7420192896231055,
+   "spark_acc_easy": 0.8978794642857143,
+   "gpu_acc_easy": 0.703125
+  },
+  {
+   "fraction": 0.25,
+   "gpu_bits_easy": 1.5774690751367189,
+   "gpu_bits_rest": 1.773959841307111,
+   "spark_acc_easy": 0.8562911184210527,
+   "gpu_acc_easy": 0.7064144736842105
+  },
+  {
+   "fraction": 0.5,
+   "gpu_bits_easy": 1.6831054789061886,
+   "gpu_bits_rest": 1.769087933009637,
+   "spark_acc_easy": 0.8220152243589743,
+   "gpu_acc_easy": 0.6847956730769231
+  }
+ ]
+}

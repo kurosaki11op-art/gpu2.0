@@ -25,10 +25,15 @@ def main():
     ap.add_argument("--batch", type=int, default=24)
     ap.add_argument("--minutes", type=float, default=12.0)
     ap.add_argument("--threads", type=int, default=2)
+    ap.add_argument("--steps", type=int, default=0, help="fixed number of steps (overrides --minutes)")
+    ap.add_argument("--select", default="random", choices=["random", "spark"],
+                    help="spark: sample training windows by SPARK's 'informative' score (idea C)")
+    ap.add_argument("--conf", default="", help="per-byte SPARK confidence for the train split (score_corpus.py)")
+    ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default=os.path.join(HERE, "out"))
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
-    torch.manual_seed(0)
+    torch.manual_seed(a.seed)
     data = tr.load_corpus(3_000_000)
     n = len(data)
     train = torch.from_numpy(data[: int(n * 0.9)].astype(np.int64))
@@ -38,16 +43,31 @@ def main():
     m = GPT(cfg)
     opt = m.configure_optimizers(0.1, 1e-3, (0.9, 0.95), "cpu")
 
+    weights = None
+    if a.select == "spark":
+        conf = np.load(a.conf).astype(np.float64) / 255.0
+        info = 1.0 - conf                                    # SPARK unsure = informative
+        cs = np.concatenate([[0.0], np.cumsum(info)])
+        starts = np.arange(len(train) - a.block - 1)
+        score = (cs[starts + a.block] - cs[starts]) / a.block  # mean informativeness of each window
+        thr = np.quantile(score, 0.5)                          # keep the more informative half
+        weights = np.where(score >= thr, 1.0, 0.0); weights /= weights.sum()
+        print(f"SPARK selection: windows kept {np.mean(score >= thr):.2f}, mean info kept {score[score >= thr].mean():.3f} vs all {score.mean():.3f}", flush=True)
+        g_np = np.random.default_rng(a.seed)
+
     def batch(src):
-        ix = torch.randint(len(src) - a.block - 1, (a.batch,))
+        if weights is not None and src is train:
+            ix = torch.from_numpy(g_np.choice(len(weights), size=a.batch, p=weights))
+        else:
+            ix = torch.randint(len(src) - a.block - 1, (a.batch,))
         x = torch.stack([src[i: i + a.block] for i in ix])
         y = torch.stack([src[i + 1: i + 1 + a.block] for i in ix])
         return x, y
 
     t0, it, log = time.time(), 0, []
     budget = a.minutes * 60
-    while time.time() - t0 < budget:
-        frac = (time.time() - t0) / budget
+    while (it < a.steps) if a.steps else (time.time() - t0 < budget):
+        frac = (it / a.steps) if a.steps else (time.time() - t0) / budget
         lr = 1e-3 * min(1.0, (it + 1) / 100) * (0.1 + 0.9 * 0.5 * (1 + np.cos(np.pi * frac)))
         for g in opt.param_groups:
             g["lr"] = lr

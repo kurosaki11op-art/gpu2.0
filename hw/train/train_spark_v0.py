@@ -219,6 +219,9 @@ def main():
     ap.add_argument("--mem", action="store_true",
                     help="memory-aware training: add the chip's multi-scale recall boosts to the main logits")
     ap.add_argument("--init", help="start from a trained spark_v0_model.npz (fine-tuning)")
+    ap.add_argument("--teacher", help="knowledge distillation from a byte-level nanoGPT checkpoint (hw/system/train_gpu_model.py)")
+    ap.add_argument("--kd-alpha", type=float, default=0.5, help="weight of the distillation loss")
+    ap.add_argument("--kd-temp", type=float, default=2.0, help="distillation temperature")
     ap.add_argument("--relax-only", action="store_true",
                     help="evaluate the relaxed (non-integer) model: architecture ceiling only")
     a = ap.parse_args()
@@ -264,6 +267,17 @@ def main():
                         out[bi].index_put_((t, torch.from_numpy(v[m])),
                                            torch.from_numpy(sm.BOOST[oi][c[m]].astype(np.float32)), accumulate=True)
             return out
+    teacher = None
+    if a.teacher:
+        sys.path.insert(0, os.path.join(HERE, "..", "system", "third_party", "nanogpt"))
+        from model import GPT, GPTConfig
+        ck = torch.load(a.teacher)
+        teacher = GPT(GPTConfig(**ck["cfg"]))
+        teacher.load_state_dict(ck["state"])
+        teacher.eval()
+        for p_ in teacher.parameters():
+            p_.requires_grad_(False)
+        print(f"distilling from {a.teacher} (alpha {a.kd_alpha}, T {a.kd_temp})", flush=True)
     opt = torch.optim.Adam(model.parameters(), lr=a.lr)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda st: min(1.0, (st + 1) / a.warmup) * 0.5 * (1 + np.cos(np.pi * min(st, a.steps) / a.steps)))
@@ -284,6 +298,14 @@ def main():
         fire = (rates > 0).float().mean()
         satur = (rates >= 6.99).float().mean()
         loss = loss_m + 0.3 * loss_e + a.sparsity * F.relu(rates.mean() - a.target_rate) * 10
+        if teacher is not None:
+            with torch.no_grad():
+                tl, _ = teacher(seq[:, :-1].contiguous(), targets=seq[:, 1:].contiguous())
+            T = a.kd_temp
+            pt = F.softmax(tl[:, warm:].reshape(-1, V).float() / T, -1)
+            kd_m = F.kl_div(F.log_softmax(lm[:, warm:].reshape(-1, V) * temp / T, -1), pt, reduction="batchmean") * T * T
+            kd_e = F.kl_div(F.log_softmax(le[:, warm:].reshape(-1, V) * temp / T, -1), pt, reduction="batchmean") * T * T
+            loss = (1 - a.kd_alpha) * loss + a.kd_alpha * (kd_m + 0.3 * kd_e)
         opt.zero_grad()
         loss.backward()
         opt.step()

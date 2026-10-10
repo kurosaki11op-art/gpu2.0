@@ -1,0 +1,55 @@
+{
+ "bits_per_byte": 1.7275804799778907,
+ "points": [
+  {
+   "tau": 0.6,
+   "input_kept": 0.1624581229061453,
+   "info_in_dropped": 0.7806266262342867,
+   "bits_per_dropped_byte": 1.6101825574534552,
+   "bits_per_kept_byte": 2.3328175382371383,
+   "attention_cost": 0.026392641698188214,
+   "kv_memory": 0.1624581229061453,
+   "random_info_dropped": 0.8325201234193458
+  },
+  {
+   "tau": 0.7,
+   "input_kept": 0.23751187559377968,
+   "info_in_dropped": 0.6977343913829785,
+   "bits_per_dropped_byte": 1.580867001307298,
+   "bits_per_kept_byte": 2.1985770770827058,
+   "attention_cost": 0.05641189104807507,
+   "kv_memory": 0.23751187559377968,
+   "random_info_dropped": 0.7593268667462135
+  },
+  {
+   "tau": 0.8,
+   "input_kept": 0.5068253412670634,
+   "info_in_dropped": 0.37804967784329363,
+   "bits_per_dropped_byte": 1.3243000878876792,
+   "bits_per_kept_byte": 2.119999038303242,
+   "attention_cost": 0.25687192655047525,
+   "kv_memory": 0.5068253412670634,
+   "random_info_dropped": 0.48358596089336614
+  },
+  {
+   "tau": 0.9,
+   "input_kept": 0.6674333716685834,
+   "info_in_dropped": 0.2242826434050347,
+   "bits_per_dropped_byte": 1.1650787653842813,
+   "bits_per_kept_byte": 2.0078620879912337,
+   "attention_cost": 0.4454673056168934,
+   "kv_memory": 0.6674333716685834,
+   "random_info_dropped": 0.325623708640199
+  },
+  {
+   "tau": 0.95,
+   "input_kept": 0.6944347217360868,
+   "info_in_dropped": 0.20178483922956528,
+   "bits_per_dropped_byte": 1.140834951500584,
+   "bits_per_kept_byte": 1.985760342054851,
+   "attention_cost": 0.48223958275267625,
+   "kv_memory": 0.6944347217360868,
+   "random_info_dropped": 0.2965002330432227
+  }
+ ]
+}
