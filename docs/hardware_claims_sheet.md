@@ -1,6 +1,6 @@
 # SPARK hardware — claims sheet for the pitch
 
-Labels: **MEASURED** (board) · **SIMULATED** (switching-activity power simulation of the real RTL) · (our RTL simulation, synthesis/place-and-route, or golden-model evaluation, which is bit-exact with the RTL) · **CITED** (published source) · **MODELLED** (calculation with stated assumptions) · **VISION** (proposal, not built).
+Labels: **MEASURED** (our RTL simulation, synthesis/place-and-route, or golden-model evaluation, which is bit-exact with the RTL; watts not yet) · **SIMULATED** (switching-activity power simulation of the real RTL) · **CITED** (published source) · **MODELLED** (calculation with stated assumptions) · **VISION** (proposal, not built).
 
 Sources: `hw/results/model_accuracy.md` (trained model), `hw/results/sim_results.md` (mechanism study, demo weights), `hw/results/synthesis.md` (fit and timing).
 
