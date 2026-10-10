@@ -2,12 +2,12 @@
 // Feeds stim.hex bytes through spark_core one token at a time and writes
 // one result line per token to rtl_out.txt:
 //   pred path nz0 nz1 nz2 nz3 pr0 pr1 pr2 pr3 tok_cycles wreads engine scan post recall
-// Config via plusargs: +sparse= +delta= +exit= +exit_th= +recall= +conf_th= +rmode= +arb_th= +cap= +n=
+// Config via plusargs: +sparse= +delta= +exit= +exit_th= +recall= +conf_th= +rmode= +arb_th= +cap= +n= +dump_from= +dump_n=
 module tb_spark_core;
     reg clk = 0, rst = 1, start = 0;
     reg [7:0] in_byte = 0;
     integer sparse_en = 1, delta_en = 0, exit_en = 0, exit_th = 64, recall_en = 0,
-            conf_th = 1, rmode = 0, arb_th = 64, cap = 0, adapt = 0, thr = 0, n = 0, a = 230, acc_sh = 2, s_sh = 4;
+            conf_th = 1, rmode = 0, arb_th = 64, cap = 0, dump_from = -1, dump_n = 20, adapt = 0, thr = 0, n = 0, a = 230, acc_sh = 2, s_sh = 4;
     reg [7:0] stim [0:65535];
     integer t, f;
     wire done; wire [7:0] pred; wire [1:0] path;
@@ -44,6 +44,11 @@ module tb_spark_core;
         void'($value$plusargs("a=%d", a));
         void'($value$plusargs("acc_sh=%d", acc_sh));
         void'($value$plusargs("s_sh=%d", s_sh));
+        void'($value$plusargs("dump_from=%d", dump_from));
+        void'($value$plusargs("dump_n=%d", dump_n));
+        if (dump_from >= 0) begin           // switching-activity window for power simulation
+            $dumpfile("act.vcd"); $dumpvars(0, dut); $dumpoff;
+        end
         $readmemh("stim.hex", stim);
         f = $fopen("rtl_out.txt", "w");
         repeat (3) @(posedge clk);
@@ -51,6 +56,8 @@ module tb_spark_core;
         @(posedge clk);
         for (t = 0; t < n; t = t + 1) begin
             @(negedge clk);
+            if (dump_from >= 0 && t == dump_from) $dumpon;
+            if (dump_from >= 0 && t == dump_from + dump_n) $dumpoff;
             in_byte = stim[t];
             start = 1;
             @(negedge clk);

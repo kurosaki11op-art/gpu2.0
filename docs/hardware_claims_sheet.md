@@ -1,6 +1,6 @@
 # SPARK hardware — claims sheet for the pitch
 
-Labels: **MEASURED** (our RTL simulation, synthesis/place-and-route, or golden-model evaluation, which is bit-exact with the RTL) · **CITED** (published source) · **MODELLED** (calculation with stated assumptions) · **VISION** (proposal, not built).
+Labels: **MEASURED** (board) · **SIMULATED** (switching-activity power simulation of the real RTL) · (our RTL simulation, synthesis/place-and-route, or golden-model evaluation, which is bit-exact with the RTL) · **CITED** (published source) · **MODELLED** (calculation with stated assumptions) · **VISION** (proposal, not built).
 
 Sources: `hw/results/model_accuracy.md` (trained model), `hw/results/sim_results.md` (mechanism study, demo weights), `hw/results/synthesis.md` (fit and timing).
 
@@ -15,6 +15,7 @@ Sources: `hw/results/model_accuracy.md` (trained model), `hw/results/sim_results
 | C5 | "It has an effort dial, like a brain: easy inputs are answered from memory with ~7.6× less work; hard ones get more thought." | Low effort 68.1% at 59 events/token (7.6× less than dense ~448); high effort 72.6% at 172 (2.6× less) | MEASURED |
 | C6 | "A hippocampus-like recall memory learns in one shot while running and answers about two-thirds of the bytes without the full network." | 1,366 of 2,000 bytes on low effort; +12 points over the network alone | MEASURED |
 | C6b | "On a 10× longer, harder test the chip still gains 7–9 points over the network alone, and accuracy keeps rising as we add memory, which is cheap SRAM, not compute." | 20,000 bytes: network 59.5% → chip 66.6% → 4-memory prototype 68.4% → larger memory 69.4% | MEASURED (prototype memories not yet in RTL) |
+| C6s | "We simulated the real chip design switching on real text: 2.4× less energy per byte at high effort (72.6% accuracy) and 6.2× less at low effort — and the raw count of switching wires drops just as much." | 147 / 56 vs 362 nJ per byte (read-enable); bit flips 1.45 M / 0.56 M vs 3.45 M | SIMULATED (switching-activity, `hw/results/power_simulation.md`) |
 | C6c | "We estimate 2.5× less energy per token at 72.6% accuracy, and 7.9× less on easy input at 68.1% — versus computing every neuron at 59.9%." | 22.6 / 7.3 vs 57.3 nJ per token; robust to ±2× per-operation energy (7.5–8.1×) | MODELLED from MEASURED counts (`hw/results/energy_estimate.md`) |
 | C6d | "Cooling water follows energy: that is a projected 60–87% less cooling water per token." | proportional projection | PROJECTED |
 | C7 | "Switching every 'think-less' trick on at once made things worse, so we built an on-chip controller that decides when each trick pays off." | Demo study: always-on 3,031 cycles/token vs adaptive 1,273 (dense 8,296) | MEASURED |
