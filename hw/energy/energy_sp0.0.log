@@ -1,0 +1,5 @@
+dense: every input, every neuron (GPU-style)            acc 63.9%  words    9216    57.29 nJ/token  (DRAM weights   5909.5 nJ)
+event-driven: skip silent neurons                       acc 63.9%  words    6053    38.95 nJ/token  (DRAM weights   3882.5 nJ)
+SPARK effort LOW (memory answers, skip network)         acc 69.2%  words    1828    11.90 nJ/token  (DRAM weights   1172.7 nJ)
+SPARK effort MEDIUM (memory answers, neurons updated)   acc 71.6%  words    3604    23.52 nJ/token  (DRAM weights   2311.9 nJ)
+SPARK effort HIGH (network can overrule memory)         acc 73.8%  words    4864    32.15 nJ/token  (DRAM weights   3121.0 nJ)

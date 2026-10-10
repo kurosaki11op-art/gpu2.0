@@ -1,0 +1,81 @@
+{
+  "model": "../train/out_qat_sp0.05/spark_v0_model.npz",
+  "eval_bytes": 2000,
+  "results": [
+    {
+      "config": "dense: every input, every neuron (GPU-style)",
+      "accuracy": 0.59879939969985,
+      "weight_words_per_token": 9216.0,
+      "pJ_per_token": 57292.799999998046,
+      "pJ_low": 51686.400000001406,
+      "pJ_high": 68505.59999999749,
+      "pJ_if_weights_in_DRAM": 5909452.799999889,
+      "x_less_energy_vs_dense": 1.0,
+      "x_range": [
+        1.0,
+        1.0
+      ],
+      "x_less_energy_vs_dense_DRAM": 1.0
+    },
+    {
+      "config": "event-driven: skip silent neurons",
+      "accuracy": 0.59879939969985,
+      "weight_words_per_token": 4174.168,
+      "pJ_per_token": 28050.174400000284,
+      "pJ_low": 24460.507200000116,
+      "pJ_high": 35229.5088000001,
+      "pJ_if_weights_in_DRAM": 2678646.854399991,
+      "x_less_energy_vs_dense": 2.042511364920336,
+      "x_range": [
+        2.1130551209502784,
+        1.9445516651653485
+      ],
+      "x_less_energy_vs_dense_DRAM": 2.206133589537165
+    },
+    {
+      "config": "SPARK effort LOW (memory answers, skip network)",
+      "accuracy": 0.6813406703351675,
+      "weight_words_per_token": 1089.288,
+      "pJ_per_token": 7286.83040000001,
+      "pJ_low": 6376.635200000001,
+      "pJ_high": 9107.22079999999,
+      "pJ_if_weights_in_DRAM": 698984.7103999995,
+      "x_less_energy_vs_dense": 7.862513171707409,
+      "x_range": [
+        8.105591488125492,
+        7.522119151870959
+      ],
+      "x_less_energy_vs_dense_DRAM": 8.454337715939678
+    },
+    {
+      "config": "SPARK effort MEDIUM (memory answers, neurons updated)",
+      "accuracy": 0.7048524262131065,
+      "weight_words_per_token": 2501.048,
+      "pJ_per_token": 16776.318400000087,
+      "pJ_low": 14650.779200000026,
+      "pJ_high": 21027.39680000006,
+      "pJ_if_weights_in_DRAM": 1604941.7983999955,
+      "x_less_energy_vs_dense": 3.4150997038776842,
+      "x_range": [
+        3.5278942706338317,
+        3.2579211136586004
+      ],
+      "x_less_energy_vs_dense_DRAM": 3.6820355765493566
+    },
+    {
+      "config": "SPARK effort HIGH (network can overrule memory)",
+      "accuracy": 0.7263631815907954,
+      "weight_words_per_token": 3279.656,
+      "pJ_per_token": 22603.604800000117,
+      "pJ_low": 19510.942399999974,
+      "pJ_high": 28788.929600000116,
+      "pJ_if_weights_in_DRAM": 2105185.164799995,
+      "x_less_energy_vs_dense": 2.5346753540832454,
+      "x_range": [
+        2.6490980773948403,
+        2.3795813512982162
+      ],
+      "x_less_energy_vs_dense_DRAM": 2.8070940736281136
+    }
+  ]
+}
