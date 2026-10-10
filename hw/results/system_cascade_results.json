@@ -1,0 +1,753 @@
+{
+ "test_bytes": 20000,
+ "gpu_model_params": 3213568,
+ "gpu_only_accuracy": {
+  "cal": 0.6820341017050853,
+  "test": 0.5642282114105706
+ },
+ "constants": {
+  "E_FLOP": 5e-13,
+  "E_HBM_BIT": 4e-12,
+  "SPARK_J": {
+   "low": 1.04e-07,
+   "high": 2.75e-07
+  }
+ },
+ "rows": [
+  {
+   "name": "recall conf>=0",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 0,
+    "recall_mode": 0
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.19765,
+    "accuracy": 0.735936796839842,
+    "spark_local_accuracy": 0.7776392870497321,
+    "agree_with_gpu_only": 0.7294,
+    "paths": [
+     3953,
+     0,
+     16047
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.24939999999999996,
+    "accuracy": 0.7015850792539627,
+    "spark_local_accuracy": 0.7811604823129705,
+    "agree_with_gpu_only": 0.66725,
+    "paths": [
+     4988,
+     0,
+     15012
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=0 + exit margin>=16",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 0,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 16
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.06874999999999998,
+    "accuracy": 0.7115355767788389,
+    "spark_local_accuracy": 0.7293277491408935,
+    "agree_with_gpu_only": 0.667,
+    "paths": [
+     1375,
+     2578,
+     16047
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.10155000000000003,
+    "accuracy": 0.6815840792039602,
+    "spark_local_accuracy": 0.7156055209260909,
+    "agree_with_gpu_only": 0.58795,
+    "paths": [
+     2031,
+     2957,
+     15012
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=0 + exit margin>=32",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 0,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 32
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.11924999999999997,
+    "accuracy": 0.7241862093104655,
+    "spark_local_accuracy": 0.7560463267855115,
+    "agree_with_gpu_only": 0.69945,
+    "paths": [
+     2385,
+     1568,
+     16047
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.1603,
+    "accuracy": 0.6910345517275864,
+    "spark_local_accuracy": 0.7481688798904306,
+    "agree_with_gpu_only": 0.62815,
+    "paths": [
+     3206,
+     1782,
+     15012
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=0 + exit margin>=64",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 0,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 64
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.16525,
+    "accuracy": 0.7326866343317165,
+    "spark_local_accuracy": 0.7752485923086139,
+    "agree_with_gpu_only": 0.72245,
+    "paths": [
+     3305,
+     648,
+     16047
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.2177,
+    "accuracy": 0.6991349567478374,
+    "spark_local_accuracy": 0.7767337807606264,
+    "agree_with_gpu_only": 0.65885,
+    "paths": [
+     4354,
+     634,
+     15012
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=0 + exit margin>=128",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 0,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 128
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.19225000000000003,
+    "accuracy": 0.7358867943397169,
+    "spark_local_accuracy": 0.7786925838801535,
+    "agree_with_gpu_only": 0.72925,
+    "paths": [
+     3845,
+     108,
+     16047
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.24370000000000003,
+    "accuracy": 0.7015350767538376,
+    "spark_local_accuracy": 0.7821487603305786,
+    "agree_with_gpu_only": 0.6669,
+    "paths": [
+     4874,
+     114,
+     15012
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=1",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 1,
+    "recall_mode": 0
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.4488,
+    "accuracy": 0.7497374868743437,
+    "spark_local_accuracy": 0.9000272158214642,
+    "agree_with_gpu_only": 0.8809,
+    "paths": [
+     8976,
+     0,
+     11024
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.5034000000000001,
+    "accuracy": 0.687584379218961,
+    "spark_local_accuracy": 0.899305205920854,
+    "agree_with_gpu_only": 0.8295,
+    "paths": [
+     10068,
+     0,
+     9932
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=1 + exit margin>=16",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 1,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 16
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.15134999999999998,
+    "accuracy": 0.7096354817740887,
+    "spark_local_accuracy": 0.7613127504124441,
+    "agree_with_gpu_only": 0.7643,
+    "paths": [
+     3027,
+     5949,
+     11024
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.18915000000000004,
+    "accuracy": 0.6573828691434572,
+    "spark_local_accuracy": 0.7284780463739516,
+    "agree_with_gpu_only": 0.6933,
+    "paths": [
+     3783,
+     6285,
+     9932
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=1 + exit margin>=32",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 1,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 32
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.25,
+    "accuracy": 0.7292864643232162,
+    "spark_local_accuracy": 0.8255883725581705,
+    "agree_with_gpu_only": 0.82355,
+    "paths": [
+     5000,
+     3976,
+     11024
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.30445,
+    "accuracy": 0.6736836841842092,
+    "spark_local_accuracy": 0.807548526240115,
+    "agree_with_gpu_only": 0.76725,
+    "paths": [
+     6089,
+     3979,
+     9932
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=1 + exit margin>=64",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 1,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 64
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.34814999999999996,
+    "accuracy": 0.7432371618580929,
+    "spark_local_accuracy": 0.8833998158944462,
+    "agree_with_gpu_only": 0.8672,
+    "paths": [
+     6963,
+     2013,
+     11024
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.40935,
+    "accuracy": 0.6843842192109606,
+    "spark_local_accuracy": 0.8829156789705385,
+    "agree_with_gpu_only": 0.81715,
+    "paths": [
+     8187,
+     1881,
+     9932
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=1 + exit margin>=128",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 1,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 128
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.43155,
+    "accuracy": 0.7494874743737187,
+    "spark_local_accuracy": 0.900070372976777,
+    "agree_with_gpu_only": 0.88,
+    "paths": [
+     8631,
+     345,
+     11024
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.48355000000000004,
+    "accuracy": 0.6868343417170859,
+    "spark_local_accuracy": 0.8992060418280403,
+    "agree_with_gpu_only": 0.8283,
+    "paths": [
+     9671,
+     397,
+     9932
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=2",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 2,
+    "recall_mode": 0
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.54945,
+    "accuracy": 0.7302365118255912,
+    "spark_local_accuracy": 0.9147613762486126,
+    "agree_with_gpu_only": 0.91745,
+    "paths": [
+     10989,
+     0,
+     9011
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.6067,
+    "accuracy": 0.6575828791439572,
+    "spark_local_accuracy": 0.9130324221233312,
+    "agree_with_gpu_only": 0.8759,
+    "paths": [
+     12134,
+     0,
+     7866
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=2 + exit margin>=16",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 2,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 16
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.18215000000000003,
+    "accuracy": 0.688384419220961,
+    "spark_local_accuracy": 0.7480435314257765,
+    "agree_with_gpu_only": 0.78835,
+    "paths": [
+     3643,
+     7346,
+     9011
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.22535000000000005,
+    "accuracy": 0.6261313065653282,
+    "spark_local_accuracy": 0.7053963335915311,
+    "agree_with_gpu_only": 0.7243,
+    "paths": [
+     4507,
+     7627,
+     7866
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=2 + exit margin>=32",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 2,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 32
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.30074999999999996,
+    "accuracy": 0.7092354617730886,
+    "spark_local_accuracy": 0.8257294050343249,
+    "agree_with_gpu_only": 0.8584,
+    "paths": [
+     6015,
+     4974,
+     9011
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.35750000000000004,
+    "accuracy": 0.6428321416070804,
+    "spark_local_accuracy": 0.7972604871974472,
+    "agree_with_gpu_only": 0.8063,
+    "paths": [
+     7150,
+     4984,
+     7866
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=2 + exit margin>=64",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 2,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 64
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.41555,
+    "accuracy": 0.7247862393119656,
+    "spark_local_accuracy": 0.8979295003422314,
+    "agree_with_gpu_only": 0.90355,
+    "paths": [
+     8311,
+     2678,
+     9011
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.4796,
+    "accuracy": 0.6552327616380819,
+    "spark_local_accuracy": 0.8927644854424907,
+    "agree_with_gpu_only": 0.8623,
+    "paths": [
+     9592,
+     2542,
+     7866
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=2 + exit margin>=128",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 2,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 128
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.5241,
+    "accuracy": 0.7296864843242162,
+    "spark_local_accuracy": 0.9148891457392035,
+    "agree_with_gpu_only": 0.91645,
+    "paths": [
+     10482,
+     507,
+     9011
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.57665,
+    "accuracy": 0.656632831641582,
+    "spark_local_accuracy": 0.9129459012520671,
+    "agree_with_gpu_only": 0.87465,
+    "paths": [
+     11533,
+     601,
+     7866
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=3",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 3,
+    "recall_mode": 0
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.6223000000000001,
+    "accuracy": 0.7170358517925897,
+    "spark_local_accuracy": 0.9153978551568913,
+    "agree_with_gpu_only": 0.9371,
+    "paths": [
+     12446,
+     0,
+     7554
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.6784,
+    "accuracy": 0.6364818240912046,
+    "spark_local_accuracy": 0.9126107914787747,
+    "agree_with_gpu_only": 0.90305,
+    "paths": [
+     13568,
+     0,
+     6432
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=3 + exit margin>=16",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 3,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 16
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.20184999999999997,
+    "accuracy": 0.6721336066803341,
+    "spark_local_accuracy": 0.7352462097481519,
+    "agree_with_gpu_only": 0.8048,
+    "paths": [
+     4037,
+     8409,
+     7554
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.24444999999999995,
+    "accuracy": 0.6030301515075753,
+    "spark_local_accuracy": 0.6866975512905361,
+    "agree_with_gpu_only": 0.7422,
+    "paths": [
+     4889,
+     8679,
+     6432
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=3 + exit margin>=32",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 3,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 32
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.32999999999999996,
+    "accuracy": 0.696234811740587,
+    "spark_local_accuracy": 0.8194641391148593,
+    "agree_with_gpu_only": 0.8765,
+    "paths": [
+     6600,
+     5846,
+     7554
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.38705,
+    "accuracy": 0.6214810740537027,
+    "spark_local_accuracy": 0.7836514929025942,
+    "agree_with_gpu_only": 0.8303,
+    "paths": [
+     7741,
+     5827,
+     6432
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=3 + exit margin>=64",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 3,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 64
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.45609999999999995,
+    "accuracy": 0.712185609280464,
+    "spark_local_accuracy": 0.9009837271306427,
+    "agree_with_gpu_only": 0.9247,
+    "paths": [
+     9122,
+     3324,
+     7554
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.5225500000000001,
+    "accuracy": 0.6337816890844542,
+    "spark_local_accuracy": 0.8923334729786343,
+    "agree_with_gpu_only": 0.89045,
+    "paths": [
+     10451,
+     3117,
+     6432
+    ]
+   }
+  },
+  {
+   "name": "recall conf>=3 + exit margin>=128",
+   "cfg": {
+    "recall": 1,
+    "conf_th": 3,
+    "recall_mode": 0,
+    "exit_en": 1,
+    "exit_th": 128
+   },
+   "effort": "low",
+   "cal": {
+    "gpu_fraction": 0.5858,
+    "accuracy": 0.7164358217910896,
+    "spark_local_accuracy": 0.9179041410117107,
+    "agree_with_gpu_only": 0.93605,
+    "paths": [
+     11716,
+     730,
+     7554
+    ]
+   },
+   "test": {
+    "gpu_fraction": 0.6384000000000001,
+    "accuracy": 0.6356817840892045,
+    "spark_local_accuracy": 0.9152261098050062,
+    "agree_with_gpu_only": 0.90185,
+    "paths": [
+     12768,
+     800,
+     6432
+    ]
+   }
+  }
+ ],
+ "operating_points": [
+  {
+   "operating_point": "max offload, accuracy >= GPU-only",
+   "setting": "recall conf>=0 + exit margin>=16",
+   "test": {
+    "gpu_fraction": 0.10155000000000003,
+    "accuracy": 0.6815840792039602,
+    "spark_local_accuracy": 0.7156055209260909,
+    "agree_with_gpu_only": 0.58795,
+    "paths": [
+     2031,
+     2957,
+     15012
+    ]
+   },
+   "energy": {
+    "1.1 B code LLM (projected)": {
+     "gpu_only_J_per_token": 0.07150000000000001,
+     "spark_plus_gpu_J_per_token": 0.008249224000000003,
+     "saving_x": 8.667481935270516
+    },
+    "7 B code LLM (projected)": {
+     "gpu_only_J_per_token": 0.455,
+     "spark_plus_gpu_J_per_token": 0.05249450400000001,
+     "saving_x": 8.667574037845942
+    }
+   }
+  },
+  {
+   "operating_point": "max offload, SPARK-local accuracy >= 80%",
+   "setting": "recall conf>=1 + exit margin>=32",
+   "test": {
+    "gpu_fraction": 0.30445,
+    "accuracy": 0.6736836841842092,
+    "spark_local_accuracy": 0.807548526240115,
+    "agree_with_gpu_only": 0.76725,
+    "paths": [
+     6089,
+     3979,
+     9932
+    ]
+   },
+   "energy": {
+    "1.1 B code LLM (projected)": {
+     "gpu_only_J_per_token": 0.07150000000000001,
+     "spark_plus_gpu_J_per_token": 0.022533384000000004,
+     "saving_x": 3.1730697883637893
+    },
+    "7 B code LLM (projected)": {
+     "gpu_only_J_per_token": 0.455,
+     "spark_plus_gpu_J_per_token": 0.143393704,
+     "saving_x": 3.173082131974218
+    }
+   }
+  },
+  {
+   "operating_point": "max offload, SPARK-local accuracy >= 88%",
+   "setting": "recall conf>=1 + exit margin>=64",
+   "test": {
+    "gpu_fraction": 0.40935,
+    "accuracy": 0.6843842192109606,
+    "spark_local_accuracy": 0.8829156789705385,
+    "agree_with_gpu_only": 0.81715,
+    "paths": [
+     8187,
+     1881,
+     9932
+    ]
+   },
+   "energy": {
+    "1.1 B code LLM (projected)": {
+     "gpu_only_J_per_token": 0.07150000000000001,
+     "spark_plus_gpu_J_per_token": 0.029918344000000003,
+     "saving_x": 2.389838154143826
+    },
+    "7 B code LLM (projected)": {
+     "gpu_only_J_per_token": 0.455,
+     "spark_plus_gpu_J_per_token": 0.190388904,
+     "saving_x": 2.3898451561021647
+    }
+   }
+  }
+ ]
+}

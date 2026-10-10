@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPARK Chip 3D</title>
+<style>
+:root{
+  --bg:#F3F0E8; --panel:#FBF9F4; --panel-2:#ECE7DB; --ink:#0F1A2B; --muted:#5A6577; --line:#D6CFBF;
+  --blue:#1D5E8C; --orange:#B4531A; --label-bg:rgba(251,249,244,.92); --label-line:#0F1A2B;
+  --scene:#F3F0E8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151E; --panel:#171E2A; --panel-2:#202938; --ink:#E9E5DB; --muted:#9AA5B5; --line:#2C3747;
+    --blue:#6FA8D6; --orange:#E0894D; --label-bg:rgba(23,30,42,.92); --label-line:#C9D2DE;
+    --scene:#10151E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151E; --panel:#171E2A; --panel-2:#202938; --ink:#E9E5DB; --muted:#9AA5B5; --line:#2C3747;
+  --blue:#6FA8D6; --orange:#E0894D; --label-bg:rgba(23,30,42,.92); --label-line:#C9D2DE;
+  --scene:#10151E;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-feature-settings:"calt" 0;font-variant-ligatures:none;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow-x:hidden}
+.wrap{max-width:1280px;margin:0 auto;padding:20px 16px 28px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 16px;margin-bottom:12px}
+h1{font-size:24px;margin:0;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:14px;margin:2px 0 0}
+.theme-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:14px}
+.viewer{position:relative;height:min(68vh,640px);min-height:360px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--scene)}
+.viewer canvas{display:block;width:100%;height:100%;touch-action:none}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+#labels svg{position:absolute;inset:0;width:100%;height:100%}
+.lbl{position:absolute;left:0;top:0;pointer-events:auto;cursor:pointer;background:var(--label-bg);color:var(--ink);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:6px;padding:4px 8px;font-size:12.5px;line-height:1.3;max-width:270px;white-space:normal;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.lbl.orange{border-left-color:var(--orange)}
+.lbl.ink{border-left-color:var(--ink)}
+.lbl b{font-weight:650;display:block}
+.lbl span{color:var(--muted);display:block}
+.lbl:hover,.lbl.active{border-color:var(--blue)}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:4px 8px;border-radius:6px;display:none;max-width:260px;z-index:3}
+aside{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;align-self:start}
+aside h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:10px 0 6px}
+aside h2:first-child{margin-top:0}
+.row{display:flex;align-items:center;gap:8px;margin:3px 0}
+.row input[type=range]{flex:1;accent-color:var(--blue)}
+.toggles{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px}
+.toggles label{display:flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer}
+.toggles input{accent-color:var(--blue)}
+.sw{width:10px;height:10px;border-radius:2px;display:inline-block;flex:none}
+#info{background:var(--panel-2);border-radius:8px;padding:8px 10px;font-size:13px;min-height:52px}
+#info b{display:block}
+.stats{margin:0;padding:0;list-style:none;font-size:13px}
+.stats li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed var(--line);padding:2px 0}
+.stats li span:last-child{font-variant-numeric:tabular-nums;font-weight:600}
+.foot{color:var(--muted);font-size:12.5px;margin-top:12px;max-width:900px}
+.hint{color:var(--muted);font-size:12.5px;margin:6px 0 0}
+.caption{display:none}
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .viewer{height:62vh;min-height:320px}
+  .lbl{font-size:11px;max-width:180px;padding:3px 6px}
+}
+/* static render mode */
+body.static .wrap{max-width:none;padding:0}
+body.static header,body.static .tabs,body.static aside,body.static .foot,body.static .hint{display:none}
+body.static .layout{display:block}
+body.static .viewer{height:100vh;border:0;border-radius:0}
+body.static .lbl{font-size:15px;max-width:330px;padding:5px 10px}
+body.static .caption{display:block;position:absolute;left:24px;top:20px;background:var(--label-bg);border:1px solid var(--line);border-radius:10px;padding:10px 14px;max-width:560px;z-index:2}
+body.static .caption b{font-size:20px;display:block}
+body.static .caption span{color:var(--muted);font-size:14px}
+body.static .capfoot{display:block;position:absolute;left:24px;right:24px;bottom:12px;color:var(--muted);font-size:12.5px;z-index:2;background:var(--label-bg);border:1px solid var(--line);border-radius:8px;padding:5px 10px;width:max-content;max-width:calc(100% - 48px)}
+.capfoot{display:none}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+  }
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>SPARK Chip 3D</h1>
+      <p class="sub">SkyWater SKY130 (130 nm) · 6.3 × 3.6 mm die · 44 SRAM macros · ~101,800 standard cells · 6-layer interconnect</p>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button">Toggle theme</button>
+  </header>
+  <nav class="tabs" id="tabs" aria-label="Views">
+    <button class="tab" data-view="package" type="button">Package</button>
+    <button class="tab" data-view="cutaway" type="button">Cut-away</button>
+    <button class="tab" data-view="exploded" type="button">Exploded layers</button>
+    <button class="tab" data-view="die" type="button">Die (top)</button>
+    <button class="tab" data-view="gpu" type="button">On GPU card</button>
+  </nav>
+  <div class="layout">
+    <div class="viewer" id="viewer">
+      <canvas id="c"></canvas>
+      <div id="labels"><svg id="leaders"></svg></div>
+      <div class="tip" id="tip"></div>
+      <div class="caption" id="caption"><b></b><span></span></div>
+      <div class="capfoot">Geometry from the SPARK SKY130 floorplan (die, 44 SRAM macro positions, metal stack, power-grid pitch). Cell and wire patterns are representative, not the exact routed layout. Package and GPU card are illustrative; not manufactured.</div>
+    </div>
+    <aside>
+      <h2>Explode distance</h2>
+      <div class="row"><input type="range" id="explode" min="0" max="1" step="0.01" value="0.6" aria-label="Explode distance"><span id="explodeVal">0.60</span></div>
+      <h2>Layers</h2>
+      <div class="toggles" id="toggles"></div>
+      <h2>Selection</h2>
+      <div id="info"><b>Hover or tap</b>a label or a part of the model for details.</div>
+      <h2>Design data</h2>
+      <ul class="stats">
+        <li><span>Die</span><span>6.3 × 3.6 mm</span></li>
+        <li><span>SRAM macros</span><span>44 × 2 KB</span></li>
+        <li><span>Std cells</span><span>~101,800</span></li>
+        <li><span>Flip-flops</span><span>21,941</span></li>
+        <li><span>Clock buffers</span><span>~10,066</span></li>
+        <li><span>Signal wire</span><span>10.2 m</span></li>
+        <li><span>Vias</span><span>~1.04 M</span></li>
+        <li><span>Power grid pitch</span><span>56 µm</span></li>
+      </ul>
+    </aside>
+  </div>
+  <p class="hint">Drag to orbit, scroll or pinch to zoom, right-drag to pan. Labels can be tapped for details.</p>
+  <p class="foot">Geometry from the SPARK SKY130 floorplan (die, 44 SRAM macro positions, metal stack, power-grid pitch). Cell and wire patterns are representative, not the exact routed layout. Package and GPU card are illustrative; not manufactured. Thin features (power straps, bond wires, cell heights) are drawn thicker than scale so they stay visible; SRAM functional grouping is approximate.</p>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* ---------------- params ---------------- */
+const params = new URLSearchParams(location.search + '&' + location.hash.replace(/^#/, ''));
+const STATIC = params.get('static') === '1';
+if (STATIC) document.body.classList.add('static');
+if (params.get('theme')) document.documentElement.setAttribute('data-theme', params.get('theme'));
+const VIEWS = ['package', 'cutaway', 'exploded', 'die', 'gpu'];
+
+/* ---------------- deterministic random ---------------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
+let rnd = mulberry32(130);
+const rr = (a, b) => a + (b - a) * rnd();
+
+/* ---------------- floorplan data (µm, origin bottom-left) ---------------- */
+const DIE_W = 6300, DIE_H = 3600, CORE = 10;
+const MW = 683.1, MH = 416.54, HALO = 6;
+const GROUPS = {
+  emb:    { name: 'Embedding SRAMs', accent: '#2A8C7A' },
+  w0:     { name: 'Spiking layer 0 weight SRAMs', accent: '#1D5E8C' },
+  w1:     { name: 'Spiking layer 1 weight SRAMs', accent: '#5B4E9E' },
+  recall: { name: 'Recall table', accent: '#B4531A' },
+};
+const macros = [];
+for (let i = 0; i < 44; i++) {
+  const col = i % 8, row = Math.floor(i / 8);
+  const x = 80 + col * (MW + 100), y = 150 + row * (MH + 150);
+  const g = row === 0 ? 'emb' : row <= 2 ? 'w0' : row <= 4 ? 'w1' : 'recall';
+  macros.push({ i, col, row, x, y, g });
+}
+function inMacro(x, y, halo = HALO) {
+  for (const m of macros) if (x > m.x - halo && x < m.x + MW + halo && y > m.y - halo && y < m.y + MH + halo) return true;
+  return false;
+}
+function inCore(x, y) { return x > CORE && x < DIE_W - CORE && y > CORE && y < DIE_H - CORE; }
+// die µm -> world mm (x, z); die y up maps to -z (away from default camera)
+const wx = x => x / 1000 - DIE_W / 2000;
+const wz = y => DIE_H / 2000 - y / 1000;
+
+const CELL_COLORS = ['#5B7DB1', '#7A9E7E', '#C9A227', '#8E7BB5', '#B5654A', '#6F9FB0', '#9AA0A8'];
+const FF_COLOR = '#D07A3A';
+
+/* ---------------- canvas textures ---------------- */
+function makeCanvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+function texFrom(canvas) {
+  const t = new THREE.CanvasTexture(canvas);
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; t.needsUpdate = true; return t;
+}
+function drawSram(ctx, W, H, accent) {
+  ctx.fillStyle = '#1F3247'; ctx.fillRect(0, 0, W, H);
+  const dec = W * 0.12, peri = H * 0.17;
+  // bitcell array
+  const ax = dec + 6, ay = 6, aw = W - ax - 6, ah = H - peri - 12;
+  ctx.fillStyle = '#2F5D86'; ctx.fillRect(ax, ay, aw, ah);
+  ctx.globalAlpha = 0.35; ctx.fillStyle = '#9CC3E4';
+  for (let x = ax; x < ax + aw; x += 4) ctx.fillRect(x, ay, 1, ah);
+  ctx.globalAlpha = 0.22;
+  for (let y = ay; y < ay + ah; y += 3) ctx.fillRect(ax, y, aw, 1);
+  ctx.globalAlpha = 0.6; ctx.fillStyle = '#16314C';
+  for (let x = ax; x < ax + aw; x += aw / 8) ctx.fillRect(x, ay, 2, ah);
+  ctx.globalAlpha = 1;
+  // row decoder strip (left)
+  ctx.fillStyle = '#6A86A3'; ctx.fillRect(4, ay, dec - 2, ah);
+  ctx.fillStyle = '#4C6886';
+  for (let y = ay; y < ay + ah; y += 6) ctx.fillRect(10, y, dec - 18, 3);
+  // column periphery / sense amps (bottom)
+  const py = H - peri - 2;
+  ctx.fillStyle = '#7C95AE'; ctx.fillRect(ax, py, aw, peri - 4);
+  ctx.fillStyle = '#56708C';
+  const n = 32, sw = aw / n;
+  for (let k = 0; k < n; k++) { ctx.fillRect(ax + k * sw + 3, py + 6, sw - 6, peri * 0.45); ctx.fillRect(ax + k * sw + 6, py + peri * 0.6, sw - 12, peri * 0.22); }
+  // control block (bottom-left corner)
+  ctx.fillStyle = '#B07A4E'; ctx.fillRect(4, py, dec - 2, peri - 4);
+  ctx.fillStyle = '#8C5A34';
+  for (let k = 0; k < 6; k++) ctx.fillRect(10 + (k % 3) * (dec / 3.4), py + 8 + Math.floor(k / 3) * (peri / 2.3), dec / 4.2, peri / 3.2);
+  // accent frame (functional group)
+  ctx.strokeStyle = accent; ctx.lineWidth = 10; ctx.strokeRect(5, 5, W - 10, H - 10);
+}
+const sramTex = {};
+for (const k in GROUPS) { const c = makeCanvas(1024, 624); drawSram(c.getContext('2d'), 1024, 624, GROUPS[k].accent); sramTex[k] = texFrom(c); }
+
+function drawFloorplan(opts) {
+  const W = 2048, H = Math.round(W * DIE_H / DIE_W), s = W / DIE_W;
+  const c = makeCanvas(W, H), ctx = c.getContext('2d');
+  const R = mulberry32(7);
+  ctx.fillStyle = opts.base; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = opts.core; ctx.fillRect(CORE * s, CORE * s, (DIE_W - 2 * CORE) * s, (DIE_H - 2 * CORE) * s);
+  // std-cell rows (speckle)
+  for (let n = 0; n < 90000; n++) {
+    const x = CORE + R() * (DIE_W - 2 * CORE), row = Math.floor(R() * (DIE_H - 2 * CORE) / 8.16), y = CORE + row * 8.16;
+    if (inMacro(x, y, 4)) continue;
+    ctx.fillStyle = R() < 0.22 ? FF_COLOR : CELL_COLORS[Math.floor(R() * CELL_COLORS.length)];
+    ctx.globalAlpha = opts.cellAlpha;
+    ctx.fillRect(x * s, H - y * s - 2, 1 + R() * 4, 2);
+  }
+  ctx.globalAlpha = 1;
+  if (opts.macros) for (const m of macros) {
+    const img = sramTex[m.g].image;
+    ctx.drawImage(img, m.x * s, H - (m.y + MH) * s, MW * s, MH * s);
+  } else for (const m of macros) { ctx.fillStyle = '#3A4350'; ctx.fillRect(m.x * s, H - (m.y + MH) * s, MW * s, MH * s); }
+  if (opts.power) {
+    ctx.globalAlpha = 0.28; ctx.fillStyle = '#D9C27A';
+    for (let y = 28; y < DIE_H; y += 56) ctx.fillRect(0, H - y * s - 1, W, 1.4);
+    ctx.fillStyle = '#C98A9A';
+    for (let x = 28; x < DIE_W; x += 56) ctx.fillRect(x * s - 0.5, 0, 1.2, H);
+    ctx.globalAlpha = 1;
+  }
+  if (opts.outlines) {
+    ctx.setLineDash([14, 8]); ctx.lineWidth = 5;
+    ctx.strokeStyle = '#1D5E8C'; ctx.strokeRect(3245 * s, H - 3580 * s, (5650 - 3245) * s, (3580 - 2990) * s);
+    ctx.strokeStyle = '#B4531A'; ctx.strokeRect(5700 * s, H - 3580 * s, (6285 - 5700) * s, (3580 - 2990) * s);
+    ctx.setLineDash([]);
+  }
+  if (opts.pads) {
+    ctx.fillStyle = '#C8CCD2';
+    for (const p of PAD_LIST) ctx.fillRect((p[0] - 40) * s, H - (p[1] + 40) * s, 80 * s, 80 * s);
+  }
+  return texFrom(c);
+}
+
+/* ---------------- package pin map ---------------- */
+const PIN = {};
+for (let p = 1; p <= 32; p++) PIN[p] = { fn: 'reserved', kind: 'nc' };
+[1, 9, 17, 25].forEach(p => PIN[p] = { fn: 'VDDIO', kind: 'pwr' });
+[5, 15, 21, 29].forEach(p => PIN[p] = { fn: 'VCCD 1.8 V', kind: 'pwr' });
+[4, 7, 14, 16, 20, 24, 28, 32].forEach(p => PIN[p] = { fn: 'VSS', kind: 'gnd' });
+Object.entries({ 2: 'UART_RX', 3: 'UART_TX', 6: 'RST_N', 8: 'CLK', 10: 'READY', 11: 'BUSY', 12: 'TOK', 13: 'TRIG' })
+  .forEach(([p, n]) => PIN[p] = { fn: n, kind: 'sig' });
+const KIND_COLOR = { sig: '#E07A2E', pwr: '#2F7FC1', gnd: '#7D8794', nc: '#B8B2A4' };
+const BODY = 9, LEAD_P = 0.8;
+function pinGeom(p) { // lead center (x,z) and outward normal
+  const k = (p - 1) % 8, side = Math.floor((p - 1) / 8), o = -2.8 + k * LEAD_P;
+  if (side === 0) return { x: -BODY / 2, z: o, nx: -1, nz: 0, side };
+  if (side === 1) return { x: o, z: BODY / 2, nx: 0, nz: 1, side };
+  if (side === 2) return { x: BODY / 2, z: -o, nx: 1, nz: 0, side };
+  return { x: -o, z: -BODY / 2, nx: 0, nz: -1, side };
+}
+// die bond-pad positions in die µm for bonded pins
+const PAD_LIST = [];
+const padOf = {};
+for (let p = 1; p <= 32; p++) {
+  if (PIN[p].kind === 'nc') continue;
+  const g = pinGeom(p);
+  let xm, zm;
+  if (g.side === 0) { xm = -3.07; zm = g.z * 0.55; }
+  else if (g.side === 2) { xm = 3.07; zm = g.z * 0.55; }
+  else if (g.side === 1) { xm = g.x * 0.95; zm = 1.72; }
+  else { xm = g.x * 0.95; zm = -1.72; }
+  padOf[p] = { x: xm, z: zm };
+  PAD_LIST.push([(xm + 3.15) * 1000, (1.8 - zm) * 1000]);
+}
+
+const dieTopTex = drawFloorplan({ base: '#8B9099', core: '#59606B', cellAlpha: 0.55, macros: true, power: true, outlines: false, pads: true });
+const feolTex = drawFloorplan({ base: '#8E9198', core: '#6C727C', cellAlpha: 0.5, macros: false, power: false, outlines: true, pads: false });
+
+/* ---------------- renderer / scene ---------------- */
+const canvas = document.getElementById('c');
+const viewer = document.getElementById('viewer');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: STATIC });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.localClippingEnabled = true;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(35, 1, 0.01, 3000);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = !STATIC; controls.dampingFactor = 0.08;
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8577, 1.5));
+const sun = new THREE.DirectionalLight(0xffffff, 2.2); sun.position.set(4, 10, 6); scene.add(sun);
+const fill = new THREE.DirectionalLight(0xdfe8ff, 0.8); fill.position.set(-6, 4, -3); scene.add(fill);
+
+function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function applySceneBg() { scene.background = new THREE.Color(cssVar('--scene') || '#F3F0E8'); }
+applySceneBg();
+
+const mat = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.6, metalness: 0.05, ...o });
+const BOX = new THREE.BoxGeometry(1, 1, 1);
+function box(w, h, d, material, x = 0, y = 0, z = 0) { const m = new THREE.Mesh(BOX, material); m.scale.set(w, h, d); m.position.set(x, y, z); return m; }
+function outline(w, h, d, color) {
+  const l = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(w, h, d)), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.7 }));
+  return l;
+}
+const pickables = [];
+function pick(obj, title, text) { obj.userData.info = { title, text }; pickables.push(obj); return obj; }
+
+/* ============ 1. die stack (die + exploded views) ============ */
+const stack = new THREE.Group(); scene.add(stack);
+const layerObjs = {};
+
+// FEOL: substrate + std cells + SRAM macros
+const feol = new THREE.Group(); stack.add(feol); layerObjs.feol = feol;
+{
+  const side = mat('#7E828A', { roughness: 0.5 });
+  const top = new THREE.MeshStandardMaterial({ map: feolTex, roughness: 0.7 });
+  const sub = new THREE.Mesh(new THREE.BoxGeometry(6.3, 0.16, 3.6), [side, side, top, side, side, side]);
+  sub.position.y = -0.08; feol.add(sub);
+  pick(sub, 'FEOL: substrate, diffusion + poly', 'Transistor level of the die: sky130_fd_sc_hd standard-cell rows (~101,800 cells) and the transistor arrays of 44 SRAM macros.');
+  // SRAM macros
+  const mside = mat('#3E5873', { roughness: 0.45 });
+  const mtops = {}; for (const k in GROUPS) mtops[k] = new THREE.MeshStandardMaterial({ map: sramTex[k], roughness: 0.55 });
+  const mgeo = new THREE.BoxGeometry(MW / 1000, 0.03, MH / 1000);
+  for (const m of macros) {
+    const mm = new THREE.Mesh(mgeo, [mside, mside, mtops[m.g], mside, mside, mside]);
+    mm.position.set(wx(m.x + MW / 2), 0.015, wz(m.y + MH / 2));
+    feol.add(pick(mm, `SRAM macro #${m.i} · ${GROUPS[m.g].name}`, `sky130_sram_2kbyte_1rw1r_32x512_8 (OpenRAM), 683.1 × 416.54 µm at (${m.x.toFixed(1)}, ${m.y.toFixed(1)}) µm. Bitcell array, row decoder (left), sense amps / column periphery (bottom), control (corner).`));
+  }
+  // standard cells (representative density)
+  const N = 52000;
+  const cells = new THREE.InstancedMesh(BOX, new THREE.MeshStandardMaterial({ roughness: 0.75 }), N);
+  const d = new THREE.Object3D(), col = new THREE.Color();
+  let n = 0, guard = 0;
+  rnd = mulberry32(11);
+  while (n < N && guard++ < N * 6) {
+    const x = rr(CORE + 5, DIE_W - CORE - 5), y = CORE + Math.floor(rnd() * 1300) * 2.72 + 1.36;
+    if (inMacro(x, y)) continue;
+    const w = rr(3.5, 14), h = rr(0.004, 0.011);
+    d.position.set(wx(x), h / 2, wz(y)); d.scale.set(w / 1000, h, 2.3 / 1000); d.updateMatrix();
+    cells.setMatrixAt(n, d.matrix);
+    col.set(rnd() < 0.22 ? FF_COLOR : CELL_COLORS[Math.floor(rnd() * CELL_COLORS.length)]);
+    cells.setColorAt(n, col); n++;
+  }
+  cells.count = n; feol.add(cells);
+}
+
+// metal layers
+const METALS = [
+  { key: 'li1',  name: 'li1',  color: '#8A6FB0', len: 1.24, dir: 'x', seg: [0.012, 0.05],  w: 0.006, stdOnly: true,  note: 'local interconnect · 1.24 m' },
+  { key: 'met1', name: 'met1', color: '#3F7CC0', len: 2.53, dir: 'h', seg: [0.03, 0.18],  w: 0.006, stdOnly: true,  note: '2.53 m signal · horizontal · follow-pin VDD/VSS rails' },
+  { key: 'met2', name: 'met2', color: '#D0782F', len: 2.34, dir: 'v', seg: [0.04, 0.30],  w: 0.007, stdOnly: true,  note: '2.34 m signal · vertical' },
+  { key: 'met3', name: 'met3', color: '#2E9C6E', len: 2.59, dir: 'h', seg: [0.08, 0.60],  w: 0.008, stdOnly: true,  note: '2.59 m signal · horizontal' },
+  { key: 'met4', name: 'met4', color: '#C24F6B', len: 0.71, dir: 'v', seg: [0.25, 1.1],   w: 0.010, stdOnly: false, note: '0.71 m signal · vertical power straps (1.6 µm, 56 µm pitch)' },
+  { key: 'met5', name: 'met5', color: '#B8901E', len: 0.84, dir: 'h', seg: [0.30, 1.4],   w: 0.012, stdOnly: false, note: '0.84 m signal · horizontal power straps (1.6 µm, 56 µm pitch)' },
+];
+const metalGroups = [];
+const powerObjs = [];
+function segOk(x0, y0, x1, y1, stdOnly) {
+  if (!inCore(x0, y0) || !inCore(x1, y1)) return false;
+  if (!stdOnly) return true;
+  for (let t = 0; t <= 1.0001; t += 0.125) if (inMacro(x0 + (x1 - x0) * t, y0 + (y1 - y0) * t, 2)) return false;
+  return true;
+}
+METALS.forEach((L, li) => {
+  const g = new THREE.Group(); g.userData.idx = li + 1; stack.add(g); metalGroups.push(g); layerObjs[L.key] = g;
+  const sheet = new THREE.Mesh(new THREE.BoxGeometry(6.3, 0.002, 3.6), new THREE.MeshStandardMaterial({ color: L.color, transparent: true, opacity: 0.13, depthWrite: false, side: THREE.DoubleSide }));
+  g.add(pick(sheet, `${L.name}`, `${L.note}. Drawn as a translucent sheet with representative wire segments.`));
+  const ol = outline(6.3, 0.002, 3.6, L.color); g.add(ol);
+  // wires
+  rnd = mulberry32(100 + li);
+  const N = Math.round(L.len * 1500);
+  const im = new THREE.InstancedMesh(BOX, new THREE.MeshStandardMaterial({ color: L.color, roughness: 0.4, metalness: 0.25, emissive: L.color, emissiveIntensity: 0.12 }), N);
+  const d = new THREE.Object3D(); let n = 0, guard = 0;
+  while (n < N && guard++ < N * 30) {
+    const x = rr(20, DIE_W - 20), y = rr(20, DIE_H - 20), len = rr(L.seg[0], L.seg[1]) * 1000;
+    const horiz = L.dir === 'h' || (L.dir === 'x' && rnd() < 0.5);
+    const x1 = horiz ? x + len : x, y1 = horiz ? y : y + len;
+    if (!segOk(x, y, x1, y1, L.stdOnly)) continue;
+    const cx = wx((x + x1) / 2), cz = wz((y + y1) / 2);
+    d.position.set(cx, 0.003, cz);
+    d.scale.set(horiz ? len / 1000 : L.w, 0.004, horiz ? L.w : len / 1000);
+    d.updateMatrix(); im.setMatrixAt(n++, d.matrix);
+  }
+  im.count = n; g.add(im);
+  // power
+  if (L.key === 'met4' || L.key === 'met5') {
+    const vertical = L.key === 'met4';
+    const cnt = vertical ? Math.floor(DIE_W / 56) : Math.floor(DIE_H / 56);
+    const pm = new THREE.InstancedMesh(BOX, new THREE.MeshStandardMaterial({ color: vertical ? '#8E2F4A' : '#8A6A10', roughness: 0.35, metalness: 0.4 }), cnt);
+    for (let k = 0; k < cnt; k++) {
+      const p = 28 + k * 56;
+      d.position.set(vertical ? wx(p) : 0, 0.004, vertical ? 0 : wz(p));
+      d.scale.set(vertical ? 0.0064 : 6.28, 0.003, vertical ? 3.58 : 0.0064);
+      d.updateMatrix(); pm.setMatrixAt(k, d.matrix);
+    }
+    g.add(pm); powerObjs.push(pm);
+  }
+  if (L.key === 'met1') { // follow-pin rails, decimated (every 8th row)
+    const segs = [];
+    for (let r = 0; r * 2.72 < DIE_H - 2 * CORE; r += 8) {
+      const y = CORE + r * 2.72;
+      const blockers = macros.filter(m => y > m.y - HALO && y < m.y + MH + HALO).map(m => [m.x - HALO, m.x + MW + HALO]).sort((a, b) => a[0] - b[0]);
+      let x0 = CORE;
+      for (const b of blockers) { if (b[0] > x0) segs.push([x0, b[0], y]); x0 = Math.max(x0, b[1]); }
+      if (x0 < DIE_W - CORE) segs.push([x0, DIE_W - CORE, y]);
+    }
+    const rm = new THREE.InstancedMesh(BOX, new THREE.MeshStandardMaterial({ color: '#244E7C', roughness: 0.4, metalness: 0.3 }), segs.length);
+    segs.forEach((s, k) => { d.position.set(wx((s[0] + s[1]) / 2), 0.002, wz(s[2])); d.scale.set((s[1] - s[0]) / 1000, 0.002, 0.003); d.updateMatrix(); rm.setMatrixAt(k, d.matrix); });
+    g.add(rm); powerObjs.push(rm);
+  }
+});
+
+// clock tree (H-tree, schematic)
+const clock = new THREE.Group(); stack.add(clock); layerObjs.clock = clock;
+{
+  const segs = [], leaves = [];
+  function h(cx, cz, w, hh, lvl) {
+    segs.push([cx - w / 2, cz, cx + w / 2, cz]);
+    segs.push([cx - w / 2, cz - hh / 2, cx - w / 2, cz + hh / 2]);
+    segs.push([cx + w / 2, cz - hh / 2, cx + w / 2, cz + hh / 2]);
+    const pts = [[cx - w / 2, cz - hh / 2], [cx - w / 2, cz + hh / 2], [cx + w / 2, cz - hh / 2], [cx + w / 2, cz + hh / 2]];
+    if (lvl > 1) pts.forEach(p => h(p[0], p[1], w / 2, hh / 2, lvl - 1)); else leaves.push(...pts);
+  }
+  h(0, 0, 3.15, 1.8, 3);
+  const cm = new THREE.MeshStandardMaterial({ color: '#E07A2E', emissive: '#E07A2E', emissiveIntensity: 0.35, roughness: 0.4 });
+  const im = new THREE.InstancedMesh(BOX, cm, segs.length), d = new THREE.Object3D();
+  segs.forEach((s, k) => {
+    const horiz = s[1] === s[3], len = horiz ? Math.abs(s[2] - s[0]) : Math.abs(s[3] - s[1]);
+    d.position.set((s[0] + s[2]) / 2, 0, (s[1] + s[3]) / 2); d.scale.set(horiz ? len + 0.014 : 0.014, 0.008, horiz ? 0.014 : len + 0.014);
+    d.updateMatrix(); im.setMatrixAt(k, d.matrix);
+  });
+  clock.add(im);
+  const bm = new THREE.InstancedMesh(new THREE.BoxGeometry(0.07, 0.035, 0.07), mat('#8C3A0E'), leaves.length);
+  leaves.forEach((p, k) => { d.position.set(p[0], 0.01, p[1]); d.scale.set(1, 1, 1); d.updateMatrix(); bm.setMatrixAt(k, d.matrix); });
+  clock.add(bm);
+  const sheet = new THREE.Mesh(new THREE.BoxGeometry(6.3, 0.001, 3.6), new THREE.MeshBasicMaterial({ color: '#E07A2E', transparent: true, opacity: 0.05, depthWrite: false }));
+  clock.add(pick(sheet, 'Clock tree (schematic H-tree)', 'CTS result: 21,941 flip-flops driven through ~10,066 clock buffers. Shown as an idealised H-tree; the real tree is buffered and balanced by OpenROAD.'));
+}
+let explode = parseFloat(params.get('explode') ?? '0.6');
+function layoutStack() {
+  const gap = 0.025 + explode * 0.85;
+  metalGroups.forEach(g => g.position.y = 0.045 + g.userData.idx * gap * (explode > 0 ? 1 : 0.35));
+  clock.position.y = 0.06 + 7 * gap * (explode > 0 ? 1 : 0.35);
+}
+
+/* ============ 2. QFN package factory ============ */
+function makeMarkTex() {
+  const c = makeCanvas(512, 512), x = c.getContext('2d');
+  x.fillStyle = '#25282E'; x.fillRect(0, 0, 512, 512);
+  x.fillStyle = '#2C3037'; for (let i = 0; i < 4000; i++) x.fillRect(Math.random() * 512, Math.random() * 512, 2, 2);
+  x.fillStyle = '#C9CCD2'; x.textAlign = 'center';
+  x.font = '700 88px system-ui, sans-serif'; x.fillText('SPARK', 256, 250);
+  x.font = '500 34px system-ui, sans-serif'; x.fillText('SKY130 · QFN-32', 256, 312);
+  x.fillStyle = '#9FA4AC'; x.font = '28px system-ui, sans-serif'; x.fillText('PROTO', 256, 360);
+  x.beginPath(); x.arc(56, 56, 18, 0, 7); x.fillStyle = '#4A4F57'; x.fill();
+  return texFrom(c);
+}
+const markTex = makeMarkTex();
+function makeQFN(opts = {}) {
+  const g = new THREE.Group();
+  const leadMat = mat('#C7CBD1', { metalness: 0.7, roughness: 0.3 });
+  const LF = 0.2; // lead frame thickness
+  // exposed pad (pin 33)
+  const ep = box(7.0, LF, 4.4, leadMat, 0, LF / 2, 0); g.add(pick(ep, 'Exposed pad · pin 33 (VSS)', 'Die-attach paddle, soldered to board ground for VSS and heat spreading.'));
+  // leads
+  for (let p = 1; p <= 32; p++) {
+    const q = pinGeom(p), L = 0.55, W = 0.3;
+    const lx = q.x - q.nx * L / 2, lz = q.z - q.nz * L / 2;
+    const lead = box(q.nx ? L : W, LF, q.nx ? W : L, leadMat, lx, LF / 2, lz);
+    g.add(pick(lead, `Pin ${p} · ${PIN[p].fn}`, PIN[p].kind === 'nc' ? 'Reserved (no bond).' : `${PIN[p].fn} lead, bonded to the die.`));
+  }
+  // die + attach
+  const dside = mat('#6E737C', { roughness: 0.4 });
+  const dtop = new THREE.MeshStandardMaterial({ map: dieTopTex, roughness: 0.35, metalness: 0.15 });
+  const die = new THREE.Mesh(new THREE.BoxGeometry(6.3, 0.25, 3.6), [dside, dside, dtop, dside, dside, dside]);
+  die.position.y = LF + 0.02 + 0.125; g.add(pick(die, 'SPARK die · 6.3 × 3.6 mm', 'SKY130 die: 44 SRAM macros + ~101,800 standard cells under a 6-layer metal stack (li1, met1–met5).'));
+  g.add(box(6.4, 0.018, 3.7, mat('#B9B2A0'), 0, LF + 0.0095, 0));
+  // bond wires
+  const wires = new THREE.Group(); g.add(wires);
+  const wmat = mat('#D4A94A', { metalness: 0.85, roughness: 0.25 });
+  const dieTop = LF + 0.02 + 0.25;
+  for (let p = 1; p <= 32; p++) {
+    if (PIN[p].kind === 'nc') continue;
+    const q = pinGeom(p), pad = padOf[p];
+    const a = new THREE.Vector3(pad.x, dieTop + 0.005, pad.z);
+    const b = new THREE.Vector3(q.x - q.nx * 0.45, LF + 0.005, q.z - q.nz * 0.45);
+    const mid = a.clone().lerp(b, 0.3); mid.y = dieTop + 0.32;
+    const mid2 = a.clone().lerp(b, 0.75); mid2.y = dieTop + 0.18;
+    const curve = new THREE.CubicBezierCurve3(a, new THREE.Vector3(a.x, dieTop + 0.35, a.z), mid2, b);
+    const t = new THREE.Mesh(new THREE.TubeGeometry(curve, 24, 0.018, 6, false), wmat);
+    wires.add(pick(t, `Bond wire · pin ${p} ${PIN[p].fn}`, 'Gold ball-wedge bond from a die pad to the lead (illustrative).'));
+  }
+  // mold compound
+  const moldMat = mat('#2A2D33', { roughness: 0.85 });
+  const moldTop = new THREE.MeshStandardMaterial({ map: markTex, roughness: 0.8 });
+  const mold = new THREE.Mesh(new THREE.BoxGeometry(BODY, 0.9 - LF, BODY), [moldMat, moldMat, moldTop, moldMat, moldMat, moldMat]);
+  mold.position.y = LF + (0.9 - LF) / 2;
+  g.add(pick(mold, 'Mold compound · QFN-32 9 × 9 mm', 'Epoxy body (package outline planned). Larger than a 5 × 5 mm QFN because the die is 6.3 × 3.6 mm.'));
+  // underside mold between leads
+  const under = box(BODY - 0.02, LF * 0.85, BODY - 0.02, moldMat, 0, LF * 0.425, 0); g.add(under);
+  // cut-away pieces
+  const cut = new THREE.Group(); g.add(cut);
+  const backSlab = box(BODY, 0.9 - LF, 2.2, moldMat, 0, LF + (0.9 - LF) / 2, -BODY / 2 + 1.1); cut.add(backSlab);
+  const cutFace = box(BODY, 0.9 - LF, 0.01, mat('#4A4F58', { roughness: 0.95 }), 0, LF + (0.9 - LF) / 2, -BODY / 2 + 2.205); cut.add(cutFace);
+  const ghost = new THREE.Mesh(new THREE.BoxGeometry(BODY, 0.9 - LF, BODY), new THREE.MeshBasicMaterial({ color: '#2A2D33', transparent: true, opacity: 0.07, depthWrite: false }));
+  ghost.position.copy(mold.position); cut.add(ghost);
+  const ghostEdge = outline(BODY, 0.9 - LF, BODY, '#2A2D33'); ghostEdge.position.copy(mold.position); cut.add(ghostEdge);
+  cut.visible = false;
+  return { g, mold, under, cut, wires, die };
+}
+
+/* ============ 3. package-on-board scene ============ */
+const pkgScene = new THREE.Group(); scene.add(pkgScene);
+const qfn = makeQFN(); pkgScene.add(qfn.g);
+{
+  const pcb = box(30, 1.6, 24, mat('#2C5A4C', { roughness: 0.7 }), 0, -0.8, 0); pkgScene.add(pcb);
+  const cu = k => mat(KIND_COLOR[k], { roughness: 0.4, metalness: 0.4 });
+  const cuMat = { sig: cu('sig'), pwr: cu('pwr'), gnd: cu('gnd'), nc: cu('nc') };
+  for (let p = 1; p <= 32; p++) {
+    const q = pinGeom(p), k = PIN[p].kind;
+    if (k === 'nc') continue;
+    const len = 4.5 + ((p * 7) % 3) * 0.8;
+    const cx = q.x + q.nx * (len / 2 + 0.05), cz = q.z + q.nz * (len / 2 + 0.05);
+    pkgScene.add(box(q.nx ? len : 0.25, 0.03, q.nx ? 0.25 : len, cuMat[k], cx, 0.015, cz));
+    // pad end
+    pkgScene.add(box(0.7, 0.04, 0.7, cuMat[k], q.x + q.nx * (len + 0.3), 0.02, q.z + q.nz * (len + 0.3)));
+  }
+  // decoupling caps near power pins
+  const capBody = mat('#B89A6A'), capEnd = mat('#C9CCD2', { metalness: 0.6, roughness: 0.3 });
+  [1, 5, 9, 15, 17, 21, 25, 29].forEach(p => {
+    const q = pinGeom(p), d = 2.2, ox = q.x + q.nx * d + q.nz * 0.0, oz = q.z + q.nz * d;
+    const along = q.nx ? 'z' : 'x';
+    const c = new THREE.Group();
+    c.add(box(along === 'x' ? 0.6 : 1.0, 0.5, along === 'x' ? 1.0 : 0.6, capBody, 0, 0.25, 0));
+    c.position.set(ox + (q.nz ? 0.9 : 0), 0, oz + (q.nx ? 0.9 : 0)); pkgScene.add(c);
+  });
+}
+
+/* ============ 4. GPU accelerator card ============ */
+const card = new THREE.Group(); scene.add(card);
+const busPulses = [];
+const SPARK_POS = new THREE.Vector3(30, 0, -6);
+const GPU_POS = new THREE.Vector3(-25, 0, -6);
+{
+  const pcbMat = mat('#1F3D37', { roughness: 0.75 });
+  card.add(pick(box(267, 1.6, 103, pcbMat, 0, -0.8, -4), 'Accelerator card PCB', 'Generic full-length PCIe accelerator board (illustrative, cooler removed).'));
+  card.add(box(89, 1.6, 8, pcbMat, -74, -0.8, 51.5));
+  // PCIe fingers
+  const gold = mat('#D8B45A', { metalness: 0.8, roughness: 0.3 });
+  const fingers = new THREE.InstancedMesh(BOX, gold, 82), d = new THREE.Object3D();
+  for (let k = 0; k < 82; k++) {
+    let x = -117.5 + k * 1.0 + (k >= 11 ? 2 : 0);
+    d.position.set(x, 0.02, 51.5); d.scale.set(0.7, 0.04, 6.5); d.updateMatrix(); fingers.setMatrixAt(k, d.matrix);
+  }
+  card.add(pick(fingers, 'PCIe x16 edge connector', 'Host interface of the accelerator card.'));
+  // bracket
+  card.add(box(1.2, 18, 120, mat('#B9BEC5', { metalness: 0.7, roughness: 0.35 }), -134, 8, -2));
+  // GPU package
+  const gp = new THREE.Group(); gp.position.copy(GPU_POS); card.add(gp);
+  gp.add(pick(box(55, 1.2, 55, mat('#3C4237', { roughness: 0.6 }), 0, 0.6, 0), 'GPU package substrate (~55 mm)', 'Organic package substrate carrying the silicon interposer.'));
+  gp.add(box(48, 0.3, 32, mat('#A2A8AE', { metalness: 0.4, roughness: 0.35 }), 0, 1.35, 0));
+  // GPU die texture
+  const gc = makeCanvas(512, 640), gx = gc.getContext('2d');
+  gx.fillStyle = '#2B3442'; gx.fillRect(0, 0, 512, 640);
+  for (let r = 0; r < 10; r++) for (let c = 0; c < 6; c++) {
+    gx.fillStyle = (r === 4 || r === 5) ? '#4A5568' : '#3D5A7A';
+    if (r === 4 || r === 5) { if (c === 0) gx.fillRect(24, 24 + r * 60, 464, 54); continue; }
+    gx.fillRect(24 + c * 78, 24 + r * 60, 70, 54);
+    gx.fillStyle = '#5379A1'; gx.fillRect(30 + c * 78, 30 + r * 60, 26, 20); gx.fillRect(30 + c * 78, 54 + r * 60, 26, 20);
+  }
+  gx.strokeStyle = '#7C8796'; gx.lineWidth = 6; gx.strokeRect(6, 6, 500, 628);
+  const gdTex = texFrom(gc);
+  const gside = mat('#5D6570');
+  const gdie = new THREE.Mesh(new THREE.BoxGeometry(22, 0.7, 28), [gside, gside, new THREE.MeshStandardMaterial({ map: gdTex, roughness: 0.3, metalness: 0.2 }), gside, gside, gside]);
+  gdie.position.y = 1.85; gp.add(pick(gdie, 'GPU die', 'Large compute die on a silicon interposer; runs the heavy model and is woken only for hard tokens.'));
+  const hbmMat = mat('#2C3036', { roughness: 0.35, metalness: 0.3 });
+  for (let s = -1; s <= 1; s += 2) for (let k = -1; k <= 1; k++) {
+    gp.add(pick(box(10, 0.75, 8.5, hbmMat, s * 17.2, 1.88, k * 9.5), 'HBM stack', 'High-bandwidth memory stack beside the GPU die (6 stacks).'));
+  }
+  const smc = new THREE.InstancedMesh(BOX, mat('#B48A5A'), 120);
+  for (let k = 0; k < 120; k++) {
+    const side = k % 4, t = (Math.floor(k / 4) / 30) * 50 - 25;
+    const x = side < 2 ? t : (side === 2 ? -25.5 : 25.5), z = side >= 2 ? t : (side === 0 ? -25.5 : 25.5);
+    d.position.set(x, 1.4, z); d.scale.set(side < 2 ? 0.8 : 0.5, 0.4, side < 2 ? 0.5 : 0.8); d.updateMatrix(); smc.setMatrixAt(k, d.matrix);
+  }
+  gp.add(smc);
+  // VRM
+  const ind = mat('#6B7078', { metalness: 0.5, roughness: 0.4 }), stage = mat('#16181C', { roughness: 0.5 });
+  for (let k = 0; k < 9; k++) {
+    const x = -62 + k * 8.5;
+    card.add(pick(box(7, 4.5, 7, ind, x, 2.25, -44), 'VRM inductor', 'Multiphase voltage regulator for the GPU core rail.'));
+    card.add(box(5, 1, 5, stage, x, 0.5, -36.5));
+  }
+  for (let k = 0; k < 4; k++) { card.add(box(7, 4.5, 7, ind, -66, 2.25, -20 + k * 9)); card.add(box(5, 1, 5, stage, -58, 0.5, -20 + k * 9)); }
+  const capC = mat('#3A3F48', { metalness: 0.4, roughness: 0.4 });
+  for (let k = 0; k < 6; k++) { const c = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, 5.5, 20), capC); c.position.set(20 + k * 7, 2.75, -46); card.add(c); }
+  card.add(pick(box(21, 9, 7.5, mat('#141619'), 112, 4.5, -48), 'Auxiliary power connector', '12 V input for the card.'));
+  card.add(box(16, 9, 7.5, mat('#141619'), 88, 4.5, -48));
+  // misc ICs
+  card.add(box(6, 1, 5, stage, 70, 0.5, 20)); card.add(box(4, 0.8, 4, stage, 82, 0.4, 28)); card.add(box(8, 1, 8, stage, 60, 0.5, -10));
+  // SPARK
+  const sq = makeQFN(); sq.g.position.copy(SPARK_POS); card.add(sq.g);
+  sq.g.traverse(o => { if (o.userData.info) o.userData.info = { title: 'SPARK co-processor (QFN-32, ~9 mm)', text: 'Event-driven spiking co-processor: handles easy / repeated tokens and decides when to wake the GPU.' }; });
+  // SPARK support parts: crystal + decaps
+  card.add(box(3.2, 0.9, 2.5, mat('#C9CCD2', { metalness: 0.6, roughness: 0.3 }), SPARK_POS.x - 4, 0.45, SPARK_POS.z - 9));
+  for (let k = 0; k < 4; k++) card.add(box(1.0, 0.5, 0.6, mat('#B89A6A'), SPARK_POS.x + 7, 0.25, SPARK_POS.z - 3 + k * 2));
+  // highlight ring
+  const ring = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([[-6.5, -6.5], [6.5, -6.5], [6.5, 6.5], [-6.5, 6.5]].map(p => new THREE.Vector3(SPARK_POS.x + p[0], 0.06, SPARK_POS.z + p[1]))), new THREE.LineBasicMaterial({ color: '#E07A2E' }));
+  card.add(ring);
+  const glowRect = box(13, 0.02, 13, new THREE.MeshBasicMaterial({ color: '#E07A2E', transparent: true, opacity: 0.18, depthWrite: false }), SPARK_POS.x, 0.03, SPARK_POS.z); card.add(glowRect);
+  // bus traces
+  const busMat = new THREE.MeshStandardMaterial({ color: '#E07A2E', emissive: '#E07A2E', emissiveIntensity: 0.55, roughness: 0.4, metalness: 0.3 });
+  const gEdge = GPU_POS.x + 27.5;
+  const paths = [];
+  [2, 3, 6, 8].forEach(p => { const q = pinGeom(p); const z = SPARK_POS.z + q.z; paths.push([[gEdge, z], [SPARK_POS.x + q.x - 0.3, z]]); });
+  [10, 11, 12, 13].forEach((p, k) => {
+    const q = pinGeom(p); const x = SPARK_POS.x + q.x, zr = SPARK_POS.z + 7.5 + k * 1.2;
+    paths.push([[x, SPARK_POS.z + q.z + 0.3], [x, zr], [gEdge, zr]]);
+  });
+  const curves = [];
+  for (const pth of paths) {
+    const pts = [];
+    for (let k = 0; k < pth.length - 1; k++) {
+      const [x0, z0] = pth[k], [x1, z1] = pth[k + 1];
+      const len = Math.hypot(x1 - x0, z1 - z0);
+      const m = box(Math.abs(x1 - x0) + 0.5, 0.06, Math.abs(z1 - z0) + 0.5, busMat, (x0 + x1) / 2, 0.04, (z0 + z1) / 2);
+      card.add(pick(m, 'Token stream / route decision bus', 'UART_RX/TX, RST_N, CLK, READY, BUSY, TOK, TRIG between the host GPU side and SPARK.'));
+      pts.push(new THREE.Vector3(x0, 0.3, z0), new THREE.Vector3(x1, 0.3, z1));
+    }
+    curves.push(pts);
+  }
+  const pulseMat = new THREE.MeshBasicMaterial({ color: '#FFB27A' });
+  curves.forEach((pts, k) => {
+    const s = new THREE.Mesh(new THREE.SphereGeometry(0.55, 12, 8), pulseMat);
+    s.userData = { pts, phase: k * 0.13 }; card.add(s); busPulses.push(s);
+  });
+}
+function updatePulses(t) {
+  for (const s of busPulses) {
+    const pts = s.userData.pts; let u = ((t * 0.25 + s.userData.phase) % 1);
+    let total = 0; const segs = [];
+    for (let k = 0; k < pts.length; k += 2) { const l = pts[k].distanceTo(pts[k + 1]); segs.push(l); total += l; }
+    let dist = u * total;
+    for (let k = 0; k < segs.length; k++) { if (dist <= segs[k]) { s.position.lerpVectors(pts[2 * k], pts[2 * k + 1], dist / segs[k]); break; } dist -= segs[k]; }
+  }
+}
+
+/* ---------------- labels ---------------- */
+const labelsEl = document.getElementById('labels');
+const leaders = document.getElementById('leaders');
+const infoEl = document.getElementById('info');
+const labels = [];
+function addLabel(o) {
+  const el = document.createElement('div');
+  el.className = 'lbl ' + (o.tone || '');
+  el.innerHTML = `<b>${o.title}</b>${o.sub ? `<span>${o.sub}</span>` : ''}`;
+  labelsEl.appendChild(el);
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); dot.setAttribute('r', '3.5');
+  leaders.appendChild(line); leaders.appendChild(dot);
+  const L = { ...o, el, line, dot, local: new THREE.Vector3(...o.at) };
+  const show = () => { infoEl.innerHTML = `<b>${o.title}</b>${o.info || o.sub || ''}`; labels.forEach(x => x.el.classList.remove('active')); el.classList.add('active'); };
+  el.addEventListener('mouseenter', show); el.addEventListener('click', show);
+  labels.push(L); return L;
+}
+// exploded labels (attached to layer groups)
+addLabel({ views: ['exploded'], obj: feol, at: [3.15, 0.0, 1.8], dx: 150, dy: 10, title: 'FEOL: substrate · diffusion + poly', sub: '~101,800 std cells (sky130_fd_sc_hd) + 44 SRAM macros', tone: 'ink', info: 'Front-end-of-line: transistors. Standard-cell rows fill the channels between the 6 × 8 SRAM macro grid.' });
+METALS.forEach((L, i) => addLabel({ views: ['exploded'], obj: metalGroups[i], at: [3.15, 0, 1.8], dx: 150, dy: 6, title: L.name, sub: L.note, tone: '', layerColor: L.color, info: `${L.note}. Segments are representative; the routed design totals 10.2 m of signal wire and ~1.04 M vias.` }));
+addLabel({ views: ['exploded'], obj: clock, at: [1.575, 0, -0.9], dx: 40, dy: -50, title: 'Clock tree (H-tree, schematic)', sub: '21,941 flip-flops · ~10,066 clock buffers', tone: 'orange' });
+addLabel({ views: ['exploded'], obj: metalGroups[5], at: [-3.15, 0, 1.8], dx: -40, dy: -10, title: '10.2 m signal wire · ~1.04 M vias', sub: 'li1 → met5 · power grid on met4/met5, met1 follow-pin rails', tone: 'ink' });
+// die labels
+const mc = (i, fx = 0.5, fy = 0.5) => [wx(macros[i].x + MW * fx), 0.03, wz(macros[i].y + MH * fy)];
+addLabel({ views: ['die'], obj: stack, at: mc(0, 0, 0.5), dx: -40, dy: 10, title: 'Embedding SRAMs', sub: '8 × 2 KB (row 0)', tone: 'ink', layerColor: GROUPS.emb.accent });
+addLabel({ views: ['die'], obj: stack, at: mc(8, 0, 1), dx: -40, dy: 0, title: 'Spiking layer 0 weight SRAMs', sub: '16 × 2 KB', layerColor: GROUPS.w0.accent });
+addLabel({ views: ['die'], obj: stack, at: mc(24, 0, 1), dx: -40, dy: 0, title: 'Spiking layer 1 weight SRAMs', sub: '16 × 2 KB', layerColor: GROUPS.w1.accent });
+addLabel({ views: ['die'], obj: stack, at: mc(40, 0, 0.5), dx: -40, dy: -14, title: 'Recall table', sub: '4 × 2 KB', tone: 'orange', layerColor: GROUPS.recall.accent });
+addLabel({ views: ['die'], obj: stack, at: [wx(4300), 0.01, wz(3300)], dx: 30, dy: -70, title: 'Event engine + control (standard cells)', sub: 'free area of macro row 5', tone: '' });
+addLabel({ views: ['die'], obj: stack, at: [wx(6000), 0.01, wz(3400)], dx: 50, dy: -20, title: 'UART host interface', sub: 'clk · rst_n · uart_rx/tx · ready · busy · tok · trig_out', tone: 'orange' });
+addLabel({ views: ['die'], obj: stack, at: mc(15, 1.07, 0.5), dx: 45, dy: 30, title: 'Std-cell channels', sub: '~101,800 cells between macro rows and in edge strips', tone: 'ink' });
+addLabel({ views: ['die'], obj: stack, at: mc(3, 0.5, 0.0), dx: 60, dy: 60, title: '44 × OpenRAM sky130_sram_2kbyte_1rw1r_32x512_8', sub: 'each 683.1 × 416.54 µm · bitcell array, row decoder, sense amps, control', tone: 'ink' });
+addLabel({ views: ['die'], obj: stack, at: [0, 0, 1.8], dx: 0, dy: 40, title: 'Die 6.3 × 3.6 mm', sub: 'SkyWater SKY130 · 130 nm', tone: 'ink' });
+// package labels
+addLabel({ views: ['package'], obj: qfn.g, at: [3.2, 0.9, -3.2], dx: 60, dy: -60, title: 'SPARK · QFN-32, 9 × 9 mm', sub: 'package outline planned · exposed pad = pin 33 (VSS)', tone: 'ink' });
+for (const p of [2, 3, 6, 8, 10, 11, 12, 13]) {
+  const q = pinGeom(p), side = q.side;
+  const dx = side === 0 ? -50 : (p - 11.5) * 34, dy = side === 0 ? (p - 5) * 6 : 70 + Math.abs(p - 11.5) * 8;
+  addLabel({ views: ['package'], obj: qfn.g, at: [q.x + q.nx * 0.2, 0.1, q.z + q.nz * 0.2], dx, dy, title: `${p} ${PIN[p].fn}`, tone: 'orange', info: `Signal pin ${p}: ${PIN[p].fn}.` });
+}
+addLabel({ views: ['package'], obj: qfn.g, at: [4.5, 0.1, 0.4], dx: 60, dy: 20, title: 'Power & ground', sub: 'VDDIO 1/9/17/25 · VCCD 1.8 V 5/15/21/29 · VSS 4/7/14/16/20/24/28/32 + EP', tone: '' });
+addLabel({ views: ['package'], obj: qfn.g, at: [-4.5, 0.1, -3.6], dx: -40, dy: -40, title: 'Pin 1', sub: 'counter-clockwise numbering', tone: 'ink' });
+// cutaway labels
+addLabel({ views: ['cutaway'], obj: qfn.g, at: [1.0, 0.47, 0.3], dx: 90, dy: -140, title: 'SPARK die · 6.3 × 3.6 mm', sub: '44 SRAM macros + std-cell logic', tone: 'ink' });
+addLabel({ views: ['cutaway'], obj: qfn.g, at: [-3.45, 0.62, 0.0], dx: -50, dy: -70, title: 'Bond wires (24)', sub: 'die pads → leads · 8 signal, 8 power, 8 ground', tone: 'orange' });
+addLabel({ views: ['cutaway'], obj: qfn.g, at: [3.4, 0.2, 2.0], dx: 70, dy: 40, title: 'Exposed pad · pin 33 (VSS)', sub: 'die-attach paddle', tone: 'ink' });
+addLabel({ views: ['cutaway'], obj: qfn.g, at: [2.5, 0.9, -3.5], dx: 70, dy: -40, title: 'Mold compound (cut away)', sub: 'QFN-32 9 × 9 mm, outline planned', tone: 'ink' });
+addLabel({ views: ['cutaway'], obj: qfn.g, at: [-1.2, 0.1, 4.3], dx: -40, dy: 70, title: 'Lead frame · 0.8 mm pitch', sub: '8 leads per side', tone: 'ink' });
+// gpu labels
+addLabel({ views: ['gpu'], obj: card, at: [GPU_POS.x, 2.2, GPU_POS.z - 8], dx: -60, dy: -150, title: 'GPU: heavy model (woken only for hard tokens)', sub: 'large die on interposer · ~55 mm package', tone: '' });
+addLabel({ views: ['gpu'], obj: card, at: [GPU_POS.x - 17.2, 2.3, GPU_POS.z + 9.5], dx: -90, dy: 60, title: 'HBM stacks (6)', tone: 'ink' });
+addLabel({ views: ['gpu'], obj: card, at: [SPARK_POS.x + 2, 0.9, SPARK_POS.z - 2], dx: 80, dy: -110, title: 'SPARK co-processor: easy/repeated tokens, event-driven', sub: 'QFN-32 · ~9 mm', tone: 'orange' });
+addLabel({ views: ['gpu'], obj: card, at: [(GPU_POS.x + 27.5 + SPARK_POS.x - 4.5) / 2, 0.1, SPARK_POS.z + 9], dx: 10, dy: 90, title: 'token stream / route decision', sub: 'UART · READY · BUSY · TOK · TRIG', tone: 'orange' });
+addLabel({ views: ['gpu'], obj: card, at: [-30, 4.5, -44], dx: -40, dy: -50, title: 'VRM', sub: 'power stages + inductors', tone: 'ink' });
+addLabel({ views: ['gpu'], obj: card, at: [-60, 0.1, 52], dx: -30, dy: 50, title: 'PCIe x16 edge connector', tone: 'ink' });
+
+/* ---------------- views ---------------- */
+const VIEW_DEF = {
+  package:  { cap: 'QFN-32 package on board', text: 'SPARK in a 9 × 9 mm QFN-32 (outline planned), signal pins highlighted.', pos: [-9, 13, 16], tgt: [0.4, 0, 1.2] },
+  cutaway:  { cap: 'Package on board, mold cut away', text: 'QFN-32 (9 × 9 mm, outline planned) with the mold removed to show the 6.3 × 3.6 mm die, bond wires and exposed pad.', pos: [-8.5, 12.5, 15.0], tgt: [0.6, 0, 1.0] },
+  exploded: { cap: 'Exploded die stack', text: 'FEOL transistors, li1 and met1–met5 routing, power straps and clock tree (vertical spacing exaggerated).', pos: [9.9, 5.6, 12.6], tgt: [2.2, 2.15, 0.2] },
+  die:      { cap: 'Die floorplan', text: '44 SRAM macros in a 6 × 8 grid with standard-cell logic in the channels.', pos: [0.6, 7.0, 4.2], tgt: [0.3, 0, 0.25] },
+  gpu:      { cap: 'SPARK on a GPU accelerator card', text: 'Generic card: GPU package with HBM, VRM, PCIe edge; SPARK beside the GPU.', pos: [8, 150, 150], tgt: [-6, 0, 2] },
+};
+const TOGGLES = [
+  { key: 'mold', name: 'Mold compound', color: '#2A2D33', views: ['package', 'cutaway'] },
+  { key: 'wires', name: 'Bond wires', color: '#D4A94A', views: ['package', 'cutaway'] },
+  { key: 'feol', name: 'FEOL / cells', color: '#7E828A', views: ['exploded', 'die'] },
+  ...METALS.map(m => ({ key: m.key, name: m.name, color: m.color, views: ['exploded', 'die'] })),
+  { key: 'power', name: 'Power grid', color: '#8E2F4A', views: ['exploded', 'die'] },
+  { key: 'clock', name: 'Clock tree', color: '#E07A2E', views: ['exploded', 'die'] },
+  { key: 'labels', name: 'Labels', color: '#1D5E8C', views: VIEWS },
+];
+const state = {};
+const togglesEl = document.getElementById('toggles');
+for (const t of TOGGLES) {
+  const l = document.createElement('label');
+  l.innerHTML = `<input type="checkbox" data-k="${t.key}"><i class="sw" style="background:${t.color}"></i>${t.name}`;
+  togglesEl.appendChild(l); t.el = l; t.input = l.querySelector('input');
+  t.input.addEventListener('change', () => { state[t.key] = t.input.checked; applyState(); });
+}
+let view = VIEWS.includes(params.get('view')) ? params.get('view') : 'package';
+function defaults(v) {
+  const s = { mold: v === 'package', wires: true, feol: true, power: v === 'exploded', clock: v === 'exploded', labels: true };
+  METALS.forEach(m => s[m.key] = v === 'exploded');
+  return s;
+}
+function applyState() {
+  pkgScene.visible = view === 'package' || view === 'cutaway';
+  stack.visible = view === 'exploded' || view === 'die';
+  card.visible = view === 'gpu';
+  qfn.mold.visible = state.mold; qfn.cut.visible = !state.mold;
+  qfn.wires.visible = state.wires;
+  layerObjs.feol.visible = state.feol;
+  METALS.forEach(m => layerObjs[m.key].visible = state[m.key]);
+  powerObjs.forEach(p => p.visible = state.power);
+  clock.visible = state.clock;
+  labelsEl.style.display = state.labels ? '' : 'none';
+  for (const t of TOGGLES) { t.input.checked = !!state[t.key]; t.el.style.opacity = t.views.includes(view) ? 1 : 0.4; }
+  layoutStack();
+  invalidate();
+}
+function setView(v, animate) {
+  view = v;
+  Object.assign(state, defaults(v));
+  if (v === 'die') { explode = 0; } else if (v === 'exploded' && explode < 0.05) { explode = 0.6; }
+  explodeIn.value = explode; explodeOut.textContent = explode.toFixed(2);
+  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === v));
+  const D = VIEW_DEF[v];
+  document.querySelector('#caption b').textContent = D.cap;
+  document.querySelector('#caption span').textContent = D.text;
+  applyState();
+  const aspect = viewer.clientWidth / Math.max(1, viewer.clientHeight);
+  const tgt = new THREE.Vector3(...D.tgt), pos = new THREE.Vector3(...D.pos);
+  const k = aspect < 1.5 ? Math.min(1.8, Math.pow(1.5 / aspect, 0.6)) : 1;
+  pos.sub(tgt).multiplyScalar(k).add(tgt);
+  camAnim = animate ? { from: camera.position.clone(), fromT: controls.target.clone(), to: pos, toT: tgt, t0: performance.now() } : null;
+  if (!animate) { camera.position.copy(pos); controls.target.copy(tgt); controls.update(); }
+  if (!STATIC) try { localStorage.setItem('spark3d.view', v); } catch (e) {}
+}
+let camAnim = null;
+const explodeIn = document.getElementById('explode'), explodeOut = document.getElementById('explodeVal');
+explodeIn.addEventListener('input', () => { explode = parseFloat(explodeIn.value); explodeOut.textContent = explode.toFixed(2); layoutStack(); invalidate(); });
+document.getElementById('tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) setView(b.dataset.view, true); });
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const dark = cssVar('--scene').toLowerCase() === '#10151e';
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+  applySceneBg(); invalidate();
+});
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => { applySceneBg(); invalidate(); });
+
+/* ---------------- hover / pick ---------------- */
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+const tip = document.getElementById('tip');
+function pickAt(e) {
+  const r = canvas.getBoundingClientRect();
+  ptr.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ptr, camera);
+  const vis = pickables.filter(o => { let p = o; while (p) { if (!p.visible) return false; p = p.parent; } return true; });
+  const hit = ray.intersectObjects(vis, false)[0];
+  return hit ? hit.object.userData.info : null;
+}
+canvas.addEventListener('pointermove', e => {
+  if (e.buttons) { tip.style.display = 'none'; return; }
+  const info = pickAt(e);
+  if (!info) { tip.style.display = 'none'; return; }
+  const r = viewer.getBoundingClientRect();
+  tip.textContent = info.title; tip.style.display = 'block';
+  tip.style.left = Math.min(r.width - 180, e.clientX - r.left + 12) + 'px'; tip.style.top = (e.clientY - r.top + 12) + 'px';
+});
+canvas.addEventListener('pointerleave', () => tip.style.display = 'none');
+canvas.addEventListener('click', e => { const info = pickAt(e); if (info) infoEl.innerHTML = `<b>${info.title}</b>${info.text}`; });
+
+/* ---------------- render loop ---------------- */
+function resize() {
+  const w = viewer.clientWidth, h = viewer.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); invalidate();
+}
+new ResizeObserver(resize).observe(viewer);
+const v3 = new THREE.Vector3();
+function isShown(o) { while (o) { if (!o.visible) return false; o = o.parent; } return true; }
+function updateLabels() {
+  if (!state.labels) return;
+  const W = viewer.clientWidth, H = viewer.clientHeight;
+  leaders.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const ink = cssVar('--label-line');
+  const placed = [];
+  const vr = viewer.getBoundingClientRect();
+  if (STATIC) for (const sel of ['#caption', '.capfoot']) { const r = document.querySelector(sel).getBoundingClientRect(); placed.push({ lx: r.left - vr.left, ly: r.top - vr.top, w: r.width, h: r.height }); }
+  const active = [];
+  for (const L of labels) {
+    const on = L.views.includes(view) && isShown(L.obj);
+    if (!on) { L.el.style.display = 'none'; L.line.style.display = 'none'; L.dot.style.display = 'none'; continue; }
+    L.obj.updateWorldMatrix(true, false);
+    v3.copy(L.local).applyMatrix4(L.obj.matrixWorld).project(camera);
+    if (v3.z > 1) { L.el.style.display = 'none'; L.line.style.display = 'none'; L.dot.style.display = 'none'; continue; }
+    L.el.style.display = 'block'; L.line.style.display = ''; L.dot.style.display = '';
+    const sx = (v3.x * 0.5 + 0.5) * W, sy = (-v3.y * 0.5 + 0.5) * H;
+    const scale = W < 600 ? 0.55 : 1;
+    const w = L.el.offsetWidth, h = L.el.offsetHeight;
+    let lx = sx + L.dx * scale, ly = sy + L.dy * scale - h / 2;
+    if (L.dx < 0) lx -= w; else if (L.dx === 0) lx -= w / 2;
+    active.push({ L, sx, sy, lx, ly, w, h });
+  }
+  active.sort((a, b) => a.ly - b.ly);
+  for (const a of active) {
+    a.lx = Math.max(4, Math.min(W - a.w - 4, a.lx));
+    const hit = y => placed.find(p => a.lx < p.lx + p.w + 4 && a.lx + a.w + 4 > p.lx && y < p.ly + p.h + 4 && y + a.h + 4 > p.ly);
+    const y0 = Math.max(4, Math.min(H - a.h - 4, a.ly));
+    let best = y0;
+    if (hit(y0)) {
+      let down = y0, up = y0, o;
+      for (let it = 0; it < 15 && (o = hit(down)); it++) down = o.ly + o.h + 5;
+      for (let it = 0; it < 15 && (o = hit(up)); it++) up = o.ly - a.h - 5;
+      const okD = down + a.h < H - 4 && !hit(down), okU = up > 4 && !hit(up);
+      best = okD && okU ? (down - y0 <= y0 - up ? down : up) : okD ? down : okU ? up : y0;
+    }
+    a.ly = best;
+    placed.push(a);
+    const { L } = a;
+    L.el.style.transform = `translate(${Math.round(a.lx)}px, ${Math.round(a.ly)}px)`;
+    const ex = a.lx + a.w / 2 < a.sx ? a.lx + a.w : a.lx, ey = Math.max(a.ly + 6, Math.min(a.ly + a.h - 6, a.sy));
+    const nearX = a.sx >= a.lx && a.sx <= a.lx + a.w;
+    const tx = nearX ? a.sx : ex, ty = nearX ? (a.sy < a.ly ? a.ly : a.ly + a.h) : ey;
+    L.line.setAttribute('x1', a.sx); L.line.setAttribute('y1', a.sy); L.line.setAttribute('x2', tx); L.line.setAttribute('y2', ty);
+    const c = L.layerColor || ink;
+    L.line.setAttribute('stroke', c); L.line.setAttribute('stroke-width', '1.3');
+    L.dot.setAttribute('cx', a.sx); L.dot.setAttribute('cy', a.sy); L.dot.setAttribute('fill', c);
+    if (L.layerColor) L.el.style.borderLeftColor = L.layerColor;
+  }
+}
+let frames = 0;
+var dirty = 2;
+function invalidate() { dirty = 2; }
+controls.addEventListener('change', invalidate);
+['pointerdown', 'wheel'].forEach(ev => canvas.addEventListener(ev, invalidate, { passive: true }));
+function tick(now) {
+  if (camAnim) {
+    const t = Math.min(1, (now - camAnim.t0) / 700), e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    camera.position.lerpVectors(camAnim.from, camAnim.to, e); controls.target.lerpVectors(camAnim.fromT, camAnim.toT, e);
+    if (t >= 1) camAnim = null;
+  }
+  const moved = controls.update();
+  const live = camAnim || moved || dirty > 0 || card.visible || frames < 6;
+  if (live) {
+    if (card.visible) updatePulses(STATIC ? 0.37 : now / 1000);
+    renderer.render(scene, camera);
+    updateLabels();
+    if (dirty > 0) dirty--;
+    if (++frames === 4) window.__ready = true;
+  }
+  if (!STATIC || frames < 6) requestAnimationFrame(tick);
+}
+resize();
+let startView = view;
+if (!params.get('view') && !STATIC) { try { const s = localStorage.getItem('spark3d.view'); if (VIEWS.includes(s)) startView = s; } catch (e) {} }
+setView(startView, false);
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

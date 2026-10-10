@@ -28,8 +28,8 @@ import train_spark_v0 as tr               # noqa: E402
 E_FLOP = 0.5e-12      # J per FP16 FLOP on a modern tensor-core GPU (energy of the arithmetic + on-chip moves)
 E_HBM_BIT = 4e-12     # J per bit read from HBM
 SPARK_J = {"low": 104e-9, "high": 275e-9}   # upper ends of the simulated SPARK range (hw/power)
-GPU_MODELS = {        # params of the GPU-side model
-    "nanoGPT byte model (this test, 3.2 M)": None,
+GPU_MODELS = {        # params of the GPU-side model (energy rows are projections; the 3.2 M test model
+                      # would sit in GPU cache, so its HBM-based figure is not used)
     "1.1 B code LLM (projected)": 1.1e9,
     "7 B code LLM (projected)": 7e9,
 }
@@ -104,12 +104,15 @@ def main():
               f"test: GPU {r['test']['gpu_fraction']:.1%} acc {r['test']['accuracy']:.1%} "
               f"(SPARK-local acc {r['test']['spark_local_accuracy'] or 0:.1%})", flush=True)
 
-    # operating points chosen on calibration only: fewest GPU calls with accuracy loss <= budget
+    # operating points chosen on the calibration slice only, then reported on the test slice
     picks = {}
-    for budget in (0.0, 0.01, 0.02, 0.05):
-        ok = [r for r in rows if r["cal"]["accuracy"] >= gpu_only["cal"] - budget]
+    ok = [r for r in rows if r["cal"]["accuracy"] >= gpu_only["cal"]]
+    if ok:
+        picks["max offload, accuracy >= GPU-only"] = min(ok, key=lambda r: r["cal"]["gpu_fraction"])["name"]
+    for prec in (0.80, 0.88):
+        ok = [r for r in rows if (r["cal"]["spark_local_accuracy"] or 0) >= prec]
         if ok:
-            picks[f"<= {budget:.0%} accuracy loss"] = min(ok, key=lambda r: r["cal"]["gpu_fraction"])["name"]
+            picks[f"max offload, SPARK-local accuracy >= {prec:.0%}"] = min(ok, key=lambda r: r["cal"]["gpu_fraction"])["name"]
 
     def energy(params, gpu_frac, eff):
         params = params or P
