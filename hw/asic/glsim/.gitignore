@@ -1,0 +1,10 @@
+p0/*.hex
+p1/*.hex
+p0/stim.npy
+p1/stim.npy
+*.hex
+stim.npy
+spark_core_gl.v
+primitives_pwrup.v
+p0/run.log
+p1/run.log

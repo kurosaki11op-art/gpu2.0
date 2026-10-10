@@ -1,0 +1,24 @@
+WARNING: ../tb_asic.v:63: $readmemh(stim.hex): Not enough words in the file for the requested range [0:65535].
+                  15 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+                  15 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+                  15 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+                  25 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+                  25 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+                  25 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+                  35 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+                  35 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+                  35 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+WARNING: ../tb_asic.v:68: $readmemh(emb.hex): Not enough words in the file for the requested range [0:4095].
+WARNING: ../tb_asic.v:69: $readmemh(emb1.hex): Not enough words in the file for the requested range [0:4095].
+WARNING: ../tb_asic.v:70: $readmemh(emb2.hex): Not enough words in the file for the requested range [0:4095].
+WARNING: ../tb_asic.v:71: $readmemh(w0.hex): Not enough words in the file for the requested range [0:4095].
+               61515 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+WARNING: ../tb_asic.v:72: $readmemh(w1.hex): Not enough words in the file for the requested range [0:4095].
+               92245 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+              112735 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+              153705 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+weights loaded through ld_* port
+              194695 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+              194695 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+              194695 WARNING: Writing and reading addr0=000000000 and addr1=000000000 simultaneously!
+../tb_asic.v:90: $finish called at 194930000 (1ps)

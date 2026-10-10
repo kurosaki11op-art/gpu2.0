@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/user/gpu2.0/hw/asic/glsim/chk_v2.py", line 10, in <module>
+    rtl = [list(map(int, l.split())) for l in open('rtl_out.txt')]
+           ~~~~^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'x'
