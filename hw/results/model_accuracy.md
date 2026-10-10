@@ -82,6 +82,20 @@ Finding: on this chip the learning that pays off is the brain's *fast one-shot m
 table, written every token) plus a slow, fixed network — the "complementary learning systems" split. Online weight
 updates chase unpredictable bytes. Scripts: `hw/train/experiments/`.
 
+## Other ideas tested to raise accuracy (3,000-byte eval, sparsity 0; network alone / with 4-memory priming)
+| Idea (brain analogy) | Network alone | With memory | Verdict |
+|---|---|---|---|
+| Baseline (same recipe, retrained) | 62.4% | 72.8% | — |
+| Memory-aware training (cortex learns what hippocampus misses) | 41.6% | 72.1% | No gain (20,000-byte: 67.7% vs 68.4%) |
+| Word-chunk inputs: current word (reading in chunks) | 61.7% | 73.3% | +0.5, within noise |
+| Word-chunk inputs: current + previous word | 61.4% | 73.3% | +0.5, within noise |
+| Recurrent layer 1 (cortical recurrence) | 61.1% | 72.6% | No gain |
+| Adding exit-head scores to the main head | +0.3 | ±0.2 | No gain |
+| Bigger memory: 2,048 × 4 / 4,096 × 6 slots (20,000-byte test) | — | 68.8% / 69.4% (vs 68.4%) | **Works, scales with SRAM** (needs a bigger FPGA/ASIC) |
+
+Conclusion: at this size (128 neurons/layer, int4) the network saturates at ~62%; accuracy gains come from
+memory (more slots, more context lengths, priming), which is cheap SRAM rather than compute.
+
 ## Bigger network? (exact-integer, 3-byte context, 3,000-byte eval)
 | Neurons per layer | Main-path accuracy |
 |---|---|

@@ -27,6 +27,29 @@ import spark_golden as sg  # noqa: E402
 D, H, V = sg.D, sg.H, sg.V
 
 
+def word_index(seq):
+    """Word-chunk inputs (hardware: one running-hash register per word).
+    seq [B, T] bytes -> [B, T, 2] table rows: hash of the current word so far, hash of the previous word.
+    Row 0 = not inside a word."""
+    B, T = seq.shape
+    out = np.zeros((B, T, 2), np.int64)
+    cur = np.zeros(B, np.int64); prev = np.zeros(B, np.int64)
+    isw = np.zeros(256, bool)
+    for c in b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_":
+        isw[c] = True
+    for t in range(T):
+        b = seq[:, t].astype(np.int64)
+        w = isw[b]
+        ended = (~w) & (cur != 0)
+        prev = np.where(ended, cur, prev)
+        cur = np.where(w, (cur * 31 + b + 1) & 0xFFFFFF, 0)
+        hc = ((cur * 0x9E3779B1) & 0xFFFFFFFF) >> 24
+        hp = ((prev * 0x9E3779B1) & 0xFFFFFFFF) >> 24
+        out[:, t, 0] = np.where(cur != 0, np.maximum(hc, 1), 0)
+        out[:, t, 1] = np.where(prev != 0, np.maximum(hp, 1), 0)
+    return out
+
+
 def load_corpus(max_bytes):
     files = sorted(glob.glob("/usr/lib/python3*/**/*.py", recursive=True))
     rng = np.random.default_rng(0)
@@ -68,8 +91,10 @@ def q4(w):
 
 
 class SparkV0(torch.nn.Module):
-    def __init__(self, a=230, acc_sh=2, s_sh=4, ctx=1, spike_mode="sym", shared_emb=False):
+    def __init__(self, a=230, acc_sh=2, s_sh=4, ctx=1, spike_mode="sym", shared_emb=False, words=0, recur=0):
         super().__init__()
+        self.recur = recur               # 1: layer 1 also gets its own previous spikes (recurrence)
+        self.words = words               # word-chunk inputs: 1 = current word hash, 2 = + previous word
         self.a, self.acc_sh, self.s_sh, self.ctx = a, acc_sh, s_sh, ctx
         self.spike_mode = spike_mode     # "sym": sign(h)*min(|h|>>s,7)  "thr": min((h-th)>>s,7), >=0
         g = torch.Generator().manual_seed(0)
@@ -79,8 +104,9 @@ class SparkV0(torch.nn.Module):
         self.shared_emb = shared_emb      # one table for all context positions (saves chip memory)
         self.embx = torch.nn.ParameterList(
             [] if shared_emb else [init(V, D, sc=3.0) for _ in range(ctx - 1)])
-        self.w0 = init(H, D * ctx, sc=1.5)
-        self.w1 = init(H, H, sc=1.5)
+        self.embw = torch.nn.ParameterList([init(V, D, sc=3.0) for _ in range(words)])
+        self.w0 = init(H, D * (ctx + words), sc=1.5)
+        self.w1 = init(H, H * (2 if recur else 1), sc=1.5)
         self.we = init(V, H, sc=1.5)
         self.wm = init(V, H, sc=1.5)
         # per-neuron firing thresholds (integer, used when spike_mode == "thr")
@@ -124,6 +150,9 @@ class SparkV0(torch.nn.Module):
         else:
             embs = [q4(self.emb)] + [q4(e) for e in self.embx]
         outs_m, outs_e, rates = [], [], []
+        if self.words:
+            widx = torch.from_numpy(word_index(seq.numpy()))
+            wembs = [q4(e) for e in self.embw]
         for t in range(T):
             parts = []
             for k, e in enumerate(embs):
@@ -131,9 +160,15 @@ class SparkV0(torch.nn.Module):
                     parts.append(e[seq[:, t - k]])
                 else:
                     parts.append(torch.zeros(B, D, dtype=e.dtype))
+            for k in range(self.words):
+                parts.append(wembs[k][widx[:, t, k]])
             x = torch.cat(parts, 1)
             h0, s0 = self.layer(h0, x, self.w0, self.th0)
-            h1, s1 = self.layer(h1, s0, self.w1, self.th1)
+            if self.recur:
+                s1p = s1 if t > 0 else torch.zeros_like(s0)
+                h1, s1 = self.layer(h1, torch.cat([s0, s1p], 1), self.w1, self.th1)
+            else:
+                h1, s1 = self.layer(h1, s0, self.w1, self.th1)
             outs_e.append(s0 @ q4(self.we).t())
             outs_m.append(s1 @ q4(self.wm).t())
             rates.append(torch.cat([s0.abs(), s1.abs()], 1))
@@ -150,6 +185,10 @@ class SparkV0(torch.nn.Module):
             out["shared_emb"] = np.array([1 if self.shared_emb else 0], dtype=np.int16)
             for i, e in enumerate(self.embx):
                 out[f"emb{i + 1}"] = q4(e).round().to(torch.int64).numpy().astype(np.int8)
+            out["words"] = np.array([self.words], dtype=np.int16)
+            out["recur"] = np.array([self.recur], dtype=np.int16)
+            for i, e in enumerate(self.embw):
+                out[f"embw{i + 1}"] = q4(e).round().to(torch.int64).numpy().astype(np.int8)
             return out
 
 
@@ -175,6 +214,11 @@ def main():
     ap.add_argument("--spike", default="sym", choices=["sym", "thr"])
     ap.add_argument("--s-sh", type=int, default=4)
     ap.add_argument("--decay", type=int, default=230)
+    ap.add_argument("--words", type=int, default=0, help="word-chunk inputs (0, 1, 2)")
+    ap.add_argument("--recur", type=int, default=0, help="1: recurrent layer 1 (previous spikes as input)")
+    ap.add_argument("--mem", action="store_true",
+                    help="memory-aware training: add the chip's multi-scale recall boosts to the main logits")
+    ap.add_argument("--init", help="start from a trained spark_v0_model.npz (fine-tuning)")
     ap.add_argument("--relax-only", action="store_true",
                     help="evaluate the relaxed (non-integer) model: architecture ceiling only")
     a = ap.parse_args()
@@ -191,7 +235,35 @@ def main():
     print(f"corpus {n} bytes; train {len(train)} cal {len(cal)} test {len(test)}")
 
     model = SparkV0(a=a.decay, acc_sh=a.acc_sh, s_sh=a.s_sh, ctx=a.ctx, spike_mode=a.spike,
-                    shared_emb=a.shared_emb)
+                    shared_emb=a.shared_emb, words=a.words, recur=a.recur)
+    if a.init:
+        z = np.load(a.init)
+        with torch.no_grad():
+            model.emb.copy_(torch.from_numpy(z["emb"].astype(np.float32)))
+            for i, e in enumerate(model.embx):
+                e.copy_(torch.from_numpy(z[f"emb{i + 1}"].astype(np.float32)))
+            for name, key in [("w0", "w0"), ("w1", "w1"), ("we", "w_exit"), ("wm", "w_main"),
+                              ("th0", "th0"), ("th1", "th1")]:
+                getattr(model, name).copy_(torch.from_numpy(z[key].astype(np.float32)))
+    mem_boost = None
+    if a.mem:
+        import spark_memory as sm
+        Htr = sm.hits(train)
+        print(f"memory hits per order on train: {(Htr[:, :, 0] >= 0).mean(0)}", flush=True)
+
+        def mem_boost(idx):
+            # [B, seq, V] boosts for windows starting at idx (memory state from the full stream)
+            out = torch.zeros(len(idx), a.seq, V)
+            for bi, i in enumerate(idx):
+                Hw = Htr[i:i + a.seq]
+                for oi in range(Hw.shape[1]):
+                    v, c = Hw[:, oi, 0].astype(np.int64), Hw[:, oi, 1].astype(np.int64)
+                    m = v >= 0
+                    if m.any():
+                        t = torch.from_numpy(np.nonzero(m)[0])
+                        out[bi].index_put_((t, torch.from_numpy(v[m])),
+                                           torch.from_numpy(sm.BOOST[oi][c[m]].astype(np.float32)), accumulate=True)
+            return out
     opt = torch.optim.Adam(model.parameters(), lr=a.lr)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda st: min(1.0, (st + 1) / a.warmup) * 0.5 * (1 + np.cos(np.pi * min(st, a.steps) / a.steps)))
@@ -203,6 +275,8 @@ def main():
         idx = rng.integers(0, len(train) - a.seq - 2, size=a.batch)
         seq = torch.from_numpy(np.stack([train[i:i + a.seq + 1] for i in idx]).astype(np.int64))
         lm, le, rates, _, _ = model(seq[:, :-1])
+        if mem_boost is not None:
+            lm = lm + mem_boost(idx).to(lm.dtype)
         tgt = seq[:, 1:]
         warm = 8  # let the membrane state settle before scoring
         loss_m = F.cross_entropy(lm[:, warm:].reshape(-1, V) * temp, tgt[:, warm:].reshape(-1))
@@ -234,6 +308,9 @@ def main():
                    "next_byte_accuracy_exit_head": float(np.mean(pe[:-1] == tb[1:])),
                    "firing_rate": float((rates[0] > 0).double().mean()),
                    "eval_bytes": int(len(tb)),
+                   "next_byte_accuracy_main_with_memory": float(np.mean(
+                       __import__("spark_memory").boost_logits(lm[0].numpy(), __import__("spark_memory").hits(tb))
+                       .argmax(1)[:-1] == tb[1:])),
                    "relaxed_eval": bool(a.relax_only),
                    "note": "context-window model; evaluated with the exact integer PyTorch model "
                            "(golden/RTL support for ctx>1 not built yet)"}
