@@ -1,0 +1,16 @@
+# SPARK core -> SkyWater SKY130 high-density standard cells (sky130_fd_sc_hd, typical corner)
+read_liberty -lib /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8_TT_1p8V_25C.lib
+read_verilog -sv ../../rtl/spark_core.v ../../rtl/spark_chip.v ../../board/uart_rx.v ../../board/uart_tx.v ../spark_mem_sky130.v ../spark_ram_asic.v
+chparam -set CLK_HZ 1000000 -set BAUD 250000 spark_chip
+hierarchy -check -top spark_chip
+synth -top spark_chip -flatten
+dfflibmap -liberty hd_tt_dontuse.lib
+abc -D 20000 -liberty hd_tt_dontuse.lib
+setundef -zero
+splitnets -ports
+opt_clean -purge
+hilomap -hicell sky130_fd_sc_hd__conb_1 HI -locell sky130_fd_sc_hd__conb_1 LO
+insbuf -buf sky130_fd_sc_hd__buf_2 A X
+opt_clean -purge
+tee -o synth_stat_sim.txt stat -liberty /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib -liberty /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8_TT_1p8V_25C.lib
+write_verilog -noattr -noexpr -nohex -nodec spark_chip_syn_sim.v

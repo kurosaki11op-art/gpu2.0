@@ -618,89 +618,1131 @@ Found 44 macro blocks.
 Using 1u default distance from corners.
 [INFO PPL-0010] Tentative 0 to set up sections.
 [INFO PPL-0001] Number of slots          4810
-[INFO PPL-0002] Number of I/O            513
-[INFO PPL-0003] Number of I/O w/sink     513
+[INFO PPL-0002] Number of I/O            514
+[INFO PPL-0003] Number of I/O w/sink     514
 [INFO PPL-0004] Number of I/O w/o sink   32
 [INFO PPL-0005] Slots per section        200
 [INFO PPL-0006] Slots increase factor    0.01
 [INFO PPL-0008] Successfully assigned pins to sections.
-[INFO PPL-0012] I/O nets HPWL: 1269199.75 um.
+[INFO PPL-0012] I/O nets HPWL: 1271323.50 um.
 [INFO GPL-0002] DBU: 1000
 [INFO GPL-0003] SiteSize: 460 2720
 [INFO GPL-0004] CoreAreaLxLy: 10120 10880
 [INFO GPL-0005] CoreAreaUxUy: 6289580 3587680
-[INFO GPL-0006] NumInstances: 249148
-[INFO GPL-0007] NumPlaceInstances: 94103
+[INFO GPL-0006] NumInstances: 256800
+[INFO GPL-0007] NumPlaceInstances: 101755
 [INFO GPL-0008] NumFixedInstances: 141293
 [INFO GPL-0009] NumDummyInstances: 13752
-[INFO GPL-0010] NumNets: 95693
-[INFO GPL-0011] NumPins: 342293
+[INFO GPL-0010] NumNets: 103345
+[INFO GPL-0011] NumPins: 365497
 [INFO GPL-0012] DieAreaLxLy: 0 0
 [INFO GPL-0013] DieAreaUxUy: 6300000 3600000
 [INFO GPL-0014] CoreAreaLxLy: 10120 10880
 [INFO GPL-0015] CoreAreaUxUy: 6289580 3587680
 [INFO GPL-0016] CoreArea: 22460372528000
 [INFO GPL-0017] NonPlaceInstsArea: 13357460091200
-[INFO GPL-0018] PlaceInstsArea: 1366988550400
-[INFO GPL-0019] Util(%): 15.02
-[INFO GPL-0020] StdInstsArea: 1366988550400
+[INFO GPL-0018] PlaceInstsArea: 1399569798400
+[INFO GPL-0019] Util(%): 15.37
+[INFO GPL-0020] StdInstsArea: 1399569798400
 [INFO GPL-0021] MacroInstsArea: 0
-[InitialPlace]  Iter: 1 CG residual: 0.00379995 HPWL: 12913053660
-[InitialPlace]  Iter: 2 CG residual: 0.00033806 HPWL: 7093984956
-[InitialPlace]  Iter: 3 CG residual: 0.00029590 HPWL: 6843326341
-[InitialPlace]  Iter: 4 CG residual: 0.00018348 HPWL: 6405937564
-[InitialPlace]  Iter: 5 CG residual: 0.00006755 HPWL: 6118689948
-[InitialPlace]  Iter: 6 CG residual: 0.00002916 HPWL: 5926638943
-[InitialPlace]  Iter: 7 CG residual: 0.00001942 HPWL: 5836556479
-[InitialPlace]  Iter: 8 CG residual: 0.00001640 HPWL: 5791290899
-[InitialPlace]  Iter: 9 CG residual: 0.00001352 HPWL: 5763922697
-[InitialPlace]  Iter: 10 CG residual: 0.00000790 HPWL: 5736703448
-[INFO GPL-0031] FillerInit: NumGCells: 286440
-[INFO GPL-0032] FillerInit: NumGNets: 95693
-[INFO GPL-0033] FillerInit: NumGPins: 342293
+[InitialPlace]  Iter: 1 CG residual: 0.00405996 HPWL: 12952996960
+[InitialPlace]  Iter: 2 CG residual: 0.00024909 HPWL: 7151936402
+[InitialPlace]  Iter: 3 CG residual: 0.00012855 HPWL: 6851529291
+[InitialPlace]  Iter: 4 CG residual: 0.00018139 HPWL: 6340315208
+[InitialPlace]  Iter: 5 CG residual: 0.00009569 HPWL: 5966634970
+[InitialPlace]  Iter: 6 CG residual: 0.00002389 HPWL: 5704941529
+[InitialPlace]  Iter: 7 CG residual: 0.00001863 HPWL: 5577696392
+[InitialPlace]  Iter: 8 CG residual: 0.00001651 HPWL: 5536109625
+[InitialPlace]  Iter: 9 CG residual: 0.00000933 HPWL: 5505799943
+[INFO GPL-0031] FillerInit: NumGCells: 304050
+[INFO GPL-0032] FillerInit: NumGNets: 103345
+[INFO GPL-0033] FillerInit: NumGPins: 365497
 [INFO GPL-0023] TargetDensity: 0.45
-[INFO GPL-0024] AveragePlaceInstArea: 14526514
-[INFO GPL-0025] IdealBinArea: 32281144
-[INFO GPL-0026] IdealBinCnt: 695773
+[INFO GPL-0024] AveragePlaceInstArea: 13754309
+[INFO GPL-0025] IdealBinArea: 30565132
+[INFO GPL-0026] IdealBinCnt: 734836
 [INFO GPL-0027] TotalBinArea: 22460372528000
 [INFO GPL-0028] BinCnt: 512 512
 [INFO GPL-0029] BinSize: 12265 6986
 [INFO GPL-0030] NumBins: 262144
-[NesterovSolve] Iter: 1 overflow: 0.985684 HPWL: 3524071282
-[NesterovSolve] Iter: 10 overflow: 0.975011 HPWL: 3663555354
-[NesterovSolve] Iter: 20 overflow: 0.972775 HPWL: 3741370423
-[NesterovSolve] Iter: 30 overflow: 0.971705 HPWL: 3791091297
-[NesterovSolve] Iter: 40 overflow: 0.969756 HPWL: 3820158267
-[NesterovSolve] Iter: 50 overflow: 0.969206 HPWL: 3847850228
-[NesterovSolve] Iter: 60 overflow: 0.968673 HPWL: 3872779891
-[NesterovSolve] Iter: 70 overflow: 0.968386 HPWL: 3889680368
-[NesterovSolve] Iter: 80 overflow: 0.968399 HPWL: 3901006965
-[NesterovSolve] Iter: 90 overflow: 0.968494 HPWL: 3906107218
-[NesterovSolve] Iter: 100 overflow: 0.968548 HPWL: 3905826755
-[NesterovSolve] Iter: 110 overflow: 0.968596 HPWL: 3902867953
-[NesterovSolve] Iter: 120 overflow: 0.968202 HPWL: 3898705088
-[NesterovSolve] Iter: 130 overflow: 0.968296 HPWL: 3895459803
-[NesterovSolve] Iter: 140 overflow: 0.968077 HPWL: 3893312520
-[NesterovSolve] Iter: 150 overflow: 0.967974 HPWL: 3893708157
-[NesterovSolve] Iter: 160 overflow: 0.96781 HPWL: 3897326155
-[NesterovSolve] Iter: 170 overflow: 0.967034 HPWL: 3905232991
-[NesterovSolve] Iter: 180 overflow: 0.965949 HPWL: 3920715554
-[NesterovSolve] Iter: 190 overflow: 0.964387 HPWL: 3947823081
-[NesterovSolve] Iter: 200 overflow: 0.962173 HPWL: 3989430619
-[NesterovSolve] Iter: 210 overflow: 0.95916 HPWL: 4053454590
-[NesterovSolve] Iter: 220 overflow: 0.955233 HPWL: 4142733032
-[NesterovSolve] Iter: 230 overflow: 0.950246 HPWL: 4271550709
-[NesterovSolve] Iter: 240 overflow: 0.941143 HPWL: 4502754812
-[NesterovSolve] Iter: 250 overflow: 0.92908 HPWL: 4859103643
-[NesterovSolve] Iter: 260 overflow: 0.922033 HPWL: 5164674335
-[NesterovSolve] Iter: 270 overflow: 0.915973 HPWL: 5348315549
-[NesterovSolve] Iter: 280 overflow: 0.905824 HPWL: 5739486525
-[NesterovSolve] Iter: 290 overflow: 0.866921 HPWL: 6043176840
-[NesterovSolve] Iter: 300 overflow: 0.831749 HPWL: 6277622152
-[NesterovSolve] Iter: 310 overflow: 0.787083 HPWL: 6352362407
-[NesterovSolve] Iter: 320 overflow: 0.739827 HPWL: 6724852429
-[NesterovSolve] Iter: 330 overflow: 0.705671 HPWL: 7185201857
-[NesterovSolve] Iter: 340 overflow: 0.644962 HPWL: 7805498110
-[NesterovSolve] Iter: 350 overflow: 0.605377 HPWL: 7695299987
-[NesterovSolve] Iter: 360 overflow: 0.552272 HPWL: 7904669571
-[NesterovSolve] Iter: 370 overflow: 0.508041 HPWL: 7792460796
+[NesterovSolve] Iter: 1 overflow: 0.985708 HPWL: 3237651845
+[NesterovSolve] Iter: 10 overflow: 0.976095 HPWL: 3348729681
+[NesterovSolve] Iter: 20 overflow: 0.973489 HPWL: 3442184214
+[NesterovSolve] Iter: 30 overflow: 0.972588 HPWL: 3491493082
+[NesterovSolve] Iter: 40 overflow: 0.970883 HPWL: 3527829900
+[NesterovSolve] Iter: 50 overflow: 0.970075 HPWL: 3563665398
+[NesterovSolve] Iter: 60 overflow: 0.969262 HPWL: 3593652298
+[NesterovSolve] Iter: 70 overflow: 0.969435 HPWL: 3614792272
+[NesterovSolve] Iter: 80 overflow: 0.969871 HPWL: 3627495117
+[NesterovSolve] Iter: 90 overflow: 0.970421 HPWL: 3631860954
+[NesterovSolve] Iter: 100 overflow: 0.971411 HPWL: 3630133937
+[NesterovSolve] Iter: 110 overflow: 0.97213 HPWL: 3626711007
+[NesterovSolve] Iter: 120 overflow: 0.973081 HPWL: 3625200587
+[NesterovSolve] Iter: 130 overflow: 0.973943 HPWL: 3625228140
+[NesterovSolve] Iter: 140 overflow: 0.974588 HPWL: 3626916564
+[NesterovSolve] Iter: 150 overflow: 0.97498 HPWL: 3631254620
+[NesterovSolve] Iter: 160 overflow: 0.975122 HPWL: 3640100888
+[NesterovSolve] Iter: 170 overflow: 0.974999 HPWL: 3655283831
+[NesterovSolve] Iter: 180 overflow: 0.974506 HPWL: 3680382770
+[NesterovSolve] Iter: 190 overflow: 0.973238 HPWL: 3720680264
+[NesterovSolve] Iter: 200 overflow: 0.970367 HPWL: 3779397100
+[NesterovSolve] Iter: 210 overflow: 0.966005 HPWL: 3859909112
+[NesterovSolve] Iter: 220 overflow: 0.95984 HPWL: 3973979888
+[NesterovSolve] Iter: 230 overflow: 0.951207 HPWL: 4139216050
+[NesterovSolve] Iter: 240 overflow: 0.940693 HPWL: 4465362972
+[NesterovSolve] Iter: 250 overflow: 0.925295 HPWL: 4858646513
+[NesterovSolve] Iter: 260 overflow: 0.913511 HPWL: 5145359733
+[NesterovSolve] Iter: 270 overflow: 0.911543 HPWL: 5390143448
+[NesterovSolve] Iter: 280 overflow: 0.893102 HPWL: 5844280841
+[NesterovSolve] Iter: 290 overflow: 0.854788 HPWL: 6112762848
+[NesterovSolve] Iter: 300 overflow: 0.814609 HPWL: 6384099266
+[NesterovSolve] Iter: 310 overflow: 0.76106 HPWL: 6433230616
+[NesterovSolve] Iter: 320 overflow: 0.70708 HPWL: 7001838777
+[NesterovSolve] Iter: 330 overflow: 0.66765 HPWL: 7745058751
+[NesterovSolve] Iter: 340 overflow: 0.6336 HPWL: 7873805476
+[NesterovSolve] Iter: 350 overflow: 0.580023 HPWL: 7788031983
+[NesterovSolve] Iter: 360 overflow: 0.523731 HPWL: 7981026016
+[NesterovSolve] Iter: 370 overflow: 0.483135 HPWL: 7704280091
+[NesterovSolve] Iter: 380 overflow: 0.420548 HPWL: 7797005522
+[NesterovSolve] Iter: 390 overflow: 0.375443 HPWL: 7563467248
+[NesterovSolve] Iter: 400 overflow: 0.328857 HPWL: 7480119959
+[NesterovSolve] Iter: 410 overflow: 0.284389 HPWL: 7298530203
+[NesterovSolve] Iter: 420 overflow: 0.256512 HPWL: 7087487595
+[NesterovSolve] Iter: 430 overflow: 0.22948 HPWL: 6893733327
+[NesterovSolve] Iter: 440 overflow: 0.201711 HPWL: 6697207454
+[NesterovSolve] Iter: 450 overflow: 0.216542 HPWL: 5784568964
+[NesterovSolve] Iter: 460 overflow: 0.181402 HPWL: 5782515266
+[NesterovSolve] Iter: 470 overflow: 0.158467 HPWL: 5786259074
+[NesterovSolve] Iter: 480 overflow: 0.134955 HPWL: 5792935707
+[NesterovSolve] Iter: 490 overflow: 0.113582 HPWL: 5802171277
+[NesterovSolve] Finished with Overflow: 0.099514
+[INFO RSZ-0058] Using max wire length 3199um.
+[INFO RSZ-0034] Found 33399 slew violations.
+[INFO RSZ-0036] Found 1340 capacitance violations.
+[INFO RSZ-0037] Found 255 long wires.
+[INFO RSZ-0038] Inserted 12113 buffers in 34378 nets.
+[INFO RSZ-0039] Resized 9599 instances.
+Placement Analysis
+---------------------------------
+total displacement     568098.7 u
+average displacement        2.2 u
+max displacement          216.0 u
+original HPWL         7366377.4 u
+legalized HPWL        7709099.0 u
+delta HPWL                    5 %
+
+Design area 13727990 u^2 61% utilization.
+[INFO CTS-0039] Number of created patterns = 49104.
+[INFO CTS-0084] Compiling LUT.
+Min. len    Max. len    Min. cap    Max. cap    Min. slew   Max. slew
+2           8           1           35          1           83          
+[WARNING CTS-0043] 3168 wires are pure wire and no slew degradation.
+TritonCTS forced slew degradation on these wires.
+[INFO CTS-0046]     Number of wire segments: 49104.
+[INFO CTS-0047]     Number of keys in characterization LUT: 1888.
+[INFO CTS-0048]     Actual min input cap: 1.
+[INFO CTS-0007] Net "clk" found for clock "clk".
+[INFO CTS-0010]  Clock net "clk" has 21953 sinks.
+[INFO CTS-0008] TritonCTS found 1 clock nets.
+[INFO CTS-0097] Characterization used 2 buffer(s) types.
+[INFO CTS-0027] Generating H-Tree topology for net clk.
+[INFO CTS-0028]  Total number of sinks: 21953.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13000  dbu (13 um).
+[INFO CTS-0019]  Total number of sinks after clustering: 10452.
+[INFO CTS-0024]  Normalized sink region: [(6.19462, 1.04615), (478.158, 275.666)].
+[INFO CTS-0025]     Width:  471.9631.
+[INFO CTS-0026]     Height: 274.6200.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 5226
+    Sub-region size: 235.9815 X 274.6200
+[INFO CTS-0034]     Segment length (rounded): 118.
+    Key: 1020 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 2613
+    Sub-region size: 235.9815 X 137.3100
+[INFO CTS-0034]     Segment length (rounded): 68.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 1307
+    Sub-region size: 117.9908 X 137.3100
+[INFO CTS-0034]     Segment length (rounded): 58.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 654
+    Sub-region size: 117.9908 X 68.6550
+[INFO CTS-0034]     Segment length (rounded): 34.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Out of 1024 sinks, 98 sinks closer to other cluster.
+ Out of 1066 sinks, 1 sinks closer to other cluster.
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 327
+    Sub-region size: 58.9954 X 68.6550
+[INFO CTS-0034]     Segment length (rounded): 30.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 410 sinks, 50 sinks closer to other cluster.
+ Out of 614 sinks, 48 sinks closer to other cluster.
+ Out of 544 sinks, 1 sinks closer to other cluster.
+ Out of 641 sinks, 32 sinks closer to other cluster.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 164
+    Sub-region size: 58.9954 X 34.3275
+[INFO CTS-0034]     Segment length (rounded): 18.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Out of 164 sinks, 1 sinks closer to other cluster.
+ Out of 387 sinks, 32 sinks closer to other cluster.
+ Out of 353 sinks, 24 sinks closer to other cluster.
+ Out of 404 sinks, 38 sinks closer to other cluster.
+ Out of 324 sinks, 19 sinks closer to other cluster.
+ Out of 223 sinks, 14 sinks closer to other cluster.
+ Out of 240 sinks, 2 sinks closer to other cluster.
+ Out of 246 sinks, 10 sinks closer to other cluster.
+ Out of 320 sinks, 16 sinks closer to other cluster.
+ Out of 246 sinks, 26 sinks closer to other cluster.
+ Out of 179 sinks, 19 sinks closer to other cluster.
+ Out of 385 sinks, 41 sinks closer to other cluster.
+ Out of 445 sinks, 11 sinks closer to other cluster.
+ Out of 425 sinks, 61 sinks closer to other cluster.
+ Out of 420 sinks, 39 sinks closer to other cluster.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 82
+    Sub-region size: 29.4977 X 34.3275
+[INFO CTS-0034]     Segment length (rounded): 14.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 66 sinks, 22 sinks closer to other cluster.
+ Out of 114 sinks, 23 sinks closer to other cluster.
+ Out of 132 sinks, 1 sinks closer to other cluster.
+ Out of 115 sinks, 1 sinks closer to other cluster.
+ Out of 103 sinks, 5 sinks closer to other cluster.
+ Out of 144 sinks, 1 sinks closer to other cluster.
+ Out of 99 sinks, 1 sinks closer to other cluster.
+ Out of 157 sinks, 1 sinks closer to other cluster.
+ Out of 138 sinks, 13 sinks closer to other cluster.
+ Out of 128 sinks, 5 sinks closer to other cluster.
+ Out of 122 sinks, 14 sinks closer to other cluster.
+ Out of 99 sinks, 5 sinks closer to other cluster.
+ Out of 72 sinks, 1 sinks closer to other cluster.
+ Out of 103 sinks, 29 sinks closer to other cluster.
+ Out of 231 sinks, 5 sinks closer to other cluster.
+ Level 8
+    Direction: Vertical
+    Sinks per sub-region: 41
+    Sub-region size: 29.4977 X 17.1638
+[INFO CTS-0034]     Segment length (rounded): 8.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Out of 27 sinks, 8 sinks closer to other cluster.
+ Out of 46 sinks, 15 sinks closer to other cluster.
+ Out of 53 sinks, 2 sinks closer to other cluster.
+ Out of 58 sinks, 4 sinks closer to other cluster.
+ Out of 46 sinks, 8 sinks closer to other cluster.
+ Out of 60 sinks, 4 sinks closer to other cluster.
+ Out of 93 sinks, 16 sinks closer to other cluster.
+ Out of 99 sinks, 1 sinks closer to other cluster.
+ Out of 102 sinks, 5 sinks closer to other cluster.
+ Out of 130 sinks, 6 sinks closer to other cluster.
+ Out of 78 sinks, 5 sinks closer to other cluster.
+ Out of 63 sinks, 3 sinks closer to other cluster.
+ Out of 131 sinks, 1 sinks closer to other cluster.
+ Out of 76 sinks, 3 sinks closer to other cluster.
+ Out of 78 sinks, 7 sinks closer to other cluster.
+ Out of 52 sinks, 2 sinks closer to other cluster.
+ Out of 62 sinks, 9 sinks closer to other cluster.
+ Out of 69 sinks, 3 sinks closer to other cluster.
+ Out of 41 sinks, 4 sinks closer to other cluster.
+ Out of 74 sinks, 6 sinks closer to other cluster.
+ Out of 75 sinks, 23 sinks closer to other cluster.
+ Out of 59 sinks, 17 sinks closer to other cluster.
+ Out of 56 sinks, 10 sinks closer to other cluster.
+ Out of 98 sinks, 7 sinks closer to other cluster.
+ Out of 94 sinks, 2 sinks closer to other cluster.
+ Out of 76 sinks, 1 sinks closer to other cluster.
+ Out of 84 sinks, 3 sinks closer to other cluster.
+ Out of 113 sinks, 5 sinks closer to other cluster.
+ Out of 49 sinks, 5 sinks closer to other cluster.
+ Out of 60 sinks, 1 sinks closer to other cluster.
+ Out of 29 sinks, 3 sinks closer to other cluster.
+ Out of 41 sinks, 9 sinks closer to other cluster.
+ Out of 62 sinks, 17 sinks closer to other cluster.
+ Out of 138 sinks, 1 sinks closer to other cluster.
+ Out of 130 sinks, 2 sinks closer to other cluster.
+ Out of 89 sinks, 7 sinks closer to other cluster.
+ Out of 111 sinks, 6 sinks closer to other cluster.
+ Out of 108 sinks, 3 sinks closer to other cluster.
+ Out of 48 sinks, 1 sinks closer to other cluster.
+ Out of 97 sinks, 2 sinks closer to other cluster.
+ Out of 97 sinks, 18 sinks closer to other cluster.
+ Out of 73 sinks, 2 sinks closer to other cluster.
+ Out of 112 sinks, 3 sinks closer to other cluster.
+ Out of 67 sinks, 2 sinks closer to other cluster.
+ Level 9
+    Direction: Horizontal
+    Sinks per sub-region: 21
+    Sub-region size: 14.7488 X 17.1638
+[INFO CTS-0034]     Segment length (rounded): 8.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Out of 11 sinks, 2 sinks closer to other cluster.
+ Out of 16 sinks, 1 sinks closer to other cluster.
+ Out of 17 sinks, 2 sinks closer to other cluster.
+ Out of 19 sinks, 4 sinks closer to other cluster.
+ Out of 55 sinks, 1 sinks closer to other cluster.
+ Out of 49 sinks, 1 sinks closer to other cluster.
+ Out of 61 sinks, 1 sinks closer to other cluster.
+ Out of 26 sinks, 2 sinks closer to other cluster.
+ Out of 37 sinks, 4 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 18 sinks, 2 sinks closer to other cluster.
+ Out of 20 sinks, 4 sinks closer to other cluster.
+ Out of 16 sinks, 3 sinks closer to other cluster.
+ Out of 29 sinks, 8 sinks closer to other cluster.
+ Out of 40 sinks, 1 sinks closer to other cluster.
+ Out of 25 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 23 sinks, 5 sinks closer to other cluster.
+ Out of 38 sinks, 2 sinks closer to other cluster.
+ Out of 33 sinks, 4 sinks closer to other cluster.
+ Out of 53 sinks, 3 sinks closer to other cluster.
+ Out of 21 sinks, 3 sinks closer to other cluster.
+ Out of 31 sinks, 1 sinks closer to other cluster.
+ Out of 45 sinks, 5 sinks closer to other cluster.
+ Out of 30 sinks, 1 sinks closer to other cluster.
+ Out of 19 sinks, 1 sinks closer to other cluster.
+ Out of 33 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 19 sinks, 1 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 31 sinks, 3 sinks closer to other cluster.
+ Out of 32 sinks, 3 sinks closer to other cluster.
+ Out of 40 sinks, 1 sinks closer to other cluster.
+ Out of 37 sinks, 2 sinks closer to other cluster.
+ Out of 37 sinks, 1 sinks closer to other cluster.
+ Out of 82 sinks, 2 sinks closer to other cluster.
+ Out of 62 sinks, 1 sinks closer to other cluster.
+ Out of 38 sinks, 2 sinks closer to other cluster.
+ Out of 53 sinks, 3 sinks closer to other cluster.
+ Out of 44 sinks, 3 sinks closer to other cluster.
+ Out of 59 sinks, 2 sinks closer to other cluster.
+ Out of 67 sinks, 1 sinks closer to other cluster.
+ Out of 73 sinks, 3 sinks closer to other cluster.
+ Level 10
+    Direction: Vertical
+    Sinks per sub-region: 11
+    Sub-region size: 14.7488 X 8.5819
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 7 sinks, 1 sinks closer to other cluster.
+ Out of 10 sinks, 3 sinks closer to other cluster.
+ Out of 8 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 4 sinks closer to other cluster.
+ Out of 8 sinks, 2 sinks closer to other cluster.
+ Out of 12 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 1 sinks closer to other cluster.
+ Out of 12 sinks, 1 sinks closer to other cluster.
+ Out of 17 sinks, 1 sinks closer to other cluster.
+ Out of 23 sinks, 1 sinks closer to other cluster.
+ Out of 18 sinks, 1 sinks closer to other cluster.
+ Out of 10 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 8 sinks, 1 sinks closer to other cluster.
+ Out of 10 sinks, 1 sinks closer to other cluster.
+ Out of 33 sinks, 1 sinks closer to other cluster.
+ Out of 30 sinks, 3 sinks closer to other cluster.
+ Out of 25 sinks, 1 sinks closer to other cluster.
+ Out of 17 sinks, 3 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 33 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 5 sinks closer to other cluster.
+ Out of 23 sinks, 2 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 3 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 21 sinks, 2 sinks closer to other cluster.
+ Out of 20 sinks, 3 sinks closer to other cluster.
+ Out of 28 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 2 sinks closer to other cluster.
+ Out of 38 sinks, 5 sinks closer to other cluster.
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 19 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 18 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 2 sinks closer to other cluster.
+ Out of 8 sinks, 3 sinks closer to other cluster.
+ Out of 12 sinks, 1 sinks closer to other cluster.
+ Out of 11 sinks, 3 sinks closer to other cluster.
+ Out of 10 sinks, 3 sinks closer to other cluster.
+ Out of 12 sinks, 1 sinks closer to other cluster.
+ Out of 18 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 3 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 4 sinks closer to other cluster.
+ Out of 29 sinks, 3 sinks closer to other cluster.
+ Out of 22 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 4 sinks closer to other cluster.
+ Out of 13 sinks, 4 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 19 sinks, 7 sinks closer to other cluster.
+ Out of 31 sinks, 3 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 21 sinks, 2 sinks closer to other cluster.
+ Out of 23 sinks, 2 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 26 sinks, 1 sinks closer to other cluster.
+ Out of 18 sinks, 1 sinks closer to other cluster.
+ Out of 8 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 23 sinks, 1 sinks closer to other cluster.
+ Out of 23 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 2 sinks closer to other cluster.
+ Out of 18 sinks, 5 sinks closer to other cluster.
+ Out of 12 sinks, 1 sinks closer to other cluster.
+ Out of 12 sinks, 2 sinks closer to other cluster.
+ Out of 7 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 22 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 2 sinks closer to other cluster.
+ Out of 7 sinks, 1 sinks closer to other cluster.
+ Out of 5 sinks, 1 sinks closer to other cluster.
+ Out of 9 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 2 sinks closer to other cluster.
+ Out of 11 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 1 sinks closer to other cluster.
+ Out of 10 sinks, 1 sinks closer to other cluster.
+ Out of 17 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 6 sinks closer to other cluster.
+ Out of 10 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 3 sinks closer to other cluster.
+ Out of 36 sinks, 3 sinks closer to other cluster.
+ Out of 37 sinks, 1 sinks closer to other cluster.
+ Out of 36 sinks, 6 sinks closer to other cluster.
+ Out of 27 sinks, 1 sinks closer to other cluster.
+ Out of 34 sinks, 2 sinks closer to other cluster.
+ Out of 10 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 42 sinks, 1 sinks closer to other cluster.
+ Out of 39 sinks, 1 sinks closer to other cluster.
+ Out of 36 sinks, 2 sinks closer to other cluster.
+ Out of 23 sinks, 2 sinks closer to other cluster.
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 12 sinks, 1 sinks closer to other cluster.
+ Out of 40 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 17 sinks, 1 sinks closer to other cluster.
+ Out of 25 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 1 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 23 sinks, 1 sinks closer to other cluster.
+ Out of 30 sinks, 1 sinks closer to other cluster.
+ Out of 34 sinks, 1 sinks closer to other cluster.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 10452.
+[INFO CTS-0036]  Average source sink dist: 29448.03 dbu.
+[INFO CTS-0037]  Number of outlier sinks: 251.
+[INFO CTS-0018]     Created 13466 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 50.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 76.
+[INFO CTS-0015]     Created 13466 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:8844, 3:1344, 4:57, 5:47, 6:107, 7:88, 8:111, 9:88, 10:105, 11:58, 12:77, 13:56, 14:41, 15:43, 16:20, 17:25, 18:22, 19:13, 20:13, 21:13, 22:7, 23:5, 24:4, 25:3, 27:2, 28:1..
+[INFO CTS-0017]     Max level of the clock tree: 10.
+[INFO CTS-0098] Clock net "clk"
+[INFO CTS-0099]  Sinks 21953
+[INFO CTS-0100]  Leaf buffers 10170
+[INFO CTS-0101]  Average sink wire length 9505.90 um
+[INFO CTS-0102]  Path depth 50 - 76
+[INFO RSZ-0058] Using max wire length 3199um.
+[INFO RSZ-0047] Found 1 long wires.
+[INFO RSZ-0048] Inserted 1 buffers in 1 nets.
+Placement Analysis
+---------------------------------
+total displacement     136638.9 u
+average displacement        0.5 u
+max displacement          218.5 u
+original HPWL         8263469.4 u
+legalized HPWL        8336478.8 u
+delta HPWL                    1 %
+
+[INFO RSZ-0046] Found 16641 endpoints with hold violations.
+[WARNING RSZ-0064] Unable to repair all hold checks within margin.
+[INFO RSZ-0032] Inserted 2301 hold buffers.
+Placement Analysis
+---------------------------------
+total displacement      50714.6 u
+average displacement        0.2 u
+max displacement          213.4 u
+original HPWL         8416674.6 u
+legalized HPWL        8434000.7 u
+delta HPWL                    0 %
+
+[INFO GRT-0020] Min routing layer: met1
+[INFO GRT-0021] Max routing layer: met5
+[INFO GRT-0022] Global adjustment: 0%
+[INFO GRT-0023] Grid origin: (0, 0)
+[WARNING GRT-0043] No OR_DEFAULT vias defined.
+[INFO GRT-0088] Layer li1     Track-Pitch = 0.4600  line-2-Via Pitch: 0.3400
+[INFO GRT-0088] Layer met1    Track-Pitch = 0.3400  line-2-Via Pitch: 0.3400
+[INFO GRT-0088] Layer met2    Track-Pitch = 0.4600  line-2-Via Pitch: 0.3500
+[INFO GRT-0088] Layer met3    Track-Pitch = 0.6800  line-2-Via Pitch: 0.6150
+[INFO GRT-0088] Layer met4    Track-Pitch = 0.9200  line-2-Via Pitch: 1.0400
+[INFO GRT-0088] Layer met5    Track-Pitch = 3.4000  line-2-Via Pitch: 3.1100
+[INFO GRT-0019] Found 13468 clock nets.
+[INFO GRT-0001] Minimum degree: 2
+[INFO GRT-0002] Maximum degree: 104
+[INFO GRT-0003] Macros: 44
+[INFO GRT-0004] Blockages: 374451
+
+[INFO GRT-0053] Routing resources analysis:
+          Routing      Original      Derated      Resource
+Layer     Direction    Resources     Resources    Reduction (%)
+---------------------------------------------------------------
+li1        Vertical            0             0          0.00%
+met1       Horizontal    9513460       3625050          61.90%
+met2       Vertical      7135095       3183360          55.38%
+met3       Horizontal    4756730       2124820          55.33%
+met4       Vertical      2854038       1215959          57.40%
+met5       Horizontal     951346        950304          0.11%
+---------------------------------------------------------------
+
+[INFO GRT-0101] Running extra iterations to remove overflow.
+[INFO GRT-0197] Via related to pin nodes: 526425
+[INFO GRT-0198] Via related Steiner nodes: 1958
+[INFO GRT-0199] Via filling finished.
+[INFO GRT-0111] Final number of vias: 637998
+[INFO GRT-0112] Final usage 3D: 3456204
+[WARNING GRT-0115] Global routing finished with overflow.
+
+[INFO GRT-0096] Final congestion report:
+Layer         Resource        Demand        Usage (%)    Max H / Max V / Total Overflow
+---------------------------------------------------------------------------------------
+li1                  0             0            0.00%             0 /  0 /  0
+met1           3625050        717425           19.79%             0 /  0 /  0
+met2           3183360        503924           15.83%             0 /  0 /  0
+met3           2124820        221788           10.44%             0 /  0 /  0
+met4           1215959         69608            5.72%             0 /  1 /  3
+met5            950304         29465            3.10%             0 /  0 /  0
+---------------------------------------------------------------------------------------
+Total         11099493       1542210           13.89%             0 /  1 /  3
+
+[INFO GRT-0018] Total wirelength: 12980093 um
+[INFO GRT-0014] Routed nets: 131088
+[INFO DRT-0149] Reading tech and libs.
+
+Units:                1000
+Number of layers:     13
+Number of macros:     438
+Number of vias:       25
+Number of viarulegen: 25
+
+[INFO DRT-0150] Reading design.
+
+Design:                   spark_core
+Die area:                 ( 0 0 ) ( 6300000 3600000 )
+Number of track patterns: 12
+Number of DEF vias:       4
+Number of components:     270929
+Number of terminals:      516
+Number of snets:          2
+Number of nets:           131226
+
+[INFO DRT-0167] List of default vias:
+  Layer mcon
+    default via: L1M1_PR
+  Layer via
+    default via: M1M2_PR
+  Layer via2
+    default via: M2M3_PR
+  Layer via3
+    default via: M3M4_PR
+  Layer via4
+    default via: M4M5_PR
+[INFO DRT-0162] Library cell analysis.
+[INFO DRT-0163] Instance analysis.
+  Complete 10000 instances.
+  Complete 20000 instances.
+  Complete 30000 instances.
+  Complete 40000 instances.
+  Complete 50000 instances.
+  Complete 60000 instances.
+  Complete 70000 instances.
+  Complete 80000 instances.
+  Complete 90000 instances.
+  Complete 100000 instances.
+  Complete 200000 instances.
+[INFO DRT-0164] Number of unique instances = 457.
+[INFO DRT-0168] Init region query.
+[INFO DRT-0018]   Complete 10000 insts.
+[INFO DRT-0018]   Complete 20000 insts.
+[INFO DRT-0018]   Complete 30000 insts.
+[INFO DRT-0018]   Complete 40000 insts.
+[INFO DRT-0018]   Complete 50000 insts.
+[INFO DRT-0018]   Complete 60000 insts.
+[INFO DRT-0018]   Complete 70000 insts.
+[INFO DRT-0018]   Complete 80000 insts.
+[INFO DRT-0018]   Complete 90000 insts.
+[INFO DRT-0019]   Complete 100000 insts.
+[INFO DRT-0019]   Complete 200000 insts.
+[INFO DRT-0024]   Complete FR_MASTERSLICE.
+[INFO DRT-0024]   Complete licon.
+[INFO DRT-0024]   Complete li1.
+[INFO DRT-0024]   Complete mcon.
+[INFO DRT-0024]   Complete met1.
+[INFO DRT-0024]   Complete via.
+[INFO DRT-0024]   Complete met2.
+[INFO DRT-0024]   Complete via2.
+[INFO DRT-0024]   Complete met3.
+[INFO DRT-0024]   Complete via3.
+[INFO DRT-0024]   Complete met4.
+[INFO DRT-0024]   Complete via4.
+[INFO DRT-0024]   Complete met5.
+[INFO DRT-0033] FR_MASTERSLICE shape region query size = 0.
+[INFO DRT-0033] licon shape region query size = 0.
+[INFO DRT-0033] li1 shape region query size = 4456100.
+[INFO DRT-0033] mcon shape region query size = 0.
+[INFO DRT-0033] met1 shape region query size = 981189.
+[INFO DRT-0033] via shape region query size = 313310.
+[INFO DRT-0033] met2 shape region query size = 125874.
+[INFO DRT-0033] via2 shape region query size = 250648.
+[INFO DRT-0033] met3 shape region query size = 128896.
+[INFO DRT-0033] via3 shape region query size = 250648.
+[INFO DRT-0033] met4 shape region query size = 82514.
+[INFO DRT-0033] via4 shape region query size = 6070.
+[INFO DRT-0033] met5 shape region query size = 6326.
+[INFO DRT-0165] Start pin access.
+[INFO DRT-0076]   Complete 100 pins.
+[INFO DRT-0076]   Complete 200 pins.
+[INFO DRT-0076]   Complete 300 pins.
+[INFO DRT-0076]   Complete 400 pins.
+[INFO DRT-0076]   Complete 500 pins.
+[INFO DRT-0076]   Complete 600 pins.
+[INFO DRT-0076]   Complete 700 pins.
+[INFO DRT-0076]   Complete 800 pins.
+[INFO DRT-0076]   Complete 900 pins.
+[INFO DRT-0077]   Complete 1000 pins.
+[INFO DRT-0077]   Complete 2000 pins.
+[INFO DRT-0077]   Complete 3000 pins.
+[INFO DRT-0077]   Complete 4000 pins.
+[INFO DRT-0077]   Complete 5000 pins.
+[INFO DRT-0078]   Complete 5729 pins.
+[INFO DRT-0079]   Complete 100 unique inst patterns.
+[INFO DRT-0079]   Complete 200 unique inst patterns.
+[INFO DRT-0079]   Complete 300 unique inst patterns.
+[INFO DRT-0079]   Complete 400 unique inst patterns.
+[INFO DRT-0081]   Complete 407 unique inst patterns.
+[INFO DRT-0082]   Complete 1000 groups.
+[INFO DRT-0082]   Complete 2000 groups.
+[INFO DRT-0082]   Complete 3000 groups.
+[INFO DRT-0082]   Complete 4000 groups.
+[INFO DRT-0082]   Complete 5000 groups.
+[INFO DRT-0082]   Complete 6000 groups.
+[INFO DRT-0082]   Complete 7000 groups.
+[INFO DRT-0082]   Complete 8000 groups.
+[INFO DRT-0082]   Complete 9000 groups.
+[INFO DRT-0083]   Complete 10000 groups.
+[INFO DRT-0083]   Complete 20000 groups.
+[INFO DRT-0083]   Complete 30000 groups.
+[INFO DRT-0083]   Complete 40000 groups.
+[INFO DRT-0083]   Complete 50000 groups.
+[INFO DRT-0083]   Complete 60000 groups.
+[INFO DRT-0083]   Complete 70000 groups.
+[INFO DRT-0083]   Complete 80000 groups.
+[INFO DRT-0084]   Complete 88741 groups.
+#scanned instances     = 270929
+#unique  instances     = 457
+#stdCellGenAp          = 12724
+#stdCellValidPlanarAp  = 139
+#stdCellValidViaAp     = 9770
+#stdCellPinNoAp        = 0
+#stdCellPinCnt         = 416741
+#instTermValidViaApCnt = 0
+#macroGenAp            = 9480
+#macroValidPlanarAp    = 8590
+#macroValidViaAp       = 0
+#macroNoAp             = 0
+[INFO DRT-0166] Complete pin access.
+[INFO DRT-0267] cpu time = 00:01:08, elapsed time = 00:00:47, memory = 3751.02 (MB), peak = 3891.21 (MB)
+[INFO DRT-0185] Post process initialize RPin region query.
+
+Generating GCell with size = 15 tracks, using layer li1 pitch  = 0.46
+li1 V Track-Pitch = 0.46000  line-2-Via Pitch = 0.34000
+met1 H Track-Pitch = 0.34000  line-2-Via Pitch = 0.32500
+met2 V Track-Pitch = 0.46000  line-2-Via Pitch = 0.34000
+met3 H Track-Pitch = 0.68000  line-2-Via Pitch = 0.61000
+met4 V Track-Pitch = 0.92000  line-2-Via Pitch = 0.61500
+met5 H Track-Pitch = 3.40000  line-2-Via Pitch = 3.11000
+
+initializing congestion map...
+
+start routing resource analysis ...
+
+             Routing   #Avail     #Track     #Total     %Gcell
+Layer      Direction    Track    Blocked      Gcell    Blocked
+--------------------------------------------------------------
+li1             V       13696          0     475673      7.47%
+met1            H       10588          0     475673     54.81%
+met2            V       13696          0     475673     55.69%
+met3            H        5294          0     475673     54.97%
+met4            V        6848          0     475673     55.91%
+met5            H        1059          0     475673      4.02%
+--------------------------------------------------------------
+Total                   51181      0.00%    2854038     38.81%
+
+[INFO DRT-0267] cpu time = 00:00:00, elapsed time = 00:00:00, memory = 3826.11 (MB), peak = 3891.21 (MB)
+
+
+generating net topology...
+done net topology...
+[INFO DRT-0032] FR_MASTERSLICE grObj region query size = 0.
+[INFO DRT-0032] licon grObj region query size = 0.
+[INFO DRT-0032] li1 grObj region query size = 323254.
+[INFO DRT-0032] mcon grObj region query size = 0.
+[INFO DRT-0032] met1 grObj region query size = 0.
+[INFO DRT-0032] via grObj region query size = 0.
+[INFO DRT-0032] met2 grObj region query size = 0.
+[INFO DRT-0032] via2 grObj region query size = 0.
+[INFO DRT-0032] met3 grObj region query size = 0.
+[INFO DRT-0032] via3 grObj region query size = 0.
+[INFO DRT-0032] met4 grObj region query size = 0.
+[INFO DRT-0032] via4 grObj region query size = 0.
+[INFO DRT-0032] met5 grObj region query size = 0.
+
+start reporting 2D congestion ...
+
+              #OverCon  %OverCon
+Direction        GCell     GCell
+--------------------------------
+    H            5452     1.15%
+    V              57     0.01%
+worstConH: 1600.00%
+worstConV: 118.18%
+
+
+start 0th optimization iteration ...
+[INFO DRT-0267] cpu time = 00:00:09, elapsed time = 00:00:08, memory = 4269.36 (MB), peak = 4268.85 (MB)
+
+
+start 1st optimization iteration ...
+[INFO DRT-0267] cpu time = 00:00:09, elapsed time = 00:00:09, memory = 4309.95 (MB), peak = 4311.47 (MB)
+
+
+start 2nd optimization iteration ...
+[INFO DRT-0267] cpu time = 00:00:25, elapsed time = 00:00:24, memory = 4364.33 (MB), peak = 4363.71 (MB)
+
+
+start reporting 2D congestion ...
+
+              #OverCon  %OverCon
+Direction        GCell     GCell
+--------------------------------
+    H              63     0.01%
+    V               3     0.00%
+worstConH: 500.00%
+worstConV: 113.64%
+
+layer assignment...
+done layer assignment...
+
+start 0th optimization iteration ...
+Warning: overlapping disjoint pinGCellNodes detected of net2657
+  between non-rootGCellNode and non-rootGCellNode
+[INFO DRT-0267] cpu time = 00:00:09, elapsed time = 00:00:07, memory = 4698.42 (MB), peak = 4697.84 (MB)
+
+
+start reporting 3D congestion ...
+
+---------- li1 ----------
+numOverConGCell: 207, %OverConGCell:   0.04%
+---------- met1 ----------
+numOverConGCell: 152, %OverConGCell:   0.03%
+---------- met2 ----------
+numOverConGCell: 15, %OverConGCell:   0.00%
+---------- met3 ----------
+numOverConGCell: 14, %OverConGCell:   0.00%
+---------- met4 ----------
+numOverConGCell: 3, %OverConGCell:   0.00%
+---------- met5 ----------
+numOverConGCell: 194, %OverConGCell:   0.04%
+
+[WARNING DRT-0203] dbGcellGrid already exists in db. Clearing existing dbGCellGrid.
+[INFO DRT-0151] Reading guide.
+[INFO DRT-0156] guideIn read 100000 guides.
+[INFO DRT-0156] guideIn read 200000 guides.
+[INFO DRT-0156] guideIn read 300000 guides.
+[INFO DRT-0156] guideIn read 400000 guides.
+[INFO DRT-0156] guideIn read 500000 guides.
+[INFO DRT-0156] guideIn read 600000 guides.
+[INFO DRT-0156] guideIn read 700000 guides.
+[INFO DRT-0156] guideIn read 800000 guides.
+[INFO DRT-0156] guideIn read 900000 guides.
+[INFO DRT-0157] guideIn read 1000000 guides.
+[INFO DRT-0157] guideIn read 2000000 guides.
+
+Number of guides:     2212811
+
+[INFO DRT-0169] Post process guides.
+[INFO DRT-0176] GCELLGRID X -5 DO 913 STEP 6900 ;
+[INFO DRT-0177] GCELLGRID Y -5 DO 521 STEP 6900 ;
+[INFO DRT-0026]   Complete 10000 origin guides.
+[INFO DRT-0026]   Complete 20000 origin guides.
+[INFO DRT-0026]   Complete 30000 origin guides.
+[INFO DRT-0026]   Complete 40000 origin guides.
+[INFO DRT-0026]   Complete 50000 origin guides.
+[INFO DRT-0026]   Complete 60000 origin guides.
+[INFO DRT-0026]   Complete 70000 origin guides.
+[INFO DRT-0026]   Complete 80000 origin guides.
+[INFO DRT-0026]   Complete 90000 origin guides.
+[INFO DRT-0027]   Complete 100000 origin guides.
+[INFO DRT-0027]   Complete 200000 origin guides.
+[INFO DRT-0027]   Complete 300000 origin guides.
+[INFO DRT-0027]   Complete 400000 origin guides.
+[INFO DRT-0027]   Complete 500000 origin guides.
+[INFO DRT-0027]   Complete 600000 origin guides.
+[INFO DRT-0027]   Complete 700000 origin guides.
+[INFO DRT-0027]   Complete 800000 origin guides.
+[INFO DRT-0027]   Complete 900000 origin guides.
+[INFO DRT-0027]   Complete 1000000 origin guides.
+[INFO DRT-0027]   Complete 1100000 origin guides.
+[INFO DRT-0027]   Complete 1200000 origin guides.
+[INFO DRT-0027]   Complete 1300000 origin guides.
+[INFO DRT-0027]   Complete 1400000 origin guides.
+[INFO DRT-0027]   Complete 1500000 origin guides.
+[INFO DRT-0027]   Complete 1600000 origin guides.
+[INFO DRT-0027]   Complete 1700000 origin guides.
+[INFO DRT-0027]   Complete 1800000 origin guides.
+[INFO DRT-0027]   Complete 1900000 origin guides.
+[INFO DRT-0027]   Complete 2000000 origin guides.
+[INFO DRT-0027]   Complete 2100000 origin guides.
+[INFO DRT-0027]   Complete 2200000 origin guides.
+[INFO DRT-0028]   Complete FR_MASTERSLICE.
+[INFO DRT-0028]   Complete licon.
+[INFO DRT-0028]   Complete li1.
+[INFO DRT-0028]   Complete mcon.
+[INFO DRT-0028]   Complete met1.
+[INFO DRT-0028]   Complete via.
+[INFO DRT-0028]   Complete met2.
+[INFO DRT-0028]   Complete via2.
+[INFO DRT-0028]   Complete met3.
+[INFO DRT-0028]   Complete via3.
+[INFO DRT-0028]   Complete met4.
+[INFO DRT-0028]   Complete via4.
+[INFO DRT-0028]   Complete met5.
+  complete 10000 nets.
+  complete 20000 nets.
+[WARNING DRT-0225] _025099_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _025745_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _027101_ 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _027233_ 18 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _029603_ 4 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _029630_ 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _029682_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _029688_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _029821_ 1 pin not visited, fall back to feedthrough mode.
+  complete 30000 nets.
+[WARNING DRT-0225] _030351_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _030976_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _033332_ 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _033813_ 4 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _038828_ 8 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _039566_ 1 pin not visited, fall back to feedthrough mode.
+  complete 40000 nets.
+  complete 50000 nets.
+  complete 60000 nets.
+[WARNING DRT-0225] _060179_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _062678_ 8 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _062810_ 25 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _063518_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _063614_ 3 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _065348_ 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _065425_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _065522_ 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _065532_ 3 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _065616_ 6 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _065636_ 24 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _066013_ 3 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _066015_ 13 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _066963_ 5 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _067426_ 1 pin not visited, fall back to feedthrough mode.
+  complete 70000 nets.
+  complete 80000 nets.
+  complete 90000 nets.
+[WARNING DRT-0225] u_s1.mem\[4\]\[7\] 1 pin not visited, fall back to feedthrough mode.
+  complete 100000 nets.
+[WARNING DRT-0225] net1 9 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net89 3 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net93 23 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net173 12 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net200 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net291 31 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net682 8 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net920 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net1026 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net1102 6 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net1182 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net1674 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net3369 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net3479 7 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net6427 16 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net9196 4 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net9918 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net12071 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net12073 4 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net12075 4 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net12079 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net12081 3 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net12085 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] clknet_10_104_0_clk 12 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] clknet_10_150_0_clk 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] clknet_10_465_0_clk 6 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] clknet_10_776_0_clk 4 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] clknet_10_796_0_clk 3 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] clknet_10_967_0_clk 7 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net13282 4 pin not visited, fall back to feedthrough mode.
+[INFO DRT-0178] Init guide query.
+[INFO DRT-0029]   Complete 10000 nets (guide).
+[INFO DRT-0029]   Complete 20000 nets (guide).
+[INFO DRT-0029]   Complete 30000 nets (guide).
+[INFO DRT-0029]   Complete 40000 nets (guide).
+[INFO DRT-0029]   Complete 50000 nets (guide).
+[INFO DRT-0029]   Complete 60000 nets (guide).
+[INFO DRT-0029]   Complete 70000 nets (guide).
+[INFO DRT-0029]   Complete 80000 nets (guide).
+[INFO DRT-0029]   Complete 90000 nets (guide).
+[INFO DRT-0030]   Complete 100000 nets (guide).
+[INFO DRT-0035]   Complete FR_MASTERSLICE (guide).
+[INFO DRT-0035]   Complete licon (guide).
+[INFO DRT-0035]   Complete li1 (guide).
+[INFO DRT-0035]   Complete mcon (guide).
+[INFO DRT-0035]   Complete met1 (guide).
+[INFO DRT-0035]   Complete via (guide).
+[INFO DRT-0035]   Complete met2 (guide).
+[INFO DRT-0035]   Complete via2 (guide).
+[INFO DRT-0035]   Complete met3 (guide).
+[INFO DRT-0035]   Complete via3 (guide).
+[INFO DRT-0035]   Complete met4 (guide).
+[INFO DRT-0035]   Complete via4 (guide).
+[INFO DRT-0035]   Complete met5 (guide).
+[INFO DRT-0036] FR_MASTERSLICE guide region query size = 0.
+[INFO DRT-0036] licon guide region query size = 0.
+[INFO DRT-0036] li1 guide region query size = 350254.
+[INFO DRT-0036] mcon guide region query size = 0.
+[INFO DRT-0036] met1 guide region query size = 283520.
+[INFO DRT-0036] via guide region query size = 0.
+[INFO DRT-0036] met2 guide region query size = 195388.
+[INFO DRT-0036] via2 guide region query size = 0.
+[INFO DRT-0036] met3 guide region query size = 90803.
+[INFO DRT-0036] via3 guide region query size = 0.
+[INFO DRT-0036] met4 guide region query size = 33385.
+[INFO DRT-0036] via4 guide region query size = 0.
+[INFO DRT-0036] met5 guide region query size = 10952.
+[INFO DRT-0179] Init gr pin query.
+[INFO DRT-0181] Start track assignment.
+[INFO DRT-0184] Done with 579027 vertical wires in 19 frboxes and 385275 horizontal wires in 11 frboxes.
+[INFO DRT-0186] Done with 86080 vertical wires in 19 frboxes and 93276 horizontal wires in 11 frboxes.
+[INFO DRT-0182] Complete track assignment.
+[INFO DRT-0267] cpu time = 00:01:38, elapsed time = 00:01:15, memory = 5802.11 (MB), peak = 5801.68 (MB)
+[INFO DRT-0187] Start routing data preparation.
+[INFO DRT-0267] cpu time = 00:00:01, elapsed time = 00:00:01, memory = 5905.36 (MB), peak = 5904.93 (MB)
+[INFO DRT-0194] Start detail routing.
+[INFO DRT-0195] Start 0th optimization iteration.
+    Completing 10% with 0 violations.
+    elapsed time = 00:01:51, memory = 7267.71 (MB).
+    Completing 20% with 4853 violations.
+    elapsed time = 00:06:08, memory = 9073.07 (MB).
+    Completing 30% with 18173 violations.
+    elapsed time = 00:06:40, memory = 9296.81 (MB).
+    Completing 40% with 23840 violations.
+    elapsed time = 00:11:17, memory = 9296.92 (MB).
+    Completing 50% with 36588 violations.
+    elapsed time = 00:13:25, memory = 9784.71 (MB).
+    Completing 60% with 37085 violations.
+    elapsed time = 00:14:50, memory = 9793.82 (MB).
+    Completing 70% with 40863 violations.
+    elapsed time = 00:20:06, memory = 9797.82 (MB).
+    Completing 80% with 53745 violations.
+    elapsed time = 00:20:42, memory = 9857.46 (MB).
+    Completing 90% with 59087 violations.
+    elapsed time = 00:25:55, memory = 9902.59 (MB).
+    Completing 100% with 72001 violations.
+    elapsed time = 00:28:15, memory = 10174.73 (MB).
+[INFO DRT-0199]   Number of violations = 127968.
+[INFO DRT-0267] cpu time = 01:20:42, elapsed time = 00:28:23, memory = 10174.73 (MB), peak = 10182.95 (MB)
+Total wire length = 10322439 um.
+Total wire length on LAYER li1 = 1204215 um.
+Total wire length on LAYER met1 = 2505070 um.
+Total wire length on LAYER met2 = 2353561 um.
+Total wire length on LAYER met3 = 2612461 um.
+Total wire length on LAYER met4 = 726966 um.
+Total wire length on LAYER met5 = 920165 um.
+Total number of vias = 1058056.
+Up-via summary (total 1058056):.
+
+--------------------------
+ FR_MASTERSLICE          0
+            li1     475390
+           met1     401937
+           met2     125606
+           met3      40083
+           met4      15040
+--------------------------
+                   1058056
+
+
+[INFO DRT-0195] Start 1st optimization iteration.
+    Completing 10% with 127968 violations.
+    elapsed time = 00:01:03, memory = 10174.73 (MB).
+    Completing 20% with 121614 violations.
+    elapsed time = 00:04:20, memory = 10174.73 (MB).
+    Completing 30% with 103480 violations.
+    elapsed time = 00:04:53, memory = 10257.98 (MB).
+    Completing 40% with 97687 violations.
+    elapsed time = 00:08:06, memory = 10219.06 (MB).
+    Completing 50% with 80970 violations.
+    elapsed time = 00:09:51, memory = 10279.18 (MB).
+    Completing 60% with 80246 violations.
+    elapsed time = 00:11:01, memory = 10279.20 (MB).
+    Completing 70% with 74259 violations.
+    elapsed time = 00:14:23, memory = 10280.31 (MB).
+    Completing 80% with 59135 violations.
+    elapsed time = 00:14:58, memory = 10280.77 (MB).
+    Completing 90% with 53268 violations.
+    elapsed time = 00:18:27, memory = 10281.13 (MB).
+    Completing 100% with 38864 violations.
+    elapsed time = 00:20:08, memory = 10308.55 (MB).
+[INFO DRT-0199]   Number of violations = 38981.
+[INFO DRT-0267] cpu time = 00:58:18, elapsed time = 00:20:16, memory = 10308.55 (MB), peak = 10308.21 (MB)
+Total wire length = 10265751 um.
+Total wire length on LAYER li1 = 1222351 um.
+Total wire length on LAYER met1 = 2512089 um.
+Total wire length on LAYER met2 = 2338267 um.
+Total wire length on LAYER met3 = 2602670 um.
+Total wire length on LAYER met4 = 715751 um.
+Total wire length on LAYER met5 = 874620 um.
+Total number of vias = 1044458.
+Up-via summary (total 1044458):.
+
+--------------------------
+ FR_MASTERSLICE          0
+            li1     473014
+           met1     399496
+           met2     121546
+           met3      37665
+           met4      12737
+--------------------------
+                   1044458
+
+
+[INFO DRT-0195] Start 2nd optimization iteration.
+    Completing 10% with 38981 violations.
+    elapsed time = 00:01:02, memory = 10308.55 (MB).
+    Completing 20% with 38571 violations.
+    elapsed time = 00:04:17, memory = 10308.55 (MB).
+    Completing 30% with 37944 violations.
+    elapsed time = 00:04:38, memory = 10308.55 (MB).
+    Completing 40% with 37604 violations.
+    elapsed time = 00:07:34, memory = 10308.55 (MB).
+    Completing 50% with 36890 violations.
+    elapsed time = 00:08:53, memory = 10308.56 (MB).
+    Completing 60% with 36874 violations.
+    elapsed time = 00:10:05, memory = 10308.56 (MB).
+    Completing 70% with 36559 violations.
+    elapsed time = 00:13:56, memory = 10308.57 (MB).
+    Completing 80% with 35884 violations.
+    elapsed time = 00:14:17, memory = 10308.57 (MB).
+    Completing 90% with 35646 violations.
+    elapsed time = 00:17:31, memory = 10308.57 (MB).
+    Completing 100% with 35160 violations.
+    elapsed time = 00:19:00, memory = 10308.57 (MB).
+[INFO DRT-0199]   Number of violations = 35266.
+[INFO DRT-0267] cpu time = 00:52:31, elapsed time = 00:19:07, memory = 10308.57 (MB), peak = 10308.21 (MB)
+Total wire length = 10238219 um.
+Total wire length on LAYER li1 = 1235815 um.
+Total wire length on LAYER met1 = 2514090 um.
+Total wire length on LAYER met2 = 2331008 um.
+Total wire length on LAYER met3 = 2601049 um.
+Total wire length on LAYER met4 = 710382 um.
+Total wire length on LAYER met5 = 845873 um.
+Total number of vias = 1039200.
+Up-via summary (total 1039200):.
+
+--------------------------
+ FR_MASTERSLICE          0
+            li1     472892
+           met1     397976
+           met2     119953
+           met3      36479
+           met4      11900
+--------------------------
+                   1039200
+
+
+[INFO DRT-0195] Start 3rd optimization iteration.
+    Completing 10% with 35266 violations.
+    elapsed time = 00:01:29, memory = 10308.57 (MB).
+    Completing 20% with 34621 violations.
+    elapsed time = 00:06:45, memory = 10308.57 (MB).
+    Completing 30% with 32046 violations.
+    elapsed time = 00:07:32, memory = 10308.57 (MB).
+    Completing 40% with 31334 violations.
+    elapsed time = 00:13:06, memory = 10325.94 (MB).
+    Completing 50% with 28722 violations.
+    elapsed time = 00:15:26, memory = 10313.05 (MB).
+    Completing 60% with 28675 violations.
+    elapsed time = 00:17:13, memory = 10313.05 (MB).
+    Completing 70% with 28009 violations.
+    elapsed time = 00:22:05, memory = 10313.05 (MB).
+    Completing 80% with 25943 violations.
+    elapsed time = 00:22:47, memory = 10313.05 (MB).
