@@ -17,9 +17,7 @@ module spark_ram #(
     reg [W-1:0] mem [0:DEPTH-1];
     integer i;
     initial begin
-        if (INIT != "") $readmemh(INIT, mem);
-        else for (i = 0; i < DEPTH; i = i + 1) mem[i] = {W{1'b0}};
-        rd = {W{1'b0}};
+        if (INIT != "") $readmemh(INIT, mem);   // ROM contents (thresholds); RAMs start unknown, as on silicon
     end
     always @(posedge clk) begin
         if (we) mem[wa] <= wd;

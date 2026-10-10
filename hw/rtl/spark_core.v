@@ -51,6 +51,7 @@ module spark_core #(
     input      [63:0] ld_data,
     // results
     output reg        done,
+    output            ready,        // high once the post-reset memory clear has finished
     output reg [7:0]  pred,
     output reg [1:0]  path,         // 0 full, 1 early exit, 2 recall
     output reg [31:0] tok_cycles,
@@ -273,6 +274,7 @@ module spark_core #(
     end
 
     // ---------------------------------------------- memory port control (comb)
+    reg [9:0] zc; reg zbusy; reg start_q;   // post-reset memory clear; a start that arrives meanwhile waits
     integer k, kf;
     always @* begin
         emb_ra  = byte_r * CD + (c % CD);
@@ -335,7 +337,30 @@ module spark_core #(
             end
             default: ;
         endcase
+        // after reset: zero every state memory and recall-table entry (silicon has no power-on contents)
+        if (zbusy) begin
+            for (k = 0; k < 4; k = k + 1) begin
+                acc_we[k] = 1'b1; acc_wa[k] = zc[AWC-1:0]; acc_wd[k] = {16*P{1'b0}};
+                sn_we[k] = 1'b1; sn_wa[k] = zc[AWC-1:0]; sn_wd[k] = {4*P{1'b0}};
+            end
+            for (k = 0; k < 2; k = k + 1) begin
+                h_we[k] = 1'b1; h_wa[k] = zc[AWC-1:0]; h_wd[k] = {16*P{1'b0}};
+                s_we[k] = 1'b1; s_wa[k] = zc[AWC-1:0]; s_wd[k] = {4*P{1'b0}};
+            end
+            t_we = 1'b1; t_wa = zc; t_wd = 43'd0;
+        end
     end
+
+    // zero-fill sequencer: 1,024 cycles after reset (covers the 1,024-entry recall table and all state RAMs)
+    always @(posedge clk) begin
+        if (rst) begin zc <= 10'd0; zbusy <= 1'b1; start_q <= 1'b0; end
+        else begin
+            if (zbusy) begin zc <= zc + 10'd1; if (zc == 10'd1023) zbusy <= 1'b0; end
+            if (start && zbusy) start_q <= 1'b1;
+            else if (!zbusy) start_q <= 1'b0;
+        end
+    end
+    assign ready = !zbusy;
 
     // ------------------------------------------------------------- main FSM
     always @(posedge clk) begin
@@ -348,7 +373,7 @@ module spark_core #(
             done <= 1'b0;
             if (state != S_IDLE) tok_cycles <= tok_cycles + 1;
             case (state)
-                S_IDLE: if (start) begin
+                S_IDLE: if ((start || start_q) && !zbusy) begin
                     byte_r <= in_byte; tok_cycles <= 32'd1; rec_hit <= 1'b0;
                     hist1 <= byte_r; hist2 <= hist1;
                     if (started != CTX) started <= started + 2'd1;
