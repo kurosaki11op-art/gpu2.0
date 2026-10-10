@@ -93,7 +93,7 @@ module spark_board_top #(
         .sparse_en(sparse_en), .delta_en(delta_en), .exit_en(exit_en), .recall_en(recall_en),
         .cap(cap), .recall_mode(recall_mode), .arb_th(arb_th), .exit_th(exit_th), .conf_th(conf_th),
         .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(adapt_en), .thr_en(thr_en),
-        .ld_we(1'b0), .ld_sel(3'd0), .ld_addr(11'd0), .ld_data(64'd0),
+        .ld_we(1'b0), .ld_sel(3'd0), .ld_addr(12'd0), .ld_data(64'd0),
         .done(done), .pred(pred), .path(path), .tok_cycles(tok_cycles), .wreads(wreads),
         .cyc_engine(ce), .cyc_scan(cs), .cyc_post(cp), .cyc_recall(cr),
         .nz0(a0), .nz1(a1), .nz2(a2), .nz3(a3), .pr0(b0), .pr1(b1), .pr2(b2), .pr3(b3)

@@ -1,0 +1,706 @@
+OpenROAD f12e2f474102bfb875eeee57fb610d7d7de17770 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 4 thread(s).
+[INFO ODB-0222] Reading LEF file: /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+[INFO ODB-0223]     Created 14 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0226] Finished LEF file:  /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+[INFO ODB-0222] Reading LEF file: /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0225]     Created 437 library cells
+[INFO ODB-0226] Finished LEF file:  /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+[INFO ODB-0222] Reading LEF file: /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+[INFO ODB-0225]     Created 1 library cells
+[INFO ODB-0226] Finished LEF file:  /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+[WARNING IFP-0028] Core area lower left (10.000, 10.000) snapped to (10.120, 10.880).
+[INFO IFP-0001] Added 1315 rows of 13651 sites.
+placed 44 SRAM macros
+[INFO TAP-0001] Found 44 macro blocks.
+[INFO TAP-0002] Original rows: 1315
+[INFO TAP-0003] Created 6976 rows for a total of 8291 rows.
+[INFO TAP-0004] Inserted 16582 endcaps.
+[INFO TAP-0005] Inserted 124667 tapcells.
+[INFO PDN-0008] Design name is spark_core.
+[INFO PDN-0009] Reading technology data.
+[INFO PDN-0011] ****** INFO ******
+Type: stdcell, stdcell_grid
+    Stdcell Rails
+      Layer: met1  -  width: 0.480  pitch: 5.440 
+    Straps
+      Layer: met4  -  width: 1.600  pitch: 56.000  offset: 2.000 
+      Layer: met5  -  width: 1.600  pitch: 56.000  offset: 2.000 
+    Connect: {met1 met4} {met4 met5}
+Type: macro, macro -grid_over_pg_pins
+    Macro: sky130_sram_2kbyte_1rw1r_32x512_8
+    Connect: {met4 met5}
+[INFO PDN-0012] **** END INFO ****
+[INFO PDN-0013] Inserting stdcell grid - stdcell_grid.
+[WARNING PDN-0040] No via added at (4771.32 143.92 4772.5 144.24) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5555.32 143.92 5555.42 144.24) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4771.32 1705.38 4772.5 1705.68) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5555.32 1705.38 5555.42 1705.68) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (123.32 572.3 124.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (179.32 572.3 180.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (235.32 572.3 236.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (291.32 572.3 292.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (347.32 572.3 348.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (403.32 572.3 404.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (459.32 572.3 460.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (515.32 572.3 516.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (571.32 572.3 572.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (627.32 572.3 628.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (683.32 572.3 684.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (739.32 572.3 740.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (907.32 572.3 908.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (963.32 572.3 964.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1019.32 572.3 1020.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1075.32 572.3 1076.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1131.32 572.3 1132.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1187.32 572.3 1188.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1243.32 572.3 1244.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1299.32 572.3 1300.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1355.32 572.3 1356.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1411.32 572.3 1412.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1467.32 572.3 1468.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1523.32 572.3 1524.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1691.32 572.3 1692.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1747.32 572.3 1748.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1803.32 572.3 1804.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1859.32 572.3 1860.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1915.32 572.3 1916.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (1971.32 572.3 1972.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2027.32 572.3 2028.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2083.32 572.3 2084.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2139.32 572.3 2140.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2195.32 572.3 2196.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2251.32 572.3 2252.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2307.32 572.3 2308.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2475.32 572.3 2476.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2531.32 572.3 2532.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2587.32 572.3 2588.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2643.32 572.3 2644.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2699.32 572.3 2700.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2755.32 572.3 2756.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2811.32 572.3 2812.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2867.32 572.3 2868.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2923.32 572.3 2924.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (2979.32 572.3 2980.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3035.32 572.3 3036.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3091.32 572.3 3092.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3259.32 572.3 3260.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3315.32 572.3 3316.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3371.32 572.3 3372.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3427.32 572.3 3428.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3483.32 572.3 3484.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3539.32 572.3 3540.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3595.32 572.3 3596.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3651.32 572.3 3652.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3707.32 572.3 3708.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3763.32 572.3 3764.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3819.32 572.3 3820.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (3875.32 572.3 3876.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4043.32 572.3 4044.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4099.32 572.3 4100.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4155.32 572.3 4156.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4211.32 572.3 4212.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4267.32 572.3 4268.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4323.32 572.3 4324.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4379.32 572.3 4380.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4435.32 572.3 4436.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4491.32 572.3 4492.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4547.32 572.3 4548.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4603.32 572.3 4604.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4659.32 572.3 4660.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4771.32 572.3 4772.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4827.32 572.3 4828.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4883.32 572.3 4884.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4939.32 572.3 4940.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (4995.32 572.3 4996.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5051.32 572.3 5052.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5107.32 572.3 5108.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5163.32 572.3 5164.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5219.32 572.3 5220.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5275.32 572.3 5276.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5331.32 572.3 5332.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5387.32 572.3 5388.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5443.32 572.3 5444.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5555.32 572.3 5556.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5611.32 572.3 5612.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5667.32 572.3 5668.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5723.32 572.3 5724.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5779.32 572.3 5780.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5835.32 572.3 5836.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5891.32 572.3 5892.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (5947.32 572.3 5948.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (6003.32 572.3 6004.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (6059.32 572.3 6060.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (6115.32 572.3 6116.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (6171.32 572.3 6172.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0042] No via added at (6227.32 572.3 6228.92 573.44) because the full height of met5 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 146.64 2336.92 147.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 152.08 2336.92 152.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 157.52 2336.92 158.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 162.96 2336.92 163.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 168.4 2336.92 168.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 173.84 2336.92 174.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 179.28 2336.92 179.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 184.72 2336.92 185.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 190.16 2336.92 190.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 195.6 2336.92 196.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 201.04 2336.92 201.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 206.48 2336.92 206.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 211.92 2336.92 212.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 217.36 2336.92 217.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 222.8 2336.92 223.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 228.24 2336.92 228.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 233.68 2336.92 234.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 239.12 2336.92 239.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 244.56 2336.92 245.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 250.0 2336.92 250.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 255.44 2336.92 255.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 260.88 2336.92 261.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 266.32 2336.92 266.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 271.76 2336.92 272.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 277.2 2336.92 277.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 282.64 2336.92 283.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 288.08 2336.92 288.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 293.52 2336.92 294.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 298.96 2336.92 299.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 304.4 2336.92 304.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 309.84 2336.92 310.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 315.28 2336.92 315.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 320.72 2336.92 321.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 326.16 2336.92 326.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 331.6 2336.92 332.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 337.04 2336.92 337.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 342.48 2336.92 342.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 347.92 2336.92 348.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 353.36 2336.92 353.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 358.8 2336.92 359.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 364.24 2336.92 364.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 369.68 2336.92 370.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 375.12 2336.92 375.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 380.56 2336.92 381.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 386.0 2336.92 386.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 391.44 2336.92 391.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 396.88 2336.92 397.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 402.32 2336.92 402.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 407.76 2336.92 408.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 413.2 2336.92 413.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 418.64 2336.92 419.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 424.08 2336.92 424.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 429.52 2336.92 430.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 434.96 2336.92 435.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 440.4 2336.92 440.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 445.84 2336.92 446.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 451.28 2336.92 451.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 456.72 2336.92 457.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 462.16 2336.92 462.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 467.6 2336.92 468.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 473.04 2336.92 473.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 478.48 2336.92 478.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 483.92 2336.92 484.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 489.36 2336.92 489.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 494.8 2336.92 495.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 500.24 2336.92 500.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 505.68 2336.92 506.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 511.12 2336.92 511.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 516.56 2336.92 517.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 522.0 2336.92 522.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 527.44 2336.92 527.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 532.88 2336.92 533.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 538.32 2336.92 538.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 543.76 2336.92 544.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 549.2 2336.92 549.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 554.64 2336.92 555.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 560.08 2336.92 560.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 565.52 2336.92 566.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 570.96 2336.92 571.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 712.4 2336.92 712.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 717.84 2336.92 718.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 723.28 2336.92 723.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 728.72 2336.92 729.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 734.16 2336.92 734.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 739.6 2336.92 740.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 745.04 2336.92 745.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 750.48 2336.92 750.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 755.92 2336.92 756.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 761.36 2336.92 761.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 766.8 2336.92 767.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 772.24 2336.92 772.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 777.68 2336.92 778.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 783.12 2336.92 783.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 788.56 2336.92 789.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 794.0 2336.92 794.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 799.44 2336.92 799.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 804.88 2336.92 805.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 810.32 2336.92 810.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 815.76 2336.92 816.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 821.2 2336.92 821.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 826.64 2336.92 827.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 832.08 2336.92 832.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 837.52 2336.92 838.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 842.96 2336.92 843.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 848.4 2336.92 848.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 853.84 2336.92 854.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 859.28 2336.92 859.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 864.72 2336.92 865.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 870.16 2336.92 870.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 875.6 2336.92 876.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 881.04 2336.92 881.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 886.48 2336.92 886.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 891.92 2336.92 892.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 897.36 2336.92 897.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 902.8 2336.92 903.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 908.24 2336.92 908.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 913.68 2336.92 914.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 919.12 2336.92 919.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 924.56 2336.92 925.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 930.0 2336.92 930.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 935.44 2336.92 935.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 940.88 2336.92 941.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 946.32 2336.92 946.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 951.76 2336.92 952.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 957.2 2336.92 957.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 962.64 2336.92 963.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 968.08 2336.92 968.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 973.52 2336.92 974.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 978.96 2336.92 979.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 984.4 2336.92 984.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 989.84 2336.92 990.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 995.28 2336.92 995.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1000.72 2336.92 1001.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1006.16 2336.92 1006.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1011.6 2336.92 1012.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1017.04 2336.92 1017.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1022.48 2336.92 1022.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1027.92 2336.92 1028.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1033.36 2336.92 1033.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1038.8 2336.92 1039.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1044.24 2336.92 1044.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1049.68 2336.92 1050.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1055.12 2336.92 1055.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1060.56 2336.92 1061.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1066.0 2336.92 1066.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1071.44 2336.92 1071.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1076.88 2336.92 1077.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1082.32 2336.92 1082.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1087.76 2336.92 1088.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1093.2 2336.92 1093.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1098.64 2336.92 1099.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1104.08 2336.92 1104.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1109.52 2336.92 1110.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1114.96 2336.92 1115.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1120.4 2336.92 1120.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1125.84 2336.92 1126.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1131.28 2336.92 1131.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1136.72 2336.92 1137.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1278.16 2336.92 1278.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1283.6 2336.92 1284.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1289.04 2336.92 1289.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1294.48 2336.92 1294.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1299.92 2336.92 1300.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1305.36 2336.92 1305.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1310.8 2336.92 1311.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1316.24 2336.92 1316.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1321.68 2336.92 1322.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1327.12 2336.92 1327.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1332.56 2336.92 1333.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1338.0 2336.92 1338.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1343.44 2336.92 1343.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1348.88 2336.92 1349.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1354.32 2336.92 1354.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1359.76 2336.92 1360.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1365.2 2336.92 1365.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1370.64 2336.92 1371.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1376.08 2336.92 1376.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1381.52 2336.92 1382.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1386.96 2336.92 1387.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1392.4 2336.92 1392.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1397.84 2336.92 1398.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1403.28 2336.92 1403.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1408.72 2336.92 1409.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1414.16 2336.92 1414.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1419.6 2336.92 1420.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1425.04 2336.92 1425.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1430.48 2336.92 1430.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1435.92 2336.92 1436.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1441.36 2336.92 1441.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1446.8 2336.92 1447.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1452.24 2336.92 1452.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1457.68 2336.92 1458.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1463.12 2336.92 1463.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1468.56 2336.92 1469.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1474.0 2336.92 1474.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1479.44 2336.92 1479.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1484.88 2336.92 1485.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1490.32 2336.92 1490.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1495.76 2336.92 1496.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1501.2 2336.92 1501.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1506.64 2336.92 1507.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1512.08 2336.92 1512.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1517.52 2336.92 1518.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1522.96 2336.92 1523.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1528.4 2336.92 1528.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1533.84 2336.92 1534.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1539.28 2336.92 1539.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1544.72 2336.92 1545.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1550.16 2336.92 1550.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1555.6 2336.92 1556.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1561.04 2336.92 1561.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1566.48 2336.92 1566.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1571.92 2336.92 1572.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1577.36 2336.92 1577.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1582.8 2336.92 1583.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1588.24 2336.92 1588.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1593.68 2336.92 1594.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1599.12 2336.92 1599.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1604.56 2336.92 1605.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1610.0 2336.92 1610.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1615.44 2336.92 1615.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1620.88 2336.92 1621.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1626.32 2336.92 1626.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1631.76 2336.92 1632.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1637.2 2336.92 1637.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1642.64 2336.92 1643.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1648.08 2336.92 1648.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1653.52 2336.92 1654.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1658.96 2336.92 1659.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1664.4 2336.92 1664.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1669.84 2336.92 1670.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1675.28 2336.92 1675.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1680.72 2336.92 1681.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1686.16 2336.92 1686.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1691.6 2336.92 1692.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1697.04 2336.92 1697.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1702.48 2336.92 1702.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1843.92 2336.92 1844.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1849.36 2336.92 1849.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1854.8 2336.92 1855.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1860.24 2336.92 1860.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1865.68 2336.92 1866.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1871.12 2336.92 1871.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1876.56 2336.92 1877.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1882.0 2336.92 1882.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1887.44 2336.92 1887.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1892.88 2336.92 1893.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1898.32 2336.92 1898.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1903.76 2336.92 1904.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1909.2 2336.92 1909.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1914.64 2336.92 1915.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1920.08 2336.92 1920.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1925.52 2336.92 1926.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1930.96 2336.92 1931.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1936.4 2336.92 1936.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1941.84 2336.92 1942.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1947.28 2336.92 1947.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1952.72 2336.92 1953.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1958.16 2336.92 1958.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1963.6 2336.92 1964.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1969.04 2336.92 1969.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1974.48 2336.92 1974.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1979.92 2336.92 1980.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1985.36 2336.92 1985.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1990.8 2336.92 1991.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 1996.24 2336.92 1996.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2001.68 2336.92 2002.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2007.12 2336.92 2007.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2012.56 2336.92 2013.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2018.0 2336.92 2018.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2023.44 2336.92 2023.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2028.88 2336.92 2029.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2034.32 2336.92 2034.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2039.76 2336.92 2040.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2045.2 2336.92 2045.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2050.64 2336.92 2051.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2056.08 2336.92 2056.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2061.52 2336.92 2062.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2066.96 2336.92 2067.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2072.4 2336.92 2072.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2077.84 2336.92 2078.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2083.28 2336.92 2083.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2088.72 2336.92 2089.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2094.16 2336.92 2094.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2099.6 2336.92 2100.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2105.04 2336.92 2105.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2110.48 2336.92 2110.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2115.92 2336.92 2116.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2121.36 2336.92 2121.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2126.8 2336.92 2127.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2132.24 2336.92 2132.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2137.68 2336.92 2138.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2143.12 2336.92 2143.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2148.56 2336.92 2149.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2154.0 2336.92 2154.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2159.44 2336.92 2159.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2164.88 2336.92 2165.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2170.32 2336.92 2170.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2175.76 2336.92 2176.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2181.2 2336.92 2181.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2186.64 2336.92 2187.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2192.08 2336.92 2192.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2197.52 2336.92 2198.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2202.96 2336.92 2203.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2208.4 2336.92 2208.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2213.84 2336.92 2214.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2219.28 2336.92 2219.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2224.72 2336.92 2225.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2230.16 2336.92 2230.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2235.6 2336.92 2236.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2241.04 2336.92 2241.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2246.48 2336.92 2246.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2251.92 2336.92 2252.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2257.36 2336.92 2257.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2262.8 2336.92 2263.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2268.24 2336.92 2268.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2415.12 2336.92 2415.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2420.56 2336.92 2421.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2426.0 2336.92 2426.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2431.44 2336.92 2431.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2436.88 2336.92 2437.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2442.32 2336.92 2442.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2447.76 2336.92 2448.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2453.2 2336.92 2453.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2458.64 2336.92 2459.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2464.08 2336.92 2464.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2469.52 2336.92 2470.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2474.96 2336.92 2475.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2480.4 2336.92 2480.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2485.84 2336.92 2486.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2491.28 2336.92 2491.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2496.72 2336.92 2497.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2502.16 2336.92 2502.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2507.6 2336.92 2508.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2513.04 2336.92 2513.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2518.48 2336.92 2518.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2523.92 2336.92 2524.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2529.36 2336.92 2529.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2534.8 2336.92 2535.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2540.24 2336.92 2540.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2545.68 2336.92 2546.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2551.12 2336.92 2551.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2556.56 2336.92 2557.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2562.0 2336.92 2562.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2567.44 2336.92 2567.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2572.88 2336.92 2573.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2578.32 2336.92 2578.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2583.76 2336.92 2584.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2589.2 2336.92 2589.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2594.64 2336.92 2595.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2600.08 2336.92 2600.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2605.52 2336.92 2606.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2610.96 2336.92 2611.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2616.4 2336.92 2616.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2621.84 2336.92 2622.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2627.28 2336.92 2627.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2632.72 2336.92 2633.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2638.16 2336.92 2638.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2643.6 2336.92 2644.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2649.04 2336.92 2649.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2654.48 2336.92 2654.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2659.92 2336.92 2660.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2665.36 2336.92 2665.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2670.8 2336.92 2671.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2676.24 2336.92 2676.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2681.68 2336.92 2682.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2687.12 2336.92 2687.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2692.56 2336.92 2693.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2698.0 2336.92 2698.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2703.44 2336.92 2703.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2708.88 2336.92 2709.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2714.32 2336.92 2714.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2719.76 2336.92 2720.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2725.2 2336.92 2725.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2730.64 2336.92 2731.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2736.08 2336.92 2736.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2741.52 2336.92 2742.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2746.96 2336.92 2747.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2752.4 2336.92 2752.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2757.84 2336.92 2758.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2763.28 2336.92 2763.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2768.72 2336.92 2769.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2774.16 2336.92 2774.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2779.6 2336.92 2780.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2785.04 2336.92 2785.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2790.48 2336.92 2790.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2795.92 2336.92 2796.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2801.36 2336.92 2801.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2806.8 2336.92 2807.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2812.24 2336.92 2812.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2817.68 2336.92 2818.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2823.12 2336.92 2823.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2828.56 2336.92 2829.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2834.0 2336.92 2834.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2980.88 2336.92 2981.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2986.32 2336.92 2986.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2991.76 2336.92 2992.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 2997.2 2336.92 2997.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3002.64 2336.92 3003.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3008.08 2336.92 3008.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3013.52 2336.92 3014.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3018.96 2336.92 3019.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3024.4 2336.92 3024.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3029.84 2336.92 3030.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3035.28 2336.92 3035.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3040.72 2336.92 3041.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3046.16 2336.92 3046.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3051.6 2336.92 3052.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3057.04 2336.92 3057.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3062.48 2336.92 3062.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3067.92 2336.92 3068.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3073.36 2336.92 3073.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3078.8 2336.92 3079.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3084.24 2336.92 3084.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3089.68 2336.92 3090.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3095.12 2336.92 3095.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3100.56 2336.92 3101.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3106.0 2336.92 3106.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3111.44 2336.92 3111.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3116.88 2336.92 3117.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3122.32 2336.92 3122.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3127.76 2336.92 3128.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3133.2 2336.92 3133.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3138.64 2336.92 3139.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3144.08 2336.92 3144.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3149.52 2336.92 3150.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3154.96 2336.92 3155.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3160.4 2336.92 3160.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3165.84 2336.92 3166.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3171.28 2336.92 3171.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3176.72 2336.92 3177.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3182.16 2336.92 3182.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3187.6 2336.92 3188.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3193.04 2336.92 3193.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3198.48 2336.92 3198.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3203.92 2336.92 3204.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3209.36 2336.92 3209.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3214.8 2336.92 3215.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3220.24 2336.92 3220.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3225.68 2336.92 3226.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3231.12 2336.92 3231.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3236.56 2336.92 3237.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3242.0 2336.92 3242.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3247.44 2336.92 3247.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3252.88 2336.92 3253.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3258.32 2336.92 3258.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3263.76 2336.92 3264.24) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3269.2 2336.92 3269.68) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3274.64 2336.92 3275.12) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3280.08 2336.92 3280.56) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3285.52 2336.92 3286.0) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3290.96 2336.92 3291.44) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3296.4 2336.92 3296.88) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3301.84 2336.92 3302.32) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3307.28 2336.92 3307.76) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3312.72 2336.92 3313.2) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3318.16 2336.92 3318.64) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3323.6 2336.92 3324.08) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3329.04 2336.92 3329.52) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3334.48 2336.92 3334.96) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3339.92 2336.92 3340.4) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3345.36 2336.92 3345.84) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3350.8 2336.92 3351.28) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3356.24 2336.92 3356.72) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3361.68 2336.92 3362.16) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3367.12 2336.92 3367.6) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3372.56 2336.92 3373.04) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3378.0 2336.92 3378.48) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3383.44 2336.92 3383.92) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3388.88 2336.92 3389.36) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3394.32 2336.92 3394.8) because the full width of met4 (1.6) is not covered by the overlap.
+[WARNING PDN-0043] No via added at (2335.42 3399.76 2336.92 3400.24) because the full width of met4 (1.6) is not covered by the overlap.
+[INFO PDN-0010] Inserting macro grid for 44 macros.
+[INFO PDN-0015] Writing to database.
+Found 44 macro blocks.
+Using 1u default distance from corners.
+[INFO PPL-0010] Tentative 0 to set up sections.
+[INFO PPL-0001] Number of slots          4810
+[INFO PPL-0002] Number of I/O            513
+[INFO PPL-0003] Number of I/O w/sink     513
+[INFO PPL-0004] Number of I/O w/o sink   32
+[INFO PPL-0005] Slots per section        200
+[INFO PPL-0006] Slots increase factor    0.01
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 1269199.75 um.
+[INFO GPL-0002] DBU: 1000
+[INFO GPL-0003] SiteSize: 460 2720
+[INFO GPL-0004] CoreAreaLxLy: 10120 10880
+[INFO GPL-0005] CoreAreaUxUy: 6289580 3587680
+[INFO GPL-0006] NumInstances: 249148
+[INFO GPL-0007] NumPlaceInstances: 94103
+[INFO GPL-0008] NumFixedInstances: 141293
+[INFO GPL-0009] NumDummyInstances: 13752
+[INFO GPL-0010] NumNets: 95693
+[INFO GPL-0011] NumPins: 342293
+[INFO GPL-0012] DieAreaLxLy: 0 0
+[INFO GPL-0013] DieAreaUxUy: 6300000 3600000
+[INFO GPL-0014] CoreAreaLxLy: 10120 10880
+[INFO GPL-0015] CoreAreaUxUy: 6289580 3587680
+[INFO GPL-0016] CoreArea: 22460372528000
+[INFO GPL-0017] NonPlaceInstsArea: 13357460091200
+[INFO GPL-0018] PlaceInstsArea: 1366988550400
+[INFO GPL-0019] Util(%): 15.02
+[INFO GPL-0020] StdInstsArea: 1366988550400
+[INFO GPL-0021] MacroInstsArea: 0
+[InitialPlace]  Iter: 1 CG residual: 0.00379995 HPWL: 12913053660
+[InitialPlace]  Iter: 2 CG residual: 0.00033806 HPWL: 7093984956
+[InitialPlace]  Iter: 3 CG residual: 0.00029590 HPWL: 6843326341
+[InitialPlace]  Iter: 4 CG residual: 0.00018348 HPWL: 6405937564
+[InitialPlace]  Iter: 5 CG residual: 0.00006755 HPWL: 6118689948
+[InitialPlace]  Iter: 6 CG residual: 0.00002916 HPWL: 5926638943
+[InitialPlace]  Iter: 7 CG residual: 0.00001942 HPWL: 5836556479
+[InitialPlace]  Iter: 8 CG residual: 0.00001640 HPWL: 5791290899
+[InitialPlace]  Iter: 9 CG residual: 0.00001352 HPWL: 5763922697
+[InitialPlace]  Iter: 10 CG residual: 0.00000790 HPWL: 5736703448
+[INFO GPL-0031] FillerInit: NumGCells: 286440
+[INFO GPL-0032] FillerInit: NumGNets: 95693
+[INFO GPL-0033] FillerInit: NumGPins: 342293
+[INFO GPL-0023] TargetDensity: 0.45
+[INFO GPL-0024] AveragePlaceInstArea: 14526514
+[INFO GPL-0025] IdealBinArea: 32281144
+[INFO GPL-0026] IdealBinCnt: 695773
+[INFO GPL-0027] TotalBinArea: 22460372528000
+[INFO GPL-0028] BinCnt: 512 512
+[INFO GPL-0029] BinSize: 12265 6986
+[INFO GPL-0030] NumBins: 262144
+[NesterovSolve] Iter: 1 overflow: 0.985684 HPWL: 3524071282
+[NesterovSolve] Iter: 10 overflow: 0.975011 HPWL: 3663555354
+[NesterovSolve] Iter: 20 overflow: 0.972775 HPWL: 3741370423
+[NesterovSolve] Iter: 30 overflow: 0.971705 HPWL: 3791091297
+[NesterovSolve] Iter: 40 overflow: 0.969756 HPWL: 3820158267
+[NesterovSolve] Iter: 50 overflow: 0.969206 HPWL: 3847850228
+[NesterovSolve] Iter: 60 overflow: 0.968673 HPWL: 3872779891
+[NesterovSolve] Iter: 70 overflow: 0.968386 HPWL: 3889680368
+[NesterovSolve] Iter: 80 overflow: 0.968399 HPWL: 3901006965
+[NesterovSolve] Iter: 90 overflow: 0.968494 HPWL: 3906107218
+[NesterovSolve] Iter: 100 overflow: 0.968548 HPWL: 3905826755
+[NesterovSolve] Iter: 110 overflow: 0.968596 HPWL: 3902867953
+[NesterovSolve] Iter: 120 overflow: 0.968202 HPWL: 3898705088
+[NesterovSolve] Iter: 130 overflow: 0.968296 HPWL: 3895459803
+[NesterovSolve] Iter: 140 overflow: 0.968077 HPWL: 3893312520
+[NesterovSolve] Iter: 150 overflow: 0.967974 HPWL: 3893708157
+[NesterovSolve] Iter: 160 overflow: 0.96781 HPWL: 3897326155
+[NesterovSolve] Iter: 170 overflow: 0.967034 HPWL: 3905232991
+[NesterovSolve] Iter: 180 overflow: 0.965949 HPWL: 3920715554
+[NesterovSolve] Iter: 190 overflow: 0.964387 HPWL: 3947823081
+[NesterovSolve] Iter: 200 overflow: 0.962173 HPWL: 3989430619
+[NesterovSolve] Iter: 210 overflow: 0.95916 HPWL: 4053454590
+[NesterovSolve] Iter: 220 overflow: 0.955233 HPWL: 4142733032
+[NesterovSolve] Iter: 230 overflow: 0.950246 HPWL: 4271550709
+[NesterovSolve] Iter: 240 overflow: 0.941143 HPWL: 4502754812
+[NesterovSolve] Iter: 250 overflow: 0.92908 HPWL: 4859103643
+[NesterovSolve] Iter: 260 overflow: 0.922033 HPWL: 5164674335
+[NesterovSolve] Iter: 270 overflow: 0.915973 HPWL: 5348315549
+[NesterovSolve] Iter: 280 overflow: 0.905824 HPWL: 5739486525
+[NesterovSolve] Iter: 290 overflow: 0.866921 HPWL: 6043176840
+[NesterovSolve] Iter: 300 overflow: 0.831749 HPWL: 6277622152
+[NesterovSolve] Iter: 310 overflow: 0.787083 HPWL: 6352362407
+[NesterovSolve] Iter: 320 overflow: 0.739827 HPWL: 6724852429
+[NesterovSolve] Iter: 330 overflow: 0.705671 HPWL: 7185201857
+[NesterovSolve] Iter: 340 overflow: 0.644962 HPWL: 7805498110
+[NesterovSolve] Iter: 350 overflow: 0.605377 HPWL: 7695299987
+[NesterovSolve] Iter: 360 overflow: 0.552272 HPWL: 7904669571
+[NesterovSolve] Iter: 370 overflow: 0.508041 HPWL: 7792460796

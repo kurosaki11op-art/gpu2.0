@@ -34,7 +34,7 @@ module tb_board;
         .sparse_en(r_sparse), .delta_en(r_delta), .exit_en(r_exit), .recall_en(r_recall),
         .cap(r_cap), .recall_mode(r_rmode), .arb_th(r_arb), .exit_th(r_exit_th), .conf_th(r_conf),
         .cfg_a(9'd230), .acc_sh(4'd2), .s_sh(4'd4), .adapt_en(r_adapt), .thr_en(1'b1),
-        .ld_we(1'b0), .ld_sel(3'd0), .ld_addr(11'd0), .ld_data(64'd0),
+        .ld_we(1'b0), .ld_sel(3'd0), .ld_addr(12'd0), .ld_data(64'd0),
         .done(r_done), .pred(r_pred), .path(r_path), .tok_cycles(r_cyc), .wreads(x0),
         .cyc_engine(x1), .cyc_scan(x2), .cyc_post(x3), .cyc_recall(x4),
         .nz0(y0), .nz1(y1), .nz2(y2), .nz3(y3), .pr0(y4), .pr1(y5), .pr2(y6), .pr3(y7));

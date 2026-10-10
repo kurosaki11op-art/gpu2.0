@@ -10,7 +10,7 @@ module spark_top (
     input  [1:0]  conf_th,
     input         ld_we,
     input  [2:0]  ld_sel,
-    input  [10:0] ld_addr,
+    input  [11:0] ld_addr,
     input  [63:0] ld_data,
     output        done,
     output [7:0]  pred,

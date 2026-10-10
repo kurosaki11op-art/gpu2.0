@@ -1,0 +1,4 @@
+../tb_asic.v:90: $finish called at 1032820000 (1ps)
++sparse=1 +recall=1 +conf_th=0 +rmode=2 +arb_th=128 +adapt=1 +exit=1 +exit_th=2 tokens 20 mismatches 0 cycles/token 4190 acc 36.8%
+../tb_asic.v:90: $finish called at 1204780000 (1ps)
++sparse=1 tokens 20 mismatches 0 cycles/token 5050 acc 31.6%

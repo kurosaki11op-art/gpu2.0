@@ -1,0 +1,11 @@
+*.odb
+*.def
+route.guide
+maze.log
+*.vvp
+rtlsim/*.hex
+rtlsim/dbg/
+rtlsim/stim.*
+rtlsim/rtl_out.txt
+syn/hd_tt_dontuse.lib
+syn/th*.hex

@@ -47,7 +47,7 @@ module spark_core #(
     // weight / embedding load port (weights are loaded at boot, e.g. from flash)
     input             ld_we,
     input      [2:0]  ld_sel,       // 0 emb, 1..4 = w0..w3
-    input      [10:0] ld_addr,
+    input      [11:0] ld_addr,      // 12 bits: w2/w3 hold 4,096 words
     input      [63:0] ld_data,
     // results
     output reg        done,
