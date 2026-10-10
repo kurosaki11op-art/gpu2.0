@@ -1,0 +1,12 @@
+{
+  "ctx": 3,
+  "steps": 3000,
+  "spike": "thr",
+  "next_byte_accuracy_main": 0.6142047349116372,
+  "next_byte_accuracy_exit_head": 0.6215405135045015,
+  "firing_rate": 0.5263893229166666,
+  "eval_bytes": 3000,
+  "next_byte_accuracy_main_with_memory": 0.7329109703234411,
+  "relaxed_eval": false,
+  "note": "context-window model; evaluated with the exact integer PyTorch model (golden/RTL support for ctx>1 not built yet)"
+}
