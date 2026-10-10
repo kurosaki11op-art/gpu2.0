@@ -1,0 +1,5 @@
+*.vvp
+*.hex
+*.npy
+gl0/
+gl1/

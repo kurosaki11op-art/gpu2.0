@@ -10,7 +10,7 @@ MEMS = [('u_emb', 0, 'emb.hex', 2048), ('u_emb1', 5, 'emb1.hex', 2048), ('u_emb2
 def sram(inst, b):
     if mode == 'rtl':
         return f'dut.u_core.{inst}.u.bank[{b}].col[0].u_sram'
-    return f'dut.u.\\u_core.{inst}.u.bank[{b}].col[0].u_sram '
+    return f'dut.\\u_core.{inst}.u.bank[{b}].col[0].u_sram '
 L = []
 L.append('`timescale 1ns/1ps\nmodule tb_chip;')
 L.append('  localparam CPB = 4;  // clocks per UART bit (CLK_HZ 1 MHz, BAUD 250 kbaud in this sim)')

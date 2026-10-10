@@ -15,9 +15,23 @@ def block(text, start):
         i += 1
 
 def symbol_def(lib, name):
-    t = open(f'{LIB}/{lib}.kicad_sym').read()
+    """Symbol definition text; `lib` is a KiCad library name or a path to a .kicad_sym file.
+    Derived symbols ((extends "base")) are flattened into a complete definition, as KiCad does in schematics."""
+    path = lib if lib.endswith('.kicad_sym') else f'{LIB}/{lib}.kicad_sym'
+    t = open(path).read()
     i = t.index(f'(symbol "{name}"')
-    return block(t, i)
+    d = block(t, i)
+    m = re.match(r'\(symbol "[^"]+" \(extends "([^"]+)"\)', d)
+    if m:
+        base = symbol_def(lib, m.group(1))
+        base = base.replace(f'(symbol "{m.group(1)}"', f'(symbol "{name}"', 1)
+        base = base.replace(f'(symbol "{m.group(1)}_', f'(symbol "{name}_')
+        for prop in ('Value', 'Footprint', 'Datasheet', 'Description'):
+            cm = re.search(rf'\(property "{prop}" "([^"]*)"', d)
+            if cm:
+                base = re.sub(rf'(\(property "{prop}" )"[^"]*"', lambda x: x.group(1) + '"' + cm.group(1) + '"', base, count=1)
+        return base
+    return d
 
 def pins(sdef):
     out = []
