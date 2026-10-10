@@ -98,16 +98,27 @@ def mode_b(sp, conf, gp, ends, tau, K=24):
             "draft_bytes_per_step": drafted / max(1, steps)}
 
 
-def gpu_energy(g, m, steps_per_token, batch, extra_flops_frac=0.0):
-    """Energy and time per token for a GPU serving `batch` users, `steps_per_token` decode/verify passes per token."""
-    tok_per_step = 1.0 / steps_per_token
+def gpu_energy(g, m, steps_per_token, batch, extra_flops_frac=0.0, mode="draft"):
+    """Energy and time per token for a GPU serving `batch` users.
+    draft : every pass serves all users and advances each by 1/steps_per_token tokens (weights read once per pass).
+    answer: users advance one token per time slot; in each slot only a fraction steps_per_token of them need the GPU,
+            and a pass is needed if any of them does (weights read once per pass, KV/compute only for active users)."""
     w = m["P"] * 2
     kv_r = 2 * m["L"] * m["kv"] * CTX * 2
-    flops = batch * tok_per_step * (1 + extra_flops_frac) * 2 * m["P"]
-    bytes_ = w + batch * kv_r
+    if mode == "draft":
+        tok_per_step = 1.0 / steps_per_token
+        flops = batch * tok_per_step * (1 + extra_flops_frac) * 2 * m["P"]
+        bytes_ = w + batch * kv_r
+        toks = batch * tok_per_step
+        p_need = 1.0
+    else:
+        k = batch * steps_per_token                       # users needing the GPU per slot (expected)
+        p_need = 1 - (1 - steps_per_token) ** batch       # probability a pass is needed in a slot
+        flops = k / p_need * 2 * m["P"]
+        bytes_ = w + k / p_need * kv_r
+        toks = batch / p_need                             # tokens delivered per GPU pass
     dt = max(bytes_ / (g["bw"] * ETA_BW), flops / (g["peak"] * ETA_C)) + LAUNCH
     p = min(g["tdp"], g["idle"] + BUSY_FLOOR * g["tdp"] + (bytes_ * 8 * g["e_bit"] + flops * g["e_flop"]) / dt)
-    toks = batch * tok_per_step
     return p * dt / toks, toks / dt
 
 
@@ -142,7 +153,7 @@ def main():
                 for Bt in (1, 8, 32):
                     g, m = GPUS[gname], MODELS[mname]
                     e0, r0 = gpu_energy(g, m, 1.0, Bt)
-                    eA, rA = gpu_energy(g, m, A["gpu_steps_per_token"], Bt)
+                    eA, rA = gpu_energy(g, m, A["gpu_steps_per_token"], Bt, mode="answer")
                     eB, rB = gpu_energy(g, m, B["gpu_steps_per_token"], Bt, extra_flops_frac=B["draft_bytes_per_step"] / bpt * B["gpu_steps_per_token"])
                     sj = bpt * spark_j_byte
                     row = {"gpu": gname, "model": mname, "batch": Bt, "gpu_only_mJ": e0 * 1e3,
