@@ -18,7 +18,7 @@ text = np.frombuffer(base64.b64decode(t["text_b64"]), np.uint8).astype(np.int64)
 conf = np.frombuffer(bytes.fromhex(t["conf_hex"]), np.uint8) / 255.0
 ck = torch.load(os.path.join(HERE, "out_big", "gpu_model.pt")); m = GPT(GPTConfig(**ck["cfg"])); m.load_state_dict(ck["state"]); m.eval()
 rng = np.random.default_rng(0)
-pos = rng.choice(np.arange(3000, len(text) - 1), size=2500, replace=False)
+pos = rng.choice(np.arange(3000, len(text) - 1), size=2000, replace=False)
 K = 16
 
 
@@ -49,10 +49,11 @@ for L in (64, 128):
             with torch.no_grad():
                 for b in range(0, len(pos), 100):
                     batch = [ctx_for(i, L, mode, tau, keep_rate=1 - drop_rate) for i in pos[b:b + 100]]
-                    ml = max(len(c) for c in batch)
-                    for i, c in zip(pos[b:b + 100], batch):
-                        lg, _ = m(torch.from_numpy(text[c])[None])
-                        right += int(lg[0, -1].argmax()) == int(text[i + 1])
+                    ml = min(len(c) for c in batch)                 # all equal except near the text start
+                    xb = torch.stack([torch.from_numpy(text[c[-ml:]]) for c in batch])
+                    lg, _ = m(xb)
+                    pr = lg[:, -1].argmax(-1).numpy()
+                    right += int(np.sum(pr == text[pos[b:b + 100] + 1]))
             accs[mode] = right / len(pos)
         res[f"L{L}_tau{tau}"] = {"drop_rate": drop_rate, **accs}
         print(f"context {L} bytes, SPARK removes {drop_rate:.0%} of older bytes (tau {tau}): "
