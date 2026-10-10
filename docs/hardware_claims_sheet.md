@@ -15,6 +15,8 @@ Sources: `hw/results/model_accuracy.md` (trained model), `hw/results/sim_results
 | C5 | "It has an effort dial, like a brain: easy inputs are answered from memory with ~7.6× less work; hard ones get more thought." | Low effort 68.1% at 59 events/token (7.6× less than dense ~448); high effort 72.6% at 172 (2.6× less) | MEASURED |
 | C6 | "A hippocampus-like recall memory learns in one shot while running and answers about two-thirds of the bytes without the full network." | 1,366 of 2,000 bytes on low effort; +12 points over the network alone | MEASURED |
 | C6b | "On a 10× longer, harder test the chip still gains 7–9 points over the network alone, and accuracy keeps rising as we add memory, which is cheap SRAM, not compute." | 20,000 bytes: network 59.5% → chip 66.6% → 4-memory prototype 68.4% → larger memory 69.4% | MEASURED (prototype memories not yet in RTL) |
+| C6c | "We estimate 2.5× less energy per token at 72.6% accuracy, and 7.9× less on easy input at 68.1% — versus computing every neuron at 59.9%." | 22.6 / 7.3 vs 57.3 nJ per token; robust to ±2× per-operation energy (7.5–8.1×) | MODELLED from MEASURED counts (`hw/results/energy_estimate.md`) |
+| C6d | "Cooling water follows energy: that is a projected 60–87% less cooling water per token." | proportional projection | PROJECTED |
 | C7 | "Switching every 'think-less' trick on at once made things worse, so we built an on-chip controller that decides when each trick pays off." | Demo study: always-on 3,031 cycles/token vs adaptive 1,273 (dense 8,296) | MEASURED |
 | C8 | "Skipping silent neurons cut work 4.9× and weight reads 6.6× vs dense in our mechanism study." | 8,296 → 1,688 cycles; 7,168 → 1,088 weight reads (demo weights) | MEASURED |
 | C9 | "Fewer firing neurons means less work but lower accuracy — we measured that trade-off and pick the balance point." | 55% firing → 63.9%; 26% → 59.9%; 16% → 51.5%; 12% → 47.6% (network alone) | MEASURED |
@@ -32,7 +34,7 @@ Sources: `hw/results/model_accuracy.md` (trained model), `hw/results/sim_results
 | "On-chip learning." | Say "one-shot memory learning while running" (the recall unit). We tested weight-update learning on the chip; it did not help at int4 precision — honest finding, documented. |
 
 ## 3. Claims NOT to make
-- Any watts, joules, litres of water or tonnes of CO₂ saved — not measured yet.
+- Measured watts, or absolute litres / tonnes saved — not measured yet. Say "estimated" for energy (C6c) and "projected" for water (C6d).
 - "Faster or more efficient than a GPU" — our dense baseline is our own core in dense mode, not a GPU.
 - "Solves GPU limitations" / "replaces GPUs".
 - "As smart as an LLM" — this is a small byte-level model for Python code, ~130 KB of weights.
