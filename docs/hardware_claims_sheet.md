@@ -10,7 +10,7 @@ Sources: `hw/results/model_accuracy.md` (trained model), `hw/results/sim_results
 |---|---|---|---|
 | C1 | "We designed, built and verified a working event-driven AI chip core in Verilog." | RTL + golden model + testbench; UART board design | MEASURED |
 | C2 | "It runs a trained brain-inspired spiking model, bit-exact with our reference model." | 0 mismatches (trained model, 3 configurations; demo weights, 9 configurations × 527 tokens) | MEASURED |
-| C3 | "The chip design fits a ₹4,199 FPGA and meets timing." | Tang Nano 20K (GW2AR-18): 67% logic, 41/46 block RAM, max clock 53 MHz vs 27 MHz needed | MEASURED (place-and-route) |
+| C3 | "The chip design fits a ₹4,199 FPGA and meets timing." | Tang Nano 20K (GW2AR-18): 76% logic (LUT4), 41/46 block RAM, max clock 54 MHz vs 27 MHz needed (final RTL with effort dial) | MEASURED (place-and-route) |
 | C4 | "Our brain-inspired chip predicts the next byte of real Python code with up to 74% accuracy — better than a 4-byte lookup table (64.9%) and a plain neural network of the same size (61.9%)." | 73.8% (sparsity-0 model) / 72.6% (sparsity-0.05), 2,000 held-out bytes, effort setting "high" | MEASURED (bit-exact golden model; RTL bit-exact) |
 | C5 | "It has an effort dial, like a brain: easy inputs are answered from memory with ~7.6× less work; hard ones get more thought." | Low effort 68.1% at 59 events/token (7.6× less than dense ~448); high effort 72.6% at 172 (2.6× less) | MEASURED |
 | C6 | "A hippocampus-like recall memory learns in one shot while running and answers about two-thirds of the bytes without the full network." | 1,366 of 2,000 bytes on low effort; +12 points over the network alone | MEASURED |
