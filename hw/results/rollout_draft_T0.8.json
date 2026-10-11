@@ -1,0 +1,25 @@
+{
+ "temperature": 0.8,
+ "G": 8,
+ "prompts": 1,
+ "points": {
+  "parallel": 61,
+  "repeat": 61
+ },
+ "tokens_per_pass": {
+  "parallel": {
+   "copy-own": 1.0819672131147542,
+   "copy-sib": 1.0655737704918034,
+   "spark-own": 1.0655737704918034,
+   "spark-shared": 1.0655737704918034,
+   "best": 1.0819672131147542
+  },
+  "repeat": {
+   "copy-own": 1.0819672131147542,
+   "copy-sib": 1.1147540983606556,
+   "spark-own": 1.0655737704918034,
+   "spark-shared": 1.0819672131147542,
+   "best": 1.1311475409836065
+  }
+ }
+}
