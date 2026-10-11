@@ -1,0 +1,23 @@
+{
+ "out_qat_sp0.05": {
+  "agree_all": 0.5945743217902237,
+  "agree_copyfail": 0.3734476641040804,
+  "agree_copyok": 0.7565518735109379,
+  "mean_run": 1.4660912453760788,
+  "copyfail_frac": 0.42280285035629456
+ },
+ "out_cf_text": {
+  "agree_all": 0.5985748218527316,
+  "agree_copyfail": 0.37640449438202245,
+  "agree_copyok": 0.7613168724279835,
+  "mean_run": 1.4906600249066002,
+  "copyfail_frac": 0.42280285035629456
+ },
+ "out_cf_kd": {
+  "agree_all": 0.5974496812101513,
+  "agree_copyfail": 0.3769958604376109,
+  "agree_copyok": 0.7589343729694606,
+  "mean_run": 1.4837007140639553,
+  "copyfail_frac": 0.42280285035629456
+ }
+}
