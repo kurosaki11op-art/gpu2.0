@@ -32,3 +32,10 @@ Honest reading:
 - Hysteresis means a mismatch decrements the 2-bit count, and the value is replaced only once the count is at 0.
 - It uses the same table, the same entry format and the same lookup. Only the write-back rule changes: one extra compare and decrement in the RTL update state.
 - On the fast path it gives +2.2 points of agreement and 9% longer agreeing runs, at no cycle cost.
+
+## Draft test with the hysteresis rule (`POLICY=hyst python draft_v4.py`)
+
+- Tokens per pass are unchanged: SPARK fast 1.18, copy + SPARK 1.32 (was 1.31).
+- SPARK's drafts are shorter and cleaner: 4.0 draft tokens verified per pass, down from 6.2, for the same acceptance. That means about 35% less rejected work for the GPU.
+- At the high-batch points the speed-ups are within ±0.01 of the old rule.
+- Better byte agreement does not yet turn into more accepted tokens on this stand-in model. Most mismatches occur on the first byte of a new word.

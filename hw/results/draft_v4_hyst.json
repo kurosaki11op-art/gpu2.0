@@ -1,0 +1,324 @@
+{
+ "points": 400,
+ "ingest_cycles_per_byte": 107.8934,
+ "recall_frac": 0.9489,
+ "results": {
+  "copy (software baseline)": {
+   "tok_per_pass": 1.275,
+   "draft_tokens": 5.845,
+   "draft_cycles": 0.0
+  },
+  "SPARK full": {
+   "tok_per_pass": 1.185,
+   "draft_tokens": 4.17,
+   "draft_cycles": 294.1
+  },
+  "SPARK fast": {
+   "tok_per_pass": 1.18,
+   "draft_tokens": 4.0,
+   "draft_cycles": 187.2
+  },
+  "copy + SPARK fast": {
+   "tok_per_pass": 1.325,
+   "draft_tokens": 9.845,
+   "draft_cycles": 187.2
+  },
+  "copy + SPARK full": {
+   "tok_per_pass": 1.33,
+   "draft_tokens": 10.015,
+   "draft_cycles": 294.1
+  }
+ },
+ "batch": [
+  {
+   "gpu": "RTX 4090",
+   "batch": 1,
+   "software copy, best fixed k": {
+    "speedup": 1.275,
+    "param": 6.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.1793328728740873,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.324758661333414,
+    "param": 6.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.32474456763335,
+    "param": 0.0,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.3289842526492535,
+    "param": 0.0,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "RTX 4090",
+   "batch": 4,
+   "software copy, best fixed k": {
+    "speedup": 1.275,
+    "param": 6.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.1774612850694524,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.3240806102188403,
+    "param": 6.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.3240269487611858,
+    "param": 0.0,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.3261367813473595,
+    "param": 0.0,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "RTX 4090",
+   "batch": 16,
+   "software copy, best fixed k": {
+    "speedup": 1.275,
+    "param": 6.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.1714990507978007,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.3173940799503396,
+    "param": 4.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.2836162915198552,
+    "param": 0.05,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.2760184996423172,
+    "param": 0.05,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "RTX 4090",
+   "batch": 64,
+   "software copy, best fixed k": {
+    "speedup": 1.245,
+    "param": 2.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.1594100504153773,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.2521624432859826,
+    "param": 1.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.2671999196450237,
+    "param": 0.1,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.2492272014657961,
+    "param": 0.1,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "RTX 4090",
+   "batch": 256,
+   "software copy, best fixed k": {
+    "speedup": 1.215,
+    "param": 1.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.1366141310516493,
+    "param": 1.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 0.9881779107871972,
+    "param": 1.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.1924920445134846,
+    "param": 0.25,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.167906445166774,
+    "param": 0.25,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "H100 SXM",
+   "batch": 1,
+   "software copy, best fixed k": {
+    "speedup": 1.275,
+    "param": 6.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.1777902815560601,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.3241999069959072,
+    "param": 6.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.3241532040068036,
+    "param": 0.0,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.3266370936109386,
+    "param": 0.0,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "H100 SXM",
+   "batch": 4,
+   "software copy, best fixed k": {
+    "speedup": 1.275,
+    "param": 6.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.1716209842820278,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.3219553274709042,
+    "param": 6.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.3217779227996354,
+    "param": 0.0,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.3172715696595383,
+    "param": 0.0,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "H100 SXM",
+   "batch": 16,
+   "software copy, best fixed k": {
+    "speedup": 1.275,
+    "param": 6.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.1522573740635056,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.3148052298494377,
+    "param": 6.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.314214607743959,
+    "param": 0.0,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.2880974494967006,
+    "param": 0.0,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "H100 SXM",
+   "batch": 64,
+   "software copy, best fixed k": {
+    "speedup": 1.275,
+    "param": 5.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.114299473180173,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.2921611784115064,
+    "param": 3.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.2738425084612812,
+    "param": 0.05,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.2154843271381734,
+    "param": 0.05,
+    "chips": 1
+   }
+  },
+  {
+   "gpu": "H100 SXM",
+   "batch": 256,
+   "software copy, best fixed k": {
+    "speedup": 1.2599999999999998,
+    "param": 3.0,
+    "chips": 1
+   },
+   "SPARK full, best fixed k": {
+    "speedup": 1.0801429852968236,
+    "param": 2.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, best fixed k": {
+    "speedup": 1.2403676721999062,
+    "param": 1.0,
+    "chips": 1
+   },
+   "copy+SPARK fast, confidence-chosen k": {
+    "speedup": 1.2675915317378281,
+    "param": 0.05,
+    "chips": 1
+   },
+   "copy+SPARK full, confidence-chosen k": {
+    "speedup": 1.1792523958202494,
+    "param": 0.05,
+    "chips": 1
+   }
+  }
+ ]
+}
