@@ -90,6 +90,16 @@ def q4(w):
     return torch.clamp(ste_round(w), -8, 7)
 
 
+WQ = ["int4"]      # "ternary": matrix weights in {-1, 0, +1} -> multiply-free (select +v, -v or 0)
+
+
+def qw(w):
+    """weights of the four matrices (w0, w1, we, wm); embeddings stay int4 (they are table lookups, not multiplies)."""
+    if WQ[0] == "ternary":
+        return torch.clamp(ste_round(w), -1, 1)
+    return q4(w)
+
+
 class SparkV0(torch.nn.Module):
     def __init__(self, a=230, acc_sh=2, s_sh=4, ctx=1, spike_mode="sym", shared_emb=False, words=0, recur=0):
         super().__init__()
@@ -132,7 +142,7 @@ class SparkV0(torch.nn.Module):
         return s_soft + (s_exact - s_soft).detach()
 
     def layer(self, h, x, w, th=None):
-        acc = x @ q4(w).t()
+        acc = x @ qw(w).t()
         dec = ste_floor(h * self.a / 256.0)
         hv = dec + ste_floor(acc / 2.0 ** self.acc_sh)
         hv = hv + (torch.clamp(hv, -32768, 32767) - hv).detach()
@@ -169,14 +179,14 @@ class SparkV0(torch.nn.Module):
                 h1, s1 = self.layer(h1, torch.cat([s0, s1p], 1), self.w1, self.th1)
             else:
                 h1, s1 = self.layer(h1, s0, self.w1, self.th1)
-            outs_e.append(s0 @ q4(self.we).t())
-            outs_m.append(s1 @ q4(self.wm).t())
+            outs_e.append(s0 @ qw(self.we).t())
+            outs_m.append(s1 @ qw(self.wm).t())
             rates.append(torch.cat([s0.abs(), s1.abs()], 1))
         return torch.stack(outs_m, 1), torch.stack(outs_e, 1), torch.stack(rates, 1), h0, h1
 
     def export(self):
         with torch.no_grad():
-            out = {k: q4(getattr(self, n)).round().to(torch.int64).numpy().astype(np.int8)
+            out = {k: (q4 if k == "emb" else qw)(getattr(self, n)).round().to(torch.int64).numpy().astype(np.int8)
                    for k, n in [("emb", "emb"), ("w0", "w0"), ("w1", "w1"),
                                 ("w_exit", "we"), ("w_main", "wm")]}
             out["th0"] = ste_round(self.th0).round().to(torch.int64).numpy().astype(np.int16)
@@ -242,6 +252,7 @@ def main():
     ap.add_argument("--teacher", help="knowledge distillation from a byte-level nanoGPT checkpoint (hw/system/train_gpu_model.py)")
     ap.add_argument("--kd-alpha", type=float, default=0.5, help="weight of the distillation loss")
     ap.add_argument("--kd-temp", type=float, default=2.0, help="distillation temperature")
+    ap.add_argument("--wq", default="int4", choices=["int4", "ternary"], help="matrix-weight format (ternary = multiply-free)")
     ap.add_argument("--hard-w", type=float, default=1.0,
                     help="loss weight on positions where copy-drafting fails (no earlier match of the last 4/6/8 bytes, or the match's next byte is wrong)")
     ap.add_argument("--relax-only", action="store_true",
@@ -250,6 +261,7 @@ def main():
     if a.hidden:
         global H
         H = a.hidden          # size study only: the v0 chip and golden model use 128
+    WQ[0] = a.wq
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(0)
     torch.set_num_threads(a.threads or os.cpu_count() or 4)
