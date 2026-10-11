@@ -62,7 +62,11 @@ def collect():
     ends = sorted(x.end() - 1 for x in PRETOK.finditer(s))
     cand = [e for e in ends if 1500 <= e < len(text) - 60]
     pts = set(cand[int(k)] for k in np.linspace(0, len(cand) - 1, NPTS))
-    g = g2.GoldenV2(W, cfg, tb=12, lut=lut)
+    if os.environ.get("POLICY") == "hyst":                 # recall write-back with hysteresis (recall_policy.py)
+        import recall_policy
+        g = recall_policy.Policy(W, cfg, tb=12, lut=lut, update="hyst")
+    else:
+        g = g2.GoldenV2(W, cfg, tb=12, lut=lut)
     rows, ingest = [], []
     for i, b in enumerate(text):
         o = g.step(int(b)); ingest.append(o["path"])
@@ -207,7 +211,7 @@ def main():
             fast_chips = row["copy+SPARK fast, confidence-chosen k"]["chips"]; full_chips = row["copy+SPARK full, confidence-chosen k"]["chips"]
             print(line + f"  fast {fast_chips}, full {full_chips}")
             out["batch"].append(row)
-    json.dump(out, open(os.path.join(HERE, "..", "results", "draft_v4.json"), "w"), indent=1, default=float)
+    json.dump(out, open(os.path.join(HERE, "..", "results", "draft_v4%s.json" % ("_hyst" if os.environ.get("POLICY") == "hyst" else "")), "w"), indent=1, default=float)
 
 
 if __name__ == "__main__":
