@@ -17,3 +17,18 @@ Honest reading:
 - SPARK adds about 3% on top of it.
 - SPARK's real contribution here is the cheap fast path plus calibrated confidence, which picks the draft length so speculation never slows a busy GPU.
 - The real 9B model measured 1.51 tokens/pass with SPARK alone. Whether copy drafting does as well on the 9B model is decided by `local_llm_test3.py`, which reports copy, SPARK and SPARK + copy side by side.
+
+## Recall-memory policy (`recall_policy.py`, 8,000 test bytes, agreement with the GPU model's next byte)
+
+| Update rule | Answer picked by | Network checks recall? | Agree with GPU | Mean agreeing run |
+|---|---|---|---|---|
+| replace (v2 today) | highest order | no (fast, ~6 cycles/byte) | 56.5% | 1.30 |
+| replace | highest count | no | 58.1% | 1.38 |
+| **hysteresis** | highest order | no | **58.7%** | **1.42** |
+| hysteresis | highest count | no | 57.9% | 1.37 |
+| replace | highest order | yes, threshold 64 | 59.5% | 1.47 |
+| **hysteresis** | highest order | yes, threshold 64 | **59.7%** | **1.48** |
+
+- Hysteresis means a mismatch decrements the 2-bit count, and the value is replaced only once the count is at 0.
+- It uses the same table, the same entry format and the same lookup. Only the write-back rule changes: one extra compare and decrement in the RTL update state.
+- On the fast path it gives +2.2 points of agreement and 9% longer agreeing runs, at no cycle cost.

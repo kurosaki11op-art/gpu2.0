@@ -1,0 +1,66 @@
+[
+ {
+  "update": "replace",
+  "select": "order",
+  "recall_mode": 0,
+  "arb_th": 16,
+  "agree_gpu": 0.5645,
+  "mean_run": 1.2958393113342899
+ },
+ {
+  "update": "replace",
+  "select": "order",
+  "recall_mode": 2,
+  "arb_th": 64,
+  "agree_gpu": 0.594625,
+  "mean_run": 1.466399506781751
+ },
+ {
+  "update": "replace",
+  "select": "count",
+  "recall_mode": 0,
+  "arb_th": 16,
+  "agree_gpu": 0.580625,
+  "mean_run": 1.384088200238379
+ },
+ {
+  "update": "replace",
+  "select": "count",
+  "recall_mode": 2,
+  "arb_th": 64,
+  "agree_gpu": 0.59275,
+  "mean_run": 1.4550475606014115
+ },
+ {
+  "update": "hyst",
+  "select": "order",
+  "recall_mode": 0,
+  "arb_th": 16,
+  "agree_gpu": 0.586625,
+  "mean_run": 1.4186819830713422
+ },
+ {
+  "update": "hyst",
+  "select": "order",
+  "recall_mode": 2,
+  "arb_th": 64,
+  "agree_gpu": 0.59675,
+  "mean_run": 1.4793926247288502
+ },
+ {
+  "update": "hyst",
+  "select": "count",
+  "recall_mode": 0,
+  "arb_th": 16,
+  "agree_gpu": 0.579,
+  "mean_run": 1.3748886910062332
+ },
+ {
+  "update": "hyst",
+  "select": "count",
+  "recall_mode": 2,
+  "arb_th": 64,
+  "agree_gpu": 0.590125,
+  "mean_run": 1.4393292682926828
+ }
+]
