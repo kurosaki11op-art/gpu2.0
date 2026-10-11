@@ -42,6 +42,7 @@ class GoldenV2(g1.Golden):
         self.seen = np.zeros(NB, np.int64)
         self.agree = np.zeros(NB, np.int64)
         self.last = None
+        self.last_alts = []
 
     def _slot(self, k, hist):
         h = h32(hist & ((1 << (8 * self.orders[k])) - 1), k + 1)
@@ -79,6 +80,7 @@ class GoldenV2(g1.Golden):
                 e = self.tables[k].get(i)
                 if e and e[0] == tag and e[2] >= c.conf_th:
                     hits.append((k, e[1], e[2]))
+            self.last_alts = [h[1] for h in hits]          # candidate next bytes from every matching memory (for multi-draft)
             if hits:
                 k, v, cnt = hits[0]
                 others = [h[1] for h in hits[1:]]
