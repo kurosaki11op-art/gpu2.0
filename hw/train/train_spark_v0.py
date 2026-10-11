@@ -192,6 +192,26 @@ class SparkV0(torch.nn.Module):
             return out
 
 
+def copy_fail_mask(data):
+    """1.0 where the longest-match copy draft (N = 8, 6, 4 bytes, latest earlier occurrence) fails to predict data[t+1]:
+    no earlier match, or the byte after the match differs. Same idea as the host/chip copy drafter."""
+    d = bytes(data.astype(np.uint8)); n = len(d); fail = np.ones(n, np.float32)
+    tabs = {N: {} for N in (8, 6, 4)}
+    for t in range(n - 1):
+        pred = None
+        for N in (8, 6, 4):
+            if t + 1 >= N:
+                j = tabs[N].get(d[t - N + 1:t + 1])
+                if j is not None and pred is None:
+                    pred = d[j + 1]
+        if pred is not None and pred == d[t + 1]:
+            fail[t] = 0.0
+        for N in (8, 6, 4):
+            if t + 1 >= N:
+                tabs[N][d[t - N + 1:t + 1]] = t
+    return fail
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(HERE, "out"))
@@ -222,6 +242,8 @@ def main():
     ap.add_argument("--teacher", help="knowledge distillation from a byte-level nanoGPT checkpoint (hw/system/train_gpu_model.py)")
     ap.add_argument("--kd-alpha", type=float, default=0.5, help="weight of the distillation loss")
     ap.add_argument("--kd-temp", type=float, default=2.0, help="distillation temperature")
+    ap.add_argument("--hard-w", type=float, default=1.0,
+                    help="loss weight on positions where copy-drafting fails (no earlier match of the last 4/6/8 bytes, or the match's next byte is wrong)")
     ap.add_argument("--relax-only", action="store_true",
                     help="evaluate the relaxed (non-integer) model: architecture ceiling only")
     a = ap.parse_args()
@@ -278,6 +300,10 @@ def main():
         for p_ in teacher.parameters():
             p_.requires_grad_(False)
         print(f"distilling from {a.teacher} (alpha {a.kd_alpha}, T {a.kd_temp})", flush=True)
+    hard = None
+    if a.hard_w != 1.0:
+        hard = copy_fail_mask(train)
+        print(f"copy-failure positions in train: {hard.mean():.1%} (weight {a.hard_w})", flush=True)
     opt = torch.optim.Adam(model.parameters(), lr=a.lr)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda st: min(1.0, (st + 1) / a.warmup) * 0.5 * (1 + np.cos(np.pi * min(st, a.steps) / a.steps)))
@@ -293,8 +319,14 @@ def main():
             lm = lm + mem_boost(idx).to(lm.dtype)
         tgt = seq[:, 1:]
         warm = 8  # let the membrane state settle before scoring
-        loss_m = F.cross_entropy(lm[:, warm:].reshape(-1, V) * temp, tgt[:, warm:].reshape(-1))
-        loss_e = F.cross_entropy(le[:, warm:].reshape(-1, V) * temp, tgt[:, warm:].reshape(-1))
+        if hard is not None:      # per-position weights: copy-failure positions count hard-w times more
+            wt = torch.from_numpy(np.stack([1.0 + (a.hard_w - 1.0) * hard[i + 1:i + 1 + a.seq] for i in idx]).astype(np.float32))[:, warm:].reshape(-1)
+            wt = wt / wt.mean()
+        else:
+            wt = None
+        ce = lambda lg: F.cross_entropy(lg[:, warm:].reshape(-1, V) * temp, tgt[:, warm:].reshape(-1), reduction="none")  # noqa: E731
+        loss_m = ce(lm).mul(wt).mean() if wt is not None else ce(lm).mean()
+        loss_e = ce(le).mul(wt).mean() if wt is not None else ce(le).mean()
         fire = (rates > 0).float().mean()
         satur = (rates >= 6.99).float().mean()
         loss = loss_m + 0.3 * loss_e + a.sparsity * F.relu(rates.mean() - a.target_rate) * 10
@@ -303,8 +335,9 @@ def main():
                 tl, _ = teacher(seq[:, :-1].contiguous(), targets=seq[:, 1:].contiguous())
             T = a.kd_temp
             pt = F.softmax(tl[:, warm:].reshape(-1, V).float() / T, -1)
-            kd_m = F.kl_div(F.log_softmax(lm[:, warm:].reshape(-1, V) * temp / T, -1), pt, reduction="batchmean") * T * T
-            kd_e = F.kl_div(F.log_softmax(le[:, warm:].reshape(-1, V) * temp / T, -1), pt, reduction="batchmean") * T * T
+            kl = lambda lg: F.kl_div(F.log_softmax(lg[:, warm:].reshape(-1, V) * temp / T, -1), pt, reduction="none").sum(-1) * T * T  # noqa: E731
+            kd_m = kl(lm).mul(wt).mean() if wt is not None else kl(lm).mean()
+            kd_e = kl(le).mul(wt).mean() if wt is not None else kl(le).mean()
             loss = (1 - a.kd_alpha) * loss + a.kd_alpha * (kd_m + 0.3 * kd_e)
         opt.zero_grad()
         loss.backward()
