@@ -1,0 +1,218 @@
+[
+ {
+  "conf_th": 0,
+  "recall_mode": 0,
+  "tb": 12,
+  "arb_th": 16,
+  "agree_gpu": 0.5645,
+  "acc_text": 0.6820852606575822,
+  "mean_run": 1.2958393113342899
+ },
+ {
+  "conf_th": 0,
+  "recall_mode": 0,
+  "tb": 14,
+  "arb_th": 16,
+  "agree_gpu": 0.56675,
+  "acc_text": 0.68608576072009,
+  "mean_run": 1.3077588693394866
+ },
+ {
+  "conf_th": 0,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 16,
+  "agree_gpu": 0.54675,
+  "acc_text": 0.578072259032379,
+  "mean_run": 1.205955334987593
+ },
+ {
+  "conf_th": 0,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 64,
+  "agree_gpu": 0.594625,
+  "acc_text": 0.6963370421302663,
+  "mean_run": 1.466399506781751
+ },
+ {
+  "conf_th": 0,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 160,
+  "agree_gpu": 0.575875,
+  "acc_text": 0.6920865108138518,
+  "mean_run": 1.357395403653506
+ },
+ {
+  "conf_th": 0,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 16,
+  "agree_gpu": 0.548375,
+  "acc_text": 0.5809476184523066,
+  "mean_run": 1.213890426120642
+ },
+ {
+  "conf_th": 0,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 64,
+  "agree_gpu": 0.595,
+  "acc_text": 0.6979622452806601,
+  "mean_run": 1.468682505399568
+ },
+ {
+  "conf_th": 0,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 160,
+  "agree_gpu": 0.57775,
+  "acc_text": 0.6959619952494062,
+  "mean_run": 1.3678603137022787
+ },
+ {
+  "conf_th": 1,
+  "recall_mode": 0,
+  "tb": 12,
+  "arb_th": 16,
+  "agree_gpu": 0.566375,
+  "acc_text": 0.6387048381047631,
+  "mean_run": 1.3057636887608068
+ },
+ {
+  "conf_th": 1,
+  "recall_mode": 0,
+  "tb": 14,
+  "arb_th": 16,
+  "agree_gpu": 0.567125,
+  "acc_text": 0.6425803225403175,
+  "mean_run": 1.3097575057736721
+ },
+ {
+  "conf_th": 1,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 16,
+  "agree_gpu": 0.54175,
+  "acc_text": 0.5503187898487311,
+  "mean_run": 1.1818925552222526
+ },
+ {
+  "conf_th": 1,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 64,
+  "agree_gpu": 0.588625,
+  "acc_text": 0.6445805725715714,
+  "mean_run": 1.4304374240583233
+ },
+ {
+  "conf_th": 1,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 160,
+  "agree_gpu": 0.590375,
+  "acc_text": 0.6560820102512814,
+  "mean_run": 1.4408175716900549
+ },
+ {
+  "conf_th": 1,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 16,
+  "agree_gpu": 0.54075,
+  "acc_text": 0.5525690711338918,
+  "mean_run": 1.177142857142857
+ },
+ {
+  "conf_th": 1,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 64,
+  "agree_gpu": 0.58875,
+  "acc_text": 0.6463307913489186,
+  "mean_run": 1.431175934366454
+ },
+ {
+  "conf_th": 1,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 160,
+  "agree_gpu": 0.59,
+  "acc_text": 0.6580822602825354,
+  "mean_run": 1.4385857970131057
+ },
+ {
+  "conf_th": 2,
+  "recall_mode": 0,
+  "tb": 12,
+  "arb_th": 16,
+  "agree_gpu": 0.553125,
+  "acc_text": 0.5971996499562445,
+  "mean_run": 1.2374161073825503
+ },
+ {
+  "conf_th": 2,
+  "recall_mode": 0,
+  "tb": 14,
+  "arb_th": 16,
+  "agree_gpu": 0.556875,
+  "acc_text": 0.6029503687960995,
+  "mean_run": 1.2563451776649746
+ },
+ {
+  "conf_th": 2,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 16,
+  "agree_gpu": 0.534,
+  "acc_text": 0.532316539567446,
+  "mean_run": 1.1456154465004023
+ },
+ {
+  "conf_th": 2,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 64,
+  "agree_gpu": 0.5755,
+  "acc_text": 0.6053256657082136,
+  "mean_run": 1.3553135119222843
+ },
+ {
+  "conf_th": 2,
+  "recall_mode": 2,
+  "tb": 12,
+  "arb_th": 160,
+  "agree_gpu": 0.5765,
+  "acc_text": 0.6153269158644831,
+  "mean_run": 1.3608734139864267
+ },
+ {
+  "conf_th": 2,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 16,
+  "agree_gpu": 0.53175,
+  "acc_text": 0.5331916489561195,
+  "mean_run": 1.135308246597278
+ },
+ {
+  "conf_th": 2,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 64,
+  "agree_gpu": 0.574375,
+  "acc_text": 0.6075759469933741,
+  "mean_run": 1.3490898414562538
+ },
+ {
+  "conf_th": 2,
+  "recall_mode": 2,
+  "tb": 14,
+  "arb_th": 160,
+  "agree_gpu": 0.576125,
+  "acc_text": 0.6184523065383173,
+  "mean_run": 1.3587853773584906
+ }
+]
