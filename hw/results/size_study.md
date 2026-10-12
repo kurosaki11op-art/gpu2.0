@@ -66,3 +66,26 @@ Reading:
 1. At full training the loss from halving both widths is **1.1-1.4 points with the recall memory**, a little larger than the 0.8 seen at 1,500 steps. At 8,000 bytes one standard error is about 0.55 points, and the two models see identical bytes, so the gap is probably real, but small.
 2. **The loss is concentrated where copying fails** (-3.0 points): the smaller network is weaker exactly where the network has to contribute, while the recall memory covers the rest.
 3. Trade: 57% less weight memory for about 1 point of agreement. Firing rises 4 points.
+
+## Output-head format study at 64 / 32 (SIMULATED)
+
+Each model is fine-tuned from the full 3,000-step 64 / 32 model for 1,500 more steps (lr 0.005), changing only the output-head format (both heads, early-exit and main). The 4-bit control receives the same extra training.
+Agreement with the GPU stand-in model: golden model, 6,000 test bytes (standard error about 0.6 points). Exit threshold matched by exit rate to the control. "Events" = spike events per byte (the work the event-driven core does).
+Reproduce: `python hw/system/eval_heads.py out_head_int4 out_head_int3 out_head_ternary out_head_binary`.
+
+| Head format | Head weights | Total weights | Net alone | Net + recall memory | Agree, exit on | Agree, exit off | Firing | Events / byte |
+|---|---|---|---|---|---|---|---|---|
+| 4-bit (control) | 16 KB | 33 KB | 44.6% | 66.5% | 59.6% | 59.6% | 38% | 135.5 |
+| 3-bit | 12 KB | 29 KB | 43.4% | 66.2% | 59.4% | 59.5% | 45% | 144.4 (+7%) |
+| Ternary | 8 KB | 25 KB | 37.7% | 65.1% | 58.8% | 58.8% | 59% | 160.9 (+19%) |
+| Binary (+1 / -1) | 4 KB | 21 KB | 38.0% | 65.3% | 58.9% | 58.8% | 59% | 161.2 (+19%) |
+
+Reading:
+1. **Binary heads cost about 0.7 points of GPU agreement** (within about one standard error) and **free 12 KB**, from 33 KB to 21 KB.
+2. **The price is work.** Ternary and binary push firing from 38% to 59% and spike events per byte up 19%, so cycles and weight reads rise by roughly that much. The upstream layers fire more to make up for the weaker heads, as predicted.
+3. **Ternary is no better than binary** at this size (58.8% vs 58.9%, noise). Binary is simpler hardware: one bit per weight, add or subtract, no zero case.
+4. **The network alone loses 7 points** with 1-bit heads (44.6% to 38.0%); the recall memory recovers all but about 1 point. The fast-store principle again.
+5. **The early-exit head can be dropped in this configuration.** Agreement is the same with exit on or off (59.59% vs 59.56% for the control) and events barely change (135.5 vs 135.9). Removing it saves 8 KB at 4-bit.
+6. Combined estimate, not yet trained as one model: 64 / 32, no exit head, 1-bit main head = 12 KB embeddings + 3 KB + 2 KB + 2 KB = **19 KB**; with a 4-bit main head = 25 KB.
+
+Caveats: simulated golden-model agreement on a stand-in GPU model, not RTL; agreement differences between rows are within about one standard error. The exit path as a "think-less" feature is not exercised in this recall-mode configuration.

@@ -1,0 +1,58 @@
+{
+ "out_head_int4": {
+  "exit_th": 16,
+  "exit_rate_cal": 0.5284552845528455,
+  "exit_on": {
+   "agree": 0.5959326554425738,
+   "mean_run": 1.4742268041237114,
+   "events_per_byte": 135.52733333333333
+  },
+  "exit_off": {
+   "agree": 0.5955992665444241,
+   "mean_run": 1.4721878862793571,
+   "events_per_byte": 135.8655
+  }
+ },
+ "out_head_int3": {
+  "exit_th": 14,
+  "exit_rate_cal": 0.5501355013550135,
+  "exit_on": {
+   "agree": 0.5937656276046007,
+   "mean_run": 1.461033634126333,
+   "events_per_byte": 144.37033333333332
+  },
+  "exit_off": {
+   "agree": 0.5945990998499749,
+   "mean_run": 1.4660912453760788,
+   "events_per_byte": 144.6315
+  }
+ },
+ "out_head_ternary": {
+  "exit_th": 6,
+  "exit_rate_cal": 0.5934959349593496,
+  "exit_on": {
+   "agree": 0.588098016336056,
+   "mean_run": 1.4271844660194175,
+   "events_per_byte": 160.885
+  },
+  "exit_off": {
+   "agree": 0.588098016336056,
+   "mean_run": 1.4271844660194175,
+   "events_per_byte": 161.98533333333333
+  }
+ },
+ "out_head_binary": {
+  "exit_th": 8,
+  "exit_rate_cal": 0.5745257452574526,
+  "exit_on": {
+   "agree": 0.5890981830305051,
+   "mean_run": 1.4330900243309002,
+   "events_per_byte": 161.23616666666666
+  },
+  "exit_off": {
+   "agree": 0.5882647107851309,
+   "mean_run": 1.4281667341157427,
+   "events_per_byte": 162.03166666666667
+  }
+ }
+}
