@@ -47,3 +47,22 @@ Caveats: these are trained-model results, not RTL. The golden model and RTL are 
 | 32 / 16 | 57.9% | 32.4% | 1.38 |
 
 64 / 32 loses 0.7 points, about one standard error at this sample size. Reproduce with `eval_copyfail.py out_size_128 out_size_h64_d32@64,32`.
+
+## Full 3,000-step runs, identical recipe (SIMULATED)
+
+Both trained with `--steps 3000 --relax-steps 300 --sparsity 0.05 --ctx 3 --spike thr`. Next-byte accuracy on 3,000 bytes; GPU agreement on 8,000 bytes through the golden model.
+Note: the 128 / 64 baseline here is retrained under this recipe, so it is not the shipped model (`out_qat_sp0.05`) and its numbers differ from it.
+
+| Measure | 128 / 64 (76 KB) | 64 / 32 (33 KB) | Difference |
+|---|---|---|---|
+| Next-byte accuracy, network alone | 49.2% | 44.4% | -4.8 |
+| Next-byte accuracy, network + recall memory | 67.5% | 66.2% | -1.4 |
+| Agreement with GPU stand-in model | 59.7% | 58.6% | -1.1 |
+| Agreement on copy-failure bytes | 37.4% | 34.4% | -3.0 |
+| Mean agreeing run (bytes) | 1.48 | 1.42 | -0.06 |
+| Firing rate | 34% | 38% | +4 |
+
+Reading:
+1. At full training the loss from halving both widths is **1.1-1.4 points with the recall memory**, a little larger than the 0.8 seen at 1,500 steps. At 8,000 bytes one standard error is about 0.55 points, and the two models see identical bytes, so the gap is probably real, but small.
+2. **The loss is concentrated where copying fails** (-3.0 points): the smaller network is weaker exactly where the network has to contribute, while the recall memory covers the rest.
+3. Trade: 57% less weight memory for about 1 point of agreement. Firing rises 4 points.
