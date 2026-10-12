@@ -49,21 +49,26 @@ def lookup(text, orders=(1, 2, 3, 4, 6), tb=12):
     return pred
 
 
-def spark(text, hyst):
+def spark(text, hyst, W=W):
     cfg = g1.Cfg(**CFG)
     g = rp.Policy(W, cfg, tb=12, lut=lut, update="hyst") if hyst else g2.GoldenV2(W, cfg, tb=12, lut=lut)
     return np.array([g.step(int(b))["pred"] for b in text])
 
 
-res = {}
-for name in BOOKS:
-    raw = np.frombuffer(open(os.path.join(sys.argv[1], name), "rb").read(), dtype=np.uint8)
-    s0 = int(len(raw) * 0.4); text = raw[s0:s0 + 20000]; tt = text[1:]
-    row = {"always_space": float((tt == 32).mean())}
-    for label, p in (("lookup_55KB", lookup(text, tb=12)), ("lookup_27KB", lookup(text, tb=11)),
-                     ("spark_full", spark(text, False)), ("spark_full_hyst", spark(text, True))):
-        row[label] = float((p[:-1] == tt).mean())
-    res[name] = row; print(name, json.dumps({k: round(v, 3) for k, v in row.items()}), flush=True)
-avg = {k: float(np.mean([r[k] for r in res.values()])) for k in next(iter(res.values()))}
-print("mean", json.dumps({k: round(v, 3) for k, v in avg.items()}))
-json.dump({"per_book": res, "mean": avg}, open(os.path.join(HERE, "..", "results", "nontext_probe.json"), "w"), indent=1)
+def main():
+    res = {}
+    for name in BOOKS:
+        raw = np.frombuffer(open(os.path.join(sys.argv[1], name), "rb").read(), dtype=np.uint8)
+        s0 = int(len(raw) * 0.4); text = raw[s0:s0 + 20000]; tt = text[1:]
+        row = {"always_space": float((tt == 32).mean())}
+        for label, p in (("lookup_55KB", lookup(text, tb=12)), ("lookup_27KB", lookup(text, tb=11)),
+                         ("spark_full", spark(text, False)), ("spark_full_hyst", spark(text, True))):
+            row[label] = float((p[:-1] == tt).mean())
+        res[name] = row; print(name, json.dumps({k: round(v, 3) for k, v in row.items()}), flush=True)
+    avg = {k: float(np.mean([r[k] for r in res.values()])) for k in next(iter(res.values()))}
+    print("mean", json.dumps({k: round(v, 3) for k, v in avg.items()}))
+    json.dump({"per_book": res, "mean": avg}, open(os.path.join(HERE, "..", "results", "nontext_probe.json"), "w"), indent=1)
+
+
+if __name__ == "__main__":
+    main()
