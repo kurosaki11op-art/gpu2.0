@@ -1,5 +1,8 @@
 # Matrix-free SPARK: a predictor with no matrices and no multipliers (SIMULATED)
 
+> **Correction (see section 7).** Sections 1, 2, 5 and 6 compared SPARK against a lookup design that used a weak XOR hash (tables answered only ~87% of prose bytes vs ~96% for a good hash).
+> That understated the lookup design by about 4 points on prose and produced a false "the network adds ~3 points" reading. With a good multiplier-free hash (CRC-32 or tabulation), the lookup design matches the hybrid on both code and prose.
+
 Scripts: `hw/system/matrix_free_probe.py`, `hw/system/matrix_free_sweep.py`. Data: 20,000 held-out bytes of code (the same slice used for all earlier agreement numbers).
 Design: multi-order hashed tables (entry = 12-bit tag + 8-bit value + 2-bit count), highest-order hit answers, fallback is a space.
 Learning: one pass, online, local: a hit that agrees raises the count, a miss lowers it, and the value is replaced only at count 0. No gradients, no weights, no matrices.
@@ -87,3 +90,30 @@ Reading:
 4. **On code the network added nothing** (section 1). Summary: the network is worth a few points on prose at small memory, nothing on repetitive code.
 
 Caveats: byte-level accuracy; old-English prose; 20,000-byte slices; interpolated comparator; no real-model drafting test on prose.
+
+## 7. Corrected comparison: multiplier-free hash (CRC-32), lookup design vs the hybrid (SIMULATED)
+
+`hw/system/hash_study.py` and `crc_sweep.py`; data in `hash_study.json`, `crc_sweep.json`, `hash_ablation_prose.json`, `hybrid_eval.json`.
+
+Hash study (orders 2,3,4,6; 2^12 entries; hysteresis counters), code accuracy / prose mean accuracy:
+multiplicative 75.0% / 44.1%; XOR-fold 73.4% / 39.7%; tabulation (XOR of ROM words) 75.1% / 43.6%; **CRC-32 75.4% / 43.9%**. Table coverage on prose: 96% (multiplicative), 82-87% (XOR-fold), 95-96% (tabulation, CRC).
+
+Size sweep with CRC-32 (entry = 22 bits):
+
+| Orders | Entries per table | Memory | Code | Prose (4-book mean) |
+|---|---|---|---|---|
+| 2,4 | 1024 | 5.5 KB | 69.8% | 36.5% |
+| 2,4 | 4096 | 22.0 KB | 73.1% | 41.4% |
+| 2,3,4,6 | 1024 | 11.0 KB | 73.6% | 39.2% |
+| 2,3,4,6 | 2048 | 22.0 KB | 74.9% | 42.0% |
+| 2,3,4,6 | 4096 | 44.0 KB | 75.4% | 43.9% |
+| 1,2,3,4,6 | 2048 | 27.5 KB | 75.3% | 42.2% |
+| 1,2,3,4,6 | 4096 | 55.0 KB | 75.8% | 44.0% |
+
+Hybrid (recall tables 44 KB + 64/32 network 25-33 KB), hysteresis recall, exit off: code 75.6% (agreement with the GPU stand-in 61.7%), prose 44.2%. With a binary main head: 75.4% / 44.3%. Networks trained on prose: 75.1-75.2% / 44.5%.
+
+Reading:
+1. **The network adds at most a few tenths of a point** in the hybrid on both code and prose, regardless of head format or training domain. In this configuration the tables answer about 95% of bytes.
+2. **A 44 KB multiplier-free lookup design matches the hybrid** (75.4% vs 75.6% on code, 43.9% vs 44.2% on prose) at about 57% of its memory.
+3. **27.5 KB** (orders 1,2,3,4,6; 2048 entries) keeps code within 0.3 points and loses about 2 points on prose.
+4. This is simulated byte-level accuracy on 20,000-byte slices (code from one corpus, four old-English books). It has not been checked on real-model drafting, novel domains, or token-level accuracy.
