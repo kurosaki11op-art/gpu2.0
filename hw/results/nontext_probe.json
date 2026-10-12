@@ -1,0 +1,39 @@
+{
+ "per_book": {
+  "carroll-alice.txt": {
+   "always_space": 0.1721086054302715,
+   "lookup_55KB": 0.4537726886344317,
+   "lookup_27KB": 0.39936996849842493,
+   "spark_full": 0.4726236311815591,
+   "spark_full_hyst": 0.4913245662283114
+  },
+  "melville-moby_dick.txt": {
+   "always_space": 0.1609080454022701,
+   "lookup_55KB": 0.36701835091754587,
+   "lookup_27KB": 0.3209160458022901,
+   "spark_full": 0.39151957597879894,
+   "spark_full_hyst": 0.4106205310265513
+  },
+  "shakespeare-hamlet.txt": {
+   "always_space": 0.17135856792839643,
+   "lookup_55KB": 0.37066853342667133,
+   "lookup_27KB": 0.32706635331766587,
+   "spark_full": 0.39931996599829994,
+   "spark_full_hyst": 0.41727086354317716
+  },
+  "austen-emma.txt": {
+   "always_space": 0.16580829041452072,
+   "lookup_55KB": 0.3976698834941747,
+   "lookup_27KB": 0.34416720836041803,
+   "spark_full": 0.4326716335816791,
+   "spark_full_hyst": 0.45007250362518125
+  }
+ },
+ "mean": {
+  "always_space": 0.1675458772938647,
+  "lookup_55KB": 0.3972823641182059,
+  "lookup_27KB": 0.34787989399469976,
+  "spark_full": 0.4240337016850843,
+  "spark_full_hyst": 0.4423221161058053
+ }
+}
