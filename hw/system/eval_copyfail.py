@@ -18,7 +18,7 @@ for arg in sys.argv[1:]:
     name, _, hd = arg.partition("@")                   # optional "dir@H,D" for a resized model (size study)
     g1.H, g1.D = (int(x) for x in hd.split(",")) if hd else (128, 64)
     W = g1.Weights.from_npz(os.path.join(HERE, "..", "train", name, "spark_v0_model.npz"))
-    cfg = g1.Cfg(a=230, acc_sh=2, s_sh=4, spike_mode="thr", recall=1, conf_th=0, recall_mode=2, exit_en=1, exit_th=16)
+    cfg = g1.Cfg(a=230, acc_sh=2, s_sh=4, spike_mode="thr", recall=1, conf_th=0, recall_mode=2, exit_en=int(os.environ.get("EXIT_EN", 1)), exit_th=16)   # EXIT_EN=0 isolates the main head
     cfg.arb_th = 64
     g = g2.GoldenV2(W, cfg, tb=12, lut=lut)
     pred = np.array([g.step(int(b))["pred"] for b in text])

@@ -93,6 +93,22 @@ def q4(w):
 WQ = ["int4"]      # "ternary": matrix weights in {-1, 0, +1} -> multiply-free (select +v, -v or 0)
 
 
+HQ = ["int4"]      # output-head format: int4 | int3 | ternary | binary
+
+
+def qh(w):
+    """weights of the two output heads (we = early-exit head, wm = main head)."""
+    m = HQ[0]
+    if m == "int3":
+        return torch.clamp(ste_round(w), -4, 3)
+    if m == "ternary":
+        return torch.clamp(ste_round(w), -1, 1)
+    if m == "binary":                                   # +1 / -1 only (zero maps to +1)
+        sg = torch.where(w >= 0, torch.ones_like(w), -torch.ones_like(w))
+        return w + (sg - w).detach()
+    return qw(w)
+
+
 def qw(w):
     """weights of the four matrices (w0, w1, we, wm); embeddings stay int4 (they are table lookups, not multiplies)."""
     if WQ[0] == "ternary":
@@ -179,14 +195,15 @@ class SparkV0(torch.nn.Module):
                 h1, s1 = self.layer(h1, torch.cat([s0, s1p], 1), self.w1, self.th1)
             else:
                 h1, s1 = self.layer(h1, s0, self.w1, self.th1)
-            outs_e.append(s0 @ qw(self.we).t())
-            outs_m.append(s1 @ qw(self.wm).t())
+            outs_e.append(s0 @ qh(self.we).t())
+            outs_m.append(s1 @ qh(self.wm).t())
             rates.append(torch.cat([s0.abs(), s1.abs()], 1))
         return torch.stack(outs_m, 1), torch.stack(outs_e, 1), torch.stack(rates, 1), h0, h1
 
     def export(self):
         with torch.no_grad():
-            out = {k: (q4 if k == "emb" else qw)(getattr(self, n)).round().to(torch.int64).numpy().astype(np.int8)
+            fmt = {"emb": q4, "w_exit": qh, "w_main": qh}
+            out = {k: fmt.get(k, qw)(getattr(self, n)).round().to(torch.int64).numpy().astype(np.int8)
                    for k, n in [("emb", "emb"), ("w0", "w0"), ("w1", "w1"),
                                 ("w_exit", "we"), ("w_main", "wm")]}
             out["th0"] = ste_round(self.th0).round().to(torch.int64).numpy().astype(np.int16)
@@ -253,6 +270,7 @@ def main():
     ap.add_argument("--kd-alpha", type=float, default=0.5, help="weight of the distillation loss")
     ap.add_argument("--kd-temp", type=float, default=2.0, help="distillation temperature")
     ap.add_argument("--embdim", type=int, default=0, help="embedding width per context byte (size study only; chip uses 64)")
+    ap.add_argument("--head-q", default="int4", choices=["int4", "int3", "ternary", "binary"], help="output-head weight format")
     ap.add_argument("--wq", default="int4", choices=["int4", "ternary"], help="matrix-weight format (ternary = multiply-free)")
     ap.add_argument("--hard-w", type=float, default=1.0,
                     help="loss weight on positions where copy-drafting fails (no earlier match of the last 4/6/8 bytes, or the match's next byte is wrong)")
@@ -266,6 +284,7 @@ def main():
         global D
         D = a.embdim          # size study only: the v0 chip and golden model use 64
     WQ[0] = a.wq
+    HQ[0] = a.head_q
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(0)
     torch.set_num_threads(a.threads or os.cpu_count() or 4)
