@@ -269,6 +269,7 @@ def main():
     ap.add_argument("--teacher", help="knowledge distillation from a byte-level nanoGPT checkpoint (hw/system/train_gpu_model.py)")
     ap.add_argument("--kd-alpha", type=float, default=0.5, help="weight of the distillation loss")
     ap.add_argument("--kd-temp", type=float, default=2.0, help="distillation temperature")
+    ap.add_argument("--corpus-file", default="", help="train on the bytes of this file instead of the Python-source corpus")
     ap.add_argument("--embdim", type=int, default=0, help="embedding width per context byte (size study only; chip uses 64)")
     ap.add_argument("--head-q", default="int4", choices=["int4", "int3", "ternary", "binary"], help="output-head weight format")
     ap.add_argument("--wq", default="int4", choices=["int4", "ternary"], help="matrix-weight format (ternary = multiply-free)")
@@ -289,7 +290,10 @@ def main():
     torch.manual_seed(0)
     torch.set_num_threads(a.threads or os.cpu_count() or 4)
 
-    data = load_corpus(a.bytes)
+    if a.corpus_file:
+        data = np.frombuffer(open(a.corpus_file, "rb").read()[: a.bytes], dtype=np.uint8).copy()
+    else:
+        data = load_corpus(a.bytes)
     n = len(data)
     train, cal, test = data[: int(n * 0.9)], data[int(n * 0.9): int(n * 0.95)], data[int(n * 0.95):]
     print(f"corpus {n} bytes; train {len(train)} cal {len(cal)} test {len(test)}")
