@@ -1,0 +1,94 @@
+{
+ "mult": {
+  "code": {
+   "acc": 0.7502375118755937,
+   "coverage": 0.9489
+  },
+  "carroll-alice": {
+   "acc": 0.49092454622731135,
+   "coverage": 0.957
+  },
+  "melville-moby_dick": {
+   "acc": 0.40947047352367616,
+   "coverage": 0.96155
+  },
+  "shakespeare-hamlet": {
+   "acc": 0.41502075103755187,
+   "coverage": 0.95685
+  },
+  "austen-emma": {
+   "acc": 0.4472223611180559,
+   "coverage": 0.96005
+  },
+  "prose_mean": 0.44065953297664884
+ },
+ "xor": {
+  "code": {
+   "acc": 0.7339866993349667,
+   "coverage": 0.90425
+  },
+  "carroll-alice": {
+   "acc": 0.45382269113455675,
+   "coverage": 0.8424
+  },
+  "melville-moby_dick": {
+   "acc": 0.36566828341417074,
+   "coverage": 0.8065
+  },
+  "shakespeare-hamlet": {
+   "acc": 0.37151857592879645,
+   "coverage": 0.81755
+  },
+  "austen-emma": {
+   "acc": 0.39871993599679983,
+   "coverage": 0.82245
+  },
+  "prose_mean": 0.39743237161858097
+ },
+ "tab": {
+  "code": {
+   "acc": 0.7506375318765939,
+   "coverage": 0.9475
+  },
+  "carroll-alice": {
+   "acc": 0.4847242362118106,
+   "coverage": 0.94905
+  },
+  "melville-moby_dick": {
+   "acc": 0.4073703685184259,
+   "coverage": 0.9534
+  },
+  "shakespeare-hamlet": {
+   "acc": 0.40877043852192607,
+   "coverage": 0.9503
+  },
+  "austen-emma": {
+   "acc": 0.4432721636081804,
+   "coverage": 0.95235
+  },
+  "prose_mean": 0.4360343017150858
+ },
+ "crc": {
+  "code": {
+   "acc": 0.7535876793839692,
+   "coverage": 0.95005
+  },
+  "carroll-alice": {
+   "acc": 0.49002450122506125,
+   "coverage": 0.9567
+  },
+  "melville-moby_dick": {
+   "acc": 0.41162058102905147,
+   "coverage": 0.9619
+  },
+  "shakespeare-hamlet": {
+   "acc": 0.40852042602130106,
+   "coverage": 0.9594
+  },
+  "austen-emma": {
+   "acc": 0.4449722486124306,
+   "coverage": 0.96105
+  },
+  "prose_mean": 0.4387844392219611
+ }
+}
