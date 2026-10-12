@@ -14,7 +14,9 @@ N = int(os.environ.get("NB", 12000)); text, big = text[:N], big[:N]
 lut = json.load(open(os.path.join(HERE, "..", "results", "rlcd_results.json")))["lut_rlcd_8bit"]
 fail = tr.copy_fail_mask(text).astype(bool)
 rows = {}
-for name in sys.argv[1:]:
+for arg in sys.argv[1:]:
+    name, _, hd = arg.partition("@")                   # optional "dir@H,D" for a resized model (size study)
+    g1.H, g1.D = (int(x) for x in hd.split(",")) if hd else (128, 64)
     W = g1.Weights.from_npz(os.path.join(HERE, "..", "train", name, "spark_v0_model.npz"))
     cfg = g1.Cfg(a=230, acc_sh=2, s_sh=4, spike_mode="thr", recall=1, conf_th=0, recall_mode=2, exit_en=1, exit_th=16)
     cfg.arb_th = 64
@@ -25,4 +27,4 @@ for name in sys.argv[1:]:
     rows[name] = dict(agree_all=float(ag.mean()), agree_copyfail=float(ag[f].mean()), agree_copyok=float(ag[~f].mean()),
                       mean_run=float(runs.mean()), copyfail_frac=float(f.mean()))
     print(name, json.dumps({k: round(v, 4) for k, v in rows[name].items()}), flush=True)
-json.dump(rows, open(os.path.join(HERE, "..", "results", "copyfail_eval_%s.json" % "_".join(sys.argv[1:])[:60]), "w"), indent=1)
+json.dump(rows, open(os.path.join(HERE, "..", "results", "copyfail_eval_%s.json" % "_".join(sys.argv[1:])[:60].replace("@", "-").replace(",", "x")), "w"), indent=1)

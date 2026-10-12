@@ -37,3 +37,13 @@ Reading:
 4. **The network gets denser as it shrinks** (35% -> 49% firing), the opposite of the sparse brain-like regime. It is a cost to watch.
 
 Caveats: these are trained-model results, not RTL. The golden model and RTL are built for 128 / 64, so using a smaller size needs them regenerated and re-verified. Accuracy here is next-byte accuracy on 3,000 bytes, not agreement with a GPU model.
+
+## Agreement with the GPU stand-in model (golden model, 1,500-step weights, 6,000 test bytes, SIMULATED)
+
+| H / D | Agree with GPU model | On copy-failure bytes | Mean agreeing run |
+|---|---|---|---|
+| 128 / 64 | 59.8% | 36.3% | 1.49 |
+| 64 / 32 | 59.1% | 34.5% | 1.44 |
+| 32 / 16 | 57.9% | 32.4% | 1.38 |
+
+64 / 32 loses 0.7 points, about one standard error at this sample size. Reproduce with `eval_copyfail.py out_size_128 out_size_h64_d32@64,32`.
