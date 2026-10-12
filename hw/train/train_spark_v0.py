@@ -269,6 +269,7 @@ def main():
     ap.add_argument("--teacher", help="knowledge distillation from a byte-level nanoGPT checkpoint (hw/system/train_gpu_model.py)")
     ap.add_argument("--kd-alpha", type=float, default=0.5, help="weight of the distillation loss")
     ap.add_argument("--kd-temp", type=float, default=2.0, help="distillation temperature")
+    ap.add_argument("--exit-w", type=float, default=0.3, help="loss weight of the early-exit head (0 = train without an exit head)")
     ap.add_argument("--corpus-file", default="", help="train on the bytes of this file instead of the Python-source corpus")
     ap.add_argument("--embdim", type=int, default=0, help="embedding width per context byte (size study only; chip uses 64)")
     ap.add_argument("--head-q", default="int4", choices=["int4", "int3", "ternary", "binary"], help="output-head weight format")
@@ -368,7 +369,7 @@ def main():
         loss_e = ce(le).mul(wt).mean() if wt is not None else ce(le).mean()
         fire = (rates > 0).float().mean()
         satur = (rates >= 6.99).float().mean()
-        loss = loss_m + 0.3 * loss_e + a.sparsity * F.relu(rates.mean() - a.target_rate) * 10
+        loss = loss_m + a.exit_w * loss_e + a.sparsity * F.relu(rates.mean() - a.target_rate) * 10
         if teacher is not None:
             with torch.no_grad():
                 tl, _ = teacher(seq[:, :-1].contiguous(), targets=seq[:, 1:].contiguous())
