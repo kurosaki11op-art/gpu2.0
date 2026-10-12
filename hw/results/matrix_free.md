@@ -63,3 +63,27 @@ Reading:
 2. **But memory-matched, the gap closes.** A 110 KB lookup scores 42.8%, equal to SPARK full (42.4%) at about the same memory; SPARK with hysteresis keeps a 1.4-point edge. A 220 KB lookup beats both. So on this test, spending the memory on bigger tables is about as good as spending it on network weights.
 3. **Honest verdict:** not a clear win for either. The network earns a small edge only with the better recall rule, and we have not tried a network trained on prose.
 4. Caveats: old-English books, 20,000 bytes each, one start (empty) condition, byte-level accuracy not token-level, no real-model comparison.
+
+## 6. Networks retrained on prose (SIMULATED)
+
+Trained on 4.3 MB of other public-domain books (Persuasion, Sense and Sensibility, three Chesterton books, Parents' Assistant, Bryant stories, Buster Brown, Julius Caesar, Macbeth, Paradise Lost, shuffled in 200 KB chunks); none of the four test books is in the training set (Emma shares an author with two training books, so style leakage is possible).
+Same recipe as the code-trained 128/64 (3,000 steps). Evaluated on the same four 20,000-byte slices with the golden model. `nontext_models.py`, `nontext_models.json`.
+
+| Network | Weights | Recall rule | Mean accuracy on prose |
+|---|---|---|---|
+| Trained on code, 128 / 64 | 76 KB | replace | 42.4% |
+| Trained on code, 128 / 64 | 76 KB | hysteresis | 44.2% |
+| **Trained on prose**, 128 / 64 | 76 KB | replace | 42.9% |
+| **Trained on prose**, 128 / 64 | 76 KB | hysteresis | 44.7% |
+| **Trained on prose**, 64 / 32 | 33 KB | replace | 42.8% |
+| **Trained on prose**, 64 / 32 | 33 KB | hysteresis | 44.6% |
+
+Every SPARK row also includes the 44 KB of recall tables.
+
+Reading:
+1. **Training on prose adds almost nothing** (+0.5 points over the code-trained network). The network's value on prose is mostly domain-general, not domain-specific.
+2. **The 33 KB network matches the 76 KB one** on prose (44.6% vs 44.7%), as it did on code. The smaller design is the right one.
+3. **Does the network earn its memory?** SPARK 64/32 totals about 77 KB (33 KB network + 44 KB tables) and scores 44.6%. A lookup-only design at the same memory is not directly measured; interpolating between 55 KB (39.7%) and 110 KB (42.8%) gives about 41%. So on prose the network adds roughly **3 points at matched memory** (an interpolation, not a measurement). The advantage shrinks as memory grows: the 220 KB lookup (45.0%) beats it.
+4. **On code the network added nothing** (section 1). Summary: the network is worth a few points on prose at small memory, nothing on repetitive code.
+
+Caveats: byte-level accuracy; old-English prose; 20,000-byte slices; interpolated comparator; no real-model drafting test on prose.
