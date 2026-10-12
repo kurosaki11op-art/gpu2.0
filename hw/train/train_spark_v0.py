@@ -252,6 +252,7 @@ def main():
     ap.add_argument("--teacher", help="knowledge distillation from a byte-level nanoGPT checkpoint (hw/system/train_gpu_model.py)")
     ap.add_argument("--kd-alpha", type=float, default=0.5, help="weight of the distillation loss")
     ap.add_argument("--kd-temp", type=float, default=2.0, help="distillation temperature")
+    ap.add_argument("--embdim", type=int, default=0, help="embedding width per context byte (size study only; chip uses 64)")
     ap.add_argument("--wq", default="int4", choices=["int4", "ternary"], help="matrix-weight format (ternary = multiply-free)")
     ap.add_argument("--hard-w", type=float, default=1.0,
                     help="loss weight on positions where copy-drafting fails (no earlier match of the last 4/6/8 bytes, or the match's next byte is wrong)")
@@ -261,6 +262,9 @@ def main():
     if a.hidden:
         global H
         H = a.hidden          # size study only: the v0 chip and golden model use 128
+    if a.embdim:
+        global D
+        D = a.embdim          # size study only: the v0 chip and golden model use 64
     WQ[0] = a.wq
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(0)
