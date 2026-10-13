@@ -1,5 +1,7 @@
 # Matrix-free SPARK: a predictor with no matrices and no multipliers (SIMULATED)
 
+> **Second correction (see section 8):** a paired analysis shows the network's contribution is small but real (+0.6 points pooled, +1.2 when the network arbitrates), not "a few tenths". Section 7's "adds at most a few tenths" is superseded.
+>
 > **Correction (see section 7).** Sections 1, 2, 5 and 6 compared SPARK against a lookup design that used a weak XOR hash (tables answered only ~87% of prose bytes vs ~96% for a good hash).
 > That understated the lookup design by about 4 points on prose and produced a false "the network adds ~3 points" reading. With a good multiplier-free hash (CRC-32 or tabulation), the lookup design matches the hybrid on both code and prose.
 
@@ -117,3 +119,28 @@ Reading:
 2. **A 44 KB multiplier-free lookup design matches the hybrid** (75.4% vs 75.6% on code, 43.9% vs 44.2% on prose) at about 57% of its memory.
 3. **27.5 KB** (orders 1,2,3,4,6; 2048 entries) keeps code within 0.3 points and loses about 2 points on prose.
 4. This is simulated byte-level accuracy on 20,000-byte slices (code from one corpus, four old-English books). It has not been checked on real-model drafting, novel domains, or token-level accuracy.
+
+## 8. Paired analysis after the outside critique (SIMULATED)
+
+`hw/system/paired_stats.py`, `hw/results/paired_stats.json`. Same positions for both predictors; per-byte correctness; documents: 20,000 bytes of code and four 20,000-byte book slices; the hybrid is the 64/32 network (code-trained for code, prose-trained for prose) with the hysteresis table update and the exit head off.
+Mode 0: a table hit answers directly (the network decides only on table misses). Mode 2: the network arbitrates (it overrides a table hit when its main-head margin is at least the arbitration threshold) and runs on every byte.
+
+Accuracy difference, hybrid minus lookup-only (points):
+
+| Document | Mode 0 | Mode 2 | Bytes the network decides (mode 0) | Network accuracy there | Lookup accuracy on the same bytes |
+|---|---|---|---|---|---|
+| Code | +0.22 | -0.04 | 5.1% | 22.6% | 13.5% |
+| Alice | +0.52 | +1.15 | 4.3% | 27.1% | 19.2% |
+| Moby Dick | +0.35 | +1.30 | 3.9% | 30.2% | 17.8% |
+| Hamlet | +1.17 | +1.80 | 4.3% | 26.9% | 15.9% |
+| Emma | +0.74 | +1.85 | 4.0% | 27.7% | 18.9% |
+| **Pooled (100k bytes)** | **+0.60, 95% CI [+0.40, +0.79]** | **+1.21, 95% CI [+0.97, +1.47]** | | | |
+
+Confidence intervals are from a block bootstrap (250-byte blocks) and only capture within-document variation. With five documents, document-to-document variation is not captured, so the true uncertainty is wider.
+
+Reading:
+1. **The network's contribution is real but small.** About +0.6 points when it only handles table misses, +1.2 when it arbitrates. It helps most on prose (up to +1.9) and is about zero on repetitive code. My earlier statements ("a few tenths", "adds almost nothing") understated this.
+2. **Where it helps:** on the 4-5% of bytes where no table answers, the network is right 23-30% of the time against 13-19% for the lookup fallback. That is its main contribution in mode 0.
+3. **Cost of the extra point:** mode 2 runs the network on every byte (about 2,000+ cycles per byte instead of about 5, from earlier measurements), so the extra +0.6 over mode 0 costs about two orders of magnitude more time.
+4. **Equivalence:** against a one-point worthwhile margin, lookup-only is within the margin in mode 0 (the upper bound is +0.79) and not in mode 2 (+1.47). A worthwhile margin for the real goal (drafting speed or energy) has not been defined or measured.
+5. This is still byte-level next-byte accuracy, which is not agreement with a target model's tokens.

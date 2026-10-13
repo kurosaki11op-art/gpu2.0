@@ -1,0 +1,127 @@
+{
+ "per_doc": {
+  "code": {
+   "lookup_acc": 0.7535876793839692,
+   "mode0": {
+    "acc": 0.7557377868893445,
+    "diff_vs_lookup": 0.002150107505375254,
+    "hybrid_right_lookup_wrong": 0.014600730036501825,
+    "lookup_right_hybrid_wrong": 0.012450622531126556,
+    "network_decides_frac": 0.05110255512775639,
+    "acc_when_network_decides": 0.22602739726027396,
+    "lookup_acc_on_same_bytes": 0.1350293542074364
+   },
+   "mode2": {
+    "acc": 0.7532376618830942,
+    "diff_vs_lookup": -0.0003500175008750439,
+    "hybrid_right_lookup_wrong": 0.019000950047502376,
+    "lookup_right_hybrid_wrong": 0.01935096754837742,
+    "network_decides_frac": 0.32366618330916547,
+    "acc_when_network_decides": 0.7823265873628921,
+    "lookup_acc_on_same_bytes": 0.7763015603275143
+   }
+  },
+  "carroll-alice": {
+   "lookup_acc": 0.49002450122506125,
+   "mode0": {
+    "acc": 0.49517475873793687,
+    "diff_vs_lookup": 0.005150257512875622,
+    "hybrid_right_lookup_wrong": 0.038501925096254816,
+    "lookup_right_hybrid_wrong": 0.033351667583379166,
+    "network_decides_frac": 0.043002150107505376,
+    "acc_when_network_decides": 0.2709302325581395,
+    "lookup_acc_on_same_bytes": 0.19186046511627908
+   },
+   "mode2": {
+    "acc": 0.5014750737536877,
+    "diff_vs_lookup": 0.011450572528626468,
+    "hybrid_right_lookup_wrong": 0.049152457622881146,
+    "lookup_right_hybrid_wrong": 0.03770188509425471,
+    "network_decides_frac": 0.17960898044902246,
+    "acc_when_network_decides": 0.623608017817372,
+    "lookup_acc_on_same_bytes": 0.5693207126948775
+   }
+  },
+  "melville-moby_dick": {
+   "lookup_acc": 0.41162058102905147,
+   "mode0": {
+    "acc": 0.41507075353767686,
+    "diff_vs_lookup": 0.003450172508625393,
+    "hybrid_right_lookup_wrong": 0.03785189259462973,
+    "lookup_right_hybrid_wrong": 0.0344017200860043,
+    "network_decides_frac": 0.038451922596129805,
+    "acc_when_network_decides": 0.3016905071521456,
+    "lookup_acc_on_same_bytes": 0.17815344603381014
+   },
+   "mode2": {
+    "acc": 0.4245712285614281,
+    "diff_vs_lookup": 0.012950647532376625,
+    "hybrid_right_lookup_wrong": 0.047802390119505975,
+    "lookup_right_hybrid_wrong": 0.03485174258712936,
+    "network_decides_frac": 0.16535826791339567,
+    "acc_when_network_decides": 0.6755367402479588,
+    "lookup_acc_on_same_bytes": 0.5938917447837919
+   }
+  },
+  "shakespeare-hamlet": {
+   "lookup_acc": 0.40852042602130106,
+   "mode0": {
+    "acc": 0.42022101105055254,
+    "diff_vs_lookup": 0.011700585029251476,
+    "hybrid_right_lookup_wrong": 0.04455222761138057,
+    "lookup_right_hybrid_wrong": 0.03285164258212911,
+    "network_decides_frac": 0.043152157607880395,
+    "acc_when_network_decides": 0.2688296639629201,
+    "lookup_acc_on_same_bytes": 0.15874855156431056
+   },
+   "mode2": {
+    "acc": 0.4264713235661783,
+    "diff_vs_lookup": 0.01795089754487722,
+    "hybrid_right_lookup_wrong": 0.05490274513725686,
+    "lookup_right_hybrid_wrong": 0.03695184759237962,
+    "network_decides_frac": 0.16450822541127055,
+    "acc_when_network_decides": 0.5893617021276596,
+    "lookup_acc_on_same_bytes": 0.5130699088145897
+   }
+  },
+  "austen-emma": {
+   "lookup_acc": 0.4449722486124306,
+   "mode0": {
+    "acc": 0.45232261613080654,
+    "diff_vs_lookup": 0.007350367518375922,
+    "hybrid_right_lookup_wrong": 0.042702135106755336,
+    "lookup_right_hybrid_wrong": 0.03535176758837942,
+    "network_decides_frac": 0.039951997599879996,
+    "acc_when_network_decides": 0.2765957446808511,
+    "lookup_acc_on_same_bytes": 0.18898623279098872
+   },
+   "mode2": {
+    "acc": 0.46347317365868296,
+    "diff_vs_lookup": 0.018500925046252337,
+    "hybrid_right_lookup_wrong": 0.053652682634131706,
+    "lookup_right_hybrid_wrong": 0.0351517575878794,
+    "network_decides_frac": 0.16120806040302016,
+    "acc_when_network_decides": 0.6671836228287841,
+    "lookup_acc_on_same_bytes": 0.5688585607940446
+   }
+  }
+ },
+ "pooled_mode0": {
+  "mean_diff": 0.005960298014900745,
+  "ci95_block_bootstrap": [
+   0.004049874686716791,
+   0.0078796992481203
+  ],
+  "n_bytes": 99995,
+  "docs": 5
+ },
+ "pooled_mode2": {
+  "mean_diff": 0.012100605030251512,
+  "ci95_block_bootstrap": [
+   0.009714285714285715,
+   0.014667418546365912
+  ],
+  "n_bytes": 99995,
+  "docs": 5
+ }
+}
