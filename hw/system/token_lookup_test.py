@@ -97,21 +97,32 @@ def main():
                                              num_attention_heads=4, num_key_value_heads=2)).eval(); tok = None
     else:
         tok = AutoTokenizer.from_pretrained(a.model)
-        model = AutoModelForCausalLM.from_pretrained(a.model, torch_dtype=torch.float16 if dev == "cuda" else torch.float32).to(dev).eval()
+        dt = torch.float16 if dev == "cuda" else torch.float32
+        try:
+            model = AutoModelForCausalLM.from_pretrained(a.model, dtype=dt)
+        except TypeError:                                  # older transformers
+            model = AutoModelForCausalLM.from_pretrained(a.model, torch_dtype=dt)
+        model = model.to(dev).eval()
+        print(f"model {a.model} on {dev} ({dt}); if this is far below ~20 tokens/s the model does not fit in GPU memory: try a smaller one", flush=True)
+    import time
     res = {}
     for name, prompts in sets.items():
         acc = {"pld": [], "table": [], "both": []}
         for p in prompts:
             ids = torch.randint(0, 1000, (1, 200)) if tok is None else tok(p, return_tensors="pt").input_ids
+            t0 = time.time()
             with torch.no_grad():
                 out = model.generate(ids.to(dev), max_new_tokens=a.gen, min_new_tokens=a.gen, do_sample=False)
+            if len(acc["pld"]) == 0:
+                print(f"  first {name} prompt: {ids.shape[1]} prompt tokens, {a.gen / (time.time() - t0):.1f} generated tokens/s", flush=True)
             ctx, gen = ids[0].tolist(), out[0, ids.shape[1]:].tolist()
             for mode in acc: acc[mode].append(simulate(ctx, gen, a.k, mode))
         res[name] = {m: float(np.mean(v)) for m, v in acc.items()}
         print(f"{name:5s} (K={a.k}, {len(prompts)} prompts x {a.gen} tokens)  tokens per target pass:  "
               f"prompt-lookup {res[name]['pld']:.2f} | hash tables {res[name]['table']:.2f} | both {res[name]['both']:.2f}", flush=True)
     json.dump({"model": "tiny-random" if a.tiny else a.model, "k": a.k, "result": res},
-              open(os.path.join(HERE, "..", "results", "token_lookup%s.json" % ("_tiny" if a.tiny else "")), "w"), indent=1)
+              open(os.path.join(HERE, "..", "results", "token_lookup_%s.json" % ("tiny" if a.tiny else a.model.replace("/", "_"))), "w"), indent=1)
+    print("saved hw/results/token_lookup_%s.json (send it, or paste the two lines above)" % ("tiny" if a.tiny else a.model.replace("/", "_")))
 
 
 if __name__ == "__main__":
