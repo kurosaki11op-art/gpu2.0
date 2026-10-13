@@ -144,3 +144,16 @@ Reading:
 3. **Cost of the extra point:** mode 2 runs the network on every byte (about 2,000+ cycles per byte instead of about 5, from earlier measurements), so the extra +0.6 over mode 0 costs about two orders of magnitude more time.
 4. **Equivalence:** against a one-point worthwhile margin, lookup-only is within the margin in mode 0 (the upper bound is +0.79) and not in mode 2 (+1.47). A worthwhile margin for the real goal (drafting speed or energy) has not been defined or measured.
 5. This is still byte-level next-byte accuracy, which is not agreement with a target model's tokens.
+
+## 9. Table saturation over a longer stream (SIMULATED)
+
+`hw/system/collision_curve.py`, `hw/results/collision_curve.json`. Lookup-only design (CRC hash, orders 2,3,4,6, hysteresis), accuracy in consecutive 25,000-byte windows over 300,000 bytes (training corpora used only as streams):
+
+| Stream, entries per table | Window accuracies (%) |
+|---|---|
+| Code, 4096 | 63.5, 66.4, 68.3, 73.8, 78.3, 74.7, 73.7, 72.0, 76.0, 74.3, 79.4 |
+| Code, 2048 | 62.7, 65.3, 66.8, 73.4, 77.2, 72.8, 72.0, 70.8, 74.3, 72.4, 78.1 |
+| Prose, 4096 | 47.0, 48.7, 48.6, 47.5, 49.7, 49.1, 47.7, 50.0, 45.4, 47.7, 47.5 |
+| Prose, 2048 | 44.8, 45.1, 45.0, 43.6, 45.8, 44.9, 43.9, 46.2, 41.8, 43.6, 44.2 |
+
+No degradation cliff appears out to 300,000 bytes: accuracy follows the content, not the stream position. This does not test streams of millions of bytes, multi-user streams, or diverse mixed content, where 16K total entries would eventually saturate.
