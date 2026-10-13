@@ -52,10 +52,31 @@ A separate hash unit test (three vectors) matches `zlib.crc32`.
 Speed at 27 MHz would be about 5.4 million bytes per second at 5 cycles per byte, against 4,190 cycles per byte for the v1 network (SIMULATED cycle counts); that is an estimate until timing is closed.
 The four CRC units dominate the logic; a one-hash-unit sequential version would cut logic and add about 3 cycles per byte.
 
+## Board facts from the outside review (second-hand; I have not opened the Gowin PDFs)
+
+Two independent answers (GPT and Gemini, with source links to Sipeed's board page and Gowin DS226/UG285/SUG100/SUG282) agree on the Tang Nano 20K (GW2AR-18):
+20,736 LUT4, 15,552 flip-flops, 46 block-RAM (BSRAM) blocks of 18 Kbit each (828 Kbit total), 2 PLLs, 27 MHz crystal. Block RAM geometries include 4096x4, 2048x9, 1024x18.
+Both say the same about collisions: a semi-dual-port block RAM that reads and writes the same address in the same cycle returns an undefined value, and Gowin disallows it.
+Not found by either: a design-specific maximum clock (BSRAM alone is rated up to 380 MHz, 230 MHz in read-before-write mode), the cost of a 48-bit CRC on this device, and a power report from the open-source flow. The vendor tool has a power analyzer (SUG282); the open-source flow (Apicula / nextpnr-himbaechel) reports timing and utilization.
+
+## Block-RAM mapping check (yosys synth_gowin, no place-and-route)
+
+Change made because of the collision warning: the RAM now has a read enable. Reads happen only in the two read states and writes only in the learn and clear states, so a read and a write never share a clock edge. The RAM is marked `ram_style = "block"` and `no_rw_check`, which is legitimate because the controller guarantees there is no collision. Bit-exact check after the change: still 0 mismatches in 80,000 comparisons.
+Result of `synth_gowin` with the RAMs inferred (not black-boxed):
+
+| | TB = 11 | TB = 12 |
+|---|---|---|
+| Block-RAM blocks used (4 tables) | 12 (DPX9) of 46 = 26% | 24 (DP) of 46 = 52% |
+| LUT cells (LUT1-4) | about 1,420 of 20,736 (7%) | about 1,470 of 20,736 (7%) |
+| Flip-flops | about 180 | about 185 |
+
+This is the synthesizer's mapping only: not placed or routed (the open-source place-and-route tool is not installed in this container), so there is no timing result and no power result yet.
+So by this check the design fits the board with room to spare; the real constraints (clock, routing) are unmeasured.
+
 ## What is missing
 
 - Confidence: the core outputs order and count; a small lookup table from (order, count) to a confidence value is still to be added (the v2 confidence table design applies).
 - No host interface or multi-stream state; the v1 UART wrapper pattern would apply.
-- Memories are inferred, not mapped: block-RAM mapping, timing closure, and the ASIC memory macros are unchecked.
-- Whether the real board fits is unchecked (it has block RAM to hold 23-46 KB of tables only if my recollection of its size is right).
+- Timing closure and the ASIC memory macros are unchecked.
+- Place-and-route, timing and power on the actual board are unchecked.
 - The byte-level accuracy has not been confirmed on real-model drafting.

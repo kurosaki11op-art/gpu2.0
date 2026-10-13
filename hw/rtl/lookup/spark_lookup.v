@@ -62,12 +62,15 @@ module spark_lookup #(
     // ------------------------------------------------------------------ the four tables
     reg  [TB-1:0] ra0, ra1, ra2, ra3, wa0, wa1, wa2, wa3;
     reg           we0, we1, we2, we3;
+    // reads are enabled only in the two read states, writes happen only in S_UWR and S_CLR, so a read and a write
+    // never share a clock edge: the block-RAM read/write-collision behaviour is never exercised
+    wire          re = (st == S_URD) || (st == S_PRD);
     reg  [EW-1:0] wd0, wd1, wd2, wd3;
     wire [EW-1:0] rd0, rd1, rd2, rd3;
-    spark_lk_ram #(EW, TB) u_t0 (clk, we0, wa0, wd0, ra0, rd0);
-    spark_lk_ram #(EW, TB) u_t1 (clk, we1, wa1, wd1, ra1, rd1);
-    spark_lk_ram #(EW, TB) u_t2 (clk, we2, wa2, wd2, ra2, rd2);
-    spark_lk_ram #(EW, TB) u_t3 (clk, we3, wa3, wd3, ra3, rd3);
+    spark_lk_ram #(EW, TB) u_t0 (clk, we0, wa0, wd0, re, ra0, rd0);
+    spark_lk_ram #(EW, TB) u_t1 (clk, we1, wa1, wd1, re, ra1, rd1);
+    spark_lk_ram #(EW, TB) u_t2 (clk, we2, wa2, wd2, re, ra2, rd2);
+    spark_lk_ram #(EW, TB) u_t3 (clk, we3, wa3, wd3, re, ra3, rd3);
 
     // hysteresis update of one entry: value b followed the stored context
     function [EW-1:0] learn;
@@ -159,7 +162,7 @@ module spark_lookup #(
     end
 endmodule
 
-// One write port, one registered read port (block RAM on FPGAs). Contents are cleared by the core after reset.
+// One write port, one registered read port with read enable (block RAM on FPGAs). Contents are cleared by the core after reset.
 module spark_lk_ram #(
     parameter W = 23,
     parameter AW = 12
@@ -168,12 +171,15 @@ module spark_lk_ram #(
     input               we,
     input  [AW-1:0]     wa,
     input  [W-1:0]      wd,
+    input               re,
     input  [AW-1:0]     ra,
     output reg [W-1:0]  rd
 );
-    reg [W-1:0] mem [0:(1 << AW) - 1];
+    // no_rw_check: the controller guarantees a read never coincides with a write, so the block RAM may return
+    // anything on a collision and no emulation logic is needed.
+    (* ram_style = "block", no_rw_check *) reg [W-1:0] mem [0:(1 << AW) - 1];
     always @(posedge clk) begin
         if (we) mem[wa] <= wd;
-        rd <= mem[ra];
+        if (re) rd <= mem[ra];
     end
 endmodule
