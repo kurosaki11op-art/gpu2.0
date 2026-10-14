@@ -16,7 +16,7 @@ from cortex_core import load  # noqa
 
 D = sys.argv[1]
 ASIC = "--asic" in sys.argv          # build the core with the SKY130 OpenRAM macros (simulation models) instead of FPGA RAMs
-EXTRA = (["-DCORTEX_ASIC", "-s", "tb_cortex_core", "../../asic/spark_mem_sky130.v",
+EXTRA = (["-DCORTEX_ASIC", "-s", "tb_cortex_core", "../../asic/spark_mem_sky130.v", "cortex_cg.v",
           "/opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.v"] if ASIC else [])
 z = np.load(os.path.join(D, "sep_mnist_F32_p2.npz")); ctr, cte = z["tr"], z["te"]
 _, ytr, _, yte = load(D, "mnist"); ytr, yte = ytr.astype(np.int64), yte.astype(np.int64)

@@ -47,7 +47,7 @@ No detailed routing, one corner (typical, 1.8 V, 25 C), `cortex.sdc` = 20 ns clo
 | Setup, worst slack | -2.96 ns at 20 ns | **~43 MHz** achievable as is (period ~23 ns) |
 | Hold, worst slack | +0.13 ns | met |
 | Clock skew | 3.4 ns (latency 8.6-12.0 ns) | large die, one clock tree to 63 macros; the main cause of the setup miss |
-| Power, logic only | 355 mW at 50 MHz | 10% switching on every net (a default, not a measured activity); SRAM macros report 0 (their library has no power data) |
+| Power | 355 mW at 50 MHz | 10% switching on every net (a default, not a measured activity); includes the SRAM macros (see the correction below) |
 
 Reading, honestly:
 - **Speed is fine for the job**: at ~43 MHz a decision (~1,600 cycles) takes ~37 us and a learned example a few ms;
@@ -56,7 +56,8 @@ Reading, honestly:
   ~13 uJ per decision, against 9.4 nJ counted from the operations a decision needs
   ([energy estimate](cortex_energy_estimate.md)). The gap is overhead the operation count leaves out: the clock tree and
   ~20,000 flip-flops (the encoder's small memories) toggling every cycle, every net assumed to switch 10% of the time,
-  and no clock gating or idle power-down. 87% of it is in combinational cells, most of them the inserted buffers.
+  and no clock gating or idle power-down. (First reading; the breakdown below shows
+  most of it is the SRAM macros clocked every cycle.)
 - So the ~74x energy claim is about the work a decision needs, not about this unoptimised layout. Closing the gap
   needs: the encoder's flip-flop memories moved into SRAM (step 1 below), clock gating so idle blocks do not toggle,
   and a real switching activity from simulation (a VCD of a decision) instead of the 10% default. Until then, quote
@@ -81,9 +82,22 @@ So the fix is architectural, not a matter of a better activity number:
 1. clock gating: the encoder idles while the core decides or dreams, and the whole chip idles between commands;
 2. the encoder's flip-flop memories into SRAM (removes ~17,000 flip-flops and their read multiplexers);
 3. a compact die (the macros are spread over 31 mm^2, so the clock tree is long).
-With 1-2 the clocked state falls to ~3,000 flip-flops while a decision runs; the per-decision energy would then be
-set by the core's SRAM reads, which is what the operation-count estimate counts. Not yet done: ESTIMATED reasoning,
-to be checked by re-running the flow after the change.
+
+**Correction (later the same night):** the 63 SRAM macros are not missing from the figure, as first written; OpenSTA
+puts them in the combinational group. Their library charges 13.8 pJ per clock edge per port **whether or not the macro
+is selected**, so the estimate pays for all 63 macros every cycle, although a decision touches a few at a time.
+
+### First fix: clock gating, step by step
+
+1. Encoder memories on gated clocks (`cortex_cg`, 4 sky130 clock-gating cells; bit-exact). Layout re-run
+   (`gated_enc/flow.log`): ~43 MHz (setup -3.02 ns at 20 ns), hold -0.44 ns before routing. OpenSTA assumes a gated
+   clock still runs every cycle and ignores pin activities on clock nets, so the gated clocks were declared as
+   generated clocks running 1 cycle in 1,000 (`power_gated.tcl`, the encoder idles while the core decides):
+   366 -> **242 mW**. Breakdown (`gated_enc/power_by_cell.txt`): SRAM macros 175 mW (72%), clock buffers ~45 mW,
+   flip-flops ~10 mW, everything else < 15 mW.
+2. Next: every SRAM port clock gated by its own select (`sram_array` in `hw/asic/spark_mem_sky130.v`), so only the
+   banks a cycle reads or writes get a clock edge (in progress).
+
 
 ## Next steps for a real chip (months 7-8)
 

@@ -24,10 +24,16 @@ module sram_array #(parameter W = 32, parameter DEPTH = 512, parameter AW = 12) 
     generate
         for (b = 0; b < NB; b = b + 1) begin : bank
             for (c = 0; c < NC; c = c + 1) begin : col
+                // each port's clock is gated by its own select (cortex_cg): a bank that is not written or read in a
+                // cycle gets no clock edge, so it spends no access or clock-tree energy
+                wire wsel = we && wbank == b, rsel = (rbank == b);
+                wire ck0, ck1;
+                cortex_cg g0 (.clk(clk), .en(wsel), .gclk(ck0));
+                cortex_cg g1 (.clk(clk), .en(rsel), .gclk(ck1));
                 sky130_sram_2kbyte_1rw1r_32x512_8 u_sram (
-                    .clk0(clk), .csb0(!(we && wbank == b)), .web0(1'b0), .wmask0(4'hF),
+                    .clk0(ck0), .csb0(!wsel), .web0(1'b0), .wmask0(4'hF),
                     .addr0(wa[8:0]), .din0(wd_pad[32*c +: 32]), .dout0(),
-                    .clk1(clk), .csb1(!(rbank == b)), .addr1(ra[8:0]), .dout1(dout[(b*NC+c)*32 +: 32]));
+                    .clk1(ck1), .csb1(!rsel), .addr1(ra[8:0]), .dout1(dout[(b*NC+c)*32 +: 32]));
             end
         end
     endgenerate

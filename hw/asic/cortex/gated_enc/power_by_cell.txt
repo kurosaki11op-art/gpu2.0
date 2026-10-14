@@ -1,0 +1,22 @@
+# Power by cell type, encoder clock-gated build, gated clocks modelled at 1 cycle in 1000, 10% activity, 50 MHz
+total W 0.2424
+sky130_sram_2kbyte_1rw1r_32x512_8        63 cells    175.2 mW  72.3%
+clkbuf_16                             10615 cells     32.4 mW  13.4%
+clkbuf_4                               3234 cells      8.6 mW   3.5%
+dfxtp_1                               20670 cells      7.8 mW   3.2%
+buf_16                                 1044 cells      2.5 mW   1.0%
+clkbuf_2                               7633 cells      2.2 mW   0.9%
+dfxtp_4                                 424 cells      1.4 mW   0.6%
+buf_12                                  710 cells      1.3 mW   0.5%
+dlygate4sd3_1                          6591 cells      1.0 mW   0.4%
+mux2_1                                10923 cells      1.0 mW   0.4%
+mux4_1                                 4873 cells      1.0 mW   0.4%
+clkdlybuf4s18_1                        6609 cells      0.9 mW   0.4%
+dfxtp_2                                 317 cells      0.8 mW   0.3%
+clkbuf_1                               5203 cells      0.7 mW   0.3%
+nand2_8                                 448 cells      0.6 mW   0.3%
+mux4_4                                  622 cells      0.4 mW   0.2%
+o21ai_0                                8605 cells      0.4 mW   0.2%
+nor2_4                                  813 cells      0.3 mW   0.1%
+o31ai_1                                4635 cells      0.3 mW   0.1%
+nand2_1                                5234 cells      0.2 mW   0.1%

@@ -19,7 +19,7 @@ for f in fes:
         words.append(sum(1 << i for i in range(25) if t[i]))
 open(os.path.join(HERE, "tmpl.hex"), "w").write("\n".join("%07x" % w for w in words) + "\n")
 open(os.path.join(HERE, "img.hex"), "w").write("\n".join("%02x" % v for v in imgs.reshape(-1)) + "\n")
-subprocess.run(["iverilog", "-g2005"] + (["-DCORTEX_ASIC"] if ASIC else []) + ["-o", "/tmp/enc.vvp", f"-Ptb_cortex_encoder.N={N}", "cortex_encoder.v", "tb_cortex_encoder.v"],
+subprocess.run(["iverilog", "-g2005"] + (["-DCORTEX_ASIC"] if ASIC else []) + ["-o", "/tmp/enc.vvp", f"-Ptb_cortex_encoder.N={N}", "cortex_encoder.v", "tb_cortex_encoder.v"] + (["cortex_cg.v"] if ASIC else []),
                cwd=HERE, check=True)
 res = subprocess.run(["vvp", "-n", "/tmp/enc.vvp"], cwd=HERE, capture_output=True, text=True)
 print(res.stdout.strip().splitlines()[0] if res.stdout.strip() else res.stderr[-400:])
