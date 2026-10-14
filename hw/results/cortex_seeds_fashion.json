@@ -1,0 +1,12 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (integer chip model)",
+ "after_5_stages": [
+  0.7767,
+  0.7853,
+  0.7866
+ ],
+ "mean": 0.7828666666666666,
+ "min": 0.7767,
+ "max": 0.7866
+}

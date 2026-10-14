@@ -1,0 +1,20 @@
+{
+ "label": "ESTIMATED (45 nm per-operation energies, operation counts from the design)",
+ "active_code_bits_per_image": 245.7221,
+ "cortex_nJ": {
+  "sense_encode": 4.2393600000000005,
+  "decide": 5.1601641,
+  "decide_incl_encode": 9.3995241,
+  "learn_one_example_incl_encode_and_update": 29.079407089,
+  "one_dream_practised": 53.03728410000001
+ },
+ "network_nJ": {
+  "decide_int8": 696.1791999999999,
+  "decide_fp32": 11098.2144,
+  "train_step_fp32_per_example": 33294.643200000006
+ },
+ "ratios": {
+  "decide_int8_vs_cortex": 74.06536677745206,
+  "train_fp32_vs_cortex_learn": 1144.9560542310548
+ }
+}
