@@ -1,0 +1,11 @@
+T1 0.9607 0.977 38s
+T2 1 {'cortex': 0.32533333333333336, 'mlp': 0.3862666666666667}
+T2 5 {'cortex': 0.5332333333333333, 'mlp': 0.6723}
+T2 20 {'cortex': 0.7223333333333333, 'mlp': 0.8107666666666665}
+T3 {'stage': 1, 'cortex_all_seen': 0.9990543735224586, 'mlp_all_seen': 0.9995271867612293, 'cortex_stage1_classes': 0.9990543735224586, 'mlp_stage1_classes': 0.9995271867612293}
+T3 {'stage': 2, 'cortex_all_seen': 0.6054847245609815, 'mlp_all_seen': 0.48159730574933846, 'cortex_stage1_classes': 0.23498817966903074, 'mlp_stage1_classes': 0.0}
+T3 {'stage': 3, 'cortex_all_seen': 0.4248051732714309, 'mlp_all_seen': 0.30956723594760405, 'cortex_stage1_classes': 0.11962174940898346, 'mlp_stage1_classes': 0.0}
+T3 {'stage': 4, 'cortex_all_seen': 0.3155793937882001, 'mlp_all_seen': 0.24685044280903082, 'cortex_stage1_classes': 0.11158392434988179, 'mlp_stage1_classes': 0.0}
+T3 {'stage': 5, 'cortex_all_seen': 0.3294, 'mlp_all_seen': 0.1949, 'cortex_stage1_classes': 0.15933806146572105, 'mlp_stage1_classes': 0.0}
+T4 {"same_classes_different_data": {"cortex_A": 0.9538, "cortex_B": 0.9521, "cortex_merged": 0.9658, "mlp_A": 0.9697, "mlp_B": 0.9695, "mlp_weight_average_independent": 0.9249, "mlp_weight_average_same_start": 0.9695}, "different_classes": {"cortex_A_0to4": 0.5074, "cortex_B_5to9": 0.4725, "cortex_merged": 0.8256, "mlp_A": 0.5102, "mlp_B": 0.4785, "mlp_weight_average": 0.8283}}
+done 111s

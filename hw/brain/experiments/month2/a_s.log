@@ -1,0 +1,8 @@
+speech bits 46080 active/example 495
+ table cmax 7 acc 0.6985 KB 225
+ table cmax 15 acc 0.7538 KB 281
+ table cmax 127 acc 0.7608 KB 450
+ sparse concept S 64 acc 0.2158 KB 50
+ sparse concept S 128 acc 0.1967 KB 100
+ sparse concept S 256 acc 0.2345 KB 200
+ sparse concept S 512 acc 0.2809 KB 400

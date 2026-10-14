@@ -1,0 +1,6 @@
+speech local 0 homeo 0 cmax 15 [0.9449 0.485  0.3105 0.225  0.1847]
+speech local 0 homeo 0 cmax 127 [0.939  0.4869 0.3079 0.2288 0.1858]
+speech local 1 homeo 0 cmax 15 [0.9449 0.7357 0.61   0.4998 0.4511]
+speech local 1 homeo 0 cmax 127 [0.939  0.728  0.5927 0.4673 0.4145]
+speech local 1 homeo 1 cmax 15 [0.9429 0.7309 0.6196 0.4993 0.4492]
+speech local 1 homeo 1 cmax 127 [0.937  0.7289 0.5953 0.4707 0.4242]

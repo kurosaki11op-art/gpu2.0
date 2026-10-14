@@ -1,0 +1,1 @@
+mnist F 32 pool 2 fold 0 bits 4608 active 246 table127 0.9737 table15 0.9695 concept16 0.9678 c16@4bit 0.9665(360KB) c16@3bit 0.9637(270KB) c16@2bit 0.9383(180KB) concept8 0.9608 c8@4bit 0.9590(180KB) c8@3bit 0.9581(135KB) c8@2bit 0.9290(90KB) 81s

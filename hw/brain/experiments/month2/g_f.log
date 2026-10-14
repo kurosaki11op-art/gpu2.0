@@ -1,0 +1,6 @@
+fashion local 0 homeo 0 cmax 15 [0.9915 0.479  0.3673 0.255  0.2353]
+fashion local 0 homeo 0 cmax 127 [0.9925 0.4842 0.3603 0.2658 0.2439]
+fashion local 1 homeo 0 cmax 15 [0.9915 0.8592 0.5983 0.4868 0.5153]
+fashion local 1 homeo 0 cmax 127 [0.9925 0.878  0.5585 0.4885 0.5237]
+fashion local 1 homeo 1 cmax 15 [0.99   0.8482 0.7825 0.6418 0.6621]
+fashion local 1 homeo 1 cmax 127 [0.993  0.8415 0.7818 0.644  0.6712]

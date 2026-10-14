@@ -1,0 +1,8 @@
+fashion bits 18432 active/example 304
+ table cmax 7 acc 0.8235 KB 90
+ table cmax 15 acc 0.8334 KB 112
+ table cmax 127 acc 0.8576 KB 180
+ sparse concept S 64 acc 0.6635 KB 48
+ sparse concept S 128 acc 0.6939 KB 95
+ sparse concept S 256 acc 0.7248 KB 190
+ sparse concept S 512 acc 0.7296 KB 380

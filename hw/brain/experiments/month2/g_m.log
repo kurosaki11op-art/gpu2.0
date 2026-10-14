@@ -1,0 +1,6 @@
+mnist local 0 homeo 0 cmax 15 [0.9991 0.5381 0.3945 0.3083 0.2849]
+mnist local 0 homeo 0 cmax 127 [0.9986 0.5155 0.4129 0.3354 0.2957]
+mnist local 1 homeo 0 cmax 15 [0.9991 0.8792 0.8226 0.8215 0.7162]
+mnist local 1 homeo 0 cmax 127 [0.9986 0.8703 0.8227 0.8154 0.71  ]
+mnist local 1 homeo 1 cmax 15 [0.9967 0.9264 0.8705 0.8566 0.798 ]
+mnist local 1 homeo 1 cmax 127 [0.9972 0.917  0.8705 0.8517 0.7973]

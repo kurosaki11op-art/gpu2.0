@@ -14,8 +14,8 @@ PS, ST = 5, 2
 
 
 def patches(xb, side=28):
-    """xb: (B, side*side) bool -> (B, positions, PS*PS) bool"""
-    im = xb.reshape(-1, side, side)
+    """xb: (B, side*side[, channels]) bool -> (B, positions, PS*PS*channels) bool"""
+    im = xb.reshape(len(xb), side, side, -1)
     n = (side - PS) // ST + 1
     out = np.stack([im[:, i * ST:i * ST + PS, j * ST:j * ST + PS].reshape(len(im), -1)
                     for i in range(n) for j in range(n)], 1)
@@ -23,6 +23,8 @@ def patches(xb, side=28):
 
 
 def binarize(x, thr):
+    if isinstance(thr, list):                                               # several channels seen jointly
+        return np.stack([binarize(x, t) for t in thr], -1)                  # (B, pixels, channels)
     """thr = int: on if brighter than thr (receptor threshold).
     thr = ('on', d) / ('off', d): retina centre-surround cells: on if the pixel is brighter (darker) than the average
     of its 3x3 neighbourhood by more than d. Hardware: 8 adds, a shift (divide by 8) and a compare."""
@@ -36,13 +38,13 @@ def binarize(x, thr):
 
 
 class Features:
-    def __init__(self, F=64, seed=0, thr=100, min_on=3, pool=2):
-        self.F, self.r, self.thr, self.min_on, self.pool = F, np.random.RandomState(seed), thr, min_on, pool
+    def __init__(self, F=64, seed=0, thr=100, min_on=3, pool=2, k=1):
+        self.F, self.r, self.thr, self.min_on, self.pool, self.k = F, np.random.RandomState(seed), thr, min_on, pool, k
         self.cnt = None
 
     def fit(self, x, n_patches=200000, passes=3, step=1, cmax=31):
         p, _ = patches(binarize(x, self.thr))
-        p = p.reshape(-1, PS * PS)
+        p = p.reshape(-1, p.shape[-1])
         p = p[p.sum(1) >= self.min_on]                                     # ignore blank patches
         p = p[self.r.choice(len(p), min(n_patches, len(p)), replace=False)]
         self.cnt = np.where(p[self.r.choice(len(p), self.F)], 1, -1).astype(np.int32)
@@ -66,16 +68,21 @@ class Features:
         pool = pool or self.pool
         p, n = patches(binarize(x, self.thr))
         B = len(x)
-        flat = p.reshape(-1, PS * PS)
-        w = self.winners(flat).reshape(B, n, n)
+        flat = p.reshape(-1, p.shape[-1])
+        if self.k == 1:
+            W = self.winners(flat).reshape(B, n, n, 1)
+        else:                                                               # k winners per spot (k-WTA)
+            t = np.where(self.cnt >= 0, 1, -1)
+            W = np.argsort(-(np.where(flat, 1, -1) @ t.T), 1)[:, :self.k].reshape(B, n, n, self.k)
         on = (p.sum(2) >= self.min_on).reshape(B, n, n)
         m = n // pool
         code = np.zeros((B, m, m, self.F), bool)
         for di in range(pool):
             for dj in range(pool):
-                ww = w[:, di:m * pool:pool, dj:m * pool:pool]; oo = on[:, di:m * pool:pool, dj:m * pool:pool]
+                ww = W[:, di:m * pool:pool, dj:m * pool:pool]; oo = on[:, di:m * pool:pool, dj:m * pool:pool]
                 bi, ii, jj = np.nonzero(oo)
-                code[bi, ii, jj, ww[bi, ii, jj]] = True                     # OR-pool: feature fired somewhere nearby
+                for kk in range(ww.shape[-1]):
+                    code[bi, ii, jj, ww[bi, ii, jj, kk]] = True             # OR-pool: feature fired somewhere nearby
         return code.reshape(B, -1)
 
 

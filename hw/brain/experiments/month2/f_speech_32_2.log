@@ -1,0 +1,1 @@
+speech F 32 pool 2 fold 0 bits 11520 active 434 table127 0.7129 table15 0.6471 concept16 0.5684 c16@4bit 0.5621(900KB) c16@3bit 0.5543(675KB) c16@2bit 0.4757(450KB) concept8 0.5259 c8@4bit 0.5197(450KB) c8@3bit 0.5193(338KB) c8@2bit 0.4453(225KB) 79s

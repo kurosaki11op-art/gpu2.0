@@ -1,0 +1,7 @@
+fashion bits 18432 active/example 304
+  excite S 64 acc 0.6706 KB 48
+  excite S 128 acc 0.6818 KB 95
+  excite S 256 acc 0.6956 KB 190
+  excite+inhibit S 64 acc 0.5625 KB 48
+  excite+inhibit S 128 acc 0.6235 KB 95
+  excite+inhibit S 256 acc 0.6411 KB 190

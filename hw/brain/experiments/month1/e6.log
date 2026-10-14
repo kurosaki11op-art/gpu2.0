@@ -1,0 +1,1 @@
+F 128 pool 2 stage1 [30, 80, 130, 180, ('on', 8), ('off', 8), ('on', 24), ('off', 24)] bits 36864 table 0.7378 concept 0.5933 168s

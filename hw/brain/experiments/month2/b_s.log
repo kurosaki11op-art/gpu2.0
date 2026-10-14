@@ -1,0 +1,7 @@
+speech bits 46080 active/example 495
+  excite S 64 acc 0.2727 KB 50
+  excite S 128 acc 0.3393 KB 100
+  excite S 256 acc 0.3557 KB 200
+  excite+inhibit S 64 acc 0.2423 KB 50
+  excite+inhibit S 128 acc 0.3054 KB 100
+  excite+inhibit S 256 acc 0.3187 KB 200
