@@ -45,7 +45,7 @@ module cortex_board_top #(
     reg  [7:0] tx_data = 8'd0; reg tx_send = 1'b0; wire tx_busy;
     uart_rx #(.CLK_HZ(CLK_HZ), .BAUD(BAUD)) u_rx (.clk(clk), .rst(rst), .rx(uart_rx), .data(rx_data), .valid(rx_valid));
     uart_tx #(.CLK_HZ(CLK_HZ), .BAUD(BAUD)) u_tx (.clk(clk), .rst(rst), .send(tx_send), .data(tx_data), .tx(uart_tx), .busy(tx_busy));
-    reg [7:0] rbuf [0:3]; reg [2:0] rlen = 0, ri = 0; reg sending = 1'b0; reg start_reply = 1'b0;
+    reg [7:0] rbuf [0:2]; reg [2:0] rlen = 0, ri = 0; reg sending = 1'b0; reg start_reply = 1'b0;
     always @(posedge clk) begin
         tx_send <= 1'b0;
         if (rst) begin sending <= 1'b0; ri <= 0; end

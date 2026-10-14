@@ -51,18 +51,28 @@ module cortex_core #(
     integer j;
 
     // ---- memories: synchronous read; writes come one cycle after the FSM asks (registered enables) -------------
-    always @(posedge clk) begin
-        lb_q <= lbuf[lb_addr];
-        if (lb_we) lbuf[lb_waddr] <= lb_wdata;
-        else if (lb_wen) lbuf[lb_wa] <= lb_wd;
+    // single port: the host writes only while the core is idle and the dream generator writes only while nothing
+    // reads the list, so reads and writes never share a cycle and one address serves both
+    wire lbw = lb_we | lb_wen;
+    wire [AW-1:0] lba = lb_we ? lb_waddr : lb_wen ? lb_wa : lb_addr, lbd = lb_we ? lb_wdata : lb_wd;
+    // every block-RAM input is re-registered on the falling edge: the RAMs still sample on the rising edge, so the
+    // behaviour is cycle-for-cycle the same, but the hold margin at the RAM inputs becomes half a clock period
+    reg lbw_n, w_wen_n, c_wen_n; reg [AW-1:0] lba_n, lbd_n, m_addr_n; reg [C*WB-1:0] w_wd_n; reg [C*CB-1:0] c_wd_n;
+    always @(negedge clk) begin
+        lbw_n <= lbw; lba_n <= lba; lbd_n <= lbd; m_addr_n <= m_addr;
+        w_wen_n <= w_wen; w_wd_n <= w_wd; c_wen_n <= c_wen; c_wd_n <= c_wd;
     end
     always @(posedge clk) begin
-        wq <= wmem[m_addr];
-        if (w_wen) wmem[m_addr] <= w_wd;
+        if (lbw_n) lbuf[lba_n] <= lbd_n;
+        else lb_q <= lbuf[lba_n];
     end
     always @(posedge clk) begin
-        cq <= cmem[m_addr];
-        if (c_wen) cmem[m_addr] <= c_wd;
+        wq <= wmem[m_addr_n];
+        if (w_wen_n) wmem[m_addr_n] <= w_wd_n;
+    end
+    always @(posedge clk) begin
+        cq <= cmem[m_addr_n];
+        if (c_wen_n) cmem[m_addr_n] <= c_wd_n;
     end
 
     function [31:0] xs; input [31:0] s; reg [31:0] t; begin

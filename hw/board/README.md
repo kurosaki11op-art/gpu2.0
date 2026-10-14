@@ -240,13 +240,19 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 
 ## Status
 
-- SIMULATED: core and board bit-exact with the integer chip model; yosys (GW2AR-18): 46/46 block RAMs, ~12.5k LUT4,
-  0 multipliers, before place and route. Block RAM is full, so place and route may need the list buffer shrunk.
-- Not yet done: place and route, timing, a real board run.
+- SIMULATED: core and board bit-exact with the integer chip model (0 mismatches).
+- **Bitstream built** with the open-source flow (`hw/build_cortex/build.sh`: yosys + nextpnr-himbaechel + apicula):
+  `hw/build_cortex/cortex_tangnano20k.fs.gz`. Place and route: 46/46 block RAMs (100%), 11,223 LUT4 (54%),
+  2,264 flip-flops (14%), 0 of the hardware multipliers; max clock 68.6 MHz (board clock 27 MHz); no hold violations
+  (all block-RAM inputs are re-registered on the falling clock edge).
+- Not yet done: a real board run (needs the user's board), power measurement.
 
 ## Run it (on the PC)
 
-1. Build the bitstream exactly as in section 3 above, with these files and top `cortex_board_top`:
+1. Ready-made bitstream: unzip `hw/build_cortex/cortex_tangnano20k.fs.gz` and program it with
+   `openFPGALoader -b tangnano20k cortex_tangnano20k.fs` (SRAM, lost at power-off; add `-f` to write flash), or the
+   Gowin Programmer. Check the pin TODOs in `tangnano20k.cst` against your board first (UART 69/70, clock 4, LEDs 15-20).
+   To rebuild it yourself, use section 3 above with these files and top `cortex_board_top`:
    `yosys -p "read_verilog ../rtl/cortex/cortex_core.v ../board/uart_rx.v ../board/uart_tx.v ../board/cortex_board_top.v; synth_gowin -top cortex_board_top -json cortex.json"`,
    then nextpnr / gowin_pack / openFPGALoader as above (or the Gowin IDE steps). Check the pin TODOs in `tangnano20k.cst` first.
 2. `pip install pyserial numpy` (and `numba` only for `--dry-run`).
