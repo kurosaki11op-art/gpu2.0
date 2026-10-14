@@ -143,3 +143,206 @@ Info:     at iteration #9, type ALL: wirelen solved = 56649, spread = 153907, le
 Info:     at iteration #10, type ALL: wirelen solved = 56938, spread = 164691, legal = 267676; time = 5.48s
 Info:     at iteration #11, type ALL: wirelen solved = 69300, spread = 149921, legal = 261462; time = 4.83s
 Info:     at iteration #12, type ALL: wirelen solved = 70574, spread = 155132, legal = 246631; time = 5.25s
+Info:     at iteration #13, type ALL: wirelen solved = 73422, spread = 138601, legal = 247167; time = 6.10s
+Info:     at iteration #14, type ALL: wirelen solved = 77123, spread = 144761, legal = 242302; time = 42.82s
+Info:     at iteration #15, type ALL: wirelen solved = 80674, spread = 142832, legal = 244568; time = 39.16s
+Info:     at iteration #16, type ALL: wirelen solved = 84654, spread = 148219, legal = 243486; time = 4.06s
+Info:     at iteration #17, type ALL: wirelen solved = 86904, spread = 148126, legal = 246628; time = 38.35s
+Info:     at iteration #18, type ALL: wirelen solved = 91108, spread = 163030, legal = 262786; time = 4.31s
+Info:     at iteration #19, type ALL: wirelen solved = 98678, spread = 190664, legal = 272756; time = 10.81s
+Info: HeAP Placer Time: 253.07s
+Info:   of which solving equations: 6.19s
+Info:   of which spreading cells: 1.10s
+Info:   of which strict legalisation: 243.68s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 956, wirelen = 242302
+Info:   at iteration #5: temp = 0.000000, timing cost = 382, wirelen = 160187
+Info:   at iteration #10: temp = 0.000000, timing cost = 656, wirelen = 147629
+Info:   at iteration #15: temp = 0.000000, timing cost = 825, wirelen = 140369
+Info:   at iteration #19: temp = 0.000000, timing cost = 415, wirelen = 138858 
+Info: SA placement time 56.49s
+
+Info: Max frequency for clock 'u_core.clk': 55.31 MHz (PASS at 27.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 10 endpoint(s)
+Info:          + represents [1,10) endpoint(s)
+Info: [  6853,   8423) |*****+
+Info: [  8423,   9993) |***************+
+Info: [  9993,  11563) |**********************+
+Info: [ 11563,  13133) |*********************************+
+Info: [ 13133,  14703) |***********************************************+
+Info: [ 14703,  16273) |********************************+
+Info: [ 16273,  17843) |***********************************************+
+Info: [ 17843,  19413) |**************************************+
+Info: [ 19413,  20983) |***********+
+Info: [ 20983,  22553) |***************+
+Info: [ 22553,  24123) |*******************+
+Info: [ 24123,  25693) |***********************+
+Info: [ 25693,  27263) |********************************+
+Info: [ 27263,  28833) |**************************************************+
+Info: [ 28833,  30403) |***********************************************+
+Info: [ 30403,  31973) |******************************************+
+Info: [ 31973,  33543) |**********************************************+
+Info: [ 33543,  35113) |*****************************************************+
+Info: [ 35113,  36683) |************************************************************ 
+Info: [ 36683,  38253) |***********************+
+Info: Checksum: 0x5fd9df69
+Info: Routing globals...
+Info:     'u_core.clk' net was routed.
+Info:     'u_core.w_wen_DFFR_Q_D_LUT2_F_I1_LUT4_I0_F' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_6_SUM[0]' is routed using segments.
+Info:     'pix_data[5]' is routed using segments.
+Info:     'pix_data[1]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_20_SUM_LUT2_I1_1_I0[1]' is routed using segments.
+Info:     'u_core.n[0]_DFFE_Q_5_D_LUT4_F_I0_LUT4_I2_F_ALU_SUM_COUT_ALU_COUT_2_SUM[4]' is routed using segments.
+Info:     'cmd_arg_DFFE_Q_D_LUT3_F_1_I2[1]' is routed using segments.
+Info:     'pix_data[0]' is routed using segments.
+Info:     'pix_data[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_17_I0_LUT2_F_I0[1]' is routed using segments.
+Info:     'u_core.lb_wen_DFFR_Q_RESET_LUT2_F_I1_LUT4_I2_F_LUT3_I0_F[2]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_6_SUM[2]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_6_SUM[6]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_9_SUM[0]' is routed using segments.
+Info:     'u_enc.bmap_v[2]' is routed using segments.
+Info:     'u_enc.bmap_v[1]' is routed using segments.
+Info:     'pix_data[3]' is routed using segments.
+Info:     'u_core.L_DFF_Q_1_D_LUT3_F_I2[1]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_9_SUM[6]' is routed using segments.
+Info:     'u_enc.cidx[8]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_2_I0_LUT2_F_I0[1]' is routed using segments.
+Info:     'u_enc.pxx_ALU_I0_SUM[1]' is routed using segments.
+Info:     'u_enc.pxx_ALU_I0_SUM[2]' is routed using segments.
+Info:     'pix_data[7]' is routed using segments.
+Info:     'pix_data[4]' is routed using segments.
+Info:     'lane_we_LUT3_I2_F[2]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_17_SUM[0]' is routed using segments.
+Info:     'u_enc.cidx[9]' is routed using segments.
+Info:     'u_core.known_DFFRE_Q_2_D_LUT4_F_I1_LUT4_F_I1_LUT4_I1_F_LUT4_I0_F_LUT4_F_8_I0_MUX2_LUT6_O_S0_MUX2_LUT5_O_S0[3]' is routed using segments.
+Info:     'u_core.n[4]_DFFE_Q_7_D_LUT4_F_I0_LUT4_I2_F_LUT4_F_I0_LUT4_F_I3[5]' is routed using segments.
+Info:     'u_core.cq[99]' is routed using segments.
+Info:     'u_core.n[0]_DFFE_Q_5_D_LUT4_F_I0_LUT4_I2_F_ALU_SUM_COUT_ALU_COUT_2_SUM[5]' is routed using segments.
+Info:     'u_enc.pxx_ALU_I0_SUM[0]' is routed using segments.
+Info:     'u_enc.pxx_ALU_I0_SUM[3]' is routed using segments.
+Info:     'cmd_arg_DFFE_Q_D_LUT3_F_I2[1]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_2_I0[1]' is routed using segments.
+Info:     'u_enc.cidx[12]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_17_SUM[2]' is routed using segments.
+Info:     'u_core.lb_wen_DFFR_Q_RESET_LUT2_F_I1_LUT4_I2_F_LUT3_I1_F[2]' is routed using segments.
+Info:     'u_core.busy_DFFRE_Q_D_LUT3_F_I1_LUT3_I2_F_LUT4_F_I3_LUT3_I2_F_LUT4_I3_F_LUT3_I0_F_LUT4_I3_I2_LUT2_F_I1_LUT2_I0_F_LUT2_I1_F_LUT3_I2_3_F[3]' is routed using segments.
+Info:     'u_core.n[0]_DFFE_Q_3_D_LUT4_F_I0_LUT4_I2_F_LUT4_F_1_I2[0]' is routed using segments.
+Info:     'u_enc.bmap_v[3]' is routed using segments.
+Info:     'u_enc.pix.0.20_DO_1_LUT1_I0_F_MUX2_LUT5_I0_O[2]' is routed using segments.
+Info:     'lo_DFFE_Q_CE_LUT3_F_I2_LUT2_I1_F_LUT2_I0_F' is routed using segments.
+Info:     'lane_we_LUT3_I2_3_F_LUT4_F_I3_LUT4_I3_1_F[2]' is routed using segments.
+Info:     'u_core.known_DFFRE_Q_7_D_LUT4_F_I0_LUT4_F_I2_LUT4_F_I0_LUT4_F_I3[2]' is routed using segments.
+Info:     'pix_data[6]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_20_SUM_LUT2_I1_F[1]' is routed using segments.
+Info:     'u_core.n[0]_DFFE_Q_3_D_LUT4_F_I0_LUT4_I2_F_LUT4_F_1_I2[1]' is routed using segments.
+Info:     'u_core.n[0]_DFFE_Q_3_D_LUT4_F_I0_LUT4_I2_F_LUT4_F_I1_LUT4_F_I0[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_LUT4_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_S0_O_LUT4_I0_F_LUT3_I0_F' is routed using segments.
+Info:     'lane_we_LUT3_I2_3_F_LUT4_F_I3_LUT4_I2_F[2]' is routed using segments.
+Info:     'u_core.lanes[22]_DFFE_Q_CE' is routed using segments.
+Info:     'lane_we_LUT3_I2_1_F_LUT4_F_I3_LUT4_I2_1_F[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_22_I0[1]' is routed using segments.
+Info:     'go_wait_LUT4_I2_F_LUT4_F_I1_LUT4_I3_I2_LUT4_I3_I1_LUT4_I1_F_MUX2_LUT5_O_I1_LUT4_F_I0[3]' is routed using segments.
+Info:     'go_wait_LUT4_I2_F_LUT4_F_I1_LUT4_I3_I2_LUT4_I3_I1_LUT4_I1_F_MUX2_LUT5_O_I1_LUT4_F_I0[4]' is routed using segments.
+Info:     'u_enc.cidx[11]' is routed using segments.
+Info:     'lo_DFFE_Q_CE_LUT3_F_I2_LUT2_I1_F_LUT2_I1_F' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_6_SUM[4]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I2_ALU_SUM_COUT_ALU_COUT_20_SUM_LUT2_I1_1_I0_LUT2_I0_F[1]' is routed using segments.
+Info:     'u_core.lb_wen_DFFR_Q_RESET_LUT2_F_I1_LUT4_I2_F_LUT3_I2_F[2]' is routed using segments.
+Info:     'u_core.c_wen_n_LUT4_I1_F[4]' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 70388 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |       66        933 |   66   933 |     69506|       1.38       1.38|
+Info:       2000 |       95       1904 |   29   971 |     68551|       0.79       2.17|
+Info:       3000 |      127       2872 |   32   968 |     67600|       0.72       2.89|
+Info:       4000 |      167       3832 |   40   960 |     66697|       0.61       3.50|
+Info:       5000 |      185       4814 |   18   982 |     65727|       0.50       4.01|
+Info:       6000 |      213       5786 |   28   972 |     64776|       0.50       4.51|
+Info:       7000 |      285       6714 |   72   928 |     63913|       0.47       4.98|
+Info:       8000 |      322       7361 |   37   647 |     63012|       0.34       5.32|
+Info:       9000 |      343       7806 |   21   445 |     62040|       0.28       5.60|
+Info:      10000 |      348       8198 |    5   392 |     61048|       0.26       5.86|
+Info:      11000 |      361       8811 |   13   613 |     60064|       0.32       6.18|
+Info:      12000 |      377       9617 |   16   806 |     59083|       0.38       6.55|
+Info:      13000 |      381      10462 |    4   845 |     58088|       0.24       6.80|
+Info:      14000 |      385      11241 |    4   779 |     57094|       0.56       7.36|
+Info:      15000 |      387      12032 |    2   791 |     56096|       0.72       8.08|
+Info:      16000 |      393      12821 |    6   789 |     55105|       0.56       8.65|
+Info:      17000 |      394      13585 |    1   764 |     54106|       0.51       9.16|
+Info:      18000 |      398      14337 |    4   752 |     53111|       0.52       9.68|
+Info:      19000 |      403      15134 |    5   797 |     52119|       0.52      10.20|
+Info:      20000 |      409      15902 |    6   768 |     51125|       0.48      10.68|
+Info:      21000 |      419      16686 |   10   784 |     50143|       0.54      11.22|
+Info:      22000 |      426      17473 |    7   787 |     49161|       0.55      11.77|
+Info:      23000 |      433      18242 |    7   769 |     48194|       0.57      12.34|
+Info:      24000 |      442      19008 |    9   766 |     47212|       0.60      12.94|
+Info:      25000 |      448      19780 |    6   772 |     46220|       0.58      13.52|
+Info:      26000 |      457      20559 |    9   779 |     45230|       0.61      14.13|
+Info:      27000 |      467      21307 |   10   748 |     44252|       0.59      14.72|
+Info:      28000 |      473      22055 |    6   748 |     43262|       0.59      15.31|
+Info:      29000 |      491      22819 |   18   764 |     42287|       0.58      15.90|
+Info:      30000 |      501      23603 |   10   784 |     41313|       0.57      16.46|
+Info:      31000 |      523      24364 |   22   761 |     40358|       0.71      17.17|
+Info:      32000 |      546      25114 |   23   750 |     39407|       0.76      17.93|
+Info:      33000 |      555      25860 |    9   746 |     38422|       0.66      18.59|
+Info:      34000 |      581      26622 |   26   762 |     37509|       0.68      19.27|
+Info:      35000 |      618      27371 |   37   749 |     36587|       0.73      20.00|
+Info:      36000 |      635      28134 |   17   763 |     35604|       0.61      20.61|
+Info:      37000 |      662      28926 |   27   792 |     34701|       0.78      21.39|
+Info:      38000 |      683      29696 |   21   770 |     33726|       0.75      22.13|
+Info:      39000 |      718      30438 |   35   742 |     32786|       0.74      22.88|
+Info:      40000 |      782      31166 |   64   728 |     31893|       1.07      23.95|
+Info:      41000 |      823      31934 |   41   768 |     30961|       0.90      24.85|
+Info:      42000 |      874      32662 |   51   728 |     30035|       0.91      25.76|
+Info:      43000 |      940      33399 |   66   737 |     29172|       1.20      26.96|
+Info:      44000 |     1002      34140 |   62   741 |     28288|       1.05      28.02|
+Info:      45000 |     1068      34879 |   66   739 |     27456|       1.05      29.07|
+Info:      46000 |     1162      35590 |   94   711 |     26660|       1.19      30.26|
+Info:      47000 |     1256      36280 |   94   690 |     25830|       1.15      31.41|
+Info:      48000 |     1313      36997 |   57   717 |     24944|       1.23      32.64|
+Info:      49000 |     1407      37731 |   94   734 |     24108|       1.12      33.76|
+Info:      50000 |     1513      38442 |  106   711 |     23336|       1.17      34.93|
+Info:      51000 |     1664      39118 |  151   676 |     22660|       1.32      36.26|
+Info:      52000 |     1860      39812 |  196   694 |     22152|       1.57      37.83|
+Info:      53000 |     1980      40495 |  120   683 |     21336|       1.46      39.29|
+Info:      54000 |     2101      41197 |  121   702 |     20604|       1.48      40.77|
+Info:      55000 |     2217      41907 |  116   710 |     19776|       1.30      42.08|
+Info:      56000 |     2407      42564 |  190   657 |     19213|       1.79      43.87|
+Info:      57000 |     2829      43142 |  422   578 |     19579|       2.48      46.35|
+Info:      58000 |     3003      43882 |  174   740 |     19130|       1.97      48.31|
+Info:      59000 |     3183      44540 |  180   658 |     18510|       1.92      50.23|
+Info:      60000 |     3310      45260 |  127   720 |     17707|       1.48      51.71|
+Info:      61000 |     3486      45931 |  176   671 |     17163|       1.83      53.54|
+Info:      62000 |     3663      46612 |  177   681 |     16498|       1.78      55.32|
+Info:      63000 |     3871      47289 |  208   677 |     16002|       1.95      57.28|
+Info:      64000 |     4066      47961 |  195   672 |     15401|       2.04      59.31|
+Info:      65000 |     4308      48611 |  242   650 |     14952|       2.54      61.85|
+Info:      66000 |     4533      49269 |  225   658 |     14592|       2.00      63.85|
+Info:      67000 |     4778      49946 |  245   677 |     14164|       2.19      66.04|
+Info:      68000 |     5042      50573 |  264   627 |     13688|       2.48      68.52|
+Info:      69000 |     5345      51166 |  303   593 |     13274|       2.72      71.24|
+Info:      70000 |     5562      51837 |  217   671 |     12736|       2.11      73.35|
+Info:      71000 |     5865      52476 |  303   639 |     12570|       2.78      76.14|
+Info:      72000 |     6085      53132 |  220   656 |     12021|       1.89      78.03|
+Info:      73000 |     6426      53778 |  341   646 |     12107|       2.99      81.02|
+Info:      74000 |     6672      54414 |  246   636 |     11525|       2.29      83.31|
+Info:      75000 |     6929      55027 |  257   613 |     11036|       2.32      85.63|
+Info:      76000 |     7242      55652 |  313   625 |     10787|       2.57      88.20|
+Info:      77000 |     7469      56328 |  227   676 |     10317|       2.35      90.55|
+Info:      78000 |     7741      56976 |  272   648 |      9935|       2.34      92.89|
+Info:      79000 |     7985      57613 |  244   637 |      9316|       2.16      95.05|
+Info:      80000 |     8270      58254 |  285   641 |      8981|       2.64      97.69|
+Info:      81000 |     8553      58897 |  283   643 |      8669|       2.37     100.06|
+Info:      82000 |     8863      59504 |  310   607 |      8257|       2.82     102.88|
+Info:      83000 |     9251      60088 |  388   584 |      8176|       3.55     106.43|
+Info:      84000 |     9638      60678 |  387   590 |      8146|       3.92     110.35|
+Info:      85000 |     9947      61272 |  309   594 |      7764|       2.70     113.05|
+Info:      86000 |    10229      61896 |  282   624 |      7268|       2.89     115.95|
