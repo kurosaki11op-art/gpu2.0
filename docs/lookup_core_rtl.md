@@ -106,3 +106,27 @@ Synthesis check (yosys synth_gowin, RAMs inferred, no place-and-route):
 | Next-byte accuracy (code / Alice) | 75.5% / 48.4% | 75.9% / 49.7% |
 
 The confidence table maps to LUT-RAM (4 small cells). Timing and power are still unmeasured.
+
+## Token core for real LLM drafting: `hw/rtl/lookup/spark_lookup_tok.v` (SIMULATED, bit-exact)
+
+This is the same design whose acceptance was measured on a real model: on Qwen2.5-Coder-1.5B, 2.41 tokens per pass on code and 2.29 on prose, against 2.39 and 2.21 for prompt lookup (`hw/results/token_lookup_real.md`).
+
+- **Commands:** LEARN(token) for each token the big model commits; DRAFT(K) proposes up to K tokens by chaining lookups, highest order first, stopping at the first miss. Each proposed token comes with its source order and counter, for confidence. Drafting never writes the tables.
+- **Tables:** 4 orders (1-4 tokens of context), 2^TB entries each of {valid, 12-bit tag, 18-bit token ID, 2-bit counter} = 33 bits. 18 bits covers vocabularies up to 262,144 tokens.
+- **Hash:** CRC-32 over the last o token IDs (4 bytes each, oldest first), one token per clock cycle with a single shared unit. XOR and shifts only.
+
+Verification: `python hw/rtl/lookup/run_check_tok.py` drafts K = 8 at every position of 1,500-token streams (code and prose; token IDs above 2^16 to exercise all 18 bits) at TB = 11 and 12, and compares every proposed token, source order, counter and draft length with `hw/system/lookup_tok_ref.py`.
+Result: **0 mismatches in 6,000 drafts**. The reference also proposes exactly the same tokens as the drafter used in the real-model measurement at all 6,000 positions.
+
+Measured cost in simulation: about 65 cycles per 8-token draft (about 11 cycles per proposed token) and 25 cycles per learned token. At 27 MHz that is about 2.4 microseconds per draft, against 19-72 ms per target-model step on the PC.
+
+Synthesis check (yosys synth_gowin, no place-and-route):
+
+| | TB = 11 | TB = 12 (the measured configuration) |
+|---|---|---|
+| Table memory | 33 KiB | 66 KiB |
+| Block-RAM blocks | 16 of 46 (35%) | 32 of 46 (70%) |
+| LUT cells | about 1,200 | about 1,400 |
+| Flip-flops | about 283 | about 289 |
+
+Not done: acceptance at TB = 11 on a real model (only TB = 12 was measured); 2-way tables at token level; a host protocol (the byte-board top-level would need 3-byte token commands); timing and power.
