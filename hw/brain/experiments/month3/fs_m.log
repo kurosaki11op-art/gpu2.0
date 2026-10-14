@@ -1,0 +1,2 @@
+mnist stage1-only bits 4608 few-shot k: (table, episodic) {1: (0.3748, 0.2699), 5: (0.5572, 0.385), 20: (0.8247, 0.5904)} 39s
+mnist broad-unlabeled bits 4608 few-shot k: (table, episodic) {1: (0.3745, 0.27), 5: (0.5441, 0.4342), 20: (0.8322, 0.6144)} 37s

@@ -1,0 +1,2 @@
+fashion stage1-only bits 4608 few-shot k: (table, episodic) {1: (0.3903, 0.4147), 5: (0.4949, 0.5136), 20: (0.6858, 0.6111)} 38s
+fashion broad-unlabeled bits 4608 few-shot k: (table, episodic) {1: (0.3808, 0.4044), 5: (0.4975, 0.5181), 20: (0.676, 0.6009)} 36s
