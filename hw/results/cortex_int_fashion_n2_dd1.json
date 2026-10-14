@@ -5,31 +5,42 @@
  "count_bits": 10,
  "daydream": 1,
  "replay_k": 0,
+ "night_stop": 0,
  "stages": [
   {
    "stage": 1,
    "acc": 0.986,
-   "table_writes": 186
+   "table_writes": 186,
+   "night_dreams": 0,
+   "night_surprise_per_256": 0.0
   },
   {
    "stage": 2,
    "acc": 0.89375,
-   "table_writes": 577
+   "table_writes": 577,
+   "night_dreams": 48000,
+   "night_surprise_per_256": 0.0
   },
   {
    "stage": 3,
    "acc": 0.8718333333333333,
-   "table_writes": 856
+   "table_writes": 856,
+   "night_dreams": 72000,
+   "night_surprise_per_256": 0.2
   },
   {
    "stage": 4,
    "acc": 0.7805,
-   "table_writes": 3216
+   "table_writes": 3216,
+   "night_dreams": 96000,
+   "night_surprise_per_256": 0.7
   },
   {
    "stage": 5,
    "acc": 0.7954,
-   "table_writes": 558
+   "table_writes": 558,
+   "night_dreams": 120000,
+   "night_surprise_per_256": 0.2
   }
  ],
  "memory_KB": {

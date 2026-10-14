@@ -1,0 +1,5 @@
+fashion night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 1, 'acc': 0.986, 'table_writes': 186, 'night_dreams': 0, 'night_surprise_per_256': np.float64(0.0)} 3s
+fashion night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 2, 'acc': 0.89375, 'table_writes': 577, 'night_dreams': 48000, 'night_surprise_per_256': np.float64(0.0)} 8s
+fashion night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 3, 'acc': 0.8718333333333333, 'table_writes': 856, 'night_dreams': 72000, 'night_surprise_per_256': np.float64(0.2)} 16s
+fashion night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 4, 'acc': 0.794875, 'table_writes': 2954, 'night_dreams': 832, 'night_surprise_per_256': np.float64(2.2)} 20s
+fashion night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 5, 'acc': 0.7871, 'table_writes': 573, 'night_dreams': 2816, 'night_surprise_per_256': np.float64(1.0)} 24s

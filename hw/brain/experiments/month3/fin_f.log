@@ -1,0 +1,3 @@
+fashion all at once 0.8365 6s
+fashion stages [0.986  0.8938 0.8718 0.7949 0.7871] 19s
+fashion merge {'chip_A_0to4': 0.4456, 'chip_B_5to9': 0.4744, 'added_no_sleep': 0.7164, 'after_night': 0.8233, 'night_dreams': 256} 24s

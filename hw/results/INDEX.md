@@ -9,7 +9,8 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 
 ## SPARK Cortex (Phase C, now)
 
-- [Month 2 running log](cortex_month2_log.md): memory shrink findings, including failures (SIMULATED).
+- [Month 2 results](cortex_month2.md): memory 137x smaller, one rule, integer chip model + RTL bit-exact (SIMULATED).
+- [Month 2 running log](cortex_month2_log.md): every memory-shrink test, including failures (SIMULATED).
 - [Month 1](cortex_month1.md): accuracy gap closed on digits, clothing, spoken words (SIMULATED).
 - [First proof](cortex_proof.md): no forgetting, exact merge, few-shot loses (SIMULATED).
 

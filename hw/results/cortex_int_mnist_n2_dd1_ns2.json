@@ -1,0 +1,50 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (integer reference model)",
+ "night_passes": 2,
+ "count_bits": 10,
+ "daydream": 1,
+ "replay_k": 0,
+ "night_stop": 2,
+ "stages": [
+  {
+   "stage": 1,
+   "acc": 0.9990543735224586,
+   "table_writes": 38,
+   "night_dreams": 0,
+   "night_surprise_per_256": 0.0
+  },
+  {
+   "stage": 2,
+   "acc": 0.9672840991099351,
+   "table_writes": 327,
+   "night_dreams": 48000,
+   "night_surprise_per_256": 0.0
+  },
+  {
+   "stage": 3,
+   "acc": 0.969490963355994,
+   "table_writes": 198,
+   "night_dreams": 72000,
+   "night_surprise_per_256": 0.0
+  },
+  {
+   "stage": 4,
+   "acc": 0.9535986029686915,
+   "table_writes": 153,
+   "night_dreams": 96000,
+   "night_surprise_per_256": 0.0
+  },
+  {
+   "stage": 5,
+   "acc": 0.9458,
+   "table_writes": 569,
+   "night_dreams": 120000,
+   "night_surprise_per_256": 0.0
+  }
+ ],
+ "memory_KB": {
+  "fast_table": 28.125,
+  "dream_counts": 56.26220703125
+ }
+}

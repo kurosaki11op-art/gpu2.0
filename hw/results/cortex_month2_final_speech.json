@@ -1,0 +1,29 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (integer chip model, bit-exact with the RTL core)",
+ "rule": {
+  "B": 10,
+  "night": 2,
+  "daydream": 1,
+  "night_stop": 2
+ },
+ "all_at_once": 0.7109466303077523,
+ "stages": [
+  0.9311023622047244,
+  0.8015488867376573,
+  0.7434252726106478,
+  0.7242380261248186,
+  0.6969224776003117
+ ],
+ "merge": {
+  "chip_A_0to4": 0.403194390338917,
+  "chip_B_5to9": 0.4016361511492014,
+  "added_no_sleep": 0.5796649785742112,
+  "after_night": 0.6260225944682509,
+  "night_dreams": 256
+ },
+ "memory_KB": {
+  "fast_table_5bit": 140.625,
+  "dream_counts_10bit": 281.26220703125
+ }
+}

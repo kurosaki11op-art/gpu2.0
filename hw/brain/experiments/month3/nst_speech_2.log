@@ -1,0 +1,5 @@
+speech night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 1, 'acc': 0.9311023622047244, 'table_writes': 447, 'night_dreams': 0, 'night_surprise_per_256': np.float64(0.0)} 3s
+speech night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 2, 'acc': 0.8015488867376573, 'table_writes': 1008, 'night_dreams': 512, 'night_surprise_per_256': np.float64(2.5)} 14s
+speech night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 3, 'acc': 0.7434252726106478, 'table_writes': 1900, 'night_dreams': 256, 'night_surprise_per_256': np.float64(5.0)} 30s
+speech night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 4, 'acc': 0.7242380261248186, 'table_writes': 2347, 'night_dreams': 512, 'night_surprise_per_256': np.float64(3.0)} 46s
+speech night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 5, 'acc': 0.6969224776003117, 'table_writes': 2922, 'night_dreams': 256, 'night_surprise_per_256': np.float64(8.0)} 64s

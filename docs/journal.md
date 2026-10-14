@@ -44,5 +44,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   gives digits 95.0 / clothing 79.2 / sound 62-68 after 5 stages. **RTL `hw/rtl/cortex/cortex_core.v` is bit-exact
   with it: 0 mismatches over 5,058 compared lines in two configurations** (`run_check_cortex.py`).
 - Open: the night helps images but hurts sound; testing a self-regulated night (stop when dreams keep surprising).
+- **Self-regulated night** (ends after a block of 256 dreams with >2 surprises) gives one sleep rule for all tasks:
+  digits 94.6, clothing 78.7, sound 69.7 after 5 stages (integer model).
+- **Month 2 closed:** `hw/results/cortex_month2.md`. Memory 137x smaller for images (84 KB), 66x for sound; one rule;
+  few-shot still behind; accuracy 2.6-7.6 points under month 1 in stages.
+- **Board design:** `hw/board/cortex_board_top.v` (UART protocol, CLEAR command added to the core), bit-exact over UART
+  with the integer model (0 mismatches, 101 commands). Yosys: 46/46 block RAMs, ~12.5k LUT4, 0 multipliers.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,2 +1,5 @@
 in_board.hex
 rx_lookup.txt
+in_cortex.hex
+in_cortex_n.hex
+out_cortex_board.txt

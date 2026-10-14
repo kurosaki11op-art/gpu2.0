@@ -1,0 +1,3 @@
+speech all at once 0.7109466303077523 8s
+speech stages [0.9311 0.8015 0.7434 0.7242 0.6969] 56s
+speech merge {'chip_A_0to4': 0.403194390338917, 'chip_B_5to9': 0.4016361511492014, 'added_no_sleep': 0.5796649785742112, 'after_night': 0.6260225944682509, 'night_dreams': 256} 63s

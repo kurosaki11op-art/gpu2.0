@@ -1,0 +1,29 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (integer chip model, bit-exact with the RTL core)",
+ "rule": {
+  "B": 10,
+  "night": 2,
+  "daydream": 1,
+  "night_stop": 2
+ },
+ "all_at_once": 0.9663,
+ "stages": [
+  0.9990543735224586,
+  0.9672840991099351,
+  0.969490963355994,
+  0.9535986029686915,
+  0.9458
+ ],
+ "merge": {
+  "chip_A_0to4": 0.5068,
+  "chip_B_5to9": 0.4736,
+  "added_no_sleep": 0.9243,
+  "after_night": 0.9296,
+  "night_dreams": 256
+ },
+ "memory_KB": {
+  "fast_table_5bit": 28.125,
+  "dream_counts_10bit": 56.26220703125
+ }
+}

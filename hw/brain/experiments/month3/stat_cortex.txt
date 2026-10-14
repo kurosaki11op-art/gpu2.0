@@ -1,0 +1,34 @@
+
+3. Printing statistics.
+
+=== cortex_core ===
+
+   Number of wires:              19751
+   Number of wire bits:          31048
+   Number of public wires:       19751
+   Number of public wire bits:   31048
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              23486
+     ALU                           672
+     DFF                           100
+     DFFE                         1455
+     DFFR                            3
+     DFFRE                         276
+     DFFS                            1
+     DPX9                            5
+     GND                             1
+     IBUF                           89
+     LUT1                         7690
+     LUT2                         1475
+     LUT3                         1868
+     LUT4                         1470
+     MUX2_LUT5                    4923
+     MUX2_LUT6                    2270
+     MUX2_LUT7                     941
+     MUX2_LUT8                     185
+     OBUF                           20
+     SPX9                           41
+     VCC                             1
+

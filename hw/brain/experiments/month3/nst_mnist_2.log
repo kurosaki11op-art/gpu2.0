@@ -1,0 +1,5 @@
+mnist night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 1, 'acc': 0.9990543735224586, 'table_writes': 38, 'night_dreams': 0, 'night_surprise_per_256': np.float64(0.0)} 3s
+mnist night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 2, 'acc': 0.9672840991099351, 'table_writes': 327, 'night_dreams': 48000, 'night_surprise_per_256': np.float64(0.0)} 9s
+mnist night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 3, 'acc': 0.969490963355994, 'table_writes': 198, 'night_dreams': 72000, 'night_surprise_per_256': np.float64(0.0)} 18s
+mnist night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 4, 'acc': 0.9535986029686915, 'table_writes': 153, 'night_dreams': 96000, 'night_surprise_per_256': np.float64(0.0)} 28s
+mnist night 2 B 10 daydream 1 replay 0 nstop 2 {'stage': 5, 'acc': 0.9458, 'table_writes': 569, 'night_dreams': 120000, 'night_surprise_per_256': np.float64(0.0)} 38s

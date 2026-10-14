@@ -102,17 +102,17 @@ Month 1 (`hw/results/cortex_month1.md`):
 
 Open after month 1: memory 11-28 MB (too big), no single decision rule, few-shot not re-tested.
 
-Month 2 (`hw/results/cortex_month2_log.md`): chosen small design = 4,608-bit image code (23,040 sound), 5-bit
-fast table that makes every decision (one rule), dream memory = per-class counters with synaptic scaling (10-bit),
-sleep with dreams. Images 84 KB total (11.5 MB before), fits the Tang Nano's block RAM. 5 stages: digits 94-95,
-clothing 79, sound 62-68 (month 1: 97.2 / 86.3 / 71.8). Merge 95.8 / 82.7. Few-shot still behind the network.
-Failed on the way: pruned/sparse concept cells, low-bit on-chip concept cells, fixed-step rate memory (noisy), sharp
-dreams, imagination for few-shot. Known limit: dreams with independent bits cap image accuracy (~79 on clothing).
+Month 2 (`hw/results/cortex_month2.md`, closed): 5-bit fast table decides everything (one rule); dream memory =
+10-bit per-class counters with synaptic scaling; day = count + practise + daydream + interleaved dreams of old classes;
+night = dreams of all classes that **ends itself** after a block of 256 dreams with >2 surprises. On the exact integer
+chip model (each example seen once): all at once 96.6 / 83.7 / 71.1; 5 stages **94.6 / 78.7 / 69.7** (network 19.5 /
+20.0 / 15.9; with replay 49.6 / 37.8 / 27.8); merge 93.0 / 82.3 / 62.6. Memory images 84 KB (137x smaller, fits block
+RAM), sound 422 KB. Few-shot still behind the network. Known limit: dreams with independent bits cap images.
 
-Month 3 (started early): integer reference model `hw/brain/cortex_int.py` (one pass per example) and RTL
-`hw/rtl/cortex/cortex_core.v`, **bit-exact (0 mismatches)** via `hw/rtl/cortex/run_check_cortex.py`.
-Open: the night helps images, hurts sound (self-regulated night being tested); FPGA synthesis numbers; host/UART
-wrapper; feature encoder in RTL.
+Month 3 (started early): integer model `hw/brain/cortex_int.py`; core RTL `hw/rtl/cortex/cortex_core.v` bit-exact
+(0 mismatches, `run_check_cortex.py`); Tang Nano top `hw/board/cortex_board_top.v` bit-exact over UART
+(`check_cortex_board.py`); yosys: 46/46 block RAM (full), ~12.5k LUT4, 0 multipliers. Next: host script for the real
+board, place and route, feature encoder in RTL, PSRAM for sound.
 
 ## 6. Known failures and corrections (do not repeat)
 
