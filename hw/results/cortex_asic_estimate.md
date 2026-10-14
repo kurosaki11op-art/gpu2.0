@@ -113,7 +113,9 @@ is selected**, so the estimate pays for all 63 macros every cycle, although a de
 **What a decision costs in this layout (ESTIMATED):** 62-77 mW at 50 MHz is 1.2-1.5 nJ per clock cycle; a decision
 takes ~1,600 cycles, so **~2.0-2.5 uJ per decision**, down from ~11 uJ without gating. That is still ~200x above the
 9.4 nJ counted from operations. What remains is mostly the clock tree of a 31 mm^2 die whose 63 macros are spread
-out with routing channels, plus ~3,000 flip-flops that are clocked every cycle. Next levers, not yet tried: a compact
+out with routing channels, plus ~3,000 flip-flops that are clocked every cycle. Clock-tree synthesis inserted 13,838 clock buffers
+(10,776 of them the largest size) for 4,325 sinks on the main clock and 17,216 behind the encoder's gates; tuning it
+(smaller buffers, wider sink clusters) is the first lever. Next levers, not yet tried: a compact
 die (macros abutted; the clock tree shrinks with it), gating the core's own registers while it waits, and fewer
 cycles per decision. There is no layout of the comparison network on the same process, so the 74x ratio between
 the two designs remains an operation-count comparison only.
