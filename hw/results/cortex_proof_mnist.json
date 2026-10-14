@@ -1,0 +1,109 @@
+{
+ "dataset": "mnist",
+ "features": 128,
+ "feature_bits": 4608,
+ "label": "SIMULATED (ops ESTIMATED)",
+ "T1": {
+  "cortex_acc": 0.9564,
+  "mlp_acc": 0.977,
+  "cortex_memory_KB": {
+   "feature_detectors": 0.390625,
+   "class_table_8bit": 45.0
+  },
+  "mlp_memory_KB_8bit": 198.759765625,
+  "cortex_ops_per_decision": {
+   "25bit_match_popcounts": 18432,
+   "table_adds": 600,
+   "multiplies": 0
+  },
+  "mlp_ops_per_decision": {
+   "multiply_adds": 203264
+  },
+  "cortex_learning": "features: 3 unlabeled passes over stage-1 patches; class memory: 1 pass, counting only",
+  "mlp_learning": "5 passes of backprop"
+ },
+ "T2": {
+  "1_per_class": {
+   "cortex_memory": 0.1675333333333333,
+   "episodic_recall": 0.3727333333333333,
+   "mlp": 0.3862666666666667
+  },
+  "5_per_class": {
+   "cortex_memory": 0.3446,
+   "episodic_recall": 0.5677666666666666,
+   "mlp": 0.6723
+  },
+  "20_per_class": {
+   "cortex_memory": 0.7740666666666666,
+   "episodic_recall": 0.7207,
+   "mlp": 0.8107666666666665
+  }
+ },
+ "T3": [
+  {
+   "stage": 1,
+   "cortex_all_seen": 0.9976359338061466,
+   "mlp_all_seen": 0.9995271867612293,
+   "mlp_replay_all_seen": 0.9995271867612293,
+   "cortex_stage1": 0.9976359338061466,
+   "mlp_stage1": 0.9995271867612293,
+   "mlp_replay_stage1": 0.9995271867612293
+  },
+  {
+   "stage": 2,
+   "cortex_all_seen": 0.9858070724079865,
+   "mlp_all_seen": 0.48159730574933846,
+   "mlp_replay_all_seen": 0.5619437094058215,
+   "cortex_stage1": 0.9891252955082742,
+   "mlp_stage1": 0.0,
+   "mlp_replay_stage1": 0.15933806146572105
+  },
+  {
+   "stage": 3,
+   "cortex_all_seen": 0.9840822417509534,
+   "mlp_all_seen": 0.30956723594760405,
+   "mlp_replay_all_seen": 0.5783452163820262,
+   "cortex_stage1": 0.9881796690307328,
+   "mlp_stage1": 0.0,
+   "mlp_replay_stage1": 0.5569739952718676
+  },
+  {
+   "stage": 4,
+   "cortex_all_seen": 0.9730572533366596,
+   "mlp_all_seen": 0.24685044280903082,
+   "mlp_replay_all_seen": 0.628040414119995,
+   "cortex_stage1": 0.9853427895981087,
+   "mlp_stage1": 0.0,
+   "mlp_replay_stage1": 0.7016548463356974
+  },
+  {
+   "stage": 5,
+   "cortex_all_seen": 0.9564,
+   "mlp_all_seen": 0.1949,
+   "mlp_replay_all_seen": 0.5155,
+   "cortex_stage1": 0.9791962174940898,
+   "mlp_stage1": 0.0,
+   "mlp_replay_stage1": 0.6704491725768321
+  }
+ ],
+ "T3_note": "cortex keeps no stored images; mlp_replay keeps 20 raw images per old class",
+ "T4": {
+  "same_classes_different_data": {
+   "cortex_A": 0.956,
+   "cortex_B": 0.955,
+   "cortex_merged": 0.9564,
+   "cortex_trained_on_all": 0.9564,
+   "mlp_A": 0.9697,
+   "mlp_B": 0.9695,
+   "mlp_weight_average": 0.9249
+  },
+  "different_classes": {
+   "cortex_A_0to4": 0.5068,
+   "cortex_B_5to9": 0.4696,
+   "cortex_merged": 0.9564,
+   "mlp_A": 0.5102,
+   "mlp_B": 0.4785,
+   "mlp_weight_average": 0.8283
+  }
+ }
+}
