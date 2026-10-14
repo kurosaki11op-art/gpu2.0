@@ -80,3 +80,29 @@ So by this check the design fits the board with room to spare; the real constrai
 - Timing closure and the ASIC memory macros are unchecked.
 - Place-and-route, timing and power on the actual board are unchecked.
 - The byte-level accuracy has not been confirmed on real-model drafting.
+
+## v2 core: `hw/rtl/lookup/spark_lookup2.v` (SIMULATED, bit-exact)
+
+What changed (from `hw/results/matrix_free.md` sections 10-11):
+- **2-way set-associative hashed tables** with one LRU bit per set: set = {lru, way1, way0} = 47 bits, 4 tables x 2^TB sets. A learning hit makes the other way least-recently-used; a miss installs into an invalid way (way 0 first) or the LRU way.
+- **Direct-mapped order-1 table** (256 x 11 bits, indexed by the last byte) as the fallback when no hashed table answers.
+- **Confidence output:** a 32-entry x 8-bit table indexed by bucket = (which table answered) x 4 + (its counter), 20 = nothing answered; initial values from `conf_lut.hex` (fitted on calibration streams by `hw/system/lookup2_eval.py`), rewritable at run time through a `cfg_we/cfg_addr/cfg_data` port.
+- Same 5-state machine (5 cycles per byte), reads and writes never on the same clock edge.
+
+Verification: `python hw/rtl/lookup/run_check2.py <book dir>` compares pred, hit, source, count, bucket and confidence with `LookupCoreV2` in `hw/system/lookup_ref.py`:
+code and prose, 20,000 bytes each, TB = 10 and 11: **0 mismatches in 80,000 bytes x 6 fields**; plus a run-time confidence-table rewrite test (3,000 bytes, 0 mismatches).
+
+Accuracy of v2 (reference = RTL), next byte: code 75.9% (v1: 75.4%), prose mean 44.6% (v1: 43.9%). On the paired comparison this design matched the network hybrid that uses the network only on table misses (+0.05 points, interval including zero) and remains about 0.5 points behind the hybrid that arbitrates with the network on every byte.
+Confidence >= 0.9 is right 88-94% of the time on every document (32% of code bytes, 1-4% of prose bytes).
+
+Synthesis check (yosys synth_gowin, RAMs inferred, no place-and-route):
+
+| | TB = 10 | TB = 11 |
+|---|---|---|
+| Table memory | about 24 KiB | about 47 KiB (+0.3 KiB order-1, 32 B confidence) |
+| Block-RAM blocks | 13 of 46 (28%) | 25 of 46 (54%) |
+| LUT cells | about 2,150 (10%) | about 2,050 (10%) |
+| Flip-flops | about 187 | about 192 |
+| Next-byte accuracy (code / Alice) | 75.5% / 48.4% | 75.9% / 49.7% |
+
+The confidence table maps to LUT-RAM (4 small cells). Timing and power are still unmeasured.
