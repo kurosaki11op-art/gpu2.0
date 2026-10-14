@@ -842,3 +842,51 @@ Using 1u default distance from corners.
 [NesterovSolve] Iter: 190 overflow: 0.963949 HPWL: 4986789882
 [NesterovSolve] Iter: 200 overflow: 0.960982 HPWL: 5035560074
 [NesterovSolve] Iter: 210 overflow: 0.957729 HPWL: 5111180660
+[NesterovSolve] Iter: 220 overflow: 0.956413 HPWL: 5233142595
+[NesterovSolve] Iter: 230 overflow: 0.955397 HPWL: 5413701782
+[NesterovSolve] Iter: 240 overflow: 0.952922 HPWL: 5709336214
+[NesterovSolve] Iter: 250 overflow: 0.953858 HPWL: 6036261644
+[NesterovSolve] Iter: 260 overflow: 0.945515 HPWL: 6289203419
+[NesterovSolve] Iter: 270 overflow: 0.917983 HPWL: 6425165417
+[NesterovSolve] Iter: 280 overflow: 0.889996 HPWL: 6492062237
+[NesterovSolve] Iter: 290 overflow: 0.880616 HPWL: 6629646531
+[NesterovSolve] Iter: 300 overflow: 0.837606 HPWL: 6907904236
+[NesterovSolve] Iter: 310 overflow: 0.785779 HPWL: 6947028848
+[NesterovSolve] Iter: 320 overflow: 0.751052 HPWL: 6985589575
+[NesterovSolve] Iter: 330 overflow: 0.697301 HPWL: 7193861433
+[NesterovSolve] Iter: 340 overflow: 0.641604 HPWL: 7120273265
+[NesterovSolve] Iter: 350 overflow: 0.600223 HPWL: 7131329692
+[NesterovSolve] Iter: 360 overflow: 0.556497 HPWL: 7202208235
+[NesterovSolve] Iter: 370 overflow: 0.4992 HPWL: 7240811243
+[NesterovSolve] Iter: 380 overflow: 0.442473 HPWL: 7240155979
+[NesterovSolve] Iter: 390 overflow: 0.385356 HPWL: 7166441070
+[NesterovSolve] Iter: 400 overflow: 0.340053 HPWL: 7069486464
+[NesterovSolve] Iter: 410 overflow: 0.302507 HPWL: 6951991130
+[NesterovSolve] Iter: 420 overflow: 0.269119 HPWL: 6840198509
+[NesterovSolve] Iter: 430 overflow: 0.2358 HPWL: 6734668318
+[NesterovSolve] Iter: 440 overflow: 0.211333 HPWL: 6436781168
+[NesterovSolve] Iter: 450 overflow: 0.184368 HPWL: 6431709836
+[NesterovSolve] Iter: 460 overflow: 0.161146 HPWL: 6428477493
+[NesterovSolve] Iter: 470 overflow: 0.139461 HPWL: 6428994404
+[NesterovSolve] Iter: 480 overflow: 0.121137 HPWL: 6431953481
+[NesterovSolve] Iter: 490 overflow: 0.104553 HPWL: 6439668250
+[NesterovSolve] Finished with Overflow: 0.099109
+[INFO RSZ-0058] Using max wire length 3199um.
+[INFO RSZ-0034] Found 14215 slew violations.
+[INFO RSZ-0036] Found 1455 capacitance violations.
+[INFO RSZ-0037] Found 425 long wires.
+[INFO RSZ-0038] Inserted 14595 buffers in 15359 nets.
+[INFO RSZ-0039] Resized 11557 instances.
+Placement Analysis
+---------------------------------
+total displacement     723248.0 u
+average displacement        2.7 u
+max displacement          229.0 u
+original HPWL         7742322.8 u
+legalized HPWL        8159271.4 u
+delta HPWL                    5 %
+
+Design area 19165488 u^2 62% utilization.
+== after placement + repair_design
+wns -2.37
+tns -53.52
