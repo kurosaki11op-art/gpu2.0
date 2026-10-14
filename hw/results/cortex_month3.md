@@ -41,6 +41,11 @@ violations), CLEAR command (memories can be wiped after a reset).
   digits 40.5 / 61.3 / 86.6 at 1 / 5 / 20 examples per class vs network 39.1 / 67.4 / 81.2 (ahead at 1 and 20, behind
   at 5); clothing 42.8 / 53.3 / 70.2 vs 43.7 / 62.9 / 73.7 (level at 1, behind at 5 and 20). Not in the RTL.
 
+- Sequence memory (the earlier lookup core) partly forgets across text domains: it keeps ~32-60% of what code taught
+  it after reading prose ([note](../brain/experiments/month3/seq_forgetting.md)). Month 6 needs capacity or context memory.
+- Context memory (frozen copy of the dream counts) fixes the new-condition limit on the exact chip model: rotated
+  digits test, upright 44.8 -> 85.3 ([details](cortex_new_condition.md)).
+
 ## Still open
 
 1. A run on the real board and measured power (month 4; needs the user's Tang Nano and a USB power meter).
