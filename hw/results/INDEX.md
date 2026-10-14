@@ -13,6 +13,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Month 2 results](cortex_month2.md): memory 137x smaller, one rule, integer chip model + RTL bit-exact (SIMULATED).
 - [New conditions for known classes](cortex_new_condition.md): limit found (domain shift) and the context-memory fix (SIMULATED).
 - [SPARK Cortex vs HDC](cortex_vs_hdc.md): ahead of the closest prior art on digits and sound, level on clothing (SIMULATED).
+- [ASIC estimate (SKY130)](cortex_asic_estimate.md): ~18.8 mm2 with open SRAM macros, logic < 1 mm2; bit-exact with the SRAM models (ESTIMATED).
 - [Energy estimate](cortex_energy_estimate.md): ~74x less energy per decision, ~200x per learned example incl. sleep (ESTIMATED).
 - [Month 2 running log](cortex_month2_log.md): every memory-shrink test, including failures (SIMULATED).
 - [Month 1](cortex_month1.md): accuracy gap closed on digits, clothing, spoken words (SIMULATED).
