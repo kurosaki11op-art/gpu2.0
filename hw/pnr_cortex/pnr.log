@@ -71,10 +71,10 @@ Info: Pack GSR...
 Info: Pack HCLK cells...
 Info: Pack DLLDLYs...
 Info: Pack wide LUTs...
-Info: Packed MUX2_LUT8:69, MUX2_LU7:434, MUX2_LUT6:515, MUX2_LUT5:1075
+Info: Packed MUX2_LUT8:78, MUX2_LU7:400, MUX2_LUT6:658, MUX2_LUT5:1026
 Info: Pack ALUs...
 Info: Pack SSRAMs...
-Info: Constrained 1691 LUTFF pairs.
+Info: Constrained 1703 LUTFF pairs.
 Info: Pack PLL...
 Info: Pack ADC...
 Info: Pack GW JTAG...
@@ -86,22 +86,22 @@ Info: Pack EMCU and UserFlash cells...
 Info: Pack UserFlash cells...
 Info: Pack DQCE cells...
 Info: Pack DCS cells...
-Info: Checksum: 0x5cba2e08
+Info: Checksum: 0x640cfa79
 
 Info: Device utilisation:
 Info: 	                 VCC:       1/      1   100%
 Info: 	                 IOB:      12/    384     3%
-Info: 	                LUT4:   19603/  20736    94%
+Info: 	                LUT4:   18522/  20736    89%
 Info: 	            IOLOGICI:       0/    384     0%
 Info: 	            IOLOGICO:       0/    384     0%
-Info: 	           MUX2_LUT5:    4393/  10368    42%
-Info: 	           MUX2_LUT6:    1659/   5184    32%
-Info: 	           MUX2_LUT7:     572/   2592    22%
-Info: 	           MUX2_LUT8:      69/   2592     2%
+Info: 	           MUX2_LUT5:    4566/  10368    44%
+Info: 	           MUX2_LUT6:    1770/   5184    34%
+Info: 	           MUX2_LUT7:     556/   2592    21%
+Info: 	           MUX2_LUT8:      78/   2592     3%
 Info: 	                 ALU:    1388/  15552     8%
 Info: 	                 GND:       1/      1   100%
-Info: 	                 DFF:    6230/  15552    40%
-Info: 	           RAM16SDP4:     507/    648    78%
+Info: 	                 DFF:    5364/  15552    34%
+Info: 	           RAM16SDP4:     363/    648    56%
 Info: 	               BSRAM:      46/     46   100%
 Info: 	              ALU54D:       0/     24     0%
 Info: 	     MULTADDALU18X18:       0/     24     0%
@@ -125,31 +125,21 @@ Info: 	             CLKDIV2:       0/     16     0%
 
 Info: Running custom HCLK placer...
 Info: Placed 0 cells based on constraints.
-Info: Creating initial analytic placement for 9614 cells, random placement wirelen = 574569.
-Info:     at initial placer iter 0, wirelen = 4704
-Info:     at initial placer iter 1, wirelen = 4419
-Info:     at initial placer iter 2, wirelen = 4213
-Info:     at initial placer iter 3, wirelen = 4507
-Info: Running main analytical placer, max placement attempts per cell = 148634661.
-Info:     at iteration #1, type ALL: wirelen solved = 4357, spread = 202353, legal = 452983; time = 18.97s
-Info:     at iteration #2, type ALL: wirelen solved = 13938, spread = 203771, legal = 496241; time = 17.82s
-Info:     at iteration #3, type ALL: wirelen solved = 18621, spread = 189211, legal = 476604; time = 16.09s
-Info:     at iteration #4, type ALL: wirelen solved = 26938, spread = 202415, legal = 467529; time = 16.44s
-Info:     at iteration #5, type ALL: wirelen solved = 40487, spread = 160156, legal = 416630; time = 20.12s
-Info:     at iteration #6, type ALL: wirelen solved = 45840, spread = 159539, legal = 362042; time = 22.51s
-Info:     at iteration #7, type ALL: wirelen solved = 53121, spread = 156608, legal = 365060; time = 20.50s
-Info:     at iteration #8, type ALL: wirelen solved = 58537, spread = 148842, legal = 336136; time = 11.77s
-Info:     at iteration #9, type ALL: wirelen solved = 61193, spread = 141092, legal = 335386; time = 9.90s
-Info:     at iteration #10, type ALL: wirelen solved = 68141, spread = 153058, legal = 328983; time = 14.96s
-Info:     at iteration #11, type ALL: wirelen solved = 72157, spread = 151661, legal = 325951; time = 13.86s
-Info:     at iteration #12, type ALL: wirelen solved = 76156, spread = 148584, legal = 312400; time = 11.22s
-Info:     at iteration #13, type ALL: wirelen solved = 79136, spread = 153756, legal = 307661; time = 18.25s
-Info:     at iteration #14, type ALL: wirelen solved = 85974, spread = 157441, legal = 292969; time = 13.67s
-Info:     at iteration #15, type ALL: wirelen solved = 86125, spread = 156588, legal = 285000; time = 16.99s
-Info:     at iteration #16, type ALL: wirelen solved = 93630, spread = 158283, legal = 281981; time = 16.50s
-Info:     at iteration #17, type ALL: wirelen solved = 101806, spread = 162475, legal = 283010; time = 16.00s
-Info:     at iteration #18, type ALL: wirelen solved = 108598, spread = 170469, legal = 277901; time = 15.05s
-Info:     at iteration #19, type ALL: wirelen solved = 109648, spread = 168997, legal = 269692; time = 14.45s
-Info:     at iteration #20, type ALL: wirelen solved = 112458, spread = 172399, legal = 287688; time = 7.24s
-Info:     at iteration #21, type ALL: wirelen solved = 125184, spread = 169736, legal = 273278; time = 31.95s
-Info:     at iteration #22, type ALL: wirelen solved = 130157, spread = 170024, legal = 256480; time = 13.40s
+Info: Creating initial analytic placement for 9250 cells, random placement wirelen = 588810.
+Info:     at initial placer iter 0, wirelen = 5000
+Info:     at initial placer iter 1, wirelen = 4615
+Info:     at initial placer iter 2, wirelen = 4645
+Info:     at initial placer iter 3, wirelen = 4392
+Info: Running main analytical placer, max placement attempts per cell = 133407945.
+Info:     at iteration #1, type ALL: wirelen solved = 4257, spread = 210942, legal = 443305; time = 16.72s
+Info:     at iteration #2, type ALL: wirelen solved = 12859, spread = 194102, legal = 419635; time = 8.77s
+Info:     at iteration #3, type ALL: wirelen solved = 21721, spread = 185407, legal = 401552; time = 14.13s
+Info:     at iteration #4, type ALL: wirelen solved = 27579, spread = 187111, legal = 351324; time = 8.33s
+Info:     at iteration #5, type ALL: wirelen solved = 36290, spread = 172233, legal = 334776; time = 7.21s
+Info:     at iteration #6, type ALL: wirelen solved = 42396, spread = 158015, legal = 306240; time = 11.81s
+Info:     at iteration #7, type ALL: wirelen solved = 49242, spread = 170807, legal = 309218; time = 6.83s
+Info:     at iteration #8, type ALL: wirelen solved = 53063, spread = 135527, legal = 263702; time = 9.46s
+Info:     at iteration #9, type ALL: wirelen solved = 56649, spread = 153907, legal = 275133; time = 5.45s
+Info:     at iteration #10, type ALL: wirelen solved = 56938, spread = 164691, legal = 267676; time = 5.48s
+Info:     at iteration #11, type ALL: wirelen solved = 69300, spread = 149921, legal = 261462; time = 4.83s
+Info:     at iteration #12, type ALL: wirelen solved = 70574, spread = 155132, legal = 246631; time = 5.25s
