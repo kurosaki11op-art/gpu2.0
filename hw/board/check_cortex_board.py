@@ -24,6 +24,9 @@ def learn(c, idx):
     cmd([0x4C, c, len(a) & 255, len(a) >> 8] + [x for v in a for x in (int(v) & 255, int(v) >> 8)], [u])
 for c in (0, 1):
     cmd([0x4B, c], [0x4B]); m.known[c] = True
+# edge case: a known class with no examples yet must dream nothing (the chip must not hang)
+k = _dream(m.on, m.n, 0, m.rng, buf); u = _practise(m.W, buf, k, 0, m.known, m.margin, m.cmax)
+cmd([0x44, 0], [k & 255, k >> 8, u])
 for idx in r.choice(np.where(ytr < 2)[0], 30, replace=False):
     learn(int(ytr[idx]), idx)
 cmd([0x4B, 2], [0x4B]); m.known[2] = True

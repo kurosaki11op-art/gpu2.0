@@ -1,0 +1,5 @@
+# PC side of SPARK Cortex: python -m pip install -r requirements.txt
+numpy
+pyserial
+# optional: makes --dry-run and the emulator fast (the programs also run without it, much slower)
+numba

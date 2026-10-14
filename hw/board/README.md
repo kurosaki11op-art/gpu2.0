@@ -264,7 +264,7 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
    To rebuild it yourself, use section 3 above with these files and top `cortex_board_top`:
    `yosys -p "read_verilog ../rtl/cortex/cortex_core.v ../board/uart_rx.v ../board/uart_tx.v ../board/cortex_board_top.v; synth_gowin -top cortex_board_top -json cortex.json"`,
    then nextpnr / gowin_pack / openFPGALoader as above (or the Gowin IDE steps). Check the pin TODOs in `tangnano20k.cst` first.
-2. `pip install pyserial numpy` (and `numba` only for `--dry-run`).
+2. `python -m pip install -r hw\board\requirements.txt` (numpy, pyserial; numba makes dry runs fast).
 3. Dry run (no board): `python cortex_host.py --dry-run --per-class 300 --data D:\cortex_data`
    expected (SIMULATED): stage 5 about 0.91 on all 10 digits, and "emulator matches the integer chip model exactly: True".
 4. Real board, quick: `python cortex_host.py --port COM5 --per-class 300 --data D:\cortex_data` (COM port from Device
