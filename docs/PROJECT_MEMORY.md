@@ -102,10 +102,17 @@ Month 1 (`hw/results/cortex_month1.md`):
 
 Open after month 1: memory 11-28 MB (too big), no single decision rule, few-shot not re-tested.
 
-Month 2 (running, `hw/results/cortex_month2_log.md`): small per-channel code (4,608 bits for images) keeps
-digits 97.0 / clothing 84.7 with a 5-bit fast table of 28 KB. Pruned or sparse concept cells fail. Local
-competition + homeostasis alone do not stop forgetting (66 / 80 / 45). Next: cheapest memory that can still dream,
-with the fast table as the only decision maker.
+Month 2 (`hw/results/cortex_month2_log.md`): chosen small design = 4,608-bit image code (23,040 sound), 5-bit
+fast table that makes every decision (one rule), dream memory = per-class counters with synaptic scaling (10-bit),
+sleep with dreams. Images 84 KB total (11.5 MB before), fits the Tang Nano's block RAM. 5 stages: digits 94-95,
+clothing 79, sound 62-68 (month 1: 97.2 / 86.3 / 71.8). Merge 95.8 / 82.7. Few-shot still behind the network.
+Failed on the way: pruned/sparse concept cells, low-bit on-chip concept cells, fixed-step rate memory (noisy), sharp
+dreams, imagination for few-shot. Known limit: dreams with independent bits cap image accuracy (~79 on clothing).
+
+Month 3 (started early): integer reference model `hw/brain/cortex_int.py` (one pass per example) and RTL
+`hw/rtl/cortex/cortex_core.v`, **bit-exact (0 mismatches)** via `hw/rtl/cortex/run_check_cortex.py`.
+Open: the night helps images, hurts sound (self-regulated night being tested); FPGA synthesis numbers; host/UART
+wrapper; feature encoder in RTL.
 
 ## 6. Known failures and corrections (do not repeat)
 
@@ -119,6 +126,7 @@ with the fast table as the only decision maker.
 
 ## 7. Where things are
 
+- Routine `trig_01UmL6GjCFHNfqdNTvVqZPZi`: overnight check-in every 2 h (India time); delete after 20:00 IST 15 Oct.
 - **Second brain:** this repo, opened in Obsidian as a vault (Open folder as vault on `D:\gpu2.0`, Obsidian Git
   plugin to pull updates). Home: `README.md`; indexes: `docs/INDEX.md`, `hw/results/INDEX.md`, `hw/HARDWARE_INDEX.md`.
 - Plan/status: `docs/cortex_redesign.md`. Journal: `docs/journal.md`. This file: `docs/PROJECT_MEMORY.md`.

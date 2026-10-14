@@ -40,8 +40,35 @@ Test h, accuracy after 5 stages (dream memory + 28 KB table for images, + 141 KB
 | n | Single-pass concept cells with exact 16-bit counters (streaming, as a chip must) | 8 cells: digits 94.4, clothing 80.1 (720 KB); sound day-only 71.1 (3.6 MB) | = exact per-class counts; multi-pass sorting (84.2) not reachable in one pass |
 | o | Per-class counters with synaptic scaling (halve all counts when a class's count is full), B-bit | images: 12-bit 68 KB: digits 94.1, clothing 78.8; **10-bit 56 KB: 94.1 / 78.9**; 8-bit 45 KB: 90.9 / 78.6 | **chosen for images**: 28 KB table + 56 KB counts = 84 KB, fits the Tang Nano's block RAM |
 
-Why images still lose 3-7 points against month 1: dreams with independent bits can only teach what a per-bit
-model knows. Batch-sorted concept cells (mixtures) reached 84.2 on clothing, but a streaming chip sorts each
-example once, and single-pass cells end up no better than plain counts. Recorded as an open problem.
+| p | Consolidation (old-class rows 1/4 as plastic) and sharper dreams | consolidation +0.3-0.6 (noise level); sharp dreams -10 to -12 | rejected |
+| q | Few-shot with imagined variants (rate dreams, jittered copies) | changes within +-2 points, no consistent gain | few-shot stays an open weakness |
+| v3 | Month-2 suite on images, small design (5-bit table 28 KB + 10-bit scaled counts 56 KB = 84 KB), night 1 | see table below | memory 11.5 MB -> 84 KB (137x) |
+
+v3 suite, images (`cortex_v3_mnist_scaled10_n1.json`, `cortex_v3_fashion_scaled10_n1.json`):
+
+| | Digits | Clothing |
+|---|---|---|
+| All data at once: brain table / network | 97.0 / 97.8 | 84.7 / 87.3 |
+| 5 stages: brain / network / network + replay 20 | 94.1 / 19.5 / 49.6 | 78.9 / 20.0 / 37.8 |
+| Merge (chip A 0-4 + chip B 5-9, add tables and counts, one night) | **95.8** | **82.7** |
+| Few-shot 1 / 5 / 20: brain table | 37.5 / 55.7 / **82.5** | 39.0 / 49.5 / 68.6 |
+| Few-shot 1 / 5 / 20: network | 39.1 / 67.4 / 81.2 | 43.7 / 62.9 / 73.7 |
+
+## Integer reference model (month 3 started) - `hw/brain/cortex_int.py`, `run_int.py`
+
+Integers only, one pass per real example (a streaming chip cannot re-read the day), xorshift random lanes,
+rejection-sampled dreams (no divider). After 5 stages:
+
+| Setting | Digits | Clothing | Sound |
+|---|---|---|---|
+| night 2 passes | **95.0** | 79.2 | 62.1 |
+| night 0 | n.a. | n.a. | 66.0 |
+| night 0 + daydream (dream of the new class after each real example) | 90.7 | 76.4 | **68.0** |
+| night 2 + daydream | 94.6 | 79.5 | n.a. |
+| night 1 + daydream | n.a. | 79.3 | 63.4 |
+| sound: 12-bit counts / replay buffer 64 / both fixes | | | 67.2 / 66.4 / 68.4 |
+
+The night helps images (+3 to +4) and hurts sound (-4 to -6). Next: a self-regulated night that stops when dreams
+keep surprising the table.
 
 Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)

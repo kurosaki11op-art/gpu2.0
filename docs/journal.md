@@ -37,5 +37,12 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   clothing 84.2); chip-honest metaplastic 8-bit rate memory (45 KB) within ~1 pt of exact counts (digits 93.1,
   clothing 78.3), image total 73 KB fits Tang Nano block RAM; low-bit on-chip concept cells failed. New code:
   `hw/brain/rate_memory.py` (RateMemory, ConceptRates).
+- Overnight (cont.): tests m-q in the month-2 log. Chosen small design: 5-bit fast table + 10-bit synaptic-scaling
+  counters, the table makes every decision (one rule). Images 84 KB (fits Tang Nano block RAM). v3 suite on images:
+  stages digits 94.1 / clothing 78.9, merge 95.8 / 82.7, few-shot still behind the network.
+- **Month 3 started early:** integer reference model `hw/brain/cortex_int.py` (one pass per example, integers only)
+  gives digits 95.0 / clothing 79.2 / sound 62-68 after 5 stages. **RTL `hw/rtl/cortex/cortex_core.v` is bit-exact
+  with it: 0 mismatches over 5,058 compared lines in two configurations** (`run_check_cortex.py`).
+- Open: the night helps images but hurts sound; testing a self-regulated night (stop when dreams keep surprising).
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
