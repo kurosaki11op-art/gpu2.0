@@ -36,5 +36,5 @@ if {[info exists ::env(BREAKDOWN)]} {
   set f [open power_cells.txt w]
   foreach c [get_cells *] { puts $f "[get_full_name $c] [get_property $c ref_name]" }
   close $f
-  report_power -instances [get_cells *] > power_instances.txt
+  report_power -instances [get_cells *]   ;# prints to the log (file redirects stay empty here)
 }
