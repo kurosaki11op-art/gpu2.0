@@ -219,3 +219,43 @@ It uses the same pins as above: `tangnano20k.cst` works unchanged, and its TODO 
    - It should report about the same accuracy as the dry run on the same file.
    - It should report about 11,000 bytes/s, which is the UART limit. The core itself runs at about 5 cycles per byte.
 4. **If nothing answers:** check the pin TODOs in `tangnano20k.cst` (UART pins 69/70, and the reset-button polarity).
+
+# SPARK Cortex (the brain core that keeps learning) on the Tang Nano 20K
+
+Files: `cortex_board_top.v` (top, same pins as above, so `tangnano20k.cst` works unchanged), `../rtl/cortex/cortex_core.v`
+(core), `uart_rx.v`, `uart_tx.v`. Host: `cortex_host.py`. Checks: `check_cortex_board.py` (UART-level testbench vs
+the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (core, 0 mismatches).
+
+## Protocol (115200 8N1, one command at a time)
+
+| Bytes sent | Meaning | Reply |
+|---|---|---|
+| `E0` | ping | `5A` |
+| `53` + 128 bytes | seed the 32 random lanes (4 bytes each, little-endian) | `53` |
+| `43` | clear table, dream counters, counts, known classes | `43` |
+| `4B c` | mark class c known | `4B` |
+| `4C c nl nh` + n x (lo hi) | LEARN one example of class c (its active code bits) | 1 if the table was written |
+| `50 nl nh` + n x (lo hi) | PREDICT | class |
+| `44 c` | DREAM one class-c example and practise on it | dream length lo, hi, 1 if the table was written |
+
+## Status
+
+- SIMULATED: core and board bit-exact with the integer chip model; yosys (GW2AR-18): 46/46 block RAMs, ~12.5k LUT4,
+  0 multipliers, before place and route. Block RAM is full, so place and route may need the list buffer shrunk.
+- Not yet done: place and route, timing, a real board run.
+
+## Run it (on the PC)
+
+1. Build the bitstream exactly as in section 3 above, with these files and top `cortex_board_top`:
+   `yosys -p "read_verilog ../rtl/cortex/cortex_core.v ../board/uart_rx.v ../board/uart_tx.v ../board/cortex_board_top.v; synth_gowin -top cortex_board_top -json cortex.json"`,
+   then nextpnr / gowin_pack / openFPGALoader as above (or the Gowin IDE steps). Check the pin TODOs in `tangnano20k.cst` first.
+2. `pip install pyserial numpy` (and `numba` only for `--dry-run`).
+3. Dry run (no board): `python cortex_host.py --dry-run --per-class 300 --data D:\cortex_data`
+   expected (SIMULATED): stage 5 about 0.91 on all 10 digits, and "emulator matches the integer chip model exactly: True".
+4. Real board, quick: `python cortex_host.py --port COM5 --per-class 300 --data D:\cortex_data` (COM port from Device
+   Manager; the UART is usually the second BL616 port). The board should print the same accuracies as the dry run,
+   because the core is bit-exact with the emulator. Any difference means a hardware or link problem.
+5. Full run: drop `--per-class` (about an hour at 115,200 baud; the serial link, not the chip, sets the speed).
+
+LEDs: led0 toggles per command, led1 core busy, led2 the last example or dream changed the table (surprise), led3
+heartbeat, led4 UART activity, led5 last prediction was a class 0-4.

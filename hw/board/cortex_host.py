@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""Drive SPARK Cortex on the Tang Nano 20K (cortex_board_top.v) through 5 learning stages, or emulate it.
+
+The PC turns images into sensory codes (hw/brain/feature_layer.py) and sends them; the board learns, dreams, sleeps
+and answers. The schedule is the month-2 rule (hw/brain/cortex_int.py): each real example once (count + practise),
+one daydream of its class, dreams of old classes interleaved through the day, and a night of up to 2 passes that
+ends after a block of 256 dreams with more than 2 surprises. The board reports every surprise, so the PC can end
+the night exactly as the chip model does.
+
+  python cortex_host.py --dry-run                        # emulator (needs numba), checks itself against the model
+  python cortex_host.py --port COM5 --per-class 300      # real board, small quick run
+  python cortex_host.py --port COM5                      # real board, full digits run (about an hour at 115200 baud)
+
+Data: MNIST is downloaded to --data (default ./cortex_data) on first use. Put it on D: if C: is short of space,
+e.g. --data D:\\cortex_data."""
+import argparse, os, sys, time, urllib.request
+import numpy as np
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, "..", "brain"))
+from feature_layer import Features  # noqa
+
+SEED_LANES = [((0x9E3779B9 * (i + 1)) & 0xFFFFFFFF) or 1 for i in range(32)]     # same seeds as CortexInt(seed=1)
+RULE = dict(ndream=6000, night=2, daydream=1, night_stop=2, top=1023, margin=8, cmax=15)
+
+
+class Board:
+    def __init__(self, port, baud):
+        import serial
+        self.s = serial.Serial(port, baud, timeout=5)
+
+    def _x(self, out, n):
+        self.s.write(bytes(out)); r = self.s.read(n)
+        if len(r) != n:
+            raise RuntimeError(f"board did not answer (sent {out[:3]}..., got {r!r})")
+        return r
+
+    def ping(self): return self._x([0xE0], 1) == b"\x5a"
+    def seed(self, lanes): return self._x([0x53] + [b for v in lanes for b in int(v).to_bytes(4, "little")], 1)
+    def clear(self): return self._x([0x43], 1)
+    def known(self, c): return self._x([0x4B, c], 1)
+
+    @staticmethod
+    def _lst(a): return [len(a) & 255, len(a) >> 8] + [x for v in a for x in (int(v) & 255, int(v) >> 8)]
+
+    def learn(self, c, a): return self._x([0x4C, c] + self._lst(a), 1)[0]
+    def predict(self, a): return self._x([0x50] + self._lst(a), 1)[0]
+
+    def dream(self, c):
+        r = self._x([0x44, c], 3); return r[0] | (r[1] << 8), r[2]
+
+
+class Emu:
+    """the board, emulated with the integer chip model's primitives (bit-exact with the RTL)"""
+    def __init__(self, nb):
+        from cortex_int import _count, _practise, _dream
+        self.f = (_count, _practise, _dream)
+        self.W = np.zeros((10, nb), np.int8); self.on = np.zeros((10, nb), np.uint16); self.n = np.zeros(10, np.int32)
+        self.kn = np.zeros(10, np.bool_); self.rng = np.zeros(32, np.uint32); self.buf = np.zeros(nb, np.int32)
+
+    def ping(self): return True
+    def seed(self, lanes): self.rng[:] = lanes
+    def clear(self): self.W[:] = 0; self.on[:] = 0; self.n[:] = 0; self.kn[:] = False
+    def known(self, c): self.kn[c] = True
+
+    def learn(self, c, a):
+        a = np.asarray(a, np.int32); self.f[0](self.on, self.n, a, len(a), c, RULE["top"])
+        return self.f[1](self.W, a, len(a), c, self.kn, RULE["margin"], RULE["cmax"])
+
+    def dream(self, c):
+        k = self.f[2](self.on, self.n, c, self.rng, self.buf)
+        return k, self.f[1](self.W, self.buf, k, c, self.kn, RULE["margin"], RULE["cmax"])
+
+    def predict(self, a):
+        s = self.W[:, a].astype(np.int64).sum(1); s[~self.kn] = -(1 << 40); return int(s.argmax())
+
+
+def run_stage(dev, code, y, known):
+    """one stage, the same order of operations as cortex_int._stage"""
+    new = sorted(set(y.tolist())); old = [c for c in sorted(known) if c not in new]
+    for c in new:
+        dev.known(c); known.add(c)
+    total, done, rr = RULE["ndream"] * len(old), 0, 0
+    for i in range(len(y)):
+        dev.learn(int(y[i]), np.nonzero(code[i])[0])
+        for _ in range(RULE["daydream"]):
+            dev.dream(int(y[i]))
+        due = (total * (i + 1)) // len(y)
+        while done < due:
+            dev.dream(old[rr % len(old)]); rr += 1; done += 1
+    night = 0
+    if old:
+        kn = sorted(known); blockw = 0
+        for _ in range(RULE["night"]):
+            stop = False
+            for j in range(RULE["ndream"] * len(kn)):
+                blockw += dev.dream(kn[j % len(kn)])[1]; night += 1
+                if night % 256 == 0:
+                    if blockw > RULE["night_stop"]:
+                        stop = True; break
+                    blockw = 0
+            if stop:
+                break
+    return night
+
+
+def mnist(data):
+    os.makedirs(data, exist_ok=True); f = os.path.join(data, "mnist.npz")
+    if not os.path.exists(f):
+        print("downloading MNIST to", f)
+        urllib.request.urlretrieve("https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz", f)
+    z = np.load(f)
+    return z["x_train"].reshape(-1, 784), z["y_train"].astype(int), z["x_test"].reshape(-1, 784), z["y_test"].astype(int)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--port"); ap.add_argument("--baud", type=int, default=115200)
+    ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--data", default="cortex_data")
+    ap.add_argument("--per-class", type=int, default=0, help="examples per class per stage (0 = all)")
+    ap.add_argument("--test", type=int, default=1000, help="test images scored after each stage")
+    a = ap.parse_args()
+    xtr, ytr, xte, yte = mnist(a.data)
+    stages = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]
+    print("learning feature detectors (no labels, images of the first stage only)...")
+    fes = [Features(32, thr=c).fit(xtr[np.isin(ytr, stages[0])][:12000]) for c in (50, 150, ("on", 8), ("off", 8))]
+    enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
+    r = np.random.RandomState(0); tst = r.choice(len(yte), a.test, replace=False); cte = enc(xte[tst]); yt = yte[tst]
+    dev = Emu(cte.shape[1]) if a.dry_run else Board(a.port, a.baud)
+    if not dev.ping():
+        sys.exit("no ping reply: check the port and that cortex_board_top is loaded")
+    dev.seed(SEED_LANES); dev.clear(); known = set(); t0 = time.time()
+    for i, s in enumerate(stages):
+        sel = np.where(np.isin(ytr, s))[0]
+        if a.per_class:
+            sel = np.concatenate([np.where(ytr == c)[0][:a.per_class] for c in s])
+        sel = sel[np.random.RandomState(i).permutation(len(sel))]
+        night = run_stage(dev, enc(xtr[sel]), ytr[sel], known)
+        seen = np.isin(yt, sorted(known))
+        acc = np.mean([dev.predict(np.nonzero(cte[j])[0]) == yt[j] for j in np.where(seen)[0]])
+        print(f"stage {i + 1} (classes {s}): accuracy on all classes so far {acc:.3f}  night dreams {night}  "
+              f"[{time.time() - t0:.0f}s]", flush=True)
+    if a.dry_run:                                                           # self-check against the chip model
+        from cortex_int import CortexInt
+        ref = CortexInt(cte.shape[1], night=2, daydream=1, night_stop=2, seed=1)
+        for i, s in enumerate(stages):
+            sel = np.where(np.isin(ytr, s))[0]
+            if a.per_class:
+                sel = np.concatenate([np.where(ytr == c)[0][:a.per_class] for c in s])
+            sel = sel[np.random.RandomState(i).permutation(len(sel))]; ref.stage(enc(xtr[sel]), ytr[sel])
+        same = np.array_equal(ref.W, dev.W) and np.array_equal(ref.on, dev.on) and np.array_equal(ref.n, dev.n)
+        print("emulator matches the integer chip model exactly:", same)
+
+
+if __name__ == "__main__":
+    main()
