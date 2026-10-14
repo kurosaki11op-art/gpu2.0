@@ -1,0 +1,84 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED",
+ "concept_cells_per_class": 32,
+ "dreams_per_old_class": 6000,
+ "code_bits": 18432,
+ "all_at_once": {
+  "brain": 0.9794,
+  "concept": 0.9724,
+  "table": 0.9755,
+  "mlp_pixels": 0.9771
+ },
+ "stages_brain": [
+  {
+   "stage": 1,
+   "concept": 0.9995271867612293,
+   "table": 1.0,
+   "brain": 1.0
+  },
+  {
+   "stage": 2,
+   "concept": 0.9949482800096223,
+   "table": 0.9846042819340871,
+   "brain": 0.9879720952610055
+  },
+  {
+   "stage": 3,
+   "concept": 0.9927043608025203,
+   "table": 0.9693251533742331,
+   "brain": 0.9742994528270602
+  },
+  {
+   "stage": 4,
+   "concept": 0.9856554821005363,
+   "table": 0.9559685667955594,
+   "brain": 0.9664463016090807
+  },
+  {
+   "stage": 5,
+   "concept": 0.9724,
+   "table": 0.9504,
+   "brain": 0.9591
+  }
+ ],
+ "stages_mlp_pixels": [
+  {
+   "stage": 1,
+   "mlp": 0.9995271867612293,
+   "mlp_replay20": 0.9995271867612293
+  },
+  {
+   "stage": 2,
+   "mlp": 0.4801539571806591,
+   "mlp_replay20": 0.5123887418811643
+  },
+  {
+   "stage": 3,
+   "mlp": 0.30890399602056046,
+   "mlp_replay20": 0.5441883601392804
+  },
+  {
+   "stage": 4,
+   "mlp": 0.24697517774728703,
+   "mlp_replay20": 0.5821379568417113
+  },
+  {
+   "stage": 5,
+   "mlp": 0.1951,
+   "mlp_replay20": 0.4958
+  }
+ ],
+ "merge_0to4_plus_5to9": {
+  "chip_A_alone": 0.5115,
+  "chip_B_alone": 0.4784,
+  "merged_concept_only": 0.9722,
+  "merged_after_one_sleep": 0.9457
+ },
+ "memory_KB": {
+  "concept_counts_16bit": 11520.0,
+  "concept_decision_table_4bit": 2880.0,
+  "correction_table_8bit": 180.0,
+  "feature_detectors": 1.5625
+ }
+}

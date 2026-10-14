@@ -38,12 +38,18 @@ ships, with brain principles only: no matrices, no multiplies, no backprop.**
 What it is not: it does not replace large language models, and we will not say it does. The claim is narrower and
 provable: a chip that learns continuously, locally and transferably, which today's AI chips cannot do.
 
+## Status
+
+- Month 1 (accuracy gap): done in simulation, see `hw/results/cortex_month1.md`. The best brain component is within
+  1.6 points of the network on digits, clothing and spoken words, and keeps that accuracy when learning in stages
+  (network falls to 16-20%). Open: memory size (MB, must reach ~100 KB) and one decision rule for all tasks.
+
 ## 6-8 month plan (each step ends with a measured result)
 
 | Month | Work | Proof at the end |
 |---|---|---|
 | 1 | Close the accuracy gap: stable correction table (sleep consolidation), 2-level inputs, more detectors; add a third dataset (spoken keywords, Speech Commands) | table: brain core within 3 points of the network on 3 datasets, still no forgetting |
-| 2 | Few-shot via episodic memory + learned features; on-chip-sized memory (fits ~100 KB) | few-shot at least equal to the network |
+| 2 | Shrink memory ~100x (4-bit stochastic counters, fewer cells); one confidence-gated decision rule; few-shot via episodic memory | fits ~100 KB with under 2 points lost; few-shot at least equal to the network |
 | 3 | RTL: feature layer, cortex memory, learning logic; bit-exact against the Python model | 0 mismatches over the test sets |
 | 4 | Tang Nano 20K: learn live on the board over UART; measure power with a USB meter | board learns new classes in front of judges; joules per decision and per learning step, MEASURED |
 | 5 | Two boards learn different things; merge memories over UART | merged board = combined knowledge, MEASURED |

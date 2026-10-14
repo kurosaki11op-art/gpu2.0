@@ -1,0 +1,84 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED",
+ "concept_cells_per_class": 32,
+ "dreams_per_old_class": 6000,
+ "code_bits": 18432,
+ "all_at_once": {
+  "brain": 0.8615,
+  "concept": 0.8345,
+  "table": 0.8576,
+  "mlp_pixels": 0.8737
+ },
+ "stages_brain": [
+  {
+   "stage": 1,
+   "concept": 0.9895,
+   "table": 0.9915,
+   "brain": 0.9915
+  },
+  {
+   "stage": 2,
+   "concept": 0.9385,
+   "table": 0.9335,
+   "brain": 0.93875
+  },
+  {
+   "stage": 3,
+   "concept": 0.892,
+   "table": 0.8926666666666667,
+   "brain": 0.9
+  },
+  {
+   "stage": 4,
+   "concept": 0.8145,
+   "table": 0.831375,
+   "brain": 0.83925
+  },
+  {
+   "stage": 5,
+   "concept": 0.8345,
+   "table": 0.8586,
+   "brain": 0.8626
+  }
+ ],
+ "stages_mlp_pixels": [
+  {
+   "stage": 1,
+   "mlp": 0.9845,
+   "mlp_replay20": 0.984
+  },
+  {
+   "stage": 2,
+   "mlp": 0.484,
+   "mlp_replay20": 0.4825
+  },
+  {
+   "stage": 3,
+   "mlp": 0.33316666666666667,
+   "mlp_replay20": 0.6196666666666667
+  },
+  {
+   "stage": 4,
+   "mlp": 0.25275,
+   "mlp_replay20": 0.3845
+  },
+  {
+   "stage": 5,
+   "mlp": 0.1995,
+   "mlp_replay20": 0.3775
+  }
+ ],
+ "merge_0to4_plus_5to9": {
+  "chip_A_alone": 0.45,
+  "chip_B_alone": 0.4778,
+  "merged_concept_only": 0.8372,
+  "merged_after_one_sleep": 0.8461
+ },
+ "memory_KB": {
+  "concept_counts_16bit": 11520.0,
+  "concept_decision_table_4bit": 2880.0,
+  "correction_table_8bit": 180.0,
+  "feature_detectors": 1.5625
+ }
+}
