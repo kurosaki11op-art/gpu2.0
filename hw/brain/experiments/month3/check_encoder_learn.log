@@ -1,0 +1,15 @@
+learning cycles per image 16770
+detectors reseeded per channel: [0, 1, 0, 0]
+mnist: learned from 200 images (reseed after 100 and at the end), counters compared 128 x 25, mismatching detectors 0; 40 test images encoded with the learned detectors, mismatching images 0
+PASS
+learning cycles per image 16770
+detectors reseeded per channel: [0, 0, 0, 0]
+fashion: learned from 200 images (reseed after 100 and at the end), counters compared 128 x 25, mismatching detectors 0; 40 test images encoded with the learned detectors, mismatching images 0
+PASS
+cycles per image 21378
+mnist: 10 images, active bits per image 219, mismatching images 0
+PASS
+learning cycles per image 16770
+detectors reseeded per channel: [5, 10, 6, 0]
+mnist: learned from 40 images (reseed after 5 and at the end), counters compared 128 x 25, mismatching detectors 0; 20 test images encoded with the learned detectors, mismatching images 0
+PASS

@@ -51,7 +51,7 @@ violations), CLEAR command (memories can be wiped after a reset).
 1. A run on the real board and measured power (month 4; needs the user's Tang Nano and a USB power meter).
 2. Learning the sensory detectors on the chip: **rule found in simulation** (one streaming pass over the first day's
    images matches the PC's detectors: digits 93.9 vs 95.0, clothing 79.2 vs 79.2,
-   [note](../brain/experiments/month3/onchip_detectors.md)); RTL still to do (2.4 KB of counters).
+   [note](../brain/experiments/month3/onchip_detectors.md)); in RTL as build option `ENC_LEARN`, bit-exact; hardware rule 94.5 / 80.0; ASIC only (the Tang Nano is full).
 3. Split dreams via PSRAM (and sound on the board: 422 KB does not fit block RAM).
 4. Few-shot with 1-5 examples (fusing episodic recall with the table helps at 20 examples, not at 5:
    [note](../brain/experiments/month3/fewshot_fusion.md)).

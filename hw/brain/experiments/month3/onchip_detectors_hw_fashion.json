@@ -1,0 +1,18 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (integer chip model, hardware learning rule)",
+ "reseed_every_end": [
+  0.992,
+  0.9008,
+  0.8585,
+  0.7714,
+  0.8003
+ ],
+ "reseed_every_1000": [
+  0.992,
+  0.9008,
+  0.8585,
+  0.7714,
+  0.8003
+ ]
+}

@@ -1,0 +1,4 @@
+mnist reseed every end [0.9986, 0.98, 0.9758, 0.9546, 0.9452] 55s
+mnist reseed every 1000 [0.9991, 0.9651, 0.9715, 0.9409, 0.9445] 109s
+fashion reseed every end [0.992, 0.9008, 0.8585, 0.7714, 0.8003] 52s
+fashion reseed every 1000 [0.992, 0.9008, 0.8585, 0.7714, 0.8003] 101s

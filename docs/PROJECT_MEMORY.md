@@ -76,7 +76,7 @@ Last updated: 2026-10-14.
 | Receptors | thresholds | brightness > 50 and > 150 -> on/off bits (sound: 8 levels) | `feature_layer.binarize`, `cortex_encoder.v` |
 | Retina centre-surround | ganglion cells | ON/OFF if brighter/darker than the 3x3 neighbour average by > 8 | same |
 | Cochlea (sound) | basilar membrane | 28 shift-add resonators -> 28x28 sound picture | `hw/brain/cochlea.py` (not in RTL) |
-| Sensory cortex | competition, Hebbian | 5x5 windows, 32 label-free detectors per channel (winner by XNOR + bit count), 2x2 pooling -> 4,608-bit code | `Features` / `cortex_encoder.v` (detectors loaded; a streaming on-chip rule matches the PC fit in simulation, not in RTL) |
+| Sensory cortex | competition, Hebbian | 5x5 windows, 32 label-free detectors per channel (winner by XNOR + bit count), 2x2 pooling -> 4,608-bit code | `Features` / `cortex_encoder.v` (detectors loaded, or learned on chip with the `ENC_LEARN` build: bit-exact with `detector_learn.py`, 94.5 / 80.0 vs PC 95.0 / 79.2; ASIC only) |
 | Fast table | surprise / dopamine | 5-bit signed counters per (class, bit); decides everything; written only when wrong or close | `cortex_core.v` |
 | Dream memory | synaptic scaling | 10-bit per-class on-counts per bit, halved when the class count fills | `cortex_core.v` |
 | Day | replay, daydreaming | each example once: count, practise, one daydream; dreams of old classes interleaved | host schedule / `cortex_int._stage` |
@@ -120,8 +120,8 @@ halves), live demo `cortex_demo.py`. Extra evidence: 10 one-class stages 93.5 / 
 ahead on digits and sound, level on clothing; energy ~74x per decision, ~200x per learned example (ESTIMATED); ASIC
 SKY130 ~18.8 mm2 (17.9 of it open SRAM macros; logic < 1 mm2); after placement + global routing ~43 MHz, but 355 mW at
 a default 10% activity without clock gating (~13 uJ/decision), far above the operation-count energy - the 74x is per
-operation needed, not per chip (`hw/results/cortex_asic_estimate.md`). On-chip detector learning: one streaming pass
-matches the PC detectors (digits 93.9 vs 95.0, clothing 79.2 vs 79.2; SIMULATED). Rejected: second sensory layer (V2), wider pooling
+operation needed, not per chip (`hw/results/cortex_asic_estimate.md`). On-chip detector learning: in RTL (`ENC_LEARN`, bit-exact),
+one pass over the first day's images: digits 94.5 / clothing 80.0 vs PC detectors 95.0 / 79.2 (SIMULATED). Rejected: second sensory layer (V2), wider pooling
 for few-shot. Waiting on the user: run on the board, measure power (month 4).
 
 Limit found 15 Oct: "never forgets" holds for new classes, NOT for a new condition of known classes (domain shift);

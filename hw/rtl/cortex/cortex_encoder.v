@@ -11,12 +11,23 @@
 //   output    : the active code bits in increasing order, written through the core's list write port
 // Load the image with pix_we, the detectors with tm_we (tm_ch, tm_f, 25 bits; bit r*5+c = window row r, column c),
 // then pulse start; done pulses with the list length in count.
+//
+// Build option ENC_LEARN (`define ENC_LEARN): the encoder learns its own detectors from the images it sees, without
+// labels (bit-exact with hw/brain/detector_learn.py). Per channel 32 detectors x 25 six-bit counters; tm* hold their
+// signs. lclear (idle) restarts learning; start with learn = 1 learns from the loaded image instead of encoding it
+// (done, count 0): each non-blank window first seeds the next unseeded detector, later moves the winner's counters one
+// step toward it (clip +-31), marks the winner and enters a ring of the last 32 windows; reseed (idle) gives every
+// detector that has not won since the last reseed the next window from the ring. Costs 19,200 + 3,200 + 128 bits of
+// state and one add/clip per bit of the winner; meant for the ASIC (the Tang Nano build is full).
 `timescale 1ns/1ps
 module cortex_encoder #(parameter AW = 13) (
     input  wire          clk, rst,
     input  wire          pix_we, input wire [9:0] pix_addr, input wire [7:0] pix_data,
     input  wire          tm_we, input wire [1:0] tm_ch, input wire [4:0] tm_f, input wire [24:0] tm_data,
     input  wire          start,
+`ifdef ENC_LEARN
+    input  wire          learn, lclear, reseed,
+`endif
     output reg           busy, output reg done, output reg [AW:0] count,
     output reg           out_we, output reg [AW-1:0] out_addr, output reg [AW-1:0] out_data
 );
@@ -28,15 +39,38 @@ module cortex_encoder #(parameter AW = 13) (
     initial for (t = 0; t < 4608; t = t + 1) cmap[t] = 1'b0;   // power-up zero (FPGA RAM starts cleared); EMIT re-clears it
 
     always @(posedge clk) if (pix_we) pix[pix_addr] <= pix_data;
+`ifndef ENC_LEARN
     always @(posedge clk) if (tm_we) case (tm_ch)
         2'd0: tm0[tm_f] <= tm_data; 2'd1: tm1[tm_f] <= tm_data; 2'd2: tm2[tm_f] <= tm_data; default: tm3[tm_f] <= tm_data;
     endcase
+`else
+    reg [149:0] lc [0:127];                     // counters, index {channel, detector}; 6 bits per window bit
+    reg [24:0]  ring [0:127];                   // last 32 learned windows per channel, index {channel, slot}
+    reg [127:0] won;                            // detector won since the last reseed
+    reg [5:0]   seeded [0:3];                   // detectors seeded per channel (0..32)
+    reg [4:0]   rp [0:3], kk [0:3];             // ring write position, reseed read position
+    reg         lmode; reg [4:0] r;
+    initial for (t = 0; t < 128; t = t + 1) begin lc[t] = 0; ring[t] = 0; end
+    function [149:0] seedw; input [24:0] v; integer q; begin
+        for (q = 0; q < 25; q = q + 1) seedw[q*6 +: 6] = v[q] ? 6'd1 : 6'h3f;
+    end endfunction
+    function [149:0] stepw; input [149:0] c; input [24:0] v; integer q; reg signed [6:0] x; begin
+        for (q = 0; q < 25; q = q + 1) begin
+            x = $signed(c[q*6 +: 6]) + (v[q] ? 7'sd1 : -7'sd1);
+            stepw[q*6 +: 6] = (x > 31) ? 6'd31 : (x < -31) ? 6'h21 : x[5:0];
+        end
+    end endfunction
+    function [24:0] signs; input [149:0] c; integer q; begin
+        for (q = 0; q < 25; q = q + 1) signs[q] = ~c[q*6 + 5];
+    end endfunction
+`endif
 
     function [4:0] pop25; input [24:0] v; integer q; begin
         pop25 = 0; for (q = 0; q < 25; q = q + 1) pop25 = pop25 + v[q];
     end endfunction
 
-    localparam E_IDLE = 0, E_BIN = 1, E_BIN2 = 2, E_POS = 3, E_GATH = 4, E_MATCH = 5, E_SET = 6, E_EMIT = 7, E_DONE = 8;
+    localparam E_IDLE = 0, E_BIN = 1, E_BIN2 = 2, E_POS = 3, E_GATH = 4, E_MATCH = 5, E_SET = 6, E_EMIT = 7, E_DONE = 8,
+               E_LRN = 9, E_RSD = 10;
     reg [3:0] st;
     // receptor stage
     reg [4:0] py, pxx; reg [1:0] ky, kx; reg [11:0] nsum; reg [7:0] ctr;
@@ -57,6 +91,7 @@ module cortex_encoder #(parameter AW = 13) (
     wire [4:0] a0 = pop25(~(p0 ^ tm0[f[4:0]])), a1 = pop25(~(p1 ^ tm1[f[4:0]])),
                a2 = pop25(~(p2 ^ tm2[f[4:0]])), a3 = pop25(~(p3 ^ tm3[f[4:0]]));
     wire [4:0] wsel = (sc == 0) ? w0 : (sc == 1) ? w1 : (sc == 2) ? w2 : w3;
+    wire [24:0] psel = (sc == 0) ? p0 : (sc == 1) ? p1 : (sc == 2) ? p2 : p3;
     wire       osel = (sc == 0) ? (pop25(p0) >= 3) : (sc == 1) ? (pop25(p1) >= 3) : (sc == 2) ? (pop25(p2) >= 3) : (pop25(p3) >= 3);
     wire [2:0] ci = si[3:1], cj = sj[3:1];
     wire [5:0] pcell = {ci, 2'b0} + {ci, 1'b0} + cj;                                  // ci * 6 + cj
@@ -66,7 +101,21 @@ module cortex_encoder #(parameter AW = 13) (
         done <= 0; out_we <= 0;
         if (rst) begin st <= E_IDLE; busy <= 0; end
         else case (st)
-        E_IDLE: if (start) begin busy <= 1; py <= 0; pxx <= 0; ky <= 0; kx <= 0; nsum <= 0; st <= E_BIN; end
+        E_IDLE: begin
+            if (start) begin busy <= 1; py <= 0; pxx <= 0; ky <= 0; kx <= 0; nsum <= 0; st <= E_BIN; end
+`ifdef ENC_LEARN
+            lmode <= learn;
+            if (tm_we) case (tm_ch)
+                2'd0: tm0[tm_f] <= tm_data; 2'd1: tm1[tm_f] <= tm_data; 2'd2: tm2[tm_f] <= tm_data; default: tm3[tm_f] <= tm_data;
+            endcase
+            if (lclear) begin
+                won <= 0; for (t = 0; t < 4; t = t + 1) begin seeded[t] <= 0; rp[t] <= 0; end
+            end
+            if (reseed && !start) begin
+                busy <= 1; r <= 0; for (t = 0; t < 4; t = t + 1) kk[t] <= 0; st <= E_RSD;
+            end
+`endif
+        end
         // ---- receptors: walk the 9 neighbours of each pixel ------------------------------------------------------
         E_BIN: begin
             if (ky == 1 && kx == 1) ctr <= nval; else nsum <= nsum + nval;
@@ -94,7 +143,11 @@ module cortex_encoder #(parameter AW = 13) (
             if (f == 0 || a1 > b1) begin b1 <= a1; w1 <= f[4:0]; end
             if (f == 0 || a2 > b2) begin b2 <= a2; w2 <= f[4:0]; end
             if (f == 0 || a3 > b3) begin b3 <= a3; w3 <= f[4:0]; end
+`ifdef ENC_LEARN
+            if (f == 31) begin sc <= 0; st <= lmode ? E_LRN : E_SET; end else f <= f + 1;
+`else
             if (f == 31) begin sc <= 0; st <= E_SET; end else f <= f + 1;
+`endif
         end
         E_SET: begin
             if (osel) cmap[cidx] <= 1'b1;
@@ -111,6 +164,43 @@ module cortex_encoder #(parameter AW = 13) (
             if (e == 4607) st <= E_DONE; else e <= e + 1;
         end
         E_DONE: begin count <= k; done <= 1; busy <= 0; st <= E_IDLE; end
+`ifdef ENC_LEARN
+        // ---- learning: one channel per cycle, the window of channel sc against its winner wsel -------------------
+        E_LRN: begin
+            if (osel) begin
+                if (seeded[sc] != 32) begin
+                    lc[{sc, seeded[sc][4:0]}] <= seedw(psel);
+                    case (sc) 2'd0: tm0[seeded[0][4:0]] <= psel; 2'd1: tm1[seeded[1][4:0]] <= psel;
+                              2'd2: tm2[seeded[2][4:0]] <= psel; default: tm3[seeded[3][4:0]] <= psel; endcase
+                    seeded[sc] <= seeded[sc] + 1'b1;
+                end else begin
+                    lc[{sc, wsel}] <= stepw(lc[{sc, wsel}], psel);
+                    case (sc) 2'd0: tm0[wsel] <= signs(stepw(lc[{sc, wsel}], psel)); 2'd1: tm1[wsel] <= signs(stepw(lc[{sc, wsel}], psel));
+                              2'd2: tm2[wsel] <= signs(stepw(lc[{sc, wsel}], psel)); default: tm3[wsel] <= signs(stepw(lc[{sc, wsel}], psel)); endcase
+                    won[{sc, wsel}] <= 1'b1;
+                    ring[{sc, rp[sc]}] <= psel; rp[sc] <= rp[sc] + 1'b1;
+                end
+            end
+            if (sc == 3) begin
+                if (sj == 11) begin
+                    sj <= 0;
+                    if (si == 11) begin k <= 0; st <= E_DONE; end else begin si <= si + 1; st <= E_POS; end
+                end else begin sj <= sj + 1; st <= E_POS; end
+            end else sc <= sc + 1;
+        end
+        // ---- reseed: detector r of every channel that has not won takes the next ring window ------------------------
+        E_RSD: begin
+            for (t = 0; t < 4; t = t + 1) if (!won[t*32 + r]) begin
+                lc[t*32 + r] <= seedw(ring[t*32 + kk[t]]); kk[t] <= kk[t] + 1'b1;
+            end
+            if (!won[r])      tm0[r] <= ring[kk[0]];
+            if (!won[32 + r]) tm1[r] <= ring[32 + kk[1]];
+            if (!won[64 + r]) tm2[r] <= ring[64 + kk[2]];
+            if (!won[96 + r]) tm3[r] <= ring[96 + kk[3]];
+            if (r == 31) begin won <= 0; for (t = 0; t < 4; t = t + 1) rp[t] <= 0; busy <= 0; done <= 1; count <= 0; st <= E_IDLE; end
+            else r <= r + 1'b1;
+        end
+`endif
         default: st <= E_IDLE;
         endcase
     end

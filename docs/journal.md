@@ -125,4 +125,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   dead detectors) on one pass over the first day's images gives digits 93.9 / clothing 79.2 after 5 stages vs 95.0 /
   79.2 with PC detectors (3 passes: 94.4 / 79.3). SIMULATED, integer chip model
   ([note](../hw/brain/experiments/month3/onchip_detectors.md)).
+- **On-chip detector learning in RTL**: hardware rule `hw/brain/detector_learn.py` (seed windows only seed; reseed is
+  a command, from a ring of the last 32 windows) gives digits 94.5 / clothing 80.0 after 5 stages vs PC detectors
+  95.0 / 79.2 (SIMULATED). `cortex_encoder.v` with `ENC_LEARN` is bit-exact with it (all counters + learned codes,
+  0 mismatches, digits and clothing, reseed exercised); default build unchanged and still passes. ASIC only.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

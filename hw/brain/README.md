@@ -13,6 +13,7 @@ simulator only add table values quickly.
 - `sleep.py`: fast surprise-gated correction table (`SurpriseTable`) and count-memory dreams.
 - `cochlea.py`: sound to 28x28 sound picture (v1 one-pole cascade, v2 shift-add resonators), Speech Commands loader,
   FFT log-mel baseline features.
+- `detector_learn.py`: the on-chip detector learning rule (bit-exact reference for `cortex_encoder.v` with `ENC_LEARN`).
 - `rate_memory.py`: chip-honest dream memories (`RateMemory`, `ConceptRates`, `OnlineConcepts`, `ScaledCounts` = chosen).
 - `cortex_int.py`: **integer chip model** (bit-exact reference for the RTL); `run_int.py` runs 5 stages; `month2_final.py` the month-2 final numbers.
 - `proof_suite_v3.py`: month-2 float suite (small memory, table-only decision, few-shot).
