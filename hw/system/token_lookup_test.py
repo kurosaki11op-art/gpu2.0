@@ -124,7 +124,9 @@ def main():
                 ids = torch.randint(0, 1000, (1, 200))
             elif a.chat:
                 ids = tok.apply_chat_template([{"role": "user", "content": "Continue this text in the same style:\n\n" + p}],
-                                              add_generation_prompt=True, return_tensors="pt")
+                                              add_generation_prompt=True, tokenize=True, return_tensors="pt")
+                if not torch.is_tensor(ids):               # newer transformers return a dict-like BatchEncoding
+                    ids = ids["input_ids"]
             else:
                 ids = tok(p, return_tensors="pt").input_ids
             t0 = time.time()
