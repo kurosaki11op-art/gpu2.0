@@ -11,3 +11,10 @@
 4. Keep to brain principles: no matrices, no multiplies, no backprop in the chip design. Do not reframe SPARK as a
    GPU helper or an FPGA builder.
 5. Never write AI model identifiers into repo content.
+6. This repo is the team's **second brain**, opened in Obsidian as a vault (home: `README.md`). Keep it linked:
+   every new note is linked from its folder's index (`docs/INDEX.md`, `hw/results/INDEX.md`, `hw/HARDWARE_INDEX.md`)
+   and ends with a `Related:` line; use relative markdown links (they work in Obsidian and on GitHub); add new journal
+   entries above the journal's final `Related:` line. Lint with the obsidian-notes skill's `vault_lint.py` before
+   committing (target: 0 errors, 0 orphans).
+
+Related: [Project memory](docs/PROJECT_MEMORY.md), [Journal](docs/journal.md), [Home](README.md)

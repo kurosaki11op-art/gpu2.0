@@ -56,3 +56,5 @@ learning only adds counts, so new learning never overwrites old learning.
 - Not measured: energy. Operation counts are ESTIMATED; board power comes after the RTL.
 - Earlier variant (random wiring, no learned features, `cortex_core.py`): 96.1% MNIST but forgot like the network
   (15.9% on the first classes after 5 stages). Learned features + counting memory is what removed forgetting.
+
+Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)

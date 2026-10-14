@@ -63,3 +63,7 @@ Numenta's hierarchical temporal memory, competitive Hebbian feature learning, co
 Our contribution is the combination: label-free feature learning + additive count memory + surprise-gated
 correction + merge-by-addition, in one small chip that learns after deployment. Novelty must be checked before any
 claim of "first".
+
+Related: [Project memory](PROJECT_MEMORY.md), [First proof](../hw/results/cortex_proof.md),
+[Month 1](../hw/results/cortex_month1.md), [Month 2 log](../hw/results/cortex_month2_log.md),
+[Brain principles](brain_principles_for_spark.md), [Token lookup result that triggered it](../hw/results/token_lookup_real.md)

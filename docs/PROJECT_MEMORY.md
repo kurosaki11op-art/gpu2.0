@@ -27,6 +27,7 @@ Last updated: 2026-10-14.
 5. **Scope:** efficiency, effectiveness, e-waste, training cost, memory/weight transfer, AI advancement.
    "Do anything as you wish but don't go away from the scope."
 6. **Never forget the project:** write everything to markdown in GitHub, every step (this file + journal + logs).
+   The repo is the second brain, read in Obsidian; keep every note linked from an index.
    Commit and push after every experiment. The stop hook also requires a clean tree.
 7. **Never put AI model identifiers in repo content** (commits, docs, code comments).
 8. **Commit trailer:** `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` and
@@ -118,6 +119,8 @@ with the fast table as the only decision maker.
 
 ## 7. Where things are
 
+- **Second brain:** this repo, opened in Obsidian as a vault (Open folder as vault on `D:\gpu2.0`, Obsidian Git
+  plugin to pull updates). Home: `README.md`; indexes: `docs/INDEX.md`, `hw/results/INDEX.md`, `hw/HARDWARE_INDEX.md`.
 - Plan/status: `docs/cortex_redesign.md`. Journal: `docs/journal.md`. This file: `docs/PROJECT_MEMORY.md`.
 - Brain core code: `hw/brain/` (`cortex_core.py` v0 random wiring, `feature_layer.py`, `sleep.py`, `cochlea.py`,
   `proof_suite.py` first proof, `proof_suite_v2.py` month 1).
@@ -140,3 +143,6 @@ with the fast table as the only decision maker.
 
 Prior art to cite: WiSARD (1981), BTHOWeN (2022), ULEEN (2023), Tsetlin machines, Numenta HTM, competitive Hebbian
 learning, complementary learning systems. Check novelty before claiming "first".
+
+Related: [Home](../README.md), [Journal](journal.md), [SPARK Cortex redesign](cortex_redesign.md),
+[Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

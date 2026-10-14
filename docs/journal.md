@@ -24,3 +24,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   `hw/results/cortex_month2_log.md`. Paused before the dream-source test (`m2h.py`).
 - User asked whether everything is saved: committed all scripts and logs (`hw/brain/experiments/`), the running
   month-2 log, and created this journal, `docs/PROJECT_MEMORY.md` and `CLAUDE.md` so nothing is forgotten.
+- User asked which second brain to use: chose this GitHub repo opened as an Obsidian vault (I can write it directly,
+  it keeps full history, and Obsidian reads it). Added home page `README.md`, indexes for docs, results, hardware
+  and prompts, `hw/brain/README.md`, Related links, and the Obsidian vault config.
+
+Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

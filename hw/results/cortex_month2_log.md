@@ -22,3 +22,5 @@ one decision rule for every task; re-test few-shot.
 
 `m2h.py`: cheapest dream source with the fast table as the only decision maker (one rule for every task):
 plain per-class counts (46 KB) vs 4-16 coarse concept cells at 2-3 bits per synapse.
+
+Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)

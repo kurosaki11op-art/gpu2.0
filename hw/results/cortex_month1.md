@@ -68,3 +68,5 @@ first proof.
 4. Numbers are from one seed each. Differences under ~0.5 points should be treated as ties.
 5. The simulator uses floating point and matrix products to *add* table values quickly; the chip logic is counting,
    comparing and adding. Bit-exact integer RTL is month 3.
+
+Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)
