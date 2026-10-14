@@ -157,3 +157,40 @@ Reading:
 | Prose, 2048 | 44.8, 45.1, 45.0, 43.6, 45.8, 44.9, 43.9, 46.2, 41.8, 43.6, 44.2 |
 
 No degradation cliff appears out to 300,000 bytes: accuracy follows the content, not the stream position. This does not test streams of millions of bytes, multi-user streams, or diverse mixed content, where 16K total entries would eventually saturate.
+
+## 10. Closing the gap without a network (SIMULATED)
+
+`hw/system/close_gap.py` (+ `make_hybrid_cache.py`), `hw/results/close_gap.json`. Same 5 documents, paired against the hybrid's cached per-byte predictions, block bootstrap (250-byte blocks, within-document only).
+Note: these variants hash up to 16 context bytes, so their baseline (75.0% / 43.5%) is slightly below the 6-byte RTL version (75.4% / 43.9%); comparisons inside this table are consistent.
+
+| Lookup-only variant (CRC, hysteresis, no multipliers) | Memory | Code | Prose | vs hybrid, network on misses | vs hybrid, network arbitrating |
+|---|---|---|---|---|---|
+| Baseline, orders 2,3,4,6 | 46.0 KB | 75.0% | 43.5% | -0.99 [-1.18, -0.83] | -1.61 [-1.86, -1.38] |
+| + direct order-1 table (256 entries) | 46.3 KB | 75.4% | 43.7% | -0.73 | -1.35 |
+| + order-1 + most-frequent-byte fallback | 46.8 KB | 75.4% | 43.7% | -0.74 | -1.36 |
+| + order 8 | 58.3 KB | 76.0% | 43.8% | -0.52 | -1.14 |
+| + orders 8 and 12 | 69.8 KB | 76.6% | 43.8% | -0.39 | -1.00 |
+| **2-way tables (2^11 x 2, LRU) + order-1 + fallback** | **48.8 KB** | **75.7%** | **44.6%** | **+0.05 [-0.16, +0.23]** | -0.56 [-0.84, -0.32] |
+| 2-way + order 8 | 60.8 KB | 76.3% | 44.7% | +0.21 [-0.01, +0.39] | -0.41 [-0.68, -0.16] |
+
+Reading:
+1. **2-way set-associative tables close the gap to the miss-only hybrid** (+0.05 points, interval includes zero) at 48.8 KB, against about 77 KB for the hybrid. The improvement comes from fewer conflict evictions (two contexts can share a slot), mainly on prose (+1.1 points).
+2. **Against the arbitrating hybrid a gap of about 0.4-0.6 points remains**, and that hybrid runs the network on every byte (about 400x the cycles).
+3. **Fairness caveat:** the hybrid still uses 1-way tables. The same table improvements would likely lift the hybrid too; this table compares the best lookup-only design with the current hybrid, not the best of each.
+4. Hardware cost of 2-way: each slot becomes 47 bits (two entries + one LRU bit), one read returns both ways, two tag compares. The order-1 table is 256 x 11 bits; the fallback is 256 counters and a "best byte" register.
+
+## 11. Confidence table for the lookup core (SIMULATED)
+
+`hw/system/lookup_confidence.py`, `hw/results/lookup_confidence.json`. 17 entries: (which table answered: order 2/3/4/6) x (its 2-bit counter), plus "no table answered". Fitted on the first 100,000 bytes of the code and prose training streams, tested on the 5 held-out documents.
+
+Accuracy per bucket (%), order 2 counts 0-3, order 3, order 4, order 6, none: 22 33 40 62 | 32 48 57 75 | 42 64 72 89 | 59 80 88 92 | 13.
+
+| Document | Accuracy | Calibration error (ECE) | Ranking right vs wrong (AUC) | Bytes with confidence >= 0.9 | Accuracy on those |
+|---|---|---|---|---|---|
+| Code | 75.4% | 0.070 | 0.79 | 28.9% | 92.1% |
+| Alice | 49.0% | 0.022 | 0.71 | 2.9% | 93.4% |
+| Moby Dick | 41.2% | 0.046 | 0.70 | 0.7% | 90.1% |
+| Hamlet | 40.9% | 0.043 | 0.70 | 1.1% | 94.8% |
+| Emma | 44.5% | 0.030 | 0.71 | 0.8% | 95.5% |
+
+Reading: a 17-entry table, no arithmetic, gives usable confidence: the high-confidence bucket is right 90-96% of the time on every document, and confidence ranks right from wrong (AUC 0.70-0.79). Calibration is worse on code (0.07) than prose, because the fitting data mixes both. This is what the draft-length rule needs; it is not yet in the RTL.
