@@ -96,5 +96,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Claims sheet `docs/cortex_claims_sheet.md`. Project memory section 4 rewritten for the current chip design.
 - Sequence memory (lookup core) across text domains: keeps ~32% (TB=11) / ~60% (TB=13) of the code benefit after
   80 KB of prose (`hw/brain/experiments/month3/seq_forgetting.md`); month 6 needs capacity or context memory.
+- **Few-shot narrowed with spread (population) codes** (3x3 OR of features before matching, float sim): digits 40.5 /
+  61.3 / 86.6 vs network 39.1 / 67.4 / 81.2 (1 / 5 / 20 per class); clothing 42.8 / 53.3 / 70.2 vs 43.7 / 62.9 / 73.7.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

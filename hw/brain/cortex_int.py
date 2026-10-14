@@ -81,6 +81,8 @@ def _count(on, n, act, na, y, top):
 @njit(cache=True)
 def _dream(on, n, c, rng, out):
     nb = on.shape[1]; nc = n[c]
+    if nc == 0:                                         # a class with no examples dreams nothing (no endless redraw)
+        return 0
     L = 0
     while (1 << L) <= nc:
         L += 1

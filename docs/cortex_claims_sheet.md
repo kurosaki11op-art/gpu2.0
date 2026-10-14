@@ -33,7 +33,7 @@ MEASURED = real hardware; SIMULATED = our model or chip simulation; ESTIMATED = 
 | "First chip that learns continuously" | HDC accelerators (Clo-HDnn, ImageHD) and Intel Loihi 2 exist (`docs/prior_art_cortex.md`) |
 | "Never forgets" without qualification | a new condition of known classes (rotated digits) drops upright digits 95 -> 45%; fix (frozen dream memory, 85%) is simulated only |
 | "As accurate as deep learning" | all at once the network is ahead: 97.8 vs 96.6, 87.3 vs 83.7, 75.5 vs 71.1 |
-| "Learns from one example like a child" | few-shot with 1-5 examples is worse than a small network |
+| "Learns from one example like a child" | with spread codes (simulation only) it matches a small network at 1 example and beats it at 20 on digits, but is behind at 5, and behind on clothing at 5-20 |
 | "Replaces GPUs / LLMs" | it is a small continual learner for sensors (images, sound); no language model |
 | Any MEASURED power or speed on hardware | not yet measured |
 

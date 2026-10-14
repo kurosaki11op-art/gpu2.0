@@ -35,8 +35,11 @@ violations), CLEAR command (memories can be wiped after a reset).
 - Self-regulated sleep: one rule for all three tasks (the night ends when dreams keep surprising the table).
 - Split dreams (counts kept per pattern of 2-3 split bits): clothing 79.7 -> 82.6, digits 94.5 -> 95.6, sound 68.2 ->
   70.3 (float sim), but 4-8x the dream memory; needs the board's PSRAM. Not in the RTL yet.
-- Few-shot: still behind the network with 1-5 examples; detectors learned from more data and wider pooling did not fix
-  it; with 20 examples the chip is level or ahead on digits.
+- Few-shot: detectors learned from more data and wider pooling did not help. **Spread (population) codes did**: each
+  active feature also lights the same feature in the neighbouring cells (3x3 OR) before matching
+  (`experiments/month3/m4d.py`, float sim, 3 seeds). With episodic recall for few examples and the table for many:
+  digits 40.5 / 61.3 / 86.6 at 1 / 5 / 20 examples per class vs network 39.1 / 67.4 / 81.2 (ahead at 1 and 20, behind
+  at 5); clothing 42.8 / 53.3 / 70.2 vs 43.7 / 62.9 / 73.7 (level at 1, behind at 5 and 20). Not in the RTL.
 
 ## Still open
 

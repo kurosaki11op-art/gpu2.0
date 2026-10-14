@@ -128,7 +128,9 @@ module cortex_core #(
                 case (cmd_op)
                     3'd1: st <= S_C0;
                     3'd2: st <= S_S0;
-                    3'd3: begin st <= S_D0; b <= 0; k <= 0; lane <= 0; L <= blen(n[cmd_arg]); ncur <= n[cmd_arg]; end
+                    3'd3: begin                     // a class with no examples dreams nothing (skips straight to practise)
+                        st <= S_D0; b <= (n[cmd_arg] == 0) ? NB : 0; k <= 0; lane <= 0; L <= blen(n[cmd_arg]); ncur <= n[cmd_arg];
+                    end
                     3'd4: begin st <= S_S0; predict_mode <= 1; end
                     3'd5: begin known[cmd_arg] <= 1'b1; st <= S_DONE; end
                     3'd6: begin b <= 0; st <= S_Z0; end

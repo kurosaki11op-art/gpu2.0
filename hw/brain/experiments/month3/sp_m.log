@@ -1,0 +1,3 @@
+mnist spread r 0 active 246 few-shot k: (table, episodic) {1: (0.375, 0.27), 5: (0.557, 0.385), 20: (0.825, 0.59)}
+mnist spread r 1 active 1423 few-shot k: (table, episodic) {1: (0.287, 0.405), 5: (0.437, 0.613), 20: (0.866, 0.742)}
+mnist spread r 2 active 2529 few-shot k: (table, episodic) {1: (0.202, 0.355), 5: (0.243, 0.543), 20: (0.268, 0.693)}

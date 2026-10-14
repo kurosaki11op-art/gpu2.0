@@ -3,3 +3,7 @@ cortex_pnr.json
 cortex_tangnano20k.fs
 build_out.txt
 synth.log
+cortex_fast.json
+cortex_fast_pnr.json
+cortex_tangnano20k_921600.fs
+synth_fast.log
