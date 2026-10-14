@@ -33,5 +33,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - User going to sleep, asked for non-stop work until the evening of 15 Oct. Set an every-2-hours safety check-in
   (routine `trig_01UmL6GjCFHNfqdNTvVqZPZi`, India time, delete after 20:00 IST on 15 Oct). Overnight plan: finish
   month 2 (sleep variants, v3 suite with memory budget, few-shot, merge), then month 3 (integer bit-exact model, RTL).
+- Overnight tests i-l (month 2 log): a full night of all-class dreams helps images (concept 8x3-bit: digits 95.3,
+  clothing 84.2); chip-honest metaplastic 8-bit rate memory (45 KB) within ~1 pt of exact counts (digits 93.1,
+  clothing 78.3), image total 73 KB fits Tang Nano block RAM; low-bit on-chip concept cells failed. New code:
+  `hw/brain/rate_memory.py` (RateMemory, ConceptRates).
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
