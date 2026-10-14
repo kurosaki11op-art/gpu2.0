@@ -1,0 +1,4 @@
+mnist split bits 0 memory x 1 [0.9991 0.9721 0.964  0.9512 0.945 ] 52s
+mnist split bits 1 memory x 2 [0.9991 0.9738 0.9605 0.9489 0.9459] 50s
+mnist split bits 2 memory x 4 [0.9991 0.974  0.9662 0.9565 0.9476] 51s
+mnist split bits 3 memory x 8 [0.9991 0.9786 0.9725 0.9642 0.9558] 54s

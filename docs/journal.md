@@ -50,5 +50,12 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   few-shot still behind; accuracy 2.6-7.6 points under month 1 in stages.
 - **Board design:** `hw/board/cortex_board_top.v` (UART protocol, CLEAR command added to the core), bit-exact over UART
   with the integer model (0 mismatches, 101 commands). Yosys: 46/46 block RAMs, ~12.5k LUT4, 0 multipliers.
+- **Bitstream built** (open-source flow, `hw/pnr_cortex/`): 46/46 BSRAM, 11,223 LUT4 (54%), 2,264 FF, 0 multipliers,
+  68.6 MHz max at a 27 MHz clock, no hold violations. Fixes on the way: single-port list buffer (dual-port cells could
+  not be placed), all block-RAM inputs re-registered on the falling edge (1,732 hold violations gone). Core and board
+  checks re-run after each change: 0 mismatches. Host script `hw/board/cortex_host.py` (dry run matches the chip
+  model exactly; 300 per class -> 91.2% on 10 digits after 5 stages).
+- **Split dreams** (per class, counts kept per on/off pattern of its 2-3 most 50/50 bits; float sim): clothing 79.7 ->
+  82.6 (x4 memory), digits 94.5 -> 95.6 (x8). Does not fit block RAM; route for a bigger version is the board's PSRAM.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

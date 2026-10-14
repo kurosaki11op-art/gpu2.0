@@ -44,6 +44,11 @@ provable: a chip that learns continuously, locally and transferably, which today
   1.6 points of the network on digits, clothing and spoken words, and keeps that accuracy when learning in stages
   (network falls to 16-20%). Open: memory size (MB, must reach ~100 KB) and one decision rule for all tasks.
 
+- Month 2 (memory, one rule): done in simulation, see `hw/results/cortex_month2.md`. Images 84 KB (137x smaller), one
+  rule for every task, self-regulated sleep; accuracy in stages 94.6 / 78.7 / 69.7; few-shot still behind.
+- Month 3 (RTL): done early. Integer chip model, core and Tang Nano top bit-exact (0 mismatches), bitstream built with
+  timing met. Month 4 (real board run, measured power) needs the user's board.
+
 ## 6-8 month plan (each step ends with a measured result)
 
 | Month | Work | Proof at the end |

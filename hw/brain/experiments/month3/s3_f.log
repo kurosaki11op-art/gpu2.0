@@ -1,0 +1,4 @@
+fashion split bits 0 memory x 1 [0.9915 0.8958 0.867  0.7811 0.7974] 51s
+fashion split bits 1 memory x 2 [0.9915 0.9032 0.8708 0.7934 0.8095] 51s
+fashion split bits 2 memory x 4 [0.9915 0.916  0.8747 0.8109 0.8255] 50s
+fashion split bits 3 memory x 8 [0.9915 0.9168 0.8737 0.8172 0.8261] 54s
