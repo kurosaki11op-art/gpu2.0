@@ -3,7 +3,8 @@
 Design under test (same rule for digits, clothing and spoken words):
   senses + sensory layer : as month 1, but 32 detectors per channel (images, 4,608-bit code) / 64 (sound, 23,040)
   decision               : the fast table only (5-bit signed counters), always
-  dream memory           : DREAM=rate   per-class 8-bit firing rates, metaplastic learning (rate_memory.RateMemory)
+  dream memory           : DREAM=scaled per-class counters with synaptic scaling, SB bits (rate_memory.ScaledCounts)
+                           DREAM=rate   per-class 8-bit firing rates, metaplastic learning (rate_memory.RateMemory)
                            DREAM=count  per-class exact counters (16-bit), naive dreams (feature_layer.CountMemory)
                            DREAM=online single-pass concept cells, exact 16-bit counters (rate_memory.OnlineConcepts)
   sleep                  : day = practise new examples + dreams of old classes;
@@ -15,11 +16,12 @@ import json, os, sys, time
 import numpy as np, torch
 from cortex_core import load
 from feature_layer import Features, CountMemory
-from rate_memory import RateMemory, OnlineConcepts
+from rate_memory import RateMemory, OnlineConcepts, ScaledCounts
 from sleep import SurpriseTable, dreams as count_dreams
 
 D, DS = sys.argv[1], sys.argv[2]
-DREAM, NIGHT = os.environ.get("DREAM", "rate"), int(os.environ.get("NIGHT", "1"))
+DREAM, NIGHT = os.environ.get("DREAM", "scaled"), int(os.environ.get("NIGHT", "1"))
+SB = int(os.environ.get("SB", "10"))
 CMAX, NDREAM = 15, 6000
 stages = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]
 torch.manual_seed(0); np.random.seed(0); t0 = time.time()
@@ -47,7 +49,7 @@ print(DS, DREAM, "night", NIGHT, "code", ctr.shape, f"{time.time()-t0:.0f}s", fl
 
 
 def new_mem(seed=0):
-    return {"rate": lambda: RateMemory(NB, 10, B=8, k=0, kmax=9, seed=seed), "count": lambda: CountMemory(NB, 10),
+    return {"scaled": lambda: ScaledCounts(NB, 10, B=SB), "rate": lambda: RateMemory(NB, 10, B=8, k=0, kmax=9, seed=seed), "count": lambda: CountMemory(NB, 10),
             "online": lambda: OnlineConcepts(NB, 10, P=8, seed=seed)}[DREAM]()
 
 
@@ -89,7 +91,7 @@ def mlp_acc(m, X, y):
         return float((m(torch.tensor(X, dtype=torch.float32)).argmax(1).numpy() == y).mean())
 
 
-R = {"dataset": DS, "label": "SIMULATED", "dream_memory": DREAM, "night": NIGHT, "code_bits": NB, "table_bits": 5}
+R = {"dataset": DS, "label": "SIMULATED", "dream_memory": DREAM, "dream_bits": SB if DREAM == "scaled" else None, "night": NIGHT, "code_bits": NB, "table_bits": 5}
 allk = np.ones(10, bool); every = np.ones(len(yte), bool)
 st_all = SurpriseTable(NB, 10, cmax=CMAX).practise(ctr, ytr, allk)
 R["all_at_once"] = {"brain_table": acc(st_all, every, allk)}
@@ -112,7 +114,7 @@ iA, iB = np.where(ytr < 5)[0], np.where(ytr >= 5)[0]
 mA, sA, kA, _ = brain([iA], seed=1); mB, sB, kB, _ = brain([iB], seed=2)
 if DREAM == "rate":
     mM = new_mem(); mM.r = np.where(np.arange(10)[:, None] < 5, mA.r, mB.r); mM.seen = mA.seen + mB.seen
-elif DREAM == "count":
+elif DREAM in ("count", "scaled"):
     mM = mA.merge(mB)
 else:
     mM = new_mem(); mM.on = mA.on + mB.on; mM.n = mA.n + mB.n
@@ -140,5 +142,5 @@ mem_bits = new_mem().bits() if DREAM != "count" else 10 * NB * 16
 R["memory_KB"] = {"fast_table_5bit": 10 * NB * 5 / 8192, "dream_memory": mem_bits / 8192,
                   "feature_detectors": len(CH) * F * 25 / 8192}
 print("memory KB", R["memory_KB"], f"done {time.time()-t0:.0f}s", flush=True)
-out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", f"cortex_v3_{DS}_{DREAM}_n{NIGHT}.json")
+out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", f"cortex_v3_{DS}_{DREAM}{SB if DREAM == 'scaled' else ''}_n{NIGHT}.json")
 json.dump(R, open(out, "w"), indent=1)

@@ -1,0 +1,70 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED",
+ "dream_memory": "scaled",
+ "dream_bits": 10,
+ "night": 1,
+ "code_bits": 4608,
+ "table_bits": 5,
+ "all_at_once": {
+  "brain_table": 0.9695,
+  "mlp_pixels": 0.9775
+ },
+ "stages_brain": [
+  0.9990543735224586,
+  0.9610295886456579,
+  0.9426297463107279,
+  0.941125109143071,
+  0.9414
+ ],
+ "stages_mlp_pixels": [
+  {
+   "mlp": 0.9995271867612293,
+   "mlp_replay20": 0.9995271867612293
+  },
+  {
+   "mlp": 0.4801539571806591,
+   "mlp_replay20": 0.5123887418811643
+  },
+  {
+   "mlp": 0.30890399602056046,
+   "mlp_replay20": 0.5441883601392804
+  },
+  {
+   "mlp": 0.24697517774728703,
+   "mlp_replay20": 0.5821379568417113
+  },
+  {
+   "mlp": 0.1951,
+   "mlp_replay20": 0.4958
+  }
+ ],
+ "merge_0to4_plus_5to9": {
+  "chip_A_alone": 0.5097,
+  "chip_B_alone": 0.4774,
+  "added_tables_no_sleep": 0.9322,
+  "after_one_night": 0.9582
+ },
+ "few_shot": {
+  "1_per_class": {
+   "table": 0.37476666666666664,
+   "episodic": 0.2699,
+   "mlp": 0.3908666666666667
+  },
+  "5_per_class": {
+   "table": 0.5571666666666667,
+   "episodic": 0.385,
+   "mlp": 0.6744666666666665
+  },
+  "20_per_class": {
+   "table": 0.8246666666666668,
+   "episodic": 0.5903666666666667,
+   "mlp": 0.8118666666666666
+  }
+ },
+ "memory_KB": {
+  "fast_table_5bit": 28.125,
+  "dream_memory": 56.26220703125,
+  "feature_detectors": 0.390625
+ }
+}

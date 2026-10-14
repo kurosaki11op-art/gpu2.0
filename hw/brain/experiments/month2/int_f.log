@@ -1,0 +1,5 @@
+fashion night 2 B 10 {'stage': 1, 'acc': 0.986, 'table_writes': 186} 1s
+fashion night 2 B 10 {'stage': 2, 'acc': 0.90475, 'table_writes': 570} 3s
+fashion night 2 B 10 {'stage': 3, 'acc': 0.8516666666666667, 'table_writes': 816} 6s
+fashion night 2 B 10 {'stage': 4, 'acc': 0.772375, 'table_writes': 3173} 11s
+fashion night 2 B 10 {'stage': 5, 'acc': 0.7917, 'table_writes': 585} 16s

@@ -1,0 +1,5 @@
+speech night 0 B 10 {'stage': 1, 'acc': 0.9173228346456693, 'table_writes': 431} 0s
+speech night 0 B 10 {'stage': 2, 'acc': 0.8131655372700871, 'table_writes': 1033} 5s
+speech night 0 B 10 {'stage': 3, 'acc': 0.7357280307889673, 'table_writes': 1897} 14s
+speech night 0 B 10 {'stage': 4, 'acc': 0.7305273343009192, 'table_writes': 2330} 27s
+speech night 0 B 10 {'stage': 5, 'acc': 0.6599142968445656, 'table_writes': 2830} 44s

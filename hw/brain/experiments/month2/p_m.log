@@ -1,0 +1,5 @@
+mnist old plasticity 1.0 sharp 0 night 1 [0.9991 0.9666 0.9562 0.9393 0.9354] 46s
+mnist old plasticity 0.25 sharp 0 night 1 [0.9991 0.962  0.9509 0.9415 0.9403] 40s
+mnist old plasticity 1.0 sharp 1.5 night 1 [0.9991 0.9209 0.9156 0.8536 0.8396] 44s
+mnist old plasticity 0.25 sharp 1.5 night 1 [0.9991 0.948  0.9116 0.8973 0.8678] 46s
+mnist old plasticity 0.25 sharp 0 night 0 [0.9991 0.9509 0.9372 0.9133 0.9015] 24s

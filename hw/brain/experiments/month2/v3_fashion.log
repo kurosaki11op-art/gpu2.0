@@ -1,0 +1,8 @@
+fashion scaled night 1 code (60000, 4608) 3s
+all at once {'brain_table': 0.8466, 'mlp_pixels': 0.8734}
+stages brain [0.9915 0.8958 0.8652 0.7706 0.7885] {'stages_mlp_pixels': {'mlp': 0.1995, 'mlp_replay20': 0.3775}}
+merge {'chip_A_alone': 0.444, 'chip_B_alone': 0.4695, 'added_tables_no_sleep': 0.6653, 'after_one_night': 0.8266}
+few-shot 1 {'table': 0.39030000000000004, 'episodic': 0.41473333333333334, 'mlp': 0.4368666666666667}
+few-shot 5 {'table': 0.4949333333333333, 'episodic': 0.5135666666666667, 'mlp': 0.6285999999999999}
+few-shot 20 {'table': 0.6858, 'episodic': 0.6111333333333332, 'mlp': 0.7369333333333333}
+memory KB {'fast_table_5bit': 28.125, 'dream_memory': 56.26220703125, 'feature_detectors': 0.390625} done 137s
