@@ -26,10 +26,10 @@ RULE = dict(ndream=6000, night=2, daydream=1, night_stop=2, top=1023, margin=8, 
 class Board:
     """rows given to learn/predict are sensory codes (bool, 4,608) or, with onchip=True, raw 28x28 images (uint8, 784)
     that the chip encodes itself (cortex_encoder.v; load the detectors first with detectors())"""
-    def __init__(self, port, baud, onchip=False, batch=False):
+    def __init__(self, port, baud, onchip=False, batch=True):
         import serial
         self.s = serial.Serial(port, baud, timeout=5); self.onchip = onchip; self.night_total = 0
-        self.batch = batch            # command 45 needs a bitstream built with it; otherwise one DREAM per message
+        self.batch = batch            # command 45 (bitstreams from 15 Oct on); False = one DREAM per message
 
     def _x(self, out, n):
         self.s.write(bytes(out)); r = self.s.read(n)
@@ -193,7 +193,7 @@ def main():
     ap.add_argument("--per-class", type=int, default=0, help="examples per class per stage (0 = all)")
     ap.add_argument("--test", type=int, default=1000, help="test images scored after each stage")
     ap.add_argument("--onchip-encode", action="store_true", help="send raw images; the chip encodes them (board only)")
-    ap.add_argument("--batch", action="store_true", help="send dreams in batches (command 45; needs a bitstream with it)")
+    ap.add_argument("--no-batch", action="store_true", help="one DREAM per message (for a bitstream older than 15 Oct)")
     a = ap.parse_args()
     xtr, ytr, xte, yte = mnist(a.data)
     stages = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]
@@ -202,7 +202,7 @@ def main():
     enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
     r = np.random.RandomState(0); tst = r.choice(len(yte), a.test, replace=False); cte = enc(xte[tst]); yt = yte[tst]
     onchip = a.onchip_encode and not a.dry_run
-    dev = Emu(cte.shape[1]) if a.dry_run else Board(a.port, a.baud, onchip, a.batch)
+    dev = Emu(cte.shape[1]) if a.dry_run else Board(a.port, a.baud, onchip, not a.no_batch)
     if onchip:
         dev.detectors(fes); enc = lambda x: x; cte = xte[tst]                # the chip senses for itself
     if not dev.ping():

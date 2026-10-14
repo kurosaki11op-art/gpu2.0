@@ -153,4 +153,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - FPGA fit attempt: SA placer crashed, HeAP at higher density failed. Packed the encoder's code map 4 bits per word in
   the FPGA build (1,152 x 4 instead of 4,608 x 1 LUT-RAM bits; read-modify-write); encoder checks (FPGA, ASIC, learn)
   and the board check pass. Re-running place and route.
+- **Bitstream rebuilt with dream batches**: with the packed code map the design fits: 18,522 LUT4 (89%), 46/46
+  BSRAM, 363 LUT-RAMs, 0 multipliers, 69.8 MHz max at 27 MHz, placed in 253 s. Host batches dreams by default again
+  (`--no-batch` for an older bitstream). Board check on this RTL: 136 commands, 0 mismatches. SIMULATED (place and
+  route); not yet on the board.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

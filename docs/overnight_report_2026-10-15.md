@@ -29,7 +29,7 @@ MEASURED on hardware yet (that needs your board).
 | Sensory encoder (eyes) `hw/rtl/cortex/cortex_encoder.v` | bit-exact (0 mismatching images); the chip now takes raw pixels |
 | Memory transfer (export / import what the chip knows) | bit-exact over UART (0 mismatches) |
 | Tang Nano 20K top `hw/board/cortex_board_top.v` | bit-exact over UART: 131 commands, 0 mismatches |
-| Bitstream `hw/pnr_cortex/cortex_tangnano20k.fs.gz` | placed and routed with timing met (93% of logic, 73 MHz max at 27 MHz); 0 hardware multipliers used |
+| Bitstream `hw/pnr_cortex/cortex_tangnano20k.fs.gz` | placed and routed with timing met (89% of logic, 69.8 MHz max at 27 MHz; rebuilt 15 Oct with dream batches); 0 hardware multipliers used |
 
 Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw/board/README.md).
 

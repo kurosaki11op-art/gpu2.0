@@ -114,7 +114,7 @@ RAM), sound 422 KB. Few-shot still behind the network. Known limit: dreams with 
 Month 3 (done early, `hw/results/cortex_month3.md`): integer chip model `hw/brain/cortex_int.py`; core
 `hw/rtl/cortex/cortex_core.v`, sensory encoder `cortex_encoder.v`, Tang Nano top `hw/board/cortex_board_top.v` - all
 bit-exact (0 mismatches; core also with the SKY130 SRAM models). **Bitstream** `hw/pnr_cortex/cortex_tangnano20k.fs.gz`:
-raw images in, learning, dreaming, memory export/import; 46/46 BSRAM, 93% LUT4, 0 multipliers, 73 MHz max at 27 MHz.
+raw images in, learning, dreaming, memory export/import; 46/46 BSRAM, 89% LUT4, 0 multipliers, 69.8 MHz max at 27 MHz; dream batches (command 45).
 Host `hw/board/cortex_host.py` (+ `--onchip-encode`), transfer demo `cortex_transfer.py` (91.4% after merging two
 halves), live demo `cortex_demo.py`. Extra evidence: 10 one-class stages 93.5 / 78.7 / 70.5 (network ~10%); vs HDC
 ahead on digits and sound, level on clothing; energy ~74x per decision, ~200x per learned example (ESTIMATED); ASIC

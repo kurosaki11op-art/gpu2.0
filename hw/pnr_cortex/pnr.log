@@ -346,3 +346,167 @@ Info:      83000 |     9251      60088 |  388   584 |      8176|       3.55     
 Info:      84000 |     9638      60678 |  387   590 |      8146|       3.92     110.35|
 Info:      85000 |     9947      61272 |  309   594 |      7764|       2.70     113.05|
 Info:      86000 |    10229      61896 |  282   624 |      7268|       2.89     115.95|
+Info:      87000 |    10536      62529 |  307   633 |      6952|       2.96     118.90|
+Info:      88000 |    10840      63148 |  304   619 |      6582|       2.70     121.60|
+Info:      89000 |    11159      63736 |  319   588 |      6111|       2.50     124.09|
+Info:      90000 |    11457      64368 |  298   632 |      5755|       2.79     126.89|
+Info:      91000 |    11822      64955 |  365   587 |      5539|       3.03     129.92|
+Info:      92000 |    12146      65574 |  324   619 |      5269|       3.23     133.15|
+Info:      93000 |    12542      66141 |  396   567 |      5329|       3.20     136.35|
+Info:      94000 |    12911      66755 |  369   614 |      5129|       3.31     139.66|
+Info:      95000 |    13259      67400 |  348   645 |      5100|       2.94     142.60|
+Info:      96000 |    13562      68010 |  303   610 |      4627|       3.23     145.83|
+Info:      97000 |    13929      68609 |  367   599 |      4421|       3.36     149.20|
+Info:      98000 |    14291      69208 |  362   599 |      4163|       3.57     152.77|
+Info:      99000 |    14728      69746 |  437   538 |      4072|       4.04     156.80|
+Info:     100000 |    15132      70339 |  404   593 |      4105|       3.85     160.66|
+Info:     101000 |    15549      70912 |  417   573 |      4088|       4.09     164.74|
+Info:     102000 |    15876      71517 |  327   605 |      3694|       3.46     168.21|
+Info:     103000 |    16250      72113 |  374   596 |      3506|       4.89     173.09|
+Info:     104000 |    16645      72716 |  395   603 |      3888|       3.25     176.34|
+Info:     105000 |    16991      73370 |  346   654 |      3572|       3.69     180.04|
+Info:     106000 |    17325      74017 |  334   647 |      3441|       3.26     183.30|
+Info:     107000 |    17702      74608 |  377   591 |      3279|       3.49     186.79|
+Info:     108000 |    18068      75199 |  366   591 |      3035|       3.71     190.49|
+Info:     109000 |    18444      75783 |  376   584 |      2769|       3.59     194.08|
+Info:     110000 |    18804      76387 |  360   604 |      2610|       4.01     198.09|
+Info:     111000 |    19122      77020 |  318   633 |      2183|       3.71     201.80|
+Info:     112000 |    19413      77711 |  291   691 |      2246|       3.70     205.51|
+Info:     113000 |    19737      78357 |  324   646 |      1914|       3.22     208.73|
+Info:     114000 |    20100      78981 |  363   624 |      2262|       3.15     211.88|
+Info:     115000 |    20407      79674 |  307   693 |      2342|       3.96     215.84|
+Info:     116000 |    20694      80387 |  287   713 |      2379|       3.55     219.39|
+Info:     117000 |    20979      81102 |  285   715 |      2014|       3.68     223.06|
+Info:     118000 |    21308      81747 |  329   645 |      1638|       3.63     226.69|
+Info:     119000 |    21701      82341 |  393   594 |      1619|       4.50     231.19|
+Info:     120000 |    22056      82972 |  355   631 |      1487|       4.10     235.30|
+Info:     121000 |    22415      83583 |  359   611 |      1180|       4.17     239.47|
+Info:     122000 |    22774      84206 |  359   623 |      1002|       3.76     243.23|
+Info:     123000 |    23084      84846 |  310   640 |       706|       3.55     246.78|
+Info:     124000 |    23492      85400 |  408   554 |       442|       4.59     251.37|
+Info:     125000 |    23841      86001 |  349   601 |       140|       3.93     255.30|
+Info:     125430 |    24005      86251 |  164   250 |         0|       1.83     257.13|
+Info: Routing complete.
+Info: Router1 time 257.13s
+Info: Checksum: 0x0f57c33f
+
+Info: Critical path report for clock 'u_core.clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.23  0.23 Source u_enc.p2_DFFE_Q_22.Q
+Info:    routing  0.17  0.40 Net u_enc.p2[2] (44,44) -> (44,44)
+Info:                          Sink u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_1_I0_LUT3_F_I0_LUT4_F_I3_LUT4_I3_F_MUX2_LUT5_O_I0_LUT4_F_I0_LUT4_I0_1.I1
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.57  0.97 Source u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_1_I0_LUT3_F_I0_LUT4_F_I3_LUT4_I3_F_MUX2_LUT5_O_I0_LUT4_F_I0_LUT4_I0_1.F
+Info:    routing  0.00  0.97 Net u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_1_I0_LUT3_F_I0_LUT4_F_I3_LUT4_I3_F_MUX2_LUT5_O_I0_LUT4_F_I0_LUT4_I0_1_F (44,44) -> (44,44)
+Info:                          Sink u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_1_I0_LUT3_F_I0_LUT3_I0_F_LUT4_F_I0_MUX2_LUT5_O.I0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:151.9-151.11
+Info:      logic  0.27  1.24 Source u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_1_I0_LUT3_F_I0_LUT3_I0_F_LUT4_F_I0_MUX2_LUT5_O.O
+Info:    routing  0.67  1.90 Net u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_1_I0_LUT3_F_I0_LUT3_I0_F_LUT4_F_I0[0] (44,44) -> (49,46)
+Info:                          Sink u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_3_I1_LUT3_F_I0_LUT4_F_I0_LUT4_F.I0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.55  2.45 Source u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_3_I1_LUT3_F_I0_LUT4_F_I0_LUT4_F.F
+Info:    routing  0.17  2.62 Net u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_3_I1_LUT3_F_I0_LUT4_F_I0[0] (49,46) -> (49,47)
+Info:                          Sink u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_3_I1_LUT4_F_I0_LUT4_F.I0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.55  3.17 Source u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_3_I1_LUT4_F_I0_LUT4_F.F
+Info:    routing  0.14  3.31 Net u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_3_I1_LUT4_F_I0[0] (49,47) -> (49,47)
+Info:                          Sink u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_4_I0_LUT4_F.I0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.55  3.86 Source u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_4_I0_LUT4_F.F
+Info:    routing  0.95  4.81 Net u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_4_I0[1] (49,47) -> (46,43)
+Info:                          Sink u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_3.I0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/techmap.v:200.24-200.25
+Info:      logic  0.55  5.36 Source u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_3.COUT
+Info:    routing  0.00  5.36 Net u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_4_COUT[2] (46,43) -> (46,43)
+Info:                          Sink u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_2.CIN
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:38.25-38.27
+Info:      logic  0.04  5.39 Source u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_2.COUT
+Info:    routing  0.00  5.39 Net u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_4_COUT[3] (46,43) -> (46,43)
+Info:                          Sink u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_1.CIN
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:38.25-38.27
+Info:      logic  0.47  5.86 Source u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result_ALU_SUM_1.SUM
+Info:    routing  0.40  6.27 Net u_enc.pop25$func$../rtl/cortex/cortex_encoder.v:114$5717.$result[3] (46,43) -> (45,43)
+Info:                          Sink u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I3_ALU_COUT_SUM_ALU_SUM.I1
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:80.31-82.120
+Info:                               ../rtl/cortex/cortex_encoder.v:0.0-0.0
+Info:      logic  0.57  6.84 Source u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I3_ALU_COUT_SUM_ALU_SUM.COUT
+Info:    routing  0.00  6.84 Net u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I3[1] (45,43) -> (45,43)
+Info:                          Sink u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I3_ALU_COUT.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:80.31-82.120
+Info:                               ../rtl/cortex/cortex_encoder.v:114.98-114.112
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  6.87 Source u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I3_ALU_COUT.COUT
+Info:    routing  0.00  6.87 Net u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I3_ALU_COUT_TAIL_ALULC (45,43) -> (45,43)
+Info:                          Sink u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I3_ALU_COUT_TAIL_ALULC.CIN
+Info:      logic  0.47  7.34 Source u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I3_ALU_COUT_TAIL_ALULC.SUM
+Info:    routing  0.14  7.48 Net u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1_I2[3] (45,43) -> (45,43)
+Info:                          Sink u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1.I3
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:80.31-82.120
+Info:                               ../rtl/cortex/cortex_encoder.v:114.98-114.112
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:38.25-38.27
+Info:      logic  0.37  7.85 Source u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0_LUT4_F_1.F
+Info:    routing  0.64  8.49 Net u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1_I0[1] (45,43) -> (42,42)
+Info:                          Sink u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1.I1
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.57  9.06 Source u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0_LUT4_F_1.F
+Info:    routing  0.47  9.53 Net u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F_I0[1] (42,42) -> (42,38)
+Info:                          Sink u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.57  10.10 Source u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0_LUT4_F.F
+Info:    routing  1.34  11.45 Net u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O_S0[4] (42,38) -> (41,15)
+Info:                          Sink u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O.S0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.10  11.55 Source u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O_MUX2_LUT5_O.O
+Info:    routing  1.05  12.60 Net u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT6_S0_O[0] (41,15) -> (46,12)
+Info:                          Sink u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT8_S0_O_LUT2_I1_F_LUT4_I1.I0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.55  13.15 Source u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT8_S0_O_LUT2_I1_F_LUT4_I1.F
+Info:    routing  1.15  14.30 Net u_enc.cmap4.0.66_DO_3_LUT1_I0_F_MUX2_LUT5_I0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F_LUT4_F_I3_MUX2_LUT8_S0_O_LUT2_I1_F_LUT4_I1_F[32] (46,12) -> (41,5)
+Info:                          Sink u_enc.cmap4.1.32.WRE
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/techmap.v:614.34-614.35
+Info:      setup  0.03  14.33 Source u_enc.cmap4.1.32.WRE
+Info: 7.04 ns logic, 7.30 ns routing
+
+Info: Max frequency for clock 'u_core.clk': 69.77 MHz (PASS at 27.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 15 endpoint(s)
+Info:          + represents [1,15) endpoint(s)
+Info: [ 14224,  15344) |*****+
+Info: [ 15344,  16464) |*****************************************************+
+Info: [ 16464,  17584) |************************************************************ 
+Info: [ 17584,  18704) |*******+
+Info: [ 18704,  19824) |****************+
+Info: [ 19824,  20944) |****************************************************+
+Info: [ 20944,  22064) |************************************+
+Info: [ 22064,  23184) |********+
+Info: [ 23184,  24304) |**+
+Info: [ 24304,  25424) |***+
+Info: [ 25424,  26544) |*+
+Info: [ 26544,  27664) |***+
+Info: [ 27664,  28784) |*+
+Info: [ 28784,  29904) |****+
+Info: [ 29904,  31024) |************+
+Info: [ 31024,  32144) |*********************+
+Info: [ 32144,  33264) |*************************+
+Info: [ 33264,  34384) |***************************+
+Info: [ 34384,  35504) |***************************************+
+Info: [ 35504,  36624) |**********************+
+
+Info: Program finished normally.
