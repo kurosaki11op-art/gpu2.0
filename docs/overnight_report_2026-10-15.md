@@ -39,7 +39,8 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
   (+2.2) and sound (+5.9), level on clothing, with less memory and ~1,000x fewer additions per example
   ([details](../hw/results/cortex_vs_hdc.md)).
 - **Energy** (ESTIMATED, 45 nm figures): ~74x less per decision than an 8-bit network; ~200x less per learned example
-  including sleep ([details](../hw/results/cortex_energy_estimate.md)).
+  including sleep, counting the operations a decision needs ([details](../hw/results/cortex_energy_estimate.md));
+  see limit 9 for the layout figure.
 - **Memory transfer**: one chip learns 0-4, then (wiped) 5-9; memories merged on the PC and loaded: 91.4% on all ten
   digits after one short night.
 - **Live demo**: draw a new symbol, teach it in 10 strokes (0.1 s), it is recognised and old digits are kept (90%).
@@ -47,6 +48,19 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
   bit-exact with the real SRAM macro models ([details](../hw/results/cortex_asic_estimate.md)).
 - **Few-shot narrowed** (simulation): with "spread" population codes the chip matches a small network with 1 example
   per class and beats it with 20 on digits; still behind with 5, and on clothing.
+
+## 3b. Later the same night (after 02:00 IST)
+
+- **Dream batches** (board command 45): up to 256 dreams per USB message, ~250x fewer round trips; a host/model
+  schedule mismatch found and fixed (new check `hw/board/check_host_schedule.py`).
+- **The chip can learn its own senses**: a streaming, label-free rule for the 128 sensory detectors, now in the
+  encoder RTL as build option `ENC_LEARN`, bit-exact with its model. One pass over the first day's images: digits 94.5,
+  clothing 80.0 after 5 stages, vs 95.0 / 79.2 with detectors learned on the PC (SIMULATED; ASIC build only, the Tang
+  Nano is full) ([note](../hw/brain/experiments/month3/onchip_detectors.md)).
+- **SKY130 layout estimate** (OpenROAD placement, clock tree, global routing): ~43 MHz; 355 mW for the logic, almost
+  all of it clocking ~20,000 flip-flops and the clock tree, whatever the data does. Fix started: per-memory clock
+  gating in the encoder (bit-exact), layout re-running ([details](../hw/results/cortex_asic_estimate.md)).
+- Few-shot fusion (episodic recall + table): small gains at 20 examples, the 5-example gap remains; not adopted.
 
 ## 4. Honest limits (say these before a judge does)
 
@@ -61,9 +75,12 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 6. **New conditions of known classes** (e.g. the same digits rotated): the chip forgets the old condition (digits
    upright 95 -> 45%). Fix found and confirmed on the exact chip model (keep a frozen copy of the dream memory: back to
    85%), costs 2x dream memory; not in the RTL yet ([details](../hw/results/cortex_new_condition.md)).
-8. The sequence memory (earlier lookup core) also partly forgets across text domains (keeps 32-60% of what it learned),
+7. The sequence memory (earlier lookup core) also partly forgets across text domains (keeps 32-60% of what it learned),
    so month 6 needs more capacity or the same context trick.
-7. A second sensory layer (V2) did not improve accuracy; rejected.
+8. A second sensory layer (V2) did not improve accuracy; rejected.
+9. **The energy claim needs care**: the first SKY130 layout without clock gating draws ~355 mW (~13 uJ per decision),
+   far above the 9.4 nJ counted from the operations. The 74x is "per operation needed", not "per chip" yet
+   (section 3b).
 
 ## 5. What you can do today (about 30 minutes)
 

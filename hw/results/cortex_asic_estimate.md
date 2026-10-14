@@ -37,7 +37,7 @@ drive thousands of inputs) and 230 mW. Both numbers were artefacts of the missin
 
 Flow: `hw/asic/cortex/flow.tcl` (floorplan 6.45 x 4.80 mm, the 63 macros in an 8 x 8 grid with routing channels,
 power grid, placement at 45% density, fanout repair, clock tree, setup/hold repair), then `resume.tcl` (global routing,
-timing repair and reports with global-route parasitics). Logs: `flow.log`, `resume.log`.
+timing repair and reports with global-route parasitics). Logs of this (ungated) run: `ungated/flow.log`, `ungated/resume.log`.
 No detailed routing, one corner (typical, 1.8 V, 25 C), `cortex.sdc` = 20 ns clock.
 
 | Quantity | Value | Note |
