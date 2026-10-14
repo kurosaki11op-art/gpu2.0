@@ -35,9 +35,10 @@ forgetting" is not new**. Our combination is, as far as this search found.
 - Not "the only design that never forgets" or "the first that merges knowledge by addition" (HDC class memories do both).
 - Few-shot learning is weaker than a small neural network with 1-5 examples.
 
-## To do
+## Measured against HDC (SIMULATED)
 
-- Run an HDC baseline (binary hypervectors, class bundling) on our three tasks with the same sensory code and the same
-  stage protocol, so the comparison with the closest prior art is measured, not argued.
+[SPARK Cortex vs HDC](../hw/results/cortex_vs_hdc.md): after 5 stages, the chip is ahead of the best HDC variant on digits
+(94.6 vs 92.4) and sound (69.4 vs 63.5) and level on clothing (78.3 vs 78.2), with ~2.3x less class memory and ~1,000x
+fewer additions per example.
 
 Related: [SPARK Cortex redesign](cortex_redesign.md), [Project memory](PROJECT_MEMORY.md), [Docs index](INDEX.md)

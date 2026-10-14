@@ -1,0 +1,17 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (float)",
+ "D": 10000,
+ "pixels": {
+  "bundle_all_and_stages": 0.6825,
+  "retrained_all_at_once_20k": 0.746,
+  "retrained_in_5_stages": 0.728,
+  "class_memory_KB_16bit": 195.3125
+ },
+ "code": {
+  "bundle_all_and_stages": 0.7584,
+  "retrained_all_at_once_20k": 0.8017,
+  "retrained_in_5_stages": 0.7816,
+  "class_memory_KB_16bit": 195.3125
+ }
+}

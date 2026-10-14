@@ -151,8 +151,9 @@ Next on our side: split dreams in PSRAM (clothing +3), feature encoder in RTL, e
 6. Month 6, sequence memory (the SPARK-L lookup core) joins for live streams.
 7. Months 7-8, SKY130 area/power estimates (no fabrication), write-up, demo video, pitch.
 
-Prior art to cite: WiSARD (1981), BTHOWeN (2022), ULEEN (2023), Tsetlin machines, Numenta HTM, competitive Hebbian
-learning, complementary learning systems. Check novelty before claiming "first".
+Prior art: `docs/prior_art_cortex.md`. Continual-learning chips without backprop exist (HDC accelerators Clo-HDnn /
+ImageHD / C-FSCIL, Intel Loihi 2); never claim "first". Measured vs HDC (`hw/results/cortex_vs_hdc.md`): chip ahead on
+digits and sound, level on clothing, with less memory. Also cite WiSARD, BTHOWeN, ULEEN, Tsetlin, Numenta HTM.
 
 Related: [Home](../README.md), [Journal](journal.md), [SPARK Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

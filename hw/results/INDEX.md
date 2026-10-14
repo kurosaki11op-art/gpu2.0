@@ -10,6 +10,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 ## SPARK Cortex (Phase C, now)
 
 - [Month 2 results](cortex_month2.md): memory 137x smaller, one rule, integer chip model + RTL bit-exact (SIMULATED).
+- [SPARK Cortex vs HDC](cortex_vs_hdc.md): ahead of the closest prior art on digits and sound, level on clothing (SIMULATED).
 - [Energy estimate](cortex_energy_estimate.md): ~74x less energy per decision, ~200x per learned example incl. sleep (ESTIMATED).
 - [Month 2 running log](cortex_month2_log.md): every memory-shrink test, including failures (SIMULATED).
 - [Month 1](cortex_month1.md): accuracy gap closed on digits, clothing, spoken words (SIMULATED).

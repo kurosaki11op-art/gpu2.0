@@ -1,0 +1,4 @@
+fashion pool3 bits 2048 few-shot k: (table, episodic) {1: (0.3555, 0.4258), 5: (0.408, 0.5215), 20: (0.6829, 0.6153)} | 20k-example table 0.7637 40s
+fashion pool4 bits 1152 few-shot k: (table, episodic) {1: (0.2968, 0.4242), 5: (0.4522, 0.5239), 20: (0.6834, 0.6152)} | 20k-example table 0.7904 31s
+fashion pool6 bits 512 few-shot k: (table, episodic) {1: (0.2323, 0.3671), 5: (0.3885, 0.4828), 20: (0.6463, 0.5695)} | 20k-example table 0.6360 28s
+fashion pool4 F64 bits 2304 few-shot k: (table, episodic) {1: (0.3343, 0.3904), 5: (0.4461, 0.4891), 20: (0.6741, 0.5771)} | 20k-example table 0.8061 54s

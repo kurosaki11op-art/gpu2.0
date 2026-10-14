@@ -1,0 +1,4 @@
+mnist pool3 bits 2048 few-shot k: (table, episodic) {1: (0.3114, 0.3578), 5: (0.5471, 0.5385), 20: (0.8547, 0.6775)} | 20k-example table 0.9589 39s
+mnist pool4 bits 1152 few-shot k: (table, episodic) {1: (0.2796, 0.3618), 5: (0.5041, 0.5616), 20: (0.7979, 0.6791)} | 20k-example table 0.9346 32s
+mnist pool6 bits 512 few-shot k: (table, episodic) {1: (0.2014, 0.3865), 5: (0.4987, 0.561), 20: (0.7962, 0.6905)} | 20k-example table 0.8921 27s
+mnist pool4 F64 bits 2304 few-shot k: (table, episodic) {1: (0.3027, 0.2818), 5: (0.4152, 0.3973), 20: (0.799, 0.5211)} | 20k-example table 0.9561 54s

@@ -64,5 +64,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   Headless check: preload 0-7 (93%), new class 8 from 10 examples in 0.1 s, then 73.5% on test 8s and 90.0% on old + new.
 - Few-shot with detectors learned from a broad unlabeled set: no change (digits 37/54/83), so the detectors' data is not
   the limit. Testing wider pooling next.
+- Wider pooling for few-shot: no fix (1-5 shots still behind; 20 shots digits 85.5 vs network 81.2).
+- **Prior art** (`docs/prior_art_cortex.md`): HDC accelerators (Clo-HDnn, ImageHD, C-FSCIL), Loihi 2 continual learning,
+  replay methods. "First chip that keeps learning" and "never forgets / merges by adding" are NOT claimable.
+- **Measured against HDC** (`hw/results/cortex_vs_hdc.md`): after 5 stages chip 94.6 / 78.3 / 69.4 vs best HDC 92.4 /
+  78.2 / 63.5, with less memory and ~1,000x fewer additions per example.
+- Split dreams on sound (float): 68.2 -> 70.3 (x4 memory).
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
