@@ -15,6 +15,9 @@ from cortex_int import CortexInt, _count, _practise, _dream  # noqa
 from cortex_core import load  # noqa
 
 D = sys.argv[1]
+ASIC = "--asic" in sys.argv          # build the core with the SKY130 OpenRAM macros (simulation models) instead of FPGA RAMs
+EXTRA = (["-DCORTEX_ASIC", "-s", "tb_cortex_core", "../../asic/spark_mem_sky130.v",
+          "/opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.v"] if ASIC else [])
 z = np.load(os.path.join(D, "sep_mnist_F32_p2.npz")); ctr, cte = z["tr"], z["te"]
 _, ytr, _, yte = load(D, "mnist"); ytr, yte = ytr.astype(np.int64), yte.astype(np.int64)
 NB = ctr.shape[1]
@@ -66,11 +69,12 @@ def execute(m, cmds):
 
 
 ok = True
-for CB, n_per, ndream, night in ((10, 40, 10, 1), (5, 40, 6, 1)):
+SMALL = "--small" in sys.argv       # shorter scenario (the SRAM-macro models simulate slowly)
+for CB, n_per, ndream, night in (((10, 12, 3, 1), (5, 20, 2, 1)) if SMALL else ((10, 40, 10, 1), (5, 40, 6, 1))):
     r = np.random.RandomState(CB)
     s1 = np.concatenate([r.choice(np.where(ytr == c)[0], n_per, replace=False) for c in (0, 1)]); r.shuffle(s1)
     s2 = np.concatenate([r.choice(np.where(ytr == c)[0], n_per, replace=False) for c in (2, 3)]); r.shuffle(s2)
-    tst = r.choice(np.where(yte < 4)[0], 60, replace=False)
+    tst = r.choice(np.where(yte < 4)[0], 20 if SMALL else 60, replace=False)
     m = CortexInt(NB, B=CB, ndream=ndream, night=night, daydream=1); m.cb = CB
     ref = CortexInt(NB, B=CB, ndream=ndream, night=night, daydream=1)          # runs the stages the normal way
     seeds = m.rng.copy()
@@ -91,7 +95,7 @@ for CB, n_per, ndream, night in ((10, 40, 10, 1), (5, 40, 6, 1)):
     open(os.path.join(HERE, "cmds.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n")
     open(os.path.join(HERE, "lanes.hex"), "w").write("\n".join("%08x" % s for s in seeds) + "\n")
     subprocess.run(["iverilog", "-g2005", "-o", "/tmp/cx.vvp", f"-Ptb_cortex_core.CB={CB}", f"-Ptb_cortex_core.NW={len(words) + 8}",
-                    "cortex_core.v", "tb_cortex_core.v"], cwd=HERE, check=True)
+                    "cortex_core.v", "tb_cortex_core.v"] + EXTRA, cwd=HERE, check=True)
     res = subprocess.run(["vvp", "-n", "/tmp/cx.vvp"], cwd=HERE, capture_output=True, text=True)
     print(res.stdout.strip().splitlines()[-1] if res.stdout.strip() else res.stderr[-500:])
     got = open(os.path.join(HERE, "out_cortex.txt")).read().split("\n")[:-1]

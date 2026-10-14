@@ -53,6 +53,10 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 3. Accuracy all-at-once is below a neural network (digits 96.6 vs 97.8, clothing 83.7 vs 87.3, sound 71.1 vs 75.5).
 4. Nothing is measured on hardware yet. Energy numbers are estimates.
 5. The FPGA is nearly full (about 90% of logic); bigger versions need the PSRAM or a bigger FPGA.
+6. **New conditions of known classes** (e.g. the same digits rotated): the chip forgets the old condition (digits
+   upright 95 -> 45%). Fix found in simulation (keep a frozen copy of the dream memory: back to 86%), costs 2x dream
+   memory; not in the chip yet ([details](../hw/results/cortex_new_condition.md)).
+7. A second sensory layer (V2) did not improve accuracy; rejected.
 
 ## 5. What you can do today (about 30 minutes)
 

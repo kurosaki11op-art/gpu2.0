@@ -80,5 +80,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   bit-exact over UART (131 commands, 333 reply bytes, 0 mismatches); core check re-run (0 mismatches). PC programs:
   `merge()` and `night()` in `cortex_host.py`, demo `hw/board/cortex_transfer.py`: one board learns 0-4 (saved) then 5-9
   (saved), merged on the PC and loaded: 78.9% before sleep, 91.4% on all ten digits after one night (emulator).
+- ASIC (SKY130) synthesis: 63 SRAM macros (~17.9 mm2) + ~0.84 mm2 logic = ~18.8 mm2; pre-layout timing/power not
+  meaningful (unbuffered high fanout). `hw/results/cortex_asic_estimate.md`.
+- Second sensory layer (V2): no gain (clothing 83.4 vs 84.7 all at once) - rejected.
+- **Limit found: new condition of known classes** (rotated digits): chip forgets the old condition (95 -> 45%), like a
+  network (-> 27%). Fix in float sim: frozen copy of yesterday's dream counts -> 86.1% upright, 95.9% rotated (clothing
+  75.4 / 80.3). Needs 2x dream memory. `hw/results/cortex_new_condition.md`.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

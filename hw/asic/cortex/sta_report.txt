@@ -1,0 +1,27 @@
+OpenSTA 2.3.1 4f13a213e1 Copyright (c) 2021, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_098553_/D (sky130_fd_sc_hd__dfxtp_1)   14.63  233.26 -218.63 (VIOLATED)
+_098965_/D (sky130_fd_sc_hd__dfxtp_1)   14.63  233.26 -218.63 (VIOLATED)
+_100679_/D (sky130_fd_sc_hd__dfxtp_1)   14.63  233.26 -218.63 (VIOLATED)
+
+wns -218.63
+tns -1044957.94
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power
+----------------------------------------------------------------
+Sequential             4.39e-02   1.39e-03   1.72e-07   4.53e-02  19.6%
+Combinational          1.81e-01   2.55e-03   1.12e-03   1.85e-01  80.4%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  2.25e-01   3.93e-03   1.12e-03   2.30e-01 100.0%
+                          97.8%       1.7%       0.5%

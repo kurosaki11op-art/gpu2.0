@@ -118,6 +118,9 @@ met** for the whole chip (raw images in): `hw/pnr_cortex/cortex_tangnano20k.fs.g
 chip model exactly). Waiting on the user: program the board, run the host, measure power (month 4).
 Next on our side: split dreams in PSRAM (clothing +3), feature encoder in RTL, energy estimate, seed spread.
 
+Limit found 15 Oct: "never forgets" holds for new classes, NOT for a new condition of known classes (domain shift);
+fix = frozen copy of the dream counts (2x dream memory), simulated only (`hw/results/cortex_new_condition.md`).
+
 ## 6. Known failures and corrections (do not repeat)
 
 - Weak XOR hash understated lookup tables by ~4 points; fixed with CRC. Claims corrected.

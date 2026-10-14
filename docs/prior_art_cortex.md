@@ -34,6 +34,8 @@ forgetting" is not new**. Our combination is, as far as this search found.
 - Not "the first chip that learns continuously" (HDC accelerators and Loihi 2 exist).
 - Not "the only design that never forgets" or "the first that merges knowledge by addition" (HDC class memories do both).
 - Few-shot learning is weaker than a small neural network with 1-5 examples.
+- Not "never forgets" without qualification: it holds for new classes; for a new condition of known classes (domain
+  shift) the month-2 design forgets too, unless it keeps a frozen copy of its dream memory ([details](../hw/results/cortex_new_condition.md)).
 
 ## Measured against HDC (SIMULATED)
 

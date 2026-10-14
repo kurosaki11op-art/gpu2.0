@@ -1,0 +1,3 @@
+mnist baseline after day 2: upright 0.4181 rotated 0.9677 mean 0.6929 10s
+mnist snapshot after day 2: upright 0.8605 rotated 0.9592 mean 0.9099 19s
+mnist banks after day 2: upright 0.8609 rotated 0.9589 mean 0.9099 21s

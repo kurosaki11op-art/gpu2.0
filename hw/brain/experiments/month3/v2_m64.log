@@ -1,0 +1,2 @@
+mnist F2 64 V1 bits 4608 all-at-once 0.9695  5 stages 0.9414 122s
+mnist F2 64 V1+V2 bits 6208 all-at-once 0.9715  5 stages 0.9315 190s

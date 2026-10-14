@@ -39,9 +39,11 @@ module cortex_core #(
                S_D0 = 24, S_D1 = 25, S_D2 = 26, S_D3 = 27, S_P = 28, S_DONE = 29, S_Z0 = 30, S_Z1 = 31,
                S_M0 = 32, S_M1 = 33, S_M2 = 34;
 
+`ifndef CORTEX_ASIC
     (* ram_style = "block" *) reg [C*WB-1:0] wmem [0:NB-1];
     (* ram_style = "block" *) reg [C*CB-1:0] cmem [0:NB-1];
     (* ram_style = "block" *) reg [AW-1:0]   lbuf [0:NB-1];
+`endif
     reg [31:0] lanes [0:31];
     reg [CB-1:0] n [0:C-1];
     reg [C-1:0] known;
@@ -74,6 +76,16 @@ module cortex_core #(
         lbw_n <= lbw; lba_n <= lba; lbd_n <= lbd; m_addr_n <= m_addr;
         w_wen_n <= w_wen; w_wd_n <= w_wd; c_wen_n <= c_wen; c_wd_n <= c_wd;
     end
+`ifdef CORTEX_ASIC
+    // ASIC build: OpenRAM SRAM macros (sram_array in hw/asic/spark_mem_sky130.v; port 0 writes, port 1 reads). The macro
+    // presents read data half a cycle after the clock edge that takes the address and holds it to the next edge, so using
+    // its output directly gives the same cycle timing as the FPGA block RAMs above.
+    wire [AW-1:0] lb_rd; wire [C*WB-1:0] w_rd; wire [C*CB-1:0] c_rd;
+    sram_array #(.W(AW), .DEPTH(NB), .AW(AW)) u_lbuf (.clk(clk), .we(lbw_n), .wa(lba_n), .wd(lbd_n), .ra(lba_n), .rd(lb_rd));
+    sram_array #(.W(C*WB), .DEPTH(NB), .AW(AW)) u_wmem (.clk(clk), .we(w_wen_n), .wa(m_addr_n), .wd(w_wd_n), .ra(m_addr_n), .rd(w_rd));
+    sram_array #(.W(C*CB), .DEPTH(NB), .AW(AW)) u_cmem (.clk(clk), .we(c_wen_n), .wa(m_addr_n), .wd(c_wd_n), .ra(m_addr_n), .rd(c_rd));
+    always @(*) begin lb_q = lb_rd; wq = w_rd; cq = c_rd; end
+`else
     always @(posedge clk) begin
         if (lbw_n) lbuf[lba_n] <= lbd_n;
         else lb_q <= lbuf[lba_n];
@@ -86,6 +98,8 @@ module cortex_core #(
         cq <= cmem[m_addr_n];
         if (c_wen_n) cmem[m_addr_n] <= c_wd_n;
     end
+
+`endif
 
     function [31:0] xs; input [31:0] s; reg [31:0] t; begin
         t = s ^ (s << 13); t = t ^ (t >> 17); xs = t ^ (t << 5);

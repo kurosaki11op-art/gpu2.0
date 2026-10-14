@@ -1,0 +1,2 @@
+fashion F2 64 V1 bits 4608 all-at-once 0.8466  5 stages 0.7885 125s
+fashion F2 64 V1+V2 bits 6208 all-at-once 0.8335  5 stages 0.7854 198s
