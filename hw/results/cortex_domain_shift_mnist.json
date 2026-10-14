@@ -9,6 +9,14 @@
   "upright": 0.4476,
   "rotated": 0.9525
  },
+ "chip_context_memory_after_day1": {
+  "upright": 0.9506,
+  "rotated": 0.1565
+ },
+ "chip_context_memory_after_day2": {
+  "upright": 0.8528,
+  "rotated": 0.9546
+ },
  "net_after_day1": {
   "upright": 0.9559,
   "rotated": 0.1475

@@ -30,6 +30,15 @@ frozen copy.
 | **Frozen copy of yesterday's counts** | **86.1** | 95.9 | **75.4** | 80.3 |
 | Frozen copy + a fresh bank for today | 86.1 | 95.9 | 75.4 | 80.3 |
 
+On the exact integer chip model (`CortexInt(..., context=True)`: when known classes return, the dream counts are
+frozen; day dreams come from the frozen copy, night dreams alternate live / frozen), one pass per example:
+
+| After day 2 | Digits upright | Digits rotated | Clothing upright | Clothing rotated |
+|---|---|---|---|---|
+| Chip, month-2 rule | 44.8 | 95.3 | 25.1 | 82.7 |
+| **Chip with context memory** | **85.3** | 95.5 | **73.4** | 81.5 |
+| Neural network | 26.9 | 95.4 | 10.1 | 84.2 |
+
 Cost: a second copy of the dream counts (+56 KB for images). It does not fit the Tang Nano's block RAM next to the
 current design; it fits the board's PSRAM or an ASIC. Not in the RTL yet. Only one new condition tested; several
 contexts would need one frozen copy each, or a smarter shared store.

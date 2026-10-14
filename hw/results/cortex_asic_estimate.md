@@ -12,7 +12,9 @@ The core's big memories become OpenRAM SRAM macros through a build option (`CORT
 ## Verification with the SRAM macros
 
 The core built with the OpenRAM macro simulation models instead of FPGA RAMs:
-`python hw/rtl/cortex/run_check_cortex.py DATA_DIR --asic` -> RESULT_ASIC_CHECK
+`python hw/rtl/cortex/run_check_cortex.py DATA_DIR --asic --small` -> **0 mismatches** over 4,752 + 4,810 compared
+lines (predictions, update flags, dream lengths, full memories), two configurations, halving exercised (18 minutes of
+simulation; the full-length scenario passes on the FPGA build).
 
 ## Area (synthesis, typical corner, before place and route)
 

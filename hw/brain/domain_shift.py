@@ -15,10 +15,11 @@ enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 5000]) for f in
 h = len(xtr) // 2
 dayA, dayB = np.arange(h), np.arange(h, len(xtr))                       # different images on each day
 cA, cB = enc(xtr[dayA]), enc(rot(xtr[dayB])); tU, tR = enc(xte), enc(rot(xte))
-m = CortexInt(cA.shape[1], B=10, night=2, daydream=1, night_stop=2)
 R = {"dataset": DS, "label": "SIMULATED"}
-m.stage(cA, ytr[dayA]); R["chip_after_day1"] = {"upright": float((m.predict(tU) == yte).mean()), "rotated": float((m.predict(tR) == yte).mean())}
-m.stage(cB, ytr[dayB]); R["chip_after_day2"] = {"upright": float((m.predict(tU) == yte).mean()), "rotated": float((m.predict(tR) == yte).mean())}
+for tag, ctx in (("chip", False), ("chip_context_memory", True)):
+    m = CortexInt(cA.shape[1], B=10, night=2, daydream=1, night_stop=2, context=ctx)
+    m.stage(cA, ytr[dayA]); R[tag + "_after_day1"] = {"upright": float((m.predict(tU) == yte).mean()), "rotated": float((m.predict(tR) == yte).mean())}
+    m.stage(cB, ytr[dayB]); R[tag + "_after_day2"] = {"upright": float((m.predict(tU) == yte).mean()), "rotated": float((m.predict(tR) == yte).mean())}
 torch.manual_seed(0); net = torch.nn.Sequential(torch.nn.Linear(784, 256), torch.nn.ReLU(), torch.nn.Linear(256, 10))
 opt = torch.optim.Adam(net.parameters(), 1e-3)
 def fit(x, y):

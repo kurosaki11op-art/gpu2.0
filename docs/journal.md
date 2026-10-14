@@ -86,5 +86,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Limit found: new condition of known classes** (rotated digits): chip forgets the old condition (95 -> 45%), like a
   network (-> 27%). Fix in float sim: frozen copy of yesterday's dream counts -> 86.1% upright, 95.9% rotated (clothing
   75.4 / 80.3). Needs 2x dream memory. `hw/results/cortex_new_condition.md`.
+- Context memory added to the integer chip model (`context=True`): rotated-digits test upright 44.8 -> 85.3 (clothing
+  25.1 -> 73.4), rotated kept. RTL not updated (needs 2x dream memory).
+- **ASIC build bit-exact with the SKY130 SRAM macro models** (`run_check_cortex.py --asic --small`: 0 mismatches,
+  two configurations, halving exercised).
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

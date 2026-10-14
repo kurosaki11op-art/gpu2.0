@@ -98,14 +98,17 @@ def _dream(on, n, c, rng, out):
 
 @njit(cache=True)
 def _stage(W, on, n, rng, known, acts, nacts, ys, new_cls, old_cls, ndream, night, margin, cmax, top, daydream, replay_k,
-           night_stop, stats):
+           night_stop, stats, fon, fn, use_f):
     """one stage: day (real examples once, dreams of old classes interleaved), then night.
     daydream: after each real example, practise this many dreams of the example's own class (new-class daydreams).
     replay_k: short-term buffer of the last replay_k examples; after each real example one buffered example (chosen by
     the lane-0 random generator) is practised again.
     night_stop: self-regulated night (0 = off). The night runs in blocks of 256 dreams and ends after a block in which
     more than night_stop out of 256 dreams surprised the table (dreams disagree with what real days taught).
-    stats[0] = night dreams run, stats[1] = night writes."""
+    stats[0] = night dreams run, stats[1] = night writes.
+    use_f (context memory): the day brings classes already known; old_cls then lists every class known before the day,
+    and their day dreams come from the frozen copy (fon, fn) of the dream counts taken before the day; at night, dreams
+    alternate between the live counts and the frozen copy."""
     buf = np.zeros(on.shape[1], np.int32)
     for c in new_cls:
         known[c] = True
@@ -122,14 +125,17 @@ def _stage(W, on, n, rng, known, acts, nacts, ys, new_cls, old_cls, ndream, nigh
         due = (total_d * (i + 1)) // nreal                                  # dreams owed by now (integer ratio)
         while done_d < due:
             c = old_cls[rr % len(old_cls)]; rr += 1
-            k = _dream(on, n, c, rng, buf)
+            k = _dream(fon, fn, c, rng, buf) if use_f else _dream(on, n, c, rng, buf)
             writes += _practise(W, buf, k, c, known, margin, cmax); done_d += 1
     if len(old_cls) > 0:
         kn = np.where(known)[0]; blockw = 0; stop = False
         for p in range(night):
             for j in range(ndream * len(kn)):
                 c = kn[j % len(kn)]
-                k = _dream(on, n, c, rng, buf)
+                if use_f and (j // len(kn)) % 2 == 1:
+                    k = _dream(fon, fn, c, rng, buf)
+                else:
+                    k = _dream(on, n, c, rng, buf)
                 w = _practise(W, buf, k, c, known, margin, cmax)
                 writes += w; blockw += w; stats[0] += 1; stats[1] += w
                 if night_stop > 0 and stats[0] % 256 == 0:
@@ -143,13 +149,13 @@ def _stage(W, on, n, rng, known, acts, nacts, ys, new_cls, old_cls, ndream, nigh
 
 
 class CortexInt:
-    def __init__(self, n_bits, n_cls=10, cmax=15, margin=8, B=10, ndream=6000, night=2, seed=1, daydream=0, replay_k=0, night_stop=0):
+    def __init__(self, n_bits, n_cls=10, cmax=15, margin=8, B=10, ndream=6000, night=2, seed=1, daydream=0, replay_k=0, night_stop=0, context=False):
         self.W = np.zeros((n_cls, n_bits), np.int8); self.on = np.zeros((n_cls, n_bits), np.uint16)
         self.n = np.zeros(n_cls, np.int32); self.known = np.zeros(n_cls, np.bool_)
         self.rng = np.array([(0x9E3779B9 * (i + seed)) & 0xFFFFFFFF or 1 for i in range(LANES)], np.uint32)
         self.cmax, self.margin, self.top, self.ndream, self.night = cmax, margin, (1 << B) - 1, ndream, night
         self.daydream, self.replay_k, self.night_stop = daydream, replay_k, night_stop
-        self.stats = np.zeros(2, np.int64)
+        self.stats = np.zeros(2, np.int64); self.context = context
 
     @staticmethod
     def pack(code):
@@ -161,10 +167,14 @@ class CortexInt:
 
     def stage(self, code, y):
         new = np.unique(y).astype(np.int64); old = np.where(self.known & ~np.isin(np.arange(len(self.known)), new))[0]
+        use_f = bool(self.context and self.known[new].any())                 # known classes return: new context
+        fon, fn = self.on.copy(), self.n.copy()                               # frozen copy (used only if use_f)
+        if use_f:
+            old = np.where(self.known)[0]
         A, na = self.pack(code)
         return _stage(self.W, self.on, self.n, self.rng, self.known, A, na, y.astype(np.int64), new, old.astype(np.int64),
                       self.ndream, self.night, self.margin, self.cmax, self.top, self.daydream, self.replay_k,
-                      self.night_stop, self.stats)
+                      self.night_stop, self.stats, fon, fn, use_f)
 
     def predict(self, code):
         s = code.astype(np.int32) @ self.W.T.astype(np.int32)                 # exact integer sums of table entries
