@@ -1,0 +1,3 @@
+fashion H 8192 conj active/img 934 74s
+fashion code bits 4608 all-at-once 0.8466  5 stages 0.7885 128s
+fashion code+conj bits 12800 all-at-once 0.8294  5 stages 0.7853 281s

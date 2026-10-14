@@ -28,7 +28,11 @@
 // led[3] heartbeat, led[4] UART byte received (toggle), led[5] last prediction was class 0..4 (on) or 5..9 (off).
 module cortex_board_top #(
     parameter CLK_HZ   = 27_000_000,
+`ifdef FAST_UART
+    parameter BAUD     = 921600,           // optional fast build (define FAST_UART); only if the USB bridge supports it
+`else
     parameter BAUD     = 115200,
+`endif
     parameter POR_BITS = 16,
     parameter NB       = 4608,
     parameter AW       = 13

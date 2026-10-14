@@ -71,10 +71,10 @@ Info: Pack GSR...
 Info: Pack HCLK cells...
 Info: Pack DLLDLYs...
 Info: Pack wide LUTs...
-Info: Packed MUX2_LUT8:208, MUX2_LU7:663, MUX2_LUT6:379, MUX2_LUT5:820
+Info: Packed MUX2_LUT8:220, MUX2_LU7:669, MUX2_LUT6:403, MUX2_LUT5:897
 Info: Pack ALUs...
 Info: Pack SSRAMs...
-Info: Constrained 1766 LUTFF pairs.
+Info: Constrained 1681 LUTFF pairs.
 Info: Pack PLL...
 Info: Pack ADC...
 Info: Pack GW JTAG...
@@ -86,19 +86,19 @@ Info: Pack EMCU and UserFlash cells...
 Info: Pack UserFlash cells...
 Info: Pack DQCE cells...
 Info: Pack DCS cells...
-Info: Checksum: 0x01289303
+Info: Checksum: 0xfae45bd8
 
 Info: Device utilisation:
 Info: 	                 VCC:       1/      1   100%
 Info: 	                 IOB:      12/    384     3%
-Info: 	                LUT4:   22051/  20736   106%
+Info: 	                LUT4:   22287/  20736   107%
 Info: 	            IOLOGICI:       0/    384     0%
 Info: 	            IOLOGICO:       0/    384     0%
-Info: 	           MUX2_LUT5:    5894/  10368    56%
-Info: 	           MUX2_LUT6:    2537/   5184    48%
-Info: 	           MUX2_LUT7:    1079/   2592    41%
-Info: 	           MUX2_LUT8:     208/   2592     8%
-Info: 	                 ALU:    1320/  15552     8%
+Info: 	           MUX2_LUT5:    6139/  10368    59%
+Info: 	           MUX2_LUT6:    2621/   5184    50%
+Info: 	           MUX2_LUT7:    1109/   2592    42%
+Info: 	           MUX2_LUT8:     220/   2592     8%
+Info: 	                 ALU:    1276/  15552     8%
 Info: 	                 GND:       1/      1   100%
 Info: 	                 DFF:    6080/  15552    39%
 Info: 	           RAM16SDP4:     491/    648    75%
@@ -125,9 +125,11 @@ Info: 	             CLKDIV2:       0/     16     0%
 
 Info: Running custom HCLK placer...
 Info: Placed 0 cells based on constraints.
-Info: Creating initial analytic placement for 9083 cells, random placement wirelen = 558484.
-Info:     at initial placer iter 0, wirelen = 5263
-Info:     at initial placer iter 1, wirelen = 5095
-Info:     at initial placer iter 2, wirelen = 4783
-Info:     at initial placer iter 3, wirelen = 4756
-Info: Running main analytical placer, max placement attempts per cell = 197229660.
+Info: Creating initial analytic placement for 9077 cells, random placement wirelen = 560042.
+Info:     at initial placer iter 0, wirelen = 5424
+Info:     at initial placer iter 1, wirelen = 4873
+Info:     at initial placer iter 2, wirelen = 5019
+Info:     at initial placer iter 3, wirelen = 4878
+Info: Running main analytical placer, max placement attempts per cell = 202860153.
+ERROR: Unable to find legal placement for cell 'u.u_enc.bmap.0.12' of type 'RAM16SDP4' after 202860154 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts.
+0 warnings, 1 error

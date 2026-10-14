@@ -1,2 +1,1 @@
 Warning: Replacing memory \acc with list of registers. See ../rtl/cortex/cortex_core.v:127
-Warning: Replacing memory \rbuf with list of registers. See ../board/cortex_board_top.v:105

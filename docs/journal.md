@@ -98,5 +98,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   80 KB of prose (`hw/brain/experiments/month3/seq_forgetting.md`); month 6 needs capacity or context memory.
 - **Few-shot narrowed with spread (population) codes** (3x3 OR of features before matching, float sim): digits 40.5 /
   61.3 / 86.6 vs network 39.1 / 67.4 / 81.2 (1 / 5 / 20 per class); clothing 42.8 / 53.3 / 70.2 vs 43.7 / 62.9 / 73.7.
+- Dendritic conjunction bits (pairs of features per cell hashed into 8,192 extra bits): worse (clothing 82.9 vs 84.7,
+  digits in stages 90.3 vs 94.1) - rejected.
+- Month 4 board plan (`docs/month4_board_plan.md`) and `hw/board/cortex_bench.py` (power/speed phases for a USB meter).
+- Optional 921,600-baud bitstream: re-parameterising the top (chparam or a wrapper) made synthesis ~5k cells bigger
+  (106-107% LUTs); a compile-time define (FAST_UART) keeps it at 24.2k cells; place and route running.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
