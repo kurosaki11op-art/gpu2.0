@@ -90,5 +90,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   25.1 -> 73.4), rotated kept. RTL not updated (needs 2x dream memory).
 - **ASIC build bit-exact with the SKY130 SRAM macro models** (`run_check_cortex.py --asic --small`: 0 mismatches,
   two configurations, halving exercised).
+- Empty-class dream guard (chip and model): dreaming a known class with no examples returns an empty dream instead
+  of redrawing forever; core re-checked (0 mismatches); board check gains that edge case; bitstreams rebuilding
+  (115,200 and an optional 921,600-baud variant).
+- Claims sheet `docs/cortex_claims_sheet.md`. Project memory section 4 rewritten for the current chip design.
+- Sequence memory (lookup core) across text domains: keeps ~32% (TB=11) / ~60% (TB=13) of the code benefit after
+  80 KB of prose (`hw/brain/experiments/month3/seq_forgetting.md`); month 6 needs capacity or context memory.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
