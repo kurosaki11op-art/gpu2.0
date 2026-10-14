@@ -70,5 +70,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Measured against HDC** (`hw/results/cortex_vs_hdc.md`): after 5 stages chip 94.6 / 78.3 / 69.4 vs best HDC 92.4 /
   78.2 / 63.5, with less memory and ~1,000x fewer additions per example.
 - Split dreams on sound (float): 68.2 -> 70.3 (x4 memory).
+- 10 stages of one class each: chip 93.5 / 78.7 / 70.5 vs network 10.1 / 14.0 / 9.8. Month-3 summary written:
+  `hw/results/cortex_month3.md`.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

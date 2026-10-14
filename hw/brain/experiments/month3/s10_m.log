@@ -1,0 +1,10 @@
+mnist stage 1 chip 1.0000  network 1.0000
+mnist stage 2 chip 0.9962  network 0.5366
+mnist stage 3 chip 0.9800  network 0.3279
+mnist stage 4 chip 0.9680  network 0.2430
+mnist stage 5 chip 0.9681  network 0.1911
+mnist stage 6 chip 0.9581  network 0.1479
+mnist stage 7 chip 0.9509  network 0.1371
+mnist stage 8 chip 0.9563  network 0.1282
+mnist stage 9 chip 0.9455  network 0.1083
+mnist stage 10 chip 0.9354  network 0.1009

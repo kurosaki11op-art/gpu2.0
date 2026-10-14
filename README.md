@@ -18,6 +18,8 @@ markdown, and opened in Obsidian as a vault or read on GitHub. Start at the top.
 
 - [SPARK Cortex redesign and 6-8 month plan](docs/cortex_redesign.md): what the chip is and the monthly proofs.
 - [Brain code](hw/brain/README.md): the simulator for every part of the brain core.
+- [Month 3 results](hw/results/cortex_month3.md): chip design bit-exact, bitstream for the Tang Nano, demo.
+- [SPARK Cortex vs HDC](hw/results/cortex_vs_hdc.md): against the closest prior art.
 - [Month 2 results](hw/results/cortex_month2.md): memory shrunk to chip size, one rule, chip design bit-exact.
 - [Month 2 running log](hw/results/cortex_month2_log.md): every test, including failures.
 - [Month 1 results](hw/results/cortex_month1.md): accuracy gap closed.
