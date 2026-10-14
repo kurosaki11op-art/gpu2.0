@@ -86,3 +86,89 @@ class ConceptRates:
 
     def bits(self):
         return self.r.size * self.B
+
+
+class OnlineConcepts:
+    """Concept cells with exact counters (16-bit on-counts per bit + a use count per cell), learned in ONE pass, as a
+    streaming chip must: each example is matched against its class's cells and the best one counts it. Match =
+    log-likelihood from the counts (simulated in float; on chip a log table indexed by a normalised count ratio).
+    A new cell is opened when the best match is worse than `open_at` per active bit (novelty), until P cells exist.
+    Meant for the slow dream store (PSRAM on the Tang Nano), read only during sleep."""
+
+    def __init__(self, n_bits, n_cls, P=8, alpha=0.5, seed=0):
+        self.P, self.alpha = P, alpha
+        self.on = np.zeros((n_cls, P, n_bits), np.int32); self.n = np.zeros((n_cls, P), np.int32)
+        self.rng = np.random.RandomState(seed)
+        self.dl = np.zeros(self.on.shape, np.float32); self.b0 = np.zeros((n_cls, P), np.float32)   # cached logs
+
+    def _refresh(self, c, j):
+        p = (self.on[c, j] + self.alpha) / (self.n[c, j] + 2 * self.alpha)
+        self.dl[c, j] = np.log(p) - np.log1p(-p); self.b0[c, j] = np.log1p(-p).sum()
+
+    def _ll(self, c, x):
+        used = np.where(self.n[c] > 0)[0]
+        return self.dl[c][used] @ x.astype(np.float32) + self.b0[c][used], used
+
+    def learn(self, code, y):
+        for c in np.unique(y):
+            for x in code[y == c]:
+                if self.n[c, 0] == 0:
+                    j = 0
+                else:
+                    ll, ids = self._ll(c, x); j = ids[ll.argmax()]
+                    free = np.where(self.n[c] == 0)[0]
+                    if len(free) and self.rng.random_sample() < 1.0 / (1 + self.n[c].sum() / (50 * len(ids))):
+                        j = free[0]                                          # open a new cell early in learning
+                self.on[c, j] += x; self.n[c, j] += 1; self._refresh(c, j)
+        return self
+
+    def dreams(self, classes, n, seed=0):
+        g = np.random.RandomState(seed); X, Y = [], []
+        for c in classes:
+            used = np.where(self.n[c] > 0)[0]; w = self.n[c][used] / self.n[c][used].sum()
+            cell = used[g.choice(len(used), n, p=w)]
+            p = (self.on[c] + self.alpha) / (self.n[c][:, None] + 2 * self.alpha)
+            X.append(g.random_sample((n, self.on.shape[2])) < p[cell]); Y.append(np.full(n, c))
+        return np.concatenate(X), np.concatenate(Y)
+
+    def bits(self):
+        return self.on.size * 16
+
+
+class ScaledCounts:
+    """Per-class exact counters with synaptic scaling: on-counts per bit and an example count per class, each B bits.
+    When a class's example count reaches 2^B - 1, all its counts are halved (rates kept, memory bounded). Learning is
+    counting plus an occasional right shift. Dreams: bit on with probability on/n (random number + compare)."""
+
+    def __init__(self, n_bits, n_cls, B=12):
+        self.B, self.top = B, (1 << B) - 1
+        self.on = np.zeros((n_cls, n_bits), np.int64); self.n = np.zeros(n_cls, np.int64)
+
+    def learn(self, code, y, chunk=256):
+        for c in np.unique(y):
+            X = code[y == c]
+            for i in range(0, len(X), chunk):                                 # count a chunk, halve when full
+                part = X[i:i + chunk]
+                while len(part):
+                    room = self.top - self.n[c]
+                    take = part[:room]; part = part[room:]
+                    self.on[c] += take.sum(0); self.n[c] += len(take)
+                    if self.n[c] >= self.top:
+                        self.on[c] >>= 1; self.n[c] >>= 1
+        return self
+
+    def dreams(self, classes, n, seed=0):
+        g = np.random.RandomState(seed); X, Y = [], []
+        for c in classes:
+            p = (self.on[c] + 0.5) / (self.n[c] + 1.0)
+            X.append(g.random_sample((n, self.on.shape[1])) < p); Y.append(np.full(n, c))
+        return np.concatenate(X), np.concatenate(Y)
+
+    def merge(self, other):
+        m = ScaledCounts(self.on.shape[1], self.on.shape[0], self.B); m.on = self.on + other.on; m.n = self.n + other.n
+        while (m.n >= m.top).any():
+            full = m.n >= m.top; m.on[full] >>= 1; m.n[full] >>= 1
+        return m
+
+    def bits(self):
+        return self.on.size * self.B + self.n.size * self.B

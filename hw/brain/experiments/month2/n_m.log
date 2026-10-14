@@ -1,0 +1,2 @@
+mnist online 8 night True P 0 rate B 8 k 0 kmax None KB 720 [0.9991 0.981  0.9697 0.9454 0.9435] 57s
+mnist online 16 night True P 0 rate B 8 k 0 kmax None KB 1440 [0.9991 0.9793 0.9725 0.9315 0.9388] 54s

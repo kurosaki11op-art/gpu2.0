@@ -1,0 +1,3 @@
+mnist night True P 4 rate B 6 k 0 kmax 9 KB 135 [0.9991 0.9848 0.967  0.9384 0.9209] 62s
+mnist night True P 8 rate B 6 k 0 kmax 9 KB 270 [0.9991 0.9764 0.963  0.9445 0.9224] 68s
+mnist night True P 4 rate B 8 k 0 kmax 9 KB 180 [0.9991 0.9851 0.9726 0.9484 0.9261] 55s

@@ -36,8 +36,12 @@ Test h, accuracy after 5 stages (dream memory + 28 KB table for images, + 141 KB
 | k | Metaplasticity: shift grows with experience (k = bit length of count, cap 9-12), 8-bit rates, 45 KB | digits 93.1-93.3, clothing 77.9-78.3 (exact counts: 94.3 / 79.7); sound with night 61.2 | within ~1 pt of exact counting on images |
 | l | On-chip concept cells (P cells x B-bit metaplastic rates, best-match cell learns) | best P2 x 8-bit (90 KB): digits 92.5, clothing 79.0; P4 x 4-bit, P8 x 3-bit fail (58-86) | no better than one rate vector per class |
 
-Why images lose 4-8 points: dreams with independent bits can only teach what a per-bit model knows (~78-80 on
-clothing). Exact concept cells (mixtures) reach 84.2, but low-bit on-chip versions collapse (cells copy single
-examples with all-or-nothing rates). Test m: softer imprint for new cells; sound with day-only sleep.
+| m | Soft imprint for new on-chip concept cells; sound with day-only rate memory | clothing 72.5-78.5, digits 92.1-92.6; sound 61.1 | no gain; 8-bit rates lose ~10 pts on sound |
+| n | Single-pass concept cells with exact 16-bit counters (streaming, as a chip must) | 8 cells: digits 94.4, clothing 80.1 (720 KB); sound day-only 71.1 (3.6 MB) | = exact per-class counts; multi-pass sorting (84.2) not reachable in one pass |
+| o | Per-class counters with synaptic scaling (halve all counts when a class's count is full), B-bit | images: 12-bit 68 KB: digits 94.1, clothing 78.8; **10-bit 56 KB: 94.1 / 78.9**; 8-bit 45 KB: 90.9 / 78.6 | **chosen for images**: 28 KB table + 56 KB counts = 84 KB, fits the Tang Nano's block RAM |
+
+Why images still lose 3-7 points against month 1: dreams with independent bits can only teach what a per-bit
+model knows. Batch-sorted concept cells (mixtures) reached 84.2 on clothing, but a streaming chip sorts each
+example once, and single-pass cells end up no better than plain counts. Recorded as an open problem.
 
 Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)
