@@ -1,0 +1,6 @@
+buffer 2112
+clockbuf 25579
+flipflop 20380
+logic 49102
+physical 182635
+sram 63

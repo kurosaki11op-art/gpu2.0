@@ -62,6 +62,29 @@ Reading, honestly:
   and a real switching activity from simulation (a VCD of a decision) instead of the 10% default. Until then, quote
   the layout power as an upper bound for an unoptimised design.
 
+### Where the 355 mW goes (diagnosis, same night)
+
+`power_probe.tcl` re-ran the power report on the clock-tree database with activity given only at the inputs and
+propagated by OpenSTA through the logic, instead of 10% on every net:
+
+| Activity | Total | Sequential | Combinational |
+|---|---|---|---|
+| 10% on every net (as above) | 352 mW | 45 mW | 308 mW |
+| 10% at the inputs, propagated | 364 mW | 45 mW | 319 mW |
+| 1% at the inputs, propagated | 338 mW | 41 mW | 297 mW |
+
+Power hardly depends on what the data does: **~6 nJ is spent every clock cycle just clocking the chip**. Cell mix
+(`cell_mix.tcl`, `cell_mix.txt`): 20,380 flip-flops (~17,200 of them the encoder's small memories: image 6,272, receptor
+map 3,136, code map 4,608, detector signs 3,200), 25,579 clock-type buffers (clock tree plus buffers inserted by
+fanout repair on a 6.45 mm die), 49,102 logic cells (much of it read multiplexers for those flip-flop memories).
+So the fix is architectural, not a matter of a better activity number:
+1. clock gating: the encoder idles while the core decides or dreams, and the whole chip idles between commands;
+2. the encoder's flip-flop memories into SRAM (removes ~17,000 flip-flops and their read multiplexers);
+3. a compact die (the macros are spread over 31 mm^2, so the clock tree is long).
+With 1-2 the clocked state falls to ~3,000 flip-flops while a decision runs; the per-decision energy would then be
+set by the core's SRAM reads, which is what the operation-count estimate counts. Not yet done: ESTIMATED reasoning,
+to be checked by re-running the flow after the change.
+
 ## Next steps for a real chip (months 7-8)
 
 1. Put the encoder's small memories (image, receptor map, code map) into small SRAM macros instead of flip-flops.

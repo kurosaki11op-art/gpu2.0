@@ -129,4 +129,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   a command, from a ring of the last 32 windows) gives digits 94.5 / clothing 80.0 after 5 stages vs PC detectors
   95.0 / 79.2 (SIMULATED). `cortex_encoder.v` with `ENC_LEARN` is bit-exact with it (all counters + learned codes,
   0 mismatches, digits and clothing, reseed exercised); default build unchanged and still passes. ASIC only.
+- ASIC power diagnosis: power hardly changes with switching activity (338-364 mW for 1-10% input activity,
+  propagated by OpenSTA): ~6 nJ per clock cycle goes to clocking 20,380 flip-flops (17,200 are encoder memories) and
+  25,579 clock-type buffers. Fix is architectural (clock gating, encoder memories into SRAM, compact die); recorded in
+  `hw/results/cortex_asic_estimate.md`. ESTIMATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
