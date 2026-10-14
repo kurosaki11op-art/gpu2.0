@@ -103,8 +103,10 @@ for CB, n_per, ndream, night in ((10, 12, 3, 1), (5, 20, 2, 1), (10, 30, 12, 2))
     subprocess.run(["iverilog", "-g2005", "-DCORTEX_CONTEXT", "-s", "tb_cortex_core_ctx", "-o", "/tmp/cxc.vvp",
                     f"-Ptb_cortex_core_ctx.CB={CB}", f"-Ptb_cortex_core_ctx.NW={len(words) + 8}",
                     "cortex_core.v", "tb_cortex_core_ctx.v"] + EXTRA, cwd=HERE, check=True)
-    res = subprocess.run(["vvp", "-n", "/tmp/cxc.vvp"], cwd=HERE, capture_output=True, text=True)
-    print(res.stdout.strip().splitlines()[-1] if res.stdout.strip() else res.stderr[-500:])
+    # the SRAM macro models print every access: filter the stream, keep only the summary line
+    res = subprocess.run(f"vvp -n /tmp/cxc.vvp | grep ^commands", shell=True, cwd=HERE, capture_output=True, text=True)
+    last = res.stdout.splitlines()
+    print(last[-1].strip() if last else "simulation printed no summary line")
     got = open(os.path.join(HERE, "out_cortex.txt")).read().split("\n")[:-1]
     got = [g.upper() if g.startswith("W") else g for g in got]; exp = [e.upper() if e.startswith("W") else e for e in exp]
     bad = sum(1 for a, e in zip(got, exp) if a != e) + abs(len(got) - len(exp))

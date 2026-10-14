@@ -161,4 +161,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   MEM arg 3, `cmd_frozen` dreams from the copy). `run_check_cortex_ctx.py`: schedule == `CortexInt(context=True)`,
   RTL bit-exact (0 mismatches, 3 configurations, up to 48 frozen dreams); base core check still passes. ASIC cost:
   36 more SRAM macros. SIMULATED. FPGA unchanged.
+- Check-script fix: the SRAM macro simulation models print a line per access; the core check scripts captured all
+  of it in memory, and the context check with macros was killed (out of memory) after its first configuration
+  (which had passed). `run_check_cortex.py` and `run_check_cortex_ctx.py` now filter the simulator output to its
+  summary line. Re-running the macro version.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
