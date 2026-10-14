@@ -250,8 +250,8 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 - **Bitstream built** with the open-source flow (`hw/pnr_cortex/build.sh`: yosys + nextpnr-himbaechel + apicula):
   `hw/pnr_cortex/cortex_tangnano20k.fs.gz`, **including the on-chip sensory encoder** (`hw/rtl/cortex/cortex_encoder.v`,
   bit-exact with `Features.encode`: 0 mismatching images of 40 digits and 40 clothing images, ~21,400 cycles per image).
-  Place and route: 46/46 block RAMs (100%), 18,335 LUT4 (88%), 5,604 flip-flops (36%), 491/648 LUT-RAMs, 0 of the
-  hardware multipliers; max clock 66.2 MHz (board clock 27 MHz); no hold violations (all block-RAM inputs are
+  Place and route: 46/46 block RAMs (100%), 19,460 LUT4 (93%), 6,080 flip-flops (39%), 491/648 LUT-RAMs, 0 of the
+  hardware multipliers; max clock 73.0 MHz (board clock 27 MHz); no hold violations (all block-RAM inputs are
   re-registered on the falling clock edge). The FPGA is now nearly full.
 - Without the encoder (PC sends codes): 11,223 LUT4 (54%), 68.6 MHz.
 - Not yet done: a real board run (needs the user's board), power measurement.

@@ -3,32 +3,32 @@
 
 === cortex_board_top ===
 
-   Number of wires:              18168
-   Number of wire bits:          37040
-   Number of public wires:       18168
-   Number of public wire bits:   37040
+   Number of wires:              19471
+   Number of wire bits:          40425
+   Number of public wires:       19471
+   Number of public wire bits:   40425
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:              23887
-     ALU                          1161
-     DFF                            88
-     DFFE                         1850
+   Number of cells:              25887
+     ALU                          1168
+     DFF                            89
+     DFFE                         2308
      DFFN                          192
      DFFR                           14
-     DFFRE                         502
+     DFFRE                         519
      DFFS                            3
      DFFSE                           9
      GND                             1
      IBUF                            4
-     LUT1                         6275
-     LUT2                         1431
-     LUT3                         2952
-     LUT4                         2417
-     MUX2_LUT5                    4177
-     MUX2_LUT6                    1621
-     MUX2_LUT7                     560
-     MUX2_LUT8                      84
+     LUT1                         6575
+     LUT2                         1314
+     LUT3                         3470
+     LUT4                         2833
+     MUX2_LUT5                    4456
+     MUX2_LUT6                    1708
+     MUX2_LUT7                     593
+     MUX2_LUT8                      85
      OBUF                            8
      RAM16SDP4                     491
      SPX9                           46

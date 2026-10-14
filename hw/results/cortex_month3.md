@@ -15,7 +15,7 @@ Month 3 of the plan (RTL bit-exact with the model) was reached early, during the
 | Core RTL | `hw/rtl/cortex/cortex_core.v` | **bit-exact**: 0 mismatches over 5,058 compared lines x 2 configurations (`run_check_cortex.py`) |
 | Tang Nano 20K top (UART) | `hw/board/cortex_board_top.v` | **bit-exact over UART**: 101 commands, 161 reply bytes, 0 mismatches (`check_cortex_board.py`) |
 | Sensory encoder RTL | `hw/rtl/cortex/cortex_encoder.v` | **bit-exact** with `Features.encode` (0 mismatching images, digits and clothing), ~21,400 cycles (0.8 ms) per image, no multiplier or divider |
-| Bitstream (core + encoder + UART) | `hw/pnr_cortex/cortex_tangnano20k.fs.gz` | placed and routed (open-source flow): 46/46 BSRAM, 18,335 LUT4 (88%), 5,604 FF (36%), **0 multipliers**, 66.2 MHz max at a 27 MHz clock, no hold violations; raw images in, answers out; board design bit-exact over UART (115 commands, 0 mismatches) |
+| Bitstream (core + encoder + UART) | `hw/pnr_cortex/cortex_tangnano20k.fs.gz` | placed and routed (open-source flow): 46/46 BSRAM, 19,460 LUT4 (93%), 6,080 FF (39%), **0 multipliers**, 73.0 MHz max at a 27 MHz clock, no hold violations; raw images in, answers out, memory export/import; board design bit-exact over UART (131 commands, 0 mismatches) |
 | Host program | `hw/board/cortex_host.py` | runs the full day/night schedule; dry run matches the chip model exactly |
 | Live demo | `hw/board/cortex_demo.py` | draw, teach, ask, sleep, test old digits; board or emulator |
 
