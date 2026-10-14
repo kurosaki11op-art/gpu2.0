@@ -126,7 +126,8 @@ one pass over the first day's images: digits 94.5 / clothing 80.0 vs PC detector
 for few-shot. Waiting on the user: run on the board, measure power (month 4).
 
 Limit found 15 Oct: "never forgets" holds for new classes, NOT for a new condition of known classes (domain shift);
-fix = frozen copy of the dream counts (2x dream memory), simulated only (`hw/results/cortex_new_condition.md`).
+fix = frozen copy of the dream counts (2x dream memory), in the RTL as build option `CORTEX_CONTEXT` (bit-exact,
+ASIC only; `hw/results/cortex_new_condition.md`).
 
 ## 6. Known failures and corrections (do not repeat)
 

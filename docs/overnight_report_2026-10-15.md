@@ -75,7 +75,8 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 5. The FPGA is nearly full (about 90% of logic); bigger versions need the PSRAM or a bigger FPGA.
 6. **New conditions of known classes** (e.g. the same digits rotated): the chip forgets the old condition (digits
    upright 95 -> 45%). Fix found and confirmed on the exact chip model (keep a frozen copy of the dream memory: back to
-   85%), costs 2x dream memory; not in the RTL yet ([details](../hw/results/cortex_new_condition.md)).
+   85%), costs 2x dream memory; now in the RTL as an ASIC build option, bit-exact (no room on the FPGA)
+   ([details](../hw/results/cortex_new_condition.md)).
 7. The sequence memory (earlier lookup core) also partly forgets across text domains (keeps 32-60% of what it learned),
    so month 6 needs more capacity or the same context trick.
 8. A second sensory layer (V2) did not improve accuracy; rejected.

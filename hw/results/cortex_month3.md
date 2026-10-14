@@ -44,7 +44,8 @@ violations), CLEAR command (memories can be wiped after a reset).
 - Sequence memory (the earlier lookup core) partly forgets across text domains: it keeps ~32-60% of what code taught
   it after reading prose ([note](../brain/experiments/month3/seq_forgetting.md)). Month 6 needs capacity or context memory.
 - Context memory (frozen copy of the dream counts) fixes the new-condition limit on the exact chip model: rotated
-  digits test, upright 44.8 -> 85.3 ([details](cortex_new_condition.md)).
+  digits test, upright 44.8 -> 85.3 ([details](cortex_new_condition.md)); in the RTL as build option `CORTEX_CONTEXT`
+  (bit-exact, ASIC only).
 
 ## Still open
 

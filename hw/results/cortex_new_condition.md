@@ -40,7 +40,15 @@ frozen; day dreams come from the frozen copy, night dreams alternate live / froz
 | Neural network | 26.9 | 95.4 | 10.1 | 84.2 |
 
 Cost: a second copy of the dream counts (+56 KB for images). It does not fit the Tang Nano's block RAM next to the
-current design; it fits the board's PSRAM or an ASIC. Not in the RTL yet. Only one new condition tested; several
-contexts would need one frozen copy each, or a smarter shared store.
+current design; it fits the board's PSRAM or an ASIC. Only one new condition tested; several contexts would need one
+frozen copy each, or a smarter shared store.
+
+**In the RTL (15 Oct, build option `CORTEX_CONTEXT` in `hw/rtl/cortex/cortex_core.v`):** a frozen copy of the dream
+counters and example counts, a FREEZE command (MEM arg 3, 3 cycles per code bit) and a `cmd_frozen` input that makes a
+DREAM read the frozen copy. Check `hw/rtl/cortex/run_check_cortex_ctx.py` (stage 1: 0/1; stage 2: 0/1 again, a new
+condition; stage 3: 2/3; then predictions): the host schedule reproduces `CortexInt(context=True)` exactly, and the
+RTL is bit-exact with it, 0 mismatches over three configurations (up to 48 frozen dreams, halving exercised); the run with
+the SKY130 SRAM models is in progress (`hw/asic/cortex/check_core_context_asic.log`). SIMULATED. Cost in the ASIC: 36 more 2 KB SRAM
+macros (the counters are 100 bits wide) - about +10 mm^2 with the open macros. The FPGA build is unchanged (no room).
 
 Related: [Month 3 results](cortex_month3.md), [Prior art](../../docs/prior_art_cortex.md), [Results index](INDEX.md)

@@ -157,4 +157,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   BSRAM, 363 LUT-RAMs, 0 multipliers, 69.8 MHz max at 27 MHz, placed in 253 s. Host batches dreams by default again
   (`--no-batch` for an older bitstream). Board check on this RTL: 136 commands, 0 mismatches. SIMULATED (place and
   route); not yet on the board.
+- **Context memory in the RTL** (`CORTEX_CONTEXT` in `cortex_core.v`: frozen copy of the dream counters, FREEZE =
+  MEM arg 3, `cmd_frozen` dreams from the copy). `run_check_cortex_ctx.py`: schedule == `CortexInt(context=True)`,
+  RTL bit-exact (0 mismatches, 3 configurations, up to 48 frozen dreams); base core check still passes. ASIC cost:
+  36 more SRAM macros. SIMULATED. FPGA unchanged.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

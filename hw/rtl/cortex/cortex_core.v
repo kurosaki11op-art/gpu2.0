@@ -17,6 +17,12 @@
 //              arg 0 = read word mem_addr into rd_w / rd_c; arg 1 = write wr_w / wr_c to word mem_addr;
 //              arg 2 = set the example counts n[c] = wr_c field c and the known classes = wr_w[C-1:0]
 //              (rd_n / rd_known always show the current counts and known classes)
+//              arg 3 (build option CORTEX_CONTEXT) = FREEZE: copy the dream counters and example counts into a frozen
+//              copy (3 cycles per code bit)
+// Build option CORTEX_CONTEXT (context memory, bit-exact with CortexInt(context=True)): DREAM with cmd_frozen = 1
+// dreams from the frozen copy instead of the live counters. The host freezes before a day that brings known classes
+// back (a new condition), dreams old knowledge from the frozen copy during that day and alternates live / frozen at
+// night, so the old condition is not overwritten. Costs a second dream-counter memory (ASIC; the FPGA RAM is full).
 `timescale 1ns/1ps
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
@@ -24,6 +30,9 @@ module cortex_core #(
 ) (
     input  wire          clk, rst,
     input  wire          cmd_valid, input wire [2:0] cmd_op, input wire [3:0] cmd_arg,
+`ifdef CORTEX_CONTEXT
+    input  wire          cmd_frozen,
+`endif
     input  wire          lb_we, input wire [AW-1:0] lb_waddr, input wire [AW-1:0] lb_wdata, input wire [AW:0] lb_len,
     input  wire          lane_we, input wire [4:0] lane_waddr, input wire [31:0] lane_wdata,
     input  wire [AW-1:0] mem_addr, input wire [C*WB-1:0] wr_w, input wire [C*CB-1:0] wr_c,
@@ -37,7 +46,7 @@ module cortex_core #(
                S_S0 = 12, S_S1 = 13, S_S2 = 14, S_S3 = 15, S_S4 = 16, S_R = 17,
                S_U0 = 18, S_U1 = 19, S_U2 = 20, S_U3 = 21, S_U4 = 22, S_U5 = 23,
                S_D0 = 24, S_D1 = 25, S_D2 = 26, S_D3 = 27, S_P = 28, S_DONE = 29, S_Z0 = 30, S_Z1 = 31,
-               S_M0 = 32, S_M1 = 33, S_M2 = 34;
+               S_M0 = 32, S_M1 = 33, S_M2 = 34, S_F0 = 35, S_F1 = 36, S_F2 = 37;
 
 `ifndef CORTEX_ASIC
     (* ram_style = "block" *) reg [C*WB-1:0] wmem [0:NB-1];
@@ -100,6 +109,25 @@ module cortex_core #(
     end
 
 `endif
+`ifdef CORTEX_CONTEXT
+    // context memory: frozen copy of the dream counters (read with the live ones, written only by FREEZE)
+    reg [CB-1:0] fn [0:C-1]; reg dsrc; reg f_wen, f_wen_n; reg [AW-1:0] f_wa, f_wa_n; reg [C*CB-1:0] f_wd, f_wd_n, fq;
+    always @(negedge clk) begin f_wen_n <= f_wen; f_wa_n <= f_wa; f_wd_n <= f_wd; end
+`ifdef CORTEX_ASIC
+    wire [C*CB-1:0] f_rd;
+    sram_array #(.W(C*CB), .DEPTH(NB), .AW(AW)) u_fmem (.clk(clk), .we(f_wen_n), .wa(f_wa_n), .wd(f_wd_n), .ra(m_addr_n), .rd(f_rd));
+    always @(*) fq = f_rd;
+`else
+    reg [C*CB-1:0] fmem [0:NB-1];
+    always @(posedge clk) begin
+        fq <= fmem[m_addr_n];
+        if (f_wen_n) fmem[f_wa_n] <= f_wd_n;
+    end
+`endif
+    wire [CB-1:0] ndream = cmd_frozen ? fn[cmd_arg] : n[cmd_arg];
+`else
+    wire [CB-1:0] ndream = n[cmd_arg];
+`endif
 
     function [31:0] xs; input [31:0] s; reg [31:0] t; begin
         t = s ^ (s << 13); t = t ^ (t >> 17); xs = t ^ (t << 5);
@@ -115,6 +143,9 @@ module cortex_core #(
 
     always @(posedge clk) begin
         w_wen <= 0; c_wen <= 0; lb_wen <= 0;
+`ifdef CORTEX_CONTEXT
+        f_wen <= 0;
+`endif
         if (lane_we) lanes[lane_waddr] <= lane_wdata;
         if (rst) begin
             st <= S_IDLE; busy <= 0; known <= 0; pred <= 0; updated <= 0; llen_out <= 0;
@@ -129,7 +160,10 @@ module cortex_core #(
                     3'd1: st <= S_C0;
                     3'd2: st <= S_S0;
                     3'd3: begin                     // a class with no examples dreams nothing (skips straight to practise)
-                        st <= S_D0; b <= (n[cmd_arg] == 0) ? NB : 0; k <= 0; lane <= 0; L <= blen(n[cmd_arg]); ncur <= n[cmd_arg];
+                        st <= S_D0; b <= (ndream == 0) ? NB : 0; k <= 0; lane <= 0; L <= blen(ndream); ncur <= ndream;
+`ifdef CORTEX_CONTEXT
+                        dsrc <= cmd_frozen;
+`endif
                     end
                     3'd4: begin st <= S_S0; predict_mode <= 1; end
                     3'd5: begin known[cmd_arg] <= 1'b1; st <= S_DONE; end
@@ -139,6 +173,11 @@ module cortex_core #(
                             known <= wr_w[C-1:0];
                             for (j = 0; j < C; j = j + 1) n[j] <= wr_c[j*CB +: CB];
                             st <= S_DONE;
+`ifdef CORTEX_CONTEXT
+                        end else if (cmd_arg == 4'd3) begin
+                            for (j = 0; j < C; j = j + 1) fn[j] <= n[j];
+                            b <= 0; st <= S_F0;
+`endif
                         end else begin m_addr <= mem_addr; st <= (cmd_arg == 4'd1) ? S_M2 : S_M0; end
                     end
                     default: st <= S_DONE;
@@ -198,7 +237,18 @@ module cortex_core #(
         S_D0: if (b == NB) begin llen <= k; llen_out <= k; i <= 0; st <= S_S0; end
               else begin m_addr <= b[AW-1:0]; st <= S_D1; end
         S_D1: st <= S_D2;
+`ifdef CORTEX_CONTEXT
+        S_D2: begin onf <= dsrc ? fq[y*CB +: CB] : cq[y*CB +: CB]; st <= S_D3; end
+        // ---- FREEZE: copy every dream-counter word into the frozen copy
+        S_F0: begin m_addr <= b[AW-1:0]; st <= S_F1; end
+        S_F1: st <= S_F2;
+        S_F2: begin
+            f_wd <= cq; f_wa <= b[AW-1:0]; f_wen <= 1;
+            if (b == NB - 1) st <= S_DONE; else begin b <= b + 1; st <= S_F0; end
+        end
+`else
         S_D2: begin onf <= cq[y*CB +: CB]; st <= S_D3; end
+`endif
         S_D3: begin
             lanes[lane] <= lane_next;
             if (rnd < ncur) begin
