@@ -18,9 +18,22 @@ one decision rule for every task; re-test few-shot.
 | f | Small per-channel detector sets (32 per channel), synapse precision | 4,608-bit image code: table (5-bit, 28 KB) digits 97.0, clothing 84.7; concept 8 cells x 3-bit (135 KB) digits 95.8, clothing 79.0. Sound (23,040 bits): table 72.5 (5-bit, 141 KB) | best size/accuracy so far |
 | g | Stop forgetting without dreams: local competition + homeostatic scaling | after 5 stages: clothing 23 -> 66, digits 28 -> 80, sound 18 -> 45 (month 1 with dreams: 86 / 96 / 72) | helps, not enough: dreams are needed |
 
-## Next (interrupted, not run yet)
+| h | Dream source for sleep, fast table (5-bit) as the only decision maker, 5 stages. Code: 4,608 bits (images), 23,040 (sound) | see table below | count dreams best for digits and sound; concept 8x3-bit best for clothing; 2-bit cells fail |
 
-`m2h.py`: cheapest dream source with the fast table as the only decision maker (one rule for every task):
-plain per-class counts (46 KB) vs 4-16 coarse concept cells at 2-3 bits per synapse.
+Test h, accuracy after 5 stages (dream memory + 28 KB table for images, + 141 KB table for sound):
+
+| Dream source | memory (images / sound) | Digits | Clothing | Sound |
+|---|---|---|---|---|
+| Per-class counts, 8-bit | 45 KB / 225 KB | 92.9 | 77.6 | **71.1** |
+| Concept cells 4 x 3-bit | 68 / 338 KB | 90.9 | 81.2 | 62.6 |
+| Concept cells 8 x 3-bit | 135 / 675 KB | 92.9 | **82.3** | 64.3 |
+| Concept cells 8 x 2-bit | 90 / 450 KB | 83.9 | 65.8 | 45.7 |
+| Concept cells 16 x 2-bit | 180 KB / n.a. | 87.0 | 72.6 | (killed) |
+| Month 1 (11.5 / 28 MB) | | 97.2 | 86.3 | 71.8 |
+
+## Next
+
+`m2i.py`: a night of sleep after each stage that dreams all known classes, new ones included, so the table cannot
+learn "dream-looking = old class".
 
 Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)

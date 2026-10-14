@@ -1,0 +1,4 @@
+speech count P 8 bits 3 dream-mem KB 225 table KB 141 [0.9449 0.8354 0.7858 0.7523 0.7109] 116s
+speech concept P 4 bits 3 dream-mem KB 338 table KB 141 [0.9449 0.8199 0.7582 0.7165 0.626 ] 148s
+speech concept P 8 bits 3 dream-mem KB 675 table KB 141 [0.9449 0.7957 0.7793 0.7228 0.6432] 162s
+speech concept P 8 bits 2 dream-mem KB 450 table KB 141 [0.9449 0.6941 0.5459 0.5317 0.4573] 150s

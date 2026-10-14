@@ -1,0 +1,5 @@
+fashion count P 8 bits 3 dream-mem KB 45 table KB 28 [0.9915 0.878  0.8428 0.7985 0.7755] 29s
+fashion concept P 4 bits 3 dream-mem KB 68 table KB 28 [0.9915 0.8852 0.8463 0.738  0.8121] 30s
+fashion concept P 8 bits 3 dream-mem KB 135 table KB 28 [0.9915 0.8868 0.8755 0.8222 0.8232] 31s
+fashion concept P 8 bits 2 dream-mem KB 90 table KB 28 [0.9915 0.8205 0.7763 0.547  0.6577] 32s
+fashion concept P 16 bits 2 dream-mem KB 180 table KB 28 [0.9915 0.8575 0.7832 0.608  0.7261] 32s

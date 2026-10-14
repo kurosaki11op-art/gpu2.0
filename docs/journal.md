@@ -27,5 +27,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - User asked which second brain to use: chose this GitHub repo opened as an Obsidian vault (I can write it directly,
   it keeps full history, and Obsidian reads it). Added home page `README.md`, indexes for docs, results, hardware
   and prompts, `hw/brain/README.md`, Related links, and the Obsidian vault config.
+- User said "continue": ran test h (dream sources, fast table as the only decision maker). Results in
+  `hw/results/cortex_month2_log.md`: memory down 70-160x; count dreams match month 1 on sound (71.1 vs 71.8) but lose
+  4 points on digits and 9 on clothing.
+- User going to sleep, asked for non-stop work until the evening of 15 Oct. Set an every-2-hours safety check-in
+  (routine `trig_01UmL6GjCFHNfqdNTvVqZPZi`, India time, delete after 20:00 IST on 15 Oct). Overnight plan: finish
+  month 2 (sleep variants, v3 suite with memory budget, few-shot, merge), then month 3 (integer bit-exact model, RTL).
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
