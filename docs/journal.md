@@ -109,5 +109,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   the model; new check `hw/board/check_host_schedule.py` (digits and clothing: identical state).
 - **Dream batches** (board command 45: up to 256 dreams per message, reply = surprises): ~250x fewer USB round trips,
   identical results; board check bit-exact including a full 256 batch; host uses it for day dreams and nights.
+- 03:00 IST: few-shot fusion test (episodic recall + table vote, integer shift): +1 to +3 at 20 examples and on
+  clothing at 5 (56.4), but the 5-example gap to the network remains; not adopted
+  ([note](../hw/brain/experiments/month3/fewshot_fusion.md)).
+- OpenROAD estimate flow ran placement, clock tree and timing repair (design area 19.1 mm2, 62% utilization; setup
+  WNS -3.19 ns at 20 ns before routing); stopped on a report-command error after that. Resumed from the saved
+  database with `hw/asic/cortex/resume.tcl` for global routing and the reports.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

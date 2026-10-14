@@ -1,0 +1,6 @@
+mnist k 1 {'table': 0.287, 'episodic': 0.405, 'fused>>0': 0.313, 'fused>>1': 0.306, 'fused>>2': 0.3, 'fused>>3': 0.295}
+mnist k 5 {'table': 0.437, 'episodic': 0.613, 'fused>>0': 0.45, 'fused>>1': 0.444, 'fused>>2': 0.44, 'fused>>3': 0.438}
+mnist k 20 {'table': 0.866, 'episodic': 0.742, 'fused>>0': 0.872, 'fused>>1': 0.87, 'fused>>2': 0.868, 'fused>>3': 0.867}
+fashion k 1 {'table': 0.254, 'episodic': 0.428, 'fused>>0': 0.316, 'fused>>1': 0.288, 'fused>>2': 0.273, 'fused>>3': 0.265}
+fashion k 5 {'table': 0.469, 'episodic': 0.533, 'fused>>0': 0.49, 'fused>>1': 0.48, 'fused>>2': 0.475, 'fused>>3': 0.472}
+fashion k 20 {'table': 0.702, 'episodic': 0.623, 'fused>>0': 0.705, 'fused>>1': 0.704, 'fused>>2': 0.703, 'fused>>3': 0.703}
