@@ -76,6 +76,7 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 5. Real run: `python hw\board\cortex_host.py --port COM5 --per-class 300 --data D:\cortex_data` (COM port from
    Device Manager). It must print the same numbers as the dry run. If it does, that is the first MEASURED result.
 6. Then: `cortex_transfer.py --port COM5` (memory transfer) and `cortex_demo.py --port COM5` (live drawing demo).
-7. For month 4: a USB power meter between the PC and the board; note the reading while learning and while idle.
+7. For month 4: a USB power meter between the PC and the board, then `cortex_bench.py` (full plan:
+   [month 4 board plan](month4_board_plan.md)).
 
 Related: [Project memory](PROJECT_MEMORY.md), [Journal](journal.md), [Home](../README.md)

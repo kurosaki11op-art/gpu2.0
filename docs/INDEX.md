@@ -9,6 +9,7 @@ tags: [spark, index]
 
 - [Project memory](PROJECT_MEMORY.md): everything in one place; read first.
 - [Journal](journal.md): the step-by-step record.
+- [Month 4 board plan](month4_board_plan.md): the steps that turn simulated results into MEASURED ones on the Tang Nano.
 - [Overnight report, 15 Oct](overnight_report_2026-10-15.md): summary of the night's work and the board steps for today.
 - [SPARK Cortex redesign](cortex_redesign.md): design, AI problems targeted, 6-8 month plan, status.
 - [Project scope](scope.md): what is in and out of scope, agreed with the founder.

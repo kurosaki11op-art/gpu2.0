@@ -287,6 +287,11 @@ Dry run (SIMULATED, emulator bit-exact with the chip): 0-4 alone 51.2% on all te
 78.9% before sleep, **91.4% after one night of 256 dreams**. The memory commands are bit-exact over UART
 (`check_cortex_board.py`: 131 commands, 333 reply bytes, 0 mismatches).
 
+## Power and speed benchmark: `cortex_bench.py`
+
+Fixed 30 s phases (idle, link only, decide, learn, dream); type the USB meter reading after each. Energy per operation
+above the link cost = (P_phase - P_link) / operations per second. Plan and caveats: `docs/month4_board_plan.md`.
+
 ## Live demo for the pitch: `cortex_demo.py`
 
 A window where you draw with the mouse and teach the chip (tkinter, ships with Python on Windows; numpy needed).
