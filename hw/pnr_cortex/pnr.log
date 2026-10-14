@@ -1,0 +1,638 @@
+Info: Using uarch 'gowin' for device 'GW2AR-LV18QN88C8/I7'
+
+Info: Cell O_sdram_clk not found
+Info: Cell O_sdram_cke not found
+Info: Cell O_sdram_cs_n not found
+Info: Cell O_sdram_cas_n not found
+Info: Cell O_sdram_ras_n not found
+Info: Cell O_sdram_wen_n not found
+Info: Cell O_sdram_dqm[0] not found
+Info: Cell O_sdram_dqm[1] not found
+Info: Cell O_sdram_dqm[2] not found
+Info: Cell O_sdram_dqm[3] not found
+Info: Cell O_sdram_addr[0] not found
+Info: Cell O_sdram_addr[1] not found
+Info: Cell O_sdram_addr[2] not found
+Info: Cell O_sdram_addr[3] not found
+Info: Cell O_sdram_addr[4] not found
+Info: Cell O_sdram_addr[5] not found
+Info: Cell O_sdram_addr[6] not found
+Info: Cell O_sdram_addr[7] not found
+Info: Cell O_sdram_addr[8] not found
+Info: Cell O_sdram_addr[9] not found
+Info: Cell O_sdram_addr[10] not found
+Info: Cell O_sdram_ba[0] not found
+Info: Cell O_sdram_ba[1] not found
+Info: Cell IO_sdram_dq[0] not found
+Info: Cell IO_sdram_dq[1] not found
+Info: Cell IO_sdram_dq[2] not found
+Info: Cell IO_sdram_dq[3] not found
+Info: Cell IO_sdram_dq[4] not found
+Info: Cell IO_sdram_dq[5] not found
+Info: Cell IO_sdram_dq[6] not found
+Info: Cell IO_sdram_dq[7] not found
+Info: Cell IO_sdram_dq[8] not found
+Info: Cell IO_sdram_dq[9] not found
+Info: Cell IO_sdram_dq[10] not found
+Info: Cell IO_sdram_dq[11] not found
+Info: Cell IO_sdram_dq[12] not found
+Info: Cell IO_sdram_dq[13] not found
+Info: Cell IO_sdram_dq[14] not found
+Info: Cell IO_sdram_dq[15] not found
+Info: Cell IO_sdram_dq[16] not found
+Info: Cell IO_sdram_dq[17] not found
+Info: Cell IO_sdram_dq[18] not found
+Info: Cell IO_sdram_dq[19] not found
+Info: Cell IO_sdram_dq[20] not found
+Info: Cell IO_sdram_dq[21] not found
+Info: Cell IO_sdram_dq[22] not found
+Info: Cell IO_sdram_dq[23] not found
+Info: Cell IO_sdram_dq[24] not found
+Info: Cell IO_sdram_dq[25] not found
+Info: Cell IO_sdram_dq[26] not found
+Info: Cell IO_sdram_dq[27] not found
+Info: Cell IO_sdram_dq[28] not found
+Info: Cell IO_sdram_dq[29] not found
+Info: Cell IO_sdram_dq[30] not found
+Info: Cell IO_sdram_dq[31] not found
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:65, MUX2_LU7:366, MUX2_LUT6:514, MUX2_LUT5:596
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 1367 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack GW JTAG...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0xe67ae198
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:      12/    384     3%
+Info: 	                LUT4:   11223/  20736    54%
+Info: 	            IOLOGICI:       0/    384     0%
+Info: 	            IOLOGICO:       0/    384     0%
+Info: 	           MUX2_LUT5:    3608/  10368    34%
+Info: 	           MUX2_LUT6:    1506/   5184    29%
+Info: 	           MUX2_LUT7:     496/   2592    19%
+Info: 	           MUX2_LUT8:      65/   2592     2%
+Info: 	                 ALU:     880/  15552     5%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:    2264/  15552    14%
+Info: 	           RAM16SDP4:       0/    648     0%
+Info: 	               BSRAM:      46/     46   100%
+Info: 	              ALU54D:       0/     24     0%
+Info: 	     MULTADDALU18X18:       0/     24     0%
+Info: 	        MULTALU18X18:       0/     24     0%
+Info: 	        MULTALU36X18:       0/     24     0%
+Info: 	           MULT36X36:       0/     12     0%
+Info: 	           MULT18X18:       0/     48     0%
+Info: 	             MULT9X9:       0/     96     0%
+Info: 	              PADD18:       0/     48     0%
+Info: 	               PADD9:       0/     96     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       0/      2     0%
+Info: 	             GW_JTAG:       0/      1     0%
+Info: 	                BUFG:       1/     24     4%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 5657 cells, random placement wirelen = 352954.
+Info:     at initial placer iter 0, wirelen = 3714
+Info:     at initial placer iter 1, wirelen = 4136
+Info:     at initial placer iter 2, wirelen = 3770
+Info:     at initial placer iter 3, wirelen = 3866
+Info: Running main analytical placer, max placement attempts per cell = 50521352.
+Info:     at iteration #1, type ALL: wirelen solved = 3949, spread = 110963, legal = 223529; time = 6.07s
+Info:     at iteration #2, type ALL: wirelen solved = 8246, spread = 106695, legal = 207703; time = 2.28s
+Info:     at iteration #3, type ALL: wirelen solved = 13976, spread = 92666, legal = 178589; time = 2.08s
+Info:     at iteration #4, type ALL: wirelen solved = 16804, spread = 96639, legal = 175333; time = 6.58s
+Info:     at iteration #5, type ALL: wirelen solved = 18605, spread = 86473, legal = 172905; time = 9.18s
+Info:     at iteration #6, type ALL: wirelen solved = 21371, spread = 99021, legal = 175467; time = 2.63s
+Info:     at iteration #7, type ALL: wirelen solved = 23875, spread = 83013, legal = 160152; time = 6.34s
+Info:     at iteration #8, type ALL: wirelen solved = 26474, spread = 96363, legal = 161400; time = 4.38s
+Info:     at iteration #9, type ALL: wirelen solved = 27369, spread = 94510, legal = 155522; time = 4.16s
+Info:     at iteration #10, type ALL: wirelen solved = 30539, spread = 91467, legal = 143869; time = 2.26s
+Info:     at iteration #11, type ALL: wirelen solved = 33211, spread = 96344, legal = 150611; time = 1.47s
+Info:     at iteration #12, type ALL: wirelen solved = 33845, spread = 94912, legal = 146481; time = 7.52s
+Info:     at iteration #13, type ALL: wirelen solved = 38557, spread = 91095, legal = 135914; time = 6.91s
+Info:     at iteration #14, type ALL: wirelen solved = 39975, spread = 94894, legal = 138549; time = 6.97s
+Info:     at iteration #15, type ALL: wirelen solved = 40893, spread = 98215, legal = 145638; time = 1.22s
+Info:     at iteration #16, type ALL: wirelen solved = 43618, spread = 96402, legal = 136529; time = 7.82s
+Info:     at iteration #17, type ALL: wirelen solved = 44836, spread = 95599, legal = 142283; time = 5.67s
+Info:     at iteration #18, type ALL: wirelen solved = 47301, spread = 96148, legal = 145114; time = 0.88s
+Info: HeAP Placer Time: 86.44s
+Info:   of which solving equations: 3.64s
+Info:   of which spreading cells: 0.67s
+Info:   of which strict legalisation: 80.74s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 404, wirelen = 135914
+Info:   at iteration #5: temp = 0.000000, timing cost = 310, wirelen = 87600
+Info:   at iteration #10: temp = 0.000000, timing cost = 325, wirelen = 81770
+Info:   at iteration #15: temp = 0.000000, timing cost = 428, wirelen = 79713
+Info:   at iteration #17: temp = 0.000000, timing cost = 241, wirelen = 79127 
+Info: SA placement time 38.45s
+
+Info: Max frequency for clock 'u_core.clk': 71.18 MHz (PASS at 27.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 13 endpoint(s)
+Info:          + represents [1,13) endpoint(s)
+Info: [  6653,   8233) |+
+Info: [  8233,   9813) |*+
+Info: [  9813,  11393) |***+
+Info: [ 11393,  12973) |******+
+Info: [ 12973,  14553) |*********************+
+Info: [ 14553,  16133) |***********************+
+Info: [ 16133,  17713) |************************************************************ 
+Info: [ 17713,  19293) |***************************************************+
+Info: [ 19293,  20873) |******+
+Info: [ 20873,  22453) |**********+
+Info: [ 22453,  24033) |**********+
+Info: [ 24033,  25613) |**********+
+Info: [ 25613,  27193) |************+
+Info: [ 27193,  28773) |************+
+Info: [ 28773,  30353) |******************+
+Info: [ 30353,  31933) |****************************+
+Info: [ 31933,  33513) |**************+
+Info: [ 33513,  35093) |******************+
+Info: [ 35093,  36673) |***************************+
+Info: [ 36673,  38253) |*************+
+Info: Checksum: 0xdf771e53
+Info: Routing globals...
+Info:     'u_core.clk' net was routed.
+Info:     'lane_wdata[25]' is routed using segments.
+Info:     'lane_wdata[4]' is routed using segments.
+Info:     'lane_we_LUT3_I2_F_LUT3_I0_2_I1[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_9_SUM[0]' is routed using segments.
+Info:     'u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_I0_LUT3_I1_F[1]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_6_SUM[0]' is routed using segments.
+Info:     'lane_we_LUT3_I2_1_F[2]' is routed using segments.
+Info:     'lane_wdata[22]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I0_LUT2_I1_I0_LUT2_I0_F_LUT4_F_I2_LUT4_I1_F[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_9_SUM[6]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_LUT4_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_S0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I0_F[1]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_LUT4_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_S0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I1_F[1]' is routed using segments.
+Info:     'lane_wdata[6]' is routed using segments.
+Info:     'rx_data[2]' is routed using segments.
+Info:     'lane_we_LUT3_I2_F_LUT3_I0_2_I1_LUT3_I1_1_F' is routed using segments.
+Info:     'lane_wdata[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_5_SUM[6]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I1_LUT2_I1_F_LUT4_F_I2_LUT4_I2_F[2]' is routed using segments.
+Info:     'u_core.lb_wen' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_1_I1_LUT2_I1_F_LUT4_F_I2_LUT4_I2_1_F[2]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I1_LUT2_I1_F_LUT4_F_I2_LUT4_I1_F[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_17_SUM[6]' is routed using segments.
+Info:     'lane_wdata[15]' is routed using segments.
+Info:     'u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_I0_LUT3_I1_F[3]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_17_SUM[0]' is routed using segments.
+Info:     'lane_we_LUT3_I2_F_LUT3_I0_2_F' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I0_LUT2_I1_F[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_7_I0[0]' is routed using segments.
+Info:     'rx_data[4]' is routed using segments.
+Info:     'u_core.n[15]_LUT4_I0_1_F[3]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_6_SUM[6]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_4_SUM[6]' is routed using segments.
+Info:     'lane_wdata[18]' is routed using segments.
+Info:     'u_core.cmem.0.24_DO_33_LUT3_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I1_O_LUT2_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_I0_O_MUX2_LUT7_I0_O_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I1_O_ALU_SUM_COUT_ALU_COUT_1_SUM_MUX2_LUT6_O_I1_MUX2_LUT5_O_I1_LUT3_F_I0_LUT4_I0_F_MUX2_LUT5_I1_O_ALU_SUM_COUT_ALU_COUT_65_SUM_LUT4_F_I0_LUT4_F_I2_LUT3_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_I1_O[7]' is routed using segments.
+Info:     'u_core.lane[4]' is routed using segments.
+Info:     'u_core.lane[3]' is routed using segments.
+Info:     'lane_we_LUT3_I2_3_F_LUT3_I0_F' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_LUT4_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_S0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I3_F[2]' is routed using segments.
+Info:     'lane_we_LUT3_I2_F_LUT3_I0_1_I1_LUT3_I1_F' is routed using segments.
+Info:     'u_core.L_DFF_Q_1_D_LUT3_F_I2_LUT4_I0_F[1]' is routed using segments.
+Info:     'lane_wdata[30]' is routed using segments.
+Info:     'u_core.w_wd_DFFRE_Q_11_D_MUX2_LUT7_O_S0[4]' is routed using segments.
+Info:     'u_core.c_wen_n_LUT3_I2_F[1]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_ALU_SUM_COUT_ALU_COUT_6_SUM[2]' is routed using segments.
+Info:     'u_core.w_wd_DFFRE_Q_11_D_MUX2_LUT7_O_S0_MUX2_LUT5_O_I1_LUT4_F_I3_LUT3_I0_F[4]' is routed using segments.
+Info:     'u_core.c_wen_n_LUT3_I2_F[7]' is routed using segments.
+Info:     'u_core.c_wen_n_LUT3_I2_F[6]' is routed using segments.
+Info:     'u_core.c_wen_n_LUT3_I2_F[4]' is routed using segments.
+Info:     'lane_wdata[20]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_I0_LUT2_I1_I0_LUT2_I0_F_LUT4_F_I2_LUT4_I2_F[2]' is routed using segments.
+Info:     'lane_we_LUT3_I2_F_LUT3_I0_1_I1[2]' is routed using segments.
+Info:     'lane_we_LUT3_I2_F_LUT3_I0_1_I1_LUT3_I1_1_F' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_6_I0[0]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_LUT4_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_S0_O_LUT4_I0_F_LUT4_I3_F_LUT3_I1_F[1]' is routed using segments.
+Info:     'u_core.rnd_LUT3_F_1_I1_LUT2_I1_F_LUT4_F_I2_LUT4_I3_F[2]' is routed using segments.
+Info:     'lane_we_LUT3_I2_F_LUT3_I0_5_I1_LUT3_I1_1_F' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_LUT4_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_S0_O_LUT4_I0_F_LUT3_I2_F_LUT4_I3_2_F[2]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_2_I0[1]' is routed using segments.
+Info:     'u_core.rnd_LUT2_F_1_I1_LUT4_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_S0_O_LUT4_I0_F_LUT3_I1_F' is routed using segments.
+Info:     'cmd_arg[3]' is routed using segments.
+Info:     'cmd_arg[2]' is routed using segments.
+Info:     'u_core.c_wen_n_LUT3_I2_F[0]' is routed using segments.
+Info:     'u_core.lanes[8]_LUT1_I0_21_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_I0_O_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I1_O[0]' is routed using segments.
+Info:     'u_core.cmem.0.24_DO_33_LUT3_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I1_O_LUT2_I0_F_MUX2_LUT5_I1_O_MUX2_LUT6_I0_O_MUX2_LUT7_I0_O_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I1_O_ALU_SUM_COUT_ALU_COUT_1_SUM_MUX2_LUT6_O_I1_MUX2_LUT5_O_I1_LUT3_F_I0_LUT4_I0_F_MUX2_LUT5_I1_O_ALU_SUM_COUT_ALU_COUT_65_SUM_LUT4_F_I0_LUT3_F_I1_LUT3_I0_F[0]' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 43952 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |       36        963 |   36   963 |     43002|       1.29       1.29|
+Info:       2000 |       61       1938 |   25   975 |     42038|       0.73       2.02|
+Info:       3000 |       84       2915 |   23   977 |     41072|       0.65       2.67|
+Info:       4000 |      158       3841 |   74   926 |     40156|       0.71       3.38|
+Info:       5000 |      239       4635 |   81   794 |     39300|       0.41       3.79|
+Info:       6000 |      286       5023 |   47   388 |     38366|       0.26       4.05|
+Info:       7000 |      290       5384 |    4   361 |     37370|       0.21       4.26|
+Info:       8000 |      293       6102 |    3   718 |     36373|       0.24       4.51|
+Info:       9000 |      299       6894 |    6   792 |     35385|       0.35       4.86|
+Info:      10000 |      300       7625 |    1   731 |     34386|       0.45       5.31|
+Info:      11000 |      302       8333 |    2   708 |     33388|       0.44       5.76|
+Info:      12000 |      309       9044 |    7   711 |     32409|       0.49       6.24|
+Info:      13000 |      311       9763 |    2   719 |     31411|       0.49       6.73|
+Info:      14000 |      316      10496 |    5   733 |     30417|       0.58       7.31|
+Info:      15000 |      321      11204 |    5   708 |     29422|       0.66       7.97|
+Info:      16000 |      331      11889 |   10   685 |     28433|       0.51       8.48|
+Info:      17000 |      349      12579 |   18   690 |     27454|       0.57       9.05|
+Info:      18000 |      358      13277 |    9   698 |     26470|       0.52       9.57|
+Info:      19000 |      370      14004 |   12   727 |     25486|       0.62      10.18|
+Info:      20000 |      383      14675 |   13   671 |     24503|       0.61      10.80|
+Info:      21000 |      402      15375 |   19   700 |     23527|       0.70      11.50|
+Info:      22000 |      427      16081 |   25   706 |     22565|       0.77      12.27|
+Info:      23000 |      447      16754 |   20   673 |     21616|       0.68      12.94|
+Info:      24000 |      471      17444 |   24   690 |     20649|       0.85      13.79|
+Info:      25000 |      512      18124 |   41   680 |     19757|       0.76      14.55|
+Info:      26000 |      556      18802 |   44   678 |     18831|       0.78      15.33|
+Info:      27000 |      595      19493 |   39   691 |     17898|       0.76      16.09|
+Info:      28000 |      621      20170 |   26   677 |     16949|       0.86      16.95|
+Info:      29000 |      691      20833 |   70   663 |     16045|       1.00      17.95|
+Info:      30000 |      734      21509 |   43   676 |     15100|       0.84      18.79|
+Info:      31000 |      803      22158 |   69   649 |     14205|       0.97      19.76|
+Info:      32000 |      880      22816 |   77   658 |     13315|       1.06      20.82|
+Info:      33000 |      945      23476 |   65   660 |     12403|       0.98      21.80|
+Info:      34000 |     1035      24194 |   90   718 |     11811|       1.44      23.24|
+Info:      35000 |     1155      24846 |  120   652 |     11101|       1.44      24.68|
+Info:      36000 |     1249      25501 |   94   655 |     10250|       1.20      25.88|
+Info:      37000 |     1367      26151 |  118   650 |      9463|       1.45      27.33|
+Info:      38000 |     1519      26789 |  152   638 |      8724|       1.43      28.76|
+Info:      39000 |     1723      27405 |  204   616 |      8192|       1.74      30.50|
+Info:      40000 |     1877      28079 |  154   674 |      7573|       1.94      32.45|
+Info:      41000 |     2007      28721 |  130   642 |      6823|       1.51      33.96|
+Info:      42000 |     2221      29359 |  214   638 |      6367|       2.20      36.16|
+Info:      43000 |     2431      29990 |  210   631 |      5816|       2.10      38.26|
+Info:      44000 |     2632      30624 |  201   634 |      5272|       2.18      40.44|
+Info:      45000 |     2871      31254 |  239   630 |      4829|       2.44      42.88|
+Info:      46000 |     3099      31864 |  228   610 |      4271|       2.16      45.04|
+Info:      47000 |     3335      32469 |  236   605 |      3695|       2.35      47.39|
+Info:      48000 |     3529      33103 |  194   634 |      3055|       2.06      49.45|
+Info:      49000 |     3792      33699 |  263   596 |      2601|       2.30      51.74|
+Info:      50000 |     4108      34279 |  316   580 |      2246|       3.29      55.03|
+Info:      51000 |     4399      34937 |  291   658 |      2044|       3.29      58.33|
+Info:      52000 |     4783      35490 |  384   553 |      1809|       3.55      61.88|
+Info:      53000 |     5114      36072 |  331   582 |      1460|       3.69      65.56|
+Info:      54000 |     5429      36665 |  315   593 |      1074|       3.15      68.72|
+Info:      55000 |     5739      37274 |  310   609 |       768|       3.09      71.81|
+Info:      56000 |     6012      37913 |  273   639 |       549|       3.23      75.04|
+Info:      57000 |     6258      38600 |  246   687 |        98|       3.17      78.21|
+Info:      57185 |     6311      38717 |   53   117 |         0|       0.62      78.82|
+Info: Routing complete.
+Info: Router1 time 78.82s
+Info: Checksum: 0xa94f9628
+
+Info: Critical path report for clock 'u_core.clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.23  0.23 Source u_core.y_DFFE_Q_2.Q
+Info:    routing  1.08  1.31 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_I0_LUT3_I1_F[1] (3,31) -> (9,19)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_1_F_LUT4_F.I1
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:42.29-42.30
+Info:      logic  0.57  1.88 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_1_F_LUT4_F.F
+Info:    routing  0.55  2.42 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_1_F[1] (9,19) -> (10,17)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_17_F_MUX2_LUT5_O_I1_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.57  2.99 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_17_F_MUX2_LUT5_O_I1_LUT4_F.F
+Info:    routing  0.00  2.99 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_17_F_MUX2_LUT5_O_I1 (10,17) -> (10,17)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_17_F_MUX2_LUT5_O.I1
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:151.13-151.15
+Info:      logic  0.27  3.26 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_17_F_MUX2_LUT5_O.O
+Info:    routing  0.38  3.64 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_17_F[0] (10,17) -> (10,19)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_17_F_LUT4_I0.I0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.55  4.19 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_17_F_LUT4_I0.F
+Info:    routing  0.74  4.93 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F[2] (10,19) -> (5,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_7.I0
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:30.24-30.25
+Info:      logic  0.55  5.48 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_7.COUT
+Info:    routing  0.00  5.48 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[2] (5,20) -> (5,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_6.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.51 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_6.COUT
+Info:    routing  0.00  5.51 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[3] (5,20) -> (5,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_5.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.55 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_5.COUT
+Info:    routing  0.00  5.55 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[4] (5,20) -> (6,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_4.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.58 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_4.COUT
+Info:    routing  0.00  5.58 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[5] (6,20) -> (6,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_3.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.62 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_3.COUT
+Info:    routing  0.00  5.62 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[6] (6,20) -> (6,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_2.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.65 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_2.COUT
+Info:    routing  0.00  5.65 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[7] (6,20) -> (6,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_1.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.69 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_1.COUT
+Info:    routing  0.00  5.69 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[8] (6,20) -> (6,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.72 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0.COUT
+Info:    routing  0.00  5.72 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[9] (6,20) -> (6,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_19.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.76 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_19.COUT
+Info:    routing  0.00  5.76 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[10] (6,20) -> (7,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_18.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.79 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_18.COUT
+Info:    routing  0.00  5.79 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[11] (7,20) -> (7,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_17.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  5.83 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_17.COUT
+Info:    routing  0.00  5.83 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_8_COUT[12] (7,20) -> (7,20)
+Info:                          Sink u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_16.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.47
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.47  6.30 Source u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_16.SUM
+Info:    routing  0.40  6.70 Net u_core.wy_LUT3_F_I0_MUX2_LUT7_O_S0_LUT2_I1_F_LUT4_I1_F_LUT4_I0_F_ALU_I0_SUM[13] (7,20) -> (7,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_25.I1
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:32.24-32.25
+Info:      logic  0.57  7.27 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_25.COUT
+Info:    routing  0.00  7.27 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[14] (7,21) -> (7,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_24.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.30 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_24.COUT
+Info:    routing  0.00  7.30 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[15] (7,21) -> (7,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_23.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.34 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_23.COUT
+Info:    routing  0.00  7.34 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[16] (7,21) -> (7,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_22.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.38 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_22.COUT
+Info:    routing  0.00  7.38 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[17] (7,21) -> (8,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_21.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.41 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_21.COUT
+Info:    routing  0.00  7.41 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[18] (8,21) -> (8,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_20.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.45 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_20.COUT
+Info:    routing  0.00  7.45 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[19] (8,21) -> (8,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_19.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.48 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_19.COUT
+Info:    routing  0.00  7.48 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[20] (8,21) -> (8,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_17.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.51 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_17.COUT
+Info:    routing  0.00  7.51 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[21] (8,21) -> (8,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_16.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.55 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_16.COUT
+Info:    routing  0.00  7.55 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[22] (8,21) -> (8,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_15.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.59 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_15.COUT
+Info:    routing  0.00  7.59 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[23] (8,21) -> (9,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_14.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.62 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_14.COUT
+Info:    routing  0.00  7.62 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[24] (9,21) -> (9,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_13.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.66 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_13.COUT
+Info:    routing  0.00  7.66 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[25] (9,21) -> (9,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_12.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.69 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_12.COUT
+Info:    routing  0.00  7.69 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[26] (9,21) -> (9,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_11.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.72 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_11.COUT
+Info:    routing  0.00  7.72 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[27] (9,21) -> (9,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_10.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.76 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_10.COUT
+Info:    routing  0.00  7.76 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[28] (9,21) -> (9,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_9.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.80 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_9.COUT
+Info:    routing  0.00  7.80 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[29] (9,21) -> (10,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_8.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.83 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_8.COUT
+Info:    routing  0.00  7.83 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_SUM_ALU_SUM_COUT[30] (10,21) -> (10,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT.CIN
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.04  7.86 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT.COUT
+Info:    routing  0.00  7.86 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_TAIL_ALULC (10,21) -> (10,21)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_TAIL_ALULC.CIN
+Info:      logic  0.47  8.33 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_COUT_TAIL_ALULC.SUM
+Info:    routing  0.64  8.98 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0[2] (10,21) -> (9,24)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_SUM_HEAD_ALULC.I0
+Info:                          Defined in:
+Info:                               ../board/cortex_board_top.v:63.37-66.74
+Info:                               ../rtl/cortex/cortex_core.v:143.34-143.57
+Info:                               /usr/bin/../share/yosys/gowin/arith_map.v:52.24-52.25
+Info:      logic  0.55  9.52 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_SUM_HEAD_ALULC.COUT
+Info:    routing  0.00  9.52 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_SUM_HEAD_ALULC (9,24) -> (9,24)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_SUM.CIN
+Info:      logic  0.04  9.56 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_SUM.COUT
+Info:    routing  0.00  9.56 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_SUM_TAIL_ALULC (9,24) -> (9,24)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_SUM_TAIL_ALULC.CIN
+Info:      logic  0.47  10.03 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0_ALU_SUM_TAIL_ALULC.SUM
+Info:    routing  0.14  10.17 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F_I0[1] (9,24) -> (9,24)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.57  10.74 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1_LUT4_F.F
+Info:    routing  0.00  10.74 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O_I1 (9,24) -> (9,24)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O.I1
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:151.13-151.15
+Info:      logic  0.27  11.01 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F_MUX2_LUT5_O.O
+Info:    routing  1.14  12.15 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_I1_LUT3_F_I0_LUT4_I2_F_LUT4_F_1_I1_LUT3_F_I1_LUT2_I0_F[0] (9,24) -> (5,34)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_1_I2_LUT4_F_1.I0
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.55  12.70 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_1_I2_LUT4_F_1.F
+Info:    routing  0.14  12.84 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_1_I2[2] (5,34) -> (5,34)
+Info:                          Sink u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_1.I2
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.46  13.30 Source u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F_LUT4_F_1.F
+Info:    routing  0.17  13.47 Net u_core.predict_mode_LUT4_I0_F_LUT4_F_I2_LUT2_I1_F[2] (5,34) -> (5,33)
+Info:                          Sink u_core.predict_mode_LUT4_I2_F_LUT4_I3.I2
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.46  13.93 Source u_core.predict_mode_LUT4_I2_F_LUT4_I3.F
+Info:    routing  0.14  14.07 Net u_core.predict_mode_LUT4_I2_F_LUT4_I3_F[2] (5,33) -> (5,33)
+Info:                          Sink u_core.predict_mode_LUT4_I2_F_LUT4_I3_F_LUT4_I2.I2
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.46  14.54 Source u_core.predict_mode_LUT4_I2_F_LUT4_I3_F_LUT4_I2.F
+Info:    routing  0.00  14.54 Net u_core.predict_mode_LUT4_I2_F_LUT4_I3_F_LUT4_I2_F[4] (5,33) -> (5,33)
+Info:                          Sink u_core.st_DFF_Q.D
+Info:                          Defined in:
+Info:                               /usr/bin/../share/yosys/techmap.v:575.21-575.22
+Info:      setup  0.04  14.57 Source u_core.st_DFF_Q.D
+Info: 9.05 ns logic, 5.53 ns routing
+
+Info: Max frequency for clock 'u_core.clk': 68.62 MHz (PASS at 27.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 23 endpoint(s)
+Info:          + represents [1,23) endpoint(s)
+Info: [ 14132,  15241) |*+
+Info: [ 15241,  16350) |***********+
+Info: [ 16350,  17459) |************************************************************ 
+Info: [ 17459,  18568) |**********+
+Info: [ 18568,  19677) |*****+
+Info: [ 19677,  20786) |**********************+
+Info: [ 20786,  21895) |*********************************************+
+Info: [ 21895,  23004) |**+
+Info: [ 23004,  24113) |+
+Info: [ 24113,  25222) |+
+Info: [ 25222,  26331) |*+
+Info: [ 26331,  27440) |*+
+Info: [ 27440,  28549) |+
+Info: [ 28549,  29658) |+
+Info: [ 29658,  30767) |+
+Info: [ 30767,  31876) |+
+Info: [ 31876,  32985) |*********+
+Info: [ 32985,  34094) |******+
+Info: [ 34094,  35203) |******+
+Info: [ 35203,  36312) |**+
+
+Info: Program finished normally.

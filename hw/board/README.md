@@ -241,15 +241,15 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 ## Status
 
 - SIMULATED: core and board bit-exact with the integer chip model (0 mismatches).
-- **Bitstream built** with the open-source flow (`hw/build_cortex/build.sh`: yosys + nextpnr-himbaechel + apicula):
-  `hw/build_cortex/cortex_tangnano20k.fs.gz`. Place and route: 46/46 block RAMs (100%), 11,223 LUT4 (54%),
+- **Bitstream built** with the open-source flow (`hw/pnr_cortex/build.sh`: yosys + nextpnr-himbaechel + apicula):
+  `hw/pnr_cortex/cortex_tangnano20k.fs.gz`. Place and route: 46/46 block RAMs (100%), 11,223 LUT4 (54%),
   2,264 flip-flops (14%), 0 of the hardware multipliers; max clock 68.6 MHz (board clock 27 MHz); no hold violations
   (all block-RAM inputs are re-registered on the falling clock edge).
 - Not yet done: a real board run (needs the user's board), power measurement.
 
 ## Run it (on the PC)
 
-1. Ready-made bitstream: unzip `hw/build_cortex/cortex_tangnano20k.fs.gz` and program it with
+1. Ready-made bitstream: unzip `hw/pnr_cortex/cortex_tangnano20k.fs.gz` and program it with
    `openFPGALoader -b tangnano20k cortex_tangnano20k.fs` (SRAM, lost at power-off; add `-f` to write flash), or the
    Gowin Programmer. Check the pin TODOs in `tangnano20k.cst` against your board first (UART 69/70, clock 4, LEDs 15-20).
    To rebuild it yourself, use section 3 above with these files and top `cortex_board_top`:
