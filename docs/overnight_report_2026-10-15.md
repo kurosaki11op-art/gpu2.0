@@ -43,19 +43,26 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 - **Memory transfer**: one chip learns 0-4, then (wiped) 5-9; memories merged on the PC and loaded: 91.4% on all ten
   digits after one short night.
 - **Live demo**: draw a new symbol, teach it in 10 strokes (0.1 s), it is recognised and old digits are kept (90%).
+- **ASIC (SkyWater 130 nm) estimate**: logic under 1 mm^2; ~18.8 mm^2 with open-source SRAM macros; the core is
+  bit-exact with the real SRAM macro models ([details](../hw/results/cortex_asic_estimate.md)).
+- **Few-shot narrowed** (simulation): with "spread" population codes the chip matches a small network with 1 example
+  per class and beats it with 20 on digits; still behind with 5, and on clothing.
 
 ## 4. Honest limits (say these before a judge does)
 
 1. **Not the first chip that keeps learning**: HDC accelerators and Intel Loihi 2 also do continual learning without
    backprop ([prior art](prior_art_cortex.md)). Our combination (dreams from counters, self-ending sleep, no
    multipliers, bit-exact on a $25 FPGA) is what is new.
-2. Few-shot (1-5 examples per class) is still worse than a small neural network.
+2. Few-shot: behind a small neural network with 5 examples per class (and on clothing); level or ahead with 1 and 20 on
+   digits after the spread-code fix (simulation only, not in the chip).
 3. Accuracy all-at-once is below a neural network (digits 96.6 vs 97.8, clothing 83.7 vs 87.3, sound 71.1 vs 75.5).
 4. Nothing is measured on hardware yet. Energy numbers are estimates.
 5. The FPGA is nearly full (about 90% of logic); bigger versions need the PSRAM or a bigger FPGA.
 6. **New conditions of known classes** (e.g. the same digits rotated): the chip forgets the old condition (digits
-   upright 95 -> 45%). Fix found in simulation (keep a frozen copy of the dream memory: back to 86%), costs 2x dream
-   memory; not in the chip yet ([details](../hw/results/cortex_new_condition.md)).
+   upright 95 -> 45%). Fix found and confirmed on the exact chip model (keep a frozen copy of the dream memory: back to
+   85%), costs 2x dream memory; not in the RTL yet ([details](../hw/results/cortex_new_condition.md)).
+8. The sequence memory (earlier lookup core) also partly forgets across text domains (keeps 32-60% of what it learned),
+   so month 6 needs more capacity or the same context trick.
 7. A second sensory layer (V2) did not improve accuracy; rejected.
 
 ## 5. What you can do today (about 30 minutes)
