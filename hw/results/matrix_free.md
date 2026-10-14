@@ -194,3 +194,19 @@ Accuracy per bucket (%), order 2 counts 0-3, order 3, order 4, order 6, none: 22
 | Emma | 44.5% | 0.030 | 0.71 | 0.8% | 95.5% |
 
 Reading: a 17-entry table, no arithmetic, gives usable confidence: the high-confidence bucket is right 90-96% of the time on every document, and confidence ranks right from wrong (AUC 0.70-0.79). Calibration is worse on code (0.07) than prose, because the fitting data mixes both. This is what the draft-length rule needs; it is not yet in the RTL.
+
+## 12. Many users on one chip: shared vs private tables (SIMULATED)
+
+`hw/system/multistream.py`. 8 streams of 25,000 bytes, interleaved byte by byte (concurrent users), each stream with its own 6-byte history; the v2 lookup design (2-way, order-1 fallback).
+"Private, same memory": each user gets 1/8 of the tables. "Shared": one 2^11-set table set used by all. "Private, 8x memory": each user gets a full table set.
+
+| Mix of 8 users | Private, same total memory | Shared | Private, 8x memory |
+|---|---|---|---|
+| 8 different code files (one corpus) | 58.0% | 58.5% (+0.5) | 62.3% |
+| 4 code + 4 prose | 50.5% | 53.4% (+2.8) | 57.1% |
+| 8 prose chunks (11 books) | 37.9% | 45.2% (+7.3) | 46.5% |
+
+Reading:
+1. **At the same memory, sharing the tables across users always helps:** +0.5 points (code), +2.8 (mixed), +7.3 (prose). For prose, 8 users sharing one table set come within 1.3 points of giving each user 8 times the memory.
+2. The gain depends on how much users have in common: code files share little byte-level phrasing; English prose shares a lot.
+3. Caveats: the prose "users" are drawn from the same 11 books, which favours sharing; byte-level accuracy; no real-model or token-level test; software suffix-decoding systems also share history across requests on a CPU, so sharing alone is not unique to hardware.
