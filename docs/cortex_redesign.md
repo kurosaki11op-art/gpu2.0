@@ -66,8 +66,9 @@ provable: a chip that learns continuously, locally and transferably, which today
 Weightless / RAM-based neural networks (WiSARD, 1981; BTHOWeN, 2022; ULEEN, 2023), Tsetlin machines,
 Numenta's hierarchical temporal memory, competitive Hebbian feature learning, complementary learning systems.
 Our contribution is the combination: label-free feature learning + additive count memory + surprise-gated
-correction + merge-by-addition, in one small chip that learns after deployment. Novelty must be checked before any
-claim of "first".
+correction + merge-by-addition, in one small chip that learns after deployment. Novelty checked in
+`docs/prior_art_cortex.md`: continual learning chips without backprop exist (HDC accelerators, Loihi 2), so "first" is
+not claimable; generative dreams from counters with self-regulated sleep, multiplier-free, on a $25 FPGA is what we add.
 
 Related: [Project memory](PROJECT_MEMORY.md), [First proof](../hw/results/cortex_proof.md),
 [Month 1](../hw/results/cortex_month1.md), [Month 2 log](../hw/results/cortex_month2_log.md),

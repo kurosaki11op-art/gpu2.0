@@ -11,6 +11,7 @@ tags: [spark, index]
 - [Journal](journal.md): the step-by-step record.
 - [SPARK Cortex redesign](cortex_redesign.md): design, AI problems targeted, 6-8 month plan, status.
 - [Project scope](scope.md): what is in and out of scope, agreed with the founder.
+- [Prior art for SPARK Cortex](prior_art_cortex.md): what is not new (HDC, Loihi 2, replay) and what we can claim.
 
 ## Brain research behind the design
 
