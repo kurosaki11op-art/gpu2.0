@@ -133,4 +133,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   propagated by OpenSTA): ~6 nJ per clock cycle goes to clocking 20,380 flip-flops (17,200 are encoder memories) and
   25,579 clock-type buffers. Fix is architectural (clock gating, encoder memories into SRAM, compact die); recorded in
   `hw/results/cortex_asic_estimate.md`. ESTIMATED.
+- Clock gating for the ASIC build: `cortex_encoder.v` under `CORTEX_ASIC` gives each flip-flop memory (image,
+  receptor map, code map, detector signs) its own gated clock (`cortex_cg`, sky130 `dlclkp` cell with `CG_SKY130`),
+  running only in cycles that write it. FPGA build unchanged. `run_check_encoder.py --asic`: 0 mismatches (digits,
+  clothing, 20 images each). Layout flow re-running on the gated netlist; the ungated run's logs are kept in
+  `hw/asic/cortex/ungated/`.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

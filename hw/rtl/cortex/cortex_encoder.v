@@ -38,9 +38,18 @@ module cortex_encoder #(parameter AW = 13) (
     integer t;
     initial for (t = 0; t < 4608; t = t + 1) cmap[t] = 1'b0;   // power-up zero (FPGA RAM starts cleared); EMIT re-clears it
 
-    always @(posedge clk) if (pix_we) pix[pix_addr] <= pix_data;
+`ifdef CORTEX_ASIC
+    // ASIC build: each flip-flop memory gets its own gated clock, running only in cycles that write it (an idle
+    // memory then costs no clock power); the FPGA build is unchanged.
+    wire ck_pix, ck_tm;
+    cortex_cg g_pix (.clk(clk), .en(pix_we), .gclk(ck_pix));
+    cortex_cg g_tm (.clk(clk), .en(tm_we), .gclk(ck_tm));
+`else
+    wire ck_pix = clk, ck_tm = clk;
+`endif
+    always @(posedge ck_pix) if (pix_we) pix[pix_addr] <= pix_data;
 `ifndef ENC_LEARN
-    always @(posedge clk) if (tm_we) case (tm_ch)
+    always @(posedge ck_tm) if (tm_we) case (tm_ch)
         2'd0: tm0[tm_f] <= tm_data; 2'd1: tm1[tm_f] <= tm_data; 2'd2: tm2[tm_f] <= tm_data; default: tm3[tm_f] <= tm_data;
     endcase
 `else
@@ -85,6 +94,8 @@ module cortex_encoder #(parameter AW = 13) (
     wire [4:0] cx = (kx == 0) ? ((pxx == 0) ? 5'd0 : pxx - 1'b1) : (kx == 2) ? ((pxx == 27) ? 5'd27 : pxx + 1'b1) : pxx;
     wire [7:0] nval = pix[m28(cy) + cx];
     wire [8:0] avg = nsum[11:3];
+    wire [3:0] bmap_v = {($signed({1'b0, avg}) - $signed({1'b0, ctr}) > 8), ($signed({1'b0, ctr}) - $signed({1'b0, avg}) > 8),
+                         ctr > 150, ctr > 50};
     // window cell (gr, gc) of spot (si, sj)
     wire [4:0] wy = {si, 1'b0} + gr, wx = {sj, 1'b0} + gc;
     wire [3:0] gb = bmap[m28(wy) + wx];
@@ -96,6 +107,14 @@ module cortex_encoder #(parameter AW = 13) (
     wire [2:0] ci = si[3:1], cj = sj[3:1];
     wire [5:0] pcell = {ci, 2'b0} + {ci, 1'b0} + cj;                                  // ci * 6 + cj
     wire [12:0] cidx = {sc, 10'b0} + {sc, 7'b0} + {pcell, 5'b0} + wsel;                // sc * 1152 + cell * 32 + detector
+`ifdef CORTEX_ASIC
+    wire ck_bmap, ck_cmap;
+    wire bmap_wr = (st == E_BIN2), cmap_set = (st == E_SET) && osel, cmap_clr = (st == E_EMIT) && cmap[e];
+    cortex_cg g_bmap (.clk(clk), .en(bmap_wr), .gclk(ck_bmap));
+    cortex_cg g_cmap (.clk(clk), .en(cmap_set | cmap_clr), .gclk(ck_cmap));
+    always @(posedge ck_bmap) bmap[m28(py) + pxx] <= bmap_v;
+    always @(posedge ck_cmap) if (cmap_set) cmap[cidx] <= 1'b1; else cmap[e] <= 1'b0;
+`endif
 
     always @(posedge clk) begin
         done <= 0; out_we <= 0;
@@ -123,8 +142,9 @@ module cortex_encoder #(parameter AW = 13) (
             else kx <= kx + 1'b1;
         end
         E_BIN2: begin
-            bmap[m28(py) + pxx] <= {($signed({1'b0, avg}) - $signed({1'b0, ctr}) > 8),
-                                    ($signed({1'b0, ctr}) - $signed({1'b0, avg}) > 8), ctr > 150, ctr > 50};
+`ifndef CORTEX_ASIC
+            bmap[m28(py) + pxx] <= bmap_v;
+`endif
             ky <= 0; kx <= 0; nsum <= 0; st <= E_BIN;
             if (pxx == 27) begin
                 pxx <= 0;
@@ -150,7 +170,9 @@ module cortex_encoder #(parameter AW = 13) (
 `endif
         end
         E_SET: begin
+`ifndef CORTEX_ASIC
             if (osel) cmap[cidx] <= 1'b1;
+`endif
             if (sc == 3) begin
                 if (sj == 11) begin
                     sj <= 0;
@@ -160,7 +182,12 @@ module cortex_encoder #(parameter AW = 13) (
         end
         // ---- emit the active code bits in order, clearing the map for the next image --------------------------------
         E_EMIT: begin
-            if (cmap[e]) begin out_we <= 1; out_addr <= k[AW-1:0]; out_data <= e; k <= k + 1; cmap[e] <= 1'b0; end
+            if (cmap[e]) begin
+                out_we <= 1; out_addr <= k[AW-1:0]; out_data <= e; k <= k + 1;
+`ifndef CORTEX_ASIC
+                cmap[e] <= 1'b0;
+`endif
+            end
             if (e == 4607) st <= E_DONE; else e <= e + 1;
         end
         E_DONE: begin count <= k; done <= 1; busy <= 0; st <= E_IDLE; end
@@ -204,4 +231,16 @@ module cortex_encoder #(parameter AW = 13) (
         default: st <= E_IDLE;
         endcase
     end
+endmodule
+
+// Clock gate: gclk follows clk in cycles where en (sampled while clk is low) is 1. Synthesis for SKY130 (CG_SKY130)
+// uses the library's integrated clock-gating cell; simulation uses the equivalent latch + AND.
+module cortex_cg (input wire clk, input wire en, output wire gclk);
+`ifdef CG_SKY130
+    sky130_fd_sc_hd__dlclkp_1 u_icg (.CLK(clk), .GATE(en), .GCLK(gclk));
+`else
+    reg l = 1'b0;
+    always @(clk or en) if (!clk) l = en;
+    assign gclk = clk & l;
+`endif
 endmodule
