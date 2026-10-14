@@ -143,4 +143,14 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   bank select (`sram_array`, 126 gates) on top of the encoder gates; core still bit-exact with the macro models.
   Layout ~42 MHz; power 77 mW (10% activity) / 62 mW (1%), i.e. ~2-2.5 uJ per decision, mostly clock tree.
   ESTIMATED. Docs, claims sheet and report updated.
+- FPGA bitstream with the dream-batch command (45): **does not fit yet**. 19,645 LUT4 (94%, +215 over the last
+  build that fit, which itself legalised only after 330 s); nextpnr seeds 1 (stuck 1 h), 2 and 3 fail with "Unable to
+  find legal placement". RTL is still bit-exact (board check re-run on the current RTL: 136 commands, 0 mismatches).
+  Trying the SA placer and a higher HeAP density; fallback is to trim logic. The committed bitstream remains the
+  previous one (no command 45); `cortex_host.py` must not use batches with it.
+- Host safety fix: `cortex_host.py` sends dreams in batches (command 45) only with `--batch`; by default it sends
+  one DREAM per message, so it works with the committed bitstream (dry run and schedule check: identical results).
+- FPGA fit attempt: SA placer crashed, HeAP at higher density failed. Packed the encoder's code map 4 bits per word in
+  the FPGA build (1,152 x 4 instead of 4,608 x 1 LUT-RAM bits; read-modify-write); encoder checks (FPGA, ASIC, learn)
+  and the board check pass. Re-running place and route.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -34,9 +34,17 @@ module cortex_encoder #(parameter AW = 13) (
     reg [7:0]  pix  [0:783];
     reg [3:0]  bmap [0:783];
     reg [24:0] tm0 [0:31], tm1 [0:31], tm2 [0:31], tm3 [0:31];
+`ifdef CORTEX_ASIC
     reg        cmap [0:4607];
+`else
+    reg  [3:0] cmap4 [0:1151];                  // FPGA: code map packed 4 bits per word (fills the small LUT RAMs)
+`endif
     integer t;
-    initial for (t = 0; t < 4608; t = t + 1) cmap[t] = 1'b0;   // power-up zero (FPGA RAM starts cleared); EMIT re-clears it
+`ifdef CORTEX_ASIC
+    initial for (t = 0; t < 4608; t = t + 1) cmap[t] = 1'b0;   // power-up zero; EMIT re-clears it
+`else
+    initial for (t = 0; t < 1152; t = t + 1) cmap4[t] = 4'b0;  // power-up zero (FPGA RAM starts cleared); EMIT re-clears it
+`endif
 
 `ifdef CORTEX_ASIC
     // ASIC build: each flip-flop memory gets its own gated clock, running only in cycles that write it (an idle
@@ -108,6 +116,12 @@ module cortex_encoder #(parameter AW = 13) (
     wire [5:0] pcell = {ci, 2'b0} + {ci, 1'b0} + cj;                                  // ci * 6 + cj
     wire [12:0] cidx = {sc, 10'b0} + {sc, 7'b0} + {pcell, 5'b0} + wsel;                // sc * 1152 + cell * 32 + detector
 `ifdef CORTEX_ASIC
+    wire       cbit = cmap[e];
+`else
+    wire [3:0] cword = cmap4[e[12:2]];
+    wire       cbit = cword[e[1:0]];
+`endif
+`ifdef CORTEX_ASIC
     wire ck_bmap, ck_cmap;
     wire bmap_wr = (st == E_BIN2), cmap_set = (st == E_SET) && osel, cmap_clr = (st == E_EMIT) && cmap[e];
     cortex_cg g_bmap (.clk(clk), .en(bmap_wr), .gclk(ck_bmap));
@@ -171,7 +185,7 @@ module cortex_encoder #(parameter AW = 13) (
         end
         E_SET: begin
 `ifndef CORTEX_ASIC
-            if (osel) cmap[cidx] <= 1'b1;
+            if (osel) cmap4[cidx[12:2]] <= cmap4[cidx[12:2]] | (4'b1 << cidx[1:0]);
 `endif
             if (sc == 3) begin
                 if (sj == 11) begin
@@ -182,10 +196,10 @@ module cortex_encoder #(parameter AW = 13) (
         end
         // ---- emit the active code bits in order, clearing the map for the next image --------------------------------
         E_EMIT: begin
-            if (cmap[e]) begin
+            if (cbit) begin
                 out_we <= 1; out_addr <= k[AW-1:0]; out_data <= e; k <= k + 1;
 `ifndef CORTEX_ASIC
-                cmap[e] <= 1'b0;
+                cmap4[e[12:2]] <= cmap4[e[12:2]] & ~(4'b1 << e[1:0]);
 `endif
             end
             if (e == 4607) st <= E_DONE; else e <= e + 1;
