@@ -1,1 +1,0 @@
-Warning: Replacing memory \acc with list of registers. See ../rtl/cortex/cortex_core.v:127

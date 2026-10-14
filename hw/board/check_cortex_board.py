@@ -54,6 +54,12 @@ for t in r.choice(np.where(yte < 3)[0], 20, replace=False):
     a = np.nonzero(cte[t])[0]
     s = np.array([m.W[c, a].astype(int).sum() if m.known[c] else -(1 << 40) for c in range(10)])
     cmd([0x50, len(a) & 255, len(a) >> 8] + [x for v in a for x in (int(v) & 255, int(v) >> 8)], [int(s.argmax())])
+# ---- dream batches (command 45): several dreams per message; reply = how many surprised the table ----
+for batch in ([0, 1, 2, 0], [2] * 3 + [1, 0, 3], [3], [int(v) for v in r.randint(0, 4, size=256)]):
+    w = 0
+    for c in batch:
+        k = _dream(m.on, m.n, c, m.rng, buf); w += _practise(m.W, buf, k, c, m.known, m.margin, m.cmax)
+    cmd([0x45, len(batch) & 255] + batch, [w & 255, w >> 8])                     # 256 is sent as 0
 # ---- memory transfer: read counts and words, write words and counts, then predict with the changed memory ----
 def wordbytes(b):
     w = sum((int(m.W[c, b]) & 0x1F) << (5 * c) for c in range(10)); cw = sum(int(m.on[c, b]) << (10 * c) for c in range(10))

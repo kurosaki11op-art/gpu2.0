@@ -13,6 +13,8 @@
 //                           Reply: updated (1 if the table was written).
 //   50 nl nh i0l i0h ...    PREDICT on the listed code bits. Reply: predicted class.
 //   44 c                    DREAM a class-c example and practise on it. Reply: dream length low, high, updated.
+//   45 n c1 .. cn           DREAM BATCH: n dreams (n = 0 means 256) of classes c1..cn, in that order, each practised.
+//                           Reply: how many surprised the table (2 bytes, little-endian). One round trip for n dreams.
 //   54 + 128 x 4 bytes      load the 128 sensory detectors (channel-major, 32 per channel; 25 bits little-endian,
 //                           bit r*5+c = window row r, column c). Reply 54.
 //   49 c + 784 bytes        IMAGE: the chip encodes the 28x28 image itself (cortex_encoder.v), then LEARNs it as class c
@@ -28,11 +30,7 @@
 // led[3] heartbeat, led[4] UART byte received (toggle), led[5] last prediction was class 0..4 (on) or 5..9 (off).
 module cortex_board_top #(
     parameter CLK_HZ   = 27_000_000,
-`ifdef FAST_UART
-    parameter BAUD     = 921600,           // optional fast build (define FAST_UART); only if the USB bridge supports it
-`else
     parameter BAUD     = 115200,
-`endif
     parameter POR_BITS = 16,
     parameter NB       = 4608,
     parameter AW       = 13
@@ -93,11 +91,15 @@ module cortex_board_top #(
 
     // ------------------------------------------------------------ command FSM
     localparam S_CMD = 0, S_ARG = 1, S_NL = 2, S_NH = 3, S_IL = 4, S_IH = 5, S_GO = 6, S_WAIT = 7, S_SEED = 8, S_REP = 9,
-               S_TM = 10, S_IARG = 11, S_PIX = 12, S_ENC = 13, S_AL = 14, S_AH = 15, S_WB = 16, S_WS = 17;
+               S_TM = 10, S_IARG = 11, S_PIX = 12, S_ENC = 13, S_AL = 14, S_AH = 15, S_WB = 16, S_WS = 17,
+               S_EN = 18, S_EQ = 19;
     reg [4:0] state = S_CMD; reg [4:0] wcnt = 0; reg [7:0] op = 0; reg [AW:0] cnt = 0; reg [7:0] lo = 0;
     reg [8:0] tidx = 0; reg [23:0] tacc = 0; reg [9:0] pcnt = 0; reg enc_wait = 1'b0;
     reg [6:0] sidx = 0; reg [31:0] sw = 0; reg wrote = 1'b0, lowcls = 1'b0, cmd_led = 1'b0, rx_led = 1'b0;
     reg go_wait = 1'b0; integer j;
+    // dream batch: classes queue up as they arrive; the core dreams them one after another
+    reg [3:0] qbuf [0:255]; reg [8:0] etotal = 0, recv = 0, popped = 0, edone = 0; reg [15:0] ewrites = 0;
+    reg eng = 1'b0, engwait = 1'b0;
     always @(posedge clk) begin
         cmd_valid <= 1'b0; lb_we <= 1'b0; lane_we <= 1'b0; start_reply <= 1'b0; pix_we <= 1'b0; tm_we <= 1'b0; enc_start <= 1'b0;
         if (rx_valid) rx_led <= ~rx_led;
@@ -116,6 +118,7 @@ module cortex_board_top #(
                 8'h52, 8'h57: state <= S_AL;
                 8'h4E: begin cmd_op <= 3'd7; cmd_arg <= 4'd3; state <= S_GO; end          // arg 3: no-op, just reply counts
                 8'h4D: begin wcnt <= 0; state <= S_WB; end
+                8'h45: state <= S_EN;
                 default: ;
             endcase
         end
@@ -142,6 +145,24 @@ module cortex_board_top #(
         end
         S_ENC: if (enc_wait) begin if (!pix_we) begin enc_start <= 1'b1; enc_wait <= 1'b0; end end
                else if (enc_done) begin lb_len <= enc_count; state <= S_GO; end
+        S_EN: if (rx_valid) begin
+            etotal <= (rx_data == 8'd0) ? 9'd256 : {1'b0, rx_data};
+            recv <= 0; popped <= 0; edone <= 0; ewrites <= 0; eng <= 1'b0; engwait <= 1'b0; state <= S_EQ;
+        end
+        S_EQ: begin
+            if (rx_valid && recv != etotal) begin qbuf[recv[7:0]] <= rx_data[3:0]; recv <= recv + 1'b1; end
+            if (!eng) begin
+                if (edone == etotal) begin
+                    rbuf[0] <= ewrites[7:0]; rbuf[1] <= ewrites[15:8]; rlen <= 2; state <= S_REP;
+                end else if (popped != recv && !busy) begin
+                    cmd_op <= 3'd3; cmd_arg <= qbuf[popped[7:0]]; cmd_valid <= 1'b1;
+                    popped <= popped + 1'b1; eng <= 1'b1; engwait <= 1'b1;
+                end
+            end else if (engwait) engwait <= 1'b0;                  // the core raises busy the cycle after cmd_valid
+            else if (!busy && !cmd_valid) begin
+                eng <= 1'b0; edone <= edone + 1'b1; ewrites <= ewrites + updated; wrote <= updated;
+            end
+        end
         S_AL: if (rx_valid) begin mem_addr[7:0] <= rx_data; state <= S_AH; end
         S_AH: if (rx_valid) begin
             mem_addr[AW-1:8] <= rx_data[AW-9:0]; cmd_op <= 3'd7;

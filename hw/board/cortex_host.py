@@ -28,7 +28,7 @@ class Board:
     that the chip encodes itself (cortex_encoder.v; load the detectors first with detectors())"""
     def __init__(self, port, baud, onchip=False):
         import serial
-        self.s = serial.Serial(port, baud, timeout=5); self.onchip = onchip
+        self.s = serial.Serial(port, baud, timeout=5); self.onchip = onchip; self.night_total = 0
 
     def _x(self, out, n):
         self.s.write(bytes(out)); r = self.s.read(n)
@@ -37,8 +37,9 @@ class Board:
         return r
 
     def ping(self): return self._x([0xE0], 1) == b"\x5a"
+    def clear_night(self): self.night_total = 0
     def seed(self, lanes): return self._x([0x53] + [b for v in lanes for b in int(v).to_bytes(4, "little")], 1)
-    def clear(self): return self._x([0x43], 1)
+    def clear(self): self.night_total = 0; return self._x([0x43], 1)
     def known(self, c): return self._x([0x4B, c], 1)
 
     @staticmethod
@@ -60,6 +61,10 @@ class Board:
 
     def dream(self, c):
         r = self._x([0x44, c], 3); return r[0] | (r[1] << 8), r[2]
+
+    def dreams(self, classes):
+        """up to 256 dreams in one message (command 45); returns how many of them surprised the table"""
+        r = self._x([0x45, len(classes) & 255] + [int(c) for c in classes], 2); return r[0] | (r[1] << 8)
 
     def export(self, nb=4608):
         """read everything the chip knows: table, dream counts, example counts, known classes"""
@@ -88,10 +93,11 @@ class Emu:
         self.f = (_count, _practise, _dream)
         self.W = np.zeros((10, nb), np.int8); self.on = np.zeros((10, nb), np.uint16); self.n = np.zeros(10, np.int32)
         self.kn = np.zeros(10, np.bool_); self.rng = np.zeros(32, np.uint32); self.buf = np.zeros(nb, np.int32)
+        self.night_total = 0
 
     def ping(self): return True
     def seed(self, lanes): self.rng[:] = lanes
-    def clear(self): self.W[:] = 0; self.on[:] = 0; self.n[:] = 0; self.kn[:] = False
+    def clear(self): self.W[:] = 0; self.on[:] = 0; self.n[:] = 0; self.kn[:] = False; self.night_total = 0
     def known(self, c): self.kn[c] = True
 
     def learn(self, c, row):
@@ -101,6 +107,9 @@ class Emu:
     def dream(self, c):
         k = self.f[2](self.on, self.n, c, self.rng, self.buf)
         return k, self.f[1](self.W, self.buf, k, c, self.kn, RULE["margin"], RULE["cmax"])
+
+    def dreams(self, classes):
+        return sum(self.dream(int(c))[1] for c in classes)
 
     def export(self, nb=None):
         return {"W": self.W.copy(), "on": self.on.copy(), "n": self.n.copy(), "known": self.kn.copy()}
@@ -125,44 +134,42 @@ def merge(a, b, top=1023):
 
 
 def night(dev, known):
-    """one self-regulated night over all known classes"""
-    kn = sorted(known); blockw = run = 0
-    for _ in range(RULE["night"]):
-        for j in range(RULE["ndream"] * len(kn)):
-            blockw += dev.dream(kn[j % len(kn)])[1]; run += 1
-            if run % 256 == 0:
-                if blockw > RULE["night_stop"]:
-                    return run
-                blockw = 0
+    """one self-regulated night over all known classes (blocks of 256 dreams, one message each)"""
+    kn = sorted(known); seq = [kn[j % len(kn)] for j in range(RULE["ndream"] * len(kn))] * RULE["night"]
+    run = 0
+    for k in range(0, len(seq), 256):
+        w = dev.dreams(seq[k:k + 256]); run += len(seq[k:k + 256])
+        if len(seq[k:k + 256]) == 256 and w > RULE["night_stop"]:
+            break
     return run
 
 
 def run_stage(dev, code, y, known):
-    """one stage, the same order of operations as cortex_int._stage"""
+    """one stage, exactly the order of operations of cortex_int._stage. Dreams are sent in batches (command 45), and
+    night blocks of 256 are counted over the chip's whole life (dev.night_total), as the chip model counts them."""
     new = sorted(set(y.tolist())); old = [c for c in sorted(known) if c not in new]
     for c in new:
         dev.known(c); known.add(c)
     total, done, rr = RULE["ndream"] * len(old), 0, 0
     for i in range(len(y)):
         dev.learn(int(y[i]), code[i])
-        for _ in range(RULE["daydream"]):
-            dev.dream(int(y[i]))
+        batch = [int(y[i])] * RULE["daydream"]
         due = (total * (i + 1)) // len(y)
         while done < due:
-            dev.dream(old[rr % len(old)]); rr += 1; done += 1
+            batch.append(old[rr % len(old)]); rr += 1; done += 1
+        for k in range(0, len(batch), 256):
+            dev.dreams(batch[k:k + 256])
     night = 0
     if old:
-        kn = sorted(known); blockw = 0
-        for _ in range(RULE["night"]):
-            stop = False
-            for j in range(RULE["ndream"] * len(kn)):
-                blockw += dev.dream(kn[j % len(kn)])[1]; night += 1
-                if night % 256 == 0:
-                    if blockw > RULE["night_stop"]:
-                        stop = True; break
-                    blockw = 0
-            if stop:
-                break
+        kn = sorted(known); seq = [kn[j % len(kn)] for j in range(RULE["ndream"] * len(kn))] * RULE["night"]
+        pos = blockw = 0
+        while pos < len(seq):
+            chunk = seq[pos:pos + 256 - dev.night_total % 256]
+            blockw += dev.dreams(chunk); pos += len(chunk); night += len(chunk); dev.night_total += len(chunk)
+            if dev.night_total % 256 == 0:
+                if blockw > RULE["night_stop"]:
+                    break
+                blockw = 0
     return night
 
 

@@ -237,6 +237,7 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 | `4C c nl nh` + n x (lo hi) | LEARN one example of class c (its active code bits) | 1 if the table was written |
 | `50 nl nh` + n x (lo hi) | PREDICT | class |
 | `44 c` | DREAM one class-c example and practise on it | dream length lo, hi, 1 if the table was written |
+| `45 n c1..cn` | DREAM BATCH: n dreams (0 = 256) of the listed classes, in order, each practised | surprises (2 bytes) |
 | `54` + 512 bytes | load the 128 sensory detectors (4 bytes each, 25 bits used) | `54` |
 | `49 c` + 784 bytes | IMAGE: the chip encodes a raw 28x28 image itself, then LEARNs it as class c (or PREDICTs if c = FF) | updated / class |
 | `52 bl bh` | read memory word b (table 50 bits in 7 bytes, dream counts 100 bits in 13) | 20 bytes |
@@ -270,7 +271,8 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 4. Real board, quick: `python cortex_host.py --port COM5 --per-class 300 --data D:\cortex_data` (COM port from Device
    Manager; the UART is usually the second BL616 port). The board should print the same accuracies as the dry run,
    because the core is bit-exact with the emulator. Any difference means a hardware or link problem.
-5. Full run: drop `--per-class` (about an hour at 115,200 baud; the serial link, not the chip, sets the speed).
+5. Full run: drop `--per-class`. Dreams travel in batches of up to 256 per message, so the serial link is no longer
+   the main cost; the time is mostly the chip dreaming (~1 ms per dream).
 6. Let the chip see for itself: add `--onchip-encode`; the PC then sends the detectors once and raw images after that.
    Results must be identical to step 4 (the encoder is bit-exact with the PC's).
 

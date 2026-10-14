@@ -101,7 +101,13 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Dendritic conjunction bits (pairs of features per cell hashed into 8,192 extra bits): worse (clothing 82.9 vs 84.7,
   digits in stages 90.3 vs 94.1) - rejected.
 - Month 4 board plan (`docs/month4_board_plan.md`) and `hw/board/cortex_bench.py` (power/speed phases for a USB meter).
-- Optional 921,600-baud bitstream: re-parameterising the top (chparam or a wrapper) made synthesis ~5k cells bigger
-  (106-107% LUTs); a compile-time define (FAST_UART) keeps it at 24.2k cells; place and route running.
+- Optional 921,600-baud bitstream: dropped. Every variant overflowed the FPGA in place and route (106-107% LUTs) while
+  the standard build fits at 93%; the design sits at the edge. Not needed: batched dreams (below) remove the link
+  bottleneck.
+- **Found and fixed a host/model mismatch**: the model counts night blocks of 256 over the chip's whole life, the host
+  counted per night; on clothing (nights end early) the board would have drifted from the model. Host now counts like
+  the model; new check `hw/board/check_host_schedule.py` (digits and clothing: identical state).
+- **Dream batches** (board command 45: up to 256 dreams per message, reply = surprises): ~250x fewer USB round trips,
+  identical results; board check bit-exact including a full 256 batch; host uses it for day dreams and nights.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
