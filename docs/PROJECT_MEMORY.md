@@ -69,21 +69,23 @@ Last updated: 2026-10-14.
   SPARK Cortex keeps learning on the chip, never forgets, and chips can merge their knowledge.
 - Plan and status: `docs/cortex_redesign.md`.
 
-## 4. SPARK Cortex: how it works (current best design)
+## 4. SPARK Cortex: how it works (current design, month 2-3, in the chip)
 
-| Part | Brain principle | What it does | Code |
+| Part | Brain principle | What it does | Code / RTL |
 |---|---|---|---|
-| Receptors | thresholds | brightness levels -> on/off bits (8 levels for sound) | `feature_layer.binarize` |
-| Retina centre-surround | ganglion cells | on if brighter/darker than the 3x3 neighbour average | `binarize(('on',d))` |
-| Cochlea | basilar membrane | 28 shift-add resonators, hearing-shaped bandwidths, log by leading zeros, gain control -> 28x28 sound picture | `hw/brain/cochlea.py` (`sound_picture_res`) |
-| Sensory cortex | competition + Hebbian | 5x5 receptive fields, winner-take-all detectors learned without labels from stage-1 data only, 2x2 OR pooling | `feature_layer.Features` |
-| Concept cells | per-class prototypes | 32 cells per class learn by counting within their class only: cannot forget, merge by pooling | `feature_layer.ConceptMemory` |
-| Fast correction table | surprise / dopamine | small signed counters per (class, bit); written only when wrong or close | `sleep.SurpriseTable` |
-| Sleep | hippocampal replay | concept cells dream old classes; the table practises on new data + dreams | `sleep.py`, `proof_suite_v2.py` |
-| Merge | additive memories | pool two chips' concept cells, one sleep rebuilds the table | `ConceptMemory.merge` |
+| Receptors | thresholds | brightness > 50 and > 150 -> on/off bits (sound: 8 levels) | `feature_layer.binarize`, `cortex_encoder.v` |
+| Retina centre-surround | ganglion cells | ON/OFF if brighter/darker than the 3x3 neighbour average by > 8 | same |
+| Cochlea (sound) | basilar membrane | 28 shift-add resonators -> 28x28 sound picture | `hw/brain/cochlea.py` (not in RTL) |
+| Sensory cortex | competition, Hebbian | 5x5 windows, 32 label-free detectors per channel (winner by XNOR + bit count), 2x2 pooling -> 4,608-bit code | `Features` / `cortex_encoder.v` (detectors loaded) |
+| Fast table | surprise / dopamine | 5-bit signed counters per (class, bit); decides everything; written only when wrong or close | `cortex_core.v` |
+| Dream memory | synaptic scaling | 10-bit per-class on-counts per bit, halved when the class count fills | `cortex_core.v` |
+| Day | replay, daydreaming | each example once: count, practise, one daydream; dreams of old classes interleaved | host schedule / `cortex_int._stage` |
+| Night | sleep | dreams of all known classes, up to 2 passes; ends itself after 256 dreams with > 2 surprises | same |
+| Dreams | generative replay | per bit: xorshift random draw below the class count (redraw if too big), on if below the bit's count | `cortex_core.v` |
+| Memory transfer | additive memories | export / import words; merge = add tables (saturate) and counts (halve when full), then one night | `cortex_core.v` op 7, `cortex_host.merge` |
+| Context memory (sim only) | hippocampal context | when known classes return under a new condition, dream a frozen copy of yesterday's counts | `cortex_int.py context=True` |
 
-The chip uses compare, count, add, XOR and table lookups only. The simulator uses numpy products only as a fast way
-to add table values.
+Arithmetic: compare, count, add, shift, XOR, table lookup. No multiplier, no divider, no backprop (also true in RTL).
 
 ## 5. SPARK Cortex results so far (all SIMULATED)
 
@@ -109,14 +111,15 @@ chip model (each example seen once): all at once 96.6 / 83.7 / 71.1; 5 stages **
 20.0 / 15.9; with replay 49.6 / 37.8 / 27.8); merge 93.0 / 82.3 / 62.6. Memory images 84 KB (137x smaller, fits block
 RAM), sound 422 KB. Few-shot still behind the network. Known limit: dreams with independent bits cap images.
 
-Month 3 (started early): integer model `hw/brain/cortex_int.py`; core RTL `hw/rtl/cortex/cortex_core.v` bit-exact
-(0 mismatches, `run_check_cortex.py`); Tang Nano top `hw/board/cortex_board_top.v` bit-exact over UART
-(`check_cortex_board.py`). Sensory encoder in RTL too (`cortex_encoder.v`, bit-exact). **Bitstream built and timing
-met** for the whole chip (raw images in): `hw/pnr_cortex/cortex_tangnano20k.fs.gz` (46/46 BSRAM, 93% LUT4, 39% FF,
-0 multipliers, 73.0 MHz max at 27 MHz; includes memory export/import). Tests since: 10 one-class stages 93.5 / 78.7 / 70.5 (network ~10%); vs HDC
-(closest prior art) ahead on digits and sound, level on clothing; energy ~74x per decision (ESTIMATED). Host program `hw/board/cortex_host.py` (dry run matches the
-chip model exactly). Waiting on the user: program the board, run the host, measure power (month 4).
-Next on our side: split dreams in PSRAM (clothing +3), feature encoder in RTL, energy estimate, seed spread.
+Month 3 (done early, `hw/results/cortex_month3.md`): integer chip model `hw/brain/cortex_int.py`; core
+`hw/rtl/cortex/cortex_core.v`, sensory encoder `cortex_encoder.v`, Tang Nano top `hw/board/cortex_board_top.v` - all
+bit-exact (0 mismatches; core also with the SKY130 SRAM models). **Bitstream** `hw/pnr_cortex/cortex_tangnano20k.fs.gz`:
+raw images in, learning, dreaming, memory export/import; 46/46 BSRAM, 93% LUT4, 0 multipliers, 73 MHz max at 27 MHz.
+Host `hw/board/cortex_host.py` (+ `--onchip-encode`), transfer demo `cortex_transfer.py` (91.4% after merging two
+halves), live demo `cortex_demo.py`. Extra evidence: 10 one-class stages 93.5 / 78.7 / 70.5 (network ~10%); vs HDC
+ahead on digits and sound, level on clothing; energy ~74x per decision, ~200x per learned example (ESTIMATED); ASIC
+SKY130 ~18.8 mm2 (17.9 of it open SRAM macros; logic < 1 mm2). Rejected: second sensory layer (V2), wider pooling
+for few-shot. Waiting on the user: run on the board, measure power (month 4).
 
 Limit found 15 Oct: "never forgets" holds for new classes, NOT for a new condition of known classes (domain shift);
 fix = frozen copy of the dream counts (2x dream memory), simulated only (`hw/results/cortex_new_condition.md`).
