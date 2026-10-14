@@ -1,0 +1,39 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (integer reference model)",
+ "night_passes": 0,
+ "count_bits": 10,
+ "daydream": 0,
+ "replay_k": 64,
+ "stages": [
+  {
+   "stage": 1,
+   "acc": 0.9468503937007874,
+   "table_writes": 470
+  },
+  {
+   "stage": 2,
+   "acc": 0.8315585672797676,
+   "table_writes": 1109
+  },
+  {
+   "stage": 3,
+   "acc": 0.7459910198845414,
+   "table_writes": 1997
+  },
+  {
+   "stage": 4,
+   "acc": 0.7126269956458636,
+   "table_writes": 2429
+  },
+  {
+   "stage": 5,
+   "acc": 0.6641994546162836,
+   "table_writes": 3011
+  }
+ ],
+ "memory_KB": {
+  "fast_table": 140.625,
+  "dream_counts": 281.26220703125
+ }
+}

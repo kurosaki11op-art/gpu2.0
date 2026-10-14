@@ -1,0 +1,3 @@
+mnist night 0 B 10 daydream 1 replay 0 {'stage': 1, 'acc': 0.9990543735224586, 'table_writes': 38} 1s
+mnist night 0 B 10 daydream 1 replay 0 {'stage': 2, 'acc': 0.9179696896800578, 'table_writes': 323} 3s
+mnist night 0 B 10 daydream 1 replay 0 {'stage': 3, 'acc': 0.9477698557453159, 'table_writes': 200} 4s

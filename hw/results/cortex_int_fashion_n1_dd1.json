@@ -1,0 +1,39 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (integer reference model)",
+ "night_passes": 1,
+ "count_bits": 10,
+ "daydream": 1,
+ "replay_k": 0,
+ "stages": [
+  {
+   "stage": 1,
+   "acc": 0.986,
+   "table_writes": 186
+  },
+  {
+   "stage": 2,
+   "acc": 0.8935,
+   "table_writes": 575
+  },
+  {
+   "stage": 3,
+   "acc": 0.8593333333333333,
+   "table_writes": 823
+  },
+  {
+   "stage": 4,
+   "acc": 0.769125,
+   "table_writes": 3096
+  },
+  {
+   "stage": 5,
+   "acc": 0.7931,
+   "table_writes": 545
+  }
+ ],
+ "memory_KB": {
+  "fast_table": 28.125,
+  "dream_counts": 56.26220703125
+ }
+}

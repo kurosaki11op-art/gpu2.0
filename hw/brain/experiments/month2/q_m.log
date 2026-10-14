@@ -1,0 +1,3 @@
+mnist k 1 {'none': 0.3748, 'rate': 0.3441, 'jitter': 0.2678, 'both': 0.2664}
+mnist k 5 {'none': 0.5572, 'rate': 0.5577, 'jitter': 0.579, 'both': 0.5103}
+mnist k 20 {'none': 0.8247, 'rate': 0.7994, 'jitter': 0.8272, 'both': 0.8356}

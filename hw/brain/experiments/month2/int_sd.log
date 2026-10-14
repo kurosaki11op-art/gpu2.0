@@ -1,0 +1,5 @@
+speech night 0 B 10 daydream 1 replay 64 {'stage': 1, 'acc': 0.9330708661417323, 'table_writes': 466} 4s
+speech night 0 B 10 daydream 1 replay 64 {'stage': 2, 'acc': 0.8054211035818006, 'table_writes': 1106} 9s
+speech night 0 B 10 daydream 1 replay 64 {'stage': 3, 'acc': 0.7511225144323285, 'table_writes': 2063} 18s
+speech night 0 B 10 daydream 1 replay 64 {'stage': 4, 'acc': 0.710208030962748, 'table_writes': 2458} 32s
+speech night 0 B 10 daydream 1 replay 64 {'stage': 5, 'acc': 0.6844565640825867, 'table_writes': 2996} 51s
