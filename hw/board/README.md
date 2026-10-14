@@ -237,14 +237,19 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 | `4C c nl nh` + n x (lo hi) | LEARN one example of class c (its active code bits) | 1 if the table was written |
 | `50 nl nh` + n x (lo hi) | PREDICT | class |
 | `44 c` | DREAM one class-c example and practise on it | dream length lo, hi, 1 if the table was written |
+| `54` + 512 bytes | load the 128 sensory detectors (4 bytes each, 25 bits used) | `54` |
+| `49 c` + 784 bytes | IMAGE: the chip encodes a raw 28x28 image itself, then LEARNs it as class c (or PREDICTs if c = FF) | updated / class |
 
 ## Status
 
 - SIMULATED: core and board bit-exact with the integer chip model (0 mismatches).
 - **Bitstream built** with the open-source flow (`hw/pnr_cortex/build.sh`: yosys + nextpnr-himbaechel + apicula):
-  `hw/pnr_cortex/cortex_tangnano20k.fs.gz`. Place and route: 46/46 block RAMs (100%), 11,223 LUT4 (54%),
-  2,264 flip-flops (14%), 0 of the hardware multipliers; max clock 68.6 MHz (board clock 27 MHz); no hold violations
-  (all block-RAM inputs are re-registered on the falling clock edge).
+  `hw/pnr_cortex/cortex_tangnano20k.fs.gz`, **including the on-chip sensory encoder** (`hw/rtl/cortex/cortex_encoder.v`,
+  bit-exact with `Features.encode`: 0 mismatching images of 40 digits and 40 clothing images, ~21,400 cycles per image).
+  Place and route: 46/46 block RAMs (100%), 18,335 LUT4 (88%), 5,604 flip-flops (36%), 491/648 LUT-RAMs, 0 of the
+  hardware multipliers; max clock 66.2 MHz (board clock 27 MHz); no hold violations (all block-RAM inputs are
+  re-registered on the falling clock edge). The FPGA is now nearly full.
+- Without the encoder (PC sends codes): 11,223 LUT4 (54%), 68.6 MHz.
 - Not yet done: a real board run (needs the user's board), power measurement.
 
 ## Run it (on the PC)
@@ -262,6 +267,8 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
    Manager; the UART is usually the second BL616 port). The board should print the same accuracies as the dry run,
    because the core is bit-exact with the emulator. Any difference means a hardware or link problem.
 5. Full run: drop `--per-class` (about an hour at 115,200 baud; the serial link, not the chip, sets the speed).
+6. Let the chip see for itself: add `--onchip-encode`; the PC then sends the detectors once and raw images after that.
+   Results must be identical to step 4 (the encoder is bit-exact with the PC's).
 
 LEDs: led0 toggles per command, led1 core busy, led2 the last example or dream changed the table (surprise), led3
 heartbeat, led4 UART activity, led5 last prediction was a class 0-4.

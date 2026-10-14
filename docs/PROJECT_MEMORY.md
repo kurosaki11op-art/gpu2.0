@@ -111,8 +111,10 @@ RAM), sound 422 KB. Few-shot still behind the network. Known limit: dreams with 
 
 Month 3 (started early): integer model `hw/brain/cortex_int.py`; core RTL `hw/rtl/cortex/cortex_core.v` bit-exact
 (0 mismatches, `run_check_cortex.py`); Tang Nano top `hw/board/cortex_board_top.v` bit-exact over UART
-(`check_cortex_board.py`). **Bitstream built and timing met**: `hw/pnr_cortex/cortex_tangnano20k.fs.gz` (46/46 BSRAM,
-54% LUT4, 14% FF, 0 multipliers, 68.6 MHz max at 27 MHz). Host program `hw/board/cortex_host.py` (dry run matches the
+(`check_cortex_board.py`). Sensory encoder in RTL too (`cortex_encoder.v`, bit-exact). **Bitstream built and timing
+met** for the whole chip (raw images in): `hw/pnr_cortex/cortex_tangnano20k.fs.gz` (46/46 BSRAM, 88% LUT4, 36% FF,
+0 multipliers, 66.2 MHz max at 27 MHz). Tests since: 10 one-class stages 93.5 / 78.7 / 70.5 (network ~10%); vs HDC
+(closest prior art) ahead on digits and sound, level on clothing; energy ~74x per decision (ESTIMATED). Host program `hw/board/cortex_host.py` (dry run matches the
 chip model exactly). Waiting on the user: program the board, run the host, measure power (month 4).
 Next on our side: split dreams in PSRAM (clothing +3), feature encoder in RTL, energy estimate, seed spread.
 

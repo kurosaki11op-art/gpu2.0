@@ -45,8 +45,7 @@ class Brain:
     def teach(self, c, img, replay=20):
         if c not in self.known:
             self.dev.known(c); self.known.add(c)
-        a = np.nonzero(self.enc(img[None])[0])[0]
-        u = self.dev.learn(c, a); self.dev.dream(c)                          # learn + one daydream
+        u = self.dev.learn(c, self.enc(img[None])[0]); self.dev.dream(c)                          # learn + one daydream
         old = sorted(self.known - {c})
         for j in range(replay if old else 0):                                # a little replay of old classes
             self.dev.dream(old[j % len(old)])
@@ -54,7 +53,7 @@ class Brain:
         return u
 
     def ask(self, img):
-        return self.dev.predict(np.nonzero(self.enc(img[None])[0])[0])
+        return self.dev.predict(self.enc(img[None])[0])
 
     def sleep(self, max_dreams=3000):
         kn = sorted(self.known); blockw = run = 0

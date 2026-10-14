@@ -14,7 +14,8 @@ Month 3 of the plan (RTL bit-exact with the model) was reached early, during the
 | Integer chip model (reference) | `hw/brain/cortex_int.py` | integers only, one pass per example, numba optional |
 | Core RTL | `hw/rtl/cortex/cortex_core.v` | **bit-exact**: 0 mismatches over 5,058 compared lines x 2 configurations (`run_check_cortex.py`) |
 | Tang Nano 20K top (UART) | `hw/board/cortex_board_top.v` | **bit-exact over UART**: 101 commands, 161 reply bytes, 0 mismatches (`check_cortex_board.py`) |
-| Bitstream | `hw/pnr_cortex/cortex_tangnano20k.fs.gz` | placed and routed (open-source flow): 46/46 BSRAM, 11,223 LUT4 (54%), 2,264 FF (14%), **0 multipliers**, 68.6 MHz max at a 27 MHz clock, no hold violations |
+| Sensory encoder RTL | `hw/rtl/cortex/cortex_encoder.v` | **bit-exact** with `Features.encode` (0 mismatching images, digits and clothing), ~21,400 cycles (0.8 ms) per image, no multiplier or divider |
+| Bitstream (core + encoder + UART) | `hw/pnr_cortex/cortex_tangnano20k.fs.gz` | placed and routed (open-source flow): 46/46 BSRAM, 18,335 LUT4 (88%), 5,604 FF (36%), **0 multipliers**, 66.2 MHz max at a 27 MHz clock, no hold violations; raw images in, answers out; board design bit-exact over UART (115 commands, 0 mismatches) |
 | Host program | `hw/board/cortex_host.py` | runs the full day/night schedule; dry run matches the chip model exactly |
 | Live demo | `hw/board/cortex_demo.py` | draw, teach, ask, sleep, test old digits; board or emulator |
 
@@ -40,7 +41,8 @@ violations), CLEAR command (memories can be wiped after a reset).
 ## Still open
 
 1. A run on the real board and measured power (month 4; needs the user's Tang Nano and a USB power meter).
-2. Sensory encoder and its learning in RTL (today the PC computes the sensory code).
+2. Learning the sensory detectors on the chip (today they are learned on the PC, without labels, and loaded; the
+   encoding itself runs on the chip).
 3. Split dreams via PSRAM (and sound on the board: 422 KB does not fit block RAM).
 4. Few-shot with 1-5 examples.
 

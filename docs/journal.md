@@ -72,5 +72,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Split dreams on sound (float): 68.2 -> 70.3 (x4 memory).
 - 10 stages of one class each: chip 93.5 / 78.7 / 70.5 vs network 10.1 / 14.0 / 9.8. Month-3 summary written:
   `hw/results/cortex_month3.md`.
+- **Sensory encoder on the chip**: `hw/rtl/cortex/cortex_encoder.v` bit-exact with `Features.encode` (0 mismatching
+  images, digits and clothing), integrated in the board top (commands `54` detectors, `49` raw image), board bit-exact
+  over UART (115 commands). Full design placed and routed: 88% LUT4, 46/46 BSRAM, 0 multipliers, 66.2 MHz. Host
+  `--onchip-encode` option added.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -13,6 +13,10 @@
 //                           Reply: updated (1 if the table was written).
 //   50 nl nh i0l i0h ...    PREDICT on the listed code bits. Reply: predicted class.
 //   44 c                    DREAM a class-c example and practise on it. Reply: dream length low, high, updated.
+//   54 + 128 x 4 bytes      load the 128 sensory detectors (channel-major, 32 per channel; 25 bits little-endian,
+//                           bit r*5+c = window row r, column c). Reply 54.
+//   49 c + 784 bytes        IMAGE: the chip encodes the 28x28 image itself (cortex_encoder.v), then LEARNs it as class c
+//                           (reply: updated) or, with c = FF, PREDICTs (reply: class).
 // The host runs the day/night schedule (cortex_host.py) and ends a night itself from the `updated` replies.
 //
 // LEDs (active low): led[0] toggles per command, led[1] core busy, led[2] last LEARN/DREAM wrote the table,
@@ -60,18 +64,27 @@ module cortex_board_top #(
     reg lb_we = 1'b0; reg [AW-1:0] lb_waddr = 0, lb_wdata = 0; reg [AW:0] lb_len = 0;
     reg lane_we = 1'b0; reg [4:0] lane_waddr = 0; reg [31:0] lane_wdata = 0;
     wire busy, updated; wire [3:0] pred; wire [AW:0] llen_out;
+    // sensory encoder: writes its list of active code bits through the core's list port
+    reg pix_we = 1'b0; reg [9:0] pix_addr = 0; reg [7:0] pix_data = 0;
+    reg tm_we = 1'b0; reg [1:0] tm_ch = 0; reg [4:0] tm_f = 0; reg [24:0] tm_data = 0; reg enc_start = 1'b0;
+    wire enc_busy, enc_done, enc_we; wire [AW:0] enc_count; wire [AW-1:0] enc_addr, enc_data;
+    cortex_encoder #(.AW(AW)) u_enc (.clk(clk), .rst(rst), .pix_we(pix_we), .pix_addr(pix_addr), .pix_data(pix_data),
+        .tm_we(tm_we), .tm_ch(tm_ch), .tm_f(tm_f), .tm_data(tm_data), .start(enc_start),
+        .busy(enc_busy), .done(enc_done), .count(enc_count), .out_we(enc_we), .out_addr(enc_addr), .out_data(enc_data));
     cortex_core #(.NB(NB), .AW(AW)) u_core (.clk(clk), .rst(rst), .cmd_valid(cmd_valid), .cmd_op(cmd_op), .cmd_arg(cmd_arg),
-        .lb_we(lb_we), .lb_waddr(lb_waddr), .lb_wdata(lb_wdata), .lb_len(lb_len),
+        .lb_we(lb_we | enc_we), .lb_waddr(enc_we ? enc_addr : lb_waddr), .lb_wdata(enc_we ? enc_data : lb_wdata), .lb_len(lb_len),
         .lane_we(lane_we), .lane_waddr(lane_waddr), .lane_wdata(lane_wdata),
         .busy(busy), .pred(pred), .updated(updated), .llen_out(llen_out));
 
     // ------------------------------------------------------------ command FSM
-    localparam S_CMD = 0, S_ARG = 1, S_NL = 2, S_NH = 3, S_IL = 4, S_IH = 5, S_GO = 6, S_WAIT = 7, S_SEED = 8, S_REP = 9;
+    localparam S_CMD = 0, S_ARG = 1, S_NL = 2, S_NH = 3, S_IL = 4, S_IH = 5, S_GO = 6, S_WAIT = 7, S_SEED = 8, S_REP = 9,
+               S_TM = 10, S_IARG = 11, S_PIX = 12, S_ENC = 13;
     reg [3:0] state = S_CMD; reg [7:0] op = 0; reg [AW:0] cnt = 0; reg [7:0] lo = 0;
+    reg [8:0] tidx = 0; reg [23:0] tacc = 0; reg [9:0] pcnt = 0; reg enc_wait = 1'b0;
     reg [6:0] sidx = 0; reg [31:0] sw = 0; reg wrote = 1'b0, lowcls = 1'b0, cmd_led = 1'b0, rx_led = 1'b0;
     reg go_wait = 1'b0;
     always @(posedge clk) begin
-        cmd_valid <= 1'b0; lb_we <= 1'b0; lane_we <= 1'b0; start_reply <= 1'b0;
+        cmd_valid <= 1'b0; lb_we <= 1'b0; lane_we <= 1'b0; start_reply <= 1'b0; pix_we <= 1'b0; tm_we <= 1'b0; enc_start <= 1'b0;
         if (rx_valid) rx_led <= ~rx_led;
         if (rst) state <= S_CMD;
         else case (state)
@@ -83,6 +96,8 @@ module cortex_board_top #(
                 8'h43: begin cmd_op <= 3'd6; state <= S_GO; end
                 8'h4B, 8'h44, 8'h4C: state <= S_ARG;
                 8'h50: begin cmd_op <= 3'd4; cmd_arg <= 0; state <= S_NL; end
+                8'h54: begin tidx <= 0; state <= S_TM; end
+                8'h49: state <= S_IARG;
                 default: ;
             endcase
         end
@@ -92,6 +107,23 @@ module cortex_board_top #(
             sidx <= sidx + 1'b1;
             if (sidx == 7'd127) begin rbuf[0] <= 8'h53; rlen <= 1; state <= S_REP; end
         end
+        S_TM: if (rx_valid) begin                              // detectors: 4 bytes each, little-endian
+            tacc <= {rx_data, tacc[23:8]};
+            if (tidx[1:0] == 2'd3) begin tm_we <= 1'b1; tm_ch <= tidx[8:7]; tm_f <= tidx[6:2]; tm_data <= {rx_data[0], tacc}; end
+            tidx <= tidx + 1'b1;
+            if (tidx == 9'd511) begin rbuf[0] <= 8'h54; rlen <= 1; state <= S_REP; end
+        end
+        S_IARG: if (rx_valid) begin
+            if (rx_data == 8'hFF) begin cmd_op <= 3'd4; cmd_arg <= 0; op <= 8'h50; end
+            else begin cmd_op <= 3'd1; cmd_arg <= rx_data[3:0]; op <= 8'h4C; end
+            pcnt <= 0; state <= S_PIX;
+        end
+        S_PIX: if (rx_valid) begin
+            pix_we <= 1'b1; pix_addr <= pcnt; pix_data <= rx_data; pcnt <= pcnt + 1'b1;
+            if (pcnt == 10'd783) begin enc_wait <= 1'b1; state <= S_ENC; end
+        end
+        S_ENC: if (enc_wait) begin if (!pix_we) begin enc_start <= 1'b1; enc_wait <= 1'b0; end end
+               else if (enc_done) begin lb_len <= enc_count; state <= S_GO; end
         S_ARG: if (rx_valid) begin
             cmd_arg <= rx_data[3:0];
             if (op == 8'h4B) begin cmd_op <= 3'd5; state <= S_GO; end

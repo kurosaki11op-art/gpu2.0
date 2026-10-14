@@ -24,9 +24,11 @@ RULE = dict(ndream=6000, night=2, daydream=1, night_stop=2, top=1023, margin=8, 
 
 
 class Board:
-    def __init__(self, port, baud):
+    """rows given to learn/predict are sensory codes (bool, 4,608) or, with onchip=True, raw 28x28 images (uint8, 784)
+    that the chip encodes itself (cortex_encoder.v; load the detectors first with detectors())"""
+    def __init__(self, port, baud, onchip=False):
         import serial
-        self.s = serial.Serial(port, baud, timeout=5)
+        self.s = serial.Serial(port, baud, timeout=5); self.onchip = onchip
 
     def _x(self, out, n):
         self.s.write(bytes(out)); r = self.s.read(n)
@@ -42,8 +44,19 @@ class Board:
     @staticmethod
     def _lst(a): return [len(a) & 255, len(a) >> 8] + [x for v in a for x in (int(v) & 255, int(v) >> 8)]
 
-    def learn(self, c, a): return self._x([0x4C, c] + self._lst(a), 1)[0]
-    def predict(self, a): return self._x([0x50] + self._lst(a), 1)[0]
+    def detectors(self, fes):
+        words = [sum(1 << i for i in range(25) if t[i]) for f in fes for t in (f.cnt >= 0)]
+        return self._x([0x54] + [b for w in words for b in w.to_bytes(4, "little")], 1)
+
+    def learn(self, c, row):
+        if self.onchip:
+            return self._x([0x49, c] + [int(v) for v in row], 1)[0]
+        return self._x([0x4C, c] + self._lst(np.nonzero(row)[0]), 1)[0]
+
+    def predict(self, row):
+        if self.onchip:
+            return self._x([0x49, 0xFF] + [int(v) for v in row], 1)[0]
+        return self._x([0x50] + self._lst(np.nonzero(row)[0]), 1)[0]
 
     def dream(self, c):
         r = self._x([0x44, c], 3); return r[0] | (r[1] << 8), r[2]
@@ -62,15 +75,16 @@ class Emu:
     def clear(self): self.W[:] = 0; self.on[:] = 0; self.n[:] = 0; self.kn[:] = False
     def known(self, c): self.kn[c] = True
 
-    def learn(self, c, a):
-        a = np.asarray(a, np.int32); self.f[0](self.on, self.n, a, len(a), c, RULE["top"])
+    def learn(self, c, row):
+        a = np.nonzero(row)[0].astype(np.int32); self.f[0](self.on, self.n, a, len(a), c, RULE["top"])
         return self.f[1](self.W, a, len(a), c, self.kn, RULE["margin"], RULE["cmax"])
 
     def dream(self, c):
         k = self.f[2](self.on, self.n, c, self.rng, self.buf)
         return k, self.f[1](self.W, self.buf, k, c, self.kn, RULE["margin"], RULE["cmax"])
 
-    def predict(self, a):
+    def predict(self, row):
+        a = np.nonzero(row)[0]
         s = self.W[:, a].astype(np.int64).sum(1); s[~self.kn] = -(1 << 40); return int(s.argmax())
 
 
@@ -81,7 +95,7 @@ def run_stage(dev, code, y, known):
         dev.known(c); known.add(c)
     total, done, rr = RULE["ndream"] * len(old), 0, 0
     for i in range(len(y)):
-        dev.learn(int(y[i]), np.nonzero(code[i])[0])
+        dev.learn(int(y[i]), code[i])
         for _ in range(RULE["daydream"]):
             dev.dream(int(y[i]))
         due = (total * (i + 1)) // len(y)
@@ -118,6 +132,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--data", default="cortex_data")
     ap.add_argument("--per-class", type=int, default=0, help="examples per class per stage (0 = all)")
     ap.add_argument("--test", type=int, default=1000, help="test images scored after each stage")
+    ap.add_argument("--onchip-encode", action="store_true", help="send raw images; the chip encodes them (board only)")
     a = ap.parse_args()
     xtr, ytr, xte, yte = mnist(a.data)
     stages = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]
@@ -125,7 +140,10 @@ def main():
     fes = [Features(32, thr=c).fit(xtr[np.isin(ytr, stages[0])][:12000]) for c in (50, 150, ("on", 8), ("off", 8))]
     enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
     r = np.random.RandomState(0); tst = r.choice(len(yte), a.test, replace=False); cte = enc(xte[tst]); yt = yte[tst]
-    dev = Emu(cte.shape[1]) if a.dry_run else Board(a.port, a.baud)
+    onchip = a.onchip_encode and not a.dry_run
+    dev = Emu(cte.shape[1]) if a.dry_run else Board(a.port, a.baud, onchip)
+    if onchip:
+        dev.detectors(fes); enc = lambda x: x; cte = xte[tst]                # the chip senses for itself
     if not dev.ping():
         sys.exit("no ping reply: check the port and that cortex_board_top is loaded")
     dev.seed(SEED_LANES); dev.clear(); known = set(); t0 = time.time()
@@ -136,7 +154,7 @@ def main():
         sel = sel[np.random.RandomState(i).permutation(len(sel))]
         night = run_stage(dev, enc(xtr[sel]), ytr[sel], known)
         seen = np.isin(yt, sorted(known))
-        acc = np.mean([dev.predict(np.nonzero(cte[j])[0]) == yt[j] for j in np.where(seen)[0]])
+        acc = np.mean([dev.predict(cte[j]) == yt[j] for j in np.where(seen)[0]])
         print(f"stage {i + 1} (classes {s}): accuracy on all classes so far {acc:.3f}  night dreams {night}  "
               f"[{time.time() - t0:.0f}s]", flush=True)
     if a.dry_run:                                                           # self-check against the chip model
