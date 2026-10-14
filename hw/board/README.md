@@ -171,3 +171,51 @@ For a run of `N` tokens lasting `T` seconds, with mean board power `P_run` and i
 - **IO voltage.** The `IO_TYPE=LVCMOS33` banks are assumed to be 3.3 V. Check the bank voltages in the schematic.
 - **Dual-purpose pins.** Check whether pins 69/70 need the dual-purpose pin options in Gowin EDA.
 - **ESP32 boards differ.** Use the GPIO numbers that your dev board actually breaks out. Some boards cannot use `INPUT_PULLDOWN` on certain pins.
+
+---
+
+# SPARK-L (lookup-only core) on the Tang Nano 20K
+
+This section is for the lookup-only core `rtl/lookup/spark_lookup2.v`: no matrices, no multipliers, no weights.
+It uses the same pins as above: `tangnano20k.cst` works unchanged, and its TODO lines still need checking against the Sipeed wiki.
+
+| File | What it is |
+|---|---|
+| `lookup_board_top.v` | Board top: power-on reset, UART command parser, a 16-byte reply FIFO, counters, `spark_lookup2` core |
+| `tb_lookup_board.v`, `check_lookup_board.py` | End-to-end simulation through a bit-level UART model; every reply byte is checked against the reference model |
+| `host_lookup.py` | PC script: streams a file through the board, checks every prediction bit-exactly against the reference, reads the board's own accuracy counters. `--dry-run` works without a board |
+| `../rtl/lookup/conf_lut.hex` | Initial confidence table (32 entries), loaded at configuration |
+
+## Protocol (115200 8N1)
+
+| Host sends | Board replies |
+|---|---|
+| `E0` | `5A` (after the power-on table clear) |
+| `D1 b` | `pred, flags, conf, chk` (flags: bit0 hit, bits 3:1 source, bits 5:4 count; chk = XOR of the three) |
+| `D2 n b1..bn` (n <= 255) | n predictions, then the XOR of them |
+| `F0` | bytes, correct, hits (3 x u32 little-endian), XOR checksum |
+| `C2 a v` | `C3` (confidence entry a = v) |
+| `B0` | `B1` once the tables and counters are cleared |
+| `A0` / `A1` | echo (marker pin `trig_out` low / high, for the power logger) |
+
+## Status (SIMULATED)
+
+- `python check_lookup_board.py` (from `hw/board`): **436 reply bytes, 0 mismatches**, 0 UART framing errors. It covers ping, 40 single-byte predictions, a 200-byte stream, the counters, a run-time confidence write, clear and the marker.
+- yosys `synth_gowin` of the whole board design (TB = 11), with no place-and-route: **25 of 46 block RAMs (54%), about 2,650 LUT cells (13%), about 610 flip-flops (4%)**. Timing and power are not yet measured.
+- `host_lookup.py --dry-run` on 20,000 prose bytes: 0 mismatches against the reference, 49.75% next-byte accuracy, matching the simulation.
+
+## Build and run (to do on the PC)
+
+1. **Gowin IDE** (vendor tool, which gives timing and power reports):
+   - New project, device GW2AR-LV18QN88C8/I7.
+   - Add `rtl/lookup/spark_lookup2.v`, `board/uart_rx.v`, `board/uart_tx.v`, `board/lookup_board_top.v` and `board/tangnano20k.cst`.
+   - Set the top module to `lookup_board_top`.
+   - Copy `rtl/lookup/conf_lut.hex` into the project folder, or set the `CONF_HEX` parameter to its full path.
+   - Run synthesis and place-and-route, then save the timing report and the power report.
+2. **Program the board:** Gowin Programmer, or `openFPGALoader -b tangnano20k <project>.fs`.
+3. **Run:** `pip install pyserial`, find the COM port in Device Manager, then:
+   `py -3.12 hw\board\host_lookup.py --port COMx --file hw\system\data\prose_slices.txt --max-bytes 20000`
+   - It should report 0 mismatches.
+   - It should report about the same accuracy as the dry run on the same file.
+   - It should report about 11,000 bytes/s, which is the UART limit. The core itself runs at about 5 cycles per byte.
+4. **If nothing answers:** check the pin TODOs in `tangnano20k.cst` (UART pins 69/70, and the reset-button polarity).
