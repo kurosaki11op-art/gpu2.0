@@ -21,7 +21,11 @@ Schedule per stage (classes new to this stage = the day's experiences)
           day each old class gets NDREAM dreams (round robin over old classes)
   night : if there are old classes, NIGHT passes; each pass practises NDREAM dreams of every known class, round robin"""
 import numpy as np
-from numba import njit
+try:
+    from numba import njit
+except ImportError:                       # plain Python fallback: same results, much slower (fine for a live demo)
+    def njit(*a, **k):
+        return (lambda f: f) if not (len(a) == 1 and callable(a[0])) else a[0]
 
 LANES = 32
 

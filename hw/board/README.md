@@ -265,3 +265,12 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 
 LEDs: led0 toggles per command, led1 core busy, led2 the last example or dream changed the table (surprise), led3
 heartbeat, led4 UART activity, led5 last prediction was a class 0-4.
+
+## Live demo for the pitch: `cortex_demo.py`
+
+A window where you draw with the mouse and teach the chip (tkinter, ships with Python on Windows; numpy needed).
+`python cortex_demo.py --preload 200 --classes 0-7 --data D:\cortex_data` (emulator) or add `--port COM5` (board).
+The chip starts knowing digits 0-7. Draw a new symbol, type a free class (8 or 9), press Teach 5-10 times, press
+Sleep, then Test old digits.
+Headless check of the same steps (emulator, SIMULATED): preloaded 0-7 at 93% on real test digits; taught class 8 from
+10 examples in 0.1 s; after a 3,000-dream sleep, 73.5% on 200 real test 8s and 90.0% on old + new digits together.
