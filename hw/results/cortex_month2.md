@@ -59,7 +59,8 @@ FPGA synthesis of the core (yosys, GW2AR-18, image size, before place and route)
 2. The merge night stopped after 256 dreams in all three tasks (dreams surprised the merged table); a full night gave
    95.8 on digits in the float version. A merge may deserve its own rule.
 3. Few-shot remains worse than the network.
-4. One seed per number; treat differences under ~0.5 points as ties.
+4. Spread over 3 seeds (arrival order and random lanes; `hw/brain/seeds_check.py`, `cortex_seeds_<task>.json`) after
+   5 stages: digits 94.4-94.8 (mean 94.6), clothing 77.7-78.7 (78.3), sound 69.0-70.0 (69.4). Other rows are one seed.
 5. Feature detectors are learned in software from stage-1 images and loaded; on-chip feature learning is not built.
 6. Time on the board (ESTIMATED from the RTL cycle counts at 27 MHz): about 1 ms per dream, 1-2 minutes for a full
    night; learning over UART at 115,200 baud is ~50 ms per example (the host link, not the core, is the bottleneck).

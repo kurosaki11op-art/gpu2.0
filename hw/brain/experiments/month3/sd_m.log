@@ -1,0 +1,4 @@
+mnist seed 1 0.9445
+mnist seed 2 0.9439
+mnist seed 3 0.9484
+{'dataset': 'mnist', 'label': 'SIMULATED (integer chip model)', 'after_5_stages': [0.9445, 0.9439, 0.9484], 'mean': 0.9455999999999999, 'min': 0.9439, 'max': 0.9484}
