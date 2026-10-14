@@ -56,6 +56,16 @@ def pld_draft(hist, K, nmax=3):
     return []
 
 
+def repetition(ctx, gen, n=3):
+    """share of generated tokens that an earlier n-gram in prompt+generated text would have predicted exactly (how copyable the output is)"""
+    seen = {}; full = ctx + gen; hits = 0
+    for i in range(n, len(full)):
+        key = tuple(full[i - n:i])
+        if i >= len(ctx) and seen.get(key) == full[i]: hits += 1
+        seen[key] = full[i]
+    return hits / max(1, len(gen))
+
+
 def simulate(ctx, gen, K, mode):
     tab = TokTable(); hist = []
     for t in ctx:
@@ -83,6 +93,7 @@ def main():
     ap.add_argument("--n", type=int, default=20); ap.add_argument("--gen", type=int, default=128)
     ap.add_argument("--ctx", type=int, default=1500, help="prompt characters"); ap.add_argument("--k", type=int, default=8)
     ap.add_argument("--tiny", action="store_true")
+    ap.add_argument("--chat", action="store_true", help="instruct model: wrap each excerpt in a chat request to continue it")
     a = ap.parse_args()
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -107,9 +118,15 @@ def main():
     import time
     res = {}
     for name, prompts in sets.items():
-        acc = {"pld": [], "table": [], "both": []}
+        acc = {"pld": [], "table": [], "both": []}; rep = []
         for p in prompts:
-            ids = torch.randint(0, 1000, (1, 200)) if tok is None else tok(p, return_tensors="pt").input_ids
+            if tok is None:
+                ids = torch.randint(0, 1000, (1, 200))
+            elif a.chat:
+                ids = tok.apply_chat_template([{"role": "user", "content": "Continue this text in the same style:\n\n" + p}],
+                                              add_generation_prompt=True, return_tensors="pt")
+            else:
+                ids = tok(p, return_tensors="pt").input_ids
             t0 = time.time()
             with torch.no_grad():
                 out = model.generate(ids.to(dev), max_new_tokens=a.gen, min_new_tokens=a.gen, do_sample=False)
@@ -117,11 +134,13 @@ def main():
                 print(f"  first {name} prompt: {ids.shape[1]} prompt tokens, {a.gen / (time.time() - t0):.1f} generated tokens/s", flush=True)
             ctx, gen = ids[0].tolist(), out[0, ids.shape[1]:].tolist()
             for mode in acc: acc[mode].append(simulate(ctx, gen, a.k, mode))
-        res[name] = {m: float(np.mean(v)) for m, v in acc.items()}
+            rep.append(repetition(ctx, gen))
+        res[name] = {m: float(np.mean(v)) for m, v in acc.items()}; res[name]["copyable_share"] = float(np.mean(rep))
         print(f"{name:5s} (K={a.k}, {len(prompts)} prompts x {a.gen} tokens)  tokens per target pass:  "
-              f"prompt-lookup {res[name]['pld']:.2f} | hash tables {res[name]['table']:.2f} | both {res[name]['both']:.2f}", flush=True)
+              f"prompt-lookup {res[name]['pld']:.2f} | hash tables {res[name]['table']:.2f} | both {res[name]['both']:.2f} | "
+              f"copyable output {res[name]['copyable_share']:.0%}", flush=True)
     json.dump({"model": "tiny-random" if a.tiny else a.model, "k": a.k, "result": res},
-              open(os.path.join(HERE, "..", "results", "token_lookup_%s.json" % ("tiny" if a.tiny else a.model.replace("/", "_"))), "w"), indent=1)
+              open(os.path.join(HERE, "..", "results", "token_lookup_%s%s.json" % ("tiny" if a.tiny else a.model.replace("/", "_"), "_chat" if a.chat else "")), "w"), indent=1)
     print("saved hw/results/token_lookup_%s.json (send it, or paste the two lines above)" % ("tiny" if a.tiny else a.model.replace("/", "_")))
 
 
