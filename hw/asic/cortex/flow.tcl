@@ -81,13 +81,13 @@ write_db cortex_cts.odb
 set_routing_layers -signal met1-met5 -clock met1-met5
 global_route -congestion_iterations 30 -allow_congestion
 estimate_parasitics -global_routing
-report_checks -path_delay max -format full_clock_expanded > timing_setup.rpt
-report_checks -path_delay min > timing_hold.rpt
-report_wns > timing_summary.rpt
-report_tns >> timing_summary.rpt
-report_worst_slack -max >> timing_summary.rpt
-report_worst_slack -min >> timing_summary.rpt
-report_design_area > area.rpt
+report_checks -path_delay max -format full_clock_expanded
+report_checks -path_delay min
+report_wns
+report_tns
+report_worst_slack -max
+report_worst_slack -min
+report_design_area
 set_power_activity -global -activity 0.1
-report_power > power.rpt
+report_power
 puts "SPARK Cortex estimate flow done"

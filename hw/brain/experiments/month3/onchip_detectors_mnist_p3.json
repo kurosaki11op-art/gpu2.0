@@ -1,0 +1,25 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (integer chip model)",
+ "passes": 3,
+ "pc_fit": {
+  "stages": [
+   0.9991,
+   0.967,
+   0.9587,
+   0.9578,
+   0.9496
+  ],
+  "active_bits": 245.7
+ },
+ "online_fit": {
+  "stages": [
+   1.0,
+   0.9697,
+   0.9595,
+   0.9531,
+   0.9439
+  ],
+  "active_bits": 242.0
+ }
+}

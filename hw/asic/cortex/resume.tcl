@@ -1,5 +1,5 @@
 # Resume the estimate flow from the saved clock-tree database (cortex_cts.odb): global routing, timing repair with
-# global-route parasitics, then timing / area / power reports. report_design_area prints to the log only.
+# global-route parasitics, then timing / area / power reports. All reports print to the log (redirecting to files left them empty in this OpenROAD build).
 set PDK /opt/eda_pdk/share/pdk/sky130A/libs.ref
 set SRAM /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8
 set_thread_count 3
@@ -22,12 +22,8 @@ report_tns
 repair_timing -setup
 repair_timing -hold -slack_margin 0.05
 estimate_parasitics -global_routing
-report_checks -path_delay max -format full_clock_expanded > timing_setup.rpt
-report_checks -path_delay min > timing_hold.rpt
-report_wns > timing_summary.rpt
-report_tns >> timing_summary.rpt
-report_worst_slack -max >> timing_summary.rpt
-report_worst_slack -min >> timing_summary.rpt
+report_checks -path_delay max -format full_clock_expanded
+report_checks -path_delay min
 puts "== final"
 report_wns
 report_tns
@@ -36,6 +32,5 @@ report_worst_slack -min
 report_clock_skew
 report_design_area
 set_power_activity -global -activity 0.1
-report_power > power.rpt
 report_power
 puts "SPARK Cortex estimate flow done"

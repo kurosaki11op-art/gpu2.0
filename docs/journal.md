@@ -116,4 +116,13 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   WNS -3.19 ns at 20 ns before routing); stopped on a report-command error after that. Resumed from the saved
   database with `hw/asic/cortex/resume.tcl` for global routing and the reports.
 
+- **SKY130 layout estimate done** (placement, clock tree, global routing; resumed with `resume.tcl`): 19.4 mm2 of
+  cells and macros on a 31 mm2 die, setup -2.96 ns at 20 ns (~43 MHz), hold met, clock skew 3.4 ns. Power 355 mW for
+  the logic at a default 10% activity (SRAM not counted) - ~13 uJ per decision, far above the 9.4 nJ operation-count
+  estimate: the overhead is clock tree, 20k encoder flip-flops and no clock gating. Recorded as a contradiction in
+  `hw/results/cortex_asic_estimate.md`; the claims sheet now says the 74x is per operation needed. ESTIMATED.
+- **On-chip detector learning works in simulation**: a streaming rule (one update per patch in arrival order, re-seed
+  dead detectors) on one pass over the first day's images gives digits 93.9 / clothing 79.2 after 5 stages vs 95.0 /
+  79.2 with PC detectors (3 passes: 94.4 / 79.3). SIMULATED, integer chip model
+  ([note](../hw/brain/experiments/month3/onchip_detectors.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

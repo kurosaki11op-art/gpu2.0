@@ -1,0 +1,25 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (integer chip model)",
+ "passes": 3,
+ "pc_fit": {
+  "stages": [
+   0.986,
+   0.9048,
+   0.8517,
+   0.7724,
+   0.7917
+  ],
+  "active_bits": 271.8
+ },
+ "online_fit": {
+  "stages": [
+   0.9895,
+   0.9028,
+   0.8488,
+   0.7649,
+   0.7929
+  ],
+  "active_bits": 270.4
+ }
+}

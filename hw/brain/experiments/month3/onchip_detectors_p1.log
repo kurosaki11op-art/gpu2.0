@@ -1,0 +1,6 @@
+mnist online fit 3s
+mnist pc_fit {'stages': [0.9991, 0.967, 0.9587, 0.9578, 0.9496], 'active_bits': 245.7} 55s
+mnist online_fit {'stages': [0.9991, 0.967, 0.96, 0.9567, 0.9387], 'active_bits': 242.1} 75s
+fashion online fit 2s
+fashion pc_fit {'stages': [0.986, 0.9048, 0.8517, 0.7724, 0.7917], 'active_bits': 271.8} 50s
+fashion online_fit {'stages': [0.987, 0.9055, 0.8533, 0.7691, 0.7915], 'active_bits': 270.3} 64s

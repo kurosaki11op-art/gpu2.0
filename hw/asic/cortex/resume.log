@@ -254,3 +254,32 @@ wns -2.96
 tns -155.02
 worst slack -2.96
 worst slack 0.13
+Clock clk
+Latency      CRPR       Skew
+u_core.u_cmem.bank[1].col[3].u_sram/clk1 v
+  12.01
+_108669_/CLK ^
+   8.63      0.00       3.38
+
+Design area 19393668 u^2 63% utilization.
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power
+----------------------------------------------------------------
+Sequential             4.30e-02   1.67e-03   1.72e-07   4.47e-02  12.6%
+Combinational          2.68e-01   4.10e-02   1.12e-03   3.10e-01  87.4%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  3.11e-01   4.27e-02   1.12e-03   3.55e-01 100.0%
+                          87.7%      12.0%       0.3%
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power
+----------------------------------------------------------------
+Sequential             4.30e-02   1.67e-03   1.72e-07   4.47e-02  12.6%
+Combinational          2.68e-01   4.10e-02   1.12e-03   3.10e-01  87.4%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  3.11e-01   4.27e-02   1.12e-03   3.55e-01 100.0%
+                          87.7%      12.0%       0.3%
+SPARK Cortex estimate flow done

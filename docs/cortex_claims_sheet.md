@@ -22,9 +22,10 @@ MEASURED = real hardware; SIMULATED = our model or chip simulation; ESTIMATED = 
 | Fits a $25 FPGA, timing met | 46/46 block RAM, 93% LUT4, 73 MHz max at 27 MHz; raw images in | SIMULATED (place and route) | `hw/pnr_cortex/` | not yet run on the board |
 | The chip design is verified | core, encoder, board top bit-exact with the model (0 mismatches); core also with SKY130 SRAM models | SIMULATED | `hw/rtl/cortex/run_check_*.py`, `hw/board/check_cortex_board.py` | |
 | Memory 137x smaller than our first version | 11.5 MB -> 84 KB (images) | design fact | `hw/results/cortex_month2.md` | sound needs 422 KB (PSRAM) |
-| Much less energy per decision | 9.4 nJ vs 696 nJ (8-bit network): ~74x; ~200x per learned example incl. sleep | ESTIMATED (45 nm op energies) | `hw/results/cortex_energy_estimate.md` | not measured; control logic and leakage not counted |
+| Much less energy per decision | 9.4 nJ vs 696 nJ (8-bit network): ~74x; ~200x per learned example incl. sleep | ESTIMATED (45 nm op energies) | `hw/results/cortex_energy_estimate.md` | counts the work a decision needs only; the first SKY130 layout (no clock gating, default activity) draws 355 mW, ~13 uJ per decision, so say "per operation needed", not "per chip" |
+| Can learn its own senses, without labels | one streaming pass over the first day's images: digits 93.9 vs 95.0 with PC-learned detectors, clothing 79.2 vs 79.2 | SIMULATED (integer chip model) | `hw/brain/experiments/month3/onchip_detectors.md` | rule not in the RTL yet |
 | Better than the closest prior art in this test | after 5 stages vs HDC: digits +2.2, sound +5.9, clothing +0.1 | SIMULATED | `hw/results/cortex_vs_hdc.md` | HDC staged retraining used 4,000 examples per stage |
-| Small as a real chip | logic < 1 mm2 in SKY130; ~18.8 mm2 with open SRAM macros | ESTIMATED (synthesis) | `hw/results/cortex_asic_estimate.md` | no place and route, no timing/power sign-off |
+| Small as a real chip | logic < 1 mm2 in SKY130; ~18.8 mm2 with open SRAM macros | ESTIMATED (synthesis + placement/global routing) | `hw/results/cortex_asic_estimate.md` | ~43 MHz after layout; no detailed routing or sign-off |
 
 ## Do NOT claim
 
@@ -36,5 +37,6 @@ MEASURED = real hardware; SIMULATED = our model or chip simulation; ESTIMATED = 
 | "Learns from one example like a child" | with spread codes (simulation only) it matches a small network at 1 example and beats it at 20 on digits, but is behind at 5, and behind on clothing at 5-20 |
 | "Replaces GPUs / LLMs" | it is a small continual learner for sensors (images, sound); no language model |
 | Any MEASURED power or speed on hardware | not yet measured |
+| "74x less energy per chip" | the layout estimate (no clock gating) is far higher; the 74x is per operation needed |
 
 Related: [Overnight report](overnight_report_2026-10-15.md), [Prior art](prior_art_cortex.md), [Project memory](PROJECT_MEMORY.md)

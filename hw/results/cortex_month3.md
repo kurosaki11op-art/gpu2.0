@@ -49,10 +49,15 @@ violations), CLEAR command (memories can be wiped after a reset).
 ## Still open
 
 1. A run on the real board and measured power (month 4; needs the user's Tang Nano and a USB power meter).
-2. Learning the sensory detectors on the chip (today they are learned on the PC, without labels, and loaded; the
-   encoding itself runs on the chip).
+2. Learning the sensory detectors on the chip: **rule found in simulation** (one streaming pass over the first day's
+   images matches the PC's detectors: digits 93.9 vs 95.0, clothing 79.2 vs 79.2,
+   [note](../brain/experiments/month3/onchip_detectors.md)); RTL still to do (2.4 KB of counters).
 3. Split dreams via PSRAM (and sound on the board: 422 KB does not fit block RAM).
-4. Few-shot with 1-5 examples.
+4. Few-shot with 1-5 examples (fusing episodic recall with the table helps at 20 examples, not at 5:
+   [note](../brain/experiments/month3/fewshot_fusion.md)).
+5. ASIC power: the first layout estimate (355 mW at 10% default activity, ~43 MHz) is far above the operation-count
+   energy; clock gating, encoder memories in SRAM and a real switching activity are needed
+   ([ASIC estimate](cortex_asic_estimate.md)).
 
 Related: [Month 2 results](cortex_month2.md), [SPARK Cortex vs HDC](cortex_vs_hdc.md), [Energy estimate](cortex_energy_estimate.md),
 [Board README](../board/README.md), [Results index](INDEX.md)
