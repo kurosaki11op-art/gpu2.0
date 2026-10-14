@@ -58,8 +58,9 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
   clothing 80.0 after 5 stages, vs 95.0 / 79.2 with detectors learned on the PC (SIMULATED; ASIC build only, the Tang
   Nano is full) ([note](../hw/brain/experiments/month3/onchip_detectors.md)).
 - **SKY130 layout estimate** (OpenROAD placement, clock tree, global routing): ~43 MHz; 355 mW for the logic, almost
-  all of it clocking ~20,000 flip-flops and the clock tree, whatever the data does. Fix started: per-memory clock
-  gating in the encoder (bit-exact), layout re-running ([details](../hw/results/cortex_asic_estimate.md)).
+  all of it the SRAM macros and clock tree being clocked every cycle. Per-memory clock gating (encoder memories and
+  every SRAM port, 130 gates, bit-exact) brings it to 62-77 mW, ~2-2.5 uJ per decision; the rest is mostly the clock
+  tree of a spread-out die ([details](../hw/results/cortex_asic_estimate.md)).
 - Few-shot fusion (episodic recall + table): small gains at 20 examples, the 5-example gap remains; not adopted.
 
 ## 4. Honest limits (say these before a judge does)
@@ -78,9 +79,9 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 7. The sequence memory (earlier lookup core) also partly forgets across text domains (keeps 32-60% of what it learned),
    so month 6 needs more capacity or the same context trick.
 8. A second sensory layer (V2) did not improve accuracy; rejected.
-9. **The energy claim needs care**: the first SKY130 layout without clock gating draws ~355 mW (~13 uJ per decision),
-   far above the 9.4 nJ counted from the operations. The 74x is "per operation needed", not "per chip" yet
-   (section 3b).
+9. **The energy claim needs care**: the SKY130 layout draws ~355 mW without clock gating and 62-77 mW with it
+   (~2-2.5 uJ per decision), still far above the 9.4 nJ counted from the operations. The 74x is "per operation
+   needed", not "per chip" (section 3b).
 
 ## 5. What you can do today (about 30 minutes)
 

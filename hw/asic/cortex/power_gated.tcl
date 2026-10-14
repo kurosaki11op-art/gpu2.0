@@ -16,7 +16,7 @@ set_wire_rc -clock -layer met5
 estimate_parasitics -placement
 set icg [get_cells -filter "ref_name == sky130_fd_sc_hd__dlclkp_1" *]
 puts "ICG cells: [llength $icg]"
-set_power_activity -global -activity 0.1
+set_power_activity -global -activity [expr {[info exists ::env(GLOBAL)] ? $::env(GLOBAL) : 0.1}]
 puts "== gated clocks as the main clock"
 report_power
 set g $::env(GATED)

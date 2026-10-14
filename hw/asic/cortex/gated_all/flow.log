@@ -773,3 +773,1348 @@ Type: macro, macro -grid_over_pg_pins
 [WARNING PDN-0043] No via added at (2335.42 4536.72 2336.92 4537.2) because the full width of met4 (1.6) is not covered by the overlap.
 [INFO PDN-0010] Inserting macro grid for 63 macros.
 [INFO PDN-0015] Writing to database.
+Found 63 macro blocks.
+Using 1u default distance from corners.
+[INFO PPL-0010] Tentative 0 to set up sections.
+[INFO PPL-0001] Number of slots          5470
+[INFO PPL-0002] Number of I/O            12
+[INFO PPL-0003] Number of I/O w/sink     12
+[INFO PPL-0004] Number of I/O w/o sink   1
+[INFO PPL-0005] Slots per section        200
+[INFO PPL-0006] Slots increase factor    0.01
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 26524.49 um.
+[INFO GPL-0002] DBU: 1000
+[INFO GPL-0003] SiteSize: 460 2720
+[INFO GPL-0004] CoreAreaLxLy: 10120 10880
+[INFO GPL-0005] CoreAreaUxUy: 6440000 4789920
+[INFO GPL-0006] NumInstances: 277029
+[INFO GPL-0007] NumPlaceInstances: 74628
+[INFO GPL-0008] NumFixedInstances: 182698
+[INFO GPL-0009] NumDummyInstances: 19703
+[INFO GPL-0010] NumNets: 76648
+[INFO GPL-0011] NumPins: 292976
+[INFO GPL-0012] DieAreaLxLy: 0 0
+[INFO GPL-0013] DieAreaUxUy: 6450000 4800000
+[INFO GPL-0014] CoreAreaLxLy: 10120 10880
+[INFO GPL-0015] CoreAreaUxUy: 6440000 4789920
+[INFO GPL-0016] CoreArea: 30728653715200
+[INFO GPL-0017] NonPlaceInstsArea: 19093907801200
+[INFO GPL-0018] PlaceInstsArea: 1253324537600
+[INFO GPL-0019] Util(%): 10.77
+[INFO GPL-0020] StdInstsArea: 1253324537600
+[INFO GPL-0021] MacroInstsArea: 0
+[InitialPlace]  Iter: 1 CG residual: 0.00358889 HPWL: 17954169825
+[InitialPlace]  Iter: 2 CG residual: 0.00006321 HPWL: 9047946476
+[InitialPlace]  Iter: 3 CG residual: 0.00003747 HPWL: 8773249475
+[InitialPlace]  Iter: 4 CG residual: 0.00001942 HPWL: 8462583993
+[InitialPlace]  Iter: 5 CG residual: 0.00001057 HPWL: 8253866905
+[InitialPlace]  Iter: 6 CG residual: 0.00000593 HPWL: 8072909749
+[INFO GPL-0031] FillerInit: NumGCells: 313896
+[INFO GPL-0032] FillerInit: NumGNets: 76648
+[INFO GPL-0033] FillerInit: NumGPins: 292976
+[INFO GPL-0023] TargetDensity: 0.45
+[INFO GPL-0024] AveragePlaceInstArea: 16794293
+[INFO GPL-0025] IdealBinArea: 37320648
+[INFO GPL-0026] IdealBinCnt: 823368
+[INFO GPL-0027] TotalBinArea: 30728653715200
+[INFO GPL-0028] BinCnt: 512 512
+[INFO GPL-0029] BinSize: 12559 9335
+[INFO GPL-0030] NumBins: 262144
+[NesterovSolve] Iter: 1 overflow: 0.990008 HPWL: 4581869761
+[NesterovSolve] Iter: 10 overflow: 0.986528 HPWL: 4753899752
+[NesterovSolve] Iter: 20 overflow: 0.978586 HPWL: 4846776947
+[NesterovSolve] Iter: 30 overflow: 0.976233 HPWL: 4876572059
+[NesterovSolve] Iter: 40 overflow: 0.976835 HPWL: 4897319754
+[NesterovSolve] Iter: 50 overflow: 0.977133 HPWL: 4911603029
+[NesterovSolve] Iter: 60 overflow: 0.977041 HPWL: 4928361594
+[NesterovSolve] Iter: 70 overflow: 0.977223 HPWL: 4945103951
+[NesterovSolve] Iter: 80 overflow: 0.97337 HPWL: 4961769170
+[NesterovSolve] Iter: 90 overflow: 0.975006 HPWL: 4972225544
+[NesterovSolve] Iter: 100 overflow: 0.976662 HPWL: 4978953440
+[NesterovSolve] Iter: 110 overflow: 0.976065 HPWL: 4987516967
+[NesterovSolve] Iter: 120 overflow: 0.973811 HPWL: 4989259475
+[NesterovSolve] Iter: 130 overflow: 0.972721 HPWL: 4988673664
+[NesterovSolve] Iter: 140 overflow: 0.972188 HPWL: 4992482777
+[NesterovSolve] Iter: 150 overflow: 0.971361 HPWL: 4996756762
+[NesterovSolve] Iter: 160 overflow: 0.969659 HPWL: 5003738725
+[NesterovSolve] Iter: 170 overflow: 0.968553 HPWL: 5018439066
+[NesterovSolve] Iter: 180 overflow: 0.967047 HPWL: 5039833018
+[NesterovSolve] Iter: 190 overflow: 0.964514 HPWL: 5073685219
+[NesterovSolve] Iter: 200 overflow: 0.960326 HPWL: 5122705851
+[NesterovSolve] Iter: 210 overflow: 0.957209 HPWL: 5184217037
+[NesterovSolve] Iter: 220 overflow: 0.954746 HPWL: 5268717089
+[NesterovSolve] Iter: 230 overflow: 0.952527 HPWL: 5433587376
+[NesterovSolve] Iter: 240 overflow: 0.950366 HPWL: 5719060147
+[NesterovSolve] Iter: 250 overflow: 0.953972 HPWL: 6060983661
+[NesterovSolve] Iter: 260 overflow: 0.953898 HPWL: 6332918167
+[NesterovSolve] Iter: 270 overflow: 0.929217 HPWL: 6480444497
+[NesterovSolve] Iter: 280 overflow: 0.897058 HPWL: 6530710750
+[NesterovSolve] Iter: 290 overflow: 0.891099 HPWL: 6682988681
+[NesterovSolve] Iter: 300 overflow: 0.858909 HPWL: 7016877665
+[NesterovSolve] Iter: 310 overflow: 0.813051 HPWL: 7156642578
+[NesterovSolve] Iter: 320 overflow: 0.773921 HPWL: 7110998780
+[NesterovSolve] Iter: 330 overflow: 0.715617 HPWL: 7322514511
+[NesterovSolve] Iter: 340 overflow: 0.661254 HPWL: 7265791673
+[NesterovSolve] Iter: 350 overflow: 0.606152 HPWL: 7278431772
+[NesterovSolve] Iter: 360 overflow: 0.554905 HPWL: 7320387243
+[NesterovSolve] Iter: 370 overflow: 0.502978 HPWL: 7347219549
+[NesterovSolve] Iter: 380 overflow: 0.447103 HPWL: 7303723583
+[NesterovSolve] Iter: 390 overflow: 0.394614 HPWL: 7224258987
+[NesterovSolve] Iter: 400 overflow: 0.345675 HPWL: 7141011762
+[NesterovSolve] Iter: 410 overflow: 0.308633 HPWL: 7018516827
+[NesterovSolve] Iter: 420 overflow: 0.273948 HPWL: 6908240091
+[NesterovSolve] Iter: 430 overflow: 0.242336 HPWL: 6809655371
+[NesterovSolve] Iter: 440 overflow: 0.216656 HPWL: 6493948659
+[NesterovSolve] Iter: 450 overflow: 0.191531 HPWL: 6486083192
+[NesterovSolve] Iter: 460 overflow: 0.166731 HPWL: 6485779580
+[NesterovSolve] Iter: 470 overflow: 0.144421 HPWL: 6485171879
+[NesterovSolve] Iter: 480 overflow: 0.1257 HPWL: 6486551630
+[NesterovSolve] Iter: 490 overflow: 0.107521 HPWL: 6493097506
+[NesterovSolve] Finished with Overflow: 0.099121
+[INFO RSZ-0058] Using max wire length 3199um.
+[INFO RSZ-0034] Found 14056 slew violations.
+[INFO RSZ-0036] Found 1465 capacitance violations.
+[INFO RSZ-0037] Found 420 long wires.
+[INFO RSZ-0038] Inserted 14637 buffers in 15177 nets.
+[INFO RSZ-0039] Resized 11532 instances.
+Placement Analysis
+---------------------------------
+total displacement     733514.6 u
+average displacement        2.7 u
+max displacement          221.3 u
+original HPWL         7813950.5 u
+legalized HPWL        8233375.6 u
+delta HPWL                    5 %
+
+Design area 19169028 u^2 62% utilization.
+== after placement + repair_design
+wns -2.22
+tns -54.68
+[INFO CTS-0039] Number of created patterns = 49104.
+[INFO CTS-0084] Compiling LUT.
+Min. len    Max. len    Min. cap    Max. cap    Min. slew   Max. slew
+2           8           1           35          1           83          
+[WARNING CTS-0043] 3168 wires are pure wire and no slew degradation.
+TritonCTS forced slew degradation on these wires.
+[INFO CTS-0046]     Number of wire segments: 49104.
+[INFO CTS-0047]     Number of keys in characterization LUT: 1888.
+[INFO CTS-0048]     Actual min input cap: 1.
+[INFO CTS-0007] Net "clk" found for clock "clk".
+[INFO CTS-0010]  Clock net "clk" has 4325 sinks.
+[INFO CTS-0010]  Clock net "u_enc.ck_tm" has 3200 sinks.
+[INFO CTS-0010]  Clock net "u_enc.ck_pix" has 6272 sinks.
+[INFO CTS-0010]  Clock net "u_enc.ck_cmap" has 4608 sinks.
+[INFO CTS-0010]  Clock net "u_enc.ck_bmap" has 3136 sinks.
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[8\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[8\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[8\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[8\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[7\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[7\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[7\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[7\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[6\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[6\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[6\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[6\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[5\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[5\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[5\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[5\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[4\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[4\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[4\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[4\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[3\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[3\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[3\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[3\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[2\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[2\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[2\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[2\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[1\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[1\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[1\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[1\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[0\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[0\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[0\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_wmem.bank\[0\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[8\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[8\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[7\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[7\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[6\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[6\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[5\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[5\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[4\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[4\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[3\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[3\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[2\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[2\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[1\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[1\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[0\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_lbuf.bank\[0\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[8\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[8\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[8\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[8\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[8\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[8\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[8\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[8\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[7\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[7\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[7\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[7\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[7\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[7\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[7\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[7\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[6\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[6\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[6\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[6\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[6\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[6\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[6\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[6\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[5\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[5\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[5\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[5\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[5\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[5\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[5\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[5\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[4\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[4\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[4\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[4\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[4\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[4\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[4\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[4\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[3\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[3\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[3\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[3\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[3\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[3\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[3\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[3\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[2\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[2\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[2\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[2\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[2\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[2\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[2\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[2\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[1\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[1\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[1\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[1\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[1\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[1\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[1\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[1\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[0\].col\[3\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[0\].col\[3\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[0\].col\[2\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[0\].col\[2\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[0\].col\[1\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[0\].col\[1\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[0\].col\[0\].ck1" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "u_core.u_cmem.bank\[0\].col\[0\].ck0" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000309_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000308_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000307_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000306_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000305_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000304_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000303_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000302_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000301_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000300_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000299_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000298_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000297_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000296_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000295_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000294_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000293_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000292_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000291_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000290_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000289_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000288_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000287_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000286_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000285_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000284_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000283_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000282_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000281_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000280_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000279_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000278_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000277_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000276_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000275_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000274_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000273_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000272_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000271_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000270_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000269_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000268_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000267_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000266_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000265_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000264_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000263_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000262_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000261_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000260_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000259_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000258_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000257_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000256_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000255_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000254_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000253_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000252_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000251_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000250_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000249_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000248_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000247_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000246_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000245_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000244_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000243_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000242_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000241_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000240_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000239_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000238_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000237_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000236_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000235_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000234_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000233_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000232_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000231_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000230_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000229_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000228_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000227_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000226_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000225_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000224_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000223_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000222_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000221_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000220_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000219_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000218_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000217_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000216_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000215_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000214_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000213_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000212_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000211_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000210_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000209_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000208_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000207_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000206_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000205_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000204_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000203_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000202_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000201_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000200_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000199_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000198_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000197_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000196_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000195_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000194_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000193_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000192_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000191_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000190_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000189_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000188_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000187_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000186_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000185_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000184_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000183_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000182_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000181_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000180_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000179_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000178_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000177_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000176_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000175_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000174_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000173_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000172_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000171_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000170_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000169_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000168_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000167_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000166_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000165_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000164_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000163_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000162_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000161_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000160_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000159_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000158_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000157_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000156_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000155_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000154_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000153_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000152_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000151_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000150_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000149_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000148_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000147_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000146_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000145_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000144_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000143_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000142_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000141_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000140_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000139_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000138_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000137_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000136_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000135_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000134_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000133_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000132_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000131_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000130_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000129_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000128_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000127_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000126_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000125_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000124_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000123_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000122_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000121_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000120_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000119_" has 1 sinks. Skipping...
+[WARNING CTS-0041] Net "_000118_" has 1 sinks. Skipping...
+[INFO CTS-0008] TritonCTS found 5 clock nets.
+[INFO CTS-0097] Characterization used 2 buffer(s) types.
+[INFO CTS-0027] Generating H-Tree topology for net clk.
+[INFO CTS-0028]  Total number of sinks: 4325.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13000  dbu (13 um).
+[INFO CTS-0019]  Total number of sinks after clustering: 2184.
+[INFO CTS-0024]  Normalized sink region: [(5.23715, 14.3192), (477.657, 367.928)].
+[INFO CTS-0025]     Width:  472.4200.
+[INFO CTS-0026]     Height: 353.6086.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 1092
+    Sub-region size: 236.2100 X 353.6086
+[INFO CTS-0034]     Segment length (rounded): 118.
+    Key: 1020 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 2184 sinks, 26 sinks closer to other cluster.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 546
+    Sub-region size: 236.2100 X 176.8043
+[INFO CTS-0034]     Segment length (rounded): 88.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Out of 994 sinks, 5 sinks closer to other cluster.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 273
+    Sub-region size: 118.1050 X 176.8043
+[INFO CTS-0034]     Segment length (rounded): 60.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 548 sinks, 106 sinks closer to other cluster.
+ Out of 446 sinks, 26 sinks closer to other cluster.
+ Out of 587 sinks, 3 sinks closer to other cluster.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 137
+    Sub-region size: 118.1050 X 88.4021
+[INFO CTS-0034]     Segment length (rounded): 44.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 220 sinks, 27 sinks closer to other cluster.
+ Out of 267 sinks, 3 sinks closer to other cluster.
+ Out of 338 sinks, 1 sinks closer to other cluster.
+ Out of 265 sinks, 29 sinks closer to other cluster.
+ Out of 234 sinks, 14 sinks closer to other cluster.
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 69
+    Sub-region size: 59.0525 X 88.4021
+[INFO CTS-0034]     Segment length (rounded): 30.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 191 sinks, 2 sinks closer to other cluster.
+ Out of 88 sinks, 8 sinks closer to other cluster.
+ Out of 111 sinks, 30 sinks closer to other cluster.
+ Out of 68 sinks, 4 sinks closer to other cluster.
+ Out of 161 sinks, 49 sinks closer to other cluster.
+ Out of 106 sinks, 23 sinks closer to other cluster.
+ Out of 94 sinks, 10 sinks closer to other cluster.
+ Out of 140 sinks, 3 sinks closer to other cluster.
+ Out of 165 sinks, 30 sinks closer to other cluster.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 35
+    Sub-region size: 59.0525 X 44.2011
+[INFO CTS-0034]     Segment length (rounded): 22.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 55 sinks, 3 sinks closer to other cluster.
+ Out of 82 sinks, 12 sinks closer to other cluster.
+ Out of 74 sinks, 3 sinks closer to other cluster.
+ Out of 58 sinks, 12 sinks closer to other cluster.
+ Out of 45 sinks, 5 sinks closer to other cluster.
+ Out of 28 sinks, 8 sinks closer to other cluster.
+ Out of 65 sinks, 9 sinks closer to other cluster.
+ Out of 63 sinks, 12 sinks closer to other cluster.
+ Out of 104 sinks, 6 sinks closer to other cluster.
+ Out of 98 sinks, 5 sinks closer to other cluster.
+ Out of 74 sinks, 10 sinks closer to other cluster.
+ Out of 60 sinks, 15 sinks closer to other cluster.
+ Out of 40 sinks, 1 sinks closer to other cluster.
+ Out of 88 sinks, 14 sinks closer to other cluster.
+ Out of 56 sinks, 2 sinks closer to other cluster.
+ Out of 56 sinks, 6 sinks closer to other cluster.
+ Out of 76 sinks, 10 sinks closer to other cluster.
+ Out of 112 sinks, 7 sinks closer to other cluster.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 18
+    Sub-region size: 29.5263 X 44.2011
+[INFO CTS-0034]     Segment length (rounded): 14.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 34 sinks, 3 sinks closer to other cluster.
+ Out of 49 sinks, 10 sinks closer to other cluster.
+ Out of 40 sinks, 4 sinks closer to other cluster.
+ Out of 36 sinks, 1 sinks closer to other cluster.
+ Out of 22 sinks, 8 sinks closer to other cluster.
+ Out of 44 sinks, 1 sinks closer to other cluster.
+ Out of 12 sinks, 4 sinks closer to other cluster.
+ Out of 40 sinks, 1 sinks closer to other cluster.
+ Out of 25 sinks, 1 sinks closer to other cluster.
+ Out of 50 sinks, 1 sinks closer to other cluster.
+ Out of 26 sinks, 3 sinks closer to other cluster.
+ Out of 17 sinks, 1 sinks closer to other cluster.
+ Out of 25 sinks, 8 sinks closer to other cluster.
+ Out of 62 sinks, 1 sinks closer to other cluster.
+ Out of 42 sinks, 9 sinks closer to other cluster.
+ Out of 40 sinks, 4 sinks closer to other cluster.
+ Out of 26 sinks, 6 sinks closer to other cluster.
+ Out of 24 sinks, 2 sinks closer to other cluster.
+ Out of 36 sinks, 1 sinks closer to other cluster.
+ Out of 31 sinks, 1 sinks closer to other cluster.
+ Out of 46 sinks, 1 sinks closer to other cluster.
+ Out of 23 sinks, 1 sinks closer to other cluster.
+ Out of 23 sinks, 4 sinks closer to other cluster.
+ Out of 45 sinks, 1 sinks closer to other cluster.
+ Out of 42 sinks, 4 sinks closer to other cluster.
+ Out of 58 sinks, 1 sinks closer to other cluster.
+ Out of 25 sinks, 3 sinks closer to other cluster.
+ Level 8
+    Direction: Vertical
+    Sinks per sub-region: 9
+    Sub-region size: 29.5263 X 22.1005
+[INFO CTS-0034]     Segment length (rounded): 12.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 8 sinks, 1 sinks closer to other cluster.
+ Out of 19 sinks, 2 sinks closer to other cluster.
+ Out of 9 sinks, 3 sinks closer to other cluster.
+ Out of 13 sinks, 2 sinks closer to other cluster.
+ Out of 18 sinks, 2 sinks closer to other cluster.
+ Out of 17 sinks, 1 sinks closer to other cluster.
+ Out of 10 sinks, 2 sinks closer to other cluster.
+ Out of 20 sinks, 2 sinks closer to other cluster.
+ Out of 8 sinks, 1 sinks closer to other cluster.
+ Out of 11 sinks, 4 sinks closer to other cluster.
+ Out of 11 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 4 sinks closer to other cluster.
+ Out of 7 sinks, 2 sinks closer to other cluster.
+ Out of 10 sinks, 2 sinks closer to other cluster.
+ Out of 37 sinks, 3 sinks closer to other cluster.
+ Out of 17 sinks, 4 sinks closer to other cluster.
+ Out of 16 sinks, 2 sinks closer to other cluster.
+ Out of 11 sinks, 3 sinks closer to other cluster.
+ Out of 17 sinks, 1 sinks closer to other cluster.
+ Out of 10 sinks, 1 sinks closer to other cluster.
+ Out of 21 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 6 sinks, 1 sinks closer to other cluster.
+ Out of 21 sinks, 4 sinks closer to other cluster.
+ Out of 9 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 19 sinks, 1 sinks closer to other cluster.
+ Out of 37 sinks, 2 sinks closer to other cluster.
+ Out of 16 sinks, 3 sinks closer to other cluster.
+ Out of 10 sinks, 1 sinks closer to other cluster.
+ Out of 15 sinks, 4 sinks closer to other cluster.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 2184.
+[INFO CTS-0027] Generating H-Tree topology for net u_enc.ck_tm.
+[INFO CTS-0028]  Total number of sinks: 3200.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13000  dbu (13 um).
+[INFO CTS-0019]  Total number of sinks after clustering: 1427.
+[INFO CTS-0024]  Normalized sink region: [(211.903, 242.498), (314.106, 316.675)].
+[INFO CTS-0025]     Width:  102.2026.
+[INFO CTS-0026]     Height: 74.1769.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 714
+    Sub-region size: 51.1013 X 74.1769
+[INFO CTS-0034]     Segment length (rounded): 26.
+    Key: 1020 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 357
+    Sub-region size: 51.1013 X 37.0885
+[INFO CTS-0034]     Segment length (rounded): 18.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 179
+    Sub-region size: 25.5507 X 37.0885
+[INFO CTS-0034]     Segment length (rounded): 12.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 90
+    Sub-region size: 25.5507 X 18.5442
+[INFO CTS-0034]     Segment length (rounded): 10.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Out of 149 sinks, 10 sinks closer to other cluster.
+ Out of 211 sinks, 4 sinks closer to other cluster.
+ Out of 181 sinks, 4 sinks closer to other cluster.
+ Out of 238 sinks, 15 sinks closer to other cluster.
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 45
+    Sub-region size: 12.7753 X 18.5442
+[INFO CTS-0034]     Segment length (rounded): 6.
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 60 sinks, 3 sinks closer to other cluster.
+ Out of 63 sinks, 4 sinks closer to other cluster.
+ Out of 127 sinks, 1 sinks closer to other cluster.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 23
+    Sub-region size: 12.7753 X 9.2721
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 44 sinks, 5 sinks closer to other cluster.
+ Out of 39 sinks, 3 sinks closer to other cluster.
+ Out of 40 sinks, 3 sinks closer to other cluster.
+ Out of 51 sinks, 3 sinks closer to other cluster.
+ Out of 44 sinks, 1 sinks closer to other cluster.
+ Out of 46 sinks, 4 sinks closer to other cluster.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 12
+    Sub-region size: 6.3877 X 9.2721
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 18 sinks, 1 sinks closer to other cluster.
+ Out of 26 sinks, 2 sinks closer to other cluster.
+ Out of 21 sinks, 1 sinks closer to other cluster.
+ Out of 18 sinks, 1 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 33 sinks, 1 sinks closer to other cluster.
+ Out of 35 sinks, 3 sinks closer to other cluster.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 1427.
+[INFO CTS-0027] Generating H-Tree topology for net u_enc.ck_pix.
+[INFO CTS-0028]  Total number of sinks: 6272.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13000  dbu (13 um).
+[INFO CTS-0019]  Total number of sinks after clustering: 2764.
+[INFO CTS-0024]  Normalized sink region: [(117.427, 88.6046), (275.861, 193.223)].
+[INFO CTS-0025]     Width:  158.4346.
+[INFO CTS-0026]     Height: 104.6185.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 1382
+    Sub-region size: 79.2173 X 104.6185
+[INFO CTS-0034]     Segment length (rounded): 40.
+    Key: 1020 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 691
+    Sub-region size: 79.2173 X 52.3092
+[INFO CTS-0034]     Segment length (rounded): 26.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 346
+    Sub-region size: 39.6087 X 52.3092
+[INFO CTS-0034]     Segment length (rounded): 20.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 634 sinks, 10 sinks closer to other cluster.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 173
+    Sub-region size: 39.6087 X 26.1546
+[INFO CTS-0034]     Segment length (rounded): 14.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 421 sinks, 23 sinks closer to other cluster.
+ Out of 394 sinks, 29 sinks closer to other cluster.
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 87
+    Sub-region size: 19.8043 X 26.1546
+[INFO CTS-0034]     Segment length (rounded): 10.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Out of 178 sinks, 10 sinks closer to other cluster.
+ Out of 143 sinks, 7 sinks closer to other cluster.
+ Out of 176 sinks, 10 sinks closer to other cluster.
+ Out of 168 sinks, 6 sinks closer to other cluster.
+ Out of 130 sinks, 4 sinks closer to other cluster.
+ Out of 124 sinks, 5 sinks closer to other cluster.
+ Out of 198 sinks, 2 sinks closer to other cluster.
+ Out of 156 sinks, 4 sinks closer to other cluster.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 44
+    Sub-region size: 19.8043 X 13.0773
+[INFO CTS-0034]     Segment length (rounded): 6.
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Out of 58 sinks, 16 sinks closer to other cluster.
+ Out of 83 sinks, 10 sinks closer to other cluster.
+ Out of 122 sinks, 5 sinks closer to other cluster.
+ Out of 114 sinks, 4 sinks closer to other cluster.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 22
+    Sub-region size: 9.9022 X 13.0773
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 43 sinks, 1 sinks closer to other cluster.
+ Out of 63 sinks, 8 sinks closer to other cluster.
+ Out of 24 sinks, 2 sinks closer to other cluster.
+ Out of 41 sinks, 2 sinks closer to other cluster.
+ Out of 28 sinks, 5 sinks closer to other cluster.
+ Out of 34 sinks, 4 sinks closer to other cluster.
+ Out of 68 sinks, 3 sinks closer to other cluster.
+ Out of 26 sinks, 3 sinks closer to other cluster.
+ Out of 26 sinks, 2 sinks closer to other cluster.
+ Out of 32 sinks, 1 sinks closer to other cluster.
+ Out of 36 sinks, 1 sinks closer to other cluster.
+ Level 8
+    Direction: Vertical
+    Sinks per sub-region: 11
+    Sub-region size: 9.9022 X 6.5387
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 16 sinks, 3 sinks closer to other cluster.
+ Out of 18 sinks, 3 sinks closer to other cluster.
+ Out of 40 sinks, 2 sinks closer to other cluster.
+ Out of 31 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 2 sinks closer to other cluster.
+ Out of 21 sinks, 1 sinks closer to other cluster.
+ Out of 28 sinks, 1 sinks closer to other cluster.
+ Out of 11 sinks, 1 sinks closer to other cluster.
+ Out of 11 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 2 sinks closer to other cluster.
+ Out of 37 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 3 sinks closer to other cluster.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 2764.
+[INFO CTS-0027] Generating H-Tree topology for net u_enc.ck_cmap.
+[INFO CTS-0028]  Total number of sinks: 4608.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13000  dbu (13 um).
+[INFO CTS-0019]  Total number of sinks after clustering: 2015.
+[INFO CTS-0024]  Normalized sink region: [(240.494, 164.246), (388.95, 239.878)].
+[INFO CTS-0025]     Width:  148.4562.
+[INFO CTS-0026]     Height: 75.6323.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 1008
+    Sub-region size: 74.2281 X 75.6323
+[INFO CTS-0034]     Segment length (rounded): 38.
+    Key: 1020 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 355 outSlew: 7 load: 1 length: 6 isBuffered: true
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 504
+    Sub-region size: 74.2281 X 37.8162
+[INFO CTS-0034]     Segment length (rounded): 18.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 252
+    Sub-region size: 37.1140 X 37.8162
+[INFO CTS-0034]     Segment length (rounded): 18.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Out of 468 sinks, 3 sinks closer to other cluster.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 126
+    Sub-region size: 37.1140 X 18.9081
+[INFO CTS-0034]     Segment length (rounded): 10.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Out of 212 sinks, 3 sinks closer to other cluster.
+ Out of 306 sinks, 6 sinks closer to other cluster.
+ Out of 280 sinks, 14 sinks closer to other cluster.
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 63
+    Sub-region size: 18.5570 X 18.9081
+[INFO CTS-0034]     Segment length (rounded): 10.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Out of 168 sinks, 2 sinks closer to other cluster.
+ Out of 133 sinks, 2 sinks closer to other cluster.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 32
+    Sub-region size: 18.5570 X 9.4540
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 36 sinks, 2 sinks closer to other cluster.
+ Out of 58 sinks, 7 sinks closer to other cluster.
+ Out of 39 sinks, 6 sinks closer to other cluster.
+ Out of 85 sinks, 4 sinks closer to other cluster.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 16
+    Sub-region size: 9.2785 X 9.4540
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 15 sinks, 1 sinks closer to other cluster.
+ Out of 21 sinks, 3 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 41 sinks, 1 sinks closer to other cluster.
+ Out of 56 sinks, 1 sinks closer to other cluster.
+ Out of 24 sinks, 1 sinks closer to other cluster.
+ Out of 51 sinks, 2 sinks closer to other cluster.
+ Out of 28 sinks, 1 sinks closer to other cluster.
+ Out of 28 sinks, 1 sinks closer to other cluster.
+ Out of 34 sinks, 4 sinks closer to other cluster.
+ Out of 38 sinks, 1 sinks closer to other cluster.
+ Out of 28 sinks, 1 sinks closer to other cluster.
+ Out of 34 sinks, 2 sinks closer to other cluster.
+ Level 8
+    Direction: Vertical
+    Sinks per sub-region: 8
+    Sub-region size: 9.2785 X 4.7270
+[INFO CTS-0034]     Segment length (rounded): 2.
+    Key: 19 outSlew: 7 load: 1 length: 2 isBuffered: true
+ Out of 16 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 33 sinks, 2 sinks closer to other cluster.
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 2 sinks closer to other cluster.
+ Out of 28 sinks, 1 sinks closer to other cluster.
+ Out of 16 sinks, 1 sinks closer to other cluster.
+ Out of 22 sinks, 1 sinks closer to other cluster.
+ Out of 12 sinks, 1 sinks closer to other cluster.
+ Out of 13 sinks, 1 sinks closer to other cluster.
+ Out of 12 sinks, 1 sinks closer to other cluster.
+ Out of 12 sinks, 2 sinks closer to other cluster.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 2015.
+[INFO CTS-0027] Generating H-Tree topology for net u_enc.ck_bmap.
+[INFO CTS-0028]  Total number of sinks: 3136.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13000  dbu (13 um).
+[INFO CTS-0019]  Total number of sinks after clustering: 1376.
+[INFO CTS-0024]  Normalized sink region: [(277.153, 89.378), (405.634, 152.074)].
+[INFO CTS-0025]     Width:  128.4815.
+[INFO CTS-0026]     Height: 62.6964.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 688
+    Sub-region size: 64.2408 X 62.6964
+[INFO CTS-0034]     Segment length (rounded): 32.
+    Key: 1020 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 344
+    Sub-region size: 64.2408 X 31.3482
+[INFO CTS-0034]     Segment length (rounded): 16.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Out of 669 sinks, 10 sinks closer to other cluster.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 172
+    Sub-region size: 32.1204 X 31.3482
+[INFO CTS-0034]     Segment length (rounded): 16.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Out of 294 sinks, 5 sinks closer to other cluster.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 86
+    Sub-region size: 32.1204 X 15.6741
+[INFO CTS-0034]     Segment length (rounded): 8.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 43
+    Sub-region size: 16.0602 X 15.6741
+[INFO CTS-0034]     Segment length (rounded): 8.
+    Key: 1025 outSlew: 7 load: 1 length: 8 isBuffered: true
+ Out of 60 sinks, 6 sinks closer to other cluster.
+ Out of 112 sinks, 1 sinks closer to other cluster.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 22
+    Sub-region size: 16.0602 X 7.8371
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 26 sinks, 2 sinks closer to other cluster.
+ Out of 29 sinks, 1 sinks closer to other cluster.
+ Out of 56 sinks, 4 sinks closer to other cluster.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 11
+    Sub-region size: 8.0301 X 7.8371
+[INFO CTS-0034]     Segment length (rounded): 4.
+    Key: 65 outSlew: 7 load: 1 length: 4 isBuffered: true
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 14 sinks, 1 sinks closer to other cluster.
+ Out of 20 sinks, 1 sinks closer to other cluster.
+ Out of 17 sinks, 2 sinks closer to other cluster.
+ Out of 23 sinks, 1 sinks closer to other cluster.
+ Out of 22 sinks, 2 sinks closer to other cluster.
+ Out of 21 sinks, 4 sinks closer to other cluster.
+ Out of 17 sinks, 2 sinks closer to other cluster.
+ Out of 20 sinks, 2 sinks closer to other cluster.
+ Out of 19 sinks, 1 sinks closer to other cluster.
+ Out of 25 sinks, 2 sinks closer to other cluster.
+ Out of 23 sinks, 1 sinks closer to other cluster.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 1376.
+[INFO CTS-0036]  Average source sink dist: 83592.35 dbu.
+[INFO CTS-0037]  Number of outlier sinks: 108.
+[INFO CTS-0036]  Average source sink dist: 22577.63 dbu.
+[INFO CTS-0037]  Number of outlier sinks: 8.
+[INFO CTS-0036]  Average source sink dist: 24788.38 dbu.
+[INFO CTS-0037]  Number of outlier sinks: 58.
+[INFO CTS-0036]  Average source sink dist: 21238.93 dbu.
+[INFO CTS-0037]  Number of outlier sinks: 34.
+[INFO CTS-0036]  Average source sink dist: 23962.40 dbu.
+[INFO CTS-0037]  Number of outlier sinks: 8.
+[INFO CTS-0018]     Created 4452 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 52.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 91.
+[INFO CTS-0014]     8 clock nets were removed/fixed.
+[INFO CTS-0015]     Created 4444 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 0:3, 1:1, 2:1723, 3:218, 4:27, 5:16, 6:35, 7:24, 8:30, 9:24, 10:19, 11:11, 12:17, 13:10, 14:6, 15:10, 16:3, 17:5, 18:1, 19:1, 20:1, 21:1, 22:2..
+[INFO CTS-0017]     Max level of the clock tree: 8.
+[INFO CTS-0018]     Created 1711 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 15.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 17.
+[INFO CTS-0015]     Created 1711 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:1047, 3:363, 5:4, 6:5, 7:8, 8:16, 9:16, 10:18, 11:10, 12:11, 13:11, 14:7, 15:6, 16:4, 17:3, 18:2, 20:3, 21:3, 22:1..
+[INFO CTS-0017]     Max level of the clock tree: 7.
+[INFO CTS-0018]     Created 3421 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 20.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 25.
+[INFO CTS-0015]     Created 3421 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:1966, 3:771, 4:3, 5:10, 6:21, 7:18, 8:33, 9:29, 10:30, 11:19, 12:23, 13:13, 14:12, 15:10, 16:12, 17:1, 18:6, 19:5, 20:4, 22:2, 23:3, 24:2..
+[INFO CTS-0017]     Max level of the clock tree: 8.
+[INFO CTS-0018]     Created 2624 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 19.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 22.
+[INFO CTS-0015]     Created 2624 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:1394, 3:603, 4:13, 5:32, 6:36, 7:45, 8:36, 9:28, 10:21, 11:19, 12:10, 13:4, 14:2, 15:1, 16:2, 18:2, 19:1..
+[INFO CTS-0017]     Max level of the clock tree: 8.
+[INFO CTS-0018]     Created 1638 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 13.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 15.
+[INFO CTS-0015]     Created 1638 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:954, 3:403, 4:3, 5:4, 6:11, 7:7, 8:15, 9:12, 10:15, 11:9, 12:11, 13:14, 14:8, 15:2, 16:6, 17:3, 18:4, 19:3, 20:1..
+[INFO CTS-0017]     Max level of the clock tree: 7.
+[INFO CTS-0098] Clock net "clk"
+[INFO CTS-0099]  Sinks 4325
+[INFO CTS-0100]  Leaf buffers 1932
+[INFO CTS-0101]  Average sink wire length 7607.70 um
+[INFO CTS-0102]  Path depth 52 - 91
+[INFO CTS-0098] Clock net "u_enc.ck_tm"
+[INFO CTS-0099]  Sinks 3200
+[INFO CTS-0100]  Leaf buffers 1410
+[INFO CTS-0101]  Average sink wire length 1220.94 um
+[INFO CTS-0102]  Path depth 15 - 17
+[INFO CTS-0098] Clock net "u_enc.ck_pix"
+[INFO CTS-0099]  Sinks 6272
+[INFO CTS-0100]  Leaf buffers 2737
+[INFO CTS-0101]  Average sink wire length 2054.59 um
+[INFO CTS-0102]  Path depth 20 - 25
+[INFO CTS-0098] Clock net "u_enc.ck_cmap"
+[INFO CTS-0099]  Sinks 4608
+[INFO CTS-0100]  Leaf buffers 1993
+[INFO CTS-0101]  Average sink wire length 2025.16 um
+[INFO CTS-0102]  Path depth 19 - 22
+[INFO CTS-0098] Clock net "u_enc.ck_bmap"
+[INFO CTS-0099]  Sinks 3136
+[INFO CTS-0100]  Leaf buffers 1357
+[INFO CTS-0101]  Average sink wire length 2223.62 um
+[INFO CTS-0102]  Path depth 13 - 15
+[INFO RSZ-0058] Using max wire length 3199um.
+[INFO RSZ-0047] Found 2 long wires.
+[INFO RSZ-0048] Inserted 2 buffers in 2 nets.
+[INFO RSZ-0041] Resized 437 instances.
+[WARNING RSZ-0062] Unable to repair all setup violations.
+[INFO RSZ-0046] Found 17222 endpoints with hold violations.
+[INFO RSZ-0032] Inserted 18676 hold buffers.
+Placement Analysis
+---------------------------------
+total displacement     398337.8 u
+average displacement        1.3 u
+max displacement          295.8 u
+original HPWL         9115432.3 u
+legalized HPWL        9385537.6 u
+delta HPWL                    3 %
+
+Startpoint: u_core.u_cmem.bank[1].col[0].u_sram
+            (falling edge-triggered flip-flop clocked by clk)
+Endpoint: _116147_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+  10.00   10.00   clock clk (fall edge)
+   0.00   10.00   clock source latency
+   0.00   10.00 v clk (in)
+   0.19   10.19 v clkbuf_0_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.15   10.34 v clkbuf_1_0_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   10.48 v clkbuf_1_0_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   10.62 v clkbuf_1_0_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   10.77 v clkbuf_1_0_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   10.91 v clkbuf_1_0_4_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   11.07 v clkbuf_1_0_5_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   11.21 v clkbuf_1_0_6_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   11.37 v clkbuf_1_0_7_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   11.52 v clkbuf_1_0_8_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   11.67 v clkbuf_1_0_9_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   11.80 v clkbuf_1_0_10_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.25   12.05 v clkbuf_1_0_11_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.26   12.31 v clkbuf_1_0_12_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.12   12.42 v clkbuf_1_0_13_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   12.58 v clkbuf_1_0_14_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   12.73 v clkbuf_2_0_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   12.87 v clkbuf_2_0_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   13.02 v clkbuf_2_0_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   13.16 v clkbuf_2_0_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   13.31 v clkbuf_2_0_4_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   13.45 v clkbuf_2_0_5_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   13.59 v clkbuf_2_0_6_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   13.73 v clkbuf_2_0_7_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   13.87 v clkbuf_2_0_8_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.12   13.99 v clkbuf_2_0_9_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   14.13 v clkbuf_2_0_10_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   14.28 v clkbuf_3_1_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   14.43 v clkbuf_3_1_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.18   14.60 v clkbuf_3_1_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   14.75 v clkbuf_3_1_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   14.88 v clkbuf_3_1_4_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   15.03 v clkbuf_3_1_5_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   15.16 v clkbuf_3_1_6_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   15.32 v clkbuf_3_1_7_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   15.47 v clkbuf_4_2_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   15.61 v clkbuf_4_2_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   15.76 v clkbuf_4_2_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   15.91 v clkbuf_4_2_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   16.05 v clkbuf_4_2_4_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.19   16.24 v clkbuf_4_2_5_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.17   16.41 v clkbuf_5_5_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.12   16.53 v clkbuf_5_5_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   16.66 v clkbuf_5_5_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   16.82 v clkbuf_5_5_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   16.97 v clkbuf_6_10_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.12   17.10 v clkbuf_6_10_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   17.23 v clkbuf_6_10_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   17.36 v clkbuf_7_21_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.17   17.53 v clkbuf_7_21_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   17.69 v clkbuf_8_42_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.30   17.98 v clkbuf_8_42_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.23   18.21 v clkbuf_opt_13_0_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.13   18.34 v clkbuf_opt_13_1_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.15   18.50 v clkbuf_opt_13_2_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.16   18.65 v clkbuf_opt_13_3_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   18.79 v clkbuf_opt_13_4_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.16   18.95 v clkbuf_opt_13_5_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.16   19.11 v clkbuf_opt_13_6_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   19.24 v clkbuf_opt_13_7_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   19.39 v clkbuf_opt_13_8_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   19.53 v clkbuf_opt_13_9_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   19.67 v clkbuf_opt_13_10_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   19.81 v clkbuf_opt_13_11_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   19.95 v clkbuf_opt_13_12_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   20.09 v clkbuf_opt_13_13_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   20.23 v clkbuf_opt_13_14_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   20.37 v clkbuf_opt_13_15_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.13   20.50 v clkbuf_opt_13_16_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   20.64 v u_core.u_cmem.bank[1].col[0].g1.u_icg/GCLK (sky130_fd_sc_hd__dlclkp_1)
+   0.00   20.64 v u_core.u_cmem.bank[1].col[0].u_sram/clk1 (sky130_sram_2kbyte_1rw1r_32x512_8)
+   0.53   21.17 ^ u_core.u_cmem.bank[1].col[0].u_sram/dout1[16] (sky130_sram_2kbyte_1rw1r_32x512_8)
+   0.18   21.35 ^ repeater7977/X (sky130_fd_sc_hd__clkbuf_2)
+   0.23   21.58 ^ repeater7976/X (sky130_fd_sc_hd__clkbuf_2)
+   0.21   21.80 ^ repeater7975/X (sky130_fd_sc_hd__clkbuf_2)
+   0.21   22.01 ^ repeater7974/X (sky130_fd_sc_hd__clkbuf_2)
+   0.26   22.27 ^ repeater7973/X (sky130_fd_sc_hd__clkbuf_2)
+   0.32   22.58 ^ repeater7972/X (sky130_fd_sc_hd__clkbuf_2)
+   0.20   22.78 ^ repeater7971/X (sky130_fd_sc_hd__clkbuf_2)
+   0.27   23.05 ^ repeater7970/X (sky130_fd_sc_hd__clkbuf_2)
+   0.24   23.29 ^ repeater7969/X (sky130_fd_sc_hd__clkbuf_2)
+   0.21   23.50 ^ repeater7968/X (sky130_fd_sc_hd__clkbuf_2)
+   0.21   23.71 ^ repeater7967/X (sky130_fd_sc_hd__clkbuf_2)
+   0.60   24.31 ^ _089846_/X (sky130_fd_sc_hd__mux4_4)
+   0.48   24.80 v _089847_/Y (sky130_fd_sc_hd__mux2i_4)
+   0.90   25.70 ^ _089849_/Y (sky130_fd_sc_hd__o21ai_4)
+   0.45   26.15 ^ _090904_/X (sky130_fd_sc_hd__and4_4)
+   0.30   26.45 ^ _090932_/X (sky130_fd_sc_hd__and4b_1)
+   0.24   26.69 ^ _090950_/X (sky130_fd_sc_hd__maj3_2)
+   0.32   27.01 ^ _090972_/X (sky130_fd_sc_hd__and4b_2)
+   0.27   27.28 ^ _091043_/X (sky130_fd_sc_hd__and4_4)
+   0.12   27.41 v _091135_/Y (sky130_fd_sc_hd__o2111ai_4)
+   0.24   27.65 v _091145_/X (sky130_fd_sc_hd__o21a_1)
+   0.27   27.91 ^ _091192_/Y (sky130_fd_sc_hd__nor4_1)
+   0.53   28.44 v _091213_/X (sky130_fd_sc_hd__or4b_4)
+   0.39   28.82 v _091230_/X (sky130_fd_sc_hd__o31a_4)
+   0.23   29.06 v _091338_/X (sky130_fd_sc_hd__o22a_4)
+   0.66   29.72 ^ _091400_/Y (sky130_fd_sc_hd__nor4_4)
+   0.28   29.99 v _091484_/Y (sky130_fd_sc_hd__o2111ai_4)
+   0.51   30.50 ^ _091564_/Y (sky130_fd_sc_hd__a2111oi_4)
+   0.31   30.81 ^ _091580_/X (sky130_fd_sc_hd__maj3_2)
+   0.08   30.89 v _091581_/Y (sky130_fd_sc_hd__xnor2_2)
+   0.52   31.41 ^ _091585_/Y (sky130_fd_sc_hd__a21oi_4)
+   0.12   31.54 v _091586_/Y (sky130_fd_sc_hd__o21ai_1)
+   0.00   31.54 v _116147_/D (sky130_fd_sc_hd__dfxtp_1)
+          31.54   data arrival time
+
+  20.00   20.00   clock clk (rise edge)
+   0.00   20.00   clock source latency
+   0.00   20.00 ^ clk (in)
+   0.17   20.17 ^ clkbuf_0_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.14   20.31 ^ clkbuf_1_0_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   20.45 ^ clkbuf_1_0_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   20.59 ^ clkbuf_1_0_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   20.73 ^ clkbuf_1_0_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   20.87 ^ clkbuf_1_0_4_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   21.02 ^ clkbuf_1_0_5_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   21.16 ^ clkbuf_1_0_6_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   21.32 ^ clkbuf_1_0_7_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   21.47 ^ clkbuf_1_0_8_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   21.61 ^ clkbuf_1_0_9_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.12   21.73 ^ clkbuf_1_0_10_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.30   22.03 ^ clkbuf_1_0_11_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.26   22.29 ^ clkbuf_1_0_12_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.11   22.40 ^ clkbuf_1_0_13_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   22.55 ^ clkbuf_1_0_14_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   22.70 ^ clkbuf_2_0_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   22.84 ^ clkbuf_2_0_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   22.98 ^ clkbuf_2_0_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   23.12 ^ clkbuf_2_0_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   23.26 ^ clkbuf_2_0_4_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   23.39 ^ clkbuf_2_0_5_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   23.53 ^ clkbuf_2_0_6_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   23.67 ^ clkbuf_2_0_7_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   23.80 ^ clkbuf_2_0_8_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.11   23.91 ^ clkbuf_2_0_9_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   24.05 ^ clkbuf_2_0_10_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   24.20 ^ clkbuf_3_1_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   24.33 ^ clkbuf_3_1_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.18   24.52 ^ clkbuf_3_1_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   24.66 ^ clkbuf_3_1_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   24.79 ^ clkbuf_3_1_4_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   24.93 ^ clkbuf_3_1_5_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   25.06 ^ clkbuf_3_1_6_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   25.22 ^ clkbuf_3_1_7_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   25.36 ^ clkbuf_4_2_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   25.49 ^ clkbuf_4_2_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   25.65 ^ clkbuf_4_2_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.15   25.80 ^ clkbuf_4_2_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   25.92 ^ clkbuf_4_2_4_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.21   26.13 ^ clkbuf_4_2_5_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.17   26.30 ^ clkbuf_5_4_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   26.44 ^ clkbuf_5_4_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   26.57 ^ clkbuf_5_4_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.20   26.77 ^ clkbuf_5_4_3_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.18   26.95 ^ clkbuf_6_9_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.12   27.08 ^ clkbuf_6_9_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.14   27.22 ^ clkbuf_6_9_2_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.12   27.34 ^ clkbuf_7_18_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.13   27.47 ^ clkbuf_7_18_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.12   27.59 ^ clkbuf_8_37_0_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.21   27.80 ^ clkbuf_8_37_1_clk/X (sky130_fd_sc_hd__clkbuf_4)
+   0.16   27.96 ^ clkbuf_leaf_33_clk/X (sky130_fd_sc_hd__clkbuf_16)
+   0.00   27.96 ^ _116147_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.00   27.96   clock reconvergence pessimism
+  -0.13   27.83   library setup time
+          27.83   data required time
+---------------------------------------------------------
+          27.83   data required time
+         -31.54   data arrival time
+---------------------------------------------------------
+          -3.71   slack (VIOLATED)
+
+
+Startpoint: uart_rx (input port clocked by clk)
+Endpoint: _106432_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (propagated)
+   4.00    4.00 ^ input external delay
+   0.01    4.01 ^ uart_rx (in)
+   0.53    4.54 ^ hold17785/X (sky130_fd_sc_hd__dlygate4sd3_1)
+   0.55    5.09 ^ hold17786/X (sky130_fd_sc_hd__dlygate4sd3_1)
+   0.54    5.63 ^ hold17787/X (sky130_fd_sc_hd__dlygate4sd3_1)
+   0.55    6.17 ^ hold17788/X (sky130_fd_sc_hd__dlygate4sd3_1)
+   0.54    6.71 ^ hold17789/X (sky130_fd_sc_hd__dlygate4sd3_1)
+   0.55    7.26 ^ hold17790/X (sky130_fd_sc_hd__dlygate4sd3_1)
+   0.21    7.47 ^ hold33171/X (sky130_fd_sc_hd__clkdlybuf4s18_1)
+   0.20    7.67 ^ hold17791/X (sky130_fd_sc_hd__clkdlybuf4s18_1)
+   0.19    7.87 ^ hold33170/X (sky130_fd_sc_hd__clkdlybuf4s18_1)
+   0.00    7.87 ^ _106432_/D (sky130_fd_sc_hd__dfxtp_4)
+           7.87   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   8.58    8.58   clock network delay (propagated)
+   0.00    8.58   clock reconvergence pessimism
+           8.58 ^ _106432_/CLK (sky130_fd_sc_hd__dfxtp_4)
+  -0.03    8.55   library hold time
+           8.55   data required time
+---------------------------------------------------------
+           8.55   data required time
+          -7.87   data arrival time
+---------------------------------------------------------
+          -0.68   slack (VIOLATED)
+
+
+wns -3.71
+tns -419.13
+worst slack -3.71
+worst slack -0.68
+Design area 19652302 u^2 64% utilization.
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power
+----------------------------------------------------------------
+Sequential             4.53e-02   1.70e-03   1.81e-07   4.70e-02  12.6%
+Combinational          2.79e-01   4.54e-02   1.12e-03   3.25e-01  87.4%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  3.24e-01   4.71e-02   1.12e-03   3.72e-01 100.0%
+                          87.0%      12.7%       0.3%
+SPARK Cortex estimate flow done

@@ -1,1 +1,4 @@
 CB=10: command schedule reproduces CortexInt.stage exactly: True
+tb_cortex_core.v:49: $finish called at 16877960000 (1ps)
+CB=10: 138 commands (66 dreams, 20 predictions), lines compared 4752, mismatches 0; halving exercised: n/a; test accuracy on 0-3: 0.700
+CB=5: command schedule reproduces CortexInt.stage exactly: True

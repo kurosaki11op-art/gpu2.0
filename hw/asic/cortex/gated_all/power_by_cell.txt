@@ -1,0 +1,23 @@
+# Power by cell type, fully clock-gated build (encoder + every SRAM port), SRAM read ports 1 cycle in 9,
+# other gated clocks 1 in 1000, 10% activity, 50 MHz
+total W 0.0768
+clkbuf_16                             10792 cells     31.7 mW  41.2%
+sky130_sram_2kbyte_1rw1r_32x512_8        63 cells     10.9 mW  14.2%
+clkbuf_4                               3313 cells      8.8 mW  11.5%
+dfxtp_1                               20692 cells      7.8 mW  10.2%
+buf_16                                 1059 cells      2.4 mW   3.2%
+dlygate4sd3_1                          9832 cells      1.5 mW   2.0%
+buf_12                                  792 cells      1.5 mW   1.9%
+dfxtp_4                                 453 cells      1.5 mW   1.9%
+clkdlybuf4s18_1                        7327 cells      1.0 mW   1.4%
+mux4_1                                 4984 cells      1.0 mW   1.3%
+mux2_1                                10695 cells      1.0 mW   1.3%
+clkbuf_1                               5235 cells      0.7 mW   0.9%
+dfxtp_2                                 266 cells      0.6 mW   0.8%
+nand2_8                                 438 cells      0.6 mW   0.8%
+dlclkp_1                                130 cells      0.6 mW   0.8%
+buf_8                                   390 cells      0.4 mW   0.5%
+o21ai_0                                8722 cells      0.4 mW   0.5%
+mux4_4                                  539 cells      0.4 mW   0.5%
+clkbuf_2                               7515 cells      0.4 mW   0.5%
+o31ai_1                                4631 cells      0.3 mW   0.4%

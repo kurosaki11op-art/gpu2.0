@@ -138,4 +138,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   running only in cycles that write it. FPGA build unchanged. `run_check_encoder.py --asic`: 0 mismatches (digits,
   clothing, 20 images each). Layout flow re-running on the gated netlist; the ungated run's logs are kept in
   `hw/asic/cortex/ungated/`.
+- ASIC power, continued: the SRAM macros were 72% of the 366 mW (their library charges every clock edge, selected or
+  not; my earlier note that they were not counted was wrong and is corrected). Gated every SRAM port clock by its
+  bank select (`sram_array`, 126 gates) on top of the encoder gates; core still bit-exact with the macro models.
+  Layout ~42 MHz; power 77 mW (10% activity) / 62 mW (1%), i.e. ~2-2.5 uJ per decision, mostly clock tree.
+  ESTIMATED. Docs, claims sheet and report updated.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

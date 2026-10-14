@@ -95,9 +95,28 @@ is selected**, so the estimate pays for all 63 macros every cycle, although a de
    generated clocks running 1 cycle in 1,000 (`power_gated.tcl`, the encoder idles while the core decides):
    366 -> **242 mW**. Breakdown (`gated_enc/power_by_cell.txt`): SRAM macros 175 mW (72%), clock buffers ~45 mW,
    flip-flops ~10 mW, everything else < 15 mW.
-2. Next: every SRAM port clock gated by its own select (`sram_array` in `hw/asic/spark_mem_sky130.v`), so only the
-   banks a cycle reads or writes get a clock edge (in progress).
+2. Every SRAM port clock gated by its own select (`sram_array` in `hw/asic/spark_mem_sky130.v`; 126 more gates, 130
+   in all): only the bank a cycle reads or writes gets a clock edge. Core with the SRAM macro models still bit-exact
+   (`check_core_asic_gated.log`). Layout re-run (`gated_all/flow.log`): ~42 MHz (setup -3.71 ns at 20 ns), hold
+   -0.68 ns before routing (needs hold repair after routing). Power (`gated_all/`), SRAM read ports modelled at 1
+   cycle in 9 (each array's reads go to one of its 9 banks), other gated clocks 1 in 1,000:
 
+| Build | 10% activity | 1% activity |
+|---|---|---|
+| no gating | 366 mW | 350 mW |
+| encoder gated | 242 mW | - |
+| encoder + every SRAM port gated | **77 mW** | **62 mW** |
+
+   Breakdown at 10% (`gated_all/power_by_cell.txt`): clock-tree and large buffers ~45 mW, SRAM 10.9 mW (from 175),
+   flip-flops ~8 mW, logic < 15 mW.
+
+**What a decision costs in this layout (ESTIMATED):** 62-77 mW at 50 MHz is 1.2-1.5 nJ per clock cycle; a decision
+takes ~1,600 cycles, so **~2.0-2.5 uJ per decision**, down from ~11 uJ without gating. That is still ~200x above the
+9.4 nJ counted from operations. What remains is mostly the clock tree of a 31 mm^2 die whose 63 macros are spread
+out with routing channels, plus ~3,000 flip-flops that are clocked every cycle. Next levers, not yet tried: a compact
+die (macros abutted; the clock tree shrinks with it), gating the core's own registers while it waits, and fewer
+cycles per decision. There is no layout of the comparison network on the same process, so the 74x ratio between
+the two designs remains an operation-count comparison only.
 
 ## Next steps for a real chip (months 7-8)
 
