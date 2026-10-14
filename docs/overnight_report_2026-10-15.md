@@ -61,7 +61,7 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 ## 5. What you can do today (about 30 minutes)
 
 1. `git pull`, then work in `D:\gpu2.0`.
-2. `pip install numpy pyserial` (and `numba` only if you want fast dry runs).
+2. `python -m pip install -r hw\board\requirements.txt` (numpy, pyserial; numba makes dry runs fast).
 3. Dry run, no board: `python hw\board\cortex_host.py --dry-run --per-class 300 --data D:\cortex_data`
    expected: about 0.91 at stage 5 and "emulator matches the integer chip model exactly: True".
 4. Program the board: unzip `hw\pnr_cortex\cortex_tangnano20k.fs.gz`, then
