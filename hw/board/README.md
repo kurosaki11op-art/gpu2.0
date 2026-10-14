@@ -239,6 +239,10 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 | `44 c` | DREAM one class-c example and practise on it | dream length lo, hi, 1 if the table was written |
 | `54` + 512 bytes | load the 128 sensory detectors (4 bytes each, 25 bits used) | `54` |
 | `49 c` + 784 bytes | IMAGE: the chip encodes a raw 28x28 image itself, then LEARNs it as class c (or PREDICTs if c = FF) | updated / class |
+| `52 bl bh` | read memory word b (table 50 bits in 7 bytes, dream counts 100 bits in 13) | 20 bytes |
+| `57 bl bh` + 20 bytes | write memory word b | `57` |
+| `4E` | read example counts (13 bytes) and known classes (2 bytes) | 15 bytes |
+| `4D` + 15 bytes | write them | `4D` |
 
 ## Status
 
@@ -272,6 +276,16 @@ the integer chip model, 0 mismatches) and `../rtl/cortex/run_check_cortex.py` (c
 
 LEDs: led0 toggles per command, led1 core busy, led2 the last example or dream changed the table (surprise), led3
 heartbeat, led4 UART activity, led5 last prediction was a class 0-4.
+
+## Memory transfer demo: `cortex_transfer.py` (one board is enough)
+
+The chip learns digits 0-4 and its memory is saved to a file; it is wiped, learns 5-9, saved again; the PC merges the two
+memories (tables added, dream counts added) and loads the result; one self-regulated night; test on all ten digits.
+`python cortex_transfer.py --port COM5 --per-class 300 --data D:\cortex_data` (or `--dry-run`). Export or import of
+the whole memory takes about 10 s at 115,200 baud. The saved `.npz` files can be loaded into another board.
+Dry run (SIMULATED, emulator bit-exact with the chip): 0-4 alone 51.2% on all ten digits, 5-9 alone 42.4%, merged
+78.9% before sleep, **91.4% after one night of 256 dreams**. The memory commands are bit-exact over UART
+(`check_cortex_board.py`: 131 commands, 333 reply bytes, 0 mismatches).
 
 ## Live demo for the pitch: `cortex_demo.py`
 

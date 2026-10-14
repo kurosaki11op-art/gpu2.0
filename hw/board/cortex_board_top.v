@@ -17,6 +17,11 @@
 //                           bit r*5+c = window row r, column c). Reply 54.
 //   49 c + 784 bytes        IMAGE: the chip encodes the 28x28 image itself (cortex_encoder.v), then LEARNs it as class c
 //                           (reply: updated) or, with c = FF, PREDICTs (reply: class).
+// Memory transfer (export / import what the chip knows; one word per code bit b = 0..4607):
+//   52 bl bh                read word b. Reply 20 bytes: table word (50 bits in 7 bytes) then counts (100 bits in 13).
+//   57 bl bh + 20 bytes     write word b (same layout). Reply 57.
+//   4E                      read the example counts (10 x 10 bits in 13 bytes) and the known classes (2 bytes). Reply 15 bytes.
+//   4D + 15 bytes           write them (same layout). Reply 4D.
 // The host runs the day/night schedule (cortex_host.py) and ends a night itself from the `updated` replies.
 //
 // LEDs (active low): led[0] toggles per command, led[1] core busy, led[2] last LEARN/DREAM wrote the table,
@@ -49,7 +54,7 @@ module cortex_board_top #(
     reg  [7:0] tx_data = 8'd0; reg tx_send = 1'b0; wire tx_busy;
     uart_rx #(.CLK_HZ(CLK_HZ), .BAUD(BAUD)) u_rx (.clk(clk), .rst(rst), .rx(uart_rx), .data(rx_data), .valid(rx_valid));
     uart_tx #(.CLK_HZ(CLK_HZ), .BAUD(BAUD)) u_tx (.clk(clk), .rst(rst), .send(tx_send), .data(tx_data), .tx(uart_tx), .busy(tx_busy));
-    reg [7:0] rbuf [0:2]; reg [2:0] rlen = 0, ri = 0; reg sending = 1'b0; reg start_reply = 1'b0;
+    reg [7:0] rbuf [0:19]; reg [4:0] rlen = 0, ri = 0; reg sending = 1'b0; reg start_reply = 1'b0;
     always @(posedge clk) begin
         tx_send <= 1'b0;
         if (rst) begin sending <= 1'b0; ri <= 0; end
@@ -64,6 +69,8 @@ module cortex_board_top #(
     reg lb_we = 1'b0; reg [AW-1:0] lb_waddr = 0, lb_wdata = 0; reg [AW:0] lb_len = 0;
     reg lane_we = 1'b0; reg [4:0] lane_waddr = 0; reg [31:0] lane_wdata = 0;
     wire busy, updated; wire [3:0] pred; wire [AW:0] llen_out;
+    reg [AW-1:0] mem_addr = 0; reg [159:0] wbuf = 0;
+    wire [49:0] rd_w; wire [99:0] rd_c, rd_n; wire [9:0] rd_known;
     // sensory encoder: writes its list of active code bits through the core's list port
     reg pix_we = 1'b0; reg [9:0] pix_addr = 0; reg [7:0] pix_data = 0;
     reg tm_we = 1'b0; reg [1:0] tm_ch = 0; reg [4:0] tm_f = 0; reg [24:0] tm_data = 0; reg enc_start = 1'b0;
@@ -74,15 +81,19 @@ module cortex_board_top #(
     cortex_core #(.NB(NB), .AW(AW)) u_core (.clk(clk), .rst(rst), .cmd_valid(cmd_valid), .cmd_op(cmd_op), .cmd_arg(cmd_arg),
         .lb_we(lb_we | enc_we), .lb_waddr(enc_we ? enc_addr : lb_waddr), .lb_wdata(enc_we ? enc_data : lb_wdata), .lb_len(lb_len),
         .lane_we(lane_we), .lane_waddr(lane_waddr), .lane_wdata(lane_wdata),
-        .busy(busy), .pred(pred), .updated(updated), .llen_out(llen_out));
+        .mem_addr(mem_addr), .wr_w(op == 8'h4D ? {40'd0, wbuf[113:104]} : wbuf[49:0]), .wr_c(op == 8'h4D ? wbuf[99:0] : wbuf[155:56]),
+        .busy(busy), .pred(pred), .updated(updated), .llen_out(llen_out),
+        .rd_w(rd_w), .rd_c(rd_c), .rd_n(rd_n), .rd_known(rd_known));
+    wire [159:0] rdv = {4'd0, rd_c, 6'd0, rd_w};
+    wire [119:0] rnv = {6'd0, rd_known, 4'd0, rd_n};
 
     // ------------------------------------------------------------ command FSM
     localparam S_CMD = 0, S_ARG = 1, S_NL = 2, S_NH = 3, S_IL = 4, S_IH = 5, S_GO = 6, S_WAIT = 7, S_SEED = 8, S_REP = 9,
-               S_TM = 10, S_IARG = 11, S_PIX = 12, S_ENC = 13;
-    reg [3:0] state = S_CMD; reg [7:0] op = 0; reg [AW:0] cnt = 0; reg [7:0] lo = 0;
+               S_TM = 10, S_IARG = 11, S_PIX = 12, S_ENC = 13, S_AL = 14, S_AH = 15, S_WB = 16, S_WS = 17;
+    reg [4:0] state = S_CMD; reg [4:0] wcnt = 0; reg [7:0] op = 0; reg [AW:0] cnt = 0; reg [7:0] lo = 0;
     reg [8:0] tidx = 0; reg [23:0] tacc = 0; reg [9:0] pcnt = 0; reg enc_wait = 1'b0;
     reg [6:0] sidx = 0; reg [31:0] sw = 0; reg wrote = 1'b0, lowcls = 1'b0, cmd_led = 1'b0, rx_led = 1'b0;
-    reg go_wait = 1'b0;
+    reg go_wait = 1'b0; integer j;
     always @(posedge clk) begin
         cmd_valid <= 1'b0; lb_we <= 1'b0; lane_we <= 1'b0; start_reply <= 1'b0; pix_we <= 1'b0; tm_we <= 1'b0; enc_start <= 1'b0;
         if (rx_valid) rx_led <= ~rx_led;
@@ -98,6 +109,9 @@ module cortex_board_top #(
                 8'h50: begin cmd_op <= 3'd4; cmd_arg <= 0; state <= S_NL; end
                 8'h54: begin tidx <= 0; state <= S_TM; end
                 8'h49: state <= S_IARG;
+                8'h52, 8'h57: state <= S_AL;
+                8'h4E: begin cmd_op <= 3'd7; cmd_arg <= 4'd3; state <= S_GO; end          // arg 3: no-op, just reply counts
+                8'h4D: begin wcnt <= 0; state <= S_WB; end
                 default: ;
             endcase
         end
@@ -124,6 +138,17 @@ module cortex_board_top #(
         end
         S_ENC: if (enc_wait) begin if (!pix_we) begin enc_start <= 1'b1; enc_wait <= 1'b0; end end
                else if (enc_done) begin lb_len <= enc_count; state <= S_GO; end
+        S_AL: if (rx_valid) begin mem_addr[7:0] <= rx_data; state <= S_AH; end
+        S_AH: if (rx_valid) begin
+            mem_addr[AW-1:8] <= rx_data[AW-9:0]; cmd_op <= 3'd7;
+            if (op == 8'h52) begin cmd_arg <= 4'd0; state <= S_GO; end else begin wcnt <= 0; state <= S_WB; end
+        end
+        S_WB: if (rx_valid) begin                          // collect 20 (57) or 15 (4D) bytes, little-endian
+            wbuf <= {rx_data, wbuf[159:8]}; wcnt <= wcnt + 1'b1;
+            if (op == 8'h57 && wcnt == 5'd19) begin cmd_arg <= 4'd1; state <= S_GO; end
+            if (op == 8'h4D && wcnt == 5'd14) begin cmd_op <= 3'd7; cmd_arg <= 4'd2; state <= S_WS; end
+        end
+        S_WS: begin wbuf <= wbuf >> 40; state <= S_GO; end           // 15 bytes arrived at the top: shift them down
         S_ARG: if (rx_valid) begin
             cmd_arg <= rx_data[3:0];
             if (op == 8'h4B) begin cmd_op <= 3'd5; state <= S_GO; end
@@ -150,6 +175,10 @@ module cortex_board_top #(
                 8'h50: begin rbuf[0] <= {4'd0, pred}; rlen <= 1; lowcls <= (pred < 4'd5); end
                 8'h44: begin rbuf[0] <= llen_out[7:0]; rbuf[1] <= {{(15-AW){1'b0}}, llen_out[AW:8]}; rbuf[2] <= {7'd0, updated};
                              rlen <= 3; wrote <= updated; end
+                8'h52: begin for (j = 0; j < 20; j = j + 1) rbuf[j] <= rdv[j*8 +: 8]; rlen <= 20; end
+                8'h4E: begin for (j = 0; j < 15; j = j + 1) rbuf[j] <= rnv[j*8 +: 8]; rlen <= 15; end
+                8'h57: begin rbuf[0] <= 8'h57; rlen <= 1; end
+                8'h4D: begin rbuf[0] <= 8'h4D; rlen <= 1; end
                 default: rlen <= 0;
             endcase
             state <= S_REP;

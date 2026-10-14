@@ -76,5 +76,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   images, digits and clothing), integrated in the board top (commands `54` detectors, `49` raw image), board bit-exact
   over UART (115 commands). Full design placed and routed: 88% LUT4, 46/46 BSRAM, 0 multipliers, 66.2 MHz. Host
   `--onchip-encode` option added.
+- **Memory transfer on the chip**: core op 7 (read/write memory words, counts, known classes), board commands 52/57/4E/4D,
+  bit-exact over UART (131 commands, 333 reply bytes, 0 mismatches); core check re-run (0 mismatches). PC programs:
+  `merge()` and `night()` in `cortex_host.py`, demo `hw/board/cortex_transfer.py`: one board learns 0-4 (saved) then 5-9
+  (saved), merged on the PC and loaded: 78.9% before sleep, 91.4% on all ten digits after one night (emulator).
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

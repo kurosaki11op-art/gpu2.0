@@ -61,6 +61,25 @@ class Board:
     def dream(self, c):
         r = self._x([0x44, c], 3); return r[0] | (r[1] << 8), r[2]
 
+    def export(self, nb=4608):
+        """read everything the chip knows: table, dream counts, example counts, known classes"""
+        W = np.zeros((10, nb), np.int8); on = np.zeros((10, nb), np.uint16)
+        for b in range(nb):
+            r = self._x([0x52, b & 255, b >> 8], 20); w = int.from_bytes(r[:7], "little"); cw = int.from_bytes(r[7:], "little")
+            for c in range(10):
+                f = (w >> (5 * c)) & 31; W[c, b] = f - 32 if f >= 16 else f; on[c, b] = (cw >> (10 * c)) & 1023
+        r = self._x([0x4E], 15); nv = int.from_bytes(r[:13], "little"); kv = int.from_bytes(r[13:], "little")
+        n = np.array([(nv >> (10 * c)) & 1023 for c in range(10)], np.int32); kn = np.array([(kv >> c) & 1 for c in range(10)], bool)
+        return {"W": W, "on": on, "n": n, "known": kn}
+
+    def load(self, mem):
+        """write a memory (e.g. a merge of two chips) into the chip"""
+        for b in range(mem["W"].shape[1]):
+            w = sum((int(mem["W"][c, b]) & 31) << (5 * c) for c in range(10)); cw = sum(int(mem["on"][c, b]) << (10 * c) for c in range(10))
+            self._x([0x57, b & 255, b >> 8] + list(w.to_bytes(7, "little") + cw.to_bytes(13, "little")), 1)
+        nv = sum(int(mem["n"][c]) << (10 * c) for c in range(10)); kv = sum(1 << c for c in range(10) if mem["known"][c])
+        self._x([0x4D] + list(nv.to_bytes(13, "little") + kv.to_bytes(2, "little")), 1)
+
 
 class Emu:
     """the board, emulated with the integer chip model's primitives (bit-exact with the RTL)"""
@@ -83,9 +102,39 @@ class Emu:
         k = self.f[2](self.on, self.n, c, self.rng, self.buf)
         return k, self.f[1](self.W, self.buf, k, c, self.kn, RULE["margin"], RULE["cmax"])
 
+    def export(self, nb=None):
+        return {"W": self.W.copy(), "on": self.on.copy(), "n": self.n.copy(), "known": self.kn.copy()}
+
+    def load(self, mem):
+        self.W[:] = mem["W"]; self.on[:] = mem["on"]; self.n[:] = mem["n"]; self.kn[:] = mem["known"]
+
     def predict(self, row):
         a = np.nonzero(row)[0]
         s = self.W[:, a].astype(np.int64).sum(1); s[~self.kn] = -(1 << 40); return int(s.argmax())
+
+
+def merge(a, b, top=1023):
+    """knowledge transfer: add the tables (saturating) and the dream counts (synaptic scaling when full)"""
+    m = {"W": np.clip(a["W"].astype(np.int16) + b["W"], -15, 15).astype(np.int8), "on": (a["on"].astype(np.int32) + b["on"]),
+         "n": a["n"].astype(np.int32) + b["n"], "known": a["known"] | b["known"]}
+    for c in range(10):
+        while m["n"][c] >= top:
+            m["on"][c] >>= 1; m["n"][c] >>= 1
+    m["on"] = m["on"].astype(np.uint16)
+    return m
+
+
+def night(dev, known):
+    """one self-regulated night over all known classes"""
+    kn = sorted(known); blockw = run = 0
+    for _ in range(RULE["night"]):
+        for j in range(RULE["ndream"] * len(kn)):
+            blockw += dev.dream(kn[j % len(kn)])[1]; run += 1
+            if run % 256 == 0:
+                if blockw > RULE["night_stop"]:
+                    return run
+                blockw = 0
+    return run
 
 
 def run_stage(dev, code, y, known):

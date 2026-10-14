@@ -51,6 +51,31 @@ for t in r.choice(np.where(yte < 3)[0], 20, replace=False):
     a = np.nonzero(cte[t])[0]
     s = np.array([m.W[c, a].astype(int).sum() if m.known[c] else -(1 << 40) for c in range(10)])
     cmd([0x50, len(a) & 255, len(a) >> 8] + [x for v in a for x in (int(v) & 255, int(v) >> 8)], [int(s.argmax())])
+# ---- memory transfer: read counts and words, write words and counts, then predict with the changed memory ----
+def wordbytes(b):
+    w = sum((int(m.W[c, b]) & 0x1F) << (5 * c) for c in range(10)); cw = sum(int(m.on[c, b]) << (10 * c) for c in range(10))
+    return w.to_bytes(7, "little") + cw.to_bytes(13, "little")
+def nbytes():
+    nv = sum(int(m.n[c]) << (10 * c) for c in range(10)); kv = sum(1 << c for c in range(10) if m.known[c])
+    return nv.to_bytes(13, "little") + kv.to_bytes(2, "little")
+cmd([0x4E], list(nbytes()))
+for b in (0, 5, 777, 4607):
+    cmd([0x52, b & 255, b >> 8], list(wordbytes(b)))
+for b in (3, 4000):
+    w = r.randint(0, 1 << 30, size=2); wv = (int(w[0]) | (int(w[1]) << 30)) & ((1 << 50) - 1)
+    cv = sum(int(v) << (10 * c) for c, v in enumerate(r.randint(0, 200, size=10)))
+    for c in range(10):
+        f = (wv >> (5 * c)) & 0x1F; m.W[c, b] = f - 32 if f >= 16 else f; m.on[c, b] = (cv >> (10 * c)) & 1023
+    cmd([0x57, b & 255, b >> 8] + list(wv.to_bytes(7, "little") + cv.to_bytes(13, "little")), [0x57])
+    cmd([0x52, b & 255, b >> 8], list(wordbytes(b)))
+newn = r.randint(1, 900, size=10); m.n[:] = newn; m.known[:] = True
+nv = sum(int(v) << (10 * c) for c, v in enumerate(newn))
+cmd([0x4D] + list(nv.to_bytes(13, "little") + (1023).to_bytes(2, "little")), [0x4D])
+cmd([0x4E], list(nbytes()))
+for t in r.choice(len(yte), 5, replace=False):
+    a = np.nonzero(cte[t])[0]
+    s = np.array([m.W[c, a].astype(int).sum() for c in range(10)])
+    cmd([0x50, len(a) & 255, len(a) >> 8] + [x for v in a for x in (int(v) & 255, int(v) >> 8)], [int(s.argmax())])
 allb = b"".join(cmds)
 open(os.path.join(HERE, "in_cortex.hex"), "w").write("\n".join("%02x" % x for x in allb) + "\n")
 open(os.path.join(HERE, "in_cortex_n.hex"), "w").write("\n".join("%04x\n%04x" % (len(c), len(rp)) for c, rp in zip(cmds, replies)) + "\n")

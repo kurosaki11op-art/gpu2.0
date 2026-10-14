@@ -13,6 +13,10 @@
 //   4 PREDICT  score the list; pred = first known class with the top score
 //   5 KNOWN    mark class arg as known
 //   6 CLEAR    zero the table, the dream counters, the example counts and the known classes (2 cycles per code bit)
+//   7 MEM      memory transfer (export / import of what the chip knows), address mem_addr:
+//              arg 0 = read word mem_addr into rd_w / rd_c; arg 1 = write wr_w / wr_c to word mem_addr;
+//              arg 2 = set the example counts n[c] = wr_c field c and the known classes = wr_w[C-1:0]
+//              (rd_n / rd_known always show the current counts and known classes)
 `timescale 1ns/1ps
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
@@ -22,7 +26,9 @@ module cortex_core #(
     input  wire          cmd_valid, input wire [2:0] cmd_op, input wire [3:0] cmd_arg,
     input  wire          lb_we, input wire [AW-1:0] lb_waddr, input wire [AW-1:0] lb_wdata, input wire [AW:0] lb_len,
     input  wire          lane_we, input wire [4:0] lane_waddr, input wire [31:0] lane_wdata,
-    output reg           busy, output reg [3:0] pred, output reg updated, output reg [AW:0] llen_out
+    input  wire [AW-1:0] mem_addr, input wire [C*WB-1:0] wr_w, input wire [C*CB-1:0] wr_c,
+    output reg           busy, output reg [3:0] pred, output reg updated, output reg [AW:0] llen_out,
+    output reg [C*WB-1:0] rd_w, output reg [C*CB-1:0] rd_c, output wire [C*CB-1:0] rd_n, output wire [C-1:0] rd_known
 );
     localparam [CB-1:0] TOP = (1 << CB) - 1;
     localparam S_IDLE = 0,
@@ -30,7 +36,8 @@ module cortex_core #(
                S_H0 = 8, S_H1 = 9, S_H2 = 10, S_H3 = 11,
                S_S0 = 12, S_S1 = 13, S_S2 = 14, S_S3 = 15, S_S4 = 16, S_R = 17,
                S_U0 = 18, S_U1 = 19, S_U2 = 20, S_U3 = 21, S_U4 = 22, S_U5 = 23,
-               S_D0 = 24, S_D1 = 25, S_D2 = 26, S_D3 = 27, S_P = 28, S_DONE = 29, S_Z0 = 30, S_Z1 = 31;
+               S_D0 = 24, S_D1 = 25, S_D2 = 26, S_D3 = 27, S_P = 28, S_DONE = 29, S_Z0 = 30, S_Z1 = 31,
+               S_M0 = 32, S_M1 = 33, S_M2 = 34;
 
     (* ram_style = "block" *) reg [C*WB-1:0] wmem [0:NB-1];
     (* ram_style = "block" *) reg [C*CB-1:0] cmem [0:NB-1];
@@ -39,7 +46,7 @@ module cortex_core #(
     reg [CB-1:0] n [0:C-1];
     reg [C-1:0] known;
 
-    reg [4:0] st; reg [3:0] y, rv, sc_i; reg predict_mode;
+    reg [5:0] st; reg [3:0] y, rv, sc_i; reg predict_mode;
     reg [AW:0] i, llen, k, b; reg [4:0] lane;
     reg [AW-1:0] lb_addr, m_addr; reg [AW-1:0] lb_q; reg [C*WB-1:0] wq; reg [C*CB-1:0] cq;
     reg [AW-1:0] lb_wa, lb_wd; reg lb_wen;
@@ -49,6 +56,11 @@ module cortex_core #(
     reg [CB-1:0] onf, ncur; reg [4:0] L;
     reg [C*WB-1:0] wt; reg [C*CB-1:0] ct; reg [CB:0] nn;
     integer j;
+    genvar gi;
+    generate for (gi = 0; gi < C; gi = gi + 1) begin : g_n
+        assign rd_n[gi*CB +: CB] = n[gi];
+    end endgenerate
+    assign rd_known = known;
 
     // ---- memories: synchronous read; writes come one cycle after the FSM asks (registered enables) -------------
     // single port: the host writes only while the core is idle and the dream generator writes only while nothing
@@ -106,6 +118,13 @@ module cortex_core #(
                     3'd4: begin st <= S_S0; predict_mode <= 1; end
                     3'd5: begin known[cmd_arg] <= 1'b1; st <= S_DONE; end
                     3'd6: begin b <= 0; st <= S_Z0; end
+                    3'd7: begin
+                        if (cmd_arg == 4'd2) begin
+                            known <= wr_w[C-1:0];
+                            for (j = 0; j < C; j = j + 1) n[j] <= wr_c[j*CB +: CB];
+                            st <= S_DONE;
+                        end else begin m_addr <= mem_addr; st <= (cmd_arg == 4'd1) ? S_M2 : S_M0; end
+                    end
                     default: st <= S_DONE;
                 endcase
             end
@@ -181,6 +200,10 @@ module cortex_core #(
         S_Z0: if (b == NB) begin known <= 0; for (j = 0; j < C; j = j + 1) n[j] <= 0; st <= S_DONE; end
               else begin m_addr <= b[AW-1:0]; w_wd <= 0; c_wd <= 0; w_wen <= 1; c_wen <= 1; st <= S_Z1; end
         S_Z1: begin b <= b + 1; st <= S_Z0; end
+        // ---- memory transfer ---------------------------------------------------------------------------------------
+        S_M0: st <= S_M1;                                    // read: data valid the cycle after next
+        S_M1: begin rd_w <= wq; rd_c <= cq; st <= S_DONE; end
+        S_M2: begin w_wd <= wr_w; c_wd <= wr_c; w_wen <= 1; c_wen <= 1; st <= S_DONE; end
         S_DONE: begin busy <= 0; st <= S_IDLE; end
         default: st <= S_IDLE;
         endcase
