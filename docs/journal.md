@@ -196,4 +196,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   ([note](../hw/brain/experiments/month4/dream_budget.md)).
 - `cortex_host.py --economy` (1,500 dreams, one night pass); dry run matches the chip model exactly in both modes.
   Added as optional step 8 of the board plan.
+- Few-shot: saccades (shifted copies in episodic memory) hurt everywhere - rejected; top-2 voting +1.5 / +3.3 at 5
+  examples (digits 62.8, clothing 56.6), still behind the network (67.4 / 62.9). SIMULATED
+  ([note](../hw/brain/experiments/month4/fewshot_saccades.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

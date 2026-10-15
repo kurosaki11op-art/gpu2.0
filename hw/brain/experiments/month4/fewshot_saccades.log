@@ -1,0 +1,6 @@
+mnist k 1 {'sacc0_top1': 0.405, 'sacc0_top2': 0.405, 'sacc0_top3': 0.405, 'sacc1_top1': 0.371, 'sacc1_top2': 0.379, 'sacc1_top3': 0.377}
+mnist k 5 {'sacc0_top1': 0.613, 'sacc0_top2': 0.628, 'sacc0_top3': 0.622, 'sacc1_top1': 0.555, 'sacc1_top2': 0.56, 'sacc1_top3': 0.561}
+mnist k 20 {'sacc0_top1': 0.742, 'sacc0_top2': 0.763, 'sacc0_top3': 0.761, 'sacc1_top1': 0.698, 'sacc1_top2': 0.705, 'sacc1_top3': 0.708}
+fashion k 1 {'sacc0_top1': 0.428, 'sacc0_top2': 0.428, 'sacc0_top3': 0.428, 'sacc1_top1': 0.407, 'sacc1_top2': 0.41, 'sacc1_top3': 0.41}
+fashion k 5 {'sacc0_top1': 0.533, 'sacc0_top2': 0.566, 'sacc0_top3': 0.56, 'sacc1_top1': 0.53, 'sacc1_top2': 0.531, 'sacc1_top3': 0.532}
+fashion k 20 {'sacc0_top1': 0.623, 'sacc0_top2': 0.645, 'sacc0_top3': 0.649, 'sacc1_top1': 0.611, 'sacc1_top2': 0.621, 'sacc1_top3': 0.626}
