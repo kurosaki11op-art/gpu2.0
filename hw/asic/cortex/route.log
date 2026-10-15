@@ -497,3 +497,18 @@ Number of guides:     2226301
 [INFO DRT-0036] via4 guide region query size = 0.
 [INFO DRT-0036] met5 guide region query size = 16455.
 [INFO DRT-0179] Init gr pin query.
+[INFO DRT-0181] Start track assignment.
+[INFO DRT-0184] Done with 550702 vertical wires in 19 frboxes and 385614 horizontal wires in 14 frboxes.
+[INFO DRT-0186] Done with 112453 vertical wires in 19 frboxes and 111529 horizontal wires in 14 frboxes.
+[INFO DRT-0182] Complete track assignment.
+[INFO DRT-0267] cpu time = 00:01:41, elapsed time = 00:00:46, memory = 4813.59 (MB), peak = 4821.93 (MB)
+[INFO DRT-0187] Start routing data preparation.
+[INFO DRT-0267] cpu time = 00:00:01, elapsed time = 00:00:01, memory = 4881.41 (MB), peak = 4881.13 (MB)
+[INFO DRT-0194] Start detail routing.
+[INFO DRT-0195] Start 0th optimization iteration.
+    Completing 10% with 5095 violations.
+    elapsed time = 00:02:33, memory = 5533.13 (MB).
+    Completing 20% with 30206 violations.
+    elapsed time = 00:07:09, memory = 8051.70 (MB).
+    Completing 30% with 37879 violations.
+    elapsed time = 00:07:27, memory = 8051.75 (MB).
