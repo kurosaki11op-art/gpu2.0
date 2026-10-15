@@ -386,4 +386,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Expected (IST): regression ~11:00 PM; redesign 3 first answer ~12:00 AM; floor2b detailed-routing trend ~1:00 AM;
   full routing (if it converges) ~4:00-6:00 AM.
 
+- Redesign 3 first answer (clothing, 3 seeds, SIMULATED): detectors learned from all images instead of classes 0/1: no
+  gain (82.7 vs 82.9 all at once). Second sensory layer V2 (64 / 128 detectors over 4x4 blocks of V1 winners): 83.6 /
+  84.0 all at once (+0.7 / +1.1), 5 stages 78.7 / 78.2 (vs 78.1): small, costs +35% / +70% code bits. Digits running.
+  Next: V2 variants (larger fields, stride 1, V2 replacing V1 channels) and V2 on words.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

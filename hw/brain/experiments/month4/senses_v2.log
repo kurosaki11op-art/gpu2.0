@@ -1,0 +1,4 @@
+fashion v1_all {'code_bits': 4608, 'on_bits': 264.7, 'all_at_once': {'acc': [0.8224, 0.8375, 0.8213], 'mean': 0.8271}, '5_stages': {'acc': [0.7827, 0.7684, 0.7904], 'mean': 0.7805}}
+fashion v1_all+v2_64 {'code_bits': 6208, 'on_bits': 289.1, 'all_at_once': {'acc': [0.8422, 0.8301, 0.8368], 'mean': 0.8364}, '5_stages': {'acc': [0.787, 0.7869, 0.7864], 'mean': 0.7868}}
+fashion v1_all+v2_128 {'code_bits': 7808, 'on_bits': 289.1, 'all_at_once': {'acc': [0.8425, 0.8452, 0.8324], 'mean': 0.84}, '5_stages': {'acc': [0.776, 0.7911, 0.7785], 'mean': 0.7819}}
+mnist v1_all {'code_bits': 4608, 'on_bits': 241.4, 'all_at_once': {'acc': [0.9679, 0.9679, 0.969], 'mean': 0.9683}, '5_stages': {'acc': [0.9446, 0.9421, 0.9448], 'mean': 0.9438}}

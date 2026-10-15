@@ -1,0 +1,24 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds); today's encoder: all at once / 5 stages digits 96.9 / 94.6, clothing 82.9 / 78.3",
+ "v1_all": {
+  "code_bits": 4608,
+  "on_bits": 241.4,
+  "all_at_once": {
+   "acc": [
+    0.9679,
+    0.9679,
+    0.969
+   ],
+   "mean": 0.9683
+  },
+  "5_stages": {
+   "acc": [
+    0.9446,
+    0.9421,
+    0.9448
+   ],
+   "mean": 0.9438
+  }
+ }
+}
