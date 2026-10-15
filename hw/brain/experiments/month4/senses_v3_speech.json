@@ -1,0 +1,44 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds); today's encoder: all at once / 5 stages digits 96.9 / 94.6, clothing 82.9 / 78.3, words 82.5 / 80.7",
+ "v1_all+v2_64": {
+  "code_bits": 24640,
+  "on_bits": 449.8,
+  "all_at_once": {
+   "acc": [
+    0.7904,
+    0.8076,
+    0.8142
+   ],
+   "mean": 0.8041
+  },
+  "5_stages": {
+   "acc": [
+    0.8099,
+    0.8056,
+    0.813
+   ],
+   "mean": 0.8095
+  }
+ },
+ "v1_all+v2_128": {
+  "code_bits": 26240,
+  "on_bits": 449.8,
+  "all_at_once": {
+   "acc": [
+    0.8181,
+    0.8239,
+    0.8189
+   ],
+   "mean": 0.8203
+  },
+  "5_stages": {
+   "acc": [
+    0.8076,
+    0.8091,
+    0.8095
+   ],
+   "mean": 0.8087
+  }
+ }
+}
