@@ -375,4 +375,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Sound pitch normalisation (centre row shifted to a fixed row, +-2): 82.4 -> 79.4. Rejected.
 - Redesign 2: floor3 rejected (central logic block: 17,303 hold violations, global route stalled); floor2b running.
 
+- Sound, listen more than once (views at word starts 5, 6, 6, 7, scores added via LOOK AGAIN): 82.4 -> 84.2 all at
+  once, 80.3 -> 81.4 in 5 stages (network all at once 85.5). SIMULATED, 3 seeds.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

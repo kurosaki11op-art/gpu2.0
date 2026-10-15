@@ -60,4 +60,18 @@ Network (MLP, same pictures, all at once): 76.3 -> 85.5 with alignment; it helps
 still leads all-at-once learning by 3.0 points (was 4.4). SIMULATED. At 5 dB the word start is hidden by noise and
 the gain vanishes.
 
+## Listen more than once (LOOK AGAIN, 15 Oct night)
+
+`sound_lookagain.py`: learn from pictures aligned at frame 6; at test time score the word aligned at several start
+frames and add the scores (PREDICT arg 1 on chip, bit-exact). 3 seeds, SIMULATED.
+
+| views (word start frames) | all at once | 5 stages |
+|---|---|---|
+| 6 (today) | 82.4 | 80.3 |
+| 5, 6, 7 | 83.0 | 79.2 |
+| 4 .. 8 | 83.5 | 80.4 |
+| **5, 6, 6, 7** | **84.2** | **81.4** |
+
+Network (MLP, aligned pictures, all at once): 85.5. Sound today: 71.9 (morning) -> 84.2.
+
 Related: [Cochlea in RTL](cochlea_rtl.md), [Month 4 experiments](INDEX.md)
