@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""cortex_core.v built with CORTEX_IMPRINT vs CortexInt(imprint=4) (hw/brain/cortex_int.py), bit-exact.
+"""cortex_core.v built with CORTEX_IMPRINT (and PREDICT arg 1 = LOOK AGAIN, summed views) vs CortexInt(imprint=4) (hw/brain/cortex_int.py), bit-exact.
 
 Scenario (digits codes): stage 1 learns 0/1/2 from n_per examples each (more than 8: IMPRINT must leave them alone);
 stage 2 learns 3/4 from k examples each (k <= 8: IMPRINT raises their rows); stage 3 learns 5 from 1 example; then
@@ -54,7 +54,7 @@ def schedule(m, code, y, ndream, night, daydream):
 
 
 def execute(m, cmds, trace=True):
-    out, buf = [], np.zeros(NB, np.int32); fon, fn = m.on.copy(), m.n.copy()
+    out, buf = [], np.zeros(NB, np.int32); fon, fn = m.on.copy(), m.n.copy(); acc = np.zeros(10, np.int64)
     for op, arg, lst in cmds:
         a = np.array(lst, np.int32)
         if op == 9:
@@ -68,9 +68,11 @@ def execute(m, cmds, trace=True):
         elif op in (3, 8):
             k = _dream(fon, fn, arg, m.rng, buf) if op == 8 else _dream(m.on, m.n, arg, m.rng, buf)
             out.append("D %d %d" % (k, _practise(m.W, buf, k, arg, m.known, m.margin, m.cmax)))
-        elif op == 4:
-            s = np.array([m.W[c, a].astype(np.int64).sum() if m.known[c] else -(1 << 40) for c in range(10)])
-            out.append("P %d" % int(s.argmax()))
+        elif op == 4:                                                   # arg 1 = LOOK AGAIN: add to the running sum
+            if arg == 0:
+                acc[:] = 0
+            acc += np.array([m.W[c, a].astype(np.int64).sum() for c in range(10)])
+            s = np.where(m.known, acc, -(1 << 40)); out.append("P %d" % int(s.argmax()))
     if not trace:
         return out
     out += ["N %d" % v for v in m.n]
@@ -105,6 +107,9 @@ for CB, n_per, k_new, ndream, night in ((10, 12, 1, 3, 1), (5, 20, 3, 2, 1), (10
     print(f"CB={CB}: schedule reproduces CortexInt(imprint=4).stage exactly: {same} ({ni} IMPRINT commands)")
     ok &= same
     cmds_all = cmds + [(4, 0, np.nonzero(cte[t])[0].tolist()) for t in tst]
+    for g in range(6):                                              # LOOK AGAIN: 3-5 views summed per decision
+        views = r.choice(len(cte), 3 + g % 3, replace=False)
+        cmds_all += [(4, 0 if q == 0 else 1, np.nonzero(cte[v])[0].tolist()) for q, v in enumerate(views)]
     m2 = CortexInt(NB, **kw); m2.cb = CB
     exp = execute(m2, cmds_all)
     words = []

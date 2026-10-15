@@ -1,0 +1,24 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds); today's encoder: all at once / 5 stages digits 96.9 / 94.6, clothing 82.9 / 78.3",
+ "v1_all": {
+  "code_bits": 4608,
+  "on_bits": 264.7,
+  "all_at_once": {
+   "acc": [
+    0.8224,
+    0.8375,
+    0.8213
+   ],
+   "mean": 0.8271
+  },
+  "5_stages": {
+   "acc": [
+    0.7827,
+    0.7684,
+    0.7904
+   ],
+   "mean": 0.7805
+  }
+ }
+}

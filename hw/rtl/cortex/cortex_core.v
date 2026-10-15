@@ -10,7 +10,8 @@
 //   1 LEARN    count the list into class arg (halve the class's counts when its example count is full), then PRACTISE
 //   2 PRACTISE surprise-gated update of the table for class arg
 //   3 DREAM    generate a dream of class arg into lbuf, then PRACTISE it as class arg
-//   4 PREDICT  score the list; pred = first known class with the top score
+//   4 PREDICT  score the list; pred = first known class with the top score. arg 1 = LOOK AGAIN: the scores are not
+//              cleared first, so several views of one input (e.g. one-pixel shifts, test-time saccades) are summed
 //   5 KNOWN    mark class arg as known
 //   6 CLEAR    zero the table, the dream counters, the example counts and the known classes (2 cycles per code bit)
 //   7 MEM      memory transfer (export / import of what the chip knows), address mem_addr:
@@ -178,7 +179,7 @@ module cortex_core #(
             busy <= 0;
             if (cmd_valid) begin
                 y <= cmd_arg; busy <= 1; i <= 0; llen <= lb_len; predict_mode <= 0; updated <= 0;
-                for (j = 0; j < C; j = j + 1) acc[j] <= 0;
+                if (!(cmd_op == 3'd4 && cmd_arg[0])) for (j = 0; j < C; j = j + 1) acc[j] <= 0;   // PREDICT arg 1 keeps the sum
                 case (cmd_op)
                     3'd1: st <= S_C0;
                     3'd2: st <= S_S0;

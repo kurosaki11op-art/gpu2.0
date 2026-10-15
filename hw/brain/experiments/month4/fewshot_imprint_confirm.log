@@ -1,0 +1,15 @@
+mnist k 1 {'base': {'old': 0.9902, 'new': 0.0639, 'all': 0.5399}, 'imprint': {'old': 0.9572, 'new': 0.4448, 'all': 0.7081}}
+mnist k 2 {'base': {'old': 0.9875, 'new': 0.2244, 'all': 0.6166}, 'imprint': {'old': 0.9581, 'new': 0.5617, 'all': 0.7654}}
+mnist k 5 {'base': {'old': 0.9793, 'new': 0.48, 'all': 0.7366}, 'imprint': {'old': 0.8951, 'new': 0.7259, 'all': 0.8129}}
+mnist k 10 {'base': {'old': 0.9745, 'new': 0.6904, 'all': 0.8364}, 'imprint': {'old': 0.9745, 'new': 0.6904, 'all': 0.8364}}
+mnist k 20 {'base': {'old': 0.9759, 'new': 0.7671, 'all': 0.8744}, 'imprint': {'old': 0.9759, 'new': 0.7671, 'all': 0.8744}}
+fashion k 1 {'base': {'old': 0.8773, 'new': 0.1326, 'all': 0.5049}, 'imprint': {'old': 0.8218, 'new': 0.4788, 'all': 0.6503}}
+fashion k 2 {'base': {'old': 0.8744, 'new': 0.2748, 'all': 0.5746}, 'imprint': {'old': 0.8234, 'new': 0.5304, 'all': 0.6769}}
+fashion k 5 {'base': {'old': 0.872, 'new': 0.4725, 'all': 0.6722}, 'imprint': {'old': 0.7376, 'new': 0.6285, 'all': 0.6831}}
+fashion k 10 {'base': {'old': 0.8681, 'new': 0.5845, 'all': 0.7263}, 'imprint': {'old': 0.8681, 'new': 0.5845, 'all': 0.7263}}
+fashion k 20 {'base': {'old': 0.8596, 'new': 0.6682, 'all': 0.7639}, 'imprint': {'old': 0.8596, 'new': 0.6682, 'all': 0.7639}}
+speech k 1 {'base': {'old': 0.8862, 'new': 0.006, 'all': 0.4517}, 'imprint': {'old': 0.6465, 'new': 0.2606, 'all': 0.456}}
+speech k 2 {'base': {'old': 0.8857, 'new': 0.0292, 'all': 0.463}, 'imprint': {'old': 0.654, 'new': 0.3263, 'all': 0.4922}}
+speech k 5 {'base': {'old': 0.8748, 'new': 0.0985, 'all': 0.4916}, 'imprint': {'old': 0.5486, 'new': 0.4297, 'all': 0.4899}}
+speech k 10 {'base': {'old': 0.8638, 'new': 0.2464, 'all': 0.5591}, 'imprint': {'old': 0.8638, 'new': 0.2464, 'all': 0.5591}}
+speech k 20 {'base': {'old': 0.8506, 'new': 0.3735, 'all': 0.6151}, 'imprint': {'old': 0.8506, 'new': 0.3735, 'all': 0.6151}}
