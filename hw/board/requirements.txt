@@ -3,3 +3,5 @@ numpy
 pyserial
 # optional: makes --dry-run and the emulator fast (the programs also run without it, much slower)
 numba
+# optional, for --task sound (the cochlea reads wav files with it)
+scipy

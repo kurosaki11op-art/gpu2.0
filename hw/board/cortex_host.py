@@ -10,9 +10,14 @@ the night exactly as the chip model does.
   python cortex_host.py --dry-run                        # emulator (needs numba), checks itself against the model
   python cortex_host.py --port COM5 --per-class 300      # real board, small quick run
   python cortex_host.py --port COM5                      # real board, full digits run (about an hour at 115200 baud)
+  python cortex_host.py --task sound --port COM5 --per-class 200   # spoken words on the same bitstream (see below)
 
 Data: MNIST is downloaded to --data (default ./cortex_data) on first use. Put it on D: if C: is short of space,
-e.g. --data D:\\cortex_data."""
+e.g. --data D:\\cortex_data.
+Sound (--task sound): the PC turns each 1 s clip into a 28x28 sound picture with the chip's integer cochlea
+(hw/brain/cochlea_int.py, noise floor on) and the board learns it exactly like an image (same bitstream; detectors
+learned from sound pictures). Needs Speech Commands v0.01 extracted to <data>/speech (folders yes, no, up, ... and
+testing_list.txt; ~1.4 GB download, link printed if missing) and scipy. Simulation: ~60% after 5 stages."""
 import argparse, os, sys, time, urllib.request
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -186,6 +191,28 @@ def mnist(data):
     return z["x_train"].reshape(-1, 784), z["y_train"].astype(int), z["x_test"].reshape(-1, 784), z["y_test"].astype(int)
 
 
+def speech(data):
+    """10 spoken words -> sound pictures from the chip's integer cochlea (cached in <data>/speech_pics_int_floor.npz)"""
+    cache = os.path.join(data, "speech_pics_int_floor.npz")
+    if os.path.exists(cache):
+        z = np.load(cache); return z["xtr"], z["ytr"], z["xte"], z["yte"]
+    root = os.path.join(data, "speech")
+    if not os.path.exists(os.path.join(root, "testing_list.txt")):
+        sys.exit("Speech Commands not found in " + root + ": download\n  https://storage.googleapis.com/download.tensorflow.org/"
+                 "data/speech_commands_v0.01.tar.gz\nand extract it into that folder (it needs ~3 GB of space; use D:)")
+    import cochlea, cochlea_int
+    print("making sound pictures with the chip's cochlea (once; a few minutes)...")
+    test = set(open(os.path.join(root, "testing_list.txt")).read().split()); P, y, te = [], [], []
+    for c, w in enumerate(cochlea.WORDS):
+        fs = sorted(os.listdir(os.path.join(root, w)))
+        X = np.stack([cochlea.read(os.path.join(root, w, f)) for f in fs]).astype(np.int16)
+        P += [cochlea_int.sound_picture_int(X[i:i + 500]) for i in range(0, len(X), 500)]
+        y += [c] * len(fs); te += [f"{w}/{f}" in test for f in fs]
+    P = np.concatenate(P); y = np.array(y); te = np.array(te)
+    np.savez_compressed(cache, xtr=P[~te], ytr=y[~te], xte=P[te], yte=y[te])
+    return P[~te], y[~te], P[te], y[te]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--port"); ap.add_argument("--baud", type=int, default=115200)
@@ -194,14 +221,15 @@ def main():
     ap.add_argument("--test", type=int, default=1000, help="test images scored after each stage")
     ap.add_argument("--onchip-encode", action="store_true", help="send raw images; the chip encodes them (board only)")
     ap.add_argument("--no-batch", action="store_true", help="one DREAM per message (for a bitstream older than 15 Oct)")
+    ap.add_argument("--task", choices=("digits", "sound"), default="digits", help="digits, or spoken words (sound pictures)")
     ap.add_argument("--economy", action="store_true",
                     help="1,500 dreams per class and one night pass: ~3x less learning energy, ~0.6-0.8 points lower")
     a = ap.parse_args()
     if a.economy:
         RULE.update(ndream=1500, night=1)
-    xtr, ytr, xte, yte = mnist(a.data)
+    xtr, ytr, xte, yte = speech(a.data) if a.task == "sound" else mnist(a.data)
     stages = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]
-    print("learning feature detectors (no labels, images of the first stage only)...")
+    print("learning feature detectors (no labels, pictures of the first stage only)...")
     fes = [Features(32, thr=c).fit(xtr[np.isin(ytr, stages[0])][:12000]) for c in (50, 150, ("on", 8), ("off", 8))]
     enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
     r = np.random.RandomState(0); tst = r.choice(len(yte), a.test, replace=False); cte = enc(xte[tst]); yt = yte[tst]

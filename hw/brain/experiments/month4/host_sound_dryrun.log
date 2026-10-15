@@ -1,0 +1,7 @@
+learning feature detectors (no labels, pictures of the first stage only)...
+stage 1 (classes (0, 1)): accuracy on all classes so far 0.921  night dreams 0  [3s]
+stage 2 (classes (2, 3)): accuracy on all classes so far 0.771  night dreams 256  [6s]
+stage 3 (classes (4, 5)): accuracy on all classes so far 0.675  night dreams 256  [9s]
+stage 4 (classes (6, 7)): accuracy on all classes so far 0.647  night dreams 256  [13s]
+stage 5 (classes (8, 9)): accuracy on all classes so far 0.600  night dreams 256  [19s]
+emulator matches the integer chip model exactly: True

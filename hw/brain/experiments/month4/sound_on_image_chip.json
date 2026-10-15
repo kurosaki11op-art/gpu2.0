@@ -1,0 +1,21 @@
+{
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "image_chip_4x32": {
+  "acc": [
+   0.6034,
+   0.6058,
+   0.5941
+  ],
+  "mean": 0.6011,
+  "bits": 4608
+ },
+ "image_chip_4x32_soundthr": {
+  "acc": [
+   0.6128,
+   0.6034,
+   0.6101
+  ],
+  "mean": 0.6088,
+  "bits": 4608
+ }
+}

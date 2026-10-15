@@ -28,6 +28,7 @@ Everything runs from `D:\gpu2.0` after `git pull`.
 | 6 | `cortex_bench.py --port COMx --seconds 30` with the USB meter | **power and energy per operation, MEASURED** | see below |
 | 7 | `cortex_demo.py --port COMx --preload 200 --classes 0-7` | live demo works on hardware | teach a symbol in ~10 strokes |
 | 8 (optional) | step 3 with `--economy` | the energy / accuracy dial on hardware | ~3x fewer dreams, about 0.5-1 point lower |
+| 9 (optional) | `cortex_host.py --task sound --port COMx` (Speech Commands v0.01 in `D:\cortex_data\speech`, ~1.4 GB) | the board learns spoken words | ~0.60 after 5 stages |
 
 If step 3 differs from step 1 in any digit, stop and send me the output: it means a hardware or link problem (wrong pin,
 UART noise), because the design is bit-exact in simulation.

@@ -248,4 +248,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   (`hw/check_summary.txt`). SIMULATED.
 - `hw/board/preflight.py`: board-day preflight (Python, packages, data, bitstream, serial ports, ping); step 0 of
   the board plan.
+- **Spoken words on today's Tang Nano bitstream**: sound pictures from the PC (integer cochlea + floor) learned by the
+  image chip: 60.1 after 5 stages (3 seeds; full sound chip 71.2, network 15.9). `cortex_host.py --task sound`, dry run
+  60.0% and exact. Board plan step 9. SIMULATED ([note](../hw/brain/experiments/month4/sound_on_board.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
