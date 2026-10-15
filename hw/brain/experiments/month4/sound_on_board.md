@@ -41,4 +41,9 @@ than for drawn digits, where 10 strokes gave 73.5%). One person repeating their 
 speakers, but that is not tested. For the pitch, the digits drawing demo is the stronger live demo; the sound demo
 shows the same chip learning words and should be introduced with these numbers.
 
+Rehearsal (more daydreams of the new word after each taught clip; `new_word_rehearsal.py`, log
+`new_word_rehearsal.log`, one run each): 10 clips -> 14.7 / 20.0 / 18.7% (1 / 5 / 20 daydreams); 30 clips -> 24.7 /
+44.0 / 24.7%, the 44% at the cost of the old words (49%). Inconsistent, no reliable gain - not adopted. Teaching a new
+spoken word on the small 4,608-bit code stays the weak spot.
+
 Related: [Sound chip](../../../results/cortex_sound_chip.md), [Noise floor](noise_floor.md), [Month 4 experiments](INDEX.md)

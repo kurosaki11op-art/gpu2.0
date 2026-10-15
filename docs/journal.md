@@ -289,4 +289,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Full regression with the SKY130 SRAM-model runs (`run_all_checks.sh --asic`): 17 checks, see `hw/check_summary.txt`.
 - `hw/board/board_day.py`: runs board-plan steps 0-5 (+9 with --sound) in order, one report file to send back; tested
   with --dry-run-only (emulator matches the chip model exactly).
+- New-word rehearsal (more daydreams per taught clip): inconsistent (best 44% with 30 clips but old words fall to
+  49%) - no reliable gain, not adopted. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
