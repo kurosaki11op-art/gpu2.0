@@ -194,4 +194,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   digits 94.0 vs 94.6, clothing 77.7 vs 78.3, sound 68.6 vs 69.4, with 3-4x fewer dreams (~3x less learning
   energy). SIMULATED / ESTIMATED. Offered as a host-side mode, default unchanged
   ([note](../hw/brain/experiments/month4/dream_budget.md)).
+- `cortex_host.py --economy` (1,500 dreams, one night pass); dry run matches the chip model exactly in both modes.
+  Added as optional step 8 of the board plan.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

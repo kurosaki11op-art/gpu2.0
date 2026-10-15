@@ -194,7 +194,11 @@ def main():
     ap.add_argument("--test", type=int, default=1000, help="test images scored after each stage")
     ap.add_argument("--onchip-encode", action="store_true", help="send raw images; the chip encodes them (board only)")
     ap.add_argument("--no-batch", action="store_true", help="one DREAM per message (for a bitstream older than 15 Oct)")
+    ap.add_argument("--economy", action="store_true",
+                    help="1,500 dreams per class and one night pass: ~3x less learning energy, ~0.6-0.8 points lower")
     a = ap.parse_args()
+    if a.economy:
+        RULE.update(ndream=1500, night=1)
     xtr, ytr, xte, yte = mnist(a.data)
     stages = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]
     print("learning feature detectors (no labels, images of the first stage only)...")
@@ -220,7 +224,7 @@ def main():
               f"[{time.time() - t0:.0f}s]", flush=True)
     if a.dry_run:                                                           # self-check against the chip model
         from cortex_int import CortexInt
-        ref = CortexInt(cte.shape[1], night=2, daydream=1, night_stop=2, seed=1)
+        ref = CortexInt(cte.shape[1], ndream=RULE["ndream"], night=RULE["night"], daydream=1, night_stop=2, seed=1)
         for i, s in enumerate(stages):
             sel = np.where(np.isin(ytr, s))[0]
             if a.per_class:
