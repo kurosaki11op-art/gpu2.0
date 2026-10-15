@@ -1,7 +1,7 @@
 """Noise floor in the cochlea (auditory adaptation): per resonator channel, a floor estimated from the clip's quietest
 frames is subtracted from every frame sum before the integer log. Variants: none (current), min (quietest frame),
 low4 (mean of the 4 quietest frames, sum >> 2), low4x2 (twice that). Integer cochlea, same detector learning, exact
-integer chip model, month-2 rule, 3 seeds. usage: DATA_DIR"""
+integer chip model, month-2 rule, 3 seeds. usage: DATA_DIR [modes, e.g. low4x3,low8x2]"""
 import json, os, sys, time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 import numpy as np
@@ -28,9 +28,14 @@ def picture(S, mode):
     v = S.astype(np.int64)
     if mode != "none":
         srt = np.sort(v, 2)
-        fl = srt[:, :, :1] if mode == "min" else (srt[:, :, :4].sum(2, keepdims=True) >> 2)
-        if mode == "low4x2":
-            fl = fl * 2
+        if mode == "min":
+            fl = srt[:, :, :1]
+        elif mode.startswith("low8"):
+            fl = srt[:, :, :8].sum(2, keepdims=True) >> 3
+        else:
+            fl = srt[:, :, :4].sum(2, keepdims=True) >> 2
+        if "x" in mode:
+            fl = fl * int(mode.split("x")[1])
         v = v - fl
     v = np.maximum(v, 1); e = np.floor(np.log2(v)).astype(np.int64)
     lg = 4 * e + ((v >> np.maximum(e - 2, 0)) & 3); top = lg.reshape(len(v), -1).max(1)[:, None, None]
@@ -40,7 +45,7 @@ def picture(S, mode):
 CH, F = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8)), 64
 stages = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]; ytr, yte = y[~te].astype(np.int64), y[te].astype(np.int64)
 res = {}
-for mode in ("none", "min", "low4", "low4x2"):
+for mode in (sys.argv[2].split(",") if len(sys.argv) > 2 else ("none", "min", "low4", "low4x2")):
     P = picture(S, mode); xtr, xte = P[~te], P[te]
     fes = [Features(F, thr=c).fit(xtr[np.isin(ytr, stages[0])][:12000]) for c in CH]
     enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 5000]) for f in fes], 1) for i in range(0, len(x), 5000)])
@@ -54,4 +59,4 @@ for mode in ("none", "min", "low4", "low4x2"):
     res[mode] = {"acc": accs, "mean": round(float(np.mean(accs)), 4)}
     print(mode, res[mode], "%.0fs" % (time.time() - t0), flush=True)
 json.dump({"label": "SIMULATED (integer cochlea, exact integer chip model, 3 seeds)", **res},
-          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "noise_floor.json"), "w"), indent=1)
+          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "noise_floor%s.json" % ("_" + sys.argv[2].replace(",", "_") if len(sys.argv) > 2 else "")), "w"), indent=1)
