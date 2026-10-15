@@ -275,4 +275,5 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   speckle removal clothing +1.3 / +1.3 / +2.1, digits neutral. Candidate for an encoder build option. SIMULATED.
 - Speckle removal built as an option: `Features(support=1)` and `SUP` in `cortex_encoder_gen.v` (second pass over the
   receptor map); bit-exact on 20 images and 6 sound pictures; added to `run_all_checks.sh`. Off by default.
+- Regression after the speckle option (model `feature_layer.py` + general encoder changed): 15 checks, 0 failures.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
