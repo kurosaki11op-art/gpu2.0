@@ -412,4 +412,12 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   bits: **rejected for the chip** (model only, nothing in RTL). Detectors learned from all images: no gain either.
   The limit is the linear table, not the features.
 
+- 1:20 AM IST: margin sweep (SIMULATED, 3 seeds, all at once; today's margin 8): clothing 82.3 -> 83.4 / 84.0 / 84.1 /
+  84.4 at margin 32 / 48 / 64 / 96 (5 stages flat, 78.3-78.6); words flat (81-83 at every margin); digits 97.0 / 97.4 at
+  32 / 48 (96.9 today). A wider margin is a free parameter (MARGIN = 8 in cortex_core.v); to adopt after the
+  few-shot / sleep interplay is re-checked.
+- floor2b routing (route4.tcl: light global-route settings) shows no progress after 1 hour of CPU at 0.9 GB: probably a
+  loop in this old OpenROAD with the macro extension or the clock-layer setting. Bisect running in floor2c (old
+  settings + guide file only).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

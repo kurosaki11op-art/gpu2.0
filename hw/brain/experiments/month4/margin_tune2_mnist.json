@@ -1,0 +1,16 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "margin32": {
+  "all_at_once": 0.9704,
+  "5_stages": 0.9489
+ },
+ "margin48": {
+  "all_at_once": 0.9736,
+  "5_stages": 0.9478
+ },
+ "margin64": {
+  "all_at_once": 0.9736,
+  "5_stages": 0.9489
+ }
+}
