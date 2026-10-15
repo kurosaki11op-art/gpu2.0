@@ -251,4 +251,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Spoken words on today's Tang Nano bitstream**: sound pictures from the PC (integer cochlea + floor) learned by the
   image chip: 60.1 after 5 stages (3 seeds; full sound chip 71.2, network 15.9). `cortex_host.py --task sound`, dry run
   60.0% and exact. Board plan step 9. SIMULATED ([note](../hw/brain/experiments/month4/sound_on_board.md)).
+- Second detailed-routing attempt (wider channels): 104k violations after pass 1, ~65k at 60% of pass 2 (better than
+  the first floorplan, not converging); lost in another container restart. Routing parked; recorded in the ASIC
+  estimate.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

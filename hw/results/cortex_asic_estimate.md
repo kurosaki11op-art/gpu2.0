@@ -143,6 +143,12 @@ the floorplan (63 macros in a grid with narrow channels, standard cells squeezed
 channels or a block of standard cells beside the macro array - before detailed routing is worth running. The timing
 and power figures above therefore remain global-route estimates.
 
+Second attempt (`floor2/`: channels 250 / 300 um, 7.5 x 6.2 mm die, 42% utilisation; setup -4.41 ns, hold -0.36 ns
+before routing): 103,658 violations after the first pass, ~65k at 60% of the second (first attempt: 160k, then 96k) -
+better, still far from converging; lost in a second container restart. Detailed routing stays open: it needs a
+floorplan with a dedicated standard-cell block and more routing layers reserved, and a run of many hours in a stable
+environment.
+
 ## Next steps for a real chip (months 7-8)
 
 1. Put the encoder's small memories (image, receptor map, code map) into small SRAM macros instead of flip-flops.
