@@ -1,1 +1,12 @@
 speech seed 1 stop 0 {'added': 0.626, 'after_night': 0.5131, 'dreams': 120000}
+speech seed 2 stop 0 {'added': 0.6128, 'after_night': 0.5154, 'dreams': 120000}
+speech seed 3 stop 0 {'added': 0.6101, 'after_night': 0.4823, 'dreams': 120000}
+speech merge by rebuilding, means {0: 0.5036}
+fashion seed 1 stop 0 {'added': 0.7132, 'after_night': 0.731, 'dreams': 120000}
+fashion seed 2 stop 0 {'added': 0.6591, 'after_night': 0.7396, 'dreams': 120000}
+fashion seed 3 stop 0 {'added': 0.6683, 'after_night': 0.7431, 'dreams': 120000}
+fashion merge by rebuilding, means {0: 0.7379}
+mnist seed 1 stop 0 {'added': 0.9012, 'after_night': 0.8885, 'dreams': 120000}
+mnist seed 2 stop 0 {'added': 0.9227, 'after_night': 0.8875, 'dreams': 120000}
+mnist seed 3 stop 0 {'added': 0.9, 'after_night': 0.8779, 'dreams': 120000}
+mnist merge by rebuilding, means {0: 0.8846}

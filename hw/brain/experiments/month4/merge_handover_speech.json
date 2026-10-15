@@ -1,0 +1,16 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "runs": [
+  {
+   "handover": 0.7234
+  },
+  {
+   "handover": 0.718
+  },
+  {
+   "handover": 0.7059
+  }
+ ],
+ "mean": 0.7158
+}

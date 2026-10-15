@@ -16,7 +16,7 @@ MEASURED on hardware yet** (the board run is next: [month 4 plan](month4_board_p
 |---|---|---|---|
 | Learns new classes in stages without forgetting | after 5 stages: digits 94.6, clothing 78.3, sound 71.2 (chip cochlea with noise floor; 69.4 with the earlier float cochlea) vs a network 19.5 / 20.0 / 15.9 | SIMULATED, 3-5 seeds | [month 2](../hw/results/cortex_month2.md), [noise floor](../hw/brain/experiments/month4/noise_floor.md) |
 | One class at a time | 10 stages: 93.0 / 78.7 / 71.2 (3 seeds; sound with the chip cochlea + noise floor) vs network ~10 | SIMULATED | [month 3](../hw/results/cortex_month3.md) |
-| Knowledge moves between chips | two chips' memories merged: 91.4% after one night | SIMULATED, bit-exact board design | [board README](../hw/board/README.md) |
+| Knowledge moves between chips | two chips' memories merged: 91.4% after one night (board demo); hand-over (copy A's memory into B, B learns on): 95.6 / 82.7 / 71.6 vs merge 93.3 / 81.4 / 64.3 | SIMULATED, bit-exact board design, 3 seeds | [board README](../hw/board/README.md), [merge vs hand-over](../hw/brain/experiments/month4/merge_variants.md) |
 | New condition of known classes | context memory: upright digits kept at 85% (45% without) | SIMULATED, in RTL | [new condition](../hw/results/cortex_new_condition.md) |
 | Learns its own senses without labels | 94.5 / 80.0 vs 95.0 / 79.2 with PC-learned detectors | SIMULATED, in RTL | [on-chip detectors](../hw/brain/experiments/month3/onchip_detectors.md) |
 | Holds up in noise (sound) | trained clean, white noise at 20 / 10 / 5 dB: 63.9 / 54.0 / 46.6 with the noise floor vs 56.2 / 44.0 / 32.1 without | SIMULATED, 3 seeds | [input noise](../hw/brain/experiments/month4/input_noise.md) |

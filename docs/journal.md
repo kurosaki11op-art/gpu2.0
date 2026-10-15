@@ -291,4 +291,17 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   with --dry-run-only (emulator matches the chip model exactly).
 - New-word rehearsal (more daydreams per taught clip): inconsistent (best 44% with 30 clips but old words fall to
   49%) - no reliable gain, not adopted. SIMULATED.
+
+### 15 Oct 2026, afternoon - why the merge loses on sound; hand-over instead
+
+- Asked: keep working (improve results). Done: three ways to move knowledge between chips, exact integer model,
+  3 seeds. Note: [merge vs hand-over](../hw/brain/experiments/month4/merge_variants.md).
+- Longer night after a merge: the self-ending night stops after 256 dreams; a full night gives sound 60.4 (vs 64.3),
+  clothing 81.6 (vs 81.4). Rejected. SIMULATED.
+- Merge by rebuilding the table from dreams only: 88.5 / 73.8 / 50.4. Failure, rejected. SIMULATED.
+- **Hand-over** (A's memory loaded into B, B learns 5-9 itself): 95.6 / 82.7 / 71.6 vs merge 93.3 / 81.4 / 64.3
+  (+2.3 / +1.3 / +7.3). SIMULATED. At board-demo size (300 per class, emulator, 1 seed) level: 90.9 vs 91.4.
+- `hw/board/cortex_transfer.py --handover` added (dry-run tested). Merge stays the default; month-5 plan runs both.
+- Project memory: detailed routing marked parked (the plan still said running).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

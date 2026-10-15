@@ -1,0 +1,16 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "runs": [
+  {
+   "handover": 0.8228
+  },
+  {
+   "handover": 0.8327
+  },
+  {
+   "handover": 0.8255
+  }
+ ],
+ "mean": 0.827
+}

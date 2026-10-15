@@ -1,0 +1,26 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "runs": {
+  "0": [
+   {
+    "added": 0.9012,
+    "after_night": 0.8885,
+    "dreams": 120000
+   },
+   {
+    "added": 0.9227,
+    "after_night": 0.8875,
+    "dreams": 120000
+   },
+   {
+    "added": 0.9,
+    "after_night": 0.8779,
+    "dreams": 120000
+   }
+  ]
+ },
+ "means": {
+  "0": 0.8846
+ }
+}

@@ -108,7 +108,7 @@ Month 2 (`hw/results/cortex_month2.md`, closed): 5-bit fast table decides everyt
 10-bit per-class counters with synaptic scaling; day = count + practise + daydream + interleaved dreams of old classes;
 night = dreams of all classes that **ends itself** after a block of 256 dreams with >2 surprises. On the exact integer
 chip model (each example seen once): all at once 96.6 / 83.7 / 71.1 (seed means, 15 Oct: 96.9 / 82.9 / 71.9 - clothing varies 82.2-83.7 with example order); 5 stages **94.6 / 78.7 / 69.7** (network 19.5 /
-20.0 / 15.9; with replay 49.6 / 37.8 / 27.8); merge 93.0 / 82.3 / 62.6 (3-seed means 15 Oct: 93.3 / 81.4 / 64.3). Memory images 84 KB (137x smaller, fits block
+20.0 / 15.9; with replay 49.6 / 37.8 / 27.8); merge 93.0 / 82.3 / 62.6 (3-seed means 15 Oct: 93.3 / 81.4 / 64.3; hand-over - A's memory copied into B, which then learns its own classes - 95.6 / 82.7 / 71.6, see `hw/brain/experiments/month4/merge_variants.md`). Memory images 84 KB (137x smaller, fits block
 RAM), sound 422 KB. Few-shot still behind the network. Known limit: dreams with independent bits cap images.
 
 Month 3 (done early, `hw/results/cortex_month3.md`): integer chip model `hw/brain/cortex_int.py`; core
@@ -187,7 +187,7 @@ Month 4 work while waiting for the board (15 Oct, `hw/brain/experiments/month4/`
    options `ENC_LEARN` on-chip senses, `CORTEX_CONTEXT` context memory, `CORTEX_PIPE` pipelined core).
 4. Month 4, Tang Nano 20K learns live over UART; power MEASURED with a USB meter: **waiting on the user's board**
    (`docs/month4_board_plan.md`).
-5. Month 5, two boards learn separately and merge memories.
+5. Month 5, two boards learn separately and merge memories; also try the hand-over (`cortex_transfer.py --handover`), which beats the merge in simulation (+7.3 on sound).
 6. Month 6, sequence memory (the SPARK-L lookup core) joins for live streams.
 7. Months 7-8, SKY130 area/power estimates (no fabrication), write-up, demo video, pitch. Started early: synthesis,
    placement, clock tree, global routing, clock gating; ~0.18-0.26 uJ per decision, 45-62 uJ per learned example

@@ -1,0 +1,16 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "runs": [
+  {
+   "handover": 0.9527
+  },
+  {
+   "handover": 0.9581
+  },
+  {
+   "handover": 0.9584
+  }
+ ],
+ "mean": 0.9564
+}

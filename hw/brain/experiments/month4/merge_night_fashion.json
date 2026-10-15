@@ -1,0 +1,62 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "runs": {
+  "2": [
+   {
+    "added": 0.7132,
+    "after_night": 0.8146,
+    "dreams": 256
+   },
+   {
+    "added": 0.6591,
+    "after_night": 0.8168,
+    "dreams": 256
+   },
+   {
+    "added": 0.6683,
+    "after_night": 0.8109,
+    "dreams": 256
+   }
+  ],
+  "8": [
+   {
+    "added": 0.7132,
+    "after_night": 0.8146,
+    "dreams": 256
+   },
+   {
+    "added": 0.6591,
+    "after_night": 0.8168,
+    "dreams": 256
+   },
+   {
+    "added": 0.6683,
+    "after_night": 0.8109,
+    "dreams": 256
+   }
+  ],
+  "0": [
+   {
+    "added": 0.7132,
+    "after_night": 0.8172,
+    "dreams": 120000
+   },
+   {
+    "added": 0.6591,
+    "after_night": 0.8197,
+    "dreams": 120000
+   },
+   {
+    "added": 0.6683,
+    "after_night": 0.8095,
+    "dreams": 120000
+   }
+  ]
+ },
+ "means": {
+  "2": 0.8141,
+  "8": 0.8141,
+  "0": 0.8155
+ }
+}

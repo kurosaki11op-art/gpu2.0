@@ -1,0 +1,26 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "runs": {
+  "0": [
+   {
+    "added": 0.7132,
+    "after_night": 0.731,
+    "dreams": 120000
+   },
+   {
+    "added": 0.6591,
+    "after_night": 0.7396,
+    "dreams": 120000
+   },
+   {
+    "added": 0.6683,
+    "after_night": 0.7431,
+    "dreams": 120000
+   }
+  ]
+ },
+ "means": {
+  "0": 0.7379
+ }
+}

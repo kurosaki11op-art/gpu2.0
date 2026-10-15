@@ -10,3 +10,4 @@ Index of this folder. Each document links back here; add a line when you add a f
 - [Retinal adaptation and more receptor types for images - SIMULATED, 15 Oct 2026](retina_adapt.md)
 - [Spoken words on the Tang Nano (same bitstream) - SIMULATED, 15 Oct 2026](sound_on_board.md)
 - [Removing input noise: sound gates and image speckle - SIMULATED, 15 Oct 2026](input_noise.md)
+- [Moving knowledge between chips: merge vs hand-over (+7.3 on sound) - SIMULATED, 15 Oct 2026](merge_variants.md)

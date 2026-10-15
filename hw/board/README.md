@@ -284,7 +284,7 @@ heartbeat, led4 UART activity, led5 last prediction was a class 0-4.
 
 The chip learns digits 0-4 and its memory is saved to a file; it is wiped, learns 5-9, saved again; the PC merges the two
 memories (tables added, dream counts added) and loads the result; one self-regulated night; test on all ten digits.
-`python cortex_transfer.py --port COM5 --per-class 300 --data D:\cortex_data` (or `--dry-run`). Export or import of
+`python cortex_transfer.py --port COM5 --per-class 300 --data D:\cortex_data` (or `--dry-run`; add `--handover` to load the 0-4 memory and learn 5-9 on top instead of merging, see [merge vs hand-over](../brain/experiments/month4/merge_variants.md)). Export or import of
 the whole memory takes about 10 s at 115,200 baud. The saved `.npz` files can be loaded into another board.
 Dry run (SIMULATED, emulator bit-exact with the chip): 0-4 alone 51.2% on all ten digits, 5-9 alone 42.4%, merged
 78.9% before sleep, **91.4% after one night of 256 dreams**. The memory commands are bit-exact over UART

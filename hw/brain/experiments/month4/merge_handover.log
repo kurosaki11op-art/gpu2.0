@@ -1,0 +1,12 @@
+speech seed 1 {'handover': 0.7234}
+speech seed 2 {'handover': 0.718}
+speech seed 3 {'handover': 0.7059}
+speech hand-over mean 0.7158
+fashion seed 1 {'handover': 0.8228}
+fashion seed 2 {'handover': 0.8327}
+fashion seed 3 {'handover': 0.8255}
+fashion hand-over mean 0.827
+mnist seed 1 {'handover': 0.9527}
+mnist seed 2 {'handover': 0.9581}
+mnist seed 3 {'handover': 0.9584}
+mnist hand-over mean 0.9564
