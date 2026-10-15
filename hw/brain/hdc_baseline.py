@@ -6,7 +6,7 @@ Encoders (D = 10,000 bipolar dimensions):
 Class memory: bundling (sum of example HVs per class) -> additive, never forgets, merges by adding.
 Retrained: HDC's usual accuracy boost (perceptron-style: on a mistake add the HV to the true class, subtract from the
 predicted one), 3 passes; done in 5 stages it interferes with old classes like any error-driven learner.
-Decision: largest cosine similarity. SIMULATED (float). usage: python hdc_baseline.py DATA_DIR mnist|fashion|speech"""
+Decision: largest cosine similarity. SIMULATED (float). usage: [CODES=file TAG=_x] python hdc_baseline.py DATA_DIR mnist|fashion|speech"""
 import json, os, sys
 import numpy as np
 from cortex_core import load
@@ -14,7 +14,7 @@ from cortex_core import load
 D_, DS = sys.argv[1], sys.argv[2]
 D = 10000
 F = 64 if DS == "speech" else 32
-z = np.load(os.path.join(D_, f"sep_{DS}_F{F}_p2.npz")); ctr, cte = z["tr"], z["te"]
+z = np.load(os.path.join(D_, os.environ.get("CODES", f"sep_{DS}_F{F}_p2.npz"))); ctr, cte = z["tr"], z["te"]   # CODES: another code file
 if DS == "speech":
     import cochlea
     xtr, ytr, xte, yte = cochlea.load_speech(os.path.join(D_, "speech"), os.path.join(D_, "speech_pics_res.npz"), cochlea.sound_picture_res)
@@ -72,4 +72,4 @@ for name, enc in (("pixels", lambda: (hv_pixels(xtr, Rm), hv_pixels(xte, Rm))), 
     R[name] = {"bundle_all_and_stages": bundle, "retrained_all_at_once_20k": retr_all, "retrained_in_5_stages": retr_stages,
                "class_memory_KB_16bit": 10 * D * 2 / 1024}
     print(DS, name, R[name], flush=True)
-json.dump(R, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", f"hdc_baseline_{DS}.json"), "w"), indent=1)
+json.dump(R, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", f"hdc_baseline_{DS}{os.environ.get('TAG', '')}.json"), "w"), indent=1)

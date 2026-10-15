@@ -231,3 +231,7 @@ Using 1u default distance from corners.
 [NesterovSolve] Iter: 390 overflow: 0.475249 HPWL: 7912250644
 [NesterovSolve] Iter: 400 overflow: 0.430653 HPWL: 7843605800
 [NesterovSolve] Iter: 410 overflow: 0.394465 HPWL: 7738836494
+[NesterovSolve] Iter: 420 overflow: 0.360305 HPWL: 7585832652
+[NesterovSolve] Iter: 430 overflow: 0.330661 HPWL: 7397272278
+[NesterovSolve] Iter: 440 overflow: 0.301595 HPWL: 7236078184
+[NesterovSolve] Iter: 450 overflow: 0.270485 HPWL: 7107950660
