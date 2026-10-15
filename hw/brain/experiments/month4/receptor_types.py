@@ -18,7 +18,7 @@ for name, CH in (("50_150", None), ("30_100_170", (30, 100, 170, ("on", 8), ("of
         enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
         ctr, cte = enc(xtr), enc(xte)
     accs = []
-    for seed in (1, 2, 3):
+    for seed in [int(v) for v in os.environ.get("SEEDLIST", "1,2,3").split(",")]:
         m = CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)
         for i, s in enumerate([(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]
@@ -26,4 +26,4 @@ for name, CH in (("50_150", None), ("30_100_170", (30, 100, 170, ("on", 8), ("of
         accs.append(round(float((m.predict(cte) == yte).mean()), 4))
     res[name] = {"acc": accs, "mean": round(float(np.mean(accs)), 4), "bits": int(ctr.shape[1])}; print(DS, name, res[name], flush=True)
 json.dump({"dataset": DS, "label": "SIMULATED (exact integer chip model, 3 seeds)", **res},
-          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"receptor_types_{DS}.json"), "w"), indent=1)
+          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"receptor_types_{DS}{os.environ.get('TAG', '')}.json"), "w"), indent=1)

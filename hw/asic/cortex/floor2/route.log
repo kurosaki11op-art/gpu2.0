@@ -1,0 +1,415 @@
+OpenROAD f12e2f474102bfb875eeee57fb610d7d7de17770 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 3 thread(s).
+[INFO ODB-0222] Reading LEF file: /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+[INFO ODB-0223]     Created 14 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0226] Finished LEF file:  /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+[INFO ODB-0222] Reading LEF file: /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0225]     Created 437 library cells
+[INFO ODB-0226] Finished LEF file:  /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+[INFO ODB-0222] Reading LEF file: /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+[INFO ODB-0225]     Created 1 library cells
+[INFO ODB-0226] Finished LEF file:  /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+[INFO RSZ-0046] Found 92 endpoints with hold violations.
+[INFO RSZ-0032] Inserted 71 hold buffers.
+Placement Analysis
+---------------------------------
+total displacement        343.2 u
+average displacement        0.0 u
+max displacement           10.6 u
+original HPWL         9506631.0 u
+legalized HPWL        9506934.3 u
+delta HPWL                    0 %
+
+== detailed routing
+[INFO DRT-0149] Reading tech and libs.
+
+Units:                1000
+Number of layers:     13
+Number of macros:     438
+Number of vias:       25
+Number of viarulegen: 25
+
+[INFO DRT-0150] Reading design.
+
+Design:                   cortex_board_top
+Die area:                 ( 0 0 ) ( 7500000 6200000 )
+Number of track patterns: 12
+Number of DEF vias:       4
+Number of components:     503130
+Number of terminals:      14
+Number of snets:          2
+Number of nets:           114140
+
+[INFO DRT-0167] List of default vias:
+  Layer mcon
+    default via: L1M1_PR
+  Layer via
+    default via: M1M2_PR
+  Layer via2
+    default via: M2M3_PR
+  Layer via3
+    default via: M3M4_PR
+  Layer via4
+    default via: M4M5_PR
+[INFO DRT-0162] Library cell analysis.
+[INFO DRT-0163] Instance analysis.
+  Complete 10000 instances.
+  Complete 20000 instances.
+  Complete 30000 instances.
+  Complete 40000 instances.
+  Complete 50000 instances.
+  Complete 60000 instances.
+  Complete 70000 instances.
+  Complete 80000 instances.
+  Complete 90000 instances.
+  Complete 100000 instances.
+  Complete 200000 instances.
+  Complete 300000 instances.
+  Complete 400000 instances.
+  Complete 500000 instances.
+[INFO DRT-0164] Number of unique instances = 456.
+[INFO DRT-0168] Init region query.
+[INFO DRT-0018]   Complete 10000 insts.
+[INFO DRT-0018]   Complete 20000 insts.
+[INFO DRT-0018]   Complete 30000 insts.
+[INFO DRT-0018]   Complete 40000 insts.
+[INFO DRT-0018]   Complete 50000 insts.
+[INFO DRT-0018]   Complete 60000 insts.
+[INFO DRT-0018]   Complete 70000 insts.
+[INFO DRT-0018]   Complete 80000 insts.
+[INFO DRT-0018]   Complete 90000 insts.
+[INFO DRT-0019]   Complete 100000 insts.
+[INFO DRT-0019]   Complete 200000 insts.
+[INFO DRT-0019]   Complete 300000 insts.
+[INFO DRT-0019]   Complete 400000 insts.
+[INFO DRT-0019]   Complete 500000 insts.
+[INFO DRT-0024]   Complete FR_MASTERSLICE.
+[INFO DRT-0024]   Complete licon.
+[INFO DRT-0024]   Complete li1.
+[INFO DRT-0024]   Complete mcon.
+[INFO DRT-0024]   Complete met1.
+[INFO DRT-0024]   Complete via.
+[INFO DRT-0024]   Complete met2.
+[INFO DRT-0024]   Complete via2.
+[INFO DRT-0024]   Complete met3.
+[INFO DRT-0024]   Complete via3.
+[INFO DRT-0024]   Complete met4.
+[INFO DRT-0024]   Complete via4.
+[INFO DRT-0024]   Complete met5.
+[INFO DRT-0033] FR_MASTERSLICE shape region query size = 0.
+[INFO DRT-0033] licon shape region query size = 0.
+[INFO DRT-0033] li1 shape region query size = 5296672.
+[INFO DRT-0033] mcon shape region query size = 0.
+[INFO DRT-0033] met1 shape region query size = 1627108.
+[INFO DRT-0033] via shape region query size = 896385.
+[INFO DRT-0033] met2 shape region query size = 358629.
+[INFO DRT-0033] via2 shape region query size = 717108.
+[INFO DRT-0033] met3 shape region query size = 363657.
+[INFO DRT-0033] via3 shape region query size = 717108.
+[INFO DRT-0033] met4 shape region query size = 216457.
+[INFO DRT-0033] via4 shape region query size = 17494.
+[INFO DRT-0033] met5 shape region query size = 17936.
+[INFO DRT-0165] Start pin access.
+[INFO DRT-0076]   Complete 100 pins.
+[INFO DRT-0076]   Complete 200 pins.
+[INFO DRT-0076]   Complete 300 pins.
+[INFO DRT-0076]   Complete 400 pins.
+[INFO DRT-0076]   Complete 500 pins.
+[INFO DRT-0076]   Complete 600 pins.
+[INFO DRT-0076]   Complete 700 pins.
+[INFO DRT-0076]   Complete 800 pins.
+[INFO DRT-0076]   Complete 900 pins.
+[INFO DRT-0077]   Complete 1000 pins.
+[INFO DRT-0077]   Complete 2000 pins.
+[INFO DRT-0077]   Complete 3000 pins.
+[INFO DRT-0077]   Complete 4000 pins.
+[INFO DRT-0077]   Complete 5000 pins.
+[INFO DRT-0077]   Complete 6000 pins.
+[INFO DRT-0077]   Complete 7000 pins.
+[INFO DRT-0078]   Complete 7366 pins.
+[INFO DRT-0079]   Complete 100 unique inst patterns.
+[INFO DRT-0079]   Complete 200 unique inst patterns.
+[INFO DRT-0079]   Complete 300 unique inst patterns.
+[INFO DRT-0081]   Complete 387 unique inst patterns.
+[INFO DRT-0082]   Complete 1000 groups.
+[INFO DRT-0082]   Complete 2000 groups.
+[INFO DRT-0082]   Complete 3000 groups.
+[INFO DRT-0082]   Complete 4000 groups.
+[INFO DRT-0082]   Complete 5000 groups.
+[INFO DRT-0082]   Complete 6000 groups.
+[INFO DRT-0082]   Complete 7000 groups.
+[INFO DRT-0082]   Complete 8000 groups.
+[INFO DRT-0082]   Complete 9000 groups.
+[INFO DRT-0083]   Complete 10000 groups.
+[INFO DRT-0083]   Complete 20000 groups.
+[INFO DRT-0083]   Complete 30000 groups.
+[INFO DRT-0083]   Complete 40000 groups.
+[INFO DRT-0083]   Complete 50000 groups.
+[INFO DRT-0083]   Complete 60000 groups.
+[INFO DRT-0083]   Complete 70000 groups.
+[INFO DRT-0083]   Complete 80000 groups.
+[INFO DRT-0084]   Complete 82876 groups.
+#scanned instances     = 503130
+#unique  instances     = 456
+#stdCellGenAp          = 12591
+#stdCellValidPlanarAp  = 163
+#stdCellValidViaAp     = 9613
+#stdCellPinNoAp        = 0
+#stdCellPinCnt         = 363177
+#instTermValidViaApCnt = 0
+#macroGenAp            = 14143
+#macroValidPlanarAp    = 11803
+#macroValidViaAp       = 0
+#macroNoAp             = 0
+[INFO DRT-0166] Complete pin access.
+[INFO DRT-0267] cpu time = 00:00:44, elapsed time = 00:00:15, memory = 3930.45 (MB), peak = 4071.29 (MB)
+[INFO DRT-0185] Post process initialize RPin region query.
+
+Generating GCell with size = 15 tracks, using layer li1 pitch  = 0.46
+li1 V Track-Pitch = 0.46000  line-2-Via Pitch = 0.34000
+met1 H Track-Pitch = 0.34000  line-2-Via Pitch = 0.32500
+met2 V Track-Pitch = 0.46000  line-2-Via Pitch = 0.34000
+met3 H Track-Pitch = 0.68000  line-2-Via Pitch = 0.61000
+met4 V Track-Pitch = 0.92000  line-2-Via Pitch = 0.61500
+met5 H Track-Pitch = 3.40000  line-2-Via Pitch = 3.11000
+
+initializing congestion map...
+
+start routing resource analysis ...
+
+             Routing   #Avail     #Track     #Total     %Gcell
+Layer      Direction    Track    Blocked      Gcell    Blocked
+--------------------------------------------------------------
+li1             V       16304          0     975228      3.19%
+met1            H       18235          0     975228     38.18%
+met2            V       16304          0     975228     38.75%
+met3            H        9118          0     975228     38.34%
+met4            V        8152          0     975228     38.85%
+met5            H        1824          0     975228      4.34%
+--------------------------------------------------------------
+Total                   69937      0.00%    5851368     26.94%
+
+[INFO DRT-0267] cpu time = 00:00:00, elapsed time = 00:00:00, memory = 4021.29 (MB), peak = 4071.29 (MB)
+
+
+generating net topology...
+done net topology...
+[INFO DRT-0032] FR_MASTERSLICE grObj region query size = 0.
+[INFO DRT-0032] licon grObj region query size = 0.
+[INFO DRT-0032] li1 grObj region query size = 291094.
+[INFO DRT-0032] mcon grObj region query size = 0.
+[INFO DRT-0032] met1 grObj region query size = 0.
+[INFO DRT-0032] via grObj region query size = 0.
+[INFO DRT-0032] met2 grObj region query size = 0.
+[INFO DRT-0032] via2 grObj region query size = 0.
+[INFO DRT-0032] met3 grObj region query size = 0.
+[INFO DRT-0032] via3 grObj region query size = 0.
+[INFO DRT-0032] met4 grObj region query size = 0.
+[INFO DRT-0032] via4 grObj region query size = 0.
+[INFO DRT-0032] met5 grObj region query size = 0.
+
+start reporting 2D congestion ...
+
+              #OverCon  %OverCon
+Direction        GCell     GCell
+--------------------------------
+    H           13370     1.37%
+    V              20     0.00%
+worstConH: 900.00%
+worstConV: 121.74%
+
+
+start 0th optimization iteration ...
+[INFO DRT-0267] cpu time = 00:00:15, elapsed time = 00:00:10, memory = 4492.01 (MB), peak = 4491.77 (MB)
+
+
+start 1st optimization iteration ...
+[INFO DRT-0267] cpu time = 00:00:19, elapsed time = 00:00:14, memory = 4519.12 (MB), peak = 4518.90 (MB)
+
+
+start 2nd optimization iteration ...
+[INFO DRT-0267] cpu time = 00:00:29, elapsed time = 00:00:20, memory = 4521.46 (MB), peak = 4521.15 (MB)
+
+
+start reporting 2D congestion ...
+
+              #OverCon  %OverCon
+Direction        GCell     GCell
+--------------------------------
+    H              44     0.00%
+    V               8     0.00%
+worstConH: 200.00%
+worstConV: 148.65%
+
+layer assignment...
+done layer assignment...
+
+start 0th optimization iteration ...
+[INFO DRT-0267] cpu time = 00:00:07, elapsed time = 00:00:04, memory = 4733.77 (MB), peak = 4733.40 (MB)
+
+
+start reporting 3D congestion ...
+
+---------- li1 ----------
+numOverConGCell: 111, %OverConGCell:   0.01%
+---------- met1 ----------
+numOverConGCell: 44, %OverConGCell:   0.00%
+---------- met2 ----------
+numOverConGCell: 5, %OverConGCell:   0.00%
+---------- met3 ----------
+numOverConGCell: 40, %OverConGCell:   0.00%
+---------- met4 ----------
+numOverConGCell: 10, %OverConGCell:   0.00%
+---------- met5 ----------
+numOverConGCell: 87, %OverConGCell:   0.01%
+
+[WARNING DRT-0203] dbGcellGrid already exists in db. Clearing existing dbGCellGrid.
+[INFO DRT-0151] Reading guide.
+[INFO DRT-0156] guideIn read 100000 guides.
+[INFO DRT-0156] guideIn read 200000 guides.
+[INFO DRT-0156] guideIn read 300000 guides.
+[INFO DRT-0156] guideIn read 400000 guides.
+[INFO DRT-0156] guideIn read 500000 guides.
+[INFO DRT-0156] guideIn read 600000 guides.
+[INFO DRT-0156] guideIn read 700000 guides.
+[INFO DRT-0156] guideIn read 800000 guides.
+[INFO DRT-0156] guideIn read 900000 guides.
+[INFO DRT-0157] guideIn read 1000000 guides.
+
+Number of guides:     1872417
+
+[INFO DRT-0169] Post process guides.
+[INFO DRT-0176] GCELLGRID X -5 DO 1086 STEP 6900 ;
+[INFO DRT-0177] GCELLGRID Y -5 DO 898 STEP 6900 ;
+[INFO DRT-0026]   Complete 10000 origin guides.
+[INFO DRT-0026]   Complete 20000 origin guides.
+[INFO DRT-0026]   Complete 30000 origin guides.
+[INFO DRT-0026]   Complete 40000 origin guides.
+[INFO DRT-0026]   Complete 50000 origin guides.
+[INFO DRT-0026]   Complete 60000 origin guides.
+[INFO DRT-0026]   Complete 70000 origin guides.
+[INFO DRT-0026]   Complete 80000 origin guides.
+[INFO DRT-0026]   Complete 90000 origin guides.
+[INFO DRT-0027]   Complete 100000 origin guides.
+[INFO DRT-0027]   Complete 200000 origin guides.
+[INFO DRT-0027]   Complete 300000 origin guides.
+[INFO DRT-0027]   Complete 400000 origin guides.
+[INFO DRT-0027]   Complete 500000 origin guides.
+[INFO DRT-0027]   Complete 600000 origin guides.
+[INFO DRT-0027]   Complete 700000 origin guides.
+[INFO DRT-0027]   Complete 800000 origin guides.
+[INFO DRT-0027]   Complete 900000 origin guides.
+[INFO DRT-0027]   Complete 1000000 origin guides.
+[INFO DRT-0027]   Complete 1100000 origin guides.
+[INFO DRT-0027]   Complete 1200000 origin guides.
+[INFO DRT-0027]   Complete 1300000 origin guides.
+[INFO DRT-0027]   Complete 1400000 origin guides.
+[INFO DRT-0027]   Complete 1500000 origin guides.
+[INFO DRT-0027]   Complete 1600000 origin guides.
+[INFO DRT-0027]   Complete 1700000 origin guides.
+[INFO DRT-0027]   Complete 1800000 origin guides.
+[INFO DRT-0028]   Complete FR_MASTERSLICE.
+[INFO DRT-0028]   Complete licon.
+[INFO DRT-0028]   Complete li1.
+[INFO DRT-0028]   Complete mcon.
+[INFO DRT-0028]   Complete met1.
+[INFO DRT-0028]   Complete via.
+[INFO DRT-0028]   Complete met2.
+[INFO DRT-0028]   Complete via2.
+[INFO DRT-0028]   Complete met3.
+[INFO DRT-0028]   Complete via3.
+[INFO DRT-0028]   Complete met4.
+[INFO DRT-0028]   Complete via4.
+[INFO DRT-0028]   Complete met5.
+[WARNING DRT-0225] _000010_ 2 pin not visited, fall back to feedthrough mode.
+  complete 10000 nets.
+  complete 20000 nets.
+[WARNING DRT-0225] _021839_ 6 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _025159_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _025161_ 1 pin not visited, fall back to feedthrough mode.
+  complete 30000 nets.
+[WARNING DRT-0225] _036230_ 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _036256_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _036597_ 2 pin not visited, fall back to feedthrough mode.
+  complete 40000 nets.
+[WARNING DRT-0225] _048858_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _049397_ 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _049596_ 7 pin not visited, fall back to feedthrough mode.
+  complete 50000 nets.
+[WARNING DRT-0225] _052760_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] _052887_ 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] lane_wdata\[11\] 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.acc\[8\]\[9\] 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[2\] 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[32\] 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[33\] 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[38\] 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[43\] 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[44\] 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[45\] 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[49\] 2 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] u_core.u_wmem.wd\[9\] 2 pin not visited, fall back to feedthrough mode.
+  complete 60000 nets.
+  complete 70000 nets.
+[WARNING DRT-0225] net842 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net849 1 pin not visited, fall back to feedthrough mode.
+  complete 80000 nets.
+  complete 90000 nets.
+[WARNING DRT-0225] net13454 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net14719 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net14776 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net14833 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net15354 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net16611 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net16654 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net19155 5 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net19191 1 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] net19384 13 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] clknet_leaf_78_u_enc.ck_tm 4 pin not visited, fall back to feedthrough mode.
+[WARNING DRT-0225] clknet_leaf_49_u_enc.ck_pix 1 pin not visited, fall back to feedthrough mode.
+  complete 100000 nets.
+[INFO DRT-0178] Init guide query.
+[INFO DRT-0029]   Complete 10000 nets (guide).
+[INFO DRT-0029]   Complete 20000 nets (guide).
+[INFO DRT-0029]   Complete 30000 nets (guide).
+[INFO DRT-0029]   Complete 40000 nets (guide).
+[INFO DRT-0029]   Complete 50000 nets (guide).
+[INFO DRT-0029]   Complete 60000 nets (guide).
+[INFO DRT-0029]   Complete 70000 nets (guide).
+[INFO DRT-0029]   Complete 80000 nets (guide).
+[INFO DRT-0029]   Complete 90000 nets (guide).
+[INFO DRT-0030]   Complete 100000 nets (guide).
+[INFO DRT-0035]   Complete FR_MASTERSLICE (guide).
+[INFO DRT-0035]   Complete licon (guide).
+[INFO DRT-0035]   Complete li1 (guide).
+[INFO DRT-0035]   Complete mcon (guide).
+[INFO DRT-0035]   Complete met1 (guide).
+[INFO DRT-0035]   Complete via (guide).
+[INFO DRT-0035]   Complete met2 (guide).
+[INFO DRT-0035]   Complete via2 (guide).
+[INFO DRT-0035]   Complete met3 (guide).
+[INFO DRT-0035]   Complete via3 (guide).
+[INFO DRT-0035]   Complete met4 (guide).
+[INFO DRT-0035]   Complete via4 (guide).
+[INFO DRT-0035]   Complete met5 (guide).
+[INFO DRT-0036] FR_MASTERSLICE guide region query size = 0.
+[INFO DRT-0036] licon guide region query size = 0.
+[INFO DRT-0036] li1 guide region query size = 314448.
+[INFO DRT-0036] mcon guide region query size = 0.
+[INFO DRT-0036] met1 guide region query size = 257952.
+[INFO DRT-0036] via guide region query size = 0.
+[INFO DRT-0036] met2 guide region query size = 175483.
+[INFO DRT-0036] via2 guide region query size = 0.
+[INFO DRT-0036] met3 guide region query size = 74774.
+[INFO DRT-0036] via3 guide region query size = 0.
+[INFO DRT-0036] met4 guide region query size = 26200.
+[INFO DRT-0036] via4 guide region query size = 0.
+[INFO DRT-0036] met5 guide region query size = 8432.
+[INFO DRT-0179] Init gr pin query.
+[INFO DRT-0181] Start track assignment.

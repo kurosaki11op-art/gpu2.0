@@ -1,0 +1,20 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "50_150": {
+  "acc": [
+   0.7871,
+   0.7818
+  ],
+  "mean": 0.7845,
+  "bits": 4608
+ },
+ "30_100_170": {
+  "acc": [
+   0.7992,
+   0.7784
+  ],
+  "mean": 0.7888,
+  "bits": 5760
+ }
+}

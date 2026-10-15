@@ -241,4 +241,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   nothing on sound. SIMULATED.
 - HDC on the new noise-floor sound codes (fairness check): 5 stages 65.5 (from 63.5), all at once 71.2; the chip
   71.2 / 71.9 - still ahead in stages by +5.7. SIMULATED.
+- Three brightness receptor types for images: clothing 78.4 -> 79.1 (5 seeds, 4 of 5 better), digits 94.6 -> 94.3,
+  +25% memory - ASIC option, not adopted on the FPGA ([note](../hw/brain/experiments/month4/retina_adapt.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
