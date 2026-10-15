@@ -23,4 +23,22 @@ Commands v0.01 in `<data>/speech` and scipy); its emulator run over the full dat
 chip model exactly (`host_sound_dryrun.log`). On the board this would be the first MEASURED sound result; optional
 step 9 of the [board plan](../../../../docs/month4_board_plan.md).
 
+## Live sound demo (`hw/board/cortex_sound_demo.py`)
+
+Teach a new word by saying it (microphone via `sounddevice`, or wav files), ask, sleep, test. Headless check
+(emulator, bit-exact with the chip; words 0-7 pre-taught from 300 clips each, then word 8 "stop" taught from
+dataset clips of many different speakers, a short night, then unseen clips):
+
+| Clips used to teach "stop" | New word, unseen clips | All known words | Label |
+|---|---|---|---|
+| (before) | - | 61.0% (words 0-7) | SIMULATED |
+| 10 | 15.5% | 51.2% | SIMULATED |
+| 30 | 24.7% | 56.8% | SIMULATED |
+| 60 | 44.0% | 57.8% | SIMULATED |
+
+Honest reading: a new word needs many repetitions on this small code (the few-shot limit again, harder for sound
+than for drawn digits, where 10 strokes gave 73.5%). One person repeating their own word is likely easier than many
+speakers, but that is not tested. For the pitch, the digits drawing demo is the stronger live demo; the sound demo
+shows the same chip learning words and should be introduced with these numbers.
+
 Related: [Sound chip](../../../results/cortex_sound_chip.md), [Noise floor](noise_floor.md), [Month 4 experiments](INDEX.md)

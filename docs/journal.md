@@ -254,4 +254,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Second detailed-routing attempt (wider channels): 104k violations after pass 1, ~65k at 60% of pass 2 (better than
   the first floorplan, not converging); lost in another container restart. Routing parked; recorded in the ASIC
   estimate.
+- Live sound demo `hw/board/cortex_sound_demo.py` (mic or wav; teach / ask / sleep / test). Headless: a new word
+  from 10 / 30 / 60 clips of many speakers -> 15.5 / 24.7 / 44.0% on unseen clips; old words 61 -> 51-58%. Weak few-shot
+  for sound; recorded honestly ([note](../hw/brain/experiments/month4/sound_on_board.md)). SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
