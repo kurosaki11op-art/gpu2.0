@@ -310,6 +310,11 @@ Headless check of the same steps (emulator, SIMULATED): preloaded 0-7 at 93% on 
 (needs Speech Commands and scipy; microphone needs `pip install sounddevice`). New words need many repetitions:
 [numbers](../brain/experiments/month4/sound_on_board.md).
 
+## Board day in one command
+
+`python hw/board/board_day.py --port COMx --data D:\\cortex_data [--sound]` runs the plan's steps 0-5 (and 9) in order
+and saves all output in one report file to send back.
+
 ## Before a board session
 
 `python hw/board/preflight.py --data D:\cortex_data [--port COMx]` checks Python, packages, data, the bitstream and the

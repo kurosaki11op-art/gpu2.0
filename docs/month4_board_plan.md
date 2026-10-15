@@ -33,6 +33,10 @@ Everything runs from `D:\gpu2.0` after `git pull`.
 If step 3 differs from step 1 in any digit, stop and send me the output: it means a hardware or link problem (wrong pin,
 UART noise), because the design is bit-exact in simulation.
 
+Shortcut for steps 0-5 (and 9 with `--sound`): `python hw\board\board_day.py --port COMx --data D:\cortex_data` runs
+them in order and saves every output in one `board_day_<date>_<time>.txt` - send me that file. It stops at the first
+failing step. Steps 6-8 (power meter, live demos, economy) stay manual.
+
 ## Reading the power numbers honestly
 
 `cortex_bench.py` prints operations per second for each phase and asks for the meter reading. Energy per operation
