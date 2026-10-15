@@ -345,4 +345,13 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   SRAM array, keep-outs at the macro pins, to make detailed routing converge. The core logic and its bit-exact
   checks stay; both come in as build options / new flow scripts. Full redesign rejected (the problems are local).
 
+- **Redesign 1 done**: IMPRINT (novelty-gated prototype imprint from the dream counters, `CORTEX_IMPRINT`) + a short
+  sleep (300 dreams per class). Bit-exact (run_check_cortex_imprint.py, plain and pipelined); regression 18/18 PASS.
+  One example per new class: digits 54.1 -> 69.9, clothing 49.7 -> 64.0, words 45.2 -> 48.3 (old classes kept
+  within 1-5 points). SIMULATED, 3 seeds. Rejected on the way: plain imprint, norm aligning, hippocampus gate,
+  distinct-bits imprint, blurred imprint. [Note](../hw/brain/experiments/month4/fewshot_imprint.md).
+- Words from 1-5 recordings remain weak (new words 12-22%). Network on aligned sound all at once 85.5 vs chip 82.5.
+- Running: pattern separation (mushroom-body expansion layer), alignment in noise, network vs chip on few-shot words,
+  floor3 layout (redesign 2).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

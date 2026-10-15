@@ -187,6 +187,9 @@ Month 4 work while waiting for the board (15 Oct, `hw/brain/experiments/month4/`
    options `ENC_LEARN` on-chip senses, `CORTEX_CONTEXT` context memory, `CORTEX_PIPE` pipelined core).
 4. Month 4, Tang Nano 20K learns live over UART; power MEASURED with a USB meter: **waiting on the user's board**
    (`docs/month4_board_plan.md`).
+4b. Done 15 Oct (SIMULATED, in RTL): word alignment for sound (~72 -> 82.5 all at once); IMPRINT + short sleep for a
+   new class from a few examples (digits 1 example 54.1 -> 69.9, clothing 49.7 -> 64.0); see
+   `hw/brain/experiments/month4/fewshot_imprint.md`. Board testing set aside by the user.
 5. Month 5, two boards learn separately and merge memories; also try the hand-over (`cortex_transfer.py --handover`), which beats the merge in simulation (+7.3 on sound).
 6. Month 6, sequence memory (the SPARK-L lookup core) joins for live streams.
 7. Months 7-8, SKY130 area/power estimates (no fabrication), write-up, demo video, pitch. Started early: synthesis,
