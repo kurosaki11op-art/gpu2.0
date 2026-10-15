@@ -85,7 +85,10 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
   an "economy" dream budget gives ~3x less learning energy for 0.6-0.8 points (`--economy`).
 - **Sound, noise removed**: a per-resonator noise floor in the cochlea lifts sound from 69.6 to 71.2 (5 seeds).
 - **The chip hears raw sound**: cochlea and a general encoder in RTL; the whole chain (raw samples -> word decisions,
-  with learning, dreams and a night) is bit-exact ([details](../hw/results/cortex_sound_chip.md)).
+  with learning, dreams and a night) is bit-exact ([details](../hw/results/cortex_sound_chip.md)). A streaming
+  cochlea listens live (no sample buffer: 1.52 mm^2 instead of 11.2 in SKY130).
+- Tried and rejected today: lateral inhibition in the cochlea, retinal adaptation for images (within noise), few-shot
+  replay and saccades. ASIC detailed routing did not converge (72k violations after 3 passes); floorplan needs rework.
 - Few-shot: saccades rejected; top-2 voting small gain; the 5-example gap remains.
 
 ## 4. Honest limits (say these before a judge does)
