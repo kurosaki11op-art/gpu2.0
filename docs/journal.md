@@ -279,4 +279,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Speckle removal on sound pictures: clean 72.0 -> 70.9, 10 dB 54.0 -> 54.3 (3 seeds) - not for sound; image-only option.
 - 10 one-class stages with 3 seeds: 93.0 / 78.7 / 71.2 (single run was 93.5 / 78.7 / 70.5; sound now with the chip
   cochlea + floor). Claims sheet, glance page, memory, report updated. SIMULATED.
+- All at once with several seeds: digits 96.9 (3 seeds), clothing 82.9 (6 example orders, range 82.2-83.7; the
+  month-2 single run 83.7 was the top of that range), sound 71.9. Headline docs now quote the means
+  (`hw/brain/experiments/month4/allatonce_seeds.log`). SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

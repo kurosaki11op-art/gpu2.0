@@ -106,7 +106,7 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
    multipliers, bit-exact on a $25 FPGA) is what is new.
 2. Few-shot: behind a small neural network with 5 examples per class (and on clothing); level or ahead with 1 and 20 on
    digits after the spread-code fix (simulation only, not in the chip).
-3. Accuracy all-at-once is below a neural network (digits 96.6 vs 97.8, clothing 83.7 vs 87.3, sound 71.1 vs 75.5).
+3. Accuracy all-at-once is below a neural network (digits 96.9 vs 97.8, clothing 82.9 vs 87.3, sound 71.9 vs 75.5; chip numbers are seed means).
 4. Nothing is measured on hardware yet. Energy numbers are estimates.
 5. The FPGA is nearly full (about 90% of logic); bigger versions need the PSRAM or a bigger FPGA.
 6. **New conditions of known classes** (e.g. the same digits rotated): the chip forgets the old condition (digits

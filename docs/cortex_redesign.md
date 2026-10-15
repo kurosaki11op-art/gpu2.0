@@ -33,7 +33,7 @@ ships, with brain principles only: no matrices, no multiplies, no backprop.**
 | Memory / knowledge transfer | weights cannot be merged cleanly | two chips' memories merged: 91.4% after one night (bit-exact board design) | SIMULATED |
 | Efficiency | ~203k multiply-adds per decision (small net) | 0 multiplies; 9.4 nJ per decision by operation count; SKY130 layout ~0.18-0.26 uJ per decision with clock gating and the pipelined core | ESTIMATED |
 | E-waste | a new task means a new model, often new hardware | the same chip keeps learning new classes and conditions in the field (above); what it knows exports to a replacement chip (memory transfer, bit-exact over UART); it learns its own sensory detectors, so a new sensor does not need a PC retrain; one design senses images and raw sound | SIMULATED (each part); lifetime saving not measured |
-| Accuracy | 97.7% digits / 87.5% clothing (network, all at once) | all at once 96.6 / 83.7 / 71.1; behind a network few-shot at 5 examples | SIMULATED, gaps remain |
+| Accuracy | 97.7% digits / 87.5% clothing (network, all at once) | all at once 96.9 / 82.9 / 71.9 (seed means); behind a network few-shot at 5 examples | SIMULATED, gaps remain |
 
 What it is not: it does not replace large language models, and we will not say it does. The claim is narrower and
 provable: a chip that learns continuously, locally and transferably, which today's AI chips cannot do.

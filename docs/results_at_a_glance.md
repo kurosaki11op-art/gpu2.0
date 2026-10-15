@@ -39,7 +39,7 @@ MEASURED on hardware yet** (the board run is next: [month 4 plan](month4_board_p
 
 1. Not the first continual-learning chip (HDC accelerators, Intel Loihi 2): what is new is the combination - dreams
    from counters, self-ending sleep, no multipliers, bit-exact from raw senses to decisions.
-2. Learning everything at once, a network is ahead (97.8 vs 96.6 digits, 87.3 vs 83.7 clothing; sound: network 75.5 on
+2. Learning everything at once, a network is ahead (97.8 vs 96.9 digits, 87.3 vs 82.9 clothing, chip seed means; sound: network 75.5 on
    the float cochlea's pictures vs the chip 71.9 with its own cochlea).
 3. Few-shot: behind a small network at 5 examples per class (digits 62.8 vs 67.4).
 4. The layout energy is ~20-28x above the operation count: say "74x less energy per operation needed", not per chip.

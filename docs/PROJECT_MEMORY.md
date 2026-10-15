@@ -107,7 +107,7 @@ Open after month 1: memory 11-28 MB (too big), no single decision rule, few-shot
 Month 2 (`hw/results/cortex_month2.md`, closed): 5-bit fast table decides everything (one rule); dream memory =
 10-bit per-class counters with synaptic scaling; day = count + practise + daydream + interleaved dreams of old classes;
 night = dreams of all classes that **ends itself** after a block of 256 dreams with >2 surprises. On the exact integer
-chip model (each example seen once): all at once 96.6 / 83.7 / 71.1; 5 stages **94.6 / 78.7 / 69.7** (network 19.5 /
+chip model (each example seen once): all at once 96.6 / 83.7 / 71.1 (seed means, 15 Oct: 96.9 / 82.9 / 71.9 - clothing varies 82.2-83.7 with example order); 5 stages **94.6 / 78.7 / 69.7** (network 19.5 /
 20.0 / 15.9; with replay 49.6 / 37.8 / 27.8); merge 93.0 / 82.3 / 62.6. Memory images 84 KB (137x smaller, fits block
 RAM), sound 422 KB. Few-shot still behind the network. Known limit: dreams with independent bits cap images.
 

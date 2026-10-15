@@ -1,0 +1,4 @@
+mnist all at once [0.9698, 0.9686, 0.9676] mean 0.9687
+fashion all at once [0.8232, 0.8224, 0.8242] mean 0.8233
+fashion, lanes seed 1, example-order seeds 9 / 1 / 2 (the month-2 procedure): 0.8365 / 0.8314 / 0.8366
+fashion all at once over all 6 orders: mean 0.829 (range 0.822-0.837)
