@@ -1,3 +1,6 @@
 route_drc.rpt
+route_drc_pass1.rpt
 *.odb
 route.guide
+route.log
+diag.log

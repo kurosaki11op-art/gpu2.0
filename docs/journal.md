@@ -427,4 +427,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   Experiments before this entry used margin 8 (their logs say so by date); the board bitstream also needs a rebuild
   with MARGIN = 32. `margin_tune*.py`, `fewshot_margin.py`.
 
+- 2:20 AM IST: container restart killed the regression (4 of 19 checks done with margin 32) and the floor2c routing run
+  (pass 1 at 60%: 116k violations, heading for ~150k, no better than floor2's 103k: so no li1, the guide file and
+  power halos did NOT fix routing). Restarted: the regression (margin 32), and a one-pass routing run that writes the
+  violation report (`floor2c/diag.sh`, `floor2c/drc_summary.txt` when done) to see what kind of violations they are.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
