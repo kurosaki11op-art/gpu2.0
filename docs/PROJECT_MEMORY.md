@@ -137,6 +137,9 @@ Month 4 work while waiting for the board (15 Oct, `hw/brain/experiments/month4/`
   many repetitions: 44% from 60 clips).
 - Energy (ESTIMATED, SKY130 layout): 0.19-0.26 uJ per decision, 45-62 uJ per learned example (digits, ~95% dreams);
   economy dream budget (`--economy`): ~3x less for -0.6 to -0.8 points.
+- Noise (user: remove the noise that affects accuracy): the 4x noise floor is the best filter (trained clean, at 5 dB
+  SNR 46.6 vs 32.1 without); gates and smoothing do not help; learning from noisy examples adds +5 to +11 in noise for
+  3-5 points clean (`hw/brain/experiments/month4/input_noise.md`).
 - Rejected / within noise: few-shot saccades and replay (top-2 voting small gain), lateral inhibition in the cochlea,
   retinal adaptation for images; ASIC option: 3 brightness receptors (+0.8 clothing, +25% memory).
 - ASIC detailed routing did not converge (two floorplans, lost in container restarts) - parked.

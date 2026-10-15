@@ -48,10 +48,15 @@ quarter of the clips clean); the detectors learn from the same mixed pictures. S
 | Trained on | Clean | 20 dB | 10 dB | 5 dB | Mean of the four |
 |---|---|---|---|---|---|
 | clean clips (floor) | 72.0 | 63.9 | 54.0 | 46.6 | 59.1 |
-| mixed clean / noisy clips (floor) | 67.0 | 68.7 | 64.0 | 58.0 | 64.4 |
+| mixed, 1/2 of the clips clean (floor) | 68.9 | 67.0 | 62.2 | 54.6 | 63.2 |
+| mixed, 1/4 of the clips clean (floor) | 67.0 | 68.7 | 64.0 | 58.0 | 64.4 |
 
 SIMULATED. Hearing noisy examples while learning adds +4.8 to +11.4 points in noise and costs 5.0 on clean speech:
-the noise has to be learned, not only filtered. Trade-off depends on where the chip will be used.
+the noise has to be learned, not only filtered. The share of clean clips is a smooth dial between clean accuracy and
+robustness (`noisy_train_half.log`); no chip change is needed - it is what the chip hears while it learns.
+
+**Noise work, summary:** the 4x noise floor (adopted, in RTL) is the best filter, clean and noisy; gates and
+smoothing do not help; learning from noisy examples is what closes most of the remaining gap in noise.
 
 ## Images: speckle removal by lateral support (`despeckle.py`, logs `despeckle.log`, `despeckle_5seeds.log`)
 

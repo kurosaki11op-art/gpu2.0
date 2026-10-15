@@ -1,0 +1,9 @@
+2:random condition per clip, fixed seed; PCLEAN = share of clean clips, default 0.25); detectors are learned from the same mixed pictures of stage 1. Tested on clean
+38:PCLEAN = float(os.environ.get("PCLEAN", "0.25"))                   # share of training clips heard clean
+40:cond = np.where(r.random_sample(len(Xtr)) < PCLEAN, 0, 1 + r.randint(0, 3, len(Xtr)))
+60:print("trained in mixed noise, share clean", PCLEAN, res, "%.0fs" % (time.time() - t0), flush=True)
+61:json.dump({"label": "SIMULATED (integer cochlea + 4x floor, exact integer chip model, 3 seeds)", "share_clean": PCLEAN, "trained_in_mixed_noise": res},
+62:          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"noisy_train_pclean{PCLEAN}.json"), "w"), indent=1)
+frame sums ready 132s
+trained in mixed noise, share clean 0.5 {'clean': 0.6886, '20dB': 0.6703, '10dB': 0.6221, '5dB': 0.5463} 359s
+
