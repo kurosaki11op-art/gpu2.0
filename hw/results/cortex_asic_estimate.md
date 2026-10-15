@@ -116,9 +116,14 @@ is selected**, so the estimate pays for all 63 macros every cycle, although a de
    (-3.71 ns at 20 ns, ~42 MHz); hold -1.34 ns before detailed routing (worse than the default tree's -0.68 ns; needs
    hold repair after routing, which adds delay cells and a little power).
 
+4. Fewer cycles (`CORTEX_PIPE`, on in the ASIC build; bit-exact, also with the SRAM macro models): the score loop
+   takes one code bit per cycle and dreams prefetch their counters. Cycles per decision 1,243 -> 264, per dream
+   21,894 -> 7,109. Power per cycle was not re-estimated (the layout above is the unpipelined core).
+
 **What a decision costs in this layout (ESTIMATED):** 33-47 mW at 50 MHz is 0.7-0.9 nJ per clock cycle; a decision
 takes ~1,600 cycles, so **~1.1-1.5 uJ per decision** (2.0-2.5 uJ with the default clock tree), down from ~11 uJ
-without gating. That is still ~100-150x above the 9.4 nJ counted from operations. What remains is mostly the clock tree of a 31 mm^2 die whose 63 macros are spread
+without gating. With the pipelined core (264 cycles per decision) and the same power per cycle that would be
+~0.2-0.3 uJ (PROJECTED until the pipelined layout is run). That is still ~100-150x above the 9.4 nJ counted from operations. What remains is mostly the clock tree of a 31 mm^2 die whose 63 macros are spread
 out with routing channels, plus ~3,000 flip-flops that are clocked every cycle. Clock-tree synthesis inserted 13,838 clock buffers
 (10,776 of them the largest size) for 4,325 sinks on the main clock and 17,216 behind the encoder's gates; tuning it
 (smaller buffers, wider sink clusters) is the first lever. Next levers, not yet tried: a compact

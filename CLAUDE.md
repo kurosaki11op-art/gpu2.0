@@ -17,4 +17,7 @@
    entries above the journal's final `Related:` line. Lint with the obsidian-notes skill's `vault_lint.py` before
    committing (target: 0 errors, 0 orphans).
 
+7. Never run two RTL checks in the same folder at the same time: they share `cmds.hex` / `out_cortex.txt` and give
+   false mismatches.
+
 Related: [Project memory](docs/PROJECT_MEMORY.md), [Journal](docs/journal.md), [Home](README.md)

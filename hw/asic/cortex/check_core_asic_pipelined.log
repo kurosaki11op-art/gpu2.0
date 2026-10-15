@@ -1,0 +1,5 @@
+CB=10: command schedule reproduces CortexInt.stage exactly: True
+CB=10: 138 commands (66 dreams, 20 predictions), lines compared 4752, mismatches 0; halving exercised: n/a; test accuracy on 0-3: 0.700
+CB=5: command schedule reproduces CortexInt.stage exactly: True
+CB=5: 196 commands (92 dreams, 20 predictions), lines compared 4810, mismatches 0; halving exercised: True; test accuracy on 0-3: 0.650
+PASS

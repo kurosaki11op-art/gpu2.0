@@ -181,4 +181,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   and context, both variants, 0 mismatches; board check (FPGA variant) 0 mismatches; the committed bitstream stands.
   A first SRAM-macro run of the pipelined core showed mismatches in its second configuration while other checks were
   writing the same files in the same folder at the same time; re-running it alone.
+- Pipelined core with the SKY130 SRAM macro models, run alone: 0 mismatches in both configurations
+  (`hw/asic/cortex/check_core_asic_pipelined.log`). The earlier failure was the file collision. Lesson: never run two
+  core checks in the same folder at once (they share cmds.hex / out_cortex.txt).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
