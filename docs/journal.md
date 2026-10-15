@@ -237,4 +237,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   home page and the docs index.
 - Floorplan rework launched (`hw/asic/cortex/floor2/run.sh`): wider channels (250 / 300 um) on a 7.5 x 6.2 mm die,
   then detailed routing capped at 10 passes. `flow.tcl` die and channel sizes now overridable (DW, DH, GX, CH).
+- Sound with the chip cochlea + floor, all words at once: 71.9 vs 72.0 in 5 stages (3 seeds) - staged learning costs
+  nothing on sound. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
