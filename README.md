@@ -14,6 +14,7 @@ markdown, and opened in Obsidian as a vault or read on GitHub. Start at the top.
 - [Project memory](docs/PROJECT_MEMORY.md): identity, the user's standing rules, full history, current design, all results, plan. Read first.
 - [Month 4 board plan](docs/month4_board_plan.md): what to run on the Tang Nano and how to read the power meter.
 - [Claims sheet](docs/cortex_claims_sheet.md): what we can and cannot claim, with sources.
+- [Results at a glance](docs/results_at_a_glance.md): the headline results, costs and limits on one page.
 - [Journal](docs/journal.md): every step, newest at the bottom.
 - [Session instructions](CLAUDE.md): how every working session must read and update this second brain.
 

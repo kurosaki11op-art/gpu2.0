@@ -233,4 +233,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   ESTIMATED). [results](../hw/results/cortex_sound_chip.md).
 - Sound chip top switched to the streaming cochlea: whole chain from live samples bit-exact (23,082 lines,
   0 mismatches), half the cycles. SIMULATED.
+- `docs/results_at_a_glance.md`: one page of headline results, costs and limits (labels, links), linked from the
+  home page and the docs index.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
