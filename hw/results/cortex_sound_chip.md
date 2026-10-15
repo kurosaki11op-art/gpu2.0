@@ -9,7 +9,7 @@ tags: [spark, cortex, results, sound, rtl]
 
 | Block | File | What it does | Check |
 |---|---|---|---|
-| Cochlea | `cortex_cochlea.v` | 1 s of 16 kHz samples -> 28 shift-add resonators -> frame sums -> per-resonator noise floor -> 28x28 sound picture; 1.35 M cycles | `run_check_cochlea.py`: 10 clips, 0 mismatches |
+| Cochlea | `cortex_cochlea_stream.v` (live; `cortex_cochlea.v` buffered) | 1 s of 16 kHz samples -> 28 shift-add resonators -> frame sums -> per-resonator noise floor -> 28x28 sound picture; 1.35 M cycles | `run_check_cochlea.py`: 10 clips, 0 mismatches |
 | Sensory encoder | `cortex_encoder_gen.v` | 10 receptor channels x 64 label-free detectors, 2x2 pooling -> 23,040-bit code; 162k cycles | `run_check_encoder_gen.py`: 20 sound + 20 image pictures, 0 mismatches |
 | Learning core | `cortex_core.v` (NB 23,040) | table, dream counters, dreams, night, decisions | `run_check_cortex.py` (images) |
 
@@ -18,6 +18,8 @@ words "down"/"go" (2 clips each), stage 2 learns "left"/"no" with one daydream p
 old words and a night; then it hears 4 test clips and decides. Compared with the Python chain (integer cochlea ->
 `Features.encode` -> integer chip model): every update flag, dream length and decision, and the final table, dream
 counters and counts - **23,082 lines, 0 mismatches** (`hw/brain/experiments/month4/check_sound_chain.log`).
+The top now uses the streaming cochlea (samples fed one at a time as the chip is ready): same check, **0 mismatches**
+(`check_sound_chain_stream.log`), in half the cycles of the buffered version.
 SIMULATED (RTL simulation). The 4 test decisions (2 right) only show the chain runs: 2 clips per word is far too few
 to measure accuracy; accuracy comes from the exact model on the full data: **71.2% after 5 stages** (5 seeds, with
 the noise floor; `hw/brain/experiments/month4/noise_floor.md`).

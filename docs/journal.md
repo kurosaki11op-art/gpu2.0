@@ -231,4 +231,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Streaming cochlea** `cortex_cochlea_stream.v`: listens live (28 resonators per sample, ~29 cycles per sample),
   no sample buffer; bit-exact on 10 clips; 1.52 mm^2 vs 11.2 mm^2 for the buffered version (SKY130 synthesis,
   ESTIMATED). [results](../hw/results/cortex_sound_chip.md).
+- Sound chip top switched to the streaming cochlea: whole chain from live samples bit-exact (23,082 lines,
+  0 mismatches), half the cycles. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
