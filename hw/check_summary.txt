@@ -14,3 +14,5 @@ sound chip, whole chain: PASS
 Tang Nano board design: PASS
 host schedule == chip model: PASS
 core with SKY130 SRAM models: PASS
+context with SRAM models: PASS
+failures: 0

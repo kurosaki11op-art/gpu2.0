@@ -286,4 +286,5 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   now with the chip cochlea + floor). SIMULATED (`hw/brain/experiments/month4/merge_seeds.log`).
 - 3 brightness receptors + speckle removal together: clothing 77.7, digits 94.0 (3 seeds) - worse than either alone;
   rejected as a combination. SIMULATED.
+- Full regression with the SKY130 SRAM-model runs (`run_all_checks.sh --asic`): 17 checks, see `hw/check_summary.txt`.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
