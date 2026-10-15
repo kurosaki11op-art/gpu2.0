@@ -1,0 +1,15 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "encoder_exact": true,
+ "all_at_once": {
+  "centre": 0.9687,
+  "5_views": 0.9783,
+  "5_views_centre_x2": 0.9789
+ },
+ "5_stages": {
+  "centre": 0.9456,
+  "5_views": 0.9553,
+  "5_views_centre_x2": 0.9552
+ }
+}

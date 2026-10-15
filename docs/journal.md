@@ -364,4 +364,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Test-time saccades (image + 4 one-pixel shifts, centre counted twice): clothing all at once 82.3 -> 84.2; in 5
   stages no gain (78.3). Digits running. SIMULATED, 3 seeds.
 
+- **Test-time saccades** (image + 4 one-pixel shifts, centre counted twice, table scores added): digits 96.9 -> 97.9
+  all at once (network 97.8), 94.6 -> 95.5 in 5 stages; clothing 82.3 -> 84.2 all at once, no gain in stages.
+  5x decision work, no learning change. SIMULATED, 3 seeds. `image_saccades_test.py`.
+- Sound tempo normalisation (stretch the word to 16 frames): 82.4 -> 69.9. Rejected. `sound_warp.py`.
+- Started redesign 3 (two-layer senses V1 -> V2) in the model: `senses_v2.py`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,0 +1,6 @@
+encoder rebuilt exactly: True
+fashion all_at_once {'centre': 0.8233, '5_views': 0.8405, '5_views_centre_x2': 0.8417}
+fashion 5_stages {'centre': 0.7829, '5_views': 0.7807, '5_views_centre_x2': 0.7825}
+encoder rebuilt exactly: True
+mnist all_at_once {'centre': 0.9687, '5_views': 0.9783, '5_views_centre_x2': 0.9789}
+mnist 5_stages {'centre': 0.9456, '5_views': 0.9553, '5_views_centre_x2': 0.9552}
