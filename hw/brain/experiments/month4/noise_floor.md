@@ -28,4 +28,8 @@ In hardware it is the sum of the 4 quietest frame sums with the two low bits cle
 subtraction per pixel. Now the default in `hw/brain/cochlea_int.py` (`noise_floor`) and in
 `hw/rtl/cortex/cortex_cochlea.v`, bit-exact (`check_cochlea_floor.log`).
 
+Also tried, on top of the floor: lateral inhibition across neighbouring resonators (each subtracts a share of its
+two neighbours, sharpening the spectrum): neighbours / 4: 67.7, neighbours / 8: 70.5 (3 seeds; floor alone 72.0).
+Rejected - it removes information the detectors use (`lateral_inhibition.log`).
+
 Related: [Cochlea in RTL](cochlea_rtl.md), [Month 4 experiments](INDEX.md)

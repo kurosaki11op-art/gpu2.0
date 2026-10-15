@@ -210,4 +210,5 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   mean of its 4 quietest frames. Sound after 5 stages 69.6 -> **71.2** (5 seeds, better on 4 of 5); sweep of 8
   variants, all 3+ seeds. Adopted in `cochlea_int.py` and `cortex_cochlea.v` (bit-exact). SIMULATED
   ([note](../hw/brain/experiments/month4/noise_floor.md)).
+- Lateral inhibition across resonators on top of the noise floor: 67.7 / 70.5 vs 72.0 (3 seeds) - rejected.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
