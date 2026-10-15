@@ -432,4 +432,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   power halos did NOT fix routing). Restarted: the regression (margin 32), and a one-pass routing run that writes the
   violation report (`floor2c/diag.sh`, `floor2c/drc_summary.txt` when done) to see what kind of violations they are.
 
+- 3:20 AM IST: second container restart at 3:19 (and the one at 2:20): both follow ~1 h with no tool activity (the
+  hourly check-in fires into a fresh container). Background jobs die with it. Fix: two more check-ins
+  (trig_01YK7BAneLSH4CcpSLGZ6Vzu at :09, trig_01E8ziMvX6pvuu1tUBa4QCwe at :29) so activity comes every 20 minutes;
+  long jobs launched with setsid nohup must be re-checked at each wake and restarted if killed (uptime ~0). All three
+  night scheduled tasks to be deleted after 10:00 AM IST on 16 Oct. Restarted: regression (margin 32) and the
+  one-pass routing diagnostic (`floor2c/diag.sh`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
