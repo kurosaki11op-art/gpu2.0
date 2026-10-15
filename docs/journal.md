@@ -445,4 +445,12 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   and the three night scheduled tasks are a safety net, not a keep-alive. Regression and the one-pass routing run
   restarted at 3:42 AM IST in the open turn.
 
+- 4:10 AM IST: **regression with margin 32: 18 checks, 0 failures** (model, RTL, board, host emulator bit-exact;
+  IMPRINT, LOOK AGAIN, aligned cochlea and sound chain included).
+- **Final numbers with all adopted options** (margin 32, word alignment, LOOK AGAIN; exact integer chip model, 5 seeds,
+  SIMULATED; `final_numbers.py`): all at once / 5 stages, single view -> with LOOK AGAIN:
+  digits 97.0 -> **98.0** / 94.9 -> **95.8**; clothing 83.4 -> **84.8** / 78.4 -> 78.3; words 83.1 -> **84.7** / 82.0 -> **82.9**.
+  (Earlier headline numbers, all at once: digits 96.9, clothing 82.9, words 71.9 -> now 98.0 / 84.8 / 84.7.)
+  Network all at once: digits 97.8, clothing 87.3, words 85.5 on the aligned pictures.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

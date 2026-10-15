@@ -1,0 +1,12 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, margin 32, 5 seeds)",
+ "all_at_once": {
+  "single_view": 0.8342,
+  "look_again": 0.8476
+ },
+ "5_stages": {
+  "single_view": 0.7838,
+  "look_again": 0.7828
+ }
+}

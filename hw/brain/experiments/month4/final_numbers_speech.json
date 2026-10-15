@@ -1,0 +1,12 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, margin 32, 5 seeds)",
+ "all_at_once": {
+  "single_view": 0.8312,
+  "look_again": 0.8465
+ },
+ "5_stages": {
+  "single_view": 0.8199,
+  "look_again": 0.8294
+ }
+}
