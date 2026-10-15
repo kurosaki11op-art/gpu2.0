@@ -1,0 +1,62 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "runs": {
+  "2": [
+   {
+    "added": 0.626,
+    "after_night": 0.6397,
+    "dreams": 256
+   },
+   {
+    "added": 0.6128,
+    "after_night": 0.6478,
+    "dreams": 256
+   },
+   {
+    "added": 0.6101,
+    "after_night": 0.6428,
+    "dreams": 256
+   }
+  ],
+  "8": [
+   {
+    "added": 0.626,
+    "after_night": 0.6397,
+    "dreams": 256
+   },
+   {
+    "added": 0.6128,
+    "after_night": 0.6478,
+    "dreams": 256
+   },
+   {
+    "added": 0.6101,
+    "after_night": 0.6428,
+    "dreams": 256
+   }
+  ],
+  "0": [
+   {
+    "added": 0.626,
+    "after_night": 0.6081,
+    "dreams": 120000
+   },
+   {
+    "added": 0.6128,
+    "after_night": 0.6015,
+    "dreams": 120000
+   },
+   {
+    "added": 0.6101,
+    "after_night": 0.6015,
+    "dreams": 120000
+   }
+  ]
+ },
+ "means": {
+  "2": 0.6434,
+  "8": 0.6434,
+  "0": 0.6037
+ }
+}
