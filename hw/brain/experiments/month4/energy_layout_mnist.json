@@ -1,0 +1,16 @@
+{
+ "dataset": "mnist",
+ "label": "ESTIMATED (layout energy per cycle x RTL cycles x operation counts)",
+ "real_examples": 60000,
+ "day_dreams": 180000,
+ "night_dreams": 336000,
+ "cycles_per_learned_example": 63602,
+ "uJ_per_learned_example": [
+  44.5,
+  62.3
+ ],
+ "uJ_per_decision": [
+  0.185,
+  0.259
+ ]
+}

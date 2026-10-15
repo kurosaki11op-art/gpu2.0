@@ -1,0 +1,16 @@
+{
+ "dataset": "fashion",
+ "label": "ESTIMATED (layout energy per cycle x RTL cycles x operation counts)",
+ "real_examples": 60000,
+ "day_dreams": 180000,
+ "night_dreams": 123648,
+ "cycles_per_learned_example": 38442,
+ "uJ_per_learned_example": [
+  26.9,
+  37.7
+ ],
+ "uJ_per_decision": [
+  0.185,
+  0.259
+ ]
+}

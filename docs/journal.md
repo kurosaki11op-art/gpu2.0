@@ -187,4 +187,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Pipelined ASIC layout (lighter clock tree): 49 mW (10%) / 35 mW (1%), ~40 MHz, hold -0.83 ns before routing;
   **~0.18-0.26 uJ per decision** (264 cycles), from ~11 uJ at the start of the night. ESTIMATED; logs
   `hw/asic/cortex/pipe_light/`.
+- 07:10 IST (user: keep working until evening). Energy per learned example from the layout: digits 45-62 uJ,
+  clothing 27-38 uJ (~95% dreams); per decision 0.19-0.26 uJ. ESTIMATED
+  ([note](../hw/brain/experiments/month4/energy_per_example_layout.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

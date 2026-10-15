@@ -19,8 +19,9 @@ simulator only add table values quickly.
 - `proof_suite_v3.py`: month-2 float suite (small memory, table-only decision, few-shot).
 - `cortex_core.py`: v0 random-wiring lookup neurons (superseded, kept for the first proof).
 - `proof_suite.py`: first proof suite. `proof_suite_v2.py`: month-1 suite (`DATA_DIR mnist|fashion|speech`).
-- `experiments/month1/`, `experiments/month2/`, `experiments/month3/`: exploration scripts and raw logs.
+- `experiments/month1/` to `experiments/month4/`: exploration scripts and raw logs.
 
 Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Month 1](../results/cortex_month1.md),
 [Month 2 log](../results/cortex_month2_log.md)
 - [experiments/month3/](experiments/month3/INDEX.md)
+- [experiments/month4/](experiments/month4/INDEX.md)

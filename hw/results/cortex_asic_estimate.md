@@ -125,7 +125,8 @@ is selected**, so the estimate pays for all 63 macros every cycle, although a de
 **What a decision costs in this layout (ESTIMATED):** 33-47 mW at 50 MHz is 0.7-0.9 nJ per clock cycle; a decision
 takes ~1,600 cycles (unpipelined), so ~1.1-1.5 uJ per decision (2.0-2.5 uJ with the default clock tree), down from ~11 uJ
 without gating. **With the pipelined core: 0.70-0.98 nJ per cycle x 264 cycles = ~0.18-0.26 uJ per decision**
-(ESTIMATED from its own layout), ~20-28x above the 9.4 nJ operation count. That is still ~100-150x above the 9.4 nJ counted from operations. What remains is mostly the clock tree of a 31 mm^2 die whose 63 macros are spread
+(ESTIMATED from its own layout), ~20-28x above the 9.4 nJ operation count. Per learned example (5-stage run, ~95% of it dreams):
+~45-62 uJ on digits, ~27-38 uJ on clothing ([note](../brain/experiments/month4/energy_per_example_layout.md)). That is still ~100-150x above the 9.4 nJ counted from operations. What remains is mostly the clock tree of a 31 mm^2 die whose 63 macros are spread
 out with routing channels, plus ~3,000 flip-flops that are clocked every cycle. Clock-tree synthesis inserted 13,838 clock buffers
 (10,776 of them the largest size) for 4,325 sinks on the main clock and 17,216 behind the encoder's gates; tuning it
 (smaller buffers, wider sink clusters) is the first lever. Next levers, not yet tried: a compact
