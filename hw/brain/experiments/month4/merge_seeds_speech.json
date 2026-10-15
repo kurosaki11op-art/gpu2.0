@@ -1,0 +1,19 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "runs": [
+  {
+   "added": 0.626,
+   "after_night": 0.6397
+  },
+  {
+   "added": 0.6128,
+   "after_night": 0.6478
+  },
+  {
+   "added": 0.6101,
+   "after_night": 0.6428
+  }
+ ],
+ "mean_after_night": 0.6434
+}

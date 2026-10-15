@@ -1,1 +1,13 @@
 mnist seed 1 {'added': 0.9012, 'after_night': 0.929}
+mnist seed 2 {'added': 0.9227, 'after_night': 0.9352}
+mnist seed 3 {'added': 0.9, 'after_night': 0.9354}
+mnist merge after one night, mean 0.9332
+fashion seed 1 {'added': 0.7132, 'after_night': 0.8146}
+fashion seed 2 {'added': 0.6591, 'after_night': 0.8168}
+fashion seed 3 {'added': 0.6683, 'after_night': 0.8109}
+fashion merge after one night, mean 0.8141
+speech seed 1 {'added': 0.626, 'after_night': 0.6397}
+speech seed 2 {'added': 0.6128, 'after_night': 0.6478}
+speech seed 3 {'added': 0.6101, 'after_night': 0.6428}
+speech merge after one night, mean 0.6434
+

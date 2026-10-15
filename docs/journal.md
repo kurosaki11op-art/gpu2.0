@@ -282,4 +282,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - All at once with several seeds: digits 96.9 (3 seeds), clothing 82.9 (6 example orders, range 82.2-83.7; the
   month-2 single run 83.7 was the top of that range), sound 71.9. Headline docs now quote the means
   (`hw/brain/experiments/month4/allatonce_seeds.log`). SIMULATED.
+- Merge of two chips (0-4 + 5-9, one night), 3 seeds: 93.3 / 81.4 / 64.3 (single run was 93.0 / 82.3 / 62.6; sound
+  now with the chip cochlea + floor). SIMULATED (`hw/brain/experiments/month4/merge_seeds.log`).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
