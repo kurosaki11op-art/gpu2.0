@@ -264,4 +264,5 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Sound in noise** (trained clean, white noise added to test clips): no noise removal 69.9 / 56.2 / 44.0 / 32.1
   (clean / 20 / 10 / 5 dB) vs noise floor 72.0 / 63.9 / 54.0 / 46.6 (+7.7 to +14.5) - the floor is the chip's noise
   robustness; gates hurt. Stronger floors under noise running. SIMULATED.
+- Stronger floors under noise (6x / 8x): worse at every SNR (5 dB: 40.8 / 34.1 vs 46.6) - the 4x floor stays.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

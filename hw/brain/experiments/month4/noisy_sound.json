@@ -1,21 +1,15 @@
 {
  "label": "SIMULATED (integer cochlea, exact integer chip model, 3 seeds; white noise, fixed seed)",
- "none": {
-  "clean": 0.699,
-  "20dB": 0.5615,
-  "10dB": 0.4401,
-  "5dB": 0.3206
+ "low4x6": {
+  "clean": 0.7151,
+  "20dB": 0.6229,
+  "10dB": 0.504,
+  "5dB": 0.4077
  },
- "low4x4": {
-  "clean": 0.7204,
-  "20dB": 0.639,
-  "10dB": 0.5401,
-  "5dB": 0.4662
- },
- "low4x4_gate4": {
-  "clean": 0.709,
-  "20dB": 0.6089,
-  "10dB": 0.4868,
-  "5dB": 0.3754
+ "low4x8": {
+  "clean": 0.7033,
+  "20dB": 0.6006,
+  "10dB": 0.4611,
+  "5dB": 0.3406
  }
 }
