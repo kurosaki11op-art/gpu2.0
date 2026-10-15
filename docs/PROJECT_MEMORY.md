@@ -129,6 +129,20 @@ Limit found 15 Oct: "never forgets" holds for new classes, NOT for a new conditi
 fix = frozen copy of the dream counts (2x dream memory), in the RTL as build option `CORTEX_CONTEXT` (bit-exact,
 ASIC only; `hw/results/cortex_new_condition.md`).
 
+Month 4 work while waiting for the board (15 Oct, `hw/brain/experiments/month4/`, one page:
+`docs/results_at_a_glance.md`):
+- Sound: per-resonator **noise floor** in the cochlea, 69.6 -> 71.2 (5 seeds); all at once 71.9 = 5 stages 72.0;
+  vs HDC on the same codes +5.7. **Sound on today's Tang Nano bitstream** (PC cochlea -> sound picture -> image chip):
+  60.1 (`cortex_host.py --task sound`, board plan step 9); live sound demo `cortex_sound_demo.py` (a new word needs
+  many repetitions: 44% from 60 clips).
+- Energy (ESTIMATED, SKY130 layout): 0.19-0.26 uJ per decision, 45-62 uJ per learned example (digits, ~95% dreams);
+  economy dream budget (`--economy`): ~3x less for -0.6 to -0.8 points.
+- Rejected / within noise: few-shot saccades and replay (top-2 voting small gain), lateral inhibition in the cochlea,
+  retinal adaptation for images; ASIC option: 3 brightness receptors (+0.8 clothing, +25% memory).
+- ASIC detailed routing did not converge (two floorplans, lost in container restarts) - parked.
+- All 14 bit-exact checks pass: `sh hw/run_all_checks.sh DATA_DIR` (`hw/check_summary.txt`). Board preflight:
+  `hw/board/preflight.py`.
+
 ## 6. Known failures and corrections (do not repeat)
 
 - Weak XOR hash understated lookup tables by ~4 points; fixed with CRC. Claims corrected.
