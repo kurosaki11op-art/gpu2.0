@@ -12,3 +12,5 @@ general encoder, sound: PASS
 general encoder, speckle removal: PASS
 cochlea (buffered): PASS
 cochlea (streaming): PASS
+cochlea (streaming, word aligned): PASS
+sound chip, whole chain (aligned): PASS

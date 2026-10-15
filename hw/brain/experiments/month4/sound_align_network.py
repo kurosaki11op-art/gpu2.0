@@ -4,6 +4,7 @@ and with word alignment (lead 6). 3 seeds. usage: DATA_DIR"""
 import json, os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 import numpy as np, torch
+torch.set_num_threads(2)
 import cochlea_int
 D = sys.argv[1]
 z = np.load(os.path.join(D, "speech_framesums_int.npz")); S, y, te = z["S"], z["y"], z["te"]
