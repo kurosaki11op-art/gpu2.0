@@ -203,4 +203,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   cochlea on 50 clips, mean difference 0.7 / 255) and `hw/rtl/cortex/cortex_cochlea.v` (28 resonators, 1.35 M cycles
   per second of sound); bit-exact (`run_check_cochlea.py`, 0 mismatching clips). Sound accuracy with the integer
   cochlea: running. SIMULATED.
+- Cochlea RTL bit-exact on 10 clips; sound accuracy with the integer cochlea, 3 seeds: 69.9 vs 69.4 float (the
+  1-seed 67.9 was noise). User asked to "remove the noise and improve the results": from now on report seed means;
+  next, a noise floor in the cochlea for sound ([note](../hw/brain/experiments/month4/cochlea_rtl.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
