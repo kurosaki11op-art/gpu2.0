@@ -2,17 +2,28 @@
 classes 5-9 with only k examples each (k = 1, 5, 20) as a second stage. Exact integer chip model, month-2 rule.
 Network (MLP 784-256-10 on pixels, as in proof_suite_v3): (a) trained on 0-4, then fine-tuned on the k new examples
 (continual, like the chip); (b) trained on 0-4 + the k new examples together (needs all old data kept: upper bound,
-not continual). 3 seeds. Reports accuracy on old classes, new classes and all ten. usage: DATA_DIR DS"""
+not continual). 3 seeds. Reports accuracy on old classes, new classes and all ten. usage: DATA_DIR DS (mnist | fashion | speech)"""
 import json, os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 import numpy as np, torch
 from cortex_core import load
 from cortex_int import CortexInt
 D, DS = sys.argv[1], sys.argv[2]
-z = np.load(os.path.join(D, f"sep_{DS}_F32_p2.npz")); ctr, cte = z["tr"], z["te"]
-xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
-xtr = xtr.reshape(len(xtr), -1) / 255.0; xte = xte.reshape(len(xte), -1) / 255.0
-RULE = dict(B=10, night=2, daydream=1, night_stop=2)
+torch.set_num_threads(2)
+if DS == "speech":                                   # words: aligned chip cochlea pictures (lead 6) and their codes
+    import cochlea_int
+    z = np.load(os.path.join(D, "sep_speech_align_F64_p2.npz")); f = np.load(os.path.join(D, "speech_framesums_int.npz"))
+    S, y, te = f["S"], f["y"], f["te"]; ytr, yte = y[~te].astype(np.int64), y[te].astype(np.int64)
+    v = cochlea_int.noise_floor(S); e = np.floor(np.log2(v)).astype(np.int64)
+    lg = 4 * e + ((v >> np.maximum(e - 2, 0)) & 3); top = lg.reshape(len(v), -1).max(1)[:, None, None]
+    P = cochlea_int.align_word(np.clip(255 - (top - lg) * 8, 0, 255).reshape(len(v), -1).astype(np.uint8), 6) / 255.0
+    xtr, xte = P[~te], P[te]
+else:
+    z = np.load(os.path.join(D, f"sep_{DS}_F32_p2.npz"))
+    xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
+    xtr = xtr.reshape(len(xtr), -1) / 255.0; xte = xte.reshape(len(xte), -1) / 255.0
+ctr, cte = z["tr"], z["te"]
+RULE = dict(B=10, night=2, daydream=1, night_stop=2, imprint=4)   # chip with the IMPRINT fix
 old_te, new_te = yte < 5, yte >= 5
 
 
@@ -50,5 +61,5 @@ for k in (1, 5, 20):
             rows.setdefault("network_all_data_kept", []).append(split(up(torch.tensor(xte, dtype=torch.float32)).argmax(1).numpy()))
     res[k] = {n: {key: round(float(np.mean([r[key] for r in v])), 4) for key in ("old", "new", "all")} for n, v in rows.items()}
     print(DS, "k", k, res[k], flush=True)
-json.dump({"dataset": DS, "label": "SIMULATED (exact integer chip model; MLP baseline; 3 seeds)", "results": res},
+json.dump({"dataset": DS, "label": "SIMULATED (exact integer chip model with IMPRINT; MLP baseline; 3 seeds)", "results": res},
           open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"fewshot_after_shipping_{DS}.json"), "w"), indent=1)
