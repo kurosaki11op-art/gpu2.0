@@ -1,0 +1,22 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "6000x2": {
+  "acc": [
+   0.9445,
+   0.9439,
+   0.9484
+  ],
+  "mean": 0.9456,
+  "dreams_per_example": 8.6
+ },
+ "1500x1": {
+  "acc": [
+   0.9404,
+   0.9417,
+   0.9368
+  ],
+  "mean": 0.9396,
+  "dreams_per_example": 2.2
+ }
+}

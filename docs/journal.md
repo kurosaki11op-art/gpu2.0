@@ -190,4 +190,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - 07:10 IST (user: keep working until evening). Energy per learned example from the layout: digits 45-62 uJ,
   clothing 27-38 uJ (~95% dreams); per decision 0.19-0.26 uJ. ESTIMATED
   ([note](../hw/brain/experiments/month4/energy_per_example_layout.md)).
+- Dream budget: ndream 1500 with one night pass ("economy") vs the month-2 rule (6000, two passes), 3 seeds:
+  digits 94.0 vs 94.6, clothing 77.7 vs 78.3, sound 68.6 vs 69.4, with 3-4x fewer dreams (~3x less learning
+  energy). SIMULATED / ESTIMATED. Offered as a host-side mode, default unchanged
+  ([note](../hw/brain/experiments/month4/dream_budget.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

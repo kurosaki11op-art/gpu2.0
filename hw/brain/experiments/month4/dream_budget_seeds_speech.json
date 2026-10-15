@@ -1,0 +1,22 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "6000x2": {
+  "acc": [
+   0.6899,
+   0.6919,
+   0.7004
+  ],
+  "mean": 0.6941,
+  "dreams_per_example": 6.74
+ },
+ "1500x1": {
+  "acc": [
+   0.6922,
+   0.6903,
+   0.6755
+  ],
+  "mean": 0.686,
+  "dreams_per_example": 2.48
+ }
+}
