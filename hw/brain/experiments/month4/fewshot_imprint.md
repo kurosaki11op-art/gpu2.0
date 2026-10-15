@@ -41,4 +41,19 @@ Check: `hw/rtl/cortex/run_check_cortex_imprint.py` (plain and pipelined, in `run
 speakers varies too much for a few clips. Network comparison and pattern separation (mushroom-body expansion) are
 being tested next.
 
+## Against a network on words (same setting, `fewshot_after_shipping.py speech`, 3 seeds, SIMULATED)
+
+Chip = IMPRINT alone (this run predates the short sleep). Network = MLP 784-256-10 on the aligned sound pictures,
+trained on words 0-4, then either fine-tuned on the k new recordings (continual, like the chip) or retrained on all
+old data plus the k new ones (needs every old example kept).
+
+| Recordings per new word | chip all (old / new) | network fine-tuned all (old / new) | network, all old data kept |
+|---|---|---|---|
+| 1 | **45.4** (64.7 / 25.6) | 21.2 (1.3 / 41.5) | 46.1 (90.9 / 0.0) |
+| 5 | **50.0** (56.4 / 43.4) | 32.5 (0.1 / 65.6) | 45.0 (88.8 / 0.1) |
+| 20 | **61.4** (85.5 / 36.7) | 36.4 (0.4 / 73.4) | 50.6 (91.1 / 9.0) |
+
+The network either forgets the old words completely or never learns the new ones; the chip is the only one that
+keeps both. Few-shot words are hard for every method here, not a chip-only failure.
+
 Related: [month4 index](INDEX.md), [few-shot note](fewshot_saccades.md), [research](../../../../docs/research_fewshot_class_incremental.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)
