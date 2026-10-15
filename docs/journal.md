@@ -167,4 +167,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   summary line. Re-running the macro version.
 - Context-memory RTL with the SKY130 SRAM macro models: 0 mismatches in all three configurations (up to 48 frozen
   dreams); log `hw/asic/cortex/check_core_context_asic.log`. SIMULATED.
+- ASIC clock tree: lighter settings (root clkbuf_8, clkbuf_2/4, 30 sinks per cluster): 47 mW at 10% / 33 mW at 1%
+  activity (from 77 / 62), ~1.1-1.5 uJ per decision; setup unchanged (~42 MHz), hold -1.34 ns before routing.
+  ESTIMATED; logs `hw/asic/cortex/cts_light/`.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

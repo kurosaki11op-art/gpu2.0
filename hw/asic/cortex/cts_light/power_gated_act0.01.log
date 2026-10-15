@@ -1,0 +1,39 @@
+OpenROAD f12e2f474102bfb875eeee57fb610d7d7de17770 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0222] Reading LEF file: /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+[INFO ODB-0223]     Created 14 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0226] Finished LEF file:  /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+[INFO ODB-0222] Reading LEF file: /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0225]     Created 437 library cells
+[INFO ODB-0226] Finished LEF file:  /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+[INFO ODB-0222] Reading LEF file: /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+[INFO ODB-0225]     Created 1 library cells
+[INFO ODB-0226] Finished LEF file:  /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+ICG cells: 130
+== gated clocks as the main clock
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power
+----------------------------------------------------------------
+Sequential             4.28e-02   1.45e-04   1.81e-07   4.30e-02  17.4%
+Combinational          1.86e-01   1.68e-02   1.12e-03   2.03e-01  82.6%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  2.28e-01   1.69e-02   1.12e-03   2.46e-01 100.0%
+                          92.7%       6.9%       0.5%
+== gated clocks modelled as running 1 cycle in 1000 (SRAM read ports: 1 in 9)
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power
+----------------------------------------------------------------
+Sequential             8.40e-03   7.92e-05   1.81e-07   8.48e-03  25.5%
+Combinational          1.69e-02   6.83e-03   1.12e-03   2.48e-02  74.6%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  2.53e-02   6.91e-03   1.12e-03   3.33e-02 100.0%
+                          75.9%      20.7%       3.4%
