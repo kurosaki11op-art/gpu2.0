@@ -1,0 +1,57 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model with IMPRINT; MLP baseline; 3 seeds)",
+ "results": {
+  "1": {
+   "chip": {
+    "old": 0.8631,
+    "new": 0.4161,
+    "all": 0.6396
+   },
+   "network_finetuned": {
+    "old": 0.2245,
+    "new": 0.5424,
+    "all": 0.3834
+   },
+   "network_all_data_kept": {
+    "old": 0.8913,
+    "new": 0.0,
+    "all": 0.4456
+   }
+  },
+  "5": {
+   "chip": {
+    "old": 0.8635,
+    "new": 0.5381,
+    "all": 0.7008
+   },
+   "network_finetuned": {
+    "old": 0.0169,
+    "new": 0.7274,
+    "all": 0.3722
+   },
+   "network_all_data_kept": {
+    "old": 0.892,
+    "new": 0.2284,
+    "all": 0.5602
+   }
+  },
+  "20": {
+   "chip": {
+    "old": 0.857,
+    "new": 0.6658,
+    "all": 0.7614
+   },
+   "network_finetuned": {
+    "old": 0.0219,
+    "new": 0.8135,
+    "all": 0.4177
+   },
+   "network_all_data_kept": {
+    "old": 0.8927,
+    "new": 0.5376,
+    "all": 0.7151
+   }
+  }
+ }
+}
