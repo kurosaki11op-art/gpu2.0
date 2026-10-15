@@ -596,3 +596,7 @@ Up-via summary (total 974439):.
 [INFO DRT-0195] Start 2nd optimization iteration.
     Completing 10% with 99716 violations.
     elapsed time = 00:01:49, memory = 9700.26 (MB).
+    Completing 20% with 98029 violations.
+    elapsed time = 00:05:25, memory = 9700.26 (MB).
+    Completing 30% with 97271 violations.
+    elapsed time = 00:05:35, memory = 9700.26 (MB).
