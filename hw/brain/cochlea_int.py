@@ -83,11 +83,28 @@ def noise_floor(S):
     return np.maximum(S - fl, 1)
 
 
-def sound_picture_int(x, floor=True):
-    """x: (B, 16000) int16 samples -> (B, 784) uint8 sound pictures (28 resonators x 28 frames)"""
+def align_word(P, lead=4):
+    """Word alignment (attention to the word's start): P (B, 784) pictures, row = resonator, column = frame. A frame's
+    loudness is the sum of its 28 pixels; the word starts at the first frame reaching 3/4 of the loudest frame
+    ((max * 3) >> 2); every row is shifted so that frame lands at column `lead`, vacated columns are 0."""
+    P0 = np.asarray(P).reshape(len(P), 28, 28); loud = P0.astype(np.int64).sum(1)
+    start = np.argmax(loud >= (loud.max(1, keepdims=True) * 3 >> 2), 1); out = np.zeros_like(P0)
+    for i in range(len(P0)):
+        sh = lead - start[i]
+        if sh >= 0:
+            out[i, :, sh:] = P0[i, :, :28 - sh]
+        else:
+            out[i, :, :28 + sh] = P0[i, :, -sh:]
+    return out.reshape(len(P), -1)
+
+
+def sound_picture_int(x, floor=True, lead=None):
+    """x: (B, 16000) int16 samples -> (B, 784) uint8 sound pictures (28 resonators x 28 frames); lead: word alignment
+    (align_word) with the word's start at that frame, None = off"""
     S = _bank(np.asarray(x, np.int64), A1, A2, G, cochlea.FR, FB)
     v = noise_floor(S) if floor else np.maximum(S, 1)
     e = np.floor(np.log2(v)).astype(np.int64)
     lg = 4 * e + ((v >> np.maximum(e - 2, 0)) & 3)
     top = lg.reshape(len(x), -1).max(1)[:, None, None]
-    return np.clip(255 - (top - lg) * 8, 0, 255).reshape(len(x), -1).astype(np.uint8)
+    P = np.clip(255 - (top - lg) * 8, 0, 255).reshape(len(x), -1).astype(np.uint8)
+    return P if lead is None else align_word(P, lead)

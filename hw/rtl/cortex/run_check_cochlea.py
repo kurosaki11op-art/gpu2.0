@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 """cortex_cochlea.v vs hw/brain/cochlea_int.py (bit-exact, with the noise floor): every pixel of the sound pictures of N
 speech clips.
-usage: python run_check_cochlea.py DATA_DIR [N] [--stream]   (--stream: the streaming cochlea)"""
+usage: python run_check_cochlea.py DATA_DIR [N] [--stream] [--align]   (--stream: the streaming cochlea; --align: with
+word alignment, ALIGN = 1, LEAD = 4, streaming cochlea only)"""
 import os, subprocess, sys
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(HERE, "..", "..", "brain"))
 import cochlea, cochlea_int  # noqa
-STREAM = "--stream" in sys.argv; sys.argv = [a for a in sys.argv if a != "--stream"]
+STREAM = "--stream" in sys.argv; ALIGN = "--align" in sys.argv; STREAM = STREAM or ALIGN
+sys.argv = [a for a in sys.argv if a not in ("--stream", "--align")]
 D = sys.argv[1]; N = int(sys.argv[2]) if len(sys.argv) > 2 else 4
 root = os.path.join(D, "speech"); r = np.random.RandomState(0); clips = []
 for k in range(N):
     w = cochlea.WORDS[k % len(cochlea.WORDS)]; fs = sorted(os.listdir(os.path.join(root, w)))
     clips.append(cochlea.read(os.path.join(root, w, fs[r.randint(len(fs))])))
 X = np.stack(clips).astype(np.int16)
-exp = cochlea_int.sound_picture_int(X)
+exp = cochlea_int.sound_picture_int(X, lead=4 if ALIGN else None)
 open(os.path.join(HERE, "smp.hex"), "w").write("\n".join("%04x" % (int(v) & 0xFFFF) for v in X.reshape(-1)) + "\n")
 TB = "tb_cortex_cochlea_stream" if STREAM else "tb_cortex_cochlea"
-subprocess.run(["iverilog", "-g2005", "-o", "/tmp/coch.vvp", f"-P{TB}.N={N}",
+subprocess.run(["iverilog", "-g2005", "-o", "/tmp/coch.vvp", f"-P{TB}.N={N}", f"-P{TB}.ALIGN={int(ALIGN)}",
                 "cortex_cochlea_stream.v" if STREAM else "cortex_cochlea.v", TB + ".v"], cwd=HERE, check=True)
 res = subprocess.run(["vvp", "-n", "/tmp/coch.vvp"], cwd=HERE, capture_output=True, text=True)
 print(res.stdout.strip().splitlines()[0] if res.stdout.strip() else res.stderr[-400:])
@@ -30,5 +32,5 @@ for i in range(N):
             print("MISMATCH clip", i, "pixels", len(got[i]), "differing", len(d), "first", d[:5],
                   [got[i][j] for j in d[:3]], [int(exp[i][j]) for j in d[:3]])
 os.remove(os.path.join(HERE, "smp.hex"))
-print(f"{'streaming ' if STREAM else ''}{N} clips, 784 pixels each, mismatching clips {bad}")
+print(f"{'streaming ' if STREAM else ''}{'aligned ' if ALIGN else ''}{N} clips, 784 pixels each, mismatching clips {bad}")
 print("PASS" if bad == 0 else "FAIL")

@@ -1,11 +1,12 @@
 // SPARK Cortex for sound (simulation / ASIC top, no UART): live 16 kHz samples -> streaming cochlea
-// (cortex_cochlea_stream.v, with its noise floor) -> 28x28 sound picture -> sensory encoder (cortex_encoder_gen.v,
-// 10 channels x 64 detectors) -> 23,040-bit code written into the learning core's list (cortex_core.v, NB = 23,040).
+// (cortex_cochlea_stream.v, with its noise floor and, ALIGN = 1, word alignment to frame LEAD) -> 28x28 sound picture
+// -> sensory encoder (cortex_encoder_gen.v, 10 channels x 64 detectors) -> 23,040-bit code written into the learning
+// core's list (cortex_core.v, NB = 23,040).
 // Pulse hear, then stream the clip's samples (smp_valid / smp_ready); hear_done pulses with the code length in
 // hear_count; then give the core its command (LEARN c / PREDICT / DREAM ...) with lb_len = hear_count. Detectors
 // (tm_*) and random lanes (lane_*) are loaded once.
 `timescale 1ns/1ps
-module cortex_sound_top (
+module cortex_sound_top #(parameter ALIGN = 1, parameter LEAD = 4) (
     input  wire        clk, rst,
     input  wire        smp_valid, input wire [15:0] smp_data, output wire smp_ready,
     input  wire        tm_we, input wire [9:0] tm_addr, input wire [24:0] tm_data,
@@ -19,7 +20,7 @@ module cortex_sound_top (
     wire c_busy, c_done, px_we; wire [9:0] px_addr; wire [7:0] px_data;
     wire e_busy, e_done, e_we; wire [15:0] e_count; wire [14:0] e_addr, e_data;
     reg  e_start;
-    cortex_cochlea_stream u_coch (.clk(clk), .rst(rst), .start(hear), .smp_valid(smp_valid), .smp_data(smp_data),
+    cortex_cochlea_stream #(.ALIGN(ALIGN), .LEAD(LEAD)) u_coch (.clk(clk), .rst(rst), .start(hear), .smp_valid(smp_valid), .smp_data(smp_data),
         .smp_ready(smp_ready), .busy(c_busy), .done(c_done), .px_we(px_we), .px_addr(px_addr), .px_data(px_data));
     cortex_encoder_gen #(.NCH(10), .F(64), .LF(6),
         .THR({8'd8, 8'd8, 8'd230, 8'd200, 8'd170, 8'd140, 8'd110, 8'd80, 8'd50, 8'd20}),

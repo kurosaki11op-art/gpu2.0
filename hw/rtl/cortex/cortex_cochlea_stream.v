@@ -5,8 +5,12 @@
 // noise floor, same integer log picture: bit-exact with hw/brain/cochlea_int.py. Pulse start before the first sample
 // of a clip; after 15,988 samples the picture comes out on px_we / px_addr / px_data and done pulses (further samples
 // of the clip are ignored until the next start).
+// ALIGN = 1 (word alignment, hw/brain/cochlea_int.align_word): the picture is kept (6.3 kbit) while each frame's
+// loudness (sum of its 28 pixels) is added up; the word starts at the first frame reaching 3/4 of the loudest
+// ((max + 2 max) >> 2), and the picture comes out with every row shifted so that frame lands at column LEAD (vacated
+// columns 0). Adds and compares only; 784 + 56 more cycles per clip.
 `timescale 1ns/1ps
-module cortex_cochlea_stream #(parameter FB = 8) (
+module cortex_cochlea_stream #(parameter FB = 8, parameter ALIGN = 0, parameter LEAD = 4) (
     input  wire        clk, rst,
     input  wire        start,
     input  wire        smp_valid, input wire [15:0] smp_data, output wire smp_ready,
@@ -19,6 +23,9 @@ module cortex_cochlea_stream #(parameter FB = 8) (
     reg [33:0] flr [0:27];
     reg [31:0] sums [0:783];
     reg [6:0]  lgm [0:783];
+    reg [7:0]  pxm [0:783];                           // ALIGN: the picture before the shift
+    reg [12:0] loud [0:27];                           // ALIGN: loudness of each frame (sum of 28 pixels)
+    reg [12:0] mx; reg [4:0] cc, wst, row; reg found;
     reg [9:0] sa; reg [31:0] sq_sum; reg [6:0] lq;
     always @(posedge clk) begin sq_sum <= sums[sa]; lq <= lgm[sa]; end
 
@@ -26,11 +33,13 @@ module cortex_cochlea_stream #(parameter FB = 8) (
     function signed [47:0] shs; input signed [47:0] v; input [5:0] e; begin
         shs = e[5] ? (v >>> (~e + 1'b1)) : (v <<< e);
     end endfunction
+    function [9:0] m28r; input [4:0] v; begin m28r = {v, 4'b0} + {v, 3'b0} + {v, 2'b0}; end endfunction
     function [4:0] msb; input [31:0] v; integer q; begin
         msb = 0; for (q = 0; q < 32; q = q + 1) if (v[q]) msb = q;
     end endfunction
 
-    localparam S_IDLE = 0, S_WAIT = 1, S_RES = 2, S_L0 = 3, S_L1 = 4, S_L2 = 5, S_P0 = 6, S_P1 = 7, S_P2 = 8;
+    localparam S_IDLE = 0, S_WAIT = 1, S_RES = 2, S_L0 = 3, S_L1 = 4, S_L2 = 5, S_P0 = 6, S_P1 = 7, S_P2 = 8,
+               S_A0 = 9, S_A1 = 10, S_A2 = 11;
     reg [3:0] st;
     reg [4:0] k; reg [13:0] n; reg [9:0] cnt; reg [4:0] fr;
     reg signed [47:0] xs, x1, x2;                     // current sample and the two before it (shared by all resonators)
@@ -64,6 +73,10 @@ module cortex_cochlea_stream #(parameter FB = 8) (
     wire [6:0]  lg = {e1, 2'b00} + vs[1:0];
     wire [9:0]  dl = {top - lq, 3'b000};
     wire [7:0]  pxv = (dl > 255) ? 8'd0 : 8'd255 - dl[7:0];
+    wire [14:0] thr3 = ({2'b0, mx} + {1'b0, mx, 1'b0}) >> 2;               // (3 * loudest) >> 2
+    wire signed [7:0] src = $signed({3'b0, cc}) + $signed({3'b0, wst}) - LEAD; // source column of output column cc
+    wire [9:0]  sidx = m28r(row) + src[4:0];
+    wire [7:0]  apx = (src < 0 || src > 27) ? 8'd0 : pxm[sidx];
     integer q;
 
     always @(posedge clk) begin
@@ -99,14 +112,35 @@ module cortex_cochlea_stream #(parameter FB = 8) (
         S_L2: begin
             lgm[i] <= lg; if (lg > top) top <= lg;
             if (ff == FR - 1) begin ff <= 0; kk <= kk + 1'b1; end else ff <= ff + 1'b1;
-            if (i == 783) begin i <= 0; st <= S_P0; end else begin i <= i + 1'b1; st <= S_L0; end
+            if (i == 783) begin
+                i <= 0; cc <= 0; st <= S_P0;
+                for (q = 0; q < 28; q = q + 1) loud[q] <= 0;
+            end else begin i <= i + 1'b1; st <= S_L0; end
         end
         // ---- pass 2: pixels relative to the loudest frame ----------------------------------------------------------
         S_P0: begin sa <= i; st <= S_P1; end
         S_P1: st <= S_P2;
         S_P2: begin
-            px_we <= 1; px_addr <= i; px_data <= pxv;
-            if (i == 783) begin done <= 1; busy <= 0; st <= S_IDLE; end else begin i <= i + 1'b1; st <= S_P0; end
+            if (ALIGN) begin pxm[i] <= pxv; loud[cc] <= loud[cc] + pxv; cc <= (cc == 27) ? 5'd0 : cc + 1'b1; end
+            else begin px_we <= 1; px_addr <= i; px_data <= pxv; end
+            if (i == 783) begin
+                if (ALIGN) begin cc <= 0; mx <= 0; st <= S_A0; end
+                else begin done <= 1; busy <= 0; st <= S_IDLE; end
+            end else begin i <= i + 1'b1; st <= S_P0; end
+        end
+        // ---- ALIGN: loudest frame, then the first frame reaching 3/4 of it, then the shifted picture ---------------
+        S_A0: begin
+            if (loud[cc] > mx) mx <= loud[cc];
+            if (cc == 27) begin cc <= 0; found <= 0; wst <= 0; st <= S_A1; end else cc <= cc + 1'b1;
+        end
+        S_A1: begin
+            if (!found && {2'b0, loud[cc]} >= thr3) begin found <= 1; wst <= cc; end
+            if (cc == 27) begin cc <= 0; row <= 0; i <= 0; st <= S_A2; end else cc <= cc + 1'b1;
+        end
+        S_A2: begin
+            px_we <= 1; px_addr <= i; px_data <= apx;
+            if (cc == 27) begin cc <= 0; row <= row + 1'b1; end else cc <= cc + 1'b1;
+            if (i == 783) begin done <= 1; busy <= 0; st <= S_IDLE; end else i <= i + 1'b1;
         end
         default: st <= S_IDLE;
         endcase

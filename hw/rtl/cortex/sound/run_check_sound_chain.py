@@ -35,7 +35,7 @@ test = []
 for k in range(NTEST):
     clips.append(pick(k % 4, 1)[0]); labels.append(k % 4); test.append(len(clips) - 1)
 X = np.stack(clips).astype(np.int16)
-codes = np.concatenate([f.encode(cochlea_int.sound_picture_int(X)) for f in fes], 1)
+codes = np.concatenate([f.encode(cochlea_int.sound_picture_int(X, lead=4)) for f in fes], 1)   # word alignment on (ALIGN = 1)
 # command schedule (as CortexInt.stage runs it) and the model trace
 m = CortexInt(NB, B=CB, ndream=NDREAM, night=NIGHT, daydream=1); m.cb = CB; seeds = m.rng.copy()
 ref = CortexInt(NB, B=CB, ndream=NDREAM, night=NIGHT, daydream=1)

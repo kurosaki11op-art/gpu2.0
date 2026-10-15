@@ -17,8 +17,9 @@ run "general encoder, sound"          python run_check_encoder_gen.py "$D" sound
 run "general encoder, speckle removal" python run_check_encoder_gen.py "$D" image 10 --sup
 run "cochlea (buffered)"              python run_check_cochlea.py "$D" 4
 run "cochlea (streaming)"             python run_check_cochlea.py "$D" 4 --stream
+run "cochlea (streaming, word aligned)" python run_check_cochlea.py "$D" 4 --align
 cd "$HW/rtl/cortex/sound"
-run "sound chip, whole chain"         python run_check_sound_chain.py "$D"
+run "sound chip, whole chain (aligned)" python run_check_sound_chain.py "$D"
 cd "$HW/board"
 run "Tang Nano board design"          python check_cortex_board.py "$D"
 run "host schedule == chip model"     python check_host_schedule.py "$D"
