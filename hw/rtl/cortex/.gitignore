@@ -4,3 +4,7 @@ out_cortex.txt
 img.hex
 tmpl.hex
 out_enc.txt
+smp.hex
+out_coch.txt
+img_learn.hex
+out_lc.txt
