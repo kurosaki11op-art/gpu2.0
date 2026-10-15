@@ -31,7 +31,7 @@ for name, CH in (("fixed", (50, 150, ("on", 8), ("off", 8))), ("adapt", (("adapt
         enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
         ctr, cte = enc(xtr), enc(xte)
     accs = []
-    for seed in (1, 2, 3):
+    for seed in range(1, int(os.environ.get("SEEDS", "3")) + 1):
         m = CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)
         for i, s in enumerate(stages):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]
@@ -39,4 +39,4 @@ for name, CH in (("fixed", (50, 150, ("on", 8), ("off", 8))), ("adapt", (("adapt
         accs.append(round(float((m.predict(cte) == yte).mean()), 4))
     res[name] = {"acc": accs, "mean": round(float(np.mean(accs)), 4)}; print(DS, name, res[name], "%.0fs" % (time.time() - t0), flush=True)
 json.dump({"dataset": DS, "label": "SIMULATED (exact integer chip model, 3 seeds)", **res},
-          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"retina_adapt_{DS}.json"), "w"), indent=1)
+          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"retina_adapt_{DS}_s{os.environ.get('SEEDS', '3')}.json"), "w"), indent=1)

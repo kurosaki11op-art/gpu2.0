@@ -218,4 +218,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Whole sound chip bit-exact**: raw samples -> cochlea -> general encoder -> core (NB 23,040); 12 clips heard, two
   stages with dreams and a night, 4 decisions: 23,082 lines, 0 mismatches. SIMULATED
   ([results](../hw/results/cortex_sound_chip.md)).
+- Retinal adaptation (thresholds follow the image's brightest pixel): clothing 78.4 -> 79.0 over 5 seeds (3 of 5
+  better), digits unchanged - within noise, not adopted ([note](../hw/brain/experiments/month4/retina_adapt.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,0 +1,5 @@
+fashion fixed {'acc': [0.7767, 0.7853, 0.7866], 'mean': 0.7829} 32s
+fashion adapt {'acc': [0.804, 0.7821, 0.7898], 'mean': 0.792} 95s
+mnist fixed {'acc': [0.9445, 0.9439, 0.9484], 'mean': 0.9456} 60s
+mnist adapt {'acc': [0.9447, 0.9463, 0.9458], 'mean': 0.9456} 154s
+
