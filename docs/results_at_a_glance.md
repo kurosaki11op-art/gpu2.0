@@ -20,7 +20,7 @@ MEASURED on hardware yet** (the board run is next: [month 4 plan](month4_board_p
 | New condition of known classes | context memory: upright digits kept at 85% (45% without) | SIMULATED, in RTL | [new condition](../hw/results/cortex_new_condition.md) |
 | Learns its own senses without labels | 94.5 / 80.0 vs 95.0 / 79.2 with PC-learned detectors | SIMULATED, in RTL | [on-chip detectors](../hw/brain/experiments/month3/onchip_detectors.md) |
 | Hears raw sound | live samples -> cochlea -> encoder -> learning core, whole chain bit-exact | SIMULATED (RTL) | [sound chip](../hw/results/cortex_sound_chip.md) |
-| Ahead of the closest prior art (HDC) | digits +2.2, sound +5.9, clothing level | SIMULATED | [vs HDC](../hw/results/cortex_vs_hdc.md) |
+| Ahead of the closest prior art (HDC) | digits +2.2, sound +5.7 (both on the new sound codes), clothing level | SIMULATED | [vs HDC](../hw/results/cortex_vs_hdc.md) |
 
 ## What it costs
 

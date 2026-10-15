@@ -26,7 +26,7 @@ MEASURED = real hardware; SIMULATED = our model or chip simulation; ESTIMATED = 
 | Can learn its own senses, without labels | one streaming pass over the first day's images: digits 94.5 vs 95.0 with PC-learned detectors, clothing 80.0 vs 79.2; RTL bit-exact | SIMULATED (integer chip model + RTL sim) | `hw/brain/experiments/month3/onchip_detectors.md` | ASIC build option only; the Tang Nano bitstream still loads detectors from the PC |
 | Energy / accuracy dial | economy dream budget: 3-4x fewer dreams for -0.6 to -0.8 points (3 seeds, all three tasks) | SIMULATED | `hw/brain/experiments/month4/dream_budget.md` | a host setting; default unchanged |
 | Hears raw sound and learns words on chip | cochlea + encoder + core in RTL, whole chain bit-exact from raw samples (12 clips, 0 mismatches); sound accuracy 71.2 after 5 stages (exact model, 5 seeds) | SIMULATED | `hw/results/cortex_sound_chip.md` | needs PSRAM or an ASIC (422 KB); not on the board |
-| Better than the closest prior art in this test | after 5 stages vs HDC: digits +2.2, sound +5.9, clothing +0.1 | SIMULATED | `hw/results/cortex_vs_hdc.md` | HDC staged retraining used 4,000 examples per stage |
+| Better than the closest prior art in this test | after 5 stages vs HDC: digits +2.2, sound +5.9 (+5.7 with both on the new noise-floor sound codes), clothing +0.1 | SIMULATED | `hw/results/cortex_vs_hdc.md` | HDC staged retraining used 4,000 examples per stage |
 | Small as a real chip | logic < 1 mm2 in SKY130; ~18.8 mm2 with open SRAM macros | ESTIMATED (synthesis + placement/global routing) | `hw/results/cortex_asic_estimate.md` | ~43 MHz after layout; no detailed routing or sign-off |
 
 ## Do NOT claim

@@ -31,4 +31,11 @@ on clothing (+0.1), with about 2.3x less class memory and about 1,000x fewer add
 bundling (the variant that truly never forgets) is 3-27 points behind. One seed for HDC; our numbers are a 3-seed mean
 (spread under 1 point).
 
+## Update 15 Oct: sound with the chip's own cochlea and its noise floor
+
+Both methods on the same new sound codes (integer cochlea + noise floor; `CODES=sep_speech_floor_F64_p2.npz`,
+`hw/results/hdc_baseline_speech_floor.json`, log `hw/brain/experiments/month4/hdc_speech_floor.log`): HDC retrained
+in 5 stages 65.5 (63.5 before), all at once 71.2; SPARK Cortex in 5 stages 71.2 (5 seeds), all at once 71.9 (3 seeds).
+The chip stays ahead in stages by **+5.7** and is level all at once. SIMULATED.
+
 Related: [Prior art](../../docs/prior_art_cortex.md), [Month 2 results](cortex_month2.md), [Results index](INDEX.md)

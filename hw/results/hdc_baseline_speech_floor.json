@@ -1,0 +1,17 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (float)",
+ "D": 10000,
+ "pixels": {
+  "bundle_all_and_stages": 0.28905336969224776,
+  "retrained_all_at_once_20k": 0.6992598363848851,
+  "retrained_in_5_stages": 0.567978184651344,
+  "class_memory_KB_16bit": 195.3125
+ },
+ "code": {
+  "bundle_all_and_stages": 0.46279703934553956,
+  "retrained_all_at_once_20k": 0.7117257499026101,
+  "retrained_in_5_stages": 0.6552395792754188,
+  "class_memory_KB_16bit": 195.3125
+ }
+}
