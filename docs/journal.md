@@ -271,4 +271,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   68.7 / 64.0 / 58.0 (+4.8 / +10.0 / +11.4); mean of the four conditions 59.1 -> 64.4. Half-clean mix running. SIMULATED.
 - Learning in noise, half the clips clean: clean 68.9, noisy 67.0 / 62.2 / 54.6 (mean 63.2) - a smooth dial between
   clean accuracy and robustness. Noise work summarised in [input noise](../hw/brain/experiments/month4/input_noise.md).
+- Images in salt-and-pepper noise (trained clean): digits 94.6 / 94.1 / 93.4 (clean / 2% / 5%) - already robust;
+  speckle removal clothing +1.3 / +1.3 / +2.1, digits neutral. Candidate for an encoder build option. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

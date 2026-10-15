@@ -1,0 +1,14 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "despeckle0": {
+  "clean": 0.9456,
+  "sp2%": 0.9408,
+  "sp5%": 0.9343
+ },
+ "despeckle1": {
+  "clean": 0.9437,
+  "sp2%": 0.9403,
+  "sp5%": 0.9369
+ }
+}

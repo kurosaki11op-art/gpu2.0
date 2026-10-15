@@ -71,4 +71,16 @@ A receptor bit counts only if at least K of its 8 neighbours in the same channel
 SIMULATED. A small gain at no memory cost, but uneven across seeds; it needs an encoder RTL change on an FPGA at 89%
 logic. Kept as a candidate, not adopted yet.
 
+Images in noise (`noisy_images.py`, log `noisy_images.log`, 3 seeds): trained on clean images, tested with
+salt-and-pepper noise (2% / 5% of the pixels set to black or white).
+
+| | Digits clean / 2% / 5% | Clothing clean / 2% / 5% |
+|---|---|---|
+| no speckle removal | 94.6 / 94.1 / 93.4 | 78.3 / 77.4 / 75.3 |
+| speckle removal (K = 1) | 94.4 / 94.0 / 93.7 | 79.6 / 78.7 / 77.4 |
+
+SIMULATED. The chip already shrugs off pixel noise on digits (-1.2 at 5%); speckle removal adds +1.3 to +2.1 on
+clothing at every noise level and is neutral on digits. Next step if adopted: the same rule in the encoder RTL as a
+build option (a second pass over the receptor map, 9 reads per pixel), then the headline numbers re-run.
+
 Related: [Noise floor](noise_floor.md), [Retinal adaptation](retina_adapt.md), [Month 4 experiments](INDEX.md)

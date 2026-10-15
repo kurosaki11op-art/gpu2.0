@@ -1,0 +1,5 @@
+mnist no speckle removal {'clean': 0.9456, 'sp2%': 0.9408, 'sp5%': 0.9343}
+mnist speckle removal {'clean': 0.9437, 'sp2%': 0.9403, 'sp5%': 0.9369}
+fashion no speckle removal {'clean': 0.7829, 'sp2%': 0.7737, 'sp5%': 0.7534}
+fashion speckle removal {'clean': 0.796, 'sp2%': 0.7871, 'sp5%': 0.7735}
+
