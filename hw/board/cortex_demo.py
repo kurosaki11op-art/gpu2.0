@@ -42,10 +42,12 @@ class Brain:
         self.dev, self.enc, self.xte, self.yte, self.known = dev, enc, xte, yte, set()
         self.counts = {}
 
-    def teach(self, c, img, replay=20):
+    def teach(self, c, img, replay=20, daydreams=1):
         if c not in self.known:
             self.dev.known(c); self.known.add(c)
-        u = self.dev.learn(c, self.enc(img[None])[0]); self.dev.dream(c)                          # learn + one daydream
+        u = self.dev.learn(c, self.enc(img[None])[0])                       # learn, then daydream(s) of the new class
+        for _ in range(daydreams):
+            self.dev.dream(c)
         old = sorted(self.known - {c})
         for j in range(replay if old else 0):                                # a little replay of old classes
             self.dev.dream(old[j % len(old)])

@@ -37,6 +37,12 @@ def picture(S, mode):
         if "x" in mode:
             fl = fl * int(mode.split("x")[1].split("_")[0])
         v = v - fl
+    if "_gate" in mode:                                 # noise gate: what is left below g x the mean quiet level is silence
+        g = int(mode.split("_gate")[1].split("_")[0]); fl4 = (np.sort(S.astype(np.int64), 2)[:, :, :4].sum(2, keepdims=True) >> 2)
+        v = np.where(v < g * fl4, 1, v)
+    if "_quiet" in mode:                                # silence gate: frames far quieter than the loudest frame are silent
+        q = int(mode.split("_quiet")[1].split("_")[0]); tot = np.maximum(v, 0).sum(1, keepdims=True)
+        v = np.where(tot < (tot.max(2, keepdims=True) >> q), 1, v)
     if "_inh" in mode:                                  # lateral inhibition across neighbouring resonators
         sh = int(mode.split("_inh")[1]); v = np.maximum(v, 0)
         nb = np.zeros_like(v); nb[:, 1:] += v[:, :-1]; nb[:, :-1] += v[:, 1:]
