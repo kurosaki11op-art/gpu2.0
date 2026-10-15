@@ -1,0 +1,298 @@
+OpenROAD f12e2f474102bfb875eeee57fb610d7d7de17770 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 3 thread(s).
+[INFO ODB-0222] Reading LEF file: /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+[INFO ODB-0223]     Created 14 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0226] Finished LEF file:  /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+[INFO ODB-0222] Reading LEF file: /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0225]     Created 437 library cells
+[INFO ODB-0226] Finished LEF file:  /opt/eda_pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+[INFO ODB-0222] Reading LEF file: /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+[INFO ODB-0225]     Created 1 library cells
+[INFO ODB-0226] Finished LEF file:  /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+[WARNING IFP-0028] Core area lower left (10.000, 10.000) snapped to (10.120, 10.880).
+[INFO IFP-0001] Added 1757 rows of 16912 sites.
+logic block x 3337 .. 4437 um
+placed 63 SRAM macros
+[INFO TAP-0001] Found 63 macro blocks.
+[INFO TAP-0002] Original rows: 1757
+[INFO TAP-0003] Created 9993 rows for a total of 11750 rows.
+[INFO TAP-0004] Inserted 23500 endcaps.
+[INFO TAP-0005] Inserted 243575 tapcells.
+[INFO PDN-0008] Design name is cortex_board_top.
+[INFO PDN-0009] Reading technology data.
+[INFO PDN-0011] ****** INFO ******
+Type: stdcell, stdcell_grid
+    Stdcell Rails
+      Layer: met1  -  width: 0.480  pitch: 5.440 
+    Straps
+      Layer: met4  -  width: 1.600  pitch: 56.000  offset: 2.000 
+      Layer: met5  -  width: 1.600  pitch: 56.000  offset: 2.000 
+    Connect: {met1 met4} {met4 met5}
+Type: macro, macro -grid_over_pg_pins
+    Macro: sky130_sram_2kbyte_1rw1r_32x512_8
+    Connect: {met4 met5}
+[INFO PDN-0012] **** END INFO ****
+[INFO PDN-0013] Inserting stdcell grid - stdcell_grid.
+[WARNING PDN-0040] No via added at (67.32 2396.08 68.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (123.32 2396.08 124.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (179.32 2396.08 180.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (235.32 2396.08 236.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (291.32 2396.08 292.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (347.32 2396.08 348.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (403.32 2396.08 404.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (459.32 2396.08 460.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (515.32 2396.08 516.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (571.32 2396.08 572.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (627.32 2396.08 628.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (683.32 2396.08 684.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (739.32 2396.08 740.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (907.32 2396.08 908.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (963.32 2396.08 964.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1019.32 2396.08 1020.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1075.32 2396.08 1076.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1131.32 2396.08 1132.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1187.32 2396.08 1188.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1243.32 2396.08 1244.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1299.32 2396.08 1300.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1355.32 2396.08 1356.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1411.32 2396.08 1412.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1467.32 2396.08 1468.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1523.32 2396.08 1524.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1579.32 2396.08 1580.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1747.32 2396.08 1748.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1803.32 2396.08 1804.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1859.32 2396.08 1860.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1915.32 2396.08 1916.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1971.32 2396.08 1972.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2027.32 2396.08 2028.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2083.32 2396.08 2084.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2139.32 2396.08 2140.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2195.32 2396.08 2196.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2251.32 2396.08 2252.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2307.32 2396.08 2308.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2363.32 2396.08 2364.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2419.32 2396.08 2420.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2587.32 2396.08 2588.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2643.32 2396.08 2644.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2699.32 2396.08 2700.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2755.32 2396.08 2756.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2811.32 2396.08 2812.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2867.32 2396.08 2868.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2923.32 2396.08 2924.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2979.32 2396.08 2980.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3035.32 2396.08 3036.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3091.32 2396.08 3092.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3147.32 2396.08 3148.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3203.32 2396.08 3204.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3259.32 2396.08 3260.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4491.32 2396.08 4492.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4547.32 2396.08 4548.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4603.32 2396.08 4604.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4659.32 2396.08 4660.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4715.32 2396.08 4716.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4771.32 2396.08 4772.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4827.32 2396.08 4828.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4883.32 2396.08 4884.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4939.32 2396.08 4940.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4995.32 2396.08 4996.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5051.32 2396.08 5052.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5107.32 2396.08 5108.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5163.32 2396.08 5164.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5331.32 2396.08 5332.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5387.32 2396.08 5388.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5443.32 2396.08 5444.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5499.32 2396.08 5500.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5555.32 2396.08 5556.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5611.32 2396.08 5612.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5667.32 2396.08 5668.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5723.32 2396.08 5724.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5779.32 2396.08 5780.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5835.32 2396.08 5836.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5891.32 2396.08 5892.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5947.32 2396.08 5948.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6003.32 2396.08 6004.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6171.32 2396.08 6172.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6227.32 2396.08 6228.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6283.32 2396.08 6284.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6339.32 2396.08 6340.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6395.32 2396.08 6396.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6451.32 2396.08 6452.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6507.32 2396.08 6508.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6563.32 2396.08 6564.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6619.32 2396.08 6620.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6675.32 2396.08 6676.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6731.32 2396.08 6732.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6787.32 2396.08 6788.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6843.32 2396.08 6844.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7011.32 2396.08 7012.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7067.32 2396.08 7068.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7123.32 2396.08 7124.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7179.32 2396.08 7180.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7235.32 2396.08 7236.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7291.32 2396.08 7292.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7347.32 2396.08 7348.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7403.32 2396.08 7404.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7459.32 2396.08 7460.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7515.32 2396.08 7516.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7571.32 2396.08 7572.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7627.32 2396.08 7628.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7683.32 2396.08 7684.92 2396.4) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (67.32 3419.0 68.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (123.32 3419.0 124.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (179.32 3419.0 180.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (235.32 3419.0 236.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (291.32 3419.0 292.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (347.32 3419.0 348.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (403.32 3419.0 404.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (459.32 3419.0 460.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (515.32 3419.0 516.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (571.32 3419.0 572.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (627.32 3419.0 628.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (683.32 3419.0 684.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (739.32 3419.0 740.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (907.32 3419.0 908.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (963.32 3419.0 964.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1019.32 3419.0 1020.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1075.32 3419.0 1076.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1131.32 3419.0 1132.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1187.32 3419.0 1188.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1243.32 3419.0 1244.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1299.32 3419.0 1300.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1355.32 3419.0 1356.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1411.32 3419.0 1412.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1467.32 3419.0 1468.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1523.32 3419.0 1524.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1579.32 3419.0 1580.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1747.32 3419.0 1748.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1803.32 3419.0 1804.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1859.32 3419.0 1860.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1915.32 3419.0 1916.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (1971.32 3419.0 1972.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2027.32 3419.0 2028.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2083.32 3419.0 2084.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2139.32 3419.0 2140.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2195.32 3419.0 2196.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2251.32 3419.0 2252.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2307.32 3419.0 2308.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2363.32 3419.0 2364.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2419.32 3419.0 2420.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2587.32 3419.0 2588.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2643.32 3419.0 2644.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2699.32 3419.0 2700.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2755.32 3419.0 2756.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2811.32 3419.0 2812.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2867.32 3419.0 2868.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2923.32 3419.0 2924.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (2979.32 3419.0 2980.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3035.32 3419.0 3036.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3091.32 3419.0 3092.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3147.32 3419.0 3148.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3203.32 3419.0 3204.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (3259.32 3419.0 3260.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4491.32 3419.0 4492.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4547.32 3419.0 4548.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4603.32 3419.0 4604.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4659.32 3419.0 4660.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4715.32 3419.0 4716.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4771.32 3419.0 4772.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4827.32 3419.0 4828.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4883.32 3419.0 4884.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4939.32 3419.0 4940.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (4995.32 3419.0 4996.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5051.32 3419.0 5052.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5107.32 3419.0 5108.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5163.32 3419.0 5164.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5331.32 3419.0 5332.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5387.32 3419.0 5388.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5443.32 3419.0 5444.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5499.32 3419.0 5500.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5555.32 3419.0 5556.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5611.32 3419.0 5612.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5667.32 3419.0 5668.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5723.32 3419.0 5724.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5779.32 3419.0 5780.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5835.32 3419.0 5836.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5891.32 3419.0 5892.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (5947.32 3419.0 5948.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6003.32 3419.0 6004.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6171.32 3419.0 6172.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6227.32 3419.0 6228.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6283.32 3419.0 6284.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6339.32 3419.0 6340.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6395.32 3419.0 6396.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6451.32 3419.0 6452.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6507.32 3419.0 6508.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6563.32 3419.0 6564.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6619.32 3419.0 6620.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6675.32 3419.0 6676.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6731.32 3419.0 6732.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6787.32 3419.0 6788.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (6843.32 3419.0 6844.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7011.32 3419.0 7012.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7067.32 3419.0 7068.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7123.32 3419.0 7124.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7179.32 3419.0 7180.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7235.32 3419.0 7236.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7291.32 3419.0 7292.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7347.32 3419.0 7348.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7403.32 3419.0 7404.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7459.32 3419.0 7460.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7515.32 3419.0 7516.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7571.32 3419.0 7572.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7627.32 3419.0 7628.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[WARNING PDN-0040] No via added at (7683.32 3419.0 7684.92 3419.28) because the full height of met1 (0.48) is not covered by the overlap.
+[INFO PDN-0010] Inserting macro grid for 63 macros.
+[INFO PDN-0015] Writing to database.
+Found 63 macro blocks.
+Using 1u default distance from corners.
+[INFO PPL-0010] Tentative 0 to set up sections.
+[INFO PPL-0001] Number of slots          6122
+[INFO PPL-0002] Number of I/O            12
+[INFO PPL-0003] Number of I/O w/sink     12
+[INFO PPL-0004] Number of I/O w/o sink   1
+[INFO PPL-0005] Slots per section        200
+[INFO PPL-0006] Slots increase factor    0.01
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 26524.31 um.
+[INFO GPL-0002] DBU: 1000
+[INFO GPL-0003] SiteSize: 460 2720
+[INFO GPL-0004] CoreAreaLxLy: 10120 10880
+[INFO GPL-0005] CoreAreaUxUy: 7789640 4789920
+[INFO GPL-0006] NumInstances: 548968
+[INFO GPL-0007] NumPlaceInstances: 75792
+[INFO GPL-0008] NumFixedInstances: 267138
+[INFO GPL-0009] NumDummyInstances: 206038
+[INFO GPL-0010] NumNets: 77812
+[INFO GPL-0011] NumPins: 296266
+[INFO GPL-0012] DieAreaLxLy: 0 0
+[INFO GPL-0013] DieAreaUxUy: 7800000 4800000
+[INFO GPL-0014] CoreAreaLxLy: 10120 10880
+[INFO GPL-0015] CoreAreaUxUy: 7789640 4789920
+[INFO GPL-0016] CoreArea: 37178637260800
+[INFO GPL-0017] NonPlaceInstsArea: 31886906050800
+[INFO GPL-0018] PlaceInstsArea: 1260994393600
+[INFO GPL-0019] Util(%): 23.83
+[INFO GPL-0020] StdInstsArea: 1260994393600
+[INFO GPL-0021] MacroInstsArea: 0
+[InitialPlace]  Iter: 1 CG residual: 0.00524703 HPWL: 20013426605
+[InitialPlace]  Iter: 2 CG residual: 0.00031126 HPWL: 10502846464
+[InitialPlace]  Iter: 3 CG residual: 0.00004595 HPWL: 10076564832
+[InitialPlace]  Iter: 4 CG residual: 0.00002008 HPWL: 9741435748
+[InitialPlace]  Iter: 5 CG residual: 0.00000942 HPWL: 9512080651
+[INFO GPL-0031] FillerInit: NumGCells: 143813
+[INFO GPL-0032] FillerInit: NumGNets: 77812
+[INFO GPL-0033] FillerInit: NumGPins: 296266
+[INFO GPL-0023] TargetDensity: 0.45
+[INFO GPL-0024] AveragePlaceInstArea: 16637565
+[INFO GPL-0025] IdealBinArea: 36972368
+[INFO GPL-0026] IdealBinCnt: 1005579
+[INFO GPL-0027] TotalBinArea: 37178637260800
+[INFO GPL-0028] BinCnt: 512 512
+[INFO GPL-0029] BinSize: 15195 9335
+[INFO GPL-0030] NumBins: 262144
