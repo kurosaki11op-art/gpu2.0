@@ -354,4 +354,14 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Running: pattern separation (mushroom-body expansion layer), alignment in noise, network vs chip on few-shot words,
   floor3 layout (redesign 2).
 
+- Pattern separation (mushroom-body expansion: 2x / 4x cells, each adding 8 random code bits, top 5% fire): worse on
+  clothing (all at once 82.3 -> 81.1 / 81.4; 1-shot 64.0 -> 61.1 / 63.9) and digits (96.9 -> 95.9; 1-shot 69.9 ->
+  67.1). Rejected (the expanded code is no sparser than the encoder's own 5-6%). SIMULATED, 3 seeds; speech run
+  stopped. `hw/brain/experiments/month4/expand_kc.py`, `expand_kc.log`.
+- Word alignment in noise: 80.3 / 72.4 / 58.9 / 47.1 (clean / 20 / 10 / 5 dB) vs 72.0 / 63.9 / 54.0 / 46.6.
+- Few-shot words vs a network: the fine-tuned network forgets old words (1%), the network kept on all old data never
+  learns the new ones (0-9%); the chip keeps both (all-10 accuracy 45.4 / 50.0 / 61.4 at 1 / 5 / 20 recordings).
+- Test-time saccades (image + 4 one-pixel shifts, centre counted twice): clothing all at once 82.3 -> 84.2; in 5
+  stages no gain (78.3). Digits running. SIMULATED, 3 seeds.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
