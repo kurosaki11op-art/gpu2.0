@@ -40,5 +40,25 @@
    "new": 0.5167,
    "all": 0.6815
   }
+ },
+ "expand4x": {
+  "code_bits": 18432,
+  "on_bits": 921.0,
+  "all_at_once": 0.8138,
+  "k1_imprint_sleep": {
+   "old": 0.8581,
+   "new": 0.4193,
+   "all": 0.6387
+  },
+  "k2_imprint_sleep": {
+   "old": 0.8573,
+   "new": 0.4655,
+   "all": 0.6614
+  },
+  "k5_imprint_sleep": {
+   "old": 0.8439,
+   "new": 0.5079,
+   "all": 0.6759
+  }
  }
 }
