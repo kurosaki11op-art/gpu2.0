@@ -391,4 +391,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   84.0 all at once (+0.7 / +1.1), 5 stages 78.7 / 78.2 (vs 78.1): small, costs +35% / +70% code bits. Digits running.
   Next: V2 variants (larger fields, stride 1, V2 replacing V1 channels) and V2 on words.
 
+- Redesign 3, digits: V2 gives no gain (96.8 / 96.8 / 96.9 all at once; 94.4 / 94.6 / 94.1 in 5 stages for V1-all /
+  +64 / +128). So V2 is +0.7 to +1.1 on clothing only, nothing on digits. Running: V2 on words and clothing variants
+  (larger fields, stride 1, 192 detectors); a first words run was OOM-killed (speech maps 5x larger) and relaunched
+  with smaller batches (`senses_v3.py`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

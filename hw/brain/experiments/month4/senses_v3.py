@@ -53,7 +53,7 @@ class V2:
         t = np.where(self.cnt >= 0, 1, -1)
         return (np.where(b, 1, -1).astype(np.int32) @ t.T.astype(np.int32)).argmax(1)
 
-    def fit(self, p, n_patches=150000, passes=3, cmax=31):
+    def fit(self, p, n_patches=60000, passes=3, cmax=31):
         p = p.reshape(-1, p.shape[-1]); p = p[p.sum(1) >= 3]
         p = p[self.r.choice(len(p), min(n_patches, len(p)), replace=False)]
         self.cnt = np.where(p[self.r.choice(len(p), self.F)], 1, -1).astype(np.int32)
@@ -72,7 +72,11 @@ class V2:
         return code.reshape(B, -1)
 
 
-def batched(fn, x, bs=3000):
+BS = 400 if DS == "speech" else 3000
+
+
+def batched(fn, x, bs=None):
+    bs = bs or BS
     return np.concatenate([fn(x[i:i + bs]) for i in range(0, len(x), bs)])
 
 
@@ -106,7 +110,7 @@ for name in names:
     ctr, cte = batched(enc1, xtr), batched(enc1, xte)
     if "+v2_" in name:
         a = [int(t) for t in name.split("+v2_")[1].split("_")]; F2 = a[0]; R2 = a[1] if len(a) > 1 else 4; S2 = a[2] if len(a) > 2 else 2
-        src = v2_patches(v1_maps(fes, xtr[np.random.RandomState(6).choice(len(xtr), 8000, replace=False)]), R2, S2)[0]
+        src = v2_patches(v1_maps(fes, xtr[np.random.RandomState(6).choice(len(xtr), 1500 if DS == "speech" else 8000, replace=False)]), R2, S2)[0]
         v2 = V2(F2).fit(src)
         enc2 = lambda x: v2.encode(*v2_patches(v1_maps(fes, x), R2, S2))
         ctr = np.concatenate([ctr, batched(enc2, xtr)], 1); cte = np.concatenate([cte, batched(enc2, xte)], 1)
