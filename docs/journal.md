@@ -223,4 +223,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Few-shot replay (table practises dreams drawn from the few examples): mostly worse, below episodic recall -
   rejected ([note](../hw/brain/experiments/month4/fewshot_saccades.md)). Few-shot ideas tried today: saccades,
   top-m voting (small gain), replay; the 5-example gap remains.
+- Sound chip size (SKY130, ESTIMATED): core memories 315 open SRAM macros (~90 mm^2, vs 63 for images); cochlea
+  11.2 mm^2 and sound encoder 2.1 mm^2 with every buffer as flip-flops (upper bounds; a streaming cochlea would drop the
+  sample buffer). `hw/asic/sound/`, [results](../hw/results/cortex_sound_chip.md).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

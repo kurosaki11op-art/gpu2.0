@@ -606,3 +606,53 @@ Up-via summary (total 974439):.
     elapsed time = 00:11:09, memory = 9700.26 (MB).
     Completing 60% with 94369 violations.
     elapsed time = 00:12:43, memory = 9700.26 (MB).
+    Completing 70% with 93677 violations.
+    elapsed time = 00:16:36, memory = 9700.26 (MB).
+    Completing 80% with 92982 violations.
+    elapsed time = 00:16:48, memory = 9700.26 (MB).
+    Completing 90% with 92811 violations.
+    elapsed time = 00:20:27, memory = 9700.26 (MB).
+    Completing 100% with 91399 violations.
+    elapsed time = 00:22:17, memory = 9677.24 (MB).
+[INFO DRT-0199]   Number of violations = 91471.
+[INFO DRT-0267] cpu time = 01:04:46, elapsed time = 00:22:25, memory = 9677.28 (MB), peak = 9699.85 (MB)
+Total wire length = 11081385 um.
+Total wire length on LAYER li1 = 2001227 um.
+Total wire length on LAYER met1 = 2643585 um.
+Total wire length on LAYER met2 = 2268689 um.
+Total wire length on LAYER met3 = 2474236 um.
+Total wire length on LAYER met4 = 699682 um.
+Total wire length on LAYER met5 = 993963 um.
+Total number of vias = 963661.
+Up-via summary (total 963661):.
+
+-------------------------
+ FR_MASTERSLICE         0
+            li1    412247
+           met1    381124
+           met2    114276
+           met3     42373
+           met4     13641
+-------------------------
+                   963661
+
+
+[INFO DRT-0195] Start 3rd optimization iteration.
+    Completing 10% with 90959 violations.
+    elapsed time = 00:03:03, memory = 9677.49 (MB).
+    Completing 20% with 87081 violations.
+    elapsed time = 00:08:04, memory = 9676.76 (MB).
+    Completing 30% with 85787 violations.
+    elapsed time = 00:08:18, memory = 9676.76 (MB).
+    Completing 40% with 85317 violations.
+    elapsed time = 00:14:27, memory = 9676.76 (MB).
+    Completing 50% with 80217 violations.
+    elapsed time = 00:17:22, memory = 9676.76 (MB).
+    Completing 60% with 79781 violations.
+    elapsed time = 00:20:19, memory = 9676.76 (MB).
+    Completing 70% with 77181 violations.
+    elapsed time = 00:25:36, memory = 9676.76 (MB).
+    Completing 80% with 76301 violations.
+    elapsed time = 00:25:56, memory = 9676.76 (MB).
+    Completing 90% with 75906 violations.
+    elapsed time = 00:31:35, memory = 9676.78 (MB).

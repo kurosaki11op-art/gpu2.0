@@ -22,7 +22,21 @@ SIMULATED (RTL simulation). The 4 test decisions (2 right) only show the chain r
 to measure accuracy; accuracy comes from the exact model on the full data: **71.2% after 5 stages** (5 seeds, with
 the noise floor; `hw/brain/experiments/month4/noise_floor.md`).
 
-Size: the sound core needs 23,040 x (50 + 100) bits of table and dream counters (~422 KB) - the Tang Nano's PSRAM or
-an ASIC; the encoder's detector templates are 640 x 25 bits. Not placed and routed yet.
+## Size in SkyWater 130 nm (ESTIMATED, synthesis only)
+
+| Part | How counted | Area |
+|---|---|---|
+| Core memories: table 50 bits, dream counters 100 bits, list 15 bits per code bit, 23,040 code bits | 45 banks x 7 columns = **315** open 2 KB SRAM macros (`sram_array`); the image chip needs 63 | ~90 mm^2 |
+| Cochlea, every buffer as flip-flops (`hw/asic/sound/stat_cochlea.txt`) | 288k flip-flops, mostly the stored second of sound (256 kbit) | 11.2 mm^2 (upper bound) |
+| Sound encoder, every buffer as flip-flops (`stat_encoder.txt`) | 53k flip-flops (code map, 640 detector templates, receptor map) | 2.1 mm^2 (upper bound) |
+| Core logic | as the image core | < 1 mm^2 |
+
+Reading: memory dominates, as in the image chip, and the open-source macros are large for what they hold (~3.8 Mbit
+in ~90 mm^2). Two cheaper routes, not built: (1) a streaming cochlea - 28 shift-add resonators running side by side
+on each sample as it arrives, so the second of sound never needs storing; (2) dense SRAM (a commercial 130 nm
+compiler stores several times more per mm^2). The Tang Nano 20K's 8 MB PSRAM holds the core memories, but a PSRAM
+controller is not written.
+
+Related to the size: the noise floor adds 4 x 32-bit registers per resonator pass and 28 floor registers.
 
 Related: [Cochlea in RTL](../brain/experiments/month4/cochlea_rtl.md), [Noise floor](../brain/experiments/month4/noise_floor.md), [Month 3 results](cortex_month3.md), [Results index](INDEX.md)
