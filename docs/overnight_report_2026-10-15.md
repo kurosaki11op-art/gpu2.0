@@ -87,6 +87,14 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 - **The chip hears raw sound**: cochlea and a general encoder in RTL; the whole chain (raw samples -> word decisions,
   with learning, dreams and a night) is bit-exact ([details](../hw/results/cortex_sound_chip.md)). A streaming
   cochlea listens live (no sample buffer: 1.52 mm^2 instead of 11.2 in SKY130).
+- **Noise** (you asked to remove the noise that hurts accuracy): the cochlea's noise floor is the chip's noise
+  protection - trained on clean speech and tested at 5 dB SNR it keeps 46.6% vs 32.1% without it; learning from some
+  noisy examples adds +5 to +11 more in noise. Images: the chip already shrugs off pixel noise; an optional speckle
+  filter adds +1.3 to +2.1 on clothing ([details](../hw/brain/experiments/month4/input_noise.md)).
+- **Spoken words on your board's current bitstream**: 60.1% after 5 stages (PC cochlea -> sound picture -> chip);
+  `cortex_host.py --task sound`, board plan step 9; a voice demo `cortex_sound_demo.py` (new words need many
+  repetitions - honest numbers in [sound on board](../hw/brain/experiments/month4/sound_on_board.md)).
+- Board-day helpers: `hw/board/preflight.py` (step 0) and `sh hw/run_all_checks.sh` (15 bit-exact checks, all pass).
 - Tried and rejected today: lateral inhibition in the cochlea, retinal adaptation for images (within noise), few-shot
   replay and saccades. ASIC detailed routing did not converge (72k violations after 3 passes); floorplan needs rework.
 - Few-shot: saccades rejected; top-2 voting small gain; the 5-example gap remains.
