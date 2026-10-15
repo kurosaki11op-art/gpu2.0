@@ -69,7 +69,14 @@ puts "== after placement + repair_design"
 report_wns
 report_tns
 
-clock_tree_synthesis -root_buf sky130_fd_sc_hd__clkbuf_16 -buf_list {sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8} -sink_clustering_enable
+# clock-tree settings can be overridden: CTS_ROOT, CTS_BUFS (space-separated), CTS_CLUSTER (sinks per cluster)
+set cts_root [expr {[info exists ::env(CTS_ROOT)] ? $::env(CTS_ROOT) : "sky130_fd_sc_hd__clkbuf_16"}]
+set cts_bufs [expr {[info exists ::env(CTS_BUFS)] ? $::env(CTS_BUFS) : "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8"}]
+if {[info exists ::env(CTS_CLUSTER)]} {
+  clock_tree_synthesis -root_buf $cts_root -buf_list $cts_bufs -sink_clustering_enable -sink_clustering_size $::env(CTS_CLUSTER) -sink_clustering_max_diameter 100
+} else {
+  clock_tree_synthesis -root_buf $cts_root -buf_list $cts_bufs -sink_clustering_enable
+}
 set_propagated_clock [all_clocks]
 estimate_parasitics -placement
 repair_clock_nets
