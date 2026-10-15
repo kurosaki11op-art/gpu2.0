@@ -38,3 +38,35 @@ speech k 2
    distinct           old 0.860 new 0.108 all 0.489
    distinct+sleep300  old 0.867 new 0.092 all 0.484
    distinct+sleep1500 old 0.878 new 0.076 all 0.482
+speech k 5
+   base               old 0.877 new 0.089 all 0.488
+   imprint            old 0.564 new 0.434 all 0.500
+   imprint+sleep300   old 0.821 new 0.221 all 0.525
+   imprint+sleep1500  old 0.849 new 0.151 all 0.504
+   distinct           old 0.820 new 0.214 all 0.520
+   distinct+sleep300  old 0.839 new 0.179 all 0.513
+   distinct+sleep1500 old 0.863 new 0.128 all 0.500
+mnist k 1
+   base               old 0.990 new 0.065 all 0.541
+   imprint            old 0.960 new 0.430 all 0.702
+   imprint+sleep300   old 0.971 new 0.411 all 0.699
+   imprint+sleep1500  old 0.976 new 0.405 all 0.699
+   distinct           old 0.988 new 0.219 all 0.614
+   distinct+sleep300  old 0.988 new 0.219 all 0.614
+   distinct+sleep1500 old 0.988 new 0.219 all 0.614
+mnist k 2
+   base               old 0.987 new 0.243 all 0.625
+   imprint            old 0.961 new 0.568 all 0.770
+   imprint+sleep300   old 0.968 new 0.548 all 0.764
+   imprint+sleep1500  old 0.974 new 0.510 all 0.749
+   distinct           old 0.983 new 0.393 all 0.696
+   distinct+sleep300  old 0.983 new 0.393 all 0.696
+   distinct+sleep1500 old 0.983 new 0.393 all 0.696
+mnist k 5
+   base               old 0.979 new 0.460 all 0.727
+   imprint            old 0.903 new 0.723 all 0.815
+   imprint+sleep300   old 0.960 new 0.652 all 0.810
+   imprint+sleep1500  old 0.969 new 0.625 all 0.802
+   distinct           old 0.958 new 0.605 all 0.786
+   distinct+sleep300  old 0.967 new 0.583 all 0.780
+   distinct+sleep1500 old 0.975 new 0.571 all 0.779

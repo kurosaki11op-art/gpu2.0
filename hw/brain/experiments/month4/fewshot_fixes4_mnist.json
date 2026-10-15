@@ -1,0 +1,117 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "results": {
+  "1": {
+   "base": {
+    "old": 0.9901,
+    "new": 0.0654,
+    "all": 0.5406
+   },
+   "imprint": {
+    "old": 0.9599,
+    "new": 0.4301,
+    "all": 0.7024
+   },
+   "imprint+sleep300": {
+    "old": 0.9713,
+    "new": 0.4112,
+    "all": 0.699
+   },
+   "imprint+sleep1500": {
+    "old": 0.9763,
+    "new": 0.4053,
+    "all": 0.6987
+   },
+   "distinct": {
+    "old": 0.9881,
+    "new": 0.2193,
+    "all": 0.6144
+   },
+   "distinct+sleep300": {
+    "old": 0.9881,
+    "new": 0.2193,
+    "all": 0.6144
+   },
+   "distinct+sleep1500": {
+    "old": 0.9881,
+    "new": 0.2193,
+    "all": 0.6144
+   }
+  },
+  "2": {
+   "base": {
+    "old": 0.9867,
+    "new": 0.243,
+    "all": 0.6252
+   },
+   "imprint": {
+    "old": 0.961,
+    "new": 0.5678,
+    "all": 0.7698
+   },
+   "imprint+sleep300": {
+    "old": 0.9677,
+    "new": 0.5485,
+    "all": 0.7639
+   },
+   "imprint+sleep1500": {
+    "old": 0.9742,
+    "new": 0.5098,
+    "all": 0.7485
+   },
+   "distinct": {
+    "old": 0.9828,
+    "new": 0.3934,
+    "all": 0.6963
+   },
+   "distinct+sleep300": {
+    "old": 0.9828,
+    "new": 0.3934,
+    "all": 0.6963
+   },
+   "distinct+sleep1500": {
+    "old": 0.9828,
+    "new": 0.3934,
+    "all": 0.6963
+   }
+  },
+  "5": {
+   "base": {
+    "old": 0.9794,
+    "new": 0.4604,
+    "all": 0.7271
+   },
+   "imprint": {
+    "old": 0.9028,
+    "new": 0.7227,
+    "all": 0.8152
+   },
+   "imprint+sleep300": {
+    "old": 0.9597,
+    "new": 0.6516,
+    "all": 0.8099
+   },
+   "imprint+sleep1500": {
+    "old": 0.9694,
+    "new": 0.6254,
+    "all": 0.8022
+   },
+   "distinct": {
+    "old": 0.9578,
+    "new": 0.6048,
+    "all": 0.7862
+   },
+   "distinct+sleep300": {
+    "old": 0.9665,
+    "new": 0.5829,
+    "all": 0.7801
+   },
+   "distinct+sleep1500": {
+    "old": 0.9749,
+    "new": 0.5714,
+    "all": 0.7788
+   }
+  }
+ }
+}
