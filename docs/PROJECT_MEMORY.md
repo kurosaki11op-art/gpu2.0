@@ -138,6 +138,11 @@ ASIC only; `hw/results/cortex_new_condition.md`).
 - Cochlea v1 (one-pole cascade) lost information (network on its pictures 54.7%); resonators fixed it (73.1%).
 - Month 2: smoothing bug gave chance accuracy for homeostatic sparse cells (unseen bits got huge weights).
 - Container restarts kill background jobs; launch with `run_in_background` and save logs into the repo.
+- 15 Oct: wrote that the SRAM macros were missing from the layout power; wrong (they were 72% of it). Corrected.
+- 15 Oct: two RTL checks in one folder at once overwrite each other's files and give false mismatches (never again).
+- 15 Oct: the first dream-batch bitstream and the pipelined core did not fit the Tang Nano (94-101% LUT4); fixed by
+  packing the encoder's code map; the pipelined core is ASIC-only (`CORTEX_PIPE`).
+- 15 Oct: check scripts captured the SRAM models' per-access output in memory (out-of-memory kill); now filtered.
 
 ## 7. Where things are
 
@@ -147,7 +152,10 @@ ASIC only; `hw/results/cortex_new_condition.md`).
 - Plan/status: `docs/cortex_redesign.md`. Journal: `docs/journal.md`. This file: `docs/PROJECT_MEMORY.md`.
 - Brain core code: `hw/brain/` (`cortex_core.py` v0 random wiring, `feature_layer.py`, `sleep.py`, `cochlea.py`,
   `proof_suite.py` first proof, `proof_suite_v2.py` month 1).
-- Experiment scripts and raw logs: `hw/brain/experiments/month1/`, `month2/`.
+- Experiment scripts and raw logs: `hw/brain/experiments/month1/` to `month4/`.
+- RTL: `hw/rtl/cortex/` (core, encoder, checks); board: `hw/board/`; FPGA build: `hw/pnr_cortex/`; ASIC estimate
+  flow and logs: `hw/asic/cortex/` (`flow.tcl`, `power_gated.tcl`, `route.tcl`, run folders `ungated/`, `gated_enc/`,
+  `gated_all/`, `cts_light/`, `pipe_light/`).
 - Results: `hw/results/cortex_*.md|json`.
 - Datasets (not in git, rebuilt by scripts): MNIST `mnist.npz` and Fashion-MNIST from
   storage.googleapis.com/tensorflow/tf-keras-datasets/; Speech Commands v0.01 (10 words) from
@@ -157,12 +165,16 @@ ASIC only; `hw/results/cortex_new_condition.md`).
 ## 8. 6-8 month plan (from `docs/cortex_redesign.md`)
 
 1. Month 1, accuracy gap: done (simulation).
-2. Month 2, shrink memory ~100x, one decision rule, few-shot: in progress.
-3. Month 3, RTL bit-exact vs the Python model.
-4. Month 4, Tang Nano 20K learns live over UART; power MEASURED with a USB meter.
+2. Month 2, shrink memory ~100x, one decision rule: done; few-shot: narrowed, still behind a network at 5 examples.
+3. Month 3, RTL bit-exact vs the Python model: done (core, encoder, board, memory transfer, dream batches; build
+   options `ENC_LEARN` on-chip senses, `CORTEX_CONTEXT` context memory, `CORTEX_PIPE` pipelined core).
+4. Month 4, Tang Nano 20K learns live over UART; power MEASURED with a USB meter: **waiting on the user's board**
+   (`docs/month4_board_plan.md`).
 5. Month 5, two boards learn separately and merge memories.
 6. Month 6, sequence memory (the SPARK-L lookup core) joins for live streams.
-7. Months 7-8, SKY130 area/power estimates (no fabrication), write-up, demo video, pitch.
+7. Months 7-8, SKY130 area/power estimates (no fabrication), write-up, demo video, pitch. Started early: synthesis,
+   placement, clock tree, global routing, clock gating; ~0.18-0.26 uJ per decision, 45-62 uJ per learned example
+   (digits); detailed routing running.
 
 Prior art: `docs/prior_art_cortex.md`. Continual-learning chips without backprop exist (HDC accelerators Clo-HDnn /
 ImageHD / C-FSCIL, Intel Loihi 2); never claim "first". Measured vs HDC (`hw/results/cortex_vs_hdc.md`): chip ahead on
