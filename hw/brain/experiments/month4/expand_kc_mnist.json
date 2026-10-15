@@ -1,0 +1,24 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "today": {
+  "code_bits": 4608,
+  "on_bits": 245.6,
+  "all_at_once": 0.9687,
+  "k1_imprint_sleep": {
+   "old": 0.9763,
+   "new": 0.4053,
+   "all": 0.6987
+  },
+  "k2_imprint_sleep": {
+   "old": 0.9677,
+   "new": 0.5485,
+   "all": 0.7639
+  },
+  "k5_imprint_sleep": {
+   "old": 0.9597,
+   "new": 0.6488,
+   "all": 0.8086
+  }
+ }
+}
