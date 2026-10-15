@@ -413,3 +413,4 @@ Number of guides:     1872417
 [INFO DRT-0036] met5 guide region query size = 8432.
 [INFO DRT-0179] Init gr pin query.
 [INFO DRT-0181] Start track assignment.
+[INFO DRT-0184] Done with 516131 vertical wires in 22 frboxes and 341158 horizontal wires in 18 frboxes.
