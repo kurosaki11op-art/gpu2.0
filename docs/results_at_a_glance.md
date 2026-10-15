@@ -19,6 +19,7 @@ MEASURED on hardware yet** (the board run is next: [month 4 plan](month4_board_p
 | Knowledge moves between chips | two chips' memories merged: 91.4% after one night | SIMULATED, bit-exact board design | [board README](../hw/board/README.md) |
 | New condition of known classes | context memory: upright digits kept at 85% (45% without) | SIMULATED, in RTL | [new condition](../hw/results/cortex_new_condition.md) |
 | Learns its own senses without labels | 94.5 / 80.0 vs 95.0 / 79.2 with PC-learned detectors | SIMULATED, in RTL | [on-chip detectors](../hw/brain/experiments/month3/onchip_detectors.md) |
+| Holds up in noise (sound) | trained clean, white noise at 20 / 10 / 5 dB: 63.9 / 54.0 / 46.6 with the noise floor vs 56.2 / 44.0 / 32.1 without | SIMULATED, 3 seeds | [input noise](../hw/brain/experiments/month4/input_noise.md) |
 | Spoken words on today's Tang Nano bitstream | 60.1 after 5 stages (PC cochlea -> sound picture -> board) vs network 15.9 | SIMULATED | [sound on board](../hw/brain/experiments/month4/sound_on_board.md) |
 | Hears raw sound | live samples -> cochlea -> encoder -> learning core, whole chain bit-exact | SIMULATED (RTL) | [sound chip](../hw/results/cortex_sound_chip.md) |
 | Ahead of the closest prior art (HDC) | digits +2.2, sound +5.7 (both on the new sound codes), clothing level | SIMULATED | [vs HDC](../hw/results/cortex_vs_hdc.md) |

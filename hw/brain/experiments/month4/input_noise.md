@@ -30,11 +30,15 @@ cope with real noise is measured separately (noisy test clips, below).
 | floor + gate 4x | 70.9 | 60.9 | 48.7 | 37.5 |
 | stronger floor, 6x | 71.5 | 62.3 | 50.4 | 40.8 |
 | stronger floor, 8x | 70.3 | 60.1 | 46.1 | 34.1 |
+| floor + time smoothing 1-2-1 | 71.0 | 64.9 | 54.4 | 44.9 |
+| floor + frequency smoothing 1-2-1 | 71.0 | 63.5 | 55.0 | 46.8 |
 
 SIMULATED. The noise floor is what makes the chip hold up in noise: +7.7 points at 20 dB, +10.0 at 10 dB, +14.5 at
 5 dB over no noise removal. Gates hurt here too. Noise is still costly (72.0 clean -> 46.6 at 5 dB): the floor
 removes the noise's average level, not its fluctuations. Stronger floors (6x, 8x; `noisy_sound_2.log`) are worse
-in noise as well: the 4x floor is best in every condition, clean and noisy.
+in noise as well: the 4x floor is best in every condition, clean and noisy. Smoothing after the floor
+(`noisy_sound_3.log`) costs 1 point clean and moves the noisy results by less than 2 points either way - rejected.
+**Result: the 4x noise floor is the noise removal; it stays as adopted.**
 
 ## Images: speckle removal by lateral support (`despeckle.py`, logs `despeckle.log`, `despeckle_5seeds.log`)
 

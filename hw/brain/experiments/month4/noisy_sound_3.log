@@ -1,0 +1,4 @@
+noisy frame sums ready 50s
+low4x4_tsmooth {'clean': 0.71, '20dB': 0.649, '10dB': 0.5442, '5dB': 0.449} 319s
+low4x4_fsmooth {'clean': 0.7099, '20dB': 0.6351, '10dB': 0.5504, '5dB': 0.4684} 570s
+
