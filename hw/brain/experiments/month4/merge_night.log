@@ -1,2 +1,5 @@
 speech seed 1 stop 2 {'added': 0.626, 'after_night': 0.6397, 'dreams': 256}
 speech seed 1 stop 8 {'added': 0.626, 'after_night': 0.6397, 'dreams': 256}
+speech seed 1 stop 0 {'added': 0.626, 'after_night': 0.6081, 'dreams': 120000}
+speech seed 2 stop 2 {'added': 0.6128, 'after_night': 0.6478, 'dreams': 256}
+speech seed 2 stop 8 {'added': 0.6128, 'after_night': 0.6478, 'dreams': 256}
