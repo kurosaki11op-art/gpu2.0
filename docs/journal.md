@@ -439,4 +439,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   night scheduled tasks to be deleted after 10:00 AM IST on 16 Oct. Restarted: regression (margin 32) and the
   one-pass routing diagnostic (`floor2c/diag.sh`).
 
+- 3:42 AM IST, **correction to the 3:20 entry**: the extra check-ins did not help. Each scheduled wake-up starts the
+  session in a fresh container (`uptime` 0 min) and background jobs die with the old one; earlier jobs survived only
+  while the user was connected. So long jobs now run only while a turn is kept open (blocking waits of up to 10 min),
+  and the three night scheduled tasks are a safety net, not a keep-alive. Regression and the one-pass routing run
+  restarted at 3:42 AM IST in the open turn.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
