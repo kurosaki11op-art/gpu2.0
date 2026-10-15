@@ -1,0 +1,8 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "margin32": {
+  "all_at_once": 0.8339,
+  "5_stages": 0.7859
+ }
+}
