@@ -1,0 +1,6 @@
+mnist k 1 {'plain_top1': 0.4048, 'plain_top2': 0.4048, 'w1to4_top1': 0.349, 'w1to4_top2': 0.349, 'w0to3_top1': 0.2868, 'w0to3_top2': 0.2868, 'w1to8_top1': 0.3441, 'w1to8_top2': 0.3441}
+mnist k 5 {'plain_top1': 0.6128, 'plain_top2': 0.6279, 'w1to4_top1': 0.5468, 'w1to4_top2': 0.5382, 'w0to3_top1': 0.4349, 'w0to3_top2': 0.4044, 'w1to8_top1': 0.5405, 'w1to8_top2': 0.5303}
+mnist k 20 {'plain_top1': 0.7416, 'plain_top2': 0.7629, 'w1to4_top1': 0.6796, 'w1to4_top2': 0.6879, 'w0to3_top1': 0.5774, 'w0to3_top2': 0.5676, 'w1to8_top1': 0.6733, 'w1to8_top2': 0.6809}
+fashion k 1 {'plain_top1': 0.4277, 'plain_top2': 0.4277, 'w1to4_top1': 0.3914, 'w1to4_top2': 0.3914, 'w0to3_top1': 0.3639, 'w0to3_top2': 0.3639, 'w1to8_top1': 0.3893, 'w1to8_top2': 0.3893}
+fashion k 5 {'plain_top1': 0.5333, 'plain_top2': 0.5662, 'w1to4_top1': 0.5128, 'w1to4_top2': 0.5369, 'w0to3_top1': 0.4853, 'w0to3_top2': 0.5026, 'w1to8_top1': 0.5114, 'w1to8_top2': 0.5356}
+fashion k 20 {'plain_top1': 0.6232, 'plain_top2': 0.6448, 'w1to4_top1': 0.6069, 'w1to4_top2': 0.6254, 'w0to3_top1': 0.5913, 'w0to3_top2': 0.6063, 'w1to8_top1': 0.6049, 'w1to8_top2': 0.6225}

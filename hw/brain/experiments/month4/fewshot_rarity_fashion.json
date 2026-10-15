@@ -1,0 +1,36 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (episodic recall, spread codes, 3 seeds)",
+ "results": {
+  "1": {
+   "plain_top1": 0.4277,
+   "plain_top2": 0.4277,
+   "w1to4_top1": 0.3914,
+   "w1to4_top2": 0.3914,
+   "w0to3_top1": 0.3639,
+   "w0to3_top2": 0.3639,
+   "w1to8_top1": 0.3893,
+   "w1to8_top2": 0.3893
+  },
+  "5": {
+   "plain_top1": 0.5333,
+   "plain_top2": 0.5662,
+   "w1to4_top1": 0.5128,
+   "w1to4_top2": 0.5369,
+   "w0to3_top1": 0.4853,
+   "w0to3_top2": 0.5026,
+   "w1to8_top1": 0.5114,
+   "w1to8_top2": 0.5356
+  },
+  "20": {
+   "plain_top1": 0.6232,
+   "plain_top2": 0.6448,
+   "w1to4_top1": 0.6069,
+   "w1to4_top2": 0.6254,
+   "w0to3_top1": 0.5913,
+   "w0to3_top2": 0.6063,
+   "w1to8_top1": 0.6049,
+   "w1to8_top2": 0.6225
+  }
+ }
+}

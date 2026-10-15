@@ -304,4 +304,14 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - `hw/board/cortex_transfer.py --handover` added (dry-run tested). Merge stays the default; month-5 plan runs both.
 - Project memory: detailed routing marked parked (the plan still said running).
 
+### 15 Oct 2026, evening - board set aside; work on the failures that matter
+
+- Asked: leave real-board testing; work on the necessary failures with new ideas. Priority set: few-shot, sound
+  accuracy, detailed routing (sound chip size handled by running sound on the image chip).
+- Sound memory sweep: half the memory costs ~3 points (68.2-68.9 vs 71.9), a quarter 7-10. SIMULATED.
+  [sound chip](../hw/results/cortex_sound_chip.md).
+- Few-shot rarity weighting: worse everywhere (digits 5-shot 62.8 -> 53.8). Rejected. SIMULATED.
+  [few-shot note](../hw/brain/experiments/month4/fewshot_saccades.md).
+- Running: few-shot after shipping (chip knows 0-4, then 1/5/20 examples of 5-9) vs a network fine-tuned the same way.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

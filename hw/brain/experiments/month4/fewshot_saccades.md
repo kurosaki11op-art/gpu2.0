@@ -30,4 +30,10 @@ k examples' on-rates. At 5 examples: digits 55.7 -> 50.2 / 50.8 (plain codes), 4
 clothing 49.5 -> 49.3 / 45.9, 46.9 -> 45.6 / 43.9. It mostly hurts (dreams from 5 examples add noise, not variety)
 and stays below episodic recall (digits 62.8, clothing 56.6). Rejected. SIMULATED, 3 seeds.
 
+## Rarity-weighted recall (15 Oct, evening)
+
+`fewshot_rarity.py` (log `fewshot_rarity.log`): each bit weighted 1-4 (or 0-3, 1-8) by how rare it is on unlabeled
+images, so rare shared bits count more. At 5 examples, top-2: digits 62.8 -> 53.8, clothing 56.6 -> 53.7; worse at
+every size. Rare bits here are mostly noise, not evidence. Rejected. SIMULATED, 3 seeds.
+
 Related: [Few-shot fusion](../month3/fewshot_fusion.md), [Month 3 results](../../../results/cortex_month3.md), [Month 4 experiments](INDEX.md)

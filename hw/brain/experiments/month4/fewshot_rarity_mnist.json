@@ -1,0 +1,54 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (episodic recall, spread codes, 3 seeds)",
+ "results": {
+  "1": {
+   "plain_p1/2_top1": 0.4048,
+   "plain_p1/2_top2": 0.4048,
+   "plain_p1/4_top1": 0.4217,
+   "plain_p1/4_top2": 0.4217,
+   "plain_p3/4_top1": 0.24,
+   "plain_p3/4_top2": 0.24,
+   "w1to4_p1/2_top1": 0.349,
+   "w1to4_p1/2_top2": 0.349,
+   "w0to3_p1/2_top1": 0.2868,
+   "w0to3_p1/2_top2": 0.2868,
+   "w1to8_p1/2_top1": 0.3441,
+   "w1to8_p1/2_top2": 0.3441,
+   "common1to4_p1/2_top1": 0.4262,
+   "common1to4_p1/2_top2": 0.4262
+  },
+  "5": {
+   "plain_p1/2_top1": 0.6128,
+   "plain_p1/2_top2": 0.6279,
+   "plain_p1/4_top1": 0.6705,
+   "plain_p1/4_top2": 0.706,
+   "plain_p3/4_top1": 0.2465,
+   "plain_p3/4_top2": 0.2338,
+   "w1to4_p1/2_top1": 0.5468,
+   "w1to4_p1/2_top2": 0.5382,
+   "w0to3_p1/2_top1": 0.4349,
+   "w0to3_p1/2_top2": 0.4044,
+   "w1to8_p1/2_top1": 0.5405,
+   "w1to8_p1/2_top2": 0.5303,
+   "common1to4_p1/2_top1": 0.6371,
+   "common1to4_p1/2_top2": 0.6587
+  },
+  "20": {
+   "plain_p1/2_top1": 0.7416,
+   "plain_p1/2_top2": 0.7629,
+   "plain_p1/4_top1": 0.8215,
+   "plain_p1/4_top2": 0.8545,
+   "plain_p3/4_top1": 0.3253,
+   "plain_p3/4_top2": 0.3015,
+   "w1to4_p1/2_top1": 0.6796,
+   "w1to4_p1/2_top2": 0.6879,
+   "w0to3_p1/2_top1": 0.5774,
+   "w0to3_p1/2_top2": 0.5676,
+   "w1to8_p1/2_top1": 0.6733,
+   "w1to8_p1/2_top2": 0.6809,
+   "common1to4_p1/2_top1": 0.7681,
+   "common1to4_p1/2_top2": 0.7952
+  }
+ }
+}

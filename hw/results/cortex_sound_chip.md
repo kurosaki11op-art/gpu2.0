@@ -44,4 +44,20 @@ controller is not written.
 
 Related to the size: the noise floor adds 4 x 32-bit registers per resonator pass and 28 floor registers.
 
+## Smaller sound memory: fewer detectors (15 Oct 2026, evening)
+
+`hw/brain/experiments/month4/sound_memory_sweep.py` (log `sound_memory_sweep.log`), integer cochlea + noise floor,
+exact integer chip model, 3 seeds. Core memory and SRAM macros scale with the code bits.
+
+| Encoder | code bits | memory vs today | all at once | 5 stages |
+|---|---|---|---|---|
+| 10 channels x 64 detectors (today) | 23,040 | 1 | 71.9 | 72.0 |
+| 10 channels x 32 | 11,520 | 1/2 | 68.2 | 68.8 |
+| 5 channels x 64 | 11,520 | 1/2 | 68.8 | 68.9 |
+| 6 channels x 32 | 6,912 | 0.3 | 65.1 | 64.2 |
+| 10 channels x 16 | 5,760 | 1/4 | 61.9 | 62.9 |
+
+SIMULATED. Halving the memory (~45 mm^2 of macros instead of ~90, ESTIMATED by scaling) costs about 3 points; a quarter
+costs 7-10. A size / accuracy dial, not a free win.
+
 Related: [Cochlea in RTL](../brain/experiments/month4/cochlea_rtl.md), [Noise floor](../brain/experiments/month4/noise_floor.md), [Month 3 results](cortex_month3.md), [Results index](INDEX.md)
