@@ -6,3 +6,4 @@ Index of this folder. Each document links back here; add a line when you add a f
 - [Dream budget vs accuracy (economy setting) - SIMULATED / ESTIMATED, 15 Oct 2026](dream_budget.md)
 - [Few-shot: saccades and top-m voting - SIMULATED, 15 Oct 2026](fewshot_saccades.md)
 - [Cochlea in RTL (raw sound in) - SIMULATED, 15 Oct 2026](cochlea_rtl.md)
+- [Noise floor in the cochlea (+1.6 on sound) - SIMULATED, 15 Oct 2026](noise_floor.md)

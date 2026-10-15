@@ -13,7 +13,7 @@ MEASURED = real hardware; SIMULATED = our model or chip simulation; ESTIMATED = 
 
 | Claim | Number | Label | Source | Say with it |
 |---|---|---|---|---|
-| Learns new classes after deployment without forgetting old ones | 5 stages: digits 94.6, clothing 78.3, sound 69.4 (3-seed means) vs network 19.5 / 20.0 / 15.9 | SIMULATED (exact chip model) | `hw/results/cortex_month2.md`, `cortex_seeds_*.json` | holds for new classes; see the new-condition limit below |
+| Learns new classes after deployment without forgetting old ones | 5 stages: digits 94.6, clothing 78.3, sound 69.4 (3-seed means) vs network 19.5 / 20.0 / 15.9 | SIMULATED (exact chip model) | `hw/results/cortex_month2.md`, `cortex_seeds_*.json` | holds for new classes; see the new-condition limit below. Sound with the chip's own integer cochlea and its noise floor: 71.2 (5 seeds) |
 | Even one class at a time | 10 stages: 93.5 / 78.7 / 70.5 vs network 10.1 / 14.0 / 9.8 | SIMULATED | `hw/results/cortex_month3.md` | |
 | Stores no examples to do it | dreams are generated from 10-bit counters | design fact | `hw/rtl/cortex/cortex_core.v` | the replay baseline that stores 20 images/class reaches only 49.6 / 37.8 / 27.8 |
 | Decides when to stop sleeping by itself | night ends after 256 dreams with > 2 surprises; one rule for all tasks | design fact + SIMULATED | `hw/results/cortex_month2.md` | |

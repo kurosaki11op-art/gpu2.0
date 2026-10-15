@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""cortex_cochlea.v vs hw/brain/cochlea_int.py (bit-exact): every pixel of the sound pictures of N speech clips.
+"""cortex_cochlea.v vs hw/brain/cochlea_int.py (bit-exact, with the noise floor): every pixel of the sound pictures of N
+speech clips.
 usage: python run_check_cochlea.py DATA_DIR [N]"""
 import os, subprocess, sys
 import numpy as np

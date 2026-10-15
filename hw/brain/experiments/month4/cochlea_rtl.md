@@ -23,4 +23,6 @@ SIMULATED. The single-seed drop was noise; over three seeds the chip's own cochl
 float one. Not yet connected to the encoder: sound codes use 10 channels and 64 detectors (23,040 bits, 422 KB of
 memory), so the sound chip needs a wider encoder and the board's PSRAM or an ASIC.
 
+Update: a per-resonator noise floor now raises sound to 71.2 (5 seeds) - [noise floor](noise_floor.md).
+
 Related: [Month 3 results](../../../results/cortex_month3.md), [Month 4 experiments](INDEX.md)

@@ -3,8 +3,10 @@ with every multiply replaced by its shift-add terms, on integers with FB fractio
 
 Per resonator and sample:  y[n] = g (x[n] - x[n-2]) + a1 y[n-1] - a2 y[n-2], where a1, a2 are sums of up to 4 signed
 powers of two (cochlea.csd) and g a power of two; every term is an arithmetic shift of an integer (right shifts round
-toward minus infinity). Each 1/28 s frame sums |y| >> FB; the picture is then the same integer log as the float
-version. Only shifts, adds, compares. SIMULATED."""
+toward minus infinity). Each 1/28 s frame sums |y| >> FB. Noise floor (auditory adaptation, default on): per
+resonator, the floor is the sum of its 4 quietest frames with the two low bits cleared (= 4 x their mean); it is
+subtracted from every frame sum (floor at 1). The picture is then the same integer log as the float version.
+Only shifts, adds, compares. SIMULATED."""
 import numpy as np
 import cochlea
 try:
@@ -74,9 +76,17 @@ def _bank(x, A1, A2, G, FR, fb):
 A1, A2, G = tables()
 
 
-def sound_picture_int(x):
+def noise_floor(S):
+    """S: (B, 28, 28) frame sums -> frame sums minus each resonator's floor (sum of its 4 quietest frames, low 2 bits
+    cleared), at least 1"""
+    S = np.asarray(S, np.int64); fl = np.sort(S, 2)[:, :, :4].sum(2, keepdims=True) & ~3
+    return np.maximum(S - fl, 1)
+
+
+def sound_picture_int(x, floor=True):
     """x: (B, 16000) int16 samples -> (B, 784) uint8 sound pictures (28 resonators x 28 frames)"""
-    v = np.maximum(_bank(np.asarray(x, np.int64), A1, A2, G, cochlea.FR, FB), 1)
+    S = _bank(np.asarray(x, np.int64), A1, A2, G, cochlea.FR, FB)
+    v = noise_floor(S) if floor else np.maximum(S, 1)
     e = np.floor(np.log2(v)).astype(np.int64)
     lg = 4 * e + ((v >> np.maximum(e - 2, 0)) & 3)
     top = lg.reshape(len(x), -1).max(1)[:, None, None]
