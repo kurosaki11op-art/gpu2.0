@@ -453,4 +453,13 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   (Earlier headline numbers, all at once: digits 96.9, clothing 82.9, words 71.9 -> now 98.0 / 84.8 / 84.7.)
   Network all at once: digits 97.8, clothing 87.3, words 85.5 on the aligned pictures.
 
+- 4:57 AM IST: worker restart #3 (also kills jobs inside an open turn); full routing run (15 min in) and the speech half
+  of the counter-range sweep killed; relaunched. Routing diagnostic result before that: floor2c after 2 passes 60,575
+  violations (174,309 after pass 1): 90% met1 shorts / spacing among standard cells, 10% near macros, 4% on power
+  nets - i.e. local std-cell congestion, converging much faster than floor2 (103k -> 96k -> 72k).
+- Counter range (clothing, 3 seeds, SIMULATED; all at once / 5 stages): cmax 15 + margin 32 (today) 83.4 / 78.6; cmax 7
+  + margin 16 78.7 / 77.5; cmax 31 + margin 32 84.3 / 79.2; cmax 31 + margin 64 84.5 / 79.1; cmax 63 + margin 64 85.1 /
+  78.9. A 6-bit table (+20% table memory) buys about +0.9 / +0.6; 7-bit +1.7 / +0.3. Not adopted yet (memory vs gain);
+  words and digits to follow (`cmax_tune.py`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

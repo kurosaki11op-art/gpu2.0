@@ -1,0 +1,5 @@
+fashion cmax 7 margin 16 {'all_at_once': 0.7872, '5_stages': 0.7754}
+fashion cmax 15 margin 32 {'all_at_once': 0.8339, '5_stages': 0.7859}
+fashion cmax 31 margin 32 {'all_at_once': 0.8428, '5_stages': 0.7922}
+fashion cmax 31 margin 64 {'all_at_once': 0.8446, '5_stages': 0.7913}
+fashion cmax 63 margin 64 {'all_at_once': 0.8506, '5_stages': 0.7885}

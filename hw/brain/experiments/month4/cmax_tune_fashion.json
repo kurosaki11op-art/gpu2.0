@@ -1,0 +1,24 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "cmax7_margin16": {
+  "all_at_once": 0.7872,
+  "5_stages": 0.7754
+ },
+ "cmax15_margin32": {
+  "all_at_once": 0.8339,
+  "5_stages": 0.7859
+ },
+ "cmax31_margin32": {
+  "all_at_once": 0.8428,
+  "5_stages": 0.7922
+ },
+ "cmax31_margin64": {
+  "all_at_once": 0.8446,
+  "5_stages": 0.7913
+ },
+ "cmax63_margin64": {
+  "all_at_once": 0.8506,
+  "5_stages": 0.7885
+ }
+}
