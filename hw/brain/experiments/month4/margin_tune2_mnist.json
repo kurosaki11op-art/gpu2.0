@@ -12,5 +12,9 @@
  "margin64": {
   "all_at_once": 0.9736,
   "5_stages": 0.9489
+ },
+ "margin96": {
+  "all_at_once": 0.9756,
+  "5_stages": 0.9493
  }
 }

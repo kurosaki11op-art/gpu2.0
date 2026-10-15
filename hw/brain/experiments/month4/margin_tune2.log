@@ -9,3 +9,4 @@ speech margin 96 {'all_at_once': 0.829, '5_stages': 0.8191}
 mnist margin 32 {'all_at_once': 0.9704, '5_stages': 0.9489}
 mnist margin 48 {'all_at_once': 0.9736, '5_stages': 0.9478}
 mnist margin 64 {'all_at_once': 0.9736, '5_stages': 0.9489}
+mnist margin 96 {'all_at_once': 0.9756, '5_stages': 0.9493}
