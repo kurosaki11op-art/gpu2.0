@@ -20,7 +20,7 @@ repair_timing -hold -slack_margin 0.05
 detailed_placement
 global_route -congestion_iterations 30 -allow_congestion
 puts "== detailed routing"
-detailed_route -output_drc route_drc.rpt -verbose 1 -droute_end_iter 6
+detailed_route -output_drc route_drc.rpt -verbose 1 -droute_end_iter 10
 write_db cortex_routed.odb
 estimate_parasitics -global_routing
 puts "== after detailed routing"

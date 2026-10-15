@@ -13,7 +13,7 @@ read_verilog cortex_syn.v
 link_design cortex_board_top
 read_sdc cortex.sdc
 
-set DW 6450.0 ; set DH 4800.0
+set DW [expr {[info exists ::env(DW)] ? $::env(DW) : 6450.0}] ; set DH [expr {[info exists ::env(DH)] ? $::env(DH) : 4800.0}]
 initialize_floorplan -die_area "0 0 $DW $DH" -core_area "10 10 [expr $DW-10] [expr $DH-10]" -site unithd
 make_tracks li1  -x_offset 0.23 -x_pitch 0.46 -y_offset 0.17 -y_pitch 0.34
 make_tracks met1 -x_offset 0.17 -x_pitch 0.34 -y_offset 0.17 -y_pitch 0.34
@@ -22,10 +22,12 @@ make_tracks met3 -x_offset 0.34 -x_pitch 0.68 -y_offset 0.34 -y_pitch 0.68
 make_tracks met4 -x_offset 0.46 -x_pitch 0.92 -y_offset 0.46 -y_pitch 0.92
 make_tracks met5 -x_offset 1.70 -x_pitch 3.40 -y_offset 1.70 -y_pitch 3.40
 
-# macros: 8 x 8 grid with 150 um routing channels between rows
+# macros: 8 x 8 grid with routing channels between rows (CH, default 150 um) and columns (GX, default 100 um);
+# die size DW x DH (defaults 6450 x 4800 um) - all overridable from the environment
 set block [ord::get_db_block]
 set dbu [$block getDefUnits]
-set MW 683.1 ; set MH 416.54 ; set GX 100.0 ; set CH 150.0
+set MW 683.1 ; set MH 416.54
+set GX [expr {[info exists ::env(GX)] ? $::env(GX) : 100.0}] ; set CH [expr {[info exists ::env(CH)] ? $::env(CH) : 150.0}]
 set i 0
 foreach inst [$block getInsts] {
     if {[[$inst getMaster] getName] ne "sky130_sram_2kbyte_1rw1r_32x512_8"} { continue }
