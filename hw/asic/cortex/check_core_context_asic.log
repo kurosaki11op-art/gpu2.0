@@ -1,0 +1,7 @@
+CB=10: schedule reproduces CortexInt(context=True).stage exactly: True (1 freeze, 8 frozen dreams)
+CB=10 (ASIC macros): 201 commands, lines compared 4812, mismatches 0
+CB=5: schedule reproduces CortexInt(context=True).stage exactly: True (1 freeze, 6 frozen dreams)
+CB=5 (ASIC macros): 287 commands, lines compared 4898, mismatches 0
+CB=10: schedule reproduces CortexInt(context=True).stage exactly: True (1 freeze, 48 frozen dreams)
+CB=10 (ASIC macros): 579 commands, lines compared 5190, mismatches 0
+PASS

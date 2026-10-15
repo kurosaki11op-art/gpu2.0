@@ -47,8 +47,8 @@ frozen copy each, or a smarter shared store.
 counters and example counts, a FREEZE command (MEM arg 3, 3 cycles per code bit) and a `cmd_frozen` input that makes a
 DREAM read the frozen copy. Check `hw/rtl/cortex/run_check_cortex_ctx.py` (stage 1: 0/1; stage 2: 0/1 again, a new
 condition; stage 3: 2/3; then predictions): the host schedule reproduces `CortexInt(context=True)` exactly, and the
-RTL is bit-exact with it, 0 mismatches over three configurations (up to 48 frozen dreams, halving exercised); the run with
-the SKY130 SRAM models is in progress (`hw/asic/cortex/check_core_context_asic.log`). SIMULATED. Cost in the ASIC: 36 more 2 KB SRAM
+RTL is bit-exact with it, 0 mismatches over three configurations (up to 48 frozen dreams, halving exercised), also with
+the SKY130 SRAM macro models (`hw/asic/cortex/check_core_context_asic.log`). SIMULATED. Cost in the ASIC: 36 more 2 KB SRAM
 macros (the counters are 100 bits wide) - about +10 mm^2 with the open macros. The FPGA build is unchanged (no room).
 
 Related: [Month 3 results](cortex_month3.md), [Prior art](../../docs/prior_art_cortex.md), [Results index](INDEX.md)

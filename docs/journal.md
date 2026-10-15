@@ -165,4 +165,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   of it in memory, and the context check with macros was killed (out of memory) after its first configuration
   (which had passed). `run_check_cortex.py` and `run_check_cortex_ctx.py` now filter the simulator output to its
   summary line. Re-running the macro version.
+- Context-memory RTL with the SKY130 SRAM macro models: 0 mismatches in all three configurations (up to 48 frozen
+  dreams); log `hw/asic/cortex/check_core_context_asic.log`. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
