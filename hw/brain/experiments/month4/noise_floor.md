@@ -35,4 +35,11 @@ Also tried, on top of the floor: lateral inhibition across neighbouring resonato
 two neighbours, sharpening the spectrum): neighbours / 4: 67.7, neighbours / 8: 70.5 (3 seeds; floor alone 72.0).
 Rejected - it removes information the detectors use (`lateral_inhibition.log`).
 
+## Onset channels (15 Oct, evening)
+
+`sound_onset.py` (log `sound_onset.log`): extra detector channels on a picture of how much each resonator got louder
+(or quieter) since the previous frame, like the onset cells of the cochlear nucleus. All at once, 3 seeds: today's 10
+channels 71.9; + 2 onset channels 71.4 (+20% memory); + 2 onset + 1 offset 71.9 (+30%); 3 loudness channels swapped
+for them at equal memory 69.7. No gain; rejected. SIMULATED. The loudness picture already carries the onsets.
+
 Related: [Cochlea in RTL](cochlea_rtl.md), [Month 4 experiments](INDEX.md)

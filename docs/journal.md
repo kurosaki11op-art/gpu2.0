@@ -314,4 +314,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   [few-shot note](../hw/brain/experiments/month4/fewshot_saccades.md).
 - Running: few-shot after shipping (chip knows 0-4, then 1/5/20 examples of 5-9) vs a network fine-tuned the same way.
 
+- Sound onset channels (cochlear-nucleus onset cells): 71.4-71.9 vs 71.9; equal-memory swap 69.7. Rejected.
+  SIMULATED. [noise floor note](../hw/brain/experiments/month4/noise_floor.md).
+- Routing diagnosis: global routing shows almost no congestion (0.00% overflowing cells) but the first detailed pass
+  leaves ~100k violations, so the cause is a setup fault, not too many wires. One-pass run with the violation report
+  started (`hw/asic/cortex/diag/`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

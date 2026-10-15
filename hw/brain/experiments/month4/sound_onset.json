@@ -1,0 +1,39 @@
+{
+ "label": "SIMULATED (integer cochlea + noise floor, exact integer chip model, 3 seeds, all at once)",
+ "base10": {
+  "code_bits": 23040,
+  "acc": [
+   0.7039,
+   0.7226,
+   0.7289
+  ],
+  "mean": 0.7185
+ },
+ "base10+on2": {
+  "code_bits": 27648,
+  "acc": [
+   0.7113,
+   0.7145,
+   0.7172
+  ],
+  "mean": 0.7143
+ },
+ "base10+on2+off1": {
+  "code_bits": 29952,
+  "acc": [
+   0.7328,
+   0.7102,
+   0.7148
+  ],
+  "mean": 0.7193
+ },
+ "swap3": {
+  "code_bits": 23040,
+  "acc": [
+   0.6996,
+   0.6946,
+   0.6981
+  ],
+  "mean": 0.6974
+ }
+}
