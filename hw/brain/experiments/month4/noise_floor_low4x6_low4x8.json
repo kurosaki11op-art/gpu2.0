@@ -1,0 +1,19 @@
+{
+ "label": "SIMULATED (integer cochlea, exact integer chip model, 3 seeds)",
+ "low4x6": {
+  "acc": [
+   0.725,
+   0.7226,
+   0.6977
+  ],
+  "mean": 0.7151
+ },
+ "low4x8": {
+  "acc": [
+   0.6942,
+   0.7012,
+   0.7145
+  ],
+  "mean": 0.7033
+ }
+}

@@ -50,7 +50,7 @@ for mode in (sys.argv[2].split(",") if len(sys.argv) > 2 else ("none", "min", "l
     fes = [Features(F, thr=c).fit(xtr[np.isin(ytr, stages[0])][:12000]) for c in CH]
     enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 5000]) for f in fes], 1) for i in range(0, len(x), 5000)])
     ctr, cte = enc(xtr), enc(xte); accs = []
-    for seed in (1, 2, 3):
+    for seed in range(1, int(os.environ.get("SEEDS", "3")) + 1):
         m = CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)
         for i, s in enumerate(stages):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]
@@ -59,4 +59,4 @@ for mode in (sys.argv[2].split(",") if len(sys.argv) > 2 else ("none", "min", "l
     res[mode] = {"acc": accs, "mean": round(float(np.mean(accs)), 4)}
     print(mode, res[mode], "%.0fs" % (time.time() - t0), flush=True)
 json.dump({"label": "SIMULATED (integer cochlea, exact integer chip model, 3 seeds)", **res},
-          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "noise_floor%s.json" % ("_" + sys.argv[2].replace(",", "_") if len(sys.argv) > 2 else "")), "w"), indent=1)
+          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "noise_floor%s%s.json" % ("_" + sys.argv[2].replace(",", "_") if len(sys.argv) > 2 else "", "_s" + os.environ.get("SEEDS", "3"))), "w"), indent=1)
