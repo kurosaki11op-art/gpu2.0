@@ -1,0 +1,23 @@
+"""Clothing / digits with both image candidates together: 3 brightness receptors (30, 100, 170) + ON/OFF, and speckle
+removal (support 1). Exact integer chip model, month-2 rule, 5 stages, 3 seeds. usage: DATA_DIR mnist|fashion"""
+import json, os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+import numpy as np
+from feature_layer import Features
+from cortex_int import CortexInt
+from cortex_core import load
+D, DS = sys.argv[1], sys.argv[2]
+xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
+CH = (30, 100, 170, ("on", 8), ("off", 8))
+fes = [Features(32, thr=c, support=1).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH]
+enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
+ctr, cte = enc(xtr), enc(xte); accs = []
+for seed in (1, 2, 3):
+    m = CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)
+    for i, s in enumerate([(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]):
+        sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]
+        m.stage(ctr[sel], ytr[sel])
+    accs.append(round(float((m.predict(cte) == yte).mean()), 4))
+print(DS, "3 receptors + speckle removal", accs, "mean", round(float(np.mean(accs)), 4), flush=True)
+json.dump({"dataset": DS, "label": "SIMULATED (exact integer chip model, 3 seeds)", "acc": accs, "mean": round(float(np.mean(accs)), 4)},
+          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"combo_images_{DS}.json"), "w"), indent=1)

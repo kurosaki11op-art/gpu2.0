@@ -284,4 +284,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   (`hw/brain/experiments/month4/allatonce_seeds.log`). SIMULATED.
 - Merge of two chips (0-4 + 5-9, one night), 3 seeds: 93.3 / 81.4 / 64.3 (single run was 93.0 / 82.3 / 62.6; sound
   now with the chip cochlea + floor). SIMULATED (`hw/brain/experiments/month4/merge_seeds.log`).
+- 3 brightness receptors + speckle removal together: clothing 77.7, digits 94.0 (3 seeds) - worse than either alone;
+  rejected as a combination. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

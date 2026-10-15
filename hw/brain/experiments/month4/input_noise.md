@@ -89,4 +89,7 @@ On sound pictures it does not help (`sound_despeckle.py`, 3 seeds: clean 72.0 ->
 is an image-only option. Off by default: switching it on changes every image code, so the headline numbers would be re-run first. Not in the
 Tang Nano encoder (89% full).
 
+Combined with the 3-brightness-receptor option (`combo_images.py`, log `combo_images.log`, 3 seeds): clothing 77.7
+(one seed 75.1), digits 94.0 - worse than either alone; the two do not add up. Rejected as a combination.
+
 Related: [Noise floor](noise_floor.md), [Retinal adaptation](retina_adapt.md), [Month 4 experiments](INDEX.md)
