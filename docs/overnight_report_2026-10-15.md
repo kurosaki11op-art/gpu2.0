@@ -9,6 +9,14 @@ Everything below is committed on `claude/zealous-turing-lsg561` and linked from 
 Labels: SIMULATED = our simulator or chip model; ESTIMATED = arithmetic on stated assumptions; nothing here is
 MEASURED on hardware yet (that needs your board).
 
+> [!NOTE]
+> **Read this first (06:00 IST).** New since you went to sleep, in one breath: the bitstream now has dream batches
+> and still fits (89% of logic); the chip can learn its own senses without labels (RTL, bit-exact); the fix for the
+> "new condition" forgetting is in the RTL (ASIC build, bit-exact); the SKY130 layout gives an honest energy figure,
+> ~2-2.5 uJ per decision after clock gating, which means the "74x less energy" claim must be said as "per operation
+> needed". Section 3b has the details; section 5 is what to run on the board today (`git pull` first: the host
+> program changed).
+
 ## 1. Month 2 finished: memory shrunk to chip size, one rule for every task
 
 - Memory for images **11.5 MB -> 84 KB (137x smaller)**; fits the Tang Nano 20K's on-chip RAM. Sound 28 MB -> 422 KB.
@@ -62,6 +70,13 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
   every SRAM port, 130 gates, bit-exact) brings it to 62-77 mW, ~2-2.5 uJ per decision; the rest is mostly the clock
   tree of a spread-out die ([details](../hw/results/cortex_asic_estimate.md)).
 - Few-shot fusion (episodic recall + table): small gains at 20 examples, the 5-example gap remains; not adopted.
+- **Context memory in the RTL**: the frozen dream copy that fixes the new-condition limit is now a build option of
+  the core (`CORTEX_CONTEXT`), bit-exact with the chip model, also with the SKY130 SRAM models. ASIC only (+36 SRAM
+  macros); the Tang Nano has no room ([details](../hw/results/cortex_new_condition.md)).
+- **Bitstream rebuilt with dream batches**: the first attempt did not fit (94% of logic, placement failed with four
+  seeds and two placers); packing the encoder's code map 4 bits per word freed space: 89% LUT4, 69.8 MHz max at
+  27 MHz, 0 multipliers, board design bit-exact. The host batches dreams by default; `--no-batch` works with an older
+  bitstream.
 
 ## 4. Honest limits (say these before a judge does)
 
