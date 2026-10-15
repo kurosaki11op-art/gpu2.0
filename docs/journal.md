@@ -420,4 +420,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   loop in this old OpenROAD with the macro extension or the clock-layer setting. Bisect running in floor2c (old
   settings + guide file only).
 
+- **Margin 8 -> 32 adopted** (`CortexInt` default, `cortex_core.v` MARGIN, `cortex_host.py` RULE; regression re-running,
+  results below): all at once (3 seeds, SIMULATED) clothing 82.3 -> 83.4, digits 96.9 -> 97.0, words 82.4 -> 82.6;
+  5 stages 78.3 -> 78.6 / 94.6 -> 94.9 / 80.3 -> 82.1; few-shot recipe (IMPRINT + sleep) within +-1 point of margin 8
+  (digits 1 example 69.9 -> 69.0, 5 examples 81.0 -> 82.5; margin 96 hurts digits few-shot by 5, so not taken).
+  Experiments before this entry used margin 8 (their logs say so by date); the board bitstream also needs a rebuild
+  with MARGIN = 32. `margin_tune*.py`, `fewshot_margin.py`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

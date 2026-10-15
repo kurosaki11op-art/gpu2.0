@@ -151,7 +151,7 @@ def _stage(W, on, n, rng, known, acts, nacts, ys, new_cls, old_cls, ndream, nigh
 
 
 class CortexInt:
-    def __init__(self, n_bits, n_cls=10, cmax=15, margin=8, B=10, ndream=6000, night=2, seed=1, daydream=0, replay_k=0, night_stop=0, context=False,
+    def __init__(self, n_bits, n_cls=10, cmax=15, margin=32, B=10, ndream=6000, night=2, seed=1, daydream=0, replay_k=0, night_stop=0, context=False,
                  imprint=0, imprint_n=8, imprint_sleep=300):
         self.W = np.zeros((n_cls, n_bits), np.int8); self.on = np.zeros((n_cls, n_bits), np.uint16)
         self.n = np.zeros(n_cls, np.int32); self.known = np.zeros(n_cls, np.bool_)

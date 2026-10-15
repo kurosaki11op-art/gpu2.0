@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "brain"))
 from feature_layer import Features  # noqa
 
 SEED_LANES = [((0x9E3779B9 * (i + 1)) & 0xFFFFFFFF) or 1 for i in range(32)]     # same seeds as CortexInt(seed=1)
-RULE = dict(ndream=6000, night=2, daydream=1, night_stop=2, top=1023, margin=8, cmax=15)
+RULE = dict(ndream=6000, night=2, daydream=1, night_stop=2, top=1023, margin=32, cmax=15)
 
 
 class Board:

@@ -36,7 +36,7 @@
 `endif
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
-    parameter CMAX = 15, parameter MARGIN = 8, parameter SW = 20, parameter IMPS = 2, parameter IMPN = 8
+    parameter CMAX = 15, parameter MARGIN = 32, parameter SW = 20, parameter IMPS = 2, parameter IMPN = 8
 ) (
     input  wire          clk, rst,
     input  wire          cmd_valid, input wire [2:0] cmd_op, input wire [3:0] cmd_arg,
