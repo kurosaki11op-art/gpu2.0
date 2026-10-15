@@ -48,7 +48,6 @@ def main():
     ap.add_argument("--preload", type=int, default=300); ap.add_argument("--words", default="0-7")
     ap.add_argument("--headless", action="store_true", help="scripted run: teach the next word from --teach test-set clips")
     ap.add_argument("--teach", type=int, default=10, help="clips used to teach the new word in --headless")
-    ap.add_argument("--daydreams", type=int, default=1, help="daydreams of the new word after each taught clip")
     a = ap.parse_args()
     import cochlea
     xtr, ytr, xte, yte = speech(a.data)
@@ -68,7 +67,7 @@ def main():
     if a.headless:
         new = hi + 1; idx = np.where(yte == new)[0]
         for i in idx[:a.teach]:
-            brain.teach(new, xte[i], daydreams=a.daydreams)
+            brain.teach(new, xte[i])
         print(f"taught word {new} ('{cochlea.WORDS[new]}') from {a.teach} clips; sleeping...")
         brain.sleep()
         rest = idx[a.teach:a.teach + 150]
@@ -90,7 +89,7 @@ def main():
                 x = load_wav(cmd[-1]) if cmd[-1].endswith(".wav") else record()
                 p = picture(x)
                 if cmd[0] == "teach":
-                    c = int(cmd[1]); brain.teach(c, p, daydreams=a.daydreams)
+                    c = int(cmd[1]); brain.teach(c, p)
                     print(f"  taught word {c} ({brain.counts[c]} times so far)")
                 else:
                     c = brain.ask(p); print(f"  heard word {c} ({cochlea.WORDS[c] if c < len(cochlea.WORDS) else 'your word'})")
