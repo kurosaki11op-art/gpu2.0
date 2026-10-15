@@ -370,4 +370,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Sound tempo normalisation (stretch the word to 16 frames): 82.4 -> 69.9. Rejected. `sound_warp.py`.
 - Started redesign 3 (two-layer senses V1 -> V2) in the model: `senses_v2.py`.
 
+- Few-shot after shipping, clothing, chip (IMPRINT + sleep) vs network: 64.0 / 70.1 / 76.1 vs fine-tuned 38.3 / 37.2 /
+  41.8 and all-old-data 44.6 / 56.0 / 71.5 (1 / 5 / 20 examples). Chip ahead everywhere. SIMULATED.
+- Sound pitch normalisation (centre row shifted to a fixed row, +-2): 82.4 -> 79.4. Rejected.
+- Redesign 2: floor3 rejected (central logic block: 17,303 hold violations, global route stalled); floor2b running.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

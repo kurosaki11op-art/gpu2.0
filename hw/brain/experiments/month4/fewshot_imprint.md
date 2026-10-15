@@ -56,4 +56,14 @@ old data plus the k new ones (needs every old example kept).
 The network either forgets the old words completely or never learns the new ones; the chip is the only one that
 keeps both. Few-shot words are hard for every method here, not a chip-only failure.
 
+## Against a network on clothing (full recipe: IMPRINT + short sleep; `fewshot_after_shipping.py fashion`, 3 seeds)
+
+| Examples per new class | chip all (old / new) | network fine-tuned all (old / new) | network, all old data kept |
+|---|---|---|---|
+| 1 | **64.0** (86.3 / 41.6) | 38.3 (22.5 / 54.2) | 44.6 (89.1 / 0.0) |
+| 5 | **70.1** (86.4 / 53.8) | 37.2 (1.7 / 72.7) | 56.0 (89.2 / 22.8) |
+| 20 | **76.1** (85.7 / 66.6) | 41.8 (2.2 / 81.4) | 71.5 (89.3 / 53.8) |
+
+SIMULATED. After shipping, the chip is ahead of both network set-ups at every size on clothing.
+
 Related: [month4 index](INDEX.md), [few-shot note](fewshot_saccades.md), [research](../../../../docs/research_fewshot_class_incremental.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)
