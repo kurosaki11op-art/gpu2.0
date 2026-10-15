@@ -320,4 +320,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   leaves ~100k violations, so the cause is a setup fault, not too many wires. One-pass run with the violation report
   started (`hw/asic/cortex/diag/`).
 
+- **Word alignment for sound (new):** shift each sound picture so the word's start (first frame at 3/4 of the loudest
+  frame's loudness) lands at a fixed frame; integer compares and an address offset. All at once, 3 seeds: 71.9 ->
+  78.3 / **79.7** / 78.3 (lead 2 / 4 / threshold 1/2). SIMULATED. Confirmation with 5 seeds and 5 stages running
+  (`hw/brain/experiments/month4/sound_align.py`, `sound_align_confirm.py`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
