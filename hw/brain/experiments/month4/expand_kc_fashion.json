@@ -1,0 +1,44 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "today": {
+  "code_bits": 4608,
+  "on_bits": 270.9,
+  "all_at_once": 0.8233,
+  "k1_imprint_sleep": {
+   "old": 0.8631,
+   "new": 0.4161,
+   "all": 0.6396
+  },
+  "k2_imprint_sleep": {
+   "old": 0.8623,
+   "new": 0.4885,
+   "all": 0.6754
+  },
+  "k5_imprint_sleep": {
+   "old": 0.8635,
+   "new": 0.5381,
+   "all": 0.7008
+  }
+ },
+ "expand2x": {
+  "code_bits": 9216,
+  "on_bits": 460.0,
+  "all_at_once": 0.8105,
+  "k1_imprint_sleep": {
+   "old": 0.8559,
+   "new": 0.3663,
+   "all": 0.6111
+  },
+  "k2_imprint_sleep": {
+   "old": 0.8605,
+   "new": 0.4253,
+   "all": 0.6429
+  },
+  "k5_imprint_sleep": {
+   "old": 0.8462,
+   "new": 0.5167,
+   "all": 0.6815
+  }
+ }
+}

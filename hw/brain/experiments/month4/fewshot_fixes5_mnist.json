@@ -1,0 +1,87 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "results": {
+  "1": {
+   "base": {
+    "old": 0.9901,
+    "new": 0.0654,
+    "all": 0.5406
+   },
+   "imprint": {
+    "old": 0.9599,
+    "new": 0.4301,
+    "all": 0.7024
+   },
+   "imprint+sleep300": {
+    "old": 0.9713,
+    "new": 0.4112,
+    "all": 0.699
+   },
+   "blur": {
+    "old": 0.6338,
+    "new": 0.5861,
+    "all": 0.6106
+   },
+   "blur+sleep300": {
+    "old": 0.9492,
+    "new": 0.4853,
+    "all": 0.7237
+   }
+  },
+  "2": {
+   "base": {
+    "old": 0.9867,
+    "new": 0.243,
+    "all": 0.6252
+   },
+   "imprint": {
+    "old": 0.961,
+    "new": 0.5678,
+    "all": 0.7698
+   },
+   "imprint+sleep300": {
+    "old": 0.9677,
+    "new": 0.5485,
+    "all": 0.7639
+   },
+   "blur": {
+    "old": 0.7738,
+    "new": 0.6836,
+    "all": 0.7299
+   },
+   "blur+sleep300": {
+    "old": 0.9576,
+    "new": 0.5249,
+    "all": 0.7473
+   }
+  },
+  "5": {
+   "base": {
+    "old": 0.9794,
+    "new": 0.4604,
+    "all": 0.7271
+   },
+   "imprint": {
+    "old": 0.9028,
+    "new": 0.7227,
+    "all": 0.8152
+   },
+   "imprint+sleep300": {
+    "old": 0.9597,
+    "new": 0.6516,
+    "all": 0.8099
+   },
+   "blur": {
+    "old": 0.7744,
+    "new": 0.7042,
+    "all": 0.7403
+   },
+   "blur+sleep300": {
+    "old": 0.956,
+    "new": 0.6523,
+    "all": 0.8083
+   }
+  }
+ }
+}

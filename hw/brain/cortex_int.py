@@ -152,14 +152,14 @@ def _stage(W, on, n, rng, known, acts, nacts, ys, new_cls, old_cls, ndream, nigh
 
 class CortexInt:
     def __init__(self, n_bits, n_cls=10, cmax=15, margin=8, B=10, ndream=6000, night=2, seed=1, daydream=0, replay_k=0, night_stop=0, context=False,
-                 imprint=0, imprint_n=8):
+                 imprint=0, imprint_n=8, imprint_sleep=300):
         self.W = np.zeros((n_cls, n_bits), np.int8); self.on = np.zeros((n_cls, n_bits), np.uint16)
         self.n = np.zeros(n_cls, np.int32); self.known = np.zeros(n_cls, np.bool_)
         self.rng = np.array([(0x9E3779B9 * (i + seed)) & 0xFFFFFFFF or 1 for i in range(LANES)], np.uint32)
         self.cmax, self.margin, self.top, self.ndream, self.night = cmax, margin, (1 << B) - 1, ndream, night
         self.daydream, self.replay_k, self.night_stop = daydream, replay_k, night_stop
         self.stats = np.zeros(2, np.int64); self.context = context
-        self.imprint, self.imprint_n = imprint, imprint_n
+        self.imprint, self.imprint_n, self.imprint_sleep = imprint, imprint_n, imprint_sleep
 
     @staticmethod
     def pack(code):
@@ -180,15 +180,23 @@ class CortexInt:
                    self.ndream, self.night, self.margin, self.cmax, self.top, self.daydream, self.replay_k,
                    self.night_stop, self.stats, fon, fn, use_f)
         if self.imprint:
+            hit = [int(c) for c in new if 1 <= self.n[c] <= self.imprint_n]
             for c in new:
                 self.imprint_class(int(c))
+            if hit and self.imprint_sleep:                                    # short sleep after an imprint
+                buf = np.zeros(self.W.shape[1], np.int32); kn = np.where(self.known)[0]
+                for j in range(self.imprint_sleep * len(kn)):
+                    c = kn[j % len(kn)]; k = _dream(self.on, self.n, c, self.rng, buf)
+                    _practise(self.W, buf, k, c, self.known, self.margin, self.cmax)
         return r
 
     def imprint_class(self, c):
         """IMPRINT c (novelty-gated prototype imprint, the few-shot fix of 15 Oct 2026): while class c has seen at most
         imprint_n examples, raise its table row to its mean code times W0: W[c,b] = max(W[c,b], min((on[c,b] * W0) >>
         floor(log2 n[c]), cmax)). W0 is a power of two, so the product is a shift; shifts and compares only. The
-        counters on[c,b] hold the exact number of c's examples with bit b on while n[c] is small."""
+        counters on[c,b] hold the exact number of c's examples with bit b on while n[c] is small. stage() runs it for
+        each new class and, if any class was imprinted, a short sleep of imprint_sleep dreams per known class (plain
+        DREAM commands): old classes' dreams push the new rows back where they wrongly win (round 4/5 experiments)."""
         n = int(self.n[c])
         if n < 1 or n > self.imprint_n:
             return

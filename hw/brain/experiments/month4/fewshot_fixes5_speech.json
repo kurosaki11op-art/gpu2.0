@@ -1,0 +1,87 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "results": {
+  "1": {
+   "base": {
+    "old": 0.8844,
+    "new": 0.0079,
+    "all": 0.4518
+   },
+   "imprint": {
+    "old": 0.6469,
+    "new": 0.2555,
+    "all": 0.4537
+   },
+   "imprint+sleep300": {
+    "old": 0.8326,
+    "new": 0.1242,
+    "all": 0.4829
+   },
+   "blur": {
+    "old": 0.35,
+    "new": 0.3149,
+    "all": 0.3327
+   },
+   "blur+sleep300": {
+    "old": 0.8208,
+    "new": 0.14,
+    "all": 0.4847
+   }
+  },
+  "2": {
+   "base": {
+    "old": 0.8826,
+    "new": 0.0292,
+    "all": 0.4614
+   },
+   "imprint": {
+    "old": 0.6433,
+    "new": 0.3504,
+    "all": 0.4988
+   },
+   "imprint+sleep300": {
+    "old": 0.8472,
+    "new": 0.1339,
+    "all": 0.4951
+   },
+   "blur": {
+    "old": 0.4156,
+    "new": 0.3854,
+    "all": 0.4007
+   },
+   "blur+sleep300": {
+    "old": 0.8459,
+    "new": 0.1271,
+    "all": 0.4911
+   }
+  },
+  "5": {
+   "base": {
+    "old": 0.8772,
+    "new": 0.0887,
+    "all": 0.488
+   },
+   "imprint": {
+    "old": 0.5636,
+    "new": 0.4344,
+    "all": 0.4998
+   },
+   "imprint+sleep300": {
+    "old": 0.8205,
+    "new": 0.221,
+    "all": 0.5246
+   },
+   "blur": {
+    "old": 0.4821,
+    "new": 0.4483,
+    "all": 0.4654
+   },
+   "blur+sleep300": {
+    "old": 0.8282,
+    "new": 0.1855,
+    "all": 0.511
+   }
+  }
+ }
+}

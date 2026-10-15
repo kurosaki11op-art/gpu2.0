@@ -1,0 +1,207 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "results": {
+  "1": {
+   "base": {
+    "old": 0.8844,
+    "new": 0.0079,
+    "all": 0.4518
+   },
+   "imprint": {
+    "old": 0.6469,
+    "new": 0.2555,
+    "all": 0.4537
+   },
+   "imprint+sleep300": {
+    "old": 0.8326,
+    "new": 0.1242,
+    "all": 0.4829
+   },
+   "time1_half": {
+    "old": 0.5554,
+    "new": 0.2862,
+    "all": 0.4225
+   },
+   "time1_half+sleep300": {
+    "old": 0.8387,
+    "new": 0.1079,
+    "all": 0.478
+   },
+   "time1_full": {
+    "old": 0.4374,
+    "new": 0.2968,
+    "all": 0.368
+   },
+   "time1_full+sleep300": {
+    "old": 0.8379,
+    "new": 0.1139,
+    "all": 0.4806
+   },
+   "time2_half": {
+    "old": 0.5249,
+    "new": 0.2957,
+    "all": 0.4118
+   },
+   "time2_half+sleep300": {
+    "old": 0.8372,
+    "new": 0.1023,
+    "all": 0.4745
+   },
+   "freq1_half": {
+    "old": 0.51,
+    "new": 0.297,
+    "all": 0.4049
+   },
+   "freq1_half+sleep300": {
+    "old": 0.8156,
+    "new": 0.1289,
+    "all": 0.4767
+   },
+   "both1_half": {
+    "old": 0.35,
+    "new": 0.3149,
+    "all": 0.3327
+   },
+   "both1_half+sleep300": {
+    "old": 0.8208,
+    "new": 0.14,
+    "all": 0.4847
+   }
+  },
+  "2": {
+   "base": {
+    "old": 0.8826,
+    "new": 0.0292,
+    "all": 0.4614
+   },
+   "imprint": {
+    "old": 0.6433,
+    "new": 0.3504,
+    "all": 0.4988
+   },
+   "imprint+sleep300": {
+    "old": 0.8472,
+    "new": 0.1339,
+    "all": 0.4951
+   },
+   "time1_half": {
+    "old": 0.559,
+    "new": 0.3725,
+    "all": 0.467
+   },
+   "time1_half+sleep300": {
+    "old": 0.8544,
+    "new": 0.1352,
+    "all": 0.4994
+   },
+   "time1_full": {
+    "old": 0.4531,
+    "new": 0.3796,
+    "all": 0.4168
+   },
+   "time1_full+sleep300": {
+    "old": 0.8385,
+    "new": 0.1365,
+    "all": 0.492
+   },
+   "time2_half": {
+    "old": 0.5318,
+    "new": 0.3678,
+    "all": 0.4509
+   },
+   "time2_half+sleep300": {
+    "old": 0.8492,
+    "new": 0.1402,
+    "all": 0.4993
+   },
+   "freq1_half": {
+    "old": 0.54,
+    "new": 0.382,
+    "all": 0.462
+   },
+   "freq1_half+sleep300": {
+    "old": 0.8438,
+    "new": 0.1581,
+    "all": 0.5054
+   },
+   "both1_half": {
+    "old": 0.4156,
+    "new": 0.3854,
+    "all": 0.4007
+   },
+   "both1_half+sleep300": {
+    "old": 0.8459,
+    "new": 0.1271,
+    "all": 0.4911
+   }
+  },
+  "5": {
+   "base": {
+    "old": 0.8772,
+    "new": 0.0887,
+    "all": 0.488
+   },
+   "imprint": {
+    "old": 0.5636,
+    "new": 0.4344,
+    "all": 0.4998
+   },
+   "imprint+sleep300": {
+    "old": 0.8205,
+    "new": 0.221,
+    "all": 0.5246
+   },
+   "time1_half": {
+    "old": 0.5323,
+    "new": 0.4494,
+    "all": 0.4914
+   },
+   "time1_half+sleep300": {
+    "old": 0.8218,
+    "new": 0.18,
+    "all": 0.505
+   },
+   "time1_full": {
+    "old": 0.3859,
+    "new": 0.4709,
+    "all": 0.4279
+   },
+   "time1_full+sleep300": {
+    "old": 0.8251,
+    "new": 0.2071,
+    "all": 0.5201
+   },
+   "time2_half": {
+    "old": 0.52,
+    "new": 0.4499,
+    "all": 0.4854
+   },
+   "time2_half+sleep300": {
+    "old": 0.8297,
+    "new": 0.1992,
+    "all": 0.5185
+   },
+   "freq1_half": {
+    "old": 0.5356,
+    "new": 0.4357,
+    "all": 0.4863
+   },
+   "freq1_half+sleep300": {
+    "old": 0.8205,
+    "new": 0.2402,
+    "all": 0.5341
+   },
+   "both1_half": {
+    "old": 0.4821,
+    "new": 0.4483,
+    "all": 0.4654
+   },
+   "both1_half+sleep300": {
+    "old": 0.8282,
+    "new": 0.1855,
+    "all": 0.511
+   }
+  }
+ }
+}

@@ -1,0 +1,42 @@
+speech k 1
+   base               old 0.884 new 0.008 all 0.452
+   imprint            old 0.647 new 0.256 all 0.454
+   imprint+sleep300   old 0.833 new 0.124 all 0.483
+   time1_half         old 0.555 new 0.286 all 0.422
+   time1_half+sleep300 old 0.839 new 0.108 all 0.478
+   time1_full         old 0.437 new 0.297 all 0.368
+   time1_full+sleep300 old 0.838 new 0.114 all 0.481
+   time2_half         old 0.525 new 0.296 all 0.412
+   time2_half+sleep300 old 0.837 new 0.102 all 0.474
+   freq1_half         old 0.510 new 0.297 all 0.405
+   freq1_half+sleep300 old 0.816 new 0.129 all 0.477
+   both1_half         old 0.350 new 0.315 all 0.333
+   both1_half+sleep300 old 0.821 new 0.140 all 0.485
+speech k 2
+   base               old 0.883 new 0.029 all 0.461
+   imprint            old 0.643 new 0.350 all 0.499
+   imprint+sleep300   old 0.847 new 0.134 all 0.495
+   time1_half         old 0.559 new 0.372 all 0.467
+   time1_half+sleep300 old 0.854 new 0.135 all 0.499
+   time1_full         old 0.453 new 0.380 all 0.417
+   time1_full+sleep300 old 0.839 new 0.137 all 0.492
+   time2_half         old 0.532 new 0.368 all 0.451
+   time2_half+sleep300 old 0.849 new 0.140 all 0.499
+   freq1_half         old 0.540 new 0.382 all 0.462
+   freq1_half+sleep300 old 0.844 new 0.158 all 0.505
+   both1_half         old 0.416 new 0.385 all 0.401
+   both1_half+sleep300 old 0.846 new 0.127 all 0.491
+speech k 5
+   base               old 0.877 new 0.089 all 0.488
+   imprint            old 0.564 new 0.434 all 0.500
+   imprint+sleep300   old 0.821 new 0.221 all 0.525
+   time1_half         old 0.532 new 0.449 all 0.491
+   time1_half+sleep300 old 0.822 new 0.180 all 0.505
+   time1_full         old 0.386 new 0.471 all 0.428
+   time1_full+sleep300 old 0.825 new 0.207 all 0.520
+   time2_half         old 0.520 new 0.450 all 0.485
+   time2_half+sleep300 old 0.830 new 0.199 all 0.518
+   freq1_half         old 0.536 new 0.436 all 0.486
+   freq1_half+sleep300 old 0.821 new 0.240 all 0.534
+   both1_half         old 0.482 new 0.448 all 0.465
+   both1_half+sleep300 old 0.828 new 0.185 all 0.511

@@ -22,10 +22,15 @@ EXTRA = (["-DCORTEX_ASIC", "../../asic/spark_mem_sky130.v", "cortex_cg.v",
           "/opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.v"] if ASIC else [])
 
 
+SLEEP = 20                                                         # short sleep length in this test (model default 300)
+
+
 def schedule(m, code, y, ndream, night, daydream):
     """the command list CortexInt(imprint=4).stage executes, as (op, arg, list) tuples; updates m.known"""
     new = sorted(set(y.tolist()))
     use_f = False
+    for c in y.tolist():
+        sched_n[c] += 1
     old = list(np.where(m.known)[0]) if use_f else [c for c in np.where(m.known)[0] if c not in new]
     cmds = ([(9, 0, [])] if use_f else []) + [(5, c, []) for c in new]
     for c in new:
@@ -42,7 +47,10 @@ def schedule(m, code, y, ndream, night, daydream):
         for _ in range(night):
             cmds += [(8 if use_f and (j // len(known)) % 2 == 1 else 3, int(known[j % len(known)]), [])
                      for j in range(ndream * len(known))]
-    return cmds + [(10, c, []) for c in new]
+    cmds += [(10, c, []) for c in new]
+    if any(1 <= sched_n[c] <= 8 for c in new):                     # short sleep after an imprint (plain DREAMs)
+        cmds += [(3, int(known[j % len(known)]), []) for j in range(SLEEP * len(known))]
+    return cmds
 
 
 def execute(m, cmds, trace=True):
@@ -74,6 +82,7 @@ def execute(m, cmds, trace=True):
 
 
 ok = True
+sched_n = None
 for CB, n_per, k_new, ndream, night in ((10, 12, 1, 3, 1), (5, 20, 3, 2, 1), (10, 30, 5, 12, 2)):
     r = np.random.RandomState(CB)
     pick = lambda cls: np.concatenate([r.choice(np.where(ytr == c)[0], n_per, replace=False) for c in cls])
@@ -82,8 +91,9 @@ for CB, n_per, k_new, ndream, night in ((10, 12, 1, 3, 1), (5, 20, 3, 2, 1), (10
     for s in (s1, s2, s3):
         r.shuffle(s)
     tst = r.choice(np.where(yte < 6)[0], 30, replace=False)
-    kw = dict(B=CB, ndream=ndream, night=night, daydream=1, imprint=4)
+    kw = dict(B=CB, ndream=ndream, night=night, daydream=1, imprint=4, imprint_sleep=SLEEP)
     m = CortexInt(NB, **kw); m.cb = CB; ref = CortexInt(NB, **kw); seeds = m.rng.copy()
+    sched_n = np.zeros(10, np.int64)
     sched = CortexInt(NB, **kw)                                    # tracks known classes while building the schedule
     cmds = []
     for s in (s1, s2, s3):
