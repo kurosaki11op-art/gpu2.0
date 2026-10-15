@@ -18,7 +18,7 @@ X = np.stack(clips).astype(np.int16)
 exp = cochlea_int.sound_picture_int(X, lead=4 if ALIGN else None)
 open(os.path.join(HERE, "smp.hex"), "w").write("\n".join("%04x" % (int(v) & 0xFFFF) for v in X.reshape(-1)) + "\n")
 TB = "tb_cortex_cochlea_stream" if STREAM else "tb_cortex_cochlea"
-subprocess.run(["iverilog", "-g2005", "-o", "/tmp/coch.vvp", f"-P{TB}.N={N}", f"-P{TB}.ALIGN={int(ALIGN)}",
+subprocess.run(["iverilog", "-g2005", "-o", "/tmp/coch.vvp", f"-P{TB}.N={N}", *([f"-P{TB}.ALIGN={int(ALIGN)}"] if STREAM else []),
                 "cortex_cochlea_stream.v" if STREAM else "cortex_cochlea.v", TB + ".v"], cwd=HERE, check=True)
 res = subprocess.run(["vvp", "-n", "/tmp/coch.vvp"], cwd=HERE, capture_output=True, text=True)
 print(res.stdout.strip().splitlines()[0] if res.stdout.strip() else res.stderr[-400:])
