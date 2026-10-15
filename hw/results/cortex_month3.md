@@ -25,8 +25,9 @@ violations), CLEAR command (memories can be wiped after a reset).
 
 ## Evidence gathered this month (SIMULATED unless marked)
 
-- Harder protocol, 10 stages of one new class each (`hw/brain/stages10.py`): chip 93.5 / 78.7 / 70.5 (digits / (3-seed update 15 Oct: 93.0 / 78.7 / 71.2, `hw/brain/experiments/month4/stages10_seeds.log`)
-  clothing / sound) vs a fine-tuned network 10.1 / 14.0 / 9.8, i.e. chance level.
+- Harder protocol, 10 stages of one new class each (`hw/brain/stages10.py`): chip 93.5 / 78.7 / 70.5 (digits /
+  clothing / sound) vs a fine-tuned network 10.1 / 14.0 / 9.8, i.e. chance level. 3-seed update (15 Oct): 93.0 / 78.7 / 71.2
+  (`hw/brain/experiments/month4/stages10_seeds.log`).
 - Seed spread, 5 stages (3 seeds): digits 94.4-94.8, clothing 77.7-78.7, sound 69.0-70.0 (`cortex_seeds_*.json`).
 - Against the closest prior art, hyperdimensional computing ([details](cortex_vs_hdc.md)): ahead on digits (+2.2) and
   sound (+5.9), level on clothing, with less memory and ~1,000x fewer additions per example.
