@@ -19,6 +19,10 @@
 //              (rd_n / rd_known always show the current counts and known classes)
 //              arg 3 (build option CORTEX_CONTEXT) = FREEZE: copy the dream counters and example counts into a frozen
 //              copy (3 cycles per code bit)
+//              arg 4 (build option CORTEX_IMPRINT) = IMPRINT class mem_addr[3:0]: while that class has seen at most IMPN
+//              examples, raise its table field at every code bit to its mean code times 2^IMPS:
+//              W = max(W, min((on << IMPS) >> (blen(n) - 1), CMAX)) (shifts and compares; 3 cycles per code bit). The
+//              few-shot fix of 15 Oct 2026: a new class learned from a few examples is no longer outvoted by old ones.
 // Build option CORTEX_CONTEXT (context memory, bit-exact with CortexInt(context=True)): DREAM with cmd_frozen = 1
 // dreams from the frozen copy instead of the live counters. The host freezes before a day that brings known classes
 // back (a new condition), dreams old knowledge from the frozen copy during that day and alternates live / frozen at
@@ -31,7 +35,7 @@
 `endif
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
-    parameter CMAX = 15, parameter MARGIN = 8, parameter SW = 20
+    parameter CMAX = 15, parameter MARGIN = 8, parameter SW = 20, parameter IMPS = 2, parameter IMPN = 8
 ) (
     input  wire          clk, rst,
     input  wire          cmd_valid, input wire [2:0] cmd_op, input wire [3:0] cmd_arg,
@@ -51,7 +55,8 @@ module cortex_core #(
                S_S0 = 12, S_S1 = 13, S_S2 = 14, S_S3 = 15, S_S4 = 16, S_R = 17,
                S_U0 = 18, S_U1 = 19, S_U2 = 20, S_U3 = 21, S_U4 = 22, S_U5 = 23,
                S_D0 = 24, S_D1 = 25, S_D2 = 26, S_D3 = 27, S_P = 28, S_DONE = 29, S_Z0 = 30, S_Z1 = 31,
-               S_M0 = 32, S_M1 = 33, S_M2 = 34, S_F0 = 35, S_F1 = 36, S_F2 = 37;
+               S_M0 = 32, S_M1 = 33, S_M2 = 34, S_F0 = 35, S_F1 = 36, S_F2 = 37,
+               S_I0 = 38, S_I1 = 39, S_I2 = 40;
 
 `ifndef CORTEX_ASIC
     (* ram_style = "block" *) reg [C*WB-1:0] wmem [0:NB-1];
@@ -148,6 +153,16 @@ module cortex_core #(
     wire signed [WB-1:0] wr = wq[rv*WB +: WB];
     wire [31:0] lane_next = xs(lanes[lane]);
     wire [31:0] rnd = lane_next & ((32'd1 << L) - 32'd1);
+`ifdef CORTEX_IMPRINT
+    // IMPRINT: the class's field at the current code bit, its imprint value, and the word with the field raised
+    reg [4:0] ish;                                                       // floor(log2 n[y])
+    wire [CB+IMPS-1:0] iup0 = {{IMPS{1'b0}}, cq[y*CB +: CB]} << IMPS;
+    wire [CB+IMPS-1:0] iup1 = iup0 >> ish;
+    wire [WB-1:0] iup = (iup1 > CMAX) ? CMAX[WB-1:0] : iup1[WB-1:0];
+    wire iraise = $signed(wy) < $signed({1'b0, iup});
+    reg [C*WB-1:0] iword;
+    always @(*) begin iword = wq; iword[y*WB +: WB] = iraise ? iup : wy; end
+`endif
 
     always @(posedge clk) begin
         w_wen <= 0; c_wen <= 0; lb_wen <= 0;
@@ -185,6 +200,11 @@ module cortex_core #(
                         end else if (cmd_arg == 4'd3) begin
                             for (j = 0; j < C; j = j + 1) fn[j] <= n[j];
                             b <= 0; st <= S_F0;
+`endif
+`ifdef CORTEX_IMPRINT
+                        end else if (cmd_arg == 4'd4) begin
+                            y <= mem_addr[3:0]; b <= 0; ish <= blen(n[mem_addr[3:0]]) - 1'b1;
+                            st <= (n[mem_addr[3:0]] == 0 || n[mem_addr[3:0]] > IMPN) ? S_DONE : S_I0;
 `endif
                         end else begin m_addr <= mem_addr; st <= (cmd_arg == 4'd1) ? S_M2 : S_M0; end
                     end
@@ -299,6 +319,15 @@ module cortex_core #(
         S_F2: begin
             f_wd <= cq; f_wa <= b[AW-1:0]; f_wen <= 1;
             if (b == NB - 1) st <= S_DONE; else begin b <= b + 1; st <= S_F0; end
+        end
+`endif
+`ifdef CORTEX_IMPRINT
+        // ---- imprint: one code bit per 3 cycles (read word, raise class y's field, write back) -------------------
+        S_I0: begin m_addr <= b[AW-1:0]; st <= S_I1; end
+        S_I1: st <= S_I2;
+        S_I2: begin
+            if (iraise) begin w_wd <= iword; w_wen <= 1; end
+            if (b == NB - 1) st <= S_DONE; else begin b <= b + 1; st <= S_I0; end
         end
 `endif
         // ---- predict: first known class with the top score -------------------------------------------------------

@@ -10,7 +10,7 @@
 // ((max + 2 max) >> 2), and the picture comes out with every row shifted so that frame lands at column LEAD (vacated
 // columns 0). Adds and compares only; 784 + 56 more cycles per clip.
 `timescale 1ns/1ps
-module cortex_cochlea_stream #(parameter FB = 8, parameter ALIGN = 0, parameter LEAD = 4) (
+module cortex_cochlea_stream #(parameter FB = 8, parameter ALIGN = 0, parameter LEAD = 6) (
     input  wire        clk, rst,
     input  wire        start,
     input  wire        smp_valid, input wire [15:0] smp_data, output wire smp_ready,

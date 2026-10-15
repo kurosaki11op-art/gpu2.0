@@ -6,7 +6,7 @@
 // hear_count; then give the core its command (LEARN c / PREDICT / DREAM ...) with lb_len = hear_count. Detectors
 // (tm_*) and random lanes (lane_*) are loaded once.
 `timescale 1ns/1ps
-module cortex_sound_top #(parameter ALIGN = 1, parameter LEAD = 4) (
+module cortex_sound_top #(parameter ALIGN = 1, parameter LEAD = 6) (
     input  wire        clk, rst,
     input  wire        smp_valid, input wire [15:0] smp_data, output wire smp_ready,
     input  wire        tm_we, input wire [9:0] tm_addr, input wire [24:0] tm_data,

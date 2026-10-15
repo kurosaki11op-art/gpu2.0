@@ -1,0 +1,66 @@
+mnist k 1
+   base             old 0.990 new 0.065 all 0.541
+   proto2           old 0.988 new 0.192 all 0.601
+   proto2_distinct  old 0.989 new 0.113 all 0.563
+   proto3           old 0.980 new 0.325 all 0.662
+   proto3_distinct  old 0.989 new 0.165 all 0.589
+   proto4           old 0.960 new 0.430 all 0.702
+   proto4_distinct  old 0.988 new 0.219 all 0.614
+   gate1            old 0.848 new 0.358 all 0.610
+   gate2            old 0.988 new 0.097 all 0.555
+   gate3            old 0.990 new 0.066 all 0.541
+mnist k 5
+   base             old 0.979 new 0.460 all 0.727
+   proto2           old 0.964 new 0.520 all 0.748
+   proto2_distinct  old 0.967 new 0.502 all 0.741
+   proto3           old 0.959 new 0.562 all 0.766
+   proto3_distinct  old 0.967 new 0.512 all 0.746
+   proto4           old 0.903 new 0.723 all 0.815
+   proto4_distinct  old 0.958 new 0.605 all 0.786
+   gate1            old 0.605 new 0.703 all 0.652
+   gate2            old 0.973 new 0.503 all 0.745
+   gate3            old 0.979 new 0.463 all 0.728
+mnist k 20
+   base             old 0.978 new 0.766 all 0.875
+   proto2           old 0.933 new 0.773 all 0.855
+   proto2_distinct  old 0.936 new 0.761 all 0.851
+   proto3           old 0.925 new 0.789 all 0.859
+   proto3_distinct  old 0.936 new 0.767 all 0.854
+   proto4           old 0.900 new 0.821 all 0.862
+   proto4_distinct  old 0.932 new 0.786 all 0.862
+   gate1            old 0.400 new 0.863 all 0.625
+   gate2            old 0.953 new 0.794 all 0.876
+   gate3            old 0.978 new 0.767 all 0.875
+fashion k 1
+   base             old 0.875 new 0.120 all 0.497
+   proto2           old 0.866 new 0.320 all 0.593
+   proto2_distinct  old 0.872 new 0.266 all 0.569
+   proto3           old 0.846 new 0.413 all 0.629
+   proto3_distinct  old 0.870 new 0.337 all 0.603
+   proto4           old 0.817 new 0.473 all 0.645
+   proto4_distinct  old 0.868 new 0.381 all 0.625
+   gate1            old 0.747 new 0.340 all 0.543
+   gate2            old 0.873 new 0.155 all 0.514
+   gate3            old 0.875 new 0.121 all 0.498
+fashion k 5
+   base             old 0.871 new 0.487 all 0.679
+   proto2           old 0.826 new 0.584 all 0.705
+   proto2_distinct  old 0.840 new 0.566 all 0.703
+   proto3           old 0.814 new 0.606 all 0.710
+   proto3_distinct  old 0.839 new 0.583 all 0.711
+   proto4           old 0.728 new 0.654 all 0.691
+   proto4_distinct  old 0.833 new 0.587 all 0.710
+   gate1            old 0.442 new 0.671 all 0.557
+   gate2            old 0.770 new 0.542 all 0.656
+   gate3            old 0.857 new 0.491 all 0.674
+fashion k 20
+   base             old 0.857 new 0.666 all 0.761
+   proto2           old 0.746 new 0.744 all 0.745
+   proto2_distinct  old 0.768 new 0.736 all 0.752
+   proto3           old 0.720 new 0.760 all 0.740
+   proto3_distinct  old 0.768 new 0.745 all 0.756
+   proto4           old 0.666 new 0.775 all 0.721
+   proto4_distinct  old 0.765 new 0.752 all 0.759
+   gate1            old 0.334 new 0.804 all 0.569
+   gate2            old 0.619 new 0.735 all 0.677
+   gate3            old 0.803 new 0.681 all 0.742

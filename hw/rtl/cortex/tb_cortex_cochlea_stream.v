@@ -1,7 +1,7 @@
 // Testbench: N clips (smp.hex) streamed sample by sample into cortex_cochlea_stream; pixels to out_coch.txt.
 `timescale 1ns/1ps
 module tb_cortex_cochlea_stream;
-    parameter N = 2, ALIGN = 0, LEAD = 4;
+    parameter N = 2, ALIGN = 0, LEAD = 6;
     reg clk = 0, rst = 1; always #5 clk = ~clk;
     reg start = 0, smp_valid = 0; reg [15:0] smp_data = 0;
     wire smp_ready, busy, done, px_we; wire [9:0] px_addr; wire [7:0] px_data;

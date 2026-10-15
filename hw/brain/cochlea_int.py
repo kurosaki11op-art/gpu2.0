@@ -83,7 +83,7 @@ def noise_floor(S):
     return np.maximum(S - fl, 1)
 
 
-def align_word(P, lead=4):
+def align_word(P, lead=6):
     """Word alignment (attention to the word's start): P (B, 784) pictures, row = resonator, column = frame. A frame's
     loudness is the sum of its 28 pixels; the word starts at the first frame reaching 3/4 of the loudest frame
     ((max * 3) >> 2); every row is shifted so that frame lands at column `lead`, vacated columns are 0."""

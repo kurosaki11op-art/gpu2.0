@@ -2,7 +2,7 @@
 """cortex_cochlea.v vs hw/brain/cochlea_int.py (bit-exact, with the noise floor): every pixel of the sound pictures of N
 speech clips.
 usage: python run_check_cochlea.py DATA_DIR [N] [--stream] [--align]   (--stream: the streaming cochlea; --align: with
-word alignment, ALIGN = 1, LEAD = 4, streaming cochlea only)"""
+word alignment, ALIGN = 1, LEAD = 6, streaming cochlea only)"""
 import os, subprocess, sys
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(HERE, "..", "..", "brain"))
@@ -15,7 +15,7 @@ for k in range(N):
     w = cochlea.WORDS[k % len(cochlea.WORDS)]; fs = sorted(os.listdir(os.path.join(root, w)))
     clips.append(cochlea.read(os.path.join(root, w, fs[r.randint(len(fs))])))
 X = np.stack(clips).astype(np.int16)
-exp = cochlea_int.sound_picture_int(X, lead=4 if ALIGN else None)
+exp = cochlea_int.sound_picture_int(X, lead=6 if ALIGN else None)
 open(os.path.join(HERE, "smp.hex"), "w").write("\n".join("%04x" % (int(v) & 0xFFFF) for v in X.reshape(-1)) + "\n")
 TB = "tb_cortex_cochlea_stream" if STREAM else "tb_cortex_cochlea"
 subprocess.run(["iverilog", "-g2005", "-o", "/tmp/coch.vvp", f"-P{TB}.N={N}", *([f"-P{TB}.ALIGN={int(ALIGN)}"] if STREAM else []),

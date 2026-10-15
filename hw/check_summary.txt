@@ -12,3 +12,6 @@ cochlea (buffered): subprocess.CalledProcessError: Command '['iverilog', '-g2005
 cochlea (streaming): PASS
 cochlea (streaming, word aligned): PASS
 sound chip, whole chain (aligned): PASS
+Tang Nano board design: PASS
+host schedule == chip model: PASS
+failures: 1
