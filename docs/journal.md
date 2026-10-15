@@ -267,4 +267,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Stronger floors under noise (6x / 8x): worse at every SNR (5 dB: 40.8 / 34.1 vs 46.6) - the 4x floor stays.
 - Smoothing after the floor (time or frequency, 1-2-1): -1 clean, within +-2 under noise - rejected. Noise work
   closed: the 4x noise floor stays (best clean and in noise).
+- **Learning in noise** (training clips clean or noisy at random, 1/4 clean): clean 67.0 (-5.0), 20 / 10 / 5 dB
+  68.7 / 64.0 / 58.0 (+4.8 / +10.0 / +11.4); mean of the four conditions 59.1 -> 64.4. Half-clean mix running. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

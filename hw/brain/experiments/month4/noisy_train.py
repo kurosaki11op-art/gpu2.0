@@ -1,5 +1,5 @@
 """Learning in noise: each training clip is heard once, either clean or with white noise at 20, 10 or 5 dB SNR (one
-random condition per clip, fixed seed); detectors are learned from the same mixed pictures of stage 1. Tested on clean
+random condition per clip, fixed seed; PCLEAN = share of clean clips, default 0.25); detectors are learned from the same mixed pictures of stage 1. Tested on clean
 and noisy test clips (same noise as noisy_sound.py). Integer cochlea with the 4x noise floor, exact integer chip model,
 month-2 rule, 3 seeds. usage: DATA_DIR"""
 import json, os, sys, time
@@ -35,7 +35,9 @@ Xte = X[te]; g = np.random.RandomState(12345); tests_S = {"clean": S[te]}
 for snr in (20, 10, 5):
     tests_S[f"{snr}dB"] = bank(add_noise(Xte, snr, g))
 # training clips: one random condition each
-Xtr = X[~te]; cond = np.random.RandomState(777).randint(0, 4, len(Xtr)); Str = S[~te].copy()
+PCLEAN = float(os.environ.get("PCLEAN", "0.25"))                   # share of training clips heard clean
+r = np.random.RandomState(777); Xtr = X[~te]; Str = S[~te].copy()
+cond = np.where(r.random_sample(len(Xtr)) < PCLEAN, 0, 1 + r.randint(0, 3, len(Xtr)))
 for k, snr in ((1, 20), (2, 10), (3, 5)):
     sel = np.where(cond == k)[0]
     Str[sel] = bank(add_noise(Xtr[sel], snr, np.random.RandomState(1000 + k)))
@@ -55,6 +57,6 @@ for seed in (1, 2, 3):
     for k, c in tests.items():
         accs[k].append(float((m.predict(c) == yte).mean()))
 res = {k: round(float(np.mean(v)), 4) for k, v in accs.items()}
-print("trained in mixed noise", res, "%.0fs" % (time.time() - t0), flush=True)
-json.dump({"label": "SIMULATED (integer cochlea + 4x floor, exact integer chip model, 3 seeds)", "trained_in_mixed_noise": res},
-          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "noisy_train.json"), "w"), indent=1)
+print("trained in mixed noise, share clean", PCLEAN, res, "%.0fs" % (time.time() - t0), flush=True)
+json.dump({"label": "SIMULATED (integer cochlea + 4x floor, exact integer chip model, 3 seeds)", "share_clean": PCLEAN, "trained_in_mixed_noise": res},
+          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"noisy_train_pclean{PCLEAN}.json"), "w"), indent=1)

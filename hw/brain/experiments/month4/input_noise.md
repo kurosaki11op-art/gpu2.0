@@ -40,6 +40,19 @@ in noise as well: the 4x floor is best in every condition, clean and noisy. Smoo
 (`noisy_sound_3.log`) costs 1 point clean and moves the noisy results by less than 2 points either way - rejected.
 **Result: the 4x noise floor is the noise removal; it stays as adopted.**
 
+## Learning in noise (`noisy_train.py`, log `noisy_train.log`, 3 seeds)
+
+Each training clip is heard once, clean or with white noise at 20 / 10 / 5 dB (one random condition per clip; here a
+quarter of the clips clean); the detectors learn from the same mixed pictures. Same noisy test clips as above.
+
+| Trained on | Clean | 20 dB | 10 dB | 5 dB | Mean of the four |
+|---|---|---|---|---|---|
+| clean clips (floor) | 72.0 | 63.9 | 54.0 | 46.6 | 59.1 |
+| mixed clean / noisy clips (floor) | 67.0 | 68.7 | 64.0 | 58.0 | 64.4 |
+
+SIMULATED. Hearing noisy examples while learning adds +4.8 to +11.4 points in noise and costs 5.0 on clean speech:
+the noise has to be learned, not only filtered. Trade-off depends on where the chip will be used.
+
 ## Images: speckle removal by lateral support (`despeckle.py`, logs `despeckle.log`, `despeckle_5seeds.log`)
 
 A receptor bit counts only if at least K of its 8 neighbours in the same channel are on.
