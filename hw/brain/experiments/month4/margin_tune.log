@@ -1,0 +1,10 @@
+fashion margin 4 {'all_at_once': 0.8212, '5_stages': 0.7793}
+fashion margin 8 {'all_at_once': 0.8233, '5_stages': 0.7829}
+fashion margin 12 {'all_at_once': 0.8245, '5_stages': 0.7868}
+fashion margin 16 {'all_at_once': 0.8335, '5_stages': 0.7865}
+fashion margin 24 {'all_at_once': 0.8355, '5_stages': 0.7829}
+speech margin 4 {'all_at_once': 0.82, '5_stages': 0.8129}
+speech margin 8 {'all_at_once': 0.8237, '5_stages': 0.8034}
+speech margin 12 {'all_at_once': 0.8129, '5_stages': 0.8148}
+speech margin 16 {'all_at_once': 0.8135, '5_stages': 0.8047}
+speech margin 24 {'all_at_once': 0.8183, '5_stages': 0.8173}

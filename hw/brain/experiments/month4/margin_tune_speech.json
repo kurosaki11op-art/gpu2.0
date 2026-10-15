@@ -1,0 +1,24 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "margin4": {
+  "all_at_once": 0.82,
+  "5_stages": 0.8129
+ },
+ "margin8": {
+  "all_at_once": 0.8237,
+  "5_stages": 0.8034
+ },
+ "margin12": {
+  "all_at_once": 0.8129,
+  "5_stages": 0.8148
+ },
+ "margin16": {
+  "all_at_once": 0.8135,
+  "5_stages": 0.8047
+ },
+ "margin24": {
+  "all_at_once": 0.8183,
+  "5_stages": 0.8173
+ }
+}
