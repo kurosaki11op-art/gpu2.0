@@ -14,3 +14,4 @@ cochlea (buffered): PASS
 cochlea (streaming): PASS
 cochlea (streaming, word aligned): PASS
 sound chip, whole chain (aligned): PASS
+Tang Nano board design: PASS
