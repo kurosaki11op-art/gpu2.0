@@ -35,8 +35,12 @@ def picture(S, mode):
         else:
             fl = srt[:, :, :4].sum(2, keepdims=True) >> 2
         if "x" in mode:
-            fl = fl * int(mode.split("x")[1])
+            fl = fl * int(mode.split("x")[1].split("_")[0])
         v = v - fl
+    if "_inh" in mode:                                  # lateral inhibition across neighbouring resonators
+        sh = int(mode.split("_inh")[1]); v = np.maximum(v, 0)
+        nb = np.zeros_like(v); nb[:, 1:] += v[:, :-1]; nb[:, :-1] += v[:, 1:]
+        v = v - (nb >> sh)
     v = np.maximum(v, 1); e = np.floor(np.log2(v)).astype(np.int64)
     lg = 4 * e + ((v >> np.maximum(e - 2, 0)) & 3); top = lg.reshape(len(v), -1).max(1)[:, None, None]
     return np.clip(255 - (top - lg) * 8, 0, 255).reshape(len(v), -1).astype(np.uint8)
