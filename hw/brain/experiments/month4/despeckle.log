@@ -1,0 +1,2 @@
+fashion support>=0 {'acc': [0.7767, 0.7853, 0.7866], 'mean': 0.7829}
+fashion support>=1 {'acc': [0.7991, 0.7932, 0.7958], 'mean': 0.796}
