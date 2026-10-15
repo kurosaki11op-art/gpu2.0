@@ -8,3 +8,8 @@ encoder learning its detectors: PASS
 general encoder, images: PASS
 general encoder, sound: PASS
 cochlea (buffered): PASS
+cochlea (streaming): PASS
+sound chip, whole chain: PASS
+Tang Nano board design: PASS
+host schedule == chip model: PASS
+failures: 0

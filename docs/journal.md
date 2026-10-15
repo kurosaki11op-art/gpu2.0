@@ -243,4 +243,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   71.2 / 71.9 - still ahead in stages by +5.7. SIMULATED.
 - Three brightness receptor types for images: clothing 78.4 -> 79.1 (5 seeds, 4 of 5 better), digits 94.6 -> 94.3,
   +25% memory - ASIC option, not adopted on the FPGA ([note](../hw/brain/experiments/month4/retina_adapt.md)).
+- **Full regression** `hw/run_all_checks.sh`: 14 bit-exact checks (core FPGA / pipelined / context x2, encoder x3,
+  general encoder x2, cochlea x2, sound chip, board design, host schedule): **14 PASS, 0 failures**
+  (`hw/check_summary.txt`). SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

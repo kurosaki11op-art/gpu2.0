@@ -427,3 +427,13 @@ Number of guides:     1872417
     elapsed time = 00:04:05, memory = 9311.24 (MB).
     Completing 30% with 16468 violations.
     elapsed time = 00:04:26, memory = 9311.24 (MB).
+    Completing 40% with 23664 violations.
+    elapsed time = 00:08:04, memory = 9431.04 (MB).
+    Completing 50% with 33597 violations.
+    elapsed time = 00:08:59, memory = 9784.27 (MB).
+    Completing 60% with 34374 violations.
+    elapsed time = 00:10:14, memory = 9784.28 (MB).
+    Completing 70% with 45705 violations.
+    elapsed time = 00:13:12, memory = 9864.68 (MB).
+    Completing 80% with 47098 violations.
+    elapsed time = 00:13:33, memory = 9864.68 (MB).
