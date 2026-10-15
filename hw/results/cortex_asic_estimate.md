@@ -149,6 +149,16 @@ better, still far from converging; lost in a second container restart. Detailed 
 floorplan with a dedicated standard-cell block and more routing layers reserved, and a run of many hours in a stable
 environment.
 
+### Floorplan redesign attempt floor3 (15 Oct night, `flow3.tcl`, `floor3/`)
+
+Research ([routing note](../../docs/research_openroad_sram_routing.md)): the 2022 router uses li1 unless told not to (floor2 laid 1.49 m
+of wire on li1), the power straps ran 6 um from the SRAM pins, and the router guide / layer adjustment of the
+2022 reference flows were missing. floor3 also moved all standard cells into one block between two 4-column macro
+arrays. Result: hold repair found 17,303 violating endpoints and added 12,131 hold buffers (floor2: 92), because the
+clock reaches macros 3 mm away at very different times; global routing then ran for 80+ minutes without finishing.
+Stopped; the single central logic block is rejected. Next: floor2b = the floor2 grid with only the router and power
+grid fixes (`OUT=floor2b BLOCK=0`).
+
 ## Next steps for a real chip (months 7-8)
 
 1. Put the encoder's small memories (image, receptor map, code map) into small SRAM macros instead of flip-flops.

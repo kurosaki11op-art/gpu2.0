@@ -5,7 +5,8 @@
 # 4-column arrays, left and right, with the logic in ONE block between them (no standard cells in the macro channels:
 # a placement blockage covers each array); all macros R0 so their met4 pins (bottom edge) face a row channel; the
 # power grid keeps PDN_HALO um (default 20) away from the macros; the router guide and layer adjustment as in the 2022
-# OpenROAD flow scripts. Output: floor3/cortex_cts.odb and floor3/route.guide.
+# OpenROAD flow scripts. Output: $OUT/cortex_cts.odb and $OUT/route.guide (OUT default floor3).
+# FLOOR2B: OUT=floor2b BLOCK=0 LW=0 = the old 8 x 8 grid (floor2) with only the router / power-grid fixes.
 set PDK /opt/eda_pdk/share/pdk/sky130A/libs.ref
 set SRAM /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8
 set_thread_count 3
@@ -34,6 +35,8 @@ set dbu [$block getDefUnits]
 set MW 683.1 ; set MH 416.54
 set GX [expr {[info exists ::env(GX)] ? $::env(GX) : 100.0}] ; set CH [expr {[info exists ::env(CH)] ? $::env(CH) : 150.0}]
 set LW [expr {[info exists ::env(LW)] ? $::env(LW) : 1100.0}]
+set OUT [expr {[info exists ::env(OUT)] ? $::env(OUT) : "floor3"}]
+set BLOCK [expr {[info exists ::env(BLOCK)] ? $::env(BLOCK) : 1}]
 set i 0
 foreach inst [$block getInsts] {
     if {[[$inst getMaster] getName] ne "sky130_sram_2kbyte_1rw1r_32x512_8"} { continue }
@@ -47,9 +50,11 @@ foreach inst [$block getInsts] {
 }
 # logic block between the arrays: placement blockages over each macro array (channels included)
 set ax1 [expr 80.0 + 4 * ($MW + $GX) - $GX / 2.0] ; set bx0 [expr 80.0 + 4 * ($MW + $GX) + $LW - $GX / 2.0]
+if {$BLOCK} {
 odb::dbBlockage_create $block 0 0 [expr int($ax1 * $dbu)] [expr int(($DH - 10) * $dbu)]
 odb::dbBlockage_create $block [expr int($bx0 * $dbu)] 0 [expr int(($DW - 10) * $dbu)] [expr int(($DH - 10) * $dbu)]
 puts "logic block x [expr int($ax1)] .. [expr int($bx0)] um"
+}
 puts "placed $i SRAM macros"
 tapcell -distance 14 -tapcell_master sky130_fd_sc_hd__tapvpwrvgnd_1 -endcap_master sky130_fd_sc_hd__decap_4 -halo_width_x 6 -halo_width_y 6
 
@@ -97,12 +102,12 @@ repair_clock_nets
 repair_timing -setup
 repair_timing -hold -slack_margin 0.1
 detailed_placement
-write_db floor3/cortex_cts.odb
+write_db $OUT/cortex_cts.odb
 
 set_routing_layers -signal met1-met5 -clock met3-met5
 foreach l {met1 met2 met3 met4 met5} { set_global_routing_layer_adjustment $l 0.3 }
 set_macro_extension 2
-global_route -guide_file floor3/route.guide -congestion_iterations 100 -allow_congestion
+global_route -guide_file $OUT/route.guide -congestion_iterations 100 -allow_congestion
 estimate_parasitics -global_routing
 report_checks -path_delay max -format full_clock_expanded
 report_checks -path_delay min
@@ -113,5 +118,5 @@ report_worst_slack -min
 report_design_area
 set_power_activity -global -activity 0.1
 report_power
-write_db floor3/cortex_groute.odb
+write_db $OUT/cortex_groute.odb
 puts "SPARK Cortex estimate flow done (floor3)"
