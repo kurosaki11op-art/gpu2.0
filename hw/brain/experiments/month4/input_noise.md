@@ -21,6 +21,18 @@ senses; every variant is integer-only and measured on the exact integer chip mod
 On clean clips every extra gate removes information the detectors use. The floor stays as it is. How the front ends
 cope with real noise is measured separately (noisy test clips, below).
 
+## Sound in real noise: trained clean, tested with white noise (`noisy_sound.py`, log `noisy_sound.log`, 3 seeds)
+
+| Cochlea front end | Clean | 20 dB SNR | 10 dB SNR | 5 dB SNR |
+|---|---|---|---|---|
+| no noise removal | 69.9 | 56.2 | 44.0 | 32.1 |
+| **noise floor (adopted)** | **72.0** | **63.9** | **54.0** | **46.6** |
+| floor + gate 4x | 70.9 | 60.9 | 48.7 | 37.5 |
+
+SIMULATED. The noise floor is what makes the chip hold up in noise: +7.7 points at 20 dB, +10.0 at 10 dB, +14.5 at
+5 dB over no noise removal. Gates hurt here too. Noise is still costly (72.0 clean -> 46.6 at 5 dB): the floor
+removes the noise's average level, not its fluctuations.
+
 ## Images: speckle removal by lateral support (`despeckle.py`, logs `despeckle.log`, `despeckle_5seeds.log`)
 
 A receptor bit counts only if at least K of its 8 neighbours in the same channel are on.

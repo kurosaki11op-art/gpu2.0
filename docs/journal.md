@@ -261,4 +261,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   worse on clean clips (70.2-70.9 / 67.7-70.0 vs 72.0) - floor kept; noisy-clip robustness test running. Images:
   speckle removal (a bit needs >= 1 on-neighbour) clothing 78.4 -> 79.0, digits 94.4 -> 94.5 (5 seeds, uneven) -
   candidate. SIMULATED ([note](../hw/brain/experiments/month4/input_noise.md)).
+- **Sound in noise** (trained clean, white noise added to test clips): no noise removal 69.9 / 56.2 / 44.0 / 32.1
+  (clean / 20 / 10 / 5 dB) vs noise floor 72.0 / 63.9 / 54.0 / 46.6 (+7.7 to +14.5) - the floor is the chip's noise
+  robustness; gates hurt. Stronger floors under noise running. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
