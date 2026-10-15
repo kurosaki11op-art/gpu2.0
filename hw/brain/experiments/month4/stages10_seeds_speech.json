@@ -1,0 +1,10 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "acc": [
+  0.7071,
+  0.7086,
+  0.7207
+ ],
+ "mean": 0.7121
+}

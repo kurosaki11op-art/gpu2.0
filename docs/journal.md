@@ -277,4 +277,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   receptor map); bit-exact on 20 images and 6 sound pictures; added to `run_all_checks.sh`. Off by default.
 - Regression after the speckle option (model `feature_layer.py` + general encoder changed): 15 checks, 0 failures.
 - Speckle removal on sound pictures: clean 72.0 -> 70.9, 10 dB 54.0 -> 54.3 (3 seeds) - not for sound; image-only option.
+- 10 one-class stages with 3 seeds: 93.0 / 78.7 / 71.2 (single run was 93.5 / 78.7 / 70.5; sound now with the chip
+  cochlea + floor). Claims sheet, glance page, memory, report updated. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

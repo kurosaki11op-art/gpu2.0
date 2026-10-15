@@ -1,0 +1,10 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "acc": [
+  0.7868,
+  0.7866,
+  0.7887
+ ],
+ "mean": 0.7874
+}

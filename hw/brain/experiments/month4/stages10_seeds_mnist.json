@@ -1,0 +1,10 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "acc": [
+  0.9269,
+  0.9321,
+  0.9311
+ ],
+ "mean": 0.93
+}

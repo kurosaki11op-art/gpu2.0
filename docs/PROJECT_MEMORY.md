@@ -116,7 +116,7 @@ Month 3 (done early, `hw/results/cortex_month3.md`): integer chip model `hw/brai
 bit-exact (0 mismatches; core also with the SKY130 SRAM models). **Bitstream** `hw/pnr_cortex/cortex_tangnano20k.fs.gz`:
 raw images in, learning, dreaming, memory export/import; 46/46 BSRAM, 89% LUT4, 0 multipliers, 69.8 MHz max at 27 MHz; dream batches (command 45).
 Host `hw/board/cortex_host.py` (+ `--onchip-encode`), transfer demo `cortex_transfer.py` (91.4% after merging two
-halves), live demo `cortex_demo.py`. Extra evidence: 10 one-class stages 93.5 / 78.7 / 70.5 (network ~10%); vs HDC
+halves), live demo `cortex_demo.py`. Extra evidence: 10 one-class stages 93.0 / 78.7 / 71.2 (3 seeds; sound with the chip cochlea + noise floor) (network ~10%); vs HDC
 ahead on digits and sound, level on clothing; energy ~74x per decision, ~200x per learned example (ESTIMATED); ASIC
 SKY130 ~18.8 mm2 (17.9 of it open SRAM macros; logic < 1 mm2); after placement + global routing ~42-43 MHz; power 355 mW without clock gating
 (SRAM macros clocked every cycle), 35-49 mW with per-memory clock gating (130 gates), a lighter clock tree and the pipelined core (`CORTEX_PIPE`,

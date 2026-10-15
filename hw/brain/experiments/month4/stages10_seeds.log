@@ -1,0 +1,4 @@
+mnist 10 one-class stages [0.9269, 0.9321, 0.9311] mean 0.93
+fashion 10 one-class stages [0.7868, 0.7866, 0.7887] mean 0.7874
+speech 10 one-class stages [0.7071, 0.7086, 0.7207] mean 0.7121
+

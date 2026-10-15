@@ -24,7 +24,7 @@ MEASURED on hardware yet (that needs your board).
   (synaptic scaling); **the chip ends its own night** when dreams stop agreeing with what the day taught.
 - Exact integer chip model, every example seen once, after 5 learning stages (3 seeds):
   **digits 94.6, clothing 78.3, sound 69.4** vs a normal neural network 19.5 / 20.0 / 15.9.
-- Harder test, 10 stages of one new class each: **93.5 / 78.7 / 70.5** vs network 10.1 / 14.0 / 9.8.
+- Harder test, 10 stages of one new class each: **93.0 / 78.7 / 71.2** (3 seeds; earlier single run 93.5 / 78.7 / 70.5) vs network 10.1 / 14.0 / 9.8.
 - Lost vs month 1 (big memory): 2.6 / 7.6 / 2.1 points in stages. Main cause: dreams with independent bits.
   "Split dreams" win back ~3 points on clothing but need 4-8x memory (the board's PSRAM; not built).
 - Details: [month 2 results](../hw/results/cortex_month2.md), [month 2 log](../hw/results/cortex_month2_log.md).
