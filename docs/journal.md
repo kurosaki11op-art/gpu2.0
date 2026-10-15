@@ -373,7 +373,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Few-shot after shipping, clothing, chip (IMPRINT + sleep) vs network: 64.0 / 70.1 / 76.1 vs fine-tuned 38.3 / 37.2 /
   41.8 and all-old-data 44.6 / 56.0 / 71.5 (1 / 5 / 20 examples). Chip ahead everywhere. SIMULATED.
 - Sound pitch normalisation (centre row shifted to a fixed row, +-2): 82.4 -> 79.4. Rejected.
-- Redesign 2: floor3 rejected (central logic block: 17,303 hold violations, global route stalled); floor2b running.
+- Redesign 2: floor3 stopped (global route stalled; an earlier note blamed hold violations, wrongly - corrected 16 Oct).
 
 - Sound, listen more than once (views at word starts 5, 6, 6, 7, scores added via LOOK AGAIN): 82.4 -> 84.2 all at
   once, 80.3 -> 81.4 in 5 stages (network all at once 85.5). SIMULATED, 3 seeds.
@@ -399,5 +399,17 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Chip (IMPRINT + sleep) vs network after shipping, digits and words added: chip best on all-10 accuracy at 1 / 5 / 20
   examples on all three tasks (digits 69.9 / 81.0 / 87.5 vs fine-tuned 63.8 / 53.3 / 53.2; words 48.3 / 52.5 / 61.4
   vs 21.2 / 32.5 / 36.4). SIMULATED, 3 seeds. [note](../hw/brain/experiments/month4/fewshot_imprint.md).
+
+### 16 Oct 2026, 12:25 AM IST - night work
+
+- **Correction**: floor3 / floor2b did not fail on hold timing (17k hold violations are normal for this flow, floor2 had
+  them too). They stalled in global routing with the heavy reference settings (100 iterations, adjustment 0.3).
+  Restarted from floor2b's saved clock tree with `route4.tcl` (adjustment 0.1, 30 iterations, then detailed routing on
+  met1-met5, or_seed 42, 30 passes): `floor2b/run2.sh`, log `floor2b/route.log`.
+- **Redesign 3 verdict** (second sensory layer V2, `senses_v2.py`, `senses_v3.py`, SIMULATED, 3 seeds, all at once /
+  5 stages): clothing 82.7 -> 83.6 / 84.0 (V2 64 / 128 detectors; 6x6 fields 83.7; stride 1 83.8), 5 stages 78.1 ->
+  78.7 / 78.2; digits no gain (96.8); words 82.5 -> 80.4 / 82.0, 5 stages 80.9 / 80.9 (no gain). Not worth +35-70% code
+  bits: **rejected for the chip** (model only, nothing in RTL). Detectors learned from all images: no gain either.
+  The limit is the linear table, not the features.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
