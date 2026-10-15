@@ -199,4 +199,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Few-shot: saccades (shifted copies in episodic memory) hurt everywhere - rejected; top-2 voting +1.5 / +3.3 at 5
   examples (digits 62.8, clothing 56.6), still behind the network (67.4 / 62.9). SIMULATED
   ([note](../hw/brain/experiments/month4/fewshot_saccades.md)).
+- **Cochlea in RTL**: integer shift-add model `hw/brain/cochlea_int.py` (91% of pixels identical to the float
+  cochlea on 50 clips, mean difference 0.7 / 255) and `hw/rtl/cortex/cortex_cochlea.v` (28 resonators, 1.35 M cycles
+  per second of sound); bit-exact (`run_check_cochlea.py`, 0 mismatching clips). Sound accuracy with the integer
+  cochlea: running. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
