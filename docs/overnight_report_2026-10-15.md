@@ -13,7 +13,7 @@ MEASURED on hardware yet (that needs your board).
 > **Read this first (06:00 IST).** New since you went to sleep, in one breath: the bitstream now has dream batches
 > and still fits (89% of logic); the chip can learn its own senses without labels (RTL, bit-exact); the fix for the
 > "new condition" forgetting is in the RTL (ASIC build, bit-exact); the SKY130 layout gives an honest energy figure,
-> ~1.1-1.5 uJ per decision after clock gating, which means the "74x less energy" claim must be said as "per operation
+> ~0.2-0.26 uJ per decision after clock gating and a faster (pipelined) core, which means the "74x less energy" claim must be said as "per operation
 > needed". Section 3b has the details; section 5 is what to run on the board today (`git pull` first: the host
 > program changed).
 
@@ -67,7 +67,8 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
   Nano is full) ([note](../hw/brain/experiments/month3/onchip_detectors.md)).
 - **SKY130 layout estimate** (OpenROAD placement, clock tree, global routing): ~43 MHz; 355 mW for the logic, almost
   all of it the SRAM macros and clock tree being clocked every cycle. Per-memory clock gating (encoder memories and
-  every SRAM port, 130 gates, bit-exact) and a lighter clock tree bring it to 33-47 mW, ~1.1-1.5 uJ per decision;
+  every SRAM port, 130 gates, bit-exact) and a lighter clock tree bring it to 33-47 mW; a pipelined core (264 instead of 1,243 cycles per decision,
+  ASIC build only, bit-exact) brings a decision to ~0.18-0.26 uJ;
   the rest is mostly the clock tree of a spread-out die ([details](../hw/results/cortex_asic_estimate.md)).
 - Few-shot fusion (episodic recall + table): small gains at 20 examples, the 5-example gap remains; not adopted.
 - **Context memory in the RTL**: the frozen dream copy that fixes the new-condition limit is now a build option of
@@ -95,8 +96,8 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
 7. The sequence memory (earlier lookup core) also partly forgets across text domains (keeps 32-60% of what it learned),
    so month 6 needs more capacity or the same context trick.
 8. A second sensory layer (V2) did not improve accuracy; rejected.
-9. **The energy claim needs care**: the SKY130 layout draws ~355 mW without clock gating and 33-47 mW with it
-   (~1.1-1.5 uJ per decision), still far above the 9.4 nJ counted from the operations. The 74x is "per operation
+9. **The energy claim needs care**: the SKY130 layout draws ~355 mW without clock gating and 35-49 mW with it;
+   with the pipelined core ~0.18-0.26 uJ per decision, still far above the 9.4 nJ counted from the operations. The 74x is "per operation
    needed", not "per chip" (section 3b).
 
 ## 5. What you can do today (about 30 minutes)

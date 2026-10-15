@@ -119,8 +119,8 @@ Host `hw/board/cortex_host.py` (+ `--onchip-encode`), transfer demo `cortex_tran
 halves), live demo `cortex_demo.py`. Extra evidence: 10 one-class stages 93.5 / 78.7 / 70.5 (network ~10%); vs HDC
 ahead on digits and sound, level on clothing; energy ~74x per decision, ~200x per learned example (ESTIMATED); ASIC
 SKY130 ~18.8 mm2 (17.9 of it open SRAM macros; logic < 1 mm2); after placement + global routing ~42-43 MHz; power 355 mW without clock gating
-(SRAM macros clocked every cycle), 33-77 mW with per-memory clock gating (130 gates, bit-exact) and a lighter clock tree: ~1.1-2.5 uJ per
-decision, mostly clock tree - still ~100-200x above the operation-count energy, so the 74x is per operation needed, not
+(SRAM macros clocked every cycle), 35-49 mW with per-memory clock gating (130 gates), a lighter clock tree and the pipelined core (`CORTEX_PIPE`,
+264 cycles per decision; all bit-exact): ~0.18-0.26 uJ per decision - still ~20-28x above the operation-count energy, so the 74x is per operation needed, not
 per chip (`hw/results/cortex_asic_estimate.md`). On-chip detector learning: in RTL (`ENC_LEARN`, bit-exact),
 one pass over the first day's images: digits 94.5 / clothing 80.0 vs PC detectors 95.0 / 79.2 (SIMULATED). Rejected: second sensory layer (V2), wider pooling
 for few-shot. Waiting on the user: run on the board, measure power (month 4).

@@ -184,4 +184,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Pipelined core with the SKY130 SRAM macro models, run alone: 0 mismatches in both configurations
   (`hw/asic/cortex/check_core_asic_pipelined.log`). The earlier failure was the file collision. Lesson: never run two
   core checks in the same folder at once (they share cmds.hex / out_cortex.txt).
+- Pipelined ASIC layout (lighter clock tree): 49 mW (10%) / 35 mW (1%), ~40 MHz, hold -0.83 ns before routing;
+  **~0.18-0.26 uJ per decision** (264 cycles), from ~11 uJ at the start of the night. ESTIMATED; logs
+  `hw/asic/cortex/pipe_light/`.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

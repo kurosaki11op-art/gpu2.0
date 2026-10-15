@@ -106,7 +106,8 @@ is selected**, so the estimate pays for all 63 macros every cycle, although a de
 | no gating | 366 mW | 350 mW |
 | encoder gated | 242 mW | - |
 | encoder + every SRAM port gated | 77 mW | 62 mW |
-| same, lighter clock tree (see 3.) | **47 mW** | **33 mW** |
+| same, lighter clock tree (see 3.) | 47 mW | 33 mW |
+| pipelined core, lighter clock tree (see 4.) | **49 mW** | **35 mW** |
 
    Breakdown at 10% (`gated_all/power_by_cell.txt`): clock-tree and large buffers ~45 mW, SRAM 10.9 mW (from 175),
    flip-flops ~8 mW, logic < 15 mW.
@@ -118,12 +119,13 @@ is selected**, so the estimate pays for all 63 macros every cycle, although a de
 
 4. Fewer cycles (`CORTEX_PIPE`, on in the ASIC build; bit-exact, also with the SRAM macro models): the score loop
    takes one code bit per cycle and dreams prefetch their counters. Cycles per decision 1,243 -> 264, per dream
-   21,894 -> 7,109. Power per cycle was not re-estimated (the layout above is the unpipelined core).
+   21,894 -> 7,109. Layout of this core with the lighter clock tree (`pipe_light/`): 49 mW at 10% activity, 35 mW
+   at 1%; setup -5.10 ns at 20 ns (~40 MHz), hold -0.83 ns before routing.
 
 **What a decision costs in this layout (ESTIMATED):** 33-47 mW at 50 MHz is 0.7-0.9 nJ per clock cycle; a decision
-takes ~1,600 cycles, so **~1.1-1.5 uJ per decision** (2.0-2.5 uJ with the default clock tree), down from ~11 uJ
-without gating. With the pipelined core (264 cycles per decision) and the same power per cycle that would be
-~0.2-0.3 uJ (PROJECTED until the pipelined layout is run). That is still ~100-150x above the 9.4 nJ counted from operations. What remains is mostly the clock tree of a 31 mm^2 die whose 63 macros are spread
+takes ~1,600 cycles (unpipelined), so ~1.1-1.5 uJ per decision (2.0-2.5 uJ with the default clock tree), down from ~11 uJ
+without gating. **With the pipelined core: 0.70-0.98 nJ per cycle x 264 cycles = ~0.18-0.26 uJ per decision**
+(ESTIMATED from its own layout), ~20-28x above the 9.4 nJ operation count. That is still ~100-150x above the 9.4 nJ counted from operations. What remains is mostly the clock tree of a 31 mm^2 die whose 63 macros are spread
 out with routing channels, plus ~3,000 flip-flops that are clocked every cycle. Clock-tree synthesis inserted 13,838 clock buffers
 (10,776 of them the largest size) for 4,325 sinks on the main clock and 17,216 behind the encoder's gates; tuning it
 (smaller buffers, wider sink clusters) is the first lever. Next levers, not yet tried: a compact
