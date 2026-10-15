@@ -63,7 +63,8 @@ module cortex_core #(
     reg [AW-1:0] lb_wa, lb_wd; reg lb_wen;
     reg [C*WB-1:0] w_wd; reg w_wen; reg [C*CB-1:0] c_wd; reg c_wen;
     reg signed [SW-1:0] acc [0:C-1];
-    reg signed [SW-1:0] best; reg have_rv;
+    reg signed [SW-1:0] best; reg have_rv; reg sd0, sd1, se0, se1;   // score pipeline stage flags
+    reg [AW:0] pb; reg pf0, pf1, push, pop; reg [2:0] qcnt; reg [1:0] qw, qr; reg [CB-1:0] dq [0:3];   // dream prefetch
     reg [CB-1:0] onf, ncur; reg [4:0] L;
     reg [C*WB-1:0] wt; reg [C*CB-1:0] ct; reg [CB:0] nn;
     integer j;
@@ -125,8 +126,10 @@ module cortex_core #(
     end
 `endif
     wire [CB-1:0] ndream = cmd_frozen ? fn[cmd_arg] : n[cmd_arg];
+    wire [CB-1:0] dword = dsrc ? fq[y*CB +: CB] : cq[y*CB +: CB];
 `else
     wire [CB-1:0] ndream = n[cmd_arg];
+    wire [CB-1:0] dword = cq[y*CB +: CB];
 `endif
 
     function [31:0] xs; input [31:0] s; reg [31:0] t; begin
@@ -203,14 +206,16 @@ module cortex_core #(
         S_H2: begin ct = cq; ct[y*CB +: CB] = cq[y*CB +: CB] >> 1; c_wd <= ct; c_wen <= 1; st <= S_H3; end
         S_H3: begin b <= b + 1; st <= S_H0; end
         // ---- score: acc[c] += table[c, bit] for every listed bit -----------------------------------------------
-        S_S0: if (i == llen) begin sc_i <= 0; have_rv <= 0; st <= predict_mode ? S_P : S_R; end
-              else begin lb_addr <= i[AW-1:0]; st <= S_S1; end
-        S_S1: st <= S_S2;
-        S_S2: begin m_addr <= lb_q; st <= S_S3; end
-        S_S3: st <= S_S4;
-        S_S4: begin
-            for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + $signed(wq[j*WB +: WB]);
-            i <= i + 1; st <= S_S0;
+        // ---- score the list: pipelined, one code bit per cycle. A list read issued in cycle t gives its code bit in
+        // cycle t+2 (-> table address), whose table word arrives in cycle t+4 (-> add to every class score) ---------
+        S_S0: begin sd0 <= 0; sd1 <= 0; se0 <= 0; se1 <= 0; st <= S_S1; end
+        S_S1: begin
+            if (i != llen) begin lb_addr <= i[AW-1:0]; i <= i + 1; sd0 <= 1; end else sd0 <= 0;
+            sd1 <= sd0;
+            if (sd1) begin m_addr <= lb_q; se0 <= 1; end else se0 <= 0;
+            se1 <= se0;
+            if (se1) for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + $signed(wq[j*WB +: WB]);
+            if (i == llen && !sd0 && !sd1 && !se0 && !se1) begin sc_i <= 0; have_rv <= 0; st <= predict_mode ? S_P : S_R; end
         end
         // ---- rival: first known class other than y with the top score; update when the margin is small ---------
         S_R: if (sc_i == C) begin
@@ -234,11 +239,28 @@ module cortex_core #(
         end
         S_U5: begin i <= i + 1; st <= S_U0; end
         // ---- dream: for every code bit, draw r < n[y] from its lane (redraw if too big); on if r < on[y, bit] ----
-        S_D0: if (b == NB) begin llen <= k; llen_out <= k; i <= 0; st <= S_S0; end
-              else begin m_addr <= b[AW-1:0]; st <= S_D1; end
-        S_D1: st <= S_D2;
+        // ---- dream: for every code bit, draw r < n[y] from its lane (redraw if too big); on if r < on[y, bit].
+        // Pipelined: the dream-counter words are prefetched one per cycle into a 4-entry queue (a read issued in cycle t
+        // arrives in cycle t+2) while the generator consumes them; same draws, same order, ~1 cycle per code bit plus
+        // redraws.
+        S_D0: begin pb <= b; pf0 <= 0; pf1 <= 0; qcnt <= 0; qw <= 0; qr <= 0; st <= S_D1; end
+        S_D1: begin
+            if (pb != NB && ({1'b0, qcnt} + pf0 + pf1) < 4) begin m_addr <= pb[AW-1:0]; pb <= pb + 1; pf0 <= 1; end
+            else pf0 <= 0;
+            pf1 <= pf0;
+            push = pf1; pop = 0;
+            if (push) begin dq[qw] <= dword; qw <= qw + 1'b1; end
+            if (qcnt != 0) begin
+                lanes[lane] <= lane_next;
+                if (rnd < ncur) begin
+                    if (rnd < dq[qr]) begin lb_wa <= k[AW-1:0]; lb_wd <= b[AW-1:0]; lb_wen <= 1; k <= k + 1; end
+                    b <= b + 1; lane <= lane + 1; qr <= qr + 1'b1; pop = 1;
+                end
+            end
+            qcnt <= qcnt + push - pop;
+            if (b == NB) begin llen <= k; llen_out <= k; i <= 0; st <= S_S0; end
+        end
 `ifdef CORTEX_CONTEXT
-        S_D2: begin onf <= dsrc ? fq[y*CB +: CB] : cq[y*CB +: CB]; st <= S_D3; end
         // ---- FREEZE: copy every dream-counter word into the frozen copy
         S_F0: begin m_addr <= b[AW-1:0]; st <= S_F1; end
         S_F1: st <= S_F2;
@@ -246,16 +268,7 @@ module cortex_core #(
             f_wd <= cq; f_wa <= b[AW-1:0]; f_wen <= 1;
             if (b == NB - 1) st <= S_DONE; else begin b <= b + 1; st <= S_F0; end
         end
-`else
-        S_D2: begin onf <= cq[y*CB +: CB]; st <= S_D3; end
 `endif
-        S_D3: begin
-            lanes[lane] <= lane_next;
-            if (rnd < ncur) begin
-                if (rnd < onf) begin lb_wa <= k[AW-1:0]; lb_wd <= b[AW-1:0]; lb_wen <= 1; k <= k + 1; end
-                b <= b + 1; lane <= lane + 1; st <= S_D0;
-            end
-        end
         // ---- predict: first known class with the top score -------------------------------------------------------
         S_P: if (sc_i == C) st <= S_DONE;
              else begin

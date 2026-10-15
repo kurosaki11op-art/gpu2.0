@@ -170,4 +170,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - ASIC clock tree: lighter settings (root clkbuf_8, clkbuf_2/4, 30 sinks per cluster): 47 mW at 10% / 33 mW at 1%
   activity (from 77 / 62), ~1.1-1.5 uJ per decision; setup unchanged (~42 MHz), hold -1.34 ns before routing.
   ESTIMATED; logs `hw/asic/cortex/cts_light/`.
+- **Faster core (pipelined)**: the score loop takes one code bit per cycle (list read -> table read -> add, 4-cycle
+  pipeline) and the dream generator prefetches dream-counter words into a 4-entry queue. Cycles per PREDICT 1,243 ->
+  264, per DREAM 21,894 -> 7,109, per LEARN 3,469 -> 2,465 (same command stream). Bit-exact: core check (2
+  configurations), context check (3), board check (136 commands), 0 mismatches. SIMULATED. Bitstream rebuild and
+  SRAM-macro check running; until the new bitstream is committed, the committed one is from the previous core
+  (same behaviour, slower).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
