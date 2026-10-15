@@ -9,6 +9,14 @@ Everything below is committed on `claude/zealous-turing-lsg561` and linked from 
 Labels: SIMULATED = our simulator or chip model; ESTIMATED = arithmetic on stated assumptions; nothing here is
 MEASURED on hardware yet (that needs your board).
 
+> [!IMPORTANT]
+> **End of day, 15 Oct 20:00 IST.** New today after the morning note (SIMULATED): **word alignment lifts sound from
+> ~72% to 79.8% (all at once) and 81.1% (5 stages)** by shifting each sound picture so the word starts at a fixed
+> frame ([journal](journal.md)); hand-over of memories beats the merge (sound 71.6 vs 64.3,
+> [note](../hw/brain/experiments/month4/merge_variants.md)). Rejected: longer nights after a merge, table rebuild,
+> rarity-weighted few-shot, onset channels. Open: detailed routing (diagnosis running), few-shot (a new class learned
+> from 1 example is outvoted by old classes). Board testing set aside at the user's request.
+
 > [!NOTE]
 > **Read this first (06:00 IST).** New since you went to sleep, in one breath: the bitstream now has dream batches
 > and still fits (89% of logic); the chip can learn its own senses without labels (RTL, bit-exact); the fix for the

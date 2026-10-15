@@ -325,4 +325,15 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   78.3 / **79.7** / 78.3 (lead 2 / 4 / threshold 1/2). SIMULATED. Confirmation with 5 seeds and 5 stages running
   (`hw/brain/experiments/month4/sound_align.py`, `sound_align_confirm.py`).
 
+### 15 Oct 2026, 20:00 IST - end of the working window
+
+- Overnight check-in routine deleted as asked. Work continues while the user is active (board testing set aside).
+- Day's wins (all SIMULATED): **word alignment for sound 71.9 -> 79.8 all at once, 81.1 in 5 stages (5 seeds, lead 4)**;
+  hand-over beats merge (+7.3 on sound); noise floor and learning in noise; speckle option for images.
+- Day's failures: merge-night variants, table rebuild, rarity-weighted few-shot, onset channels, rehearsal for new
+  words, smaller sound memory costs ~3 points per halving. Detailed routing still open (one-pass diagnosis running).
+- Few-shot after shipping, first row (digits, 1 example per new class): chip learns old 99.0 but new only 6.5; a
+  network fine-tuned on the same examples gets new 43.9 but old falls to 82.7. A new failure to fix: one weak new
+  example cannot outvote a strongly trained old class. SIMULATED; k = 5 / 20 running.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

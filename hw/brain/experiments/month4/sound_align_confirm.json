@@ -1,0 +1,25 @@
+{
+ "label": "SIMULATED (integer cochlea + floor + word alignment, exact integer chip model, 5 seeds)",
+ "lead4": {
+  "all_at_once": {
+   "acc": [
+    0.8002,
+    0.8076,
+    0.7822,
+    0.7982,
+    0.8033
+   ],
+   "mean": 0.7983
+  },
+  "5_stages": {
+   "acc": [
+    0.82,
+    0.8228,
+    0.7982,
+    0.8029,
+    0.8103
+   ],
+   "mean": 0.8108
+  }
+ }
+}
