@@ -24,6 +24,11 @@
 // back (a new condition), dreams old knowledge from the frozen copy during that day and alternates live / frozen at
 // night, so the old condition is not overwritten. Costs a second dream-counter memory (ASIC; the FPGA RAM is full).
 `timescale 1ns/1ps
+// CORTEX_PIPE: pipelined score loop (1 code bit per cycle) and dream prefetch queue; on in the ASIC build, off on the
+// Tang Nano (the extra logic does not fit: 101% LUT4). Same results either way, bit-exact.
+`ifdef CORTEX_ASIC
+`define CORTEX_PIPE
+`endif
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
     parameter CMAX = 15, parameter MARGIN = 8, parameter SW = 20
@@ -206,6 +211,7 @@ module cortex_core #(
         S_H2: begin ct = cq; ct[y*CB +: CB] = cq[y*CB +: CB] >> 1; c_wd <= ct; c_wen <= 1; st <= S_H3; end
         S_H3: begin b <= b + 1; st <= S_H0; end
         // ---- score: acc[c] += table[c, bit] for every listed bit -----------------------------------------------
+`ifdef CORTEX_PIPE
         // ---- score the list: pipelined, one code bit per cycle. A list read issued in cycle t gives its code bit in
         // cycle t+2 (-> table address), whose table word arrives in cycle t+4 (-> add to every class score) ---------
         S_S0: begin sd0 <= 0; sd1 <= 0; se0 <= 0; se1 <= 0; st <= S_S1; end
@@ -217,6 +223,17 @@ module cortex_core #(
             if (se1) for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + $signed(wq[j*WB +: WB]);
             if (i == llen && !sd0 && !sd1 && !se0 && !se1) begin sc_i <= 0; have_rv <= 0; st <= predict_mode ? S_P : S_R; end
         end
+`else
+        S_S0: if (i == llen) begin sc_i <= 0; have_rv <= 0; st <= predict_mode ? S_P : S_R; end
+              else begin lb_addr <= i[AW-1:0]; st <= S_S1; end
+        S_S1: st <= S_S2;
+        S_S2: begin m_addr <= lb_q; st <= S_S3; end
+        S_S3: st <= S_S4;
+        S_S4: begin
+            for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + $signed(wq[j*WB +: WB]);
+            i <= i + 1; st <= S_S0;
+        end
+`endif
         // ---- rival: first known class other than y with the top score; update when the margin is small ---------
         S_R: if (sc_i == C) begin
                  if (have_rv && (acc[y] - best <= MARGIN)) begin updated <= 1; i <= 0; st <= S_U0; end
@@ -239,6 +256,7 @@ module cortex_core #(
         end
         S_U5: begin i <= i + 1; st <= S_U0; end
         // ---- dream: for every code bit, draw r < n[y] from its lane (redraw if too big); on if r < on[y, bit] ----
+`ifdef CORTEX_PIPE
         // ---- dream: for every code bit, draw r < n[y] from its lane (redraw if too big); on if r < on[y, bit].
         // Pipelined: the dream-counter words are prefetched one per cycle into a 4-entry queue (a read issued in cycle t
         // arrives in cycle t+2) while the generator consumes them; same draws, same order, ~1 cycle per code bit plus
@@ -260,6 +278,20 @@ module cortex_core #(
             qcnt <= qcnt + push - pop;
             if (b == NB) begin llen <= k; llen_out <= k; i <= 0; st <= S_S0; end
         end
+`else
+        // ---- dream: for every code bit, draw r < n[y] from its lane (redraw if too big); on if r < on[y, bit] ----
+        S_D0: if (b == NB) begin llen <= k; llen_out <= k; i <= 0; st <= S_S0; end
+              else begin m_addr <= b[AW-1:0]; st <= S_D1; end
+        S_D1: st <= S_D2;
+        S_D2: begin onf <= dword; st <= S_D3; end
+        S_D3: begin
+            lanes[lane] <= lane_next;
+            if (rnd < ncur) begin
+                if (rnd < onf) begin lb_wa <= k[AW-1:0]; lb_wd <= b[AW-1:0]; lb_wen <= 1; k <= k + 1; end
+                b <= b + 1; lane <= lane + 1; st <= S_D0;
+            end
+        end
+`endif
 `ifdef CORTEX_CONTEXT
         // ---- FREEZE: copy every dream-counter word into the frozen copy
         S_F0: begin m_addr <= b[AW-1:0]; st <= S_F1; end

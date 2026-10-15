@@ -6,7 +6,7 @@ freezes its dream counters, dreams old knowledge from the frozen copy during the
 night); stage 3 learns 2/3 the normal way; then predictions. The command schedule is checked against
 CortexInt(context=True).stage, then replayed on the RTL (ops: 8 = DREAM from the frozen copy, 9 = FREEZE). Compared:
 every prediction, update flag and dream length, and the final table, counters and counts.
-usage: python run_check_cortex_ctx.py DATA_DIR [--asic]"""
+usage: python run_check_cortex_ctx.py DATA_DIR [--asic] [--pipe]"""
 import os, subprocess, sys
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "..", "brain"))
 from cortex_int import CortexInt, _count, _practise, _dream  # noqa
 from cortex_core import load  # noqa
 
-D = sys.argv[1]; ASIC = "--asic" in sys.argv
+D = sys.argv[1]; ASIC = "--asic" in sys.argv; PIPE = ["-DCORTEX_PIPE"] if "--pipe" in sys.argv else []
 z = np.load(os.path.join(D, "sep_mnist_F32_p2.npz")); ctr, cte = z["tr"], z["te"]
 _, ytr, _, yte = load(D, "mnist"); ytr, yte = ytr.astype(np.int64), yte.astype(np.int64)
 NB = ctr.shape[1]
@@ -102,7 +102,7 @@ for CB, n_per, ndream, night in ((10, 12, 3, 1), (5, 20, 2, 1), (10, 30, 12, 2))
     open(os.path.join(HERE, "lanes.hex"), "w").write("\n".join("%08x" % s for s in seeds) + "\n")
     subprocess.run(["iverilog", "-g2005", "-DCORTEX_CONTEXT", "-s", "tb_cortex_core_ctx", "-o", "/tmp/cxc.vvp",
                     f"-Ptb_cortex_core_ctx.CB={CB}", f"-Ptb_cortex_core_ctx.NW={len(words) + 8}",
-                    "cortex_core.v", "tb_cortex_core_ctx.v"] + EXTRA, cwd=HERE, check=True)
+                    "cortex_core.v", "tb_cortex_core_ctx.v"] + EXTRA + PIPE, cwd=HERE, check=True)
     # the SRAM macro models print every access: filter the stream, keep only the summary line
     res = subprocess.run(f"vvp -n /tmp/cxc.vvp | grep ^commands", shell=True, cwd=HERE, capture_output=True, text=True)
     last = res.stdout.splitlines()

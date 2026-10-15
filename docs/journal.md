@@ -176,4 +176,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   configurations), context check (3), board check (136 commands), 0 mismatches. SIMULATED. Bitstream rebuild and
   SRAM-macro check running; until the new bitstream is committed, the committed one is from the previous core
   (same behaviour, slower).
+- Pipelined core does **not fit the Tang Nano**: 21,011 LUT4 (101%), placement fails. Now a build option
+  (`CORTEX_PIPE`, on in the ASIC build, off on the FPGA); the FPGA build is back to the previous loops. Checks: core
+  and context, both variants, 0 mismatches; board check (FPGA variant) 0 mismatches; the committed bitstream stands.
+  A first SRAM-macro run of the pipelined core showed mismatches in its second configuration while other checks were
+  writing the same files in the same folder at the same time; re-running it alone.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

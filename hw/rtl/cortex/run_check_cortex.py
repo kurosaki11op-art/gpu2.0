@@ -16,6 +16,7 @@ from cortex_core import load  # noqa
 
 D = sys.argv[1]
 ASIC = "--asic" in sys.argv          # build the core with the SKY130 OpenRAM macros (simulation models) instead of FPGA RAMs
+PIPE = ["-DCORTEX_PIPE"] if "--pipe" in sys.argv else []   # pipelined loops (on anyway with --asic)
 EXTRA = (["-DCORTEX_ASIC", "-s", "tb_cortex_core", "../../asic/spark_mem_sky130.v", "cortex_cg.v",
           "/opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.v"] if ASIC else [])
 z = np.load(os.path.join(D, "sep_mnist_F32_p2.npz")); ctr, cte = z["tr"], z["te"]
@@ -95,7 +96,7 @@ for CB, n_per, ndream, night in (((10, 12, 3, 1), (5, 20, 2, 1)) if SMALL else (
     open(os.path.join(HERE, "cmds.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n")
     open(os.path.join(HERE, "lanes.hex"), "w").write("\n".join("%08x" % s for s in seeds) + "\n")
     subprocess.run(["iverilog", "-g2005", "-o", "/tmp/cx.vvp", f"-Ptb_cortex_core.CB={CB}", f"-Ptb_cortex_core.NW={len(words) + 8}",
-                    "cortex_core.v", "tb_cortex_core.v"] + EXTRA, cwd=HERE, check=True)
+                    "cortex_core.v", "tb_cortex_core.v"] + EXTRA + PIPE, cwd=HERE, check=True)
     # the SRAM macro models print every access: filter the stream, keep only the summary line
     res = subprocess.run(f"vvp -n /tmp/cx.vvp | grep ^commands", shell=True, cwd=HERE, capture_output=True, text=True)
     last = res.stdout.splitlines()
