@@ -39,6 +39,10 @@ def picture(S, mode):
         if "x" in mode:
             fl = fl * int(mode.split("x")[1].split("_")[0])
         v = v - fl
+    if "_tsmooth" in mode:                              # smoothing over neighbouring frames, weights 1-2-1 (shifts, adds)
+        p = np.pad(np.maximum(v, 0), ((0, 0), (0, 0), (1, 1)), mode="edge"); v = (p[:, :, :-2] + 2 * p[:, :, 1:-1] + p[:, :, 2:]) >> 2
+    if "_fsmooth" in mode:                              # smoothing over neighbouring resonators, weights 1-2-1
+        p = np.pad(np.maximum(v, 0), ((0, 0), (1, 1), (0, 0)), mode="edge"); v = (p[:, :-2] + 2 * p[:, 1:-1] + p[:, 2:]) >> 2
     if "_gate" in mode:                                 # noise gate: what is left below g x the mean quiet level is silence
         g = int(mode.split("_gate")[1].split("_")[0]); fl4 = (np.sort(S.astype(np.int64), 2)[:, :, :4].sum(2, keepdims=True) >> 2)
         v = np.where(v < g * fl4, 1, v)
