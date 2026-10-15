@@ -1,0 +1,5 @@
+speech v1_all+v2_64 {'code_bits': 24640, 'on_bits': 449.8, 'all_at_once': {'acc': [0.7904, 0.8076, 0.8142], 'mean': 0.8041}, '5_stages': {'acc': [0.8099, 0.8056, 0.813], 'mean': 0.8095}}
+speech v1_all+v2_128 {'code_bits': 26240, 'on_bits': 449.8, 'all_at_once': {'acc': [0.8181, 0.8239, 0.8189], 'mean': 0.8203}, '5_stages': {'acc': [0.8076, 0.8091, 0.8095], 'mean': 0.8087}}
+fashion v1_all+v2_128_6_2 {'code_bits': 6656, 'on_bits': 280.7, 'all_at_once': {'acc': [0.8448, 0.8269, 0.8382], 'mean': 0.8366}, '5_stages': {'acc': [0.7823, 0.7935, 0.7858], 'mean': 0.7872}}
+fashion v1_all+v2_128_4_1 {'code_bits': 14976, 'on_bits': 344.2, 'all_at_once': {'acc': [0.8437, 0.8315, 0.8376], 'mean': 0.8376}, '5_stages': {'acc': [0.7835, 0.7775, 0.7714], 'mean': 0.7775}}
+fashion v1_all+v2_192_4_2 {'code_bits': 9408, 'on_bits': 289.1, 'all_at_once': {'acc': [0.8425, 0.8421, 0.8386], 'mean': 0.8411}, '5_stages': {'acc': [0.7851, 0.7826, 0.787], 'mean': 0.7849}}
