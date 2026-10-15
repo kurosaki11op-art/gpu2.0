@@ -29,8 +29,9 @@ def align(S, lead):
 
 
 if __name__ == "__main__":
-    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sound_align_confirm.json"); res = {}; best = (0, None)
-    for lead in (4, 6, 8):
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sound_align_confirm.json"); res = json.load(open(out)) if os.path.exists(out) else {}
+    best = max([(v["all_at_once"]["mean"], int(k[4:])) for k, v in res.items() if k.startswith("lead")], default=(0, None))
+    for lead in [int(v) for v in os.environ.get("LEADS", "4,6,8").split(",")]:
         P = align(S, lead); xtr, xte = P[~te], P[te]
         CH = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8))
         fes = [Features(64, thr=c).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH]

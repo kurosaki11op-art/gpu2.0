@@ -4,3 +4,5 @@ core with context memory: PASS
 core with context, pipelined: PASS
 encoder (FPGA build): PASS
 encoder (ASIC, gated clocks): PASS
+encoder learning its detectors: PASS
+general encoder, images: PASS
