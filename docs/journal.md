@@ -257,4 +257,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Live sound demo `hw/board/cortex_sound_demo.py` (mic or wav; teach / ask / sleep / test). Headless: a new word
   from 10 / 30 / 60 clips of many speakers -> 15.5 / 24.7 / 44.0% on unseen clips; old words 61 -> 51-58%. Weak few-shot
   for sound; recorded honestly ([note](../hw/brain/experiments/month4/sound_on_board.md)). SIMULATED.
+- User: "remove the noise that affects accuracy and quality". Sound: extra noise / silence gates after the floor are
+  worse on clean clips (70.2-70.9 / 67.7-70.0 vs 72.0) - floor kept; noisy-clip robustness test running. Images:
+  speckle removal (a bit needs >= 1 on-neighbour) clothing 78.4 -> 79.0, digits 94.4 -> 94.5 (5 seeds, uneven) -
+  candidate. SIMULATED ([note](../hw/brain/experiments/month4/input_noise.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
