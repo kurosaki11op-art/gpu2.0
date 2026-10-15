@@ -66,4 +66,16 @@ keeps both. Few-shot words are hard for every method here, not a chip-only failu
 
 SIMULATED. After shipping, the chip is ahead of both network set-ups at every size on clothing.
 
+## Against a network on digits and words, full recipe (`fewshot_after_shipping.py`, 3 seeds, SIMULATED)
+
+| Examples per new class | digits: chip all (old / new) | digits: network fine-tuned | digits: network, all old data kept | words: chip | words: network fine-tuned | words: network, all old data kept |
+|---|---|---|---|---|---|---|
+| 1 | **69.9** (97.1 / 41.1) | 63.8 (82.4 / 44.1) | 51.0 (99.2 / 0.1) | 48.3 (83.3 / 12.4) | 21.2 (1.3 / 41.5) | 46.1 (90.9 / 0.0) |
+| 5 | **81.0** (96.0 / 65.2) | 53.3 (33.2 / 74.6) | 54.2 (99.2 / 6.6) | 52.5 (82.1 / 22.1) | 32.5 (0.1 / 65.6) | 45.0 (88.8 / 0.1) |
+| 20 | **87.5** (97.8 / 76.6) | 53.2 (20.3 / 88.0) | 68.1 (99.3 / 35.2) | 61.4 (85.5 / 36.7) | 36.4 (0.4 / 73.4) | 50.6 (91.1 / 9.0) |
+
+On all three tasks and at every size the chip has the best accuracy over all ten classes after shipping. The only
+case where a network learns the new class faster is the 1-example digits fine-tune (44.1 vs 41.1 on the new digits),
+and it pays with 15 points of old digits.
+
 Related: [month4 index](INDEX.md), [few-shot note](fewshot_saccades.md), [research](../../../../docs/research_fewshot_class_incremental.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

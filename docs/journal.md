@@ -396,4 +396,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   (larger fields, stride 1, 192 detectors); a first words run was OOM-killed (speech maps 5x larger) and relaunched
   with smaller batches (`senses_v3.py`).
 
+- Chip (IMPRINT + sleep) vs network after shipping, digits and words added: chip best on all-10 accuracy at 1 / 5 / 20
+  examples on all three tasks (digits 69.9 / 81.0 / 87.5 vs fine-tuned 63.8 / 53.3 / 53.2; words 48.3 / 52.5 / 61.4
+  vs 21.2 / 32.5 / 36.4). SIMULATED, 3 seeds. [note](../hw/brain/experiments/month4/fewshot_imprint.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

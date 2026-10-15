@@ -1,3 +1,9 @@
 fashion k 1 {'chip': {'old': 0.8631, 'new': 0.4161, 'all': 0.6396}, 'network_finetuned': {'old': 0.2245, 'new': 0.5424, 'all': 0.3834}, 'network_all_data_kept': {'old': 0.8913, 'new': 0.0, 'all': 0.4456}}
 fashion k 5 {'chip': {'old': 0.8635, 'new': 0.5381, 'all': 0.7008}, 'network_finetuned': {'old': 0.0169, 'new': 0.7274, 'all': 0.3722}, 'network_all_data_kept': {'old': 0.892, 'new': 0.2284, 'all': 0.5602}}
 fashion k 20 {'chip': {'old': 0.857, 'new': 0.6658, 'all': 0.7614}, 'network_finetuned': {'old': 0.0219, 'new': 0.8135, 'all': 0.4177}, 'network_all_data_kept': {'old': 0.8927, 'new': 0.5376, 'all': 0.7151}}
+mnist k 1 {'chip': {'old': 0.9713, 'new': 0.4112, 'all': 0.699}, 'network_finetuned': {'old': 0.8236, 'new': 0.4412, 'all': 0.6377}, 'network_all_data_kept': {'old': 0.9923, 'new': 0.0007, 'all': 0.5103}}
+mnist k 5 {'chip': {'old': 0.9597, 'new': 0.6516, 'all': 0.8099}, 'network_finetuned': {'old': 0.3324, 'new': 0.7459, 'all': 0.5334}, 'network_all_data_kept': {'old': 0.9923, 'new': 0.0663, 'all': 0.5422}}
+mnist k 20 {'chip': {'old': 0.9776, 'new': 0.766, 'all': 0.8747}, 'network_finetuned': {'old': 0.2031, 'new': 0.8803, 'all': 0.5323}, 'network_all_data_kept': {'old': 0.9927, 'new': 0.3516, 'all': 0.6811}}
+speech k 1 {'chip': {'old': 0.8326, 'new': 0.1242, 'all': 0.4829}, 'network_finetuned': {'old': 0.0128, 'new': 0.4154, 'all': 0.2115}, 'network_all_data_kept': {'old': 0.9092, 'new': 0.0, 'all': 0.4605}}
+speech k 5 {'chip': {'old': 0.8205, 'new': 0.221, 'all': 0.5246}, 'network_finetuned': {'old': 0.0013, 'new': 0.6561, 'all': 0.3245}, 'network_all_data_kept': {'old': 0.888, 'new': 0.0013, 'all': 0.4503}}
+speech k 20 {'chip': {'old': 0.8549, 'new': 0.3673, 'all': 0.6142}, 'network_finetuned': {'old': 0.0038, 'new': 0.7335, 'all': 0.364}, 'network_all_data_kept': {'old': 0.9105, 'new': 0.0902, 'all': 0.5057}}
