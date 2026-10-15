@@ -211,4 +211,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   variants, all 3+ seeds. Adopted in `cochlea_int.py` and `cortex_cochlea.v` (bit-exact). SIMULATED
   ([note](../hw/brain/experiments/month4/noise_floor.md)).
 - Lateral inhibition across resonators on top of the noise floor: 67.7 / 70.5 vs 72.0 (3 seeds) - rejected.
+- General sensory encoder `hw/rtl/cortex/cortex_encoder_gen.v` (any number of channels and detectors, one channel at
+  a time): bit-exact on 20 images (4 x 32, 46k cycles) and 20 sound pictures (10 x 64, 23,040-bit code, 162k cycles)
+  (`check_encoder_gen.log`). Sound top `cortex_sound_top.v` (cochlea -> encoder -> core, NB 23,040) and a whole-chain
+  check `hw/rtl/cortex/sound/run_check_sound_chain.py`: running. SIMULATED.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
