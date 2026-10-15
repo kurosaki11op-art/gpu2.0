@@ -37,13 +37,24 @@ def binarize(x, thr):
     return out.reshape(len(x), -1)
 
 
+def support_filter(b, k):
+    """speckle removal (lateral support): a receptor bit stays on only if at least k of its 8 neighbours are on;
+    outside the picture counts as off. b: (B, 784) bool -> (B, 784) bool. Counts and compares only."""
+    if k <= 0:
+        return b
+    im = b.reshape(-1, 28, 28).astype(np.int32); p = np.pad(im, ((0, 0), (1, 1), (1, 1)))
+    nb = sum(p[:, 1 + dy:29 + dy, 1 + dx:29 + dx] for dy in (-1, 0, 1) for dx in (-1, 0, 1) if dy or dx)
+    return ((im == 1) & (nb >= k)).reshape(len(b), -1)
+
+
 class Features:
-    def __init__(self, F=64, seed=0, thr=100, min_on=3, pool=2, k=1):
+    def __init__(self, F=64, seed=0, thr=100, min_on=3, pool=2, k=1, support=0):
         self.F, self.r, self.thr, self.min_on, self.pool, self.k = F, np.random.RandomState(seed), thr, min_on, pool, k
+        self.support = support                                              # speckle removal (0 = off)
         self.cnt = None
 
     def fit(self, x, n_patches=200000, passes=3, step=1, cmax=31):
-        p, _ = patches(binarize(x, self.thr))
+        p, _ = patches(support_filter(binarize(x, self.thr), self.support))
         p = p.reshape(-1, p.shape[-1])
         p = p[p.sum(1) >= self.min_on]                                     # ignore blank patches
         p = p[self.r.choice(len(p), min(n_patches, len(p)), replace=False)]
@@ -66,7 +77,7 @@ class Features:
 
     def encode(self, x, pool=None):
         pool = pool or self.pool
-        p, n = patches(binarize(x, self.thr))
+        p, n = patches(support_filter(binarize(x, self.thr), self.support))
         B = len(x)
         flat = p.reshape(-1, p.shape[-1])
         if self.k == 1:

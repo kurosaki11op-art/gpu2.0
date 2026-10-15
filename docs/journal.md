@@ -273,4 +273,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   clean accuracy and robustness. Noise work summarised in [input noise](../hw/brain/experiments/month4/input_noise.md).
 - Images in salt-and-pepper noise (trained clean): digits 94.6 / 94.1 / 93.4 (clean / 2% / 5%) - already robust;
   speckle removal clothing +1.3 / +1.3 / +2.1, digits neutral. Candidate for an encoder build option. SIMULATED.
+- Speckle removal built as an option: `Features(support=1)` and `SUP` in `cortex_encoder_gen.v` (second pass over the
+  receptor map); bit-exact on 20 images and 6 sound pictures; added to `run_all_checks.sh`. Off by default.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

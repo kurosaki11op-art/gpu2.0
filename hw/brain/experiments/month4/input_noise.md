@@ -80,7 +80,12 @@ salt-and-pepper noise (2% / 5% of the pixels set to black or white).
 | speckle removal (K = 1) | 94.4 / 94.0 / 93.7 | 79.6 / 78.7 / 77.4 |
 
 SIMULATED. The chip already shrugs off pixel noise on digits (-1.2 at 5%); speckle removal adds +1.3 to +2.1 on
-clothing at every noise level and is neutral on digits. Next step if adopted: the same rule in the encoder RTL as a
-build option (a second pass over the receptor map, 9 reads per pixel), then the headline numbers re-run.
+clothing at every noise level and is neutral on digits.
+
+**Built as an option (same day):** `Features(..., support=1)` in `hw/brain/feature_layer.py` and parameter `SUP` in
+`hw/rtl/cortex/cortex_encoder_gen.v` (a second pass over the receptor map, 9 reads per pixel, +7,840 cycles per
+picture); bit-exact on 20 images and 6 sound pictures (`check_encoder_gen_sup.log`), and in `hw/run_all_checks.sh`.
+Off by default: switching it on changes every image code, so the headline numbers would be re-run first. Not in the
+Tang Nano encoder (89% full).
 
 Related: [Noise floor](noise_floor.md), [Retinal adaptation](retina_adapt.md), [Month 4 experiments](INDEX.md)

@@ -14,6 +14,7 @@ run "encoder (ASIC, gated clocks)"    python run_check_encoder.py "$D" fashion 1
 run "encoder learning its detectors"  python run_check_encoder_learn.py "$D" mnist 40 5 10
 run "general encoder, images"         python run_check_encoder_gen.py "$D" image 10
 run "general encoder, sound"          python run_check_encoder_gen.py "$D" sound 10
+run "general encoder, speckle removal" python run_check_encoder_gen.py "$D" image 10 --sup
 run "cochlea (buffered)"              python run_check_cochlea.py "$D" 4
 run "cochlea (streaming)"             python run_check_cochlea.py "$D" 4 --stream
 cd "$HW/rtl/cortex/sound"

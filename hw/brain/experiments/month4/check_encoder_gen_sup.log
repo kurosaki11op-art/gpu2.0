@@ -1,0 +1,6 @@
+cycles per picture 54275
+image (speckle removal): 20 pictures, code bits 4608, active per picture 245, mismatching 0
+PASS
+cycles per picture 169763
+sound (speckle removal): 6 pictures, code bits 23040, active per picture 417, mismatching 0
+PASS
