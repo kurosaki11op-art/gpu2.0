@@ -303,3 +303,8 @@ The chip starts knowing digits 0-7. Draw a new symbol, type a free class (8 or 9
 Sleep, then Test old digits.
 Headless check of the same steps (emulator, SIMULATED): preloaded 0-7 at 93% on real test digits; taught class 8 from
 10 examples in 0.1 s; after a 3,000-dream sleep, 73.5% on 200 real test 8s and 90.0% on old + new digits together.
+
+## Before a board session
+
+`python hw/board/preflight.py --data D:\cortex_data [--port COMx]` checks Python, packages, data, the bitstream and the
+serial link (ping), and says what to fix.
