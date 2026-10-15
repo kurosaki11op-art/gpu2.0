@@ -1,1 +1,13 @@
 mnist spread 0 k 1 {'dreams0': 0.375, 'dreams50': 0.367, 'dreams200': 0.254, 'episodic_top2': 0.27}
+mnist spread 0 k 5 {'dreams0': 0.557, 'dreams50': 0.502, 'dreams200': 0.508, 'episodic_top2': 0.359}
+mnist spread 0 k 20 {'dreams0': 0.825, 'dreams50': 0.81, 'dreams200': 0.794, 'episodic_top2': 0.566}
+mnist spread 1 k 1 {'dreams0': 0.287, 'dreams50': 0.19, 'dreams200': 0.174, 'episodic_top2': 0.405}
+mnist spread 1 k 5 {'dreams0': 0.437, 'dreams50': 0.486, 'dreams200': 0.482, 'episodic_top2': 0.628}
+mnist spread 1 k 20 {'dreams0': 0.866, 'dreams50': 0.834, 'dreams200': 0.834, 'episodic_top2': 0.763}
+fashion spread 0 k 1 {'dreams0': 0.39, 'dreams50': 0.403, 'dreams200': 0.334, 'episodic_top2': 0.415}
+fashion spread 0 k 5 {'dreams0': 0.495, 'dreams50': 0.493, 'dreams200': 0.459, 'episodic_top2': 0.536}
+fashion spread 0 k 20 {'dreams0': 0.686, 'dreams50': 0.68, 'dreams200': 0.666, 'episodic_top2': 0.627}
+fashion spread 1 k 1 {'dreams0': 0.254, 'dreams50': 0.327, 'dreams200': 0.283, 'episodic_top2': 0.428}
+fashion spread 1 k 5 {'dreams0': 0.469, 'dreams50': 0.456, 'dreams200': 0.439, 'episodic_top2': 0.566}
+fashion spread 1 k 20 {'dreams0': 0.702, 'dreams50': 0.677, 'dreams200': 0.671, 'episodic_top2': 0.645}
+

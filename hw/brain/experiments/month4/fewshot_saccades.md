@@ -23,4 +23,11 @@ false matches): rejected. Top-2 voting gains 1.5-3.3 points at 5 examples and co
 maxima per class instead of one), but the gap to the network at 5 examples remains (digits -4.6, clothing -6.3).
 The few-shot limit on the claims sheet stands.
 
+## Replay of dreams from the few examples (same day)
+
+`fewshot_replay.py` (log `fewshot_replay.log`): the table also practises 50 or 200 dreams per class drawn from the
+k examples' on-rates. At 5 examples: digits 55.7 -> 50.2 / 50.8 (plain codes), 43.7 -> 48.6 / 48.2 (spread codes);
+clothing 49.5 -> 49.3 / 45.9, 46.9 -> 45.6 / 43.9. It mostly hurts (dreams from 5 examples add noise, not variety)
+and stays below episodic recall (digits 62.8, clothing 56.6). Rejected. SIMULATED, 3 seeds.
+
 Related: [Few-shot fusion](../month3/fewshot_fusion.md), [Month 3 results](../../../results/cortex_month3.md), [Month 4 experiments](INDEX.md)

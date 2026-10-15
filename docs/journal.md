@@ -220,4 +220,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   ([results](../hw/results/cortex_sound_chip.md)).
 - Retinal adaptation (thresholds follow the image's brightest pixel): clothing 78.4 -> 79.0 over 5 seeds (3 of 5
   better), digits unchanged - within noise, not adopted ([note](../hw/brain/experiments/month4/retina_adapt.md)).
+- Few-shot replay (table practises dreams drawn from the few examples): mostly worse, below episodic recall -
+  rejected ([note](../hw/brain/experiments/month4/fewshot_saccades.md)). Few-shot ideas tried today: saccades,
+  top-m voting (small gain), replay; the 5-example gap remains.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
