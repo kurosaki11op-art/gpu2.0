@@ -246,4 +246,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Full regression** `hw/run_all_checks.sh`: 14 bit-exact checks (core FPGA / pipelined / context x2, encoder x3,
   general encoder x2, cochlea x2, sound chip, board design, host schedule): **14 PASS, 0 failures**
   (`hw/check_summary.txt`). SIMULATED.
+- `hw/board/preflight.py`: board-day preflight (Python, packages, data, bitstream, serial ports, ping); step 0 of
+  the board plan.
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

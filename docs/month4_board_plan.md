@@ -19,6 +19,7 @@ Everything runs from `D:\gpu2.0` after `git pull`.
 
 | # | Run | Proves | Expected (from simulation) |
 |---|---|---|---|
+| 0 | `python hw\board\preflight.py --data D:\cortex_data` (later with `--port COMx`) | the PC is ready; the board answers | all lines OK |
 | 1 | `python hw\board\cortex_host.py --dry-run --per-class 300 --data D:\cortex_data` | the PC side works | stage 5 about 0.91; "matches the integer chip model exactly: True" |
 | 2 | Program `hw\pnr_cortex\cortex_tangnano20k.fs` (unzip the `.gz`); check the pin TODOs in `tangnano20k.cst` | board configured | LEDs: heartbeat blinking |
 | 3 | `cortex_host.py --port COMx --per-class 300 --data D:\cortex_data` | **the chip learns in stages without forgetting, MEASURED** | the same numbers as step 1, digit for digit (the chip is bit-exact) |
