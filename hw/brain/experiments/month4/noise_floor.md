@@ -42,4 +42,22 @@ Rejected - it removes information the detectors use (`lateral_inhibition.log`).
 channels 71.9; + 2 onset channels 71.4 (+20% memory); + 2 onset + 1 offset 71.9 (+30%); 3 loudness channels swapped
 for them at equal memory 69.7. No gain; rejected. SIMULATED. The loudness picture already carries the onsets.
 
+## Word alignment (15 Oct, night): +8 points clean, holds in noise
+
+`sound_align.py`, `sound_align_confirm.py` (5 seeds), `noisy_align.py`, `sound_align_network.py`. Each sound
+picture is shifted so the word's start (first frame reaching 3/4 of the loudest frame's loudness) lands at frame 6;
+integer compares and an address offset, in the streaming cochlea RTL (`ALIGN`, `LEAD`, bit-exact, on in
+`cortex_sound_top.v`).
+
+| | all at once (5 seeds) | 5 stages (5 seeds) | trained clean, tested clean / 20 / 10 / 5 dB (3 seeds) |
+|---|---|---|---|
+| before alignment | 71.9 | 72.0 | 72.0 / 63.9 / 54.0 / 46.6 |
+| word start at frame 4 | 79.8 | 81.1 | |
+| **word start at frame 6** | **82.5** | 80.7 | 80.3 / 72.4 / 58.9 / 47.1 |
+| word start at frame 8 | 82.0 | 80.3 | |
+
+Network (MLP, same pictures, all at once): 76.3 -> 85.5 with alignment; it helps the network too, so the network
+still leads all-at-once learning by 3.0 points (was 4.4). SIMULATED. At 5 dB the word start is hidden by noise and
+the gain vanishes.
+
 Related: [Cochlea in RTL](cochlea_rtl.md), [Month 4 experiments](INDEX.md)

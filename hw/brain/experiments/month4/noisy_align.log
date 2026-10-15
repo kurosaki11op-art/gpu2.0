@@ -1,0 +1,3 @@
+noisy frame sums ready 151s
+low4x4 {'clean': 0.7204, '20dB': 0.639, '10dB': 0.5401, '5dB': 0.4662} 680s
+low4x4_align {'clean': 0.8034, '20dB': 0.7237, '10dB': 0.5885, '5dB': 0.4708} 1452s
