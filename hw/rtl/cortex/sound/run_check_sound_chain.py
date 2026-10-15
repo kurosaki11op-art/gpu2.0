@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Whole sound chip, bit-exact: raw 16 kHz samples -> cortex_cochlea (noise floor) -> cortex_encoder_gen (10 x 64)
+"""Whole sound chip, bit-exact: live 16 kHz samples -> cortex_cochlea_stream (noise floor) -> cortex_encoder_gen (10 x 64)
 -> cortex_core (NB 23,040), against the Python chain cochlea_int -> Features.encode -> integer chip model.
 Scenario: stage 1 learns words 0/1 from raw clips, stage 2 learns words 2/3 with dreams of 0/1 (one daydream per
 example, interleaved dreams, a night), then the chip hears test clips and predicts. Compared: every update flag,
@@ -86,7 +86,7 @@ cw.append(0xFFFFFFFF)
 open(os.path.join(HERE, "sound_cmds.hex"), "w").write("\n".join("%08x" % w for w in cw) + "\n")
 R = os.path.join(HERE, "..")
 subprocess.run(["iverilog", "-g2005", "-o", "/tmp/snd.vvp", f"-Ptb_sound_chain.NCLIP={len(clips)}", f"-Ptb_sound_chain.NW={len(cw) + 8}",
-                os.path.join(R, "cortex_sound_top.v"), os.path.join(R, "cortex_cochlea.v"), os.path.join(R, "cortex_encoder_gen.v"),
+                os.path.join(R, "cortex_sound_top.v"), os.path.join(R, "cortex_cochlea_stream.v"), os.path.join(R, "cortex_encoder_gen.v"),
                 os.path.join(R, "cortex_core.v"), "tb_sound_chain.v", f"-I{R}"], cwd=HERE, check=True)
 res = subprocess.run("vvp -n /tmp/snd.vvp | grep ^commands", shell=True, cwd=HERE, capture_output=True, text=True)
 print(res.stdout.strip())
