@@ -26,14 +26,14 @@ ships, with brain principles only: no matrices, no multiplies, no backprop.**
 
 ## Which AI problems it targets
 
-| Problem | Today | SPARK Cortex | Status |
+| Problem | Today | SPARK Cortex (status 15 Oct 2026) | Label |
 |---|---|---|---|
-| Training cost | backprop on GPUs, many passes | counting on the chip, 1 pass (features: 3 passes, no labels) | SIMULATED |
-| Forgetting (catastrophic forgetting) | network keeps ~20% after 5 learning stages | keeps 95.6% (digits), equal to learning all at once | SIMULATED |
-| Memory/knowledge transfer | weights cannot be merged cleanly (92.5%, or 82.8% for different classes) | merged = trained on everything, exactly | SIMULATED |
-| Efficiency | ~203k multiply-adds per decision (small net) | ~18k bit-match counts + ~600 adds, 0 multiplies | ESTIMATED |
-| E-waste | new task means new model, often new hardware | same chip re-learns in the field; knowledge copies to a replacement chip | design claim, to demo |
-| Accuracy | 97.7% digits / 87.5% clothing | 95.6% / 74.6% (83.6% with the correction table) | SIMULATED, gap to close |
+| Training cost | backprop on GPUs, many passes | counting on the chip, each example seen once; senses learned on chip without labels (`ENC_LEARN`, 94.5 / 80.0 vs 95.0 / 79.2 with PC detectors) | SIMULATED |
+| Forgetting | a network keeps ~20% after 5 learning stages | 5 stages: digits 94.6, clothing 78.3, sound 71.2 (with the cochlea noise floor) vs network 19.5 / 20.0 / 15.9; new conditions of known classes: context memory 85% vs 45% (in RTL) | SIMULATED |
+| Memory / knowledge transfer | weights cannot be merged cleanly | two chips' memories merged: 91.4% after one night (bit-exact board design) | SIMULATED |
+| Efficiency | ~203k multiply-adds per decision (small net) | 0 multiplies; 9.4 nJ per decision by operation count; SKY130 layout ~0.18-0.26 uJ per decision with clock gating and the pipelined core | ESTIMATED |
+| E-waste | a new task means a new model, often new hardware | the same chip keeps learning new classes and conditions in the field (above); what it knows exports to a replacement chip (memory transfer, bit-exact over UART); it learns its own sensory detectors, so a new sensor does not need a PC retrain; one design senses images and raw sound | SIMULATED (each part); lifetime saving not measured |
+| Accuracy | 97.7% digits / 87.5% clothing (network, all at once) | all at once 96.6 / 83.7 / 71.1; behind a network few-shot at 5 examples | SIMULATED, gaps remain |
 
 What it is not: it does not replace large language models, and we will not say it does. The claim is narrower and
 provable: a chip that learns continuously, locally and transferably, which today's AI chips cannot do.
