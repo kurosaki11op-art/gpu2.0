@@ -122,7 +122,7 @@ SKY130 ~18.8 mm2 (17.9 of it open SRAM macros; logic < 1 mm2); after placement +
 (SRAM macros clocked every cycle), 35-49 mW with per-memory clock gating (130 gates), a lighter clock tree and the pipelined core (`CORTEX_PIPE`,
 264 cycles per decision; all bit-exact): ~0.18-0.26 uJ per decision - still ~20-28x above the operation-count energy, so the 74x is per operation needed, not
 per chip (`hw/results/cortex_asic_estimate.md`). On-chip detector learning: in RTL (`ENC_LEARN`, bit-exact),
-one pass over the first day's images: digits 94.5 / clothing 80.0 vs PC detectors 95.0 / 79.2 (SIMULATED). Rejected: second sensory layer (V2), wider pooling
+one pass over the first day's images: digits 94.5 / clothing 80.0 vs PC detectors 95.0 / 79.2 (SIMULATED). Sound chip: raw sound -> cochlea (noise floor) -> general encoder -> core, whole chain bit-exact in RTL (`hw/results/cortex_sound_chip.md`); sound 71.2 (5 seeds). Rejected: second sensory layer (V2), wider pooling
 for few-shot. Waiting on the user: run on the board, measure power (month 4).
 
 Limit found 15 Oct: "never forgets" holds for new classes, NOT for a new condition of known classes (domain shift);

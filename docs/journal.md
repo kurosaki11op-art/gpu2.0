@@ -215,4 +215,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   a time): bit-exact on 20 images (4 x 32, 46k cycles) and 20 sound pictures (10 x 64, 23,040-bit code, 162k cycles)
   (`check_encoder_gen.log`). Sound top `cortex_sound_top.v` (cochlea -> encoder -> core, NB 23,040) and a whole-chain
   check `hw/rtl/cortex/sound/run_check_sound_chain.py`: running. SIMULATED.
+- **Whole sound chip bit-exact**: raw samples -> cochlea -> general encoder -> core (NB 23,040); 12 clips heard, two
+  stages with dreams and a night, 4 decisions: 23,082 lines, 0 mismatches. SIMULATED
+  ([results](../hw/results/cortex_sound_chip.md)).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

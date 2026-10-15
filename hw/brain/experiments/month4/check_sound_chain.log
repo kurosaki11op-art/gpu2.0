@@ -1,1 +1,5 @@
 schedule reproduces CortexInt.stage exactly: True
+commands 36, cycles 20888649000
+36 commands (12 raw clips heard), lines compared 23082, mismatches 0; test predictions [3, 2, 3, 3] for words [0, 1, 2, 3]
+PASS
+

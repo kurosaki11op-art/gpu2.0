@@ -79,6 +79,15 @@ Details: [month 3 results](../hw/results/cortex_month3.md), [board README](../hw
   27 MHz, 0 multipliers, board design bit-exact. The host batches dreams by default; `--no-batch` works with an older
   bitstream.
 
+## 3c. Daytime 15 Oct (after the status check)
+
+- **Energy**: pipelined ASIC core ~0.18-0.26 uJ per decision; 45-62 uJ per learned example on digits (ESTIMATED);
+  an "economy" dream budget gives ~3x less learning energy for 0.6-0.8 points (`--economy`).
+- **Sound, noise removed**: a per-resonator noise floor in the cochlea lifts sound from 69.6 to 71.2 (5 seeds).
+- **The chip hears raw sound**: cochlea and a general encoder in RTL; the whole chain (raw samples -> word decisions,
+  with learning, dreams and a night) is bit-exact ([details](../hw/results/cortex_sound_chip.md)).
+- Few-shot: saccades rejected; top-2 voting small gain; the 5-example gap remains.
+
 ## 4. Honest limits (say these before a judge does)
 
 1. **Not the first chip that keeps learning**: HDC accelerators and Intel Loihi 2 also do continual learning without
