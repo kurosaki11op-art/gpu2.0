@@ -25,7 +25,7 @@ def supported(x, thr):
 
 fl.binarize = supported
 res = {}
-for k in (0, 1, 2):
+for k in [int(v) for v in os.environ.get("KS", "0,1,2").split(",")]:
     K = k
     if k == 0:
         z = np.load(os.path.join(D, f"sep_{DS}_F32_p2.npz")); ctr, cte = z["tr"], z["te"]
@@ -34,7 +34,7 @@ for k in (0, 1, 2):
         enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
         ctr, cte = enc(xtr), enc(xte)
     accs = []
-    for seed in (1, 2, 3):
+    for seed in range(1, int(os.environ.get("SEEDS", "3")) + 1):
         m = CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)
         for i, s in enumerate([(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]
@@ -42,4 +42,4 @@ for k in (0, 1, 2):
         accs.append(round(float((m.predict(cte) == yte).mean()), 4))
     res[f"support{k}"] = {"acc": accs, "mean": round(float(np.mean(accs)), 4)}; print(DS, f"support>={k}", res[f"support{k}"], flush=True)
 json.dump({"dataset": DS, "label": "SIMULATED (exact integer chip model, 3 seeds)", **res},
-          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"despeckle_{DS}.json"), "w"), indent=1)
+          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"despeckle_{DS}_s{os.environ.get('SEEDS', '3')}.json"), "w"), indent=1)

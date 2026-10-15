@@ -1,0 +1,28 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "support0": {
+  "acc": [
+   0.7767,
+   0.7853,
+   0.7866
+  ],
+  "mean": 0.7829
+ },
+ "support1": {
+  "acc": [
+   0.7991,
+   0.7932,
+   0.7958
+  ],
+  "mean": 0.796
+ },
+ "support2": {
+  "acc": [
+   0.789,
+   0.7946,
+   0.7823
+  ],
+  "mean": 0.7886
+ }
+}

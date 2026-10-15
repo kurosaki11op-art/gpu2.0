@@ -1,2 +1,7 @@
 fashion support>=0 {'acc': [0.7767, 0.7853, 0.7866], 'mean': 0.7829}
 fashion support>=1 {'acc': [0.7991, 0.7932, 0.7958], 'mean': 0.796}
+fashion support>=2 {'acc': [0.789, 0.7946, 0.7823], 'mean': 0.7886}
+mnist support>=0 {'acc': [0.9445, 0.9439, 0.9484], 'mean': 0.9456}
+mnist support>=1 {'acc': [0.946, 0.9401, 0.9451], 'mean': 0.9437}
+mnist support>=2 {'acc': [0.9456, 0.9287, 0.9465], 'mean': 0.9403}
+
