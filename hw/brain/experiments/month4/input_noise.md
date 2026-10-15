@@ -85,7 +85,8 @@ clothing at every noise level and is neutral on digits.
 **Built as an option (same day):** `Features(..., support=1)` in `hw/brain/feature_layer.py` and parameter `SUP` in
 `hw/rtl/cortex/cortex_encoder_gen.v` (a second pass over the receptor map, 9 reads per pixel, +7,840 cycles per
 picture); bit-exact on 20 images and 6 sound pictures (`check_encoder_gen_sup.log`), and in `hw/run_all_checks.sh`.
-Off by default: switching it on changes every image code, so the headline numbers would be re-run first. Not in the
+On sound pictures it does not help (`sound_despeckle.py`, 3 seeds: clean 72.0 -> 70.9, 10 dB 54.0 -> 54.3), so it
+is an image-only option. Off by default: switching it on changes every image code, so the headline numbers would be re-run first. Not in the
 Tang Nano encoder (89% full).
 
 Related: [Noise floor](noise_floor.md), [Retinal adaptation](retina_adapt.md), [Month 4 experiments](INDEX.md)

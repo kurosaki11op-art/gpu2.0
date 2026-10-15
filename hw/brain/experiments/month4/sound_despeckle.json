@@ -1,0 +1,11 @@
+{
+ "label": "SIMULATED (exact integer chip model, 3 seeds)",
+ "support0": {
+  "clean": 0.7204,
+  "10dB": 0.5401
+ },
+ "support1": {
+  "clean": 0.7086,
+  "10dB": 0.5425
+ }
+}
