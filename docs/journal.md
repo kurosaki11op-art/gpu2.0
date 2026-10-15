@@ -226,4 +226,6 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Sound chip size (SKY130, ESTIMATED): core memories 315 open SRAM macros (~90 mm^2, vs 63 for images); cochlea
   11.2 mm^2 and sound encoder 2.1 mm^2 with every buffer as flip-flops (upper bounds; a streaming cochlea would drop the
   sample buffer). `hw/asic/sound/`, [results](../hw/results/cortex_sound_chip.md).
+- Container restart: lost the detailed-routing run (4th pass; violations 160k -> 96k -> 72k, not converging) and the
+  streaming-cochlea checks. Routing not restarted - the floorplan needs rework first (recorded in the ASIC estimate).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

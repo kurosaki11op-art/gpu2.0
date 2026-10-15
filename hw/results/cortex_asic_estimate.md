@@ -134,6 +134,15 @@ die (macros abutted; the clock tree shrinks with it), gating the core's own regi
 cycles per decision. There is no layout of the comparison network on the same process, so the 74x ratio between
 the two designs remains an operation-count comparison only.
 
+### Detailed routing attempt (15 Oct, `route.tcl`, log `route_run1_lost.log`)
+
+Detailed routing of the pipelined, clock-gated layout (OpenROAD TritonRoute) after hold repair (1,818 endpoints):
+design-rule violations 160k after the first pass, 96k after the second, 72,435 after the third; the run was lost in a
+container restart during the fourth. It was not converging toward zero at a useful rate, so it was not restarted:
+the floorplan (63 macros in a grid with narrow channels, standard cells squeezed between them) needs rework - wider
+channels or a block of standard cells beside the macro array - before detailed routing is worth running. The timing
+and power figures above therefore remain global-route estimates.
+
 ## Next steps for a real chip (months 7-8)
 
 1. Put the encoder's small memories (image, receptor map, code map) into small SRAM macros instead of flip-flops.
