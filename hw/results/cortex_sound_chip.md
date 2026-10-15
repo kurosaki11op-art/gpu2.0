@@ -28,12 +28,15 @@ the noise floor; `hw/brain/experiments/month4/noise_floor.md`).
 |---|---|---|
 | Core memories: table 50 bits, dream counters 100 bits, list 15 bits per code bit, 23,040 code bits | 45 banks x 7 columns = **315** open 2 KB SRAM macros (`sram_array`); the image chip needs 63 | ~90 mm^2 |
 | Cochlea, every buffer as flip-flops (`hw/asic/sound/stat_cochlea.txt`) | 288k flip-flops, mostly the stored second of sound (256 kbit) | 11.2 mm^2 (upper bound) |
+| **Streaming cochlea** `cortex_cochlea_stream.v` (`stat_cochlea_stream.txt`) | listens live, no sample buffer; 40k flip-flops, mostly the 784 frame sums | **1.52 mm^2** |
 | Sound encoder, every buffer as flip-flops (`stat_encoder.txt`) | 53k flip-flops (code map, 640 detector templates, receptor map) | 2.1 mm^2 (upper bound) |
 | Core logic | as the image core | < 1 mm^2 |
 
 Reading: memory dominates, as in the image chip, and the open-source macros are large for what they hold (~3.8 Mbit
-in ~90 mm^2). Two cheaper routes, not built: (1) a streaming cochlea - 28 shift-add resonators running side by side
-on each sample as it arrives, so the second of sound never needs storing; (2) dense SRAM (a commercial 130 nm
+in ~90 mm^2). The streaming cochlea (built: `cortex_cochlea_stream.v`, all 28 resonators updated from each sample as
+it arrives, ~29 cycles per sample, so ~0.47 MHz keeps up with live 16 kHz sound; bit-exact with the same model on 10
+clips, `hw/brain/experiments/month4/check_cochlea_stream.log`) removes the sample buffer: 11.2 -> 1.52 mm^2. Still
+open: dense SRAM (a commercial 130 nm
 compiler stores several times more per mm^2). The Tang Nano 20K's 8 MB PSRAM holds the core memories, but a PSRAM
 controller is not written.
 

@@ -1,0 +1,84 @@
+
+8. Printing statistics.
+
+=== cortex_cochlea_stream ===
+
+   Number of wires:             105926
+   Number of wire bits:         145304
+   Number of public wires:        1887
+   Number of public wire bits:   41158
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:             143996
+     sky130_fd_sc_hd__a211o_1       10
+     sky130_fd_sc_hd__a211oi_1     112
+     sky130_fd_sc_hd__a21bo_1        3
+     sky130_fd_sc_hd__a21boi_0      17
+     sky130_fd_sc_hd__a21o_1       109
+     sky130_fd_sc_hd__a21oi_1     4704
+     sky130_fd_sc_hd__a221o_1        9
+     sky130_fd_sc_hd__a221oi_1      17
+     sky130_fd_sc_hd__a22o_1      1236
+     sky130_fd_sc_hd__a22oi_1       23
+     sky130_fd_sc_hd__a2bb2o_1       1
+     sky130_fd_sc_hd__a2bb2oi_1     10
+     sky130_fd_sc_hd__a311oi_1       8
+     sky130_fd_sc_hd__a31o_1         9
+     sky130_fd_sc_hd__a31oi_1       47
+     sky130_fd_sc_hd__a32o_1         3
+     sky130_fd_sc_hd__a32oi_1       92
+     sky130_fd_sc_hd__a41oi_1        5
+     sky130_fd_sc_hd__and2_0        83
+     sky130_fd_sc_hd__and3_1        22
+     sky130_fd_sc_hd__and4_1         2
+     sky130_fd_sc_hd__clkinv_1     566
+     sky130_fd_sc_hd__dfxtp_1    39895
+     sky130_fd_sc_hd__maj3_1       818
+     sky130_fd_sc_hd__mux2_1       294
+     sky130_fd_sc_hd__mux2i_1      696
+     sky130_fd_sc_hd__mux4_2     12984
+     sky130_fd_sc_hd__nand2_1    38610
+     sky130_fd_sc_hd__nand2b_1      91
+     sky130_fd_sc_hd__nand3_1       57
+     sky130_fd_sc_hd__nand3b_1       8
+     sky130_fd_sc_hd__nand4_1       13
+     sky130_fd_sc_hd__nor2_1      5453
+     sky130_fd_sc_hd__nor2b_1      117
+     sky130_fd_sc_hd__nor3_1       266
+     sky130_fd_sc_hd__nor3b_1        6
+     sky130_fd_sc_hd__nor4_1        25
+     sky130_fd_sc_hd__nor4b_1        4
+     sky130_fd_sc_hd__nor4bb_1       1
+     sky130_fd_sc_hd__o2111ai_1      4
+     sky130_fd_sc_hd__o211a_1        2
+     sky130_fd_sc_hd__o211ai_1      73
+     sky130_fd_sc_hd__o21a_1        87
+     sky130_fd_sc_hd__o21ai_0    35743
+     sky130_fd_sc_hd__o21ba_1        2
+     sky130_fd_sc_hd__o21bai_1      20
+     sky130_fd_sc_hd__o221a_1        3
+     sky130_fd_sc_hd__o221ai_1       1
+     sky130_fd_sc_hd__o22a_1       127
+     sky130_fd_sc_hd__o22ai_1       67
+     sky130_fd_sc_hd__o2bb2a_1       2
+     sky130_fd_sc_hd__o2bb2ai_1      9
+     sky130_fd_sc_hd__o311a_1        8
+     sky130_fd_sc_hd__o311ai_0       4
+     sky130_fd_sc_hd__o31a_1        11
+     sky130_fd_sc_hd__o31ai_1       42
+     sky130_fd_sc_hd__o32a_1         7
+     sky130_fd_sc_hd__o32ai_1        4
+     sky130_fd_sc_hd__o41ai_1        2
+     sky130_fd_sc_hd__or2_0         51
+     sky130_fd_sc_hd__or3_1         33
+     sky130_fd_sc_hd__or3b_1         5
+     sky130_fd_sc_hd__or4_1          3
+     sky130_fd_sc_hd__or4b_1         1
+     sky130_fd_sc_hd__xnor2_1      653
+     sky130_fd_sc_hd__xnor3_1      393
+     sky130_fd_sc_hd__xor2_1       177
+     sky130_fd_sc_hd__xor3_1        36
+
+   Chip area for module '\cortex_cochlea_stream': 1519368.444800
+

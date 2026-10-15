@@ -228,4 +228,7 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   sample buffer). `hw/asic/sound/`, [results](../hw/results/cortex_sound_chip.md).
 - Container restart: lost the detailed-routing run (4th pass; violations 160k -> 96k -> 72k, not converging) and the
   streaming-cochlea checks. Routing not restarted - the floorplan needs rework first (recorded in the ASIC estimate).
+- **Streaming cochlea** `cortex_cochlea_stream.v`: listens live (28 resonators per sample, ~29 cycles per sample),
+  no sample buffer; bit-exact on 10 clips; 1.52 mm^2 vs 11.2 mm^2 for the buffered version (SKY130 synthesis,
+  ESTIMATED). [results](../hw/results/cortex_sound_chip.md).
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
