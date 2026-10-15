@@ -378,4 +378,12 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Sound, listen more than once (views at word starts 5, 6, 6, 7, scores added via LOOK AGAIN): 82.4 -> 84.2 all at
   once, 80.3 -> 81.4 in 5 stages (network all at once 85.5). SIMULATED, 3 seeds.
 
+### 15 Oct 2026, 10:20 PM IST - user asleep; overnight standing instruction
+
+- Asked: keep going overnight; notify when the redesign finishes; when something fails, change the architecture or
+  tune it and apply the necessary fixes without waiting for input. Hourly self check-in scheduled
+  (trig_017qb4SEFn3pNLZpn3NYRUwD; delete after 10:00 AM IST on 16 Oct).
+- Expected (IST): regression ~11:00 PM; redesign 3 first answer ~12:00 AM; floor2b detailed-routing trend ~1:00 AM;
+  full routing (if it converges) ~4:00-6:00 AM.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

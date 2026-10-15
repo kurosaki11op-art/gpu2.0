@@ -8,3 +8,7 @@ encoder (FPGA build): PASS
 encoder (ASIC, gated clocks): PASS
 encoder learning its detectors: PASS
 general encoder, images: PASS
+general encoder, sound: PASS
+general encoder, speckle removal: PASS
+cochlea (buffered): PASS
+cochlea (streaming): PASS
