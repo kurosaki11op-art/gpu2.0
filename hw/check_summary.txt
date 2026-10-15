@@ -10,3 +10,4 @@ general encoder, sound: PASS
 general encoder, speckle removal: PASS
 cochlea (buffered): subprocess.CalledProcessError: Command '['iverilog', '-g2005', '-o', '/tmp/coch.vvp', '-Ptb_cortex_cochlea.N=4', '-Ptb_cortex_cochlea.ALIGN=0', 'cortex_cochlea.v', 'tb_cortex_cochlea.v']' returned non-zero exit status 2.
 cochlea (streaming): PASS
+cochlea (streaming, word aligned): PASS
