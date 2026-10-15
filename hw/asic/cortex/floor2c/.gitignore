@@ -3,4 +3,5 @@ route_drc_pass1.rpt
 *.odb
 route.guide
 route.log
+route_full.log
 diag.log

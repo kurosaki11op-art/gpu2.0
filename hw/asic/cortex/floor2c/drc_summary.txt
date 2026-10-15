@@ -1,0 +1,24 @@
+violations parsed: 60575
+   42876  Short                    met1
+    9243  MetSpc                   met1
+    5813  Short                    met2
+    1156  MetSpc                   met2
+     442  Short                    met3
+     298  MetSpc                   met3
+     297  Short                    met4
+      77  Recheck                  met1
+      67  MetSpc                   met5
+      65  MetSpc                   met4
+      65  CutSpc                   li1
+      51  Recheck                  met2
+      46  Short                    met5
+      39  OffGrid                  met1
+      14  CShort                   met1
+       7  Recheck                  met3
+       5  MinHole                  met1
+       3  CShort                   met2
+       3  CutSpc                   met1
+       2  Recheck                  met4
+by type: {'Short': 49474, 'MetSpc': 10829, 'Recheck': 137, 'CutSpc': 71, 'OffGrid': 39, 'CShort': 17, 'MinHole': 6, 'NSMet': 2}
+involving a power net: 2477 of 60575
+on or within 10 um of a macro: 5919 of 60575 (10%)
