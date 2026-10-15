@@ -336,4 +336,13 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   network fine-tuned on the same examples gets new 43.9 but old falls to 82.7. A new failure to fix: one weak new
   example cannot outvote a strongly trained old class. SIMULATED; k = 5 / 20 running.
 
+### 15 Oct 2026, night - decision: two partial redesigns
+
+- Asked: proceed with the two partial redesigns. (1) **Hippocampus unit**: a small episodic store beside the table so
+  a new class learned from a few examples is not outvoted (research:
+  [new class from few examples](research_fewshot_class_incremental.md); fixes tested in
+  `hw/brain/experiments/month4/fewshot_fixes.py`). (2) **Physical floorplan**: logic in its own block beside the
+  SRAM array, keep-outs at the macro pins, to make detailed routing converge. The core logic and its bit-exact
+  checks stay; both come in as build options / new flow scripts. Full redesign rejected (the problems are local).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
