@@ -185,4 +185,7 @@ document remain those of the global-route estimates above (not re-extracted from
 3. Detailed routing and a smaller die once 1-2 are done (placement and global routing: done, above).
 4. Pad ring and multi-corner checks only if fabrication is ever planned (not in scope now).
 
+
+**floor2f (ESTIMATED):** floor2e routing database, router seed 43: ends at 6 violations (all at macro edges), worse than floor2e (1). Seeds only shuffle the last few; floor2e remains the best run.
+
 Related: [Month 3 results](cortex_month3.md), [Energy estimate](cortex_energy_estimate.md), [Results index](INDEX.md)

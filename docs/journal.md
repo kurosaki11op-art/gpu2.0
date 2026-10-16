@@ -521,4 +521,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   by the permission classifier, so it is installed but unused until the user adds a Bash rule for `rea`. Not part of the chip design.
 - floor2f (router seed 43, retry to clear floor2e's last violation) restarted after a container restart; result to follow.
 
+### 16 Oct 2026 - floor2f (router seed 43): 6 violations, no better
+
+- Same global-route database as floor2e, router seed 43, 30 passes: 840 -> 523 -> 7 -> 6 violations at the end (SIMULATED/ESTIMATED layout
+  result, no hardware). Of the 6: 3 met4 spacing, 2 met4 shorts, 1 met5 short; **all 6 at SRAM macro edges**, only 1 touches a power net.
+  floor2e (seed default) stays the best at 1 violation. Seeds only move the last handful around the macros; a fix would need a larger
+  keep-out around macro edges or a manual patch of the last shorts. Not pursued further now. Files: `hw/asic/cortex/floor2f/`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
