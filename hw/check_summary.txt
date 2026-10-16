@@ -11,3 +11,4 @@ general encoder, images: PASS
 general encoder, sound: PASS
 general encoder, speckle removal: PASS
 cochlea (buffered): PASS
+cochlea (streaming): PASS
