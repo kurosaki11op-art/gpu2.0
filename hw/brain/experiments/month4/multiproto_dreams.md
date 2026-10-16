@@ -49,4 +49,17 @@ Accuracy over all 10 words (old words 5, new words 5), single view / LOOK AGAIN:
 New words alone: 1 recording 11.5 -> 22.2%, 5 recordings 18.1 -> 26.3% (with LOOK AGAIN). A small, cheap gain (+2); the
 real gap to a network is a learned word embedding, which this chip does not have.
 
+## 4. Pool-limited prototypes and detectors fitted on all old words (16 Oct, afternoon) - small or no gain
+
+**Shared prototype pool (`cortex_proto_pool.py`, `proto_pool.py`, clothing, 5 stages, 3 seeds, SIMULATED).** A class opens a new prototype only
+when no existing one overlaps the example well; all classes share a slot pool. Pool 10 / 20 / 30 / 40 gave 78.9 / 80.3-80.6 /
+80.7 / 80.7 at 18 / 26 / 36 / 44 slots used (plain K=1 78.7 at 10, K=2 80.3 at 20, K=4 81.5 at 40). Early classes take the pool before
+later ones arrive, and no setting beat plain K=2 or K=4 per slot. **Failure: no memory saving over uniform K.** Choice stays: K=1 default,
+K=2 (+1.6, 2x dream memory) or K=4 (+2.8, 4x) as optional settings.
+
+**Sound detectors fitted on words 0-4 instead of 0-1 (`fewshot_words_detectors.py`, 3 seeds, LOOK AGAIN, virtual examples 5,6,7, SIMULATED).**
+New words alone: 1 recording 22.2 -> 17.7, 2 recordings 22.0 -> 27.3, 5 recordings 26.3 -> 29.4; all ten words 51.1 / 51.7 / 55.5 ->
+50.4 / 53.9 / 57.2. About +2 from 2 recordings up, a loss at 1; near seed noise. Not a rule; fitting the detectors on a broader set of
+words before shipping is free (a PC-side choice). The real gap (a word embedding learned on many words) is still open.
+
 Related: [month4 index](INDEX.md), [Redesign 1 note](fewshot_imprint.md), [Research: weak spots](../../../../docs/research_weak_spots.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

@@ -528,4 +528,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   floor2e (seed default) stays the best at 1 violation. Seeds only move the last handful around the macros; a fix would need a larger
   keep-out around macro edges or a manual patch of the last shorts. Not pursued further now. Files: `hw/asic/cortex/floor2f/`.
 
+### 16 Oct 2026 - redesign step: pool prototypes and broader detectors (small / no gain)
+
+- Asked "will redesigning help"; answered yes in three places and started with multi-prototype dreams. A shared prototype pool (spawn on
+  novelty) gives no saving over uniform K=2/K=4, so no RTL for it (clothing 5 stages: pool 20 -> 80.3-80.6, K=2 80.3, K=4 81.5; SIMULATED).
+- New words: sound detectors fitted on words 0-4 instead of 0-1: new-word accuracy +5 (2 rec) / +3 (5 rec) points, -4 at 1 recording
+  (SIMULATED, 3 seeds); near noise. Details: [the note](../hw/brain/experiments/month4/multiproto_dreams.md). Next idea, not started: a word-level embedding (match to known words).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

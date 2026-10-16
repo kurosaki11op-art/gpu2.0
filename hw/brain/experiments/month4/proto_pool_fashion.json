@@ -1,0 +1,34 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer model, margin 32, 3 seeds)",
+ "10:8": {
+  "5_stages": 0.7885,
+  "slots_used": 18.0,
+  "dream_memory_bits": 829620
+ },
+ "20:8": {
+  "5_stages": 0.8031,
+  "slots_used": 26.333333333333332,
+  "dream_memory_bits": 1198340
+ },
+ "20:4": {
+  "5_stages": 0.8059,
+  "slots_used": 26.333333333333332,
+  "dream_memory_bits": 1198340
+ },
+ "20:12": {
+  "5_stages": 0.8031,
+  "slots_used": 26.333333333333332,
+  "dream_memory_bits": 1198340
+ },
+ "30:8": {
+  "5_stages": 0.8066,
+  "slots_used": 36.0,
+  "dream_memory_bits": 1659240
+ },
+ "40:8": {
+  "5_stages": 0.8068,
+  "slots_used": 44.333333333333336,
+  "dream_memory_bits": 2027960
+ }
+}
