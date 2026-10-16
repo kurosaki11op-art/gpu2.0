@@ -159,7 +159,8 @@ What the five attempts showed (all ESTIMATED, OpenROAD 2022 build, SKY130, one c
 | floor3 | all logic in one central block between two macro arrays | - | - | global routing never finished (heavy settings) |
 | floor2b | floor2 grid + no li1 + guide + 20 um power halo | - | - | global routing never finished (same heavy settings) |
 | floor2c | same, light global route (no layer adjustment) | 174,309 | 60,575 | 54k after pass 3, slow |
-| **floor2d** | **same grid, global placement density 0.15** | **145,484** | **45,632** | **25 after 64 passes** |
+| floor2d | same grid, global placement density 0.15 | 145,484 | 45,632 | 25 after 64 passes |
+| **floor2e** | **floor2d + met5 power stripes at pitch 84 / offset 76.2 um** | **145,480** | **45,506** | **1 after 40 passes** |
 
 Causes found, in order: (1) the 2022 reference settings (100 global-route iterations, layer adjustment 0.3, macro extension)
 stalled global routing for hours, the light settings finished in minutes; (2) 88% of floor2c's remaining violations were
@@ -168,11 +169,14 @@ spreading the cells (density 0.15) removed the blob and routing converged (viola
 2.7k, 2.2k, 1.9k, 1.8k, 1.6k, 945, 438, 364, ... 137, ... 28, 25). Forbidding li1 for routing (as the reference flows do)
 made pass 1 worse (174k vs 104k) but the guide + spread cells more than paid for it.
 
-**Remaining 25 violations** (`floor2d/drc_summary.txt`): 18 shorts on met4 and 7 metal-spacing on met5, all within 10 um of an
-SRAM macro (8 macros of the dream-counter memory), 7 involving the VDD stripe: a signal via at the macro edge lands next to
-a met5 power stripe. Known fix: shift or thin the met5 stripes near macro edges (PDN offset / halo), then re-route; a
-re-run of the full flow takes ~2.5 h and was not repeated overnight. Wire length, vias: 915,406 vias.
-Timing, power and area figures of this document remain those of the global-route estimates above.
+**floor2d's last 25 violations** (`floor2d/drc_summary.txt`): 18 shorts on met4 and 7 metal-spacing on met5, all within
+10 um of an SRAM macro top edge (8 macros of the dream-counter memory), 7 involving the VDD stripe: a signal via at the macro
+edge landed next to a met5 power stripe. **Fix (floor2e):** met5 stripes at pitch 84 um, offset 76.2 um, so no stripe lies
+within 12.9 um of any macro top or bottom edge (the old 56 um pitch cannot get beyond 4.3 um). Same flow otherwise: detailed
+routing ends at **1 violation** (`floor2e/drc_final.txt`: one VDD-vs-signal short on met5 at x 3246, y 1430 um) after 40
+passes, 14,205,859 um of wire, 914,506 vias. Per pass: 145,480 / 45,506 / 37,849 / 8,876 / 4,050 / 2,924 / ... / 453 / ... /
+30 / ... / 7 / 4 / 1. One more stripe tweak (or a single-net ECO) would reach zero. Timing, power and area figures of this
+document remain those of the global-route estimates above (not re-extracted from the routed design).
 
 ## Next steps for a real chip (months 7-8)
 

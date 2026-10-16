@@ -35,7 +35,7 @@ converged far too slowly. Global routing reported almost no congestion, so the c
 5. Halos / placement keep-outs at the pin edges.
 6. Only then other seeds or a newer OpenROAD.
 
-Outcome (16 Oct): the reference global-route settings (100 iterations, adjustment 0.3, macro extension) stalled for hours; with light settings and a lower placement density (0.15) detailed routing converged from 145k to 25 violations, all at SRAM macro edges next to a met5 power stripe. See the [ASIC estimate](../hw/results/cortex_asic_estimate.md).
+Outcome (16 Oct): the reference global-route settings (100 iterations, adjustment 0.3, macro extension) stalled for hours; with light settings and a lower placement density (0.15) detailed routing converged from 145k to 25 violations, all at SRAM macro edges next to a met5 power stripe; moving the stripes away from the macro edges (pitch 84 um, offset 76.2 um) took it to 1. See the [ASIC estimate](../hw/results/cortex_asic_estimate.md).
 See [ASIC estimate](../hw/results/cortex_asic_estimate.md).
 
 Related: [ASIC estimate](../hw/results/cortex_asic_estimate.md), [Research: few-shot](research_fewshot_class_incremental.md), [Project memory](PROJECT_MEMORY.md)

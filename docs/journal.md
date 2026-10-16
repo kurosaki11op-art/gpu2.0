@@ -506,4 +506,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   (met4 shorts, met5 spacing against the VDD stripe)**: a PDN stripe offset fix, then a re-route (~2.5 h), would take them to
   zero. Details and the five-run comparison: [ASIC estimate](../hw/results/cortex_asic_estimate.md). User notified.
 
+### 16 Oct 2026, 10:30 AM IST - detailed routing: 1 violation
+
+- floor2e (floor2d + met5 power stripes at pitch 84 um, offset 76.2 um so none lies within 12.9 um of a macro edge): 145,480 ->
+  45,506 -> 37,849 -> 8,876 -> ... -> 453 -> ... -> 7 -> 4 -> **1 violation** after 40 passes (2h). The last one is a VDD-vs-signal
+  short on met5 at one spot. The 25 macro-edge violations of floor2d were indeed the stripe clash. [ASIC estimate](../hw/results/cortex_asic_estimate.md).
+- Night scheduled tasks deleted at 10:00 AM IST (trig_017qb4SEFn3pNLZpn3NYRUwD, trig_01YK7BAneLSH4CcpSLGZ6Vzu, trig_01E8ziMvX6pvuu1tUBa4QCwe).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
