@@ -513,4 +513,12 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   short on met5 at one spot. The 25 macro-edge violations of floor2d were indeed the stripe clash. [ASIC estimate](../hw/results/cortex_asic_estimate.md).
 - Night scheduled tasks deleted at 10:00 AM IST (trig_017qb4SEFn3pNLZpn3NYRUwD, trig_01YK7BAneLSH4CcpSLGZ6Vzu, trig_01E8ziMvX6pvuu1tUBa4QCwe).
 
+### 16 Oct 2026 - regression re-run, views_more, rea-agents
+
+- Full regression re-run on a fresh container: **18/18 checks PASS** (`hw/check_summary.txt`, bit-exact RTL vs integer model).
+- `views_more.py` (diagonal, 2-pixel and row-shift extra views): no gain on fashion or speech. Recorded as a failure, not adopted.
+- `rea-agents` (reverse-engineering helper the user asked for): the global install succeeded (173 packages); running it was blocked
+  by the permission classifier, so it is installed but unused until the user adds a Bash rule for `rea`. Not part of the chip design.
+- floor2f (router seed 43, retry to clear floor2e's last violation) restarted after a container restart; result to follow.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
