@@ -16,6 +16,7 @@ tags: [spark, index]
 - [SPARK Cortex claims sheet](cortex_claims_sheet.md): every claim with its number, label, source and caveat; what not to claim.
 - [Results at a glance](results_at_a_glance.md): one page of the headline results, costs and limits with labels and links (for the pitch).
 - [Prior art for SPARK Cortex](prior_art_cortex.md): what is not new (HDC, Loihi 2, replay) and what we can claim.
+- [Research: fixing the weak spots](research_weak_spots.md): dreams that keep co-occurrence, few-shot words, clothing gap.
 - [Research: detailed routing with SRAM macros](research_openroad_sram_routing.md): why routing failed and the OpenROAD settings that fix it.
 - [Research: a new class from a few examples](research_fewshot_class_incremental.md): fixes for old/new bias (imprinting, weight aligning, hippocampus gating).
 
