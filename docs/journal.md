@@ -462,4 +462,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   78.9. A 6-bit table (+20% table memory) buys about +0.9 / +0.6; 7-bit +1.7 / +0.3. Not adopted yet (memory vs gain);
   words and digits to follow (`cmax_tune.py`).
 
+- 5:55 AM IST, redesign 2 diagnosis: the full detailed-routing run on floor2c went 174,309 -> 60,575 -> 54,168 violations
+  (passes 1-3), slowing to ~10% per pass. Spatial analysis of the violation report: **88% of the met1 violations lie
+  in 100 bins of 200 x 200 um (about 4 mm2 near the die centre), 1 of the 12 worst bins is inside a macro**: the
+  standard cells are packed into a dense central blob (placement target density 0.45) while the rest of the 46 mm2 die
+  is empty. Fix being tried (floor2d): global placement density 0.15 (cells spread ~3x wider), same grid, then global
+  and detailed routing again. Counter range on words: 6-bit table 82.7 vs 82.6 (no gain; clothing +0.9): 5-bit stays.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

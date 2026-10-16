@@ -6,6 +6,7 @@
 # a placement blockage covers each array); all macros R0 so their met4 pins (bottom edge) face a row channel; the
 # power grid keeps PDN_HALO um (default 20) away from the macros; the router guide and layer adjustment as in the 2022
 # OpenROAD flow scripts. Output: $OUT/cortex_cts.odb and $OUT/route.guide (OUT default floor3).
+# GPD = global placement target density (default 0.45); SKIPGR = stop after the clock tree (route with route4.tcl).
 # FLOOR2B: OUT=floor2b BLOCK=0 LW=0 = the old 8 x 8 grid (floor2) with only the router / power-grid fixes.
 set PDK /opt/eda_pdk/share/pdk/sky130A/libs.ref
 set SRAM /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8
@@ -79,7 +80,8 @@ pdngen
 place_pins -hor_layers met3 -ver_layers met2 -min_distance 4
 set_wire_rc -signal -layer met2
 set_wire_rc -clock -layer met5
-global_placement -density 0.45 -pad_left 2 -pad_right 2
+set GPD [expr {[info exists ::env(GPD)] ? $::env(GPD) : 0.45}]
+global_placement -density $GPD -pad_left 2 -pad_right 2
 estimate_parasitics -placement
 repair_design
 detailed_placement
@@ -103,6 +105,7 @@ repair_timing -setup
 repair_timing -hold -slack_margin 0.1
 detailed_placement
 write_db $OUT/cortex_cts.odb
+if {[info exists ::env(SKIPGR)]} { puts "clock tree done, global routing skipped (SKIPGR)"; exit }
 
 set_routing_layers -signal met1-met5 -clock met3-met5
 foreach l {met1 met2 met3 met4 met5} { set_global_routing_layer_adjustment $l 0.3 }

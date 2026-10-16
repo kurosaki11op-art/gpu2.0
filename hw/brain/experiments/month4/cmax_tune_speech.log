@@ -1,0 +1,5 @@
+speech cmax 7 margin 16 {'all_at_once': 0.7882, '5_stages': 0.7987}
+speech cmax 15 margin 32 {'all_at_once': 0.826, '5_stages': 0.8213}
+speech cmax 31 margin 32 {'all_at_once': 0.8273, '5_stages': 0.8231}
+speech cmax 31 margin 64 {'all_at_once': 0.8309, '5_stages': 0.8261}
+speech cmax 63 margin 64 {'all_at_once': 0.8326, '5_stages': 0.8246}
