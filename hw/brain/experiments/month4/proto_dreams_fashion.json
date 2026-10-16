@@ -1,0 +1,9 @@
+{
+ "dataset": "fashion",
+ "label": "SIMULATED (exact integer model, margin 32, 3 seeds)",
+ "K1": {
+  "5_stages": 0.7868,
+  "all_at_once": 0.8325,
+  "dream_memory_bits": 460900
+ }
+}
