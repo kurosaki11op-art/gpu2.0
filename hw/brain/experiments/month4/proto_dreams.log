@@ -4,3 +4,6 @@ fashion K=8 {'5_stages': 0.8211, 'all_at_once': 0.8394, 'dream_memory_bits': 368
 mnist K=2 {'5_stages': 0.9412, 'all_at_once': 0.9704, 'dream_memory_bits': 921800}
 mnist K=4 {'5_stages': 0.947, 'all_at_once': 0.9712, 'dream_memory_bits': 1843600}
 mnist K=8 {'5_stages': 0.9477, 'all_at_once': 0.972, 'dream_memory_bits': 3687200}
+speech K=2 {'5_stages': 0.8168, 'all_at_once': 0.8191, 'dream_memory_bits': 4608200}
+speech K=4 {'5_stages': 0.8304, 'all_at_once': 0.8134, 'dream_memory_bits': 9216400}
+speech K=8 {'5_stages': 0.8265, 'all_at_once': 0.8287, 'dream_memory_bits': 18432800}

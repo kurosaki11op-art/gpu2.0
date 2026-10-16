@@ -1,0 +1,19 @@
+{
+ "dataset": "speech",
+ "label": "SIMULATED (exact integer model, margin 32, 3 seeds)",
+ "K2": {
+  "5_stages": 0.8168,
+  "all_at_once": 0.8191,
+  "dream_memory_bits": 4608200
+ },
+ "K4": {
+  "5_stages": 0.8304,
+  "all_at_once": 0.8134,
+  "dream_memory_bits": 9216400
+ },
+ "K8": {
+  "5_stages": 0.8265,
+  "all_at_once": 0.8287,
+  "dream_memory_bits": 18432800
+ }
+}

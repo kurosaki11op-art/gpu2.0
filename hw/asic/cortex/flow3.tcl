@@ -6,6 +6,8 @@
 # a placement blockage covers each array); all macros R0 so their met4 pins (bottom edge) face a row channel; the
 # power grid keeps PDN_HALO um (default 20) away from the macros; the router guide and layer adjustment as in the 2022
 # OpenROAD flow scripts. Output: $OUT/cortex_cts.odb and $OUT/route.guide (OUT default floor3).
+# PDN_M5_PITCH / PDN_M5_OFFSET = met5 power stripe pitch / offset (um; default 56 / 2; 84 / 76.2 keeps every stripe >= 12.9 um
+# from any macro top / bottom edge of the 8 x 8 grid: the 25 residual violations of floor2d were stripe-vs-edge clashes).
 # GPD = global placement target density (default 0.45); SKIPGR = stop after the clock tree (route with route4.tcl).
 # FLOOR2B: OUT=floor2b BLOCK=0 LW=0 = the old 8 x 8 grid (floor2) with only the router / power-grid fixes.
 set PDK /opt/eda_pdk/share/pdk/sky130A/libs.ref
@@ -69,7 +71,9 @@ set_voltage_domain -name CORE -power VDD -ground VSS
 define_pdn_grid -name stdcell_grid -starts_with POWER -voltage_domains CORE -pins "met4 met5"
 add_pdn_stripe -grid stdcell_grid -layer met1 -width 0.48 -followpins
 add_pdn_stripe -grid stdcell_grid -layer met4 -width 1.6 -pitch 56.0 -offset 2 -starts_with POWER
-add_pdn_stripe -grid stdcell_grid -layer met5 -width 1.6 -pitch 56.0 -offset 2 -starts_with POWER
+set M5P [expr {[info exists ::env(PDN_M5_PITCH)] ? $::env(PDN_M5_PITCH) : 56.0}]
+set M5O [expr {[info exists ::env(PDN_M5_OFFSET)] ? $::env(PDN_M5_OFFSET) : 2.0}]
+add_pdn_stripe -grid stdcell_grid -layer met5 -width 1.6 -pitch $M5P -offset $M5O -starts_with POWER
 add_pdn_connect -grid stdcell_grid -layers "met1 met4"
 add_pdn_connect -grid stdcell_grid -layers "met4 met5"
 set PH [expr {[info exists ::env(PDN_HALO)] ? $::env(PDN_HALO) : 20.0}]
