@@ -196,7 +196,7 @@ Month 4 work while waiting for the board (15 Oct, `hw/brain/experiments/month4/`
 6. Month 6, sequence memory (the SPARK-L lookup core) joins for live streams.
 7. Months 7-8, SKY130 area/power estimates (no fabrication), write-up, demo video, pitch. Started early: synthesis,
    placement, clock tree, global routing, clock gating; ~0.18-0.26 uJ per decision, 45-62 uJ per learned example
-   (digits); detailed routing tried twice, did not converge (~65k violations), parked.
+   (digits); detailed routing: converged 16 Oct to 25 violations (all at 8 SRAM macro edges, power-stripe clash) after spreading the cells (placement density 0.15); see `hw/results/cortex_asic_estimate.md`.
 
 Prior art: `docs/prior_art_cortex.md`. Continual-learning chips without backprop exist (HDC accelerators Clo-HDnn /
 ImageHD / C-FSCIL, Intel Loihi 2); never claim "first". Measured vs HDC (`hw/results/cortex_vs_hdc.md`): chip ahead on

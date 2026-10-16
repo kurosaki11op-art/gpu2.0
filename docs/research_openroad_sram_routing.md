@@ -35,7 +35,7 @@ converged far too slowly. Global routing reported almost no congestion, so the c
 5. Halos / placement keep-outs at the pin edges.
 6. Only then other seeds or a newer OpenROAD.
 
-Tried: floor3 (logic in one central block) and floor2b (old grid + fixes 1-3) both stalled in global routing with the reference settings (100 iterations, adjustment 0.3); detailed routing then run from floor2b's clock-tree database with a light global-route adjustment (0.1).
+Outcome (16 Oct): the reference global-route settings (100 iterations, adjustment 0.3, macro extension) stalled for hours; with light settings and a lower placement density (0.15) detailed routing converged from 145k to 25 violations, all at SRAM macro edges next to a met5 power stripe. See the [ASIC estimate](../hw/results/cortex_asic_estimate.md).
 See [ASIC estimate](../hw/results/cortex_asic_estimate.md).
 
 Related: [ASIC estimate](../hw/results/cortex_asic_estimate.md), [Research: few-shot](research_fewshot_class_incremental.md), [Project memory](PROJECT_MEMORY.md)

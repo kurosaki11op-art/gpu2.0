@@ -1,0 +1,6 @@
+violations parsed: 25
+      18  Short                    met4
+       7  MetSpc                   met5
+by type: {'Short': 18, 'MetSpc': 7}
+involving a power net: 7 of 25
+on or within 10 um of a macro: 25 of 25 (100%)

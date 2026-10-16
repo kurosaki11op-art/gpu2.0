@@ -499,4 +499,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   - Ensemble of two tables with different encoders: +1.4 / +0.6 for 2.5x memory: rejected.
   - Routing floor2d: passes 9-14 = 1,785 -> 945 -> 438 -> 364 -> 245 -> 178 -> 137 violations.
 
+### 16 Oct 2026, 8:45 AM IST - redesign 2 finished: detailed routing 174,309 -> 25 violations
+
+- floor2d (same grid, placement density 0.15, light global route, no li1, guide, 64 passes, ~2h20m): violations by pass
+  145,484 / 45,632 / 38,217 / 9,240 / 4,027 / 2,675 / ... / 137 / ... / 28 / 25. The **25 remaining are all at 8 SRAM macro edges
+  (met4 shorts, met5 spacing against the VDD stripe)**: a PDN stripe offset fix, then a re-route (~2.5 h), would take them to
+  zero. Details and the five-run comparison: [ASIC estimate](../hw/results/cortex_asic_estimate.md). User notified.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

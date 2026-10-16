@@ -149,18 +149,30 @@ better, still far from converging; lost in a second container restart. Detailed 
 floorplan with a dedicated standard-cell block and more routing layers reserved, and a run of many hours in a stable
 environment.
 
-### Floorplan redesign attempt floor3 / floor2b (15 Oct night, `flow3.tcl`, `route4.tcl`, `floor3/`, `floor2b/`)
+### Detailed routing, solved to 25 violations (15-16 Oct, `flow3.tcl`, `route3.tcl`, `route4.tcl`, `floor2*/`, `diag/`)
 
-Research ([routing note](../../docs/research_openroad_sram_routing.md)): the 2022 router uses li1 unless told not to (floor2 laid 1.49 m
-of wire on li1), the power straps ran 6 um from the SRAM pins, and the router guide / layer adjustment of the
-2022 reference flows were missing. floor3 moved all standard cells into one block between two 4-column macro arrays;
-floor2b kept the floor2 grid and only added the router and power-grid fixes. Both used the reference global-route
-settings (100 iterations, layer adjustment 0.3): in both, global routing ran for more than two hours (floor3: 80+
-minutes before it was stopped) without finishing, where floor2 with 30 iterations and no adjustment took minutes.
-(Correction: an earlier version of this note blamed 17,303 hold violations on the central block; the older floor2,
-cts_light and pipe_light runs report the same 17,000+ hold violations after clock-tree synthesis, so that was not
-the cause.) Next: route4.tcl = global route with a light adjustment (0.1, 30 iterations) and detailed routing with the
-fixes, from floor2b's saved clock-tree database (running).
+What the five attempts showed (all ESTIMATED, OpenROAD 2022 build, SKY130, one corner):
+
+| Run | Layout | Pass 1 | Pass 2 | Final |
+|---|---|---|---|---|
+| floor2 (14 Oct) | 8 x 8 grid, density 0.45, li1 allowed | 103,658 | ~96k | lost in a restart |
+| floor3 | all logic in one central block between two macro arrays | - | - | global routing never finished (heavy settings) |
+| floor2b | floor2 grid + no li1 + guide + 20 um power halo | - | - | global routing never finished (same heavy settings) |
+| floor2c | same, light global route (no layer adjustment) | 174,309 | 60,575 | 54k after pass 3, slow |
+| **floor2d** | **same grid, global placement density 0.15** | **145,484** | **45,632** | **25 after 64 passes** |
+
+Causes found, in order: (1) the 2022 reference settings (100 global-route iterations, layer adjustment 0.3, macro extension)
+stalled global routing for hours, the light settings finished in minutes; (2) 88% of floor2c's remaining violations were
+met1 shorts inside a ~4 mm2 central blob where the standard cells were packed (target density 0.45), not at the macros;
+spreading the cells (density 0.15) removed the blob and routing converged (violations by pass: 145k, 46k, 38k, 9.2k, 4.0k,
+2.7k, 2.2k, 1.9k, 1.8k, 1.6k, 945, 438, 364, ... 137, ... 28, 25). Forbidding li1 for routing (as the reference flows do)
+made pass 1 worse (174k vs 104k) but the guide + spread cells more than paid for it.
+
+**Remaining 25 violations** (`floor2d/drc_summary.txt`): 18 shorts on met4 and 7 metal-spacing on met5, all within 10 um of an
+SRAM macro (8 macros of the dream-counter memory), 7 involving the VDD stripe: a signal via at the macro edge lands next to
+a met5 power stripe. Known fix: shift or thin the met5 stripes near macro edges (PDN offset / halo), then re-route; a
+re-run of the full flow takes ~2.5 h and was not repeated overnight. Wire length, vias: 915,406 vias.
+Timing, power and area figures of this document remain those of the global-route estimates above.
 
 ## Next steps for a real chip (months 7-8)
 
