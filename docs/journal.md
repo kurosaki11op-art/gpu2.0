@@ -473,4 +473,16 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   145,484 -> 45,632 violations (floor2c: 174,309 -> 60,575; floor2: 103,658 -> 96k), hotspots now spread (top 10 bins
   hold 11% instead of 25%). Full multi-pass run started (`floor2d/full.sh`, log `route_full.log`).
 
+- 7:40 AM IST, **research-driven experiments** (SIMULATED, 3 seeds; [research note](research_weak_spots.md)):
+  - **Dreams with k prototypes per class** (clothing, 5 stages, margin 32; `dream_variants.py`): base 78.2; 2 prototypes
+    81.8; **4 prototypes 82.4** (+4.3 of the 6.5 points lost to independent-bit dreams); stored-exemplar replay (10 / 20
+    codes per class, half the dreams) 79.1 / 79.5; cue-and-complete 79.7 / 80.1. Co-occurrence is what the dreams were
+    missing. Next: 3 / 8 prototypes, lower counter precision, digits and words.
+  - **Clothing encoder** (`clothing_gap.py`, all at once / 5 stages): today 83.4 / 78.6; histogram-quantile thresholds
+    83.4 / 77.4 (+0 bits), 3 quantile channels 82.8 / 77.9, coarse 5x5 centre-surround pair 83.5 / 78.5 (+50% bits): all
+    rejected; the capacity gap is not in these knobs.
+  - **New words, virtual examples** (shifted word starts 5,6,7; `fewshot_words_aug.py`), 1 recording per word, accuracy over
+    all 10: 48.2 -> 49.5 single view, 49.2 -> 51.1 with LOOK AGAIN; new words 11.5 -> 15.0 / 22.2%. k = 2, 5 running.
+  - Routing (floor2d): passes 5-8 = 2,675 / 2,227 / 1,943 violations; slowing.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

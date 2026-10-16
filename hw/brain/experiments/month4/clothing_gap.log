@@ -1,0 +1,8 @@
+quantile thresholds 25/50/75: [88, 164, 210] 33/66: [115, 196]
+encoded
+base {'all_at_once': 0.8339, '5_stages': 0.7859, 'code_bits': [4608]}
+quant2 {'all_at_once': 0.834, '5_stages': 0.7737, 'code_bits': [4608]}
+quant3 {'all_at_once': 0.8281, '5_stages': 0.7787, 'code_bits': [5760]}
+coarse {'all_at_once': 0.8345, '5_stages': 0.7848, 'code_bits': [6912]}
+quant2+coarse {'all_at_once': 0.8291, '5_stages': 0.7778, 'code_bits': [6912]}
+ens2(base+quant2+coarse) {'all_at_once': 0.8477, '5_stages': 0.7917, 'code_bits': [4608, 6912]}
