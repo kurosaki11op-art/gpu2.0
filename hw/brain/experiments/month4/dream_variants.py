@@ -26,8 +26,8 @@ ctr, cte = z["tr"], z["te"]; ytr = ytr.astype(np.int64); yte = yte.astype(np.int
 
 
 class Dreamer:
-    def __init__(self, kind, K=4, M=10, p=0.5, f=0.15, q=0, seed=0):
-        self.kind, self.K, self.M, self.p, self.f, self.q = kind, K, M, p, f, q
+    def __init__(self, kind, K=4, M=10, p=0.5, f=0.15, q=0, B=0, seed=0):
+        self.kind, self.K, self.M, self.p, self.f, self.q, self.B = kind, K, M, p, f, q, B
         self.r = np.random.RandomState(seed + 99)
         self.P = {}; self.Pn = {}; self.ex = {}; self.seen = {}
 
@@ -41,6 +41,8 @@ class Dreamer:
             else:
                 j = int(np.argmax(self.P[c][:, a].sum(1) / n))
             self.P[c][j, a] += 1; n[j] += 1
+            if self.B and n[j] > (1 << self.B) - 1:                 # B-bit counters: halve the prototype when full (as the chip does per class)
+                self.P[c][j] = np.floor(self.P[c][j] / 2); n[j] //= 2
         if self.kind in ("ex", "cue"):
             self.seen[c] = self.seen.get(c, 0) + 1; lst = self.ex.setdefault(c, [])
             if len(lst) < self.M:
@@ -101,7 +103,7 @@ def stage(m, dr, idx, ndream=6000, night=2, night_stop=2, daydream=1):
                 break
 
 
-VARS = {"base": dict(kind="base"), "mix8": dict(kind="mix", K=8), "mix3": dict(kind="mix", K=3), "mix4_q4": dict(kind="mix", K=4, q=4), "mix4_q3": dict(kind="mix", K=4, q=3), "mix4_q2": dict(kind="mix", K=4, q=2), "mix2": dict(kind="mix", K=2), "mix4": dict(kind="mix", K=4),
+VARS = {"base": dict(kind="base"), "mix4_b8": dict(kind="mix", K=4, B=8), "mix4_b7": dict(kind="mix", K=4, B=7), "mix8_b7": dict(kind="mix", K=8, B=7), "mix8_b6": dict(kind="mix", K=8, B=6), "mix8_b5": dict(kind="mix", K=8, B=5), "mix8": dict(kind="mix", K=8), "mix3": dict(kind="mix", K=3), "mix4_q4": dict(kind="mix", K=4, q=4), "mix4_q3": dict(kind="mix", K=4, q=3), "mix4_q2": dict(kind="mix", K=4, q=2), "mix2": dict(kind="mix", K=2), "mix4": dict(kind="mix", K=4),
         "ex10_p.5": dict(kind="ex", M=10, p=0.5), "ex20_p.5": dict(kind="ex", M=20, p=0.5),
         "cue10_p.5_f.15": dict(kind="cue", M=10, p=0.5, f=0.15), "cue20_p.5_f.15": dict(kind="cue", M=20, p=0.5, f=0.15)}
 names = sys.argv[3:] or list(VARS)

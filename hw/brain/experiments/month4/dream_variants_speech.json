@@ -1,0 +1,11 @@
+{
+ "label": "SIMULATED (clothing, 5 stages, margin 32, 3 seeds, python stage copy with floating-rate dreams)",
+ "base": {
+  "acc": [
+   0.8212,
+   0.8228,
+   0.8138
+  ],
+  "mean": 0.8193
+ }
+}
