@@ -11,9 +11,3 @@ general encoder, images: PASS
 general encoder, sound: PASS
 general encoder, speckle removal: PASS
 cochlea (buffered): PASS
-cochlea (streaming): PASS
-cochlea (streaming, word aligned): PASS
-sound chip, whole chain (aligned): PASS
-Tang Nano board design: PASS
-host schedule == chip model: PASS
-failures: 0
