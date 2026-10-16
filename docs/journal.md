@@ -469,4 +469,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   is empty. Fix being tried (floor2d): global placement density 0.15 (cells spread ~3x wider), same grid, then global
   and detailed routing again. Counter range on words: 6-bit table 82.7 vs 82.6 (no gain; clothing +0.9): 5-bit stays.
 
+- 6:25 AM IST: floor2d (placement density 0.15, same grid, clock tree + route4 global route) detailed-routing passes 1-2:
+  145,484 -> 45,632 violations (floor2c: 174,309 -> 60,575; floor2: 103,658 -> 96k), hotspots now spread (top 10 bins
+  hold 11% instead of 25%). Full multi-pass run started (`floor2d/full.sh`, log `route_full.log`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
