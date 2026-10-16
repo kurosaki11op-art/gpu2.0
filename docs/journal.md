@@ -535,4 +535,13 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - New words: sound detectors fitted on words 0-4 instead of 0-1: new-word accuracy +5 (2 rec) / +3 (5 rec) points, -4 at 1 recording
   (SIMULATED, 3 seeds); near noise. Details: [the note](../hw/brain/experiments/month4/multiproto_dreams.md). Next idea, not started: a word-level embedding (match to known words).
 
+### 16 Oct 2026 - Redesign 5 started, then paused by the user
+
+- User paused the project ("stop for now"). Redesign 5 (sound layer with rectangular receptive fields, `hw/brain/sound_features.py`,
+  `hw/brain/experiments/month4/sound_rf.py`, SIMULATED, 3 seeds, words, all at once / 5 stages): today's 5x5 reproduces 82.6 / 82.1;
+  wider-in-time fields lose about 2 points (5x9 80.2 / 78.7, 3x9 80.0 / 78.7, 7x9 80.3 / 79.8, 5x9 stride 3 80.9 / 79.6). Failure, recorded.
+  Not yet run: taller fields (9x5, 7x5), narrower (5x3), 128 detectors, wider pooling. No RTL change.
+- State at pause: regression 18/18 PASS, floorplan at 1 violation (floor2e), board test still paused, `rea-agents` installed but not run
+  (needs a Bash rule for `rea`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
