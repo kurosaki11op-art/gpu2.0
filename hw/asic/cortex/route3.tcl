@@ -13,8 +13,9 @@ read_liberty ${SRAM}_TT_1p8V_25C.lib
 read_db $OUT/cortex_groute.odb
 read_sdc cortex.sdc
 set_propagated_clock [all_clocks]
+set SEED [expr {[info exists ::env(SEED)] ? $::env(SEED) : 42}]
 set ITER [expr {[info exists ::env(ITER)] ? $::env(ITER) : 64}]
-detailed_route -guide $OUT/route.guide -bottom_routing_layer met1 -top_routing_layer met5 -or_seed 42 \
+detailed_route -guide $OUT/route.guide -bottom_routing_layer met1 -top_routing_layer met5 -or_seed $SEED \
     -droute_end_iter $ITER -output_drc $OUT/route_drc.rpt -verbose 1
 write_db $OUT/cortex_routed.odb
 puts "SPARK Cortex floor3 routing done"
