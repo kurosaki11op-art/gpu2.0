@@ -485,4 +485,18 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
     all 10: 48.2 -> 49.5 single view, 49.2 -> 51.1 with LOOK AGAIN; new words 11.5 -> 15.0 / 22.2%. k = 2, 5 running.
   - Routing (floor2d): passes 5-8 = 2,675 / 2,227 / 1,943 violations; slowing.
 
+- 8:00 AM IST, **Redesign 4: multi-prototype dreams** (the dream memory keeps K count-sets per class; `hw/brain/cortex_proto.py`,
+  `experiments/month4/proto_dreams.py`, `dream_variants.py`; exact integer model, margin 32, 3 seeds, SIMULATED):
+  - Floating-rate prototypes (upper bound): staged clothing 78.2 -> 81.8 (K=2) / 82.4 (K=4) / 83.9 (K=8); exemplar replay
+    only 79.1-80.1.
+  - **Integer version** (assignment by a shifted counter sum, dream = pick prototype by example count, then the chip's
+    L-bit draws): 5 stages / all at once, clothing 78.7 / 83.3 (K=1) -> 80.3 / 82.6 (K=2) -> **81.5 / 83.5 (K=4)** -> **82.1 /
+    83.9 (K=8)**; digits 94.7-94.8 vs 94.9 (no gain); words (float variant) 81.9 -> 82.8.
+  - Cost: dream memory x K (K=4: 1.84 Mbit instead of 0.46 Mbit for images), narrower counters lose the gain (K=4 with
+    8-bit counters 80.2, K=8 with 7-bit 81.7). Verdict: **an optional ASIC "high-fidelity dreams" setting for clothing-like
+    data (+2.8 to +3.4 points staged), not a default**; no RTL (would need K prototype counter memories and a K-way
+    overlap pass per learned example). Low-precision runs with plain rounding were wrong tests (rare bits lost).
+  - Ensemble of two tables with different encoders: +1.4 / +0.6 for 2.5x memory: rejected.
+  - Routing floor2d: passes 9-14 = 1,785 -> 945 -> 438 -> 364 -> 245 -> 178 -> 137 violations.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

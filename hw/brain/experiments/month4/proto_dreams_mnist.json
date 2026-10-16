@@ -1,0 +1,19 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer model, margin 32, 3 seeds)",
+ "K2": {
+  "5_stages": 0.9412,
+  "all_at_once": 0.9704,
+  "dream_memory_bits": 921800
+ },
+ "K4": {
+  "5_stages": 0.947,
+  "all_at_once": 0.9712,
+  "dream_memory_bits": 1843600
+ },
+ "K8": {
+  "5_stages": 0.9477,
+  "all_at_once": 0.972,
+  "dream_memory_bits": 3687200
+ }
+}

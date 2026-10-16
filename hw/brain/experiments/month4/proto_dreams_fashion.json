@@ -1,9 +1,19 @@
 {
  "dataset": "fashion",
  "label": "SIMULATED (exact integer model, margin 32, 3 seeds)",
- "K1": {
-  "5_stages": 0.7868,
-  "all_at_once": 0.8325,
-  "dream_memory_bits": 460900
+ "K2": {
+  "5_stages": 0.8029,
+  "all_at_once": 0.8263,
+  "dream_memory_bits": 921800
+ },
+ "K4": {
+  "5_stages": 0.8152,
+  "all_at_once": 0.8351,
+  "dream_memory_bits": 1843600
+ },
+ "K8": {
+  "5_stages": 0.8211,
+  "all_at_once": 0.8394,
+  "dream_memory_bits": 3687200
  }
 }
