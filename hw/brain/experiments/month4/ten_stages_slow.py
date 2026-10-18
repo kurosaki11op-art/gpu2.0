@@ -16,10 +16,10 @@ for name in ("today", "slow"):
     accs = []
     for seed in (1, 2, 3):
         kw = dict(night_stop=2, daydream=1, seed=seed)
-        m = CortexInt(ctr.shape[1], **kw) if name == "today" else CortexSlow(ctr.shape[1], ch=CHN, K=3, **kw)
+        m = CortexInt(ctr.shape[1], **kw) if name == "today" else CortexSlow(ctr.shape[1], ch=CHN, K=5, **kw)
         for i in range(10):
             sel = np.where(ytr == i)[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]; m.stage(ctr[sel], ytr[sel])
         accs.append(float((m.predict(cte) == yte).mean()))
     r[name] = round(float(np.mean(accs)), 4)
 print(DS, "10 stages", r, flush=True)
-json.dump({"label": "SIMULATED (exact integer model, margin 32, 3 seeds, single view, one class per stage)", "dataset": DS, **r}, open(f"ten_stages_slow_{DS}.json", "w"))
+json.dump({"label": "SIMULATED (exact integer model, margin 32, 3 seeds, single view, one class per stage)", "dataset": DS, **r}, open(f"ten_stages_slow_k5_{DS}.json", "w"))

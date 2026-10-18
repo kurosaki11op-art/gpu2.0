@@ -146,6 +146,9 @@ Final numbers, 5 seeds, margin 32, slow table FR 3, K 5 (`final_numbers_*_slow_k
 Finer grid (ENC_S1, section 6) on top of the K = 5 slow table, 5 seeds, single view / LOOK AGAIN: clothing all at once 88.7 / 88.7 (+1.1), 5 stages 81.4 / 80.9 (-0.2 / -0.5); digits all at once 98.4 / 98.6 (+0.7 / +0.2), 5 stages 94.5 / 94.7 (-0.5 / -1.2).
 So with slow consolidation the finer grid is worth about +1 point all at once and nothing in stages: it stays an option.
 
+Sound in white noise (`noisy_slow.py`, trained clean in 5 stages, word alignment, 3 seeds, single view, SIMULATED), clean / 20 / 10 / 5 dB: today 82.1 / 74.3 / 63.0 / 50.4, slow table K = 5 **82.7 / 75.2 / 64.4 / 52.3** (+0.6 to +1.9, larger in more noise).
+One class at a time (10 stages), K = 5: digits 93.6 -> 93.8, clothing 79.1 -> 78.9 (no change). Two slow tables with different time constants added together (`slow_two_timescales.py`, K 3 + 6 and 4 + 6): staged clothing 80.2 / 80.7, no better than the single K = 6 table (81.5): not worth a second table.
+
 RTL: `SLOWK = 5` in `cortex_core.v`, bit-exact (`run_check_cortex_slow.py`). This is the first change that raises staged learning without extra dream memory.
 
 Related: [month4 index](INDEX.md), [multi-prototype dreams](multiproto_dreams.md), [Redesign 1 note](fewshot_imprint.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

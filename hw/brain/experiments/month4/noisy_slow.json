@@ -1,0 +1,13 @@
+{
+ "label": "SIMULATED (integer cochlea, exact integer chip model, 3 seeds; white noise, fixed seed)",
+ "low4x4_align": {
+  "today|clean": 0.8213,
+  "today|20dB": 0.743,
+  "today|10dB": 0.6304,
+  "today|5dB": 0.5044,
+  "slow|clean": 0.8265,
+  "slow|20dB": 0.7515,
+  "slow|10dB": 0.6436,
+  "slow|5dB": 0.5234
+ }
+}
