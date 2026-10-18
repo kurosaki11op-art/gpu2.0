@@ -1,0 +1,6 @@
+codes (3500, 23040) pool order ['bird', 'yes', 'house', 'four', 'visual', 'tree', 'wow', 'go', 'no', 'stop', 'down', 'nine', 'follow', 'learn', 'three', 'sheila', 'bed', 'zero', 'eight', 'dog', 'one', 'seven', 'forward', 'five', 'two', 'cat', 'backward', 'six', 'marvin', 'happy']
+T=5 all-at-once reference (T+5 words together): all 0.790  new 0.703  old 0.875
+T=5 k=1: shipped all 0.587 new 0.343 old 0.824 | embedding all 0.545 new 0.323 old 0.760
+T=5 k=2: shipped all 0.579 new 0.340 old 0.811 | embedding all 0.567 new 0.327 old 0.801
+T=5 k=5: shipped all 0.673 new 0.472 old 0.869 | embedding all 0.616 new 0.442 old 0.785
+T=10 all-at-once reference (T+5 words together): all 0.767  new 0.782  old 0.760
