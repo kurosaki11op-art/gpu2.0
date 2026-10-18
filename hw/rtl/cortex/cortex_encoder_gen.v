@@ -7,7 +7,7 @@
 //               neighbours >> 3) > THR[c]) or an OFF cell (KIND 2: (sum >> 3) - pixel > THR[c]); edges repeat
 //   speckle   : with SUP > 0 a receptor bit stays on only if at least SUP of its 8 neighbours (same channel) are on;
 //               a second pass over the receptor map, 9 reads per pixel (Features(..., support=SUP))
-//   detectors : 5x5 windows at stride 2 (12 x 12 spots); per channel the detector with the most agreeing bits wins
+//   detectors : WHxWW windows (default 5x5 at stride 2 = 12 x 12 spots); per channel the detector with the most agreeing bits wins
 //               (first one on a tie); a window with fewer than 3 on bits stays silent. One channel at a time.
 //   pooling   : 2x2 spots -> 6x6 cells; code bit = c*36*F + (cell_row*6 + cell_col)*F + detector
 //   output    : the active code bits in increasing order, through the core's list write port
@@ -18,7 +18,9 @@ module cortex_encoder_gen #(
     parameter NCH = 4, parameter F = 32, parameter LF = 5,              // LF = log2(F)
     parameter [8*NCH-1:0] THR = {8'd8, 8'd8, 8'd150, 8'd50},            // channel c at [8c +: 8]
     parameter [2*NCH-1:0] KIND = {2'd2, 2'd1, 2'd0, 2'd0},              // channel c at [2c +: 2]
-    parameter AW = 15, parameter SUP = 0
+    parameter AW = 15, parameter SUP = 0,
+    // detector window geometry (sound: 3x3 windows at stride 1, 4x4 pooling -> WH = WW = 3, LS = 0, NS = 26, LP = 2, NC = 6, MINON = 1)
+    parameter WH = 5, parameter WW = 5, parameter LS = 1, parameter NS = 12, parameter LP = 1, parameter NC = 6, parameter MINON = 3
 ) (
     input  wire          clk, rst,
     input  wire          pix_we, input wire [9:0] pix_addr, input wire [7:0] pix_data,
@@ -27,7 +29,7 @@ module cortex_encoder_gen #(
     output reg           busy, output reg done, output reg [AW:0] count,
     output reg           out_we, output reg [AW-1:0] out_addr, output reg [AW-1:0] out_data
 );
-    localparam NB = NCH * 36 * F, CB = 36 * F;
+    localparam NB = NCH * NC * NC * F, CB = NC * NC * F, WB = WH * WW;
     reg [7:0]     pix  [0:783];
     reg [NCH-1:0] bmap [0:783], smap [0:783];             // receptor map, and after speckle removal
     reg [24:0]    tm   [0:NCH*F-1];
@@ -47,7 +49,7 @@ module cortex_encoder_gen #(
     reg [3:0] q; reg [3:0] nbc [0:NCH-1]; integer c4;
     reg [3:0] st;
     reg [4:0] py, pxx; reg [1:0] ky, kx; reg [11:0] nsum; reg [7:0] ctr;
-    reg [3:0] si, sj; reg [4:0] g; reg [2:0] gr, gc; reg [24:0] p; reg [LF:0] f; reg [4:0] bst; reg [LF-1:0] w;
+    reg [4:0] si, sj; reg [4:0] g; reg [2:0] gr, gc; reg [24:0] p; reg [LF:0] f; reg [4:0] bst; reg [LF-1:0] w;
     reg [3:0] ch; reg [AW:0] e; reg [AW:0] k;
     wire [4:0] cy = (ky == 0) ? ((py == 0) ? 5'd0 : py - 1'b1) : (ky == 2) ? ((py == 27) ? 5'd27 : py + 1'b1) : py;
     wire [4:0] cx = (kx == 0) ? ((pxx == 0) ? 5'd0 : pxx - 1'b1) : (kx == 2) ? ((pxx == 27) ? 5'd27 : pxx + 1'b1) : pxx;
@@ -61,7 +63,7 @@ module cortex_encoder_gen #(
             2'd2: rb[c2] = $signed({1'b0, avg}) - $signed({1'b0, ctr}) > $signed({1'b0, THR[8*c2 +: 8]});
             default: rb[c2] = ctr > THR[8*c2 +: 8];
         endcase
-    wire [4:0] wy = {si, 1'b0} + gr, wx = {sj, 1'b0} + gc;
+    wire [4:0] wy = (si << LS) + gr, wx = (sj << LS) + gc;
     wire [NCH-1:0] gb = (SUP > 0) ? smap[m28(wy) + wx] : bmap[m28(wy) + wx];
     // speckle pass: neighbour q (0..8, 4 = the pixel itself) of pixel (py, pxx); outside the picture reads as off
     wire [4:0] sy = py + q / 3 - 1, sx = pxx + q % 3 - 1;
@@ -70,8 +72,8 @@ module cortex_encoder_gen #(
     reg [NCH-1:0] keep; integer c3;
     always @(*) for (c3 = 0; c3 < NCH; c3 = c3 + 1) keep[c3] = (nbc[c3] >= SUP);
     wire [4:0] a = pop25(~(p ^ tm[ch * F + f[LF-1:0]]));
-    wire [2:0] ci = si[3:1], cj = sj[3:1];
-    wire [5:0] pcell = {ci, 2'b0} + {ci, 1'b0} + cj;                       // ci * 6 + cj
+    wire [4:0] ci = si >> LP, cj = sj >> LP;
+    wire [5:0] pcell = ci * NC + cj;                                       // constant multiply: shifts and adds
     wire [AW-1:0] cidx = ch * CB + pcell * F + w;                         // constant multiplies: shifts and adds
 
     always @(posedge clk) begin
@@ -109,23 +111,23 @@ module cortex_encoder_gen #(
                 if (py == 27) st <= E_POS; else py <= py + 1;
             end else pxx <= pxx + 1;
         end
-        E_POS: begin g <= 0; gr <= 0; gc <= 0; st <= E_GATH; end
+        E_POS: begin p <= 0; g <= 0; gr <= 0; gc <= 0; st <= E_GATH; end
         E_GATH: begin
             p[g] <= gb[ch];
-            if (g == 24) begin f <= 0; bst <= 0; w <= 0; st <= E_MATCH; end
-            else begin g <= g + 1'b1; if (gc == 4) begin gc <= 0; gr <= gr + 1'b1; end else gc <= gc + 1'b1; end
+            if (g == WB - 1) begin f <= 0; bst <= 0; w <= 0; st <= E_MATCH; end
+            else begin g <= g + 1'b1; if (gc == WW - 1) begin gc <= 0; gr <= gr + 1'b1; end else gc <= gc + 1'b1; end
         end
         E_MATCH: begin
             if (f == 0 || a > bst) begin bst <= a; w <= f[LF-1:0]; end
             if (f == F - 1) st <= E_SET; else f <= f + 1'b1;
         end
         E_SET: begin
-            if (pop25(p) >= 3) cmap[cidx] <= 1'b1;
+            if (pop25(p) >= MINON && ci < NC && cj < NC) cmap[cidx] <= 1'b1;
             if (ch == NCH - 1) begin
                 ch <= 0;
-                if (sj == 11) begin
+                if (sj == NS - 1) begin
                     sj <= 0;
-                    if (si == 11) begin e <= 0; k <= 0; st <= E_EMIT; end else begin si <= si + 1; st <= E_POS; end
+                    if (si == NS - 1) begin e <= 0; k <= 0; st <= E_EMIT; end else begin si <= si + 1; st <= E_POS; end
                 end else begin sj <= sj + 1; st <= E_POS; end
             end else begin ch <= ch + 1'b1; st <= E_POS; end
         end

@@ -21,6 +21,7 @@ run "encoder, finer grid (ENC_S1, ASIC build)" python run_check_encoder.py "$D" 
 run "encoder learning its detectors"  python run_check_encoder_learn.py "$D" mnist 40 5 10
 run "general encoder, images"         python run_check_encoder_gen.py "$D" image 10
 run "general encoder, sound"          python run_check_encoder_gen.py "$D" sound 10
+run "general encoder, sound finer grid (3x3/s1/pool4)" python run_check_encoder_gen.py "$D" sound3 4
 run "general encoder, speckle removal" python run_check_encoder_gen.py "$D" image 10 --sup
 run "cochlea (buffered)"              python run_check_cochlea.py "$D" 4
 run "cochlea (streaming)"             python run_check_cochlea.py "$D" 4 --stream

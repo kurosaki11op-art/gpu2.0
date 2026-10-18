@@ -627,4 +627,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Still open: finer grid on all-at-once/staged/noise (sound_geom_full running), sound-encoder RTL for the grid, floor2g routing.
 - Logs: hw/brain/experiments/month4/sound_geom_full.log.
 
+### 21 Oct 2026 - finer sound grid adopted (model + encoder RTL)
+
+- Full check of sound geometry 3,3,1,1,4,4,64 (3x3 windows, stride 1, 4x4 pool; same 23,040-bit code), 3 seeds, slow table K=5, SIMULATED. Shipped 5,5,2,2,2,2,64 -> finer: all-at-once 86.0 -> 88.9, 5 stages 82.65 -> 84.4, few-shot k=1/2/5 all-ten 48.0/50.0/51.5 -> 50.9/53.6/58.5, new 11.1/12.7/18.5 -> 16.8/24.1/32.3, old 84.0/86.3/83.6 -> 84.2/82.3/84.1. One number is lower (old words at k=2: 86.3 -> 82.3); every other number is better, so the grid is adopted with that noted. Noise robustness of the new grid is not yet checked.
+- `cortex_encoder_gen.v` is now parameterised (WH, WW, LS, NS, LP, NC, MINON); defaults keep the shipped behaviour. New check `run_check_encoder_gen.py DATA sound3` is bit-exact (0 mismatches), the shipped `sound` check still passes. Cost: 537,883 cycles per picture against 161,923 (about 3.3x; ESTIMATED 5 ms per word at 100 MHz); active bits per picture 1,040 against 392.
+- Full regression before this change: 23/23 PASS (`hw/check_summary.txt`). Re-run needed for 24.
+- Embedding path on these codes: see previous entry (all-ten 52.5/60.7/66.0 at k=1/2/5).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
