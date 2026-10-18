@@ -270,3 +270,17 @@ Number of guides:     867571
 [INFO DRT-0195] Start 0th optimization iteration.
     Completing 10% with 1208 violations.
     elapsed time = 00:01:49, memory = 5954.45 (MB).
+    Completing 20% with 23781 violations.
+    elapsed time = 00:04:46, memory = 6154.87 (MB).
+    Completing 30% with 30772 violations.
+    elapsed time = 00:05:18, memory = 6154.89 (MB).
+    Completing 40% with 42494 violations.
+    elapsed time = 00:08:09, memory = 6308.57 (MB).
+    Completing 50% with 57674 violations.
+    elapsed time = 00:09:41, memory = 6458.07 (MB).
+    Completing 60% with 58783 violations.
+    elapsed time = 00:11:39, memory = 6605.35 (MB).
+    Completing 70% with 77576 violations.
+    elapsed time = 00:14:54, memory = 6847.46 (MB).
+    Completing 80% with 83348 violations.
+    elapsed time = 00:15:27, memory = 6847.47 (MB).
