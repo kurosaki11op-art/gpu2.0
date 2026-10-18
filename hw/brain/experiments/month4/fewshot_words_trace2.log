@@ -1,0 +1,12 @@
+k 1 none   single     {'old': 0.846, 'new': 0.114, 'all': 0.484}
+k 1 none   look_again {'old': 0.855, 'new': 0.129, 'all': 0.497}
+k 1 5,6,7  single     {'old': 0.857, 'new': 0.11, 'all': 0.489}
+k 1 5,6,7  look_again {'old': 0.834, 'new': 0.194, 'all': 0.518}
+k 2 none   single     {'old': 0.844, 'new': 0.159, 'all': 0.506}
+k 2 none   look_again {'old': 0.841, 'new': 0.164, 'all': 0.507}
+k 2 5,6,7  single     {'old': 0.857, 'new': 0.132, 'all': 0.499}
+k 2 5,6,7  look_again {'old': 0.821, 'new': 0.224, 'all': 0.526}
+k 5 none   single     {'old': 0.843, 'new': 0.22, 'all': 0.535}
+k 5 none   look_again {'old': 0.833, 'new': 0.239, 'all': 0.54}
+k 5 5,6,7  single     {'old': 0.879, 'new': 0.135, 'all': 0.512}
+k 5 5,6,7  look_again {'old': 0.849, 'new': 0.272, 'all': 0.564}

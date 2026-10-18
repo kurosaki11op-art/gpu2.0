@@ -121,4 +121,9 @@ Adopt as a build / host option for clothing-like data (all-at-once or stage-ligh
   Our new classes have the SMALLER row mass (the opposite of the GPU case), so these corrections do not apply as is.
 - **More sleep** (slow table, staged clothing): ndream 6000 / 15000, night 2 / 4, both: 78.3 / 79.0 / 78.2 / 78.8. Flat: sleep length is not the limit.
 
+## 8. One class at a time and few-shot with the slow table (19 Oct, SIMULATED, 3 seeds, single view)
+
+One class per stage (10 stages), today's chip vs slow table: digits 93.6 vs 93.5, clothing 79.1 vs 78.5 (words: see `ten_stages_slow.log` when finished). No change: the slow table helps only when the table is trained on everything at once.
+Few-shot after shipping on digits (`fewshot_slow.py`, k = 1 / 5 recordings per new class, all 10 classes): imprint and slow-table copy are identical (69.0 / 82.5); copying only the new rows: 67.7 / 82.2.
+
 Related: [month4 index](INDEX.md), [multi-prototype dreams](multiproto_dreams.md), [Redesign 1 note](fewshot_imprint.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

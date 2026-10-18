@@ -1,0 +1,57 @@
+{
+ "dataset": "mnist",
+ "label": "SIMULATED (exact integer chip model, 5 seeds)",
+ "results": {
+  "1": {
+   "imprint": {
+    "old": 0.9776,
+    "new": 0.3859,
+    "all": 0.69
+   },
+   "slow_copy": {
+    "old": 0.9776,
+    "new": 0.3859,
+    "all": 0.69
+   },
+   "slow_rows": {
+    "old": 0.9838,
+    "new": 0.3519,
+    "all": 0.6766
+   }
+  },
+  "5": {
+   "imprint": {
+    "old": 0.9562,
+    "new": 0.6855,
+    "all": 0.8246
+   },
+   "slow_copy": {
+    "old": 0.9562,
+    "new": 0.6855,
+    "all": 0.8246
+   },
+   "slow_rows": {
+    "old": 0.9574,
+    "new": 0.6795,
+    "all": 0.8223
+   }
+  },
+  "20": {
+   "imprint": {
+    "old": 0.9782,
+    "new": 0.7868,
+    "all": 0.8852
+   },
+   "slow_copy": {
+    "old": 0.9782,
+    "new": 0.7868,
+    "all": 0.8852
+   },
+   "slow_rows": {
+    "old": 0.984,
+    "new": 0.7544,
+    "all": 0.8724
+   }
+  }
+ }
+}
