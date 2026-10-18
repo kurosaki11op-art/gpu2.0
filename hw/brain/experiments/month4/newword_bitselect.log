@@ -1,1 +1,7 @@
 bits 23040 active freq quantiles [0.0002 0.0034 0.055 ] never active 3156
+freq in [0, 1.01]: 23040 bits | k=1: all 0.480 new 0.111 old 0.840 | k=5: all 0.515 new 0.185 old 0.836
+freq in [0.002, 1.01]: 11541 bits | k=1: all 0.482 new 0.120 old 0.835 | k=5: all 0.532 new 0.227 old 0.830
+freq in [0.01, 1.01]: 6521 bits | k=1: all 0.473 new 0.088 old 0.849 | k=5: all 0.520 new 0.191 old 0.841
+freq in [0.02, 0.8]: 4541 bits | k=1: all 0.479 new 0.111 old 0.838 | k=5: all 0.501 new 0.145 old 0.847
+freq in [0.05, 0.8]: 2191 bits | k=1: all 0.467 new 0.083 old 0.840 | k=5: all 0.510 new 0.177 old 0.834
+freq in [0.1, 0.8]: 1007 bits | k=1: all 0.443 new 0.050 old 0.825 | k=5: all 0.473 new 0.135 old 0.803
