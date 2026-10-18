@@ -578,4 +578,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Prototype dreams combined with the slow table: staged clothing 80.7 with K = 4 (4x dream memory), words +0.5 (note section 5). No RTL for prototypes yet.
 - Details: [limits and slow table](../hw/brain/experiments/month4/slow_table_and_staged_limits.md).
 
+### 19 Oct 2026 - finer-grid encoder option in the RTL
+
+- Features step: image detectors at stride 1 with 4 x 4 pooling (same 4,608-bit code): clothing 88.0 all at once (5 seeds, slow table), staged 80.0 (+1.5); digits all at once 98.3 (+0.7) but staged 93.2 (-1.4);
+  sound no gain. RTL option `ENC_S1` in `cortex_encoder.v`, bit-exact (`run_check_encoder.py --s1 [--asic]`, added to `run_all_checks.sh`). It is an option, not the default (staged digits worse).
+  ASIC cost of the slow table (+9 mm2 estimated) and of ENC_S1 (2.3x encoder cycles) in [ASIC estimate](../hw/results/cortex_asic_estimate.md). Details: [note](../hw/brain/experiments/month4/slow_table_and_staged_limits.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

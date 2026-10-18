@@ -15,6 +15,7 @@ run "core with slow table (Redesign 6)" python run_check_cortex_slow.py "$D"
 run "core with slow table, pipelined" python run_check_cortex_slow.py "$D" --pipe
 run "encoder (FPGA build)"            python run_check_encoder.py "$D" mnist 10
 run "encoder (ASIC, gated clocks)"    python run_check_encoder.py "$D" fashion 10 --asic
+run "encoder, finer grid (ENC_S1, ASIC build)" python run_check_encoder.py "$D" fashion 10 --s1 --asic
 run "encoder learning its detectors"  python run_check_encoder_learn.py "$D" mnist 40 5 10
 run "general encoder, images"         python run_check_encoder_gen.py "$D" image 10
 run "general encoder, sound"          python run_check_encoder_gen.py "$D" sound 10

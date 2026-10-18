@@ -9,6 +9,9 @@
 //               wins (first one on a tie); a window with fewer than 3 on bits stays silent
 //   pooling   : 2x2 spots -> 6x6 cells; code bit = ch*1152 + (cell_row*6 + cell_col)*32 + detector
 //   output    : the active code bits in increasing order, written through the core's list write port
+// Build option ENC_S1 (finer winner grid, 19 Oct 2026, bit-exact with Features(32, pool=4) and feature_layer.PS, ST = 5, 1): 5x5 windows at
+// stride 1 (24 x 24 spots), pooling 4 x 4 spots -> the same 6 x 6 cells and 4,608 code bits, 2.3x the encoder cycles (48,162 vs 21,378 per image). Clothing +4.6 all at once,
+// digits +0.7 all at once but -1.4 in 5 stages (note slow_table_and_staged_limits.md). Not combined with ENC_LEARN.
 // Load the image with pix_we, the detectors with tm_we (tm_ch, tm_f, 25 bits; bit r*5+c = window row r, column c),
 // then pulse start; done pulses with the list length in count.
 //
@@ -20,6 +23,11 @@
 // detector that has not won since the last reseed the next window from the ring. Costs 19,200 + 3,200 + 128 bits of
 // state and one add/clip per bit of the winner; meant for the ASIC (the Tang Nano build is full).
 `timescale 1ns/1ps
+`ifdef ENC_S1
+`ifdef ENC_LEARN
+`error "ENC_S1 cannot be combined with ENC_LEARN"
+`endif
+`endif
 module cortex_encoder #(parameter AW = 13) (
     input  wire          clk, rst,
     input  wire          pix_we, input wire [9:0] pix_addr, input wire [7:0] pix_data,
@@ -92,7 +100,7 @@ module cortex_encoder #(parameter AW = 13) (
     // receptor stage
     reg [4:0] py, pxx; reg [1:0] ky, kx; reg [11:0] nsum; reg [7:0] ctr;
     // detector stage
-    reg [3:0] si, sj; reg [4:0] g; reg [2:0] gr, gc; reg [24:0] p0, p1, p2, p3; reg [5:0] f;
+    reg [4:0] si, sj; reg [4:0] g; reg [2:0] gr, gc; reg [24:0] p0, p1, p2, p3; reg [5:0] f;
     reg [4:0] b0, b1, b2, b3; reg [4:0] w0, w1, w2, w3; reg [1:0] sc;
     reg [12:0] e; reg [AW:0] k;
     // x * 28 and x * 6 as shifts and adds (no multiplier)
@@ -105,14 +113,24 @@ module cortex_encoder #(parameter AW = 13) (
     wire [3:0] bmap_v = {($signed({1'b0, avg}) - $signed({1'b0, ctr}) > 8), ($signed({1'b0, ctr}) - $signed({1'b0, avg}) > 8),
                          ctr > 150, ctr > 50};
     // window cell (gr, gc) of spot (si, sj)
+`ifdef ENC_S1
+    wire [4:0] wy = si + gr, wx = sj + gc;
+    localparam [4:0] SLAST = 5'd23;
+`else
     wire [4:0] wy = {si, 1'b0} + gr, wx = {sj, 1'b0} + gc;
+    localparam [4:0] SLAST = 5'd11;
+`endif
     wire [3:0] gb = bmap[m28(wy) + wx];
     wire [4:0] a0 = pop25(~(p0 ^ tm0[f[4:0]])), a1 = pop25(~(p1 ^ tm1[f[4:0]])),
                a2 = pop25(~(p2 ^ tm2[f[4:0]])), a3 = pop25(~(p3 ^ tm3[f[4:0]]));
     wire [4:0] wsel = (sc == 0) ? w0 : (sc == 1) ? w1 : (sc == 2) ? w2 : w3;
     wire [24:0] psel = (sc == 0) ? p0 : (sc == 1) ? p1 : (sc == 2) ? p2 : p3;
     wire       osel = (sc == 0) ? (pop25(p0) >= 3) : (sc == 1) ? (pop25(p1) >= 3) : (sc == 2) ? (pop25(p2) >= 3) : (pop25(p3) >= 3);
+`ifdef ENC_S1
+    wire [2:0] ci = si[4:2], cj = sj[4:2];
+`else
     wire [2:0] ci = si[3:1], cj = sj[3:1];
+`endif
     wire [5:0] pcell = {ci, 2'b0} + {ci, 1'b0} + cj;                                  // ci * 6 + cj
     wire [12:0] cidx = {sc, 10'b0} + {sc, 7'b0} + {pcell, 5'b0} + wsel;                // sc * 1152 + cell * 32 + detector
 `ifdef CORTEX_ASIC
@@ -188,9 +206,9 @@ module cortex_encoder #(parameter AW = 13) (
             if (osel) cmap4[cidx[12:2]] <= cmap4[cidx[12:2]] | (4'b1 << cidx[1:0]);
 `endif
             if (sc == 3) begin
-                if (sj == 11) begin
+                if (sj == SLAST) begin
                     sj <= 0;
-                    if (si == 11) begin e <= 0; k <= 0; st <= E_EMIT; end else begin si <= si + 1; st <= E_POS; end
+                    if (si == SLAST) begin e <= 0; k <= 0; st <= E_EMIT; end else begin si <= si + 1; st <= E_POS; end
                 end else begin sj <= sj + 1; st <= E_POS; end
             end else sc <= sc + 1;
         end
@@ -223,9 +241,9 @@ module cortex_encoder #(parameter AW = 13) (
                 end
             end
             if (sc == 3) begin
-                if (sj == 11) begin
+                if (sj == SLAST) begin
                     sj <= 0;
-                    if (si == 11) begin k <= 0; st <= E_DONE; end else begin si <= si + 1; st <= E_POS; end
+                    if (si == SLAST) begin k <= 0; st <= E_DONE; end else begin si <= si + 1; st <= E_POS; end
                 end else begin sj <= sj + 1; st <= E_POS; end
             end else sc <= sc + 1;
         end

@@ -90,7 +90,7 @@ The two redesigns combine without hurting each other: staged clothing +2.1 (K = 
 
 The sense layer picks one winner detector per 5x5 window at stride 2 (12 x 12 spots) and ORs the winners of 2 x 2 spots into one cell (6 x 6 cells x 32 detectors x 4 channels = 4,608 bits).
 Placing the windows at every pixel (stride 1, 24 x 24 spots) and OR-ing 4 x 4 spots per cell keeps the same 6 x 6 cells and the same 4,608-bit code, but every cell now sees up to 16 winners instead of 4
-(denser code, ~2x the on-bits) at 4x the encoder cycles. Clothing, slow table as readout, all at once, single view, 2 seeds, SIMULATED (spec = detectors:window:stride:pool, code bits):
+(denser code, ~2x the on-bits) at 2.3x the encoder cycles. Clothing, slow table as readout, all at once, single view, 2 seeds, SIMULATED (spec = detectors:window:stride:pool, code bits):
 
 | Encoder | bits | accuracy |
 |---|---|---|
@@ -109,7 +109,7 @@ Digits (mnist, same sweep): 32:5:2:2 97.6, 32:5:1:4 **98.3**, 32:3:1:4 98.0.
 Sound with the same change (`sound_rf.py` 5,5,1,1,4,4,64, CortexInt, 3 seeds): 81.9 / 83.0 all at once / 5 stages vs 82.6 / 82.1 today: no gain, so sound keeps stride 2.
 5 seeds (`final_numbers_*_slow_s1.json`, slow table + LOOK AGAIN where noted): clothing all at once 88.0 single view / 88.1 LOOK AGAIN (LOOK AGAIN adds little now), 5 stages 80.0 / 79.4 (was 78.5);
 digits: all at once 98.3 single view / 98.4 LOOK AGAIN (today 97.0 / 98.0) but **5 stages 93.2 / 93.2 (today 94.9 / 95.8): worse by 1.4-2.6** (the denser code makes independent-bit dreams less faithful).
-**Verdict: a trade-off, not a free win.** Clothing gains in both settings (+4.6 all at once vs today's chip, +1.5 in stages vs the slow table), digits gain all at once and lose in stages, words unchanged. The same code size, so no memory cost; the cost is encoder time (4x cycles per image).
+**Verdict: a trade-off, not a free win.** Clothing gains in both settings (+4.6 all at once vs today's chip, +1.5 in stages vs the slow table), digits gain all at once and lose in stages, words unchanged. The same code size, so no memory cost; the cost is encoder time (2.3x cycles per image in the RTL: 48,162 vs 21,378).
 Adopt as a build / host option for clothing-like data (all-at-once or stage-light use), not as the default; the default image encoder stays stride 2.
 
 Related: [month4 index](INDEX.md), [multi-prototype dreams](multiproto_dreams.md), [Redesign 1 note](fewshot_imprint.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

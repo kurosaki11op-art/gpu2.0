@@ -188,4 +188,12 @@ document remain those of the global-route estimates above (not re-extracted from
 
 **floor2f (ESTIMATED):** floor2e routing database, router seed 43: ends at 6 violations (all at macro edges), worse than floor2e (1). Seeds only shuffle the last few; floor2e remains the best run.
 
+
+## Slow table and finer-grid encoder options (19 Oct 2026, ESTIMATED by arithmetic, not re-run through the layout flow)
+
+- `CORTEX_SLOW` adds a third memory: 8 bits x 10 classes x 4,608 words = 46 KB (1.6x the fast table, 0.8x the dream memory). The core's memories today are about 94 KB (list 7.5, table 28.8, dream counts 57.6), so the
+  slow table adds about +49% to the SRAM macros (about 23 more 2 KB macros); scaling the 18.8 mm2 image-chip estimate (95% macros) gives about +9 mm2. One FOLLOW sweep is 3 cycles per code bit (~14k cycles), once per 500 ticks. Not placed or routed.
+- `ENC_S1` (finer winner grid) changes no memory (same 4,608-bit code); the encoder takes 2.3x the cycles per image (48,162 vs 21,378 cycles per image, simulation; the receptor stage is shared). Not placed or routed.
+- Functional checks: `run_check_cortex_slow.py` (plain, pipelined, SRAM macro models) and `run_check_encoder.py --s1 --asic`: 0 mismatches.
+
 Related: [Month 3 results](cortex_month3.md), [Energy estimate](cortex_energy_estimate.md), [Results index](INDEX.md)
