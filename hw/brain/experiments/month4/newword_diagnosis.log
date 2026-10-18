@@ -1,2 +1,10 @@
 SHIPPED k=1 chip: all 0.480 | group-A (first 5 listed) 0.111, group-B 0.840 | A->B errors 0.687, B->A errors 0.089 | top confusions right->left 0.64, off->up 0.57, go->no 0.47, stop->up 0.46, on->down 0.40
 SHIPPED k=5 chip: all 0.515 | group-A (first 5 listed) 0.185, group-B 0.836 | A->B errors 0.592, B->A errors 0.097 | top confusions right->left 0.56, on->down 0.52, off->up 0.38, go->no 0.39, stop->up 0.34
+SHIPPED(swap) k=1 chip: all 0.516 | group-A (first 5 listed) 0.176, group-B 0.866 | A->B errors 0.682, B->A errors 0.074 | top confusions no->go 0.78, down->go 0.53, up->off 0.39, left->right 0.34, down->on 0.23
+SHIPPED(swap) k=5 chip: all 0.551 | group-A (first 5 listed) 0.228, group-B 0.882 | A->B errors 0.652, B->A errors 0.060 | top confusions no->go 0.77, down->go 0.48, left->right 0.41, up->off 0.29, down->on 0.27
+EQUAL k=1 chip table : all 0.289 | group-A (first 5 listed) 0.280, group-B 0.298 | A->B errors 0.378, B->A errors 0.463 | top confusions down->on 0.34, up->off 0.26, stop->off 0.22, off->on 0.18, stop->up 0.19
+EQUAL k=1 prototype-L1: all 0.183 | group-A (first 5 listed) 0.238, group-B 0.130 | A->B errors 0.248, B->A errors 0.722 | top confusions up->off 0.34, stop->off 0.33, left->off 0.29, no->off 0.29, on->off 0.29
+EQUAL k=5 chip table : all 0.364 | group-A (first 5 listed) 0.364, group-B 0.364 | A->B errors 0.310, B->A errors 0.424 | top confusions down->on 0.40, off->on 0.33, up->stop 0.25, go->on 0.26, on->down 0.24
+EQUAL k=5 prototype-L1: all 0.239 | group-A (first 5 listed) 0.332, group-B 0.148 | A->B errors 0.132, B->A errors 0.732 | top confusions off->stop 0.40, yes->stop 0.40, left->stop 0.38, up->stop 0.35, right->stop 0.36
+EQUAL k=20 chip table : all 0.466 | group-A (first 5 listed) 0.379, group-B 0.551 | A->B errors 0.383, B->A errors 0.218 | top confusions off->on 0.32, off->up 0.27, go->no 0.27, stop->up 0.25, left->up 0.20
+EQUAL k=20 prototype-L1: all 0.283 | group-A (first 5 listed) 0.347, group-B 0.220 | A->B errors 0.263, B->A errors 0.535 | top confusions left->up 0.54, yes->up 0.45, no->go 0.39, off->stop 0.37, down->go 0.36
