@@ -1,0 +1,2 @@
+saved mnist 3 on bits 272.0683
+mnist sep_mnist_topk3_F32.npz on bits 272.1 {'5_stages': 0.9431, 'all_at_once': 0.98}
