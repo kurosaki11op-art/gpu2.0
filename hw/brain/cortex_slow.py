@@ -59,7 +59,7 @@ def _stage_slow(W, S, on, n, rng, known, acts, nacts, ys, new_cls, old_cls, ndre
 
 
 class CortexSlow(CortexInt):
-    def __init__(self, n_bits, ch=500, K=3, small="copy", FR=3, rnd=1, **kw):
+    def __init__(self, n_bits, ch=500, K=5, small="copy", FR=3, rnd=1, **kw):
         super().__init__(n_bits, **kw)
         self.ch, self.K, self.small, self.FR = ch, K, small, FR; self.RND = (1 << (K - 1)) if rnd else 0; self.S = np.zeros(self.W.shape, np.int32); self.tick = 0
 

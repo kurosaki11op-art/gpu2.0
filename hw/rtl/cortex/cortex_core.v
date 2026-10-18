@@ -28,7 +28,7 @@
 //              S += (((W << SFR) - S) + 2^(SLOWK-1)) >>> SLOWK for every code bit and class (3 cycles per code bit); arg 6 = SCOPY: S = W << SFR;
 //              arg 7 = read S word mem_addr into rd_s. With CORTEX_SLOW, PREDICT scores with S instead of W (learning, PRACTISE
 //              and DREAM still use W). The host decides when to FOLLOW (every CH real examples / night dreams) and SCOPYs after
-//              a stage too short to consolidate. Redesign 6 of 18 Oct 2026 (all-at-once clothing +3.3, words +2.6 in the model).
+//              a stage too short to consolidate. Redesign 6 of 18 Oct 2026 (all-at-once clothing +3.3, words +2.6 in the model); SLOWK = 5 (19 Oct: slower consolidation also lifts staged clothing 78.5 -> 81.6).
 // Build option CORTEX_CONTEXT (context memory, bit-exact with CortexInt(context=True)): DREAM with cmd_frozen = 1
 // dreams from the frozen copy instead of the live counters. The host freezes before a day that brings known classes
 // back (a new condition), dreams old knowledge from the frozen copy during that day and alternates live / frozen at
@@ -42,7 +42,7 @@
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
     parameter CMAX = 15, parameter MARGIN = 32, parameter SW = 20, parameter IMPS = 2, parameter IMPN = 8,
-    parameter SB = 8, parameter SFR = 3, parameter SLOWK = 3
+    parameter SB = 8, parameter SFR = 3, parameter SLOWK = 5
 ) (
     input  wire          clk, rst,
     input  wire          cmd_valid, input wire [2:0] cmd_op, input wire [3:0] cmd_arg,

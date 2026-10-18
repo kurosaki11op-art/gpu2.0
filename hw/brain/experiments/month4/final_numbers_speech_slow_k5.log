@@ -1,0 +1,2 @@
+speech all_at_once {'single_view': 0.8637, 'look_again': 0.8748}
+speech 5_stages {'single_view': 0.8263, 'look_again': 0.8355}

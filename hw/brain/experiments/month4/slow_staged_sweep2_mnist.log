@@ -1,0 +1,5 @@
+mnist 500:4 {'all_at_once': 0.9769, '5_stages': 0.9475}
+mnist 500:5 {'all_at_once': 0.9778, '5_stages': 0.9498}
+mnist 500:6 {'all_at_once': 0.9773, '5_stages': 0.9356}
+mnist 250:5 {'all_at_once': 0.9768, '5_stages': 0.9459}
+mnist 1000:5 {'all_at_once': 0.9787, '5_stages': 0.9512}

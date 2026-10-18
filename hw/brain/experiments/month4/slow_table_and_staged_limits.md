@@ -126,4 +126,23 @@ Adopt as a build / host option for clothing-like data (all-at-once or stage-ligh
 One class per stage (10 stages), today's chip vs slow table: digits 93.6 vs 93.5, clothing 79.1 vs 78.5 (words: see `ten_stages_slow.log` when finished). No change: the slow table helps only when the table is trained on everything at once.
 Few-shot after shipping on digits (`fewshot_slow.py`, k = 1 / 5 recordings per new class, all 10 classes): imprint and slow-table copy are identical (69.0 / 82.5); copying only the new rows: 67.7 / 82.2.
 
+## 9. Consolidation lag: a slower slow table also fixes much of the staged gap (19 Oct, SIMULATED) - adopted, K = 5
+
+The slow table's time constant is 2^K x CH ticks. With K = 3 (CH = 500, 4,000 ticks) S tracks W closely and staged learning is unchanged. A much slower S (K = 5, 16,000 ticks) averages W across the stages,
+which damps the recency bias natively (the newest classes' rows are the ones that have grown most recently and lag in S). Sweep, staged clothing / all at once, 3 seeds, CH:K = 500:3 78.5 / 86.8, 500:4 79.7 / 87.2, **500:5 81.6 / 87.6**, 500:6 80.5 / 87.6, 500:7 71.4 / 86.9
+(too slow: S has not converged), 250:5 79.7 / 87.3, 1000:5 80.9 / 87.7, 1000:4 81.7 / 87.5. Digits: 500:4 94.8 / 97.7, **500:5 95.0 / 97.8**, 500:6 93.6 / 97.7, 1000:5 95.1 / 97.9. Words (CH 100): K = 4 82.4 / 85.5, **K = 5 82.7 / 86.0**.
+Few-shot after shipping is unchanged (copy after a stage shorter than 2 CH reproduces today's numbers exactly; fashion k = 1: 63.3).
+Final numbers, 5 seeds, margin 32, slow table FR 3, K 5 (`final_numbers_*_slow_k5.log`), single view / LOOK AGAIN:
+
+| Test | today | slow table K = 3 | **slow table K = 5** |
+|---|---|---|---|
+| clothing, all at once | 83.4 / 84.8 | 86.9 / 87.9 | **87.6 / 88.3** |
+| digits, all at once | 97.0 / 98.0 | 97.6 / 98.3 | **97.8 / 98.4** |
+| words, all at once | 83.1 / 84.7 | 85.7 / 87.2 | **86.4 / 87.5** |
+| clothing, 5 stages | 78.4 / 78.3 | 78.5 / 78.5 | **81.6 / 81.4** |
+| digits, 5 stages | 94.9 / 95.8 | 94.6 / 95.5 | **95.0 / 95.9** |
+| words, 5 stages | 82.0 / 82.9 | 82.0 / 83.1 | **82.6 / 83.6** |
+
+RTL: `SLOWK = 5` in `cortex_core.v`, bit-exact (`run_check_cortex_slow.py`). This is the first change that raises staged learning without extra dream memory.
+
 Related: [month4 index](INDEX.md), [multi-prototype dreams](multiproto_dreams.md), [Redesign 1 note](fewshot_imprint.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

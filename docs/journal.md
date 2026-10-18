@@ -599,4 +599,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Research agent report (GPU few-shot / class-incremental tricks, integer analogues): [research note](research_fewshot_gpu.md). Tested: logit adjustment, cosine / mass alignment, max-over-shift matching, trace-rule (slowness) detectors, top-k cell competition, more sleep, neurogenesis (balanced) - all within noise or a trade of old for new classes.
   Details: [new-word sections 6-8](../hw/brain/experiments/month4/multiproto_dreams.md), [staged section 7](../hw/brain/experiments/month4/slow_table_and_staged_limits.md).
 
+### 19 Oct 2026 - consolidation lag: slow table K = 5 lifts staged clothing 78.4 -> 81.6
+
+- Idea (user: brain concepts, redesign): systems consolidation is slow. A much slower slow table (time constant 16,000 ticks, K = 5 instead of 3) averages the table across stages and damps the recency bias: 5 seeds, SIMULATED: clothing staged 78.4 -> 81.6 (all at once 83.4 -> 87.6), digits staged 94.9 -> 95.0 (all at once 97.0 -> 97.8), words staged 82.0 -> 82.6 (all at once 83.1 -> 86.4).
+  RTL SLOWK = 5, bit-exact (plain, pipelined, macros). Few-shot unchanged. Details: [note section 9](../hw/brain/experiments/month4/slow_table_and_staged_limits.md). Deck, script, Q&A, paper to be refreshed.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,0 +1,3 @@
+mnist k 1 {'imprint': {'old': 0.9776, 'new': 0.3859, 'all': 0.69}, 'slow_copy': {'old': 0.9776, 'new': 0.3859, 'all': 0.69}, 'slow_rows': {'old': 0.9779, 'new': 0.3892, 'all': 0.6918}}
+mnist k 5 {'imprint': {'old': 0.9562, 'new': 0.6855, 'all': 0.8246}, 'slow_copy': {'old': 0.9562, 'new': 0.6855, 'all': 0.8246}, 'slow_rows': {'old': 0.956, 'new': 0.6737, 'all': 0.8187}}
+mnist k 20 {'imprint': {'old': 0.9782, 'new': 0.7868, 'all': 0.8852}, 'slow_copy': {'old': 0.9782, 'new': 0.7868, 'all': 0.8852}, 'slow_rows': {'old': 0.9848, 'new': 0.7297, 'all': 0.8608}}

@@ -27,7 +27,7 @@ for k in (1, 5, 20):
         so = np.where(ytr < 5)[0]; so = so[g.permutation(len(so))]
         sn = np.concatenate([g.choice(np.where(ytr == c)[0], k, replace=False) for c in range(5, 10)]); sn = sn[g.permutation(len(sn))]
         for name, imp in (("imprint", 4), ("slow_copy", 4), ("slow_rows", 4)):
-            m = CortexInt(ctr.shape[1], seed=s, imprint=imp, **RULE) if name == "imprint" else CortexSlow(ctr.shape[1], seed=s, imprint=imp, ch=100 if DS == "speech" else 500, K=3, small=name[5:], **RULE); m.stage(ctr[so], ytr[so]); m.stage(ctr[sn], ytr[sn])
+            m = CortexInt(ctr.shape[1], seed=s, imprint=imp, **RULE) if name == "imprint" else CortexSlow(ctr.shape[1], seed=s, imprint=imp, ch=100 if DS == "speech" else 500, K=5, small=name[5:], **RULE); m.stage(ctr[so], ytr[so]); m.stage(ctr[sn], ytr[sn])
             p = m.predict(cte) == yte
             rows.setdefault(name, []).append({"old": float(p[old_te].mean()), "new": float(p[new_te].mean()), "all": float(p.mean())})
     res[k] = {n: {key: round(float(np.mean([r[key] for r in v])), 4) for key in ("old", "new", "all")} for n, v in rows.items()}

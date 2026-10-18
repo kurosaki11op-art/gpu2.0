@@ -1,2 +1,3 @@
 mnist 10 stages {'today': 0.9363, 'slow': 0.935}
 fashion 10 stages {'today': 0.7908, 'slow': 0.7846}
+speech 10 stages {'today': 0.8083, 'slow': 0.8068}

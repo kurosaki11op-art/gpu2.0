@@ -2,11 +2,11 @@
  "dataset": "fashion",
  "label": "SIMULATED (exact integer chip model, margin 32, 5 seeds)",
  "all_at_once": {
-  "single_view": 0.8685,
-  "look_again": 0.8786
+  "single_view": 0.8762,
+  "look_again": 0.8831
  },
  "5_stages": {
-  "single_view": 0.7853,
-  "look_again": 0.7846
+  "single_view": 0.8155,
+  "look_again": 0.8143
  }
 }

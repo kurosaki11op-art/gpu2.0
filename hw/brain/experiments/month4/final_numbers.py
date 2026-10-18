@@ -48,7 +48,7 @@ res = {}
 for sname, stages in (("all_at_once", [tuple(range(10))]), ("5_stages", [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)])):
     r = {"single_view": [], "look_again": []}
     for seed in (1, 2, 3, 4, 5):
-        m = CortexSlow(ctr.shape[1], ch=100 if DS == 'speech' else 500, K=3, night_stop=2, daydream=1, seed=seed) if SLOW else CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)       # margin 32 is the default now
+        m = CortexSlow(ctr.shape[1], ch=100 if DS == 'speech' else 500, K=int(os.environ.get('SLOWK', '5')), night_stop=2, daydream=1, seed=seed) if SLOW else CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)       # margin 32 is the default now
         for i, s in enumerate(stages):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]
             m.stage(ctr[sel], ytr[sel])

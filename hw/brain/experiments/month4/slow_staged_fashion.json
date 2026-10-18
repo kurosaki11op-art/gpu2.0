@@ -1,15 +1,27 @@
 {
  "label": "SIMULATED (exact integer chip model, margin 32, 3 seeds), spec = chunk:K (0:0 = today)",
- "250:2": {
-  "all_at_once": 0.8588,
-  "5_stages": 0.781
+ "500:4": {
+  "all_at_once": 0.8723,
+  "5_stages": 0.7972
  },
- "100:2": {
-  "all_at_once": 0.8553,
-  "5_stages": 0.7811
+ "500:6": {
+  "all_at_once": 0.8755,
+  "5_stages": 0.8054
  },
- "500:2": {
-  "all_at_once": 0.8613,
-  "5_stages": 0.7807
+ "250:5": {
+  "all_at_once": 0.8727,
+  "5_stages": 0.7971
+ },
+ "1000:5": {
+  "all_at_once": 0.8772,
+  "5_stages": 0.8086
+ },
+ "250:6": {
+  "all_at_once": 0.8732,
+  "5_stages": 0.8044
+ },
+ "1000:4": {
+  "all_at_once": 0.875,
+  "5_stages": 0.8166
  }
 }

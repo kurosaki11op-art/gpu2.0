@@ -83,7 +83,7 @@ Last updated: 2026-10-19.
 | Night | sleep | dreams of all known classes, up to 2 passes; ends itself after 256 dreams with > 2 surprises | same |
 | Dreams | generative replay | per bit: xorshift random draw below the class count (redraw if too big), on if below the bit's count | `cortex_core.v` |
 | Memory transfer | additive memories | export / import words; merge = add tables (saturate) and counts (halve when full), then one night | `cortex_core.v` op 7, `cortex_host.merge` |
-| Slow table (ASIC option, 18 Oct) | cortical consolidation | a second 8-bit table follows the fast one (S += ((W<<3) - S + 4) >> 3 every 500 ticks); prediction reads it; all-at-once clothing 83.4 -> 86.9, words 83.1 -> 85.7, digits 97.0 -> 97.6; none in stages | `cortex_core.v` option `CORTEX_SLOW`, `hw/brain/cortex_slow.py` |
+| Slow table (ASIC option, 18 Oct) | cortical consolidation | a second 8-bit table follows the fast one (S += ((W<<3) - S + 16) >> 5 every 500 ticks); prediction reads it; all-at-once clothing 83.4 -> 87.6, words 83.1 -> 86.4, digits 97.0 -> 97.8; staged clothing 78.4 -> 81.6 (slow consolidation damps the recency bias) | `cortex_core.v` option `CORTEX_SLOW`, `hw/brain/cortex_slow.py` |
 | Context memory (sim only) | hippocampal context | when known classes return under a new condition, dream a frozen copy of yesterday's counts | `cortex_int.py context=True` |
 
 Arithmetic: compare, count, add, shift, XOR, table lookup. No multiplier, no divider, no backprop (also true in RTL).
@@ -148,7 +148,7 @@ Month 4 work while waiting for the board (15 Oct, `hw/brain/experiments/month4/`
   `hw/board/preflight.py`.
 
 Month 4, 18-19 Oct (`hw/brain/experiments/month4/slow_table_and_staged_limits.md`): **what limits the scores.** The chip's own code is not the limit (a floating-point linear readout on it reaches 87.9% clothing / 98.3% digits);
-the online 5-bit readout is. Slow table (Redesign 6, RTL option `CORTEX_SLOW`, bit-exact): all at once clothing 87.9, words 87.2, digits 98.3 (5 seeds, LOOK AGAIN; level with a small MLP, not better), no change in stages.
+the online 5-bit readout is. Slow table (Redesign 6, RTL option `CORTEX_SLOW`, K = 5, bit-exact): all at once clothing 88.3, words 87.5, digits 98.4 (5 seeds, LOOK AGAIN; level with a small MLP, not better); staged clothing 81.6 (was 78.4).
 Staged learning is limited by dream fidelity (recency bias: last-stage classes absorb older ones, 7 -> 9 +21 points); cheap fixes failed (more daydreams, margins, group-structured dreams, bias rules, dream margin);
 only prototype dreams help (K = 4 + slow table: clothing 80.7, 4x dream memory). Rejected: pool-limited prototypes, rectangular sound detectors, exemplar memory for new words (the word limit is the features, needs more speech data).
 Pitch material for the 23 Oct event: `docs/SPARK_Cortex_pitch.pptx`, `pitch_script_cortex.md`, `pitch_qa_sheet.md`, `paper_spark_cortex.md` (deck to be refreshed with the slow-table numbers).

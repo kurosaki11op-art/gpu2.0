@@ -1,0 +1,6 @@
+fashion 500:4 {'all_at_once': 0.8723, '5_stages': 0.7972}
+fashion 500:6 {'all_at_once': 0.8755, '5_stages': 0.8054}
+fashion 250:5 {'all_at_once': 0.8727, '5_stages': 0.7971}
+fashion 1000:5 {'all_at_once': 0.8772, '5_stages': 0.8086}
+fashion 250:6 {'all_at_once': 0.8732, '5_stages': 0.8044}
+fashion 1000:4 {'all_at_once': 0.875, '5_stages': 0.8166}

@@ -93,7 +93,7 @@ for CB, n_per, k_new, ndream, night, ch in ((10, 12, 1, 3, 1, 5), (5, 20, 3, 2, 
     for s in (s1, s2, s3):
         r.shuffle(s)
     tst = r.choice(np.where(yte < 6)[0], 30, replace=False)
-    kw = dict(B=CB, ndream=ndream, night=night, daydream=1, ch=ch, K=3, FR=3, rnd=1, small="copy")
+    kw = dict(B=CB, ndream=ndream, night=night, daydream=1, ch=ch, K=5, FR=3, rnd=1, small="copy")
     m = CortexSlow(NB, **kw); m.cb = CB; ref = CortexSlow(NB, **kw); seeds = m.rng.copy()
     sched = CortexSlow(NB, **kw)
     cmds = []

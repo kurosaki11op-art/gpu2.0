@@ -1,0 +1,5 @@
+speech 100:4 {'all_at_once': 0.855, '5_stages': 0.824}
+speech 100:5 {'all_at_once': 0.8601, '5_stages': 0.8265}
+speech 100:6 {'all_at_once': 0.8609, '5_stages': 0.8211}
+speech 200:5 {'all_at_once': 0.8644, '5_stages': 0.826}
+speech 50:5 {'all_at_once': 0.8566, '5_stages': 0.8243}

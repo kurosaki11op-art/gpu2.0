@@ -2,11 +2,11 @@
  "dataset": "mnist",
  "label": "SIMULATED (exact integer chip model, margin 32, 5 seeds)",
  "all_at_once": {
-  "single_view": 0.9758,
-  "look_again": 0.9831
+  "single_view": 0.9779,
+  "look_again": 0.9837
  },
  "5_stages": {
-  "single_view": 0.9461,
-  "look_again": 0.9549
+  "single_view": 0.9499,
+  "look_again": 0.9589
  }
 }
