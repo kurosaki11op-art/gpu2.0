@@ -584,4 +584,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   sound no gain. RTL option `ENC_S1` in `cortex_encoder.v`, bit-exact (`run_check_encoder.py --s1 [--asic]`, added to `run_all_checks.sh`). It is an option, not the default (staged digits worse).
   ASIC cost of the slow table (+9 mm2 estimated) and of ENC_S1 (2.3x encoder cycles) in [ASIC estimate](../hw/results/cortex_asic_estimate.md). Details: [note](../hw/brain/experiments/month4/slow_table_and_staged_limits.md).
 
+### 19 Oct 2026 - regression 21/21 on the final design
+
+- Full regression on the final RTL (slow table + ENC_S1 + all earlier options): **21/21 PASS** (`hw/check_summary.txt`). Pitch material (deck 14 slides, script, Q&A, short paper) refreshed with the slow-table numbers.
+- Open: board day (`python hw\board\board_day.py --port COMx --data D:\cortex_data` on the user's PC; the Tang Nano bitstream has neither the slow table nor ENC_S1, which are ASIC options), prototype dreams in RTL (optional),
+  learned word features (needs more speech data), `rea-agents` run (needs a Bash rule for `rea`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

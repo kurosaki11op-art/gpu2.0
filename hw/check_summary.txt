@@ -8,6 +8,7 @@ core with slow table (Redesign 6): PASS
 core with slow table, pipelined: PASS
 encoder (FPGA build): PASS
 encoder (ASIC, gated clocks): PASS
+encoder, finer grid (ENC_S1, ASIC build): PASS
 encoder learning its detectors: PASS
 general encoder, images: PASS
 general encoder, sound: PASS
