@@ -3,3 +3,4 @@
 5,5,2,2,2,2,64 few-shot k=1: all-10 0.480  new 0.111  old 0.840
 5,5,2,2,2,2,64 few-shot k=2: all-10 0.500  new 0.127  old 0.863
 5,5,2,2,2,2,64 few-shot k=5: all-10 0.515  new 0.185  old 0.836
+3,3,1,1,4,4,64 bits 23040 all at once: 0.8888

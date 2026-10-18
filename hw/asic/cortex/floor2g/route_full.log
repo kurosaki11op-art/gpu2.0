@@ -260,3 +260,13 @@ Number of guides:     867571
 [WARNING DRT-0245] No output guide specified, skipped writing guide.
 [INFO DRT-0185] Post process initialize RPin region query.
 [INFO DRT-0181] Start track assignment.
+[INFO DRT-0184] Done with 470241 vertical wires in 22 frboxes and 285628 horizontal wires in 18 frboxes.
+[INFO DRT-0186] Done with 57098 vertical wires in 22 frboxes and 97635 horizontal wires in 18 frboxes.
+[INFO DRT-0182] Complete track assignment.
+[INFO DRT-0267] cpu time = 00:01:09, elapsed time = 00:00:49, memory = 3787.78 (MB), peak = 3787.48 (MB)
+[INFO DRT-0187] Start routing data preparation.
+[INFO DRT-0267] cpu time = 00:00:01, elapsed time = 00:00:01, memory = 4020.13 (MB), peak = 4019.73 (MB)
+[INFO DRT-0194] Start detail routing.
+[INFO DRT-0195] Start 0th optimization iteration.
+    Completing 10% with 1208 violations.
+    elapsed time = 00:01:49, memory = 5954.45 (MB).
