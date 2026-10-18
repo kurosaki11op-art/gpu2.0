@@ -1,0 +1,4 @@
+k=1 T=21 base : all-10 0.485  new(10-way) 0.127  new(5-way) 0.352  old 0.834  new-bits on 552.6
+k=1 T=21 grow : all-10 0.168  new(10-way) 0.337  new(5-way) 0.337  old 0.003  new-bits on 552.6
+k=1 T=23 base : all-10 0.485  new(10-way) 0.127  new(5-way) 0.352  old 0.834  new-bits on 281.7
+k=1 T=23 grow : all-10 0.257  new(10-way) 0.328  new(5-way) 0.341  old 0.189  new-bits on 281.7

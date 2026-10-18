@@ -33,10 +33,15 @@ for k in (1, 2, 5):
             m.stage(A, ytr[so])
             if name == "grow" and REPLAY:
                 pp = g.permutation(len(ex)); m.stage(exfull[pp], ytr[ex][pp])
+                if os.environ.get('SCALE') == '1':                                   # rate estimate: the new bits' on-counts came from REPLAY clips per old word, scale to the class's example count
+                    for c in range(5):
+                        nc = int(m.n[c]); m.on[c, NB:] = np.minimum((m.on[c, NB:].astype(np.int64) * nc) // REPLAY, nc).astype(m.on.dtype)
             B_ = np.concatenate([ctr[sn], newtr], 1) if name == "grow" else ctr[sn]
             m.stage(B_, ytr[sn])
             T = np.concatenate([cte, newte], 1) if name == "grow" else cte
             sc = T.astype(np.int32) @ m.W.T.astype(np.int32); p = sc.argmax(1); nw = yte >= 5
             res[name].append(((p == yte).mean(), (p[nw] == yte[nw]).mean(), (sc[nw][:, 5:].argmax(1) + 5 == yte[nw]).mean(), (p[~nw] == yte[~nw]).mean()))
     for name, v in res.items():
-        a = np.mean(v, 0); print(f"REPLAY={REPLAY} k={k} {name:5s}: all-10 {a[0]:.3f}  new(10-way) {a[1]:.3f}  new(5-way) {a[2]:.3f}  old {a[3]:.3f}", flush=True)
+        if not v:
+            continue
+        a = np.mean(v, 0); print(f"REPLAY={REPLAY} SCALE={os.environ.get('SCALE')} k={k} {name:5s}: all-10 {a[0]:.3f}  new(10-way) {a[1]:.3f}  new(5-way) {a[2]:.3f}  old {a[3]:.3f}", flush=True)

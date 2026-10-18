@@ -81,4 +81,16 @@ So the failure is at the old / new boundary: a new word learned from 1-5 recordi
 **Novelty gate (`newword_novelty.py`).** Send a clip to the new classes when its best old-class score is below tau x the old words' own mean score: k = 1, all ten words 48.0 (no gate) -> 47.6 / 46.3 / 43.8 / 40.5 / 36.5 for tau = 0.5 / 0.7 / 0.8 / 0.9 / 1.0
 (new words 11 -> 13 / 21 / 26 / 30 / 32, old words 84 -> 82 / 71 / 62 / 51 / 41). A pure trade of old for new, total accuracy only falls: the best-old-class score of a new word overlaps that of an old word. **Failure.**
 
+## 7. Neurogenesis for new words (19 Oct, user's idea: grow new units instead of overwriting) - no net gain so far
+
+`neurogenesis_words.py`, `neurogenesis_words2.py`, `neurogenesis_words3.py` (SIMULATED, 2 draws). When the new words arrive, the chip grows 16 extra sound detectors per channel, fitted without labels on the k x 5 new recordings only,
+and appends their bits to the code; old rows and old codes are untouched. Results, base (no growth) -> grown:
+- **v1 (winner-take-all new detectors, fire on every window):** all ten words 48.5 -> 23.8 (k = 1), 50.1 -> 26.6 (k = 2), 50.1 -> 28.5 (k = 5); new words (10-way) 12.7 -> 35.7, 13.1 -> 43.0, 15.2 -> 52.6; **old words 83 -> 12, 86 -> 11, 84 -> 5**.
+  The old rows never saw the new bits, so every clip (old words included) is pulled to the new rows. Among the new words alone: 35.2 -> 36.6, 41.2 -> 43.5, 44.8 -> 52.6.
+- **v3 (fire only on a strong match, agreement >= 21 or 23 of 25 bits):** the new bits stay dense (550 / 280 on per clip) and old words still collapse (0.3% / 19%).
+- **v2 (a stored buffer of 20 old recordings per old word teaches the old rows the new bits; not the no-stored-examples rule):** without rate scaling old words 13 / 11 / 6% (the on-counts of the new bits come from only 20 clips of thousands, so old dreams never switch them on);
+  **with the new bits' on-counts scaled to the class's example count (rate estimate): old words 79 / 80%, all ten words 47.1 (k = 1) and 50.8 (k = 2) vs 48.5 / 50.1 base, new words (10-way) 14.2 / 21.0 vs 12.7 / 13.1.**
+**Reading.** Growing units is a sound brain idea and it does carry information about the new words (new-vs-new 5-way up to +7.8 at k = 5 before balancing), but the old / new boundary problem returns the moment the old rows lack statistics for the new bits;
+once balanced with a small buffer and rate scaling the net gain over all ten words is +0.7 at k = 2 (within noise). Not adopted. A version that needs no stored old recordings would have to estimate the old words' firing rate on the new detectors without audio (not possible), so growth fits cases where the new classes get their own separate readout, not a shared linear table.
+
 Related: [month4 index](INDEX.md), [Redesign 1 note](fewshot_imprint.md), [Research: weak spots](../../../../docs/research_weak_spots.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)
