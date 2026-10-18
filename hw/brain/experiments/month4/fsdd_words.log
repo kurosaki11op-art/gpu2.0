@@ -3,3 +3,6 @@ detectors base  scenario S k=5: all-10 0.515  new 0.185  old 0.836  new->old-or-
 detectors more  scenario S k=1: all-10 0.473  new 0.096  old 0.841  new->old-or-FSDD 0.725
 detectors more  scenario S k=5: all-10 0.519  new 0.190  old 0.840  new->old-or-FSDD 0.591
 detectors more  scenario M k=1: all-10 0.467  new 0.084  old 0.839  new->old-or-FSDD 0.793
+detectors more  scenario M k=5: all-10 0.501  new 0.153  old 0.839  new->old-or-FSDD 0.699
+detectors fsdd  scenario S k=1: all-10 0.471  new 0.090  old 0.843  new->old-or-FSDD 0.722
+detectors fsdd  scenario S k=5: all-10 0.528  new 0.221  old 0.827  new->old-or-FSDD 0.552

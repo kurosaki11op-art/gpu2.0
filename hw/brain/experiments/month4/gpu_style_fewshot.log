@@ -1,0 +1,6 @@
+old embedding trained 348 s; closed-set accuracy on old words (head-free prototypes):
+GPU-style (old) k=1: all-10 0.551  new 0.255  old 0.840  new->old 0.483
+GPU-style (old) k=5: all-10 0.637  new 0.435  old 0.833  new->old 0.295
+old+fsdd embedding trained 366 s; closed-set accuracy on old words (head-free prototypes):
+GPU-style (old+fsdd) k=1: all-10 0.536  new 0.210  old 0.854  new->old 0.581
+GPU-style (old+fsdd) k=5: all-10 0.654  new 0.490  old 0.814  new->old 0.294
