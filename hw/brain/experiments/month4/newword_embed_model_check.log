@@ -1,0 +1,9 @@
+hardware-exact rules KOLD=1 k=1: all-10 0.511  new 0.188  old 0.826
+hardware-exact rules KOLD=1 k=2: all-10 0.583  new 0.372  old 0.789
+hardware-exact rules KOLD=1 k=5: all-10 0.640  new 0.504  old 0.774
+hardware-exact rules KOLD=3 k=1: all-10 0.502  new 0.126  old 0.868
+hardware-exact rules KOLD=3 k=2: all-10 0.564  new 0.270  old 0.851
+hardware-exact rules KOLD=3 k=5: all-10 0.623  new 0.404  old 0.836
+hardware-exact rules KOLD=4 k=1: all-10 0.495  new 0.109  old 0.872
+hardware-exact rules KOLD=4 k=2: all-10 0.558  new 0.253  old 0.856
+hardware-exact rules KOLD=4 k=5: all-10 0.614  new 0.375  old 0.847

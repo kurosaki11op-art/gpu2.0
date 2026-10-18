@@ -616,4 +616,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   a GPU-style CNN baseline (backprop, diagnostic) beats the chip on new words (63.7 vs 51.5 at k = 5). Finer sound grid 3,3,1,1,4,4: new words 32.3 vs 18.5 (k = 5), old unchanged.
 - Table-score embedding (describe a new word by its scores over 15 known words, integer L1 nearest prototype, 3 competitive prototypes per old word): all ten 49.3 / 55.8 / 61.5 vs 48.0 / 50.0 / 51.5 shipped (k = 1 / 2 / 5), old 86.3 / 84.9 / 83.8 vs 84.0 / 86.3 / 83.6: no trade-off. Details: [note section 11](../hw/brain/experiments/month4/multiproto_dreams.md).
 
+### 20 Oct 2026 - embedding path built into the RTL
+
+- `CORTEX_EMBED` option in `cortex_core.v` (ENROLL / WINNER / MATCH, prototype memory), reference `hw/brain/cortex_embed.py`, check `run_check_cortex_embed.py` (3 scenarios, 0 mismatches plain and pipelined), added to `run_all_checks.sh`. Hardware-exact accuracy with K = 3: all ten words 50.2 / 56.4 / 62.3, old words 86.8 / 85.1 / 83.6 (k = 1 / 2 / 5). Details: [note section 12](../hw/brain/experiments/month4/multiproto_dreams.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

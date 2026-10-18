@@ -84,6 +84,7 @@ Last updated: 2026-10-19.
 | Dreams | generative replay | per bit: xorshift random draw below the class count (redraw if too big), on if below the bit's count | `cortex_core.v` |
 | Memory transfer | additive memories | export / import words; merge = add tables (saturate) and counts (halve when full), then one night | `cortex_core.v` op 7, `cortex_host.merge` |
 | Slow table (ASIC option, 18 Oct) | cortical consolidation | a second 8-bit table follows the fast one (S += ((W<<3) - S + 16) >> 5 every 500 ticks); prediction reads it; all-at-once clothing 83.4 -> 87.6, words 83.1 -> 86.4, digits 97.0 -> 97.8; staged clothing 78.4 -> 81.6 (slow consolidation damps the recency bias) | `cortex_core.v` option `CORTEX_SLOW`, `hw/brain/cortex_slow.py` |
+| Embedding path (ASIC option, 20 Oct) | relational coding (familiarity profile) | a new word is a prototype in the space of the table's scores over ~15 known words (L1 nearest prototype; old words get K=3 competitive prototypes; new words a running mean of 1-5 clips); the table is untouched | `cortex_core.v` option `CORTEX_EMBED`, `hw/brain/cortex_embed.py` |
 | Context memory (sim only) | hippocampal context | when known classes return under a new condition, dream a frozen copy of yesterday's counts | `cortex_int.py context=True` |
 
 Arithmetic: compare, count, add, shift, XOR, table lookup. No multiplier, no divider, no backprop (also true in RTL).
@@ -152,6 +153,8 @@ the online 5-bit readout is. Slow table (Redesign 6, RTL option `CORTEX_SLOW`, K
 Staged learning is limited by dream fidelity (recency bias: last-stage classes absorb older ones, 7 -> 9 +21 points); cheap fixes failed (more daydreams, margins, group-structured dreams, bias rules, dream margin);
 only prototype dreams help (K = 4 + slow table: clothing 80.7, 4x dream memory). Rejected: pool-limited prototypes, rectangular sound detectors, exemplar memory for new words (the word limit is the features, needs more speech data).
 Pitch material for the 23 Oct event: `docs/SPARK_Cortex_pitch.pptx`, `pitch_script_cortex.md`, `pitch_qa_sheet.md`, `paper_spark_cortex.md` (deck to be refreshed with the slow-table numbers).
+
+New spoken words (20 Oct, `hw/brain/experiments/month4/multiproto_dreams.md` sections 9-12): errors follow twin words (no/go, left/right), not learning order; fitting detectors on more words does not help, more known classes in the table hurt; a GPU-style CNN beats the chip (63.7 vs 51.5 at 5 recordings); the table-score embedding path (RTL option CORTEX_EMBED, bit-exact) reaches 50.2 / 56.4 / 62.3 (all ten words) at 1 / 2 / 5 recordings with old words unchanged; finer sound grid 3,3,1,1,4,4 gives new words 32.3 vs 18.5 in the table path (full check pending).
 
 ## 6. Known failures and corrections (do not repeat)
 

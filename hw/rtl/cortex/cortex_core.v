@@ -29,6 +29,14 @@
 //              arg 7 = read S word mem_addr into rd_s. With CORTEX_SLOW, PREDICT scores with S instead of W (learning, PRACTISE
 //              and DREAM still use W). The host decides when to FOLLOW (every CH real examples / night dreams) and SCOPYs after
 //              a stage too short to consolidate. Redesign 6 of 18 Oct 2026 (all-at-once clothing +3.3, words +2.6 in the model); SLOWK = 5 (19 Oct: slower consolidation also lifts staged clothing 78.5 -> 81.6).
+//              args 8-12 (build option CORTEX_EMBED, 20 Oct 2026, Redesign 8) = the table-score embedding for new words: a word is a PROTOTYPE slot (C signed sums, a label, a count)
+//              in the space of the table's own scores over the known classes. They use the score vector left in acc[] by the PREDICT just before (acc is not cleared for these commands);
+//              e[j] = acc[j] if class j is known, else 0. mem_addr fields: slot = [5:0].
+//              arg 8 = ENROLL: slot, shift override = [8:6] (0 = automatic min(bitlen(count), 5)), label = [12:9]; empty slot: p = e, else p += (e - p) >>> s; count saturates at 255 (C cycles)
+//              arg 9 = WINNER: first slot = [5:0], number of slots = [11:6]; emb_slot = the first EMPTY slot in range, else the slot with the smallest L1 distance sum |e - p| (first on a tie)
+//              arg 10 = MATCH: emb_slot / emb_lab / emb_dist = the filled slot (any) with the smallest L1 distance (first on a tie) and its label
+//              arg 11 = read prototype element mem_addr[9:0] = slot * 16 + class -> rd_e;  arg 12 = read slot meta mem_addr[5:0] -> rd_e = {filled, label, count}
+//              Old words are enrolled by competitive learning (WINNER, then ENROLL into the winner with shift 5), new words from a few recordings by ENROLL with shift 0 (a running mean).
 // Build option CORTEX_CONTEXT (context memory, bit-exact with CortexInt(context=True)): DREAM with cmd_frozen = 1
 // dreams from the frozen copy instead of the live counters. The host freezes before a day that brings known classes
 // back (a new condition), dreams old knowledge from the frozen copy during that day and alternates live / frozen at
@@ -42,7 +50,8 @@
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
     parameter CMAX = 15, parameter MARGIN = 32, parameter SW = 20, parameter IMPS = 2, parameter IMPN = 8,
-    parameter SB = 8, parameter SFR = 3, parameter SLOWK = 5
+    parameter SB = 8, parameter SFR = 3, parameter SLOWK = 5,
+    parameter NP = 48, parameter EMB_SMAX = 5
 ) (
     input  wire          clk, rst,
     input  wire          cmd_valid, input wire [2:0] cmd_op, input wire [3:0] cmd_arg,
@@ -56,6 +65,9 @@ module cortex_core #(
 `ifdef CORTEX_SLOW
     output reg [C*SB-1:0] rd_s,
 `endif
+`ifdef CORTEX_EMBED
+    output reg [5:0] emb_slot, output reg [3:0] emb_lab, output reg [23:0] emb_dist, output reg signed [SW-1:0] rd_e,
+`endif
     output reg [C*WB-1:0] rd_w, output reg [C*CB-1:0] rd_c, output wire [C*CB-1:0] rd_n, output wire [C-1:0] rd_known
 );
     localparam [CB-1:0] TOP = (1 << CB) - 1;
@@ -67,7 +79,8 @@ module cortex_core #(
                S_D0 = 24, S_D1 = 25, S_D2 = 26, S_D3 = 27, S_P = 28, S_DONE = 29, S_Z0 = 30, S_Z1 = 31,
                S_M0 = 32, S_M1 = 33, S_M2 = 34, S_F0 = 35, S_F1 = 36, S_F2 = 37,
                S_I0 = 38, S_I1 = 39, S_I2 = 40,
-               S_L0 = 41, S_L1 = 42, S_L2 = 43, S_Y0 = 44, S_Y1 = 45, S_Y2 = 46, S_Q0 = 47, S_Q1 = 48;
+               S_L0 = 41, S_L1 = 42, S_L2 = 43, S_Y0 = 44, S_Y1 = 45, S_Y2 = 46, S_Q0 = 47, S_Q1 = 48,
+               S_N0 = 49, S_N1 = 50, S_N2 = 51, S_W0 = 52, S_W1 = 53, S_W2 = 54, S_W3 = 55, S_X0 = 56, S_X1 = 57, S_X2 = 58, S_X3 = 59;
 
 `ifndef CORTEX_ASIC
     (* ram_style = "block" *) reg [C*WB-1:0] wmem [0:NB-1];
@@ -104,6 +117,18 @@ module cortex_core #(
     reg [CB-1:0] onf, ncur; reg [4:0] L;
     reg [C*WB-1:0] wt; reg [C*CB-1:0] ct; reg [CB:0] nn;
     integer j;
+`ifdef CORTEX_EMBED
+    // prototype memory: slot * 16 + class (C <= 16, NP <= 64 slots), a filled flag, a label and a count per slot
+    reg signed [SW-1:0] pv [0:NP*16-1]; reg [NP-1:0] pfill; reg [3:0] plab [0:NP-1]; reg [7:0] pcnt [0:NP-1];
+    reg [5:0] e_s; reg [3:0] e_sh, e_lab, e_shift, e_j; reg [6:0] e_cur, e_end, e_bslot; reg [23:0] e_dist, e_best; reg e_have; integer e_dd;
+    wire signed [SW-1:0] evec = known[e_j] ? acc[e_j] : {SW{1'b0}};
+    wire [9:0] e_idx = {e_s, e_j};
+    wire [9:0] e_cidx = {e_cur[5:0], e_j};
+    wire signed [SW:0] ediff = $signed({evec[SW-1], evec}) - $signed({pv[e_cidx][SW-1], pv[e_cidx]});
+    wire [SW:0] eabs = ediff[SW] ? -ediff : ediff;
+    function [3:0] blen8; input [7:0] v; integer q; begin blen8 = 0; for (q = 0; q < 8; q = q + 1) if (v[q]) blen8 = q + 1; end endfunction
+    integer ei; initial begin for (ei = 0; ei < NP * 16; ei = ei + 1) pv[ei] = 0; for (ei = 0; ei < NP; ei = ei + 1) begin plab[ei] = 0; pcnt[ei] = 0; end end   // power-up zero (simulation); a slot is empty until pfill is set
+`endif
     genvar gi;
     generate for (gi = 0; gi < C; gi = gi + 1) begin : g_n
         assign rd_n[gi*CB +: CB] = n[gi];
@@ -202,12 +227,19 @@ module cortex_core #(
         if (rst) begin
             st <= S_IDLE; busy <= 0; known <= 0; pred <= 0; updated <= 0; llen_out <= 0;
             for (j = 0; j < C; j = j + 1) n[j] <= 0;
+`ifdef CORTEX_EMBED
+            pfill <= 0;
+`endif
         end else case (st)
         S_IDLE: begin
             busy <= 0;
             if (cmd_valid) begin
                 y <= cmd_arg; busy <= 1; i <= 0; llen <= lb_len; predict_mode <= 0; updated <= 0;
+                `ifdef CORTEX_EMBED
+                if (!(cmd_op == 3'd4 && cmd_arg[0]) && !(cmd_op == 3'd7 && cmd_arg >= 4'd8 && cmd_arg <= 4'd10)) for (j = 0; j < C; j = j + 1) acc[j] <= 0;   // PREDICT arg 1 / EMBED 8-10 keep the sum
+`else
                 if (!(cmd_op == 3'd4 && cmd_arg[0])) for (j = 0; j < C; j = j + 1) acc[j] <= 0;   // PREDICT arg 1 keeps the sum
+`endif
                 case (cmd_op)
                     3'd1: st <= S_C0;
                     3'd2: st <= S_S0;
@@ -229,6 +261,18 @@ module cortex_core #(
                         end else if (cmd_arg == 4'd3) begin
                             for (j = 0; j < C; j = j + 1) fn[j] <= n[j];
                             b <= 0; st <= S_F0;
+`endif
+`ifdef CORTEX_EMBED
+                        end else if (cmd_arg == 4'd8) begin
+                            e_s <= mem_addr[5:0]; e_sh <= {1'b0, mem_addr[8:6]}; e_lab <= mem_addr[12:9]; st <= S_N0;
+                        end else if (cmd_arg == 4'd9) begin
+                            e_cur <= {1'b0, mem_addr[5:0]}; e_end <= {1'b0, mem_addr[5:0]} + mem_addr[11:6]; e_have <= 0; e_bslot <= {1'b0, mem_addr[5:0]}; st <= S_W1;
+                        end else if (cmd_arg == 4'd10) begin
+                            e_cur <= 0; e_end <= NP; e_have <= 0; e_bslot <= 0; e_best <= 0; st <= S_X1;
+                        end else if (cmd_arg == 4'd11) begin
+                            rd_e <= pv[mem_addr[9:0]]; st <= S_DONE;
+                        end else if (cmd_arg == 4'd12) begin
+                            rd_e <= {pfill[mem_addr[5:0]], plab[mem_addr[5:0]], pcnt[mem_addr[5:0]]}; st <= S_DONE;
 `endif
 `ifdef CORTEX_SLOW
                         end else if (cmd_arg == 4'd5) begin
@@ -397,6 +441,48 @@ module cortex_core #(
         S_Q0: st <= S_Q1;
         S_Q1: begin rd_s <= sq; st <= S_DONE; end
 `endif
+`ifdef CORTEX_EMBED
+        // ---- ENROLL: shift s = override or min(bitlen(count), EMB_SMAX); empty slot copies the vector
+        S_N0: begin e_j <= 0; e_shift <= (e_sh != 0) ? e_sh : ((blen8(pcnt[e_s]) > EMB_SMAX) ? EMB_SMAX : blen8(pcnt[e_s])); st <= S_N1; end
+        S_N1: begin
+            if (!pfill[e_s]) pv[e_idx] <= evec;
+            else begin e_dd = $signed(evec) - $signed(pv[e_idx]); pv[e_idx] <= pv[e_idx] + (e_dd >>> e_shift); end
+            if (e_j == C - 1) st <= S_N2; else e_j <= e_j + 1'b1;
+        end
+        S_N2: begin
+            if (!pfill[e_s]) begin pfill[e_s] <= 1'b1; pcnt[e_s] <= 8'd1; plab[e_s] <= e_lab; end
+            else if (pcnt[e_s] != 8'd255) pcnt[e_s] <= pcnt[e_s] + 1'b1;
+            st <= S_DONE;
+        end
+        // ---- WINNER: first empty slot in range, else the smallest L1 distance (first on a tie)
+        S_W1: begin
+            if (e_cur == e_end) begin emb_slot <= e_bslot[5:0]; st <= S_DONE; end
+            else if (!pfill[e_cur[5:0]]) begin emb_slot <= e_cur[5:0]; st <= S_DONE; end
+            else begin e_j <= 0; e_dist <= 0; st <= S_W2; end
+        end
+        S_W2: begin
+            e_dist <= e_dist + eabs;
+            if (e_j == C - 1) st <= S_W3; else e_j <= e_j + 1'b1;
+        end
+        S_W3: begin
+            if (!e_have || e_dist < e_best) begin e_best <= e_dist; e_bslot <= e_cur; e_have <= 1'b1; end
+            e_cur <= e_cur + 1'b1; st <= S_W1;
+        end
+        // ---- MATCH: smallest L1 distance over all filled slots
+        S_X1: begin
+            if (e_cur == e_end) begin emb_slot <= e_bslot[5:0]; emb_lab <= plab[e_bslot[5:0]]; emb_dist <= e_best; st <= S_DONE; end
+            else if (!pfill[e_cur[5:0]]) e_cur <= e_cur + 1'b1;
+            else begin e_j <= 0; e_dist <= 0; st <= S_X2; end
+        end
+        S_X2: begin
+            e_dist <= e_dist + eabs;
+            if (e_j == C - 1) st <= S_X3; else e_j <= e_j + 1'b1;
+        end
+        S_X3: begin
+            if (!e_have || e_dist < e_best) begin e_best <= e_dist; e_bslot <= e_cur; e_have <= 1'b1; end
+            e_cur <= e_cur + 1'b1; st <= S_X1;
+        end
+`endif
         // ---- predict: first known class with the top score -------------------------------------------------------
         S_P: if (sc_i == C) st <= S_DONE;
              else begin
@@ -404,7 +490,11 @@ module cortex_core #(
                  sc_i <= sc_i + 1;
              end
         // ---- clear ------------------------------------------------------------------------------------------------
-        S_Z0: if (b == NB) begin known <= 0; for (j = 0; j < C; j = j + 1) n[j] <= 0; st <= S_DONE; end
+        S_Z0: if (b == NB) begin known <= 0; for (j = 0; j < C; j = j + 1) n[j] <= 0;
+`ifdef CORTEX_EMBED
+                  pfill <= 0;
+`endif
+                  st <= S_DONE; end
               else begin m_addr <= b[AW-1:0]; w_wd <= 0; c_wd <= 0; w_wen <= 1; c_wen <= 1;
 `ifdef CORTEX_SLOW
                    s_wd <= 0; s_wen <= 1;

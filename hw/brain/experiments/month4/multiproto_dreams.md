@@ -140,4 +140,14 @@ Files: `save_word_codes.py`, `newword_tableembed.py`, `newword_tableembed2.py`, 
 - Failures on the way: a confidence gate that lets the table answer old words (new-word accuracy 3-9%: new clips are also confident), k-means prototypes with K = 16 per old word (old 88-89, new 4-22).
 - Only the new-word path changes: the table, all-at-once and staged accuracy of digits, clothing and words are untouched. Not yet in the RTL; not yet combined with the finer sound grid (3,3,1,1,4,4: new words 32.3 vs 18.5 at k = 5 in the table path).
 
+## 12. Redesign 8 in the RTL: the embedding path (option CORTEX_EMBED, 20 Oct) - bit-exact, no trade-off against the shipped chip
+
+`hw/brain/cortex_embed.py` (reference) and `hw/rtl/cortex/cortex_core.v` option `CORTEX_EMBED` (MEM args 8-12: ENROLL, WINNER, MATCH, read element, read slot meta); check `hw/rtl/cortex/run_check_cortex_embed.py` (table learned by LEARN, old words enrolled as competitive prototypes through PREDICT + WINNER + ENROLL shift 5,
+new words through PREDICT + ENROLL shift 0, test clips matched; compared: every update flag, prediction, WINNER slot, MATCH slot / label / distance, the table and every prototype element, flag, label and count): 3 scenarios, **0 mismatches** plain, pipelined (and with the SRAM macro models, see journal).
+Cost (design facts / ESTIMATED): prototype memory NP = 48 slots x 16 classes x 20 bits = 15 kbit of flip-flops (plus labels and counts), an L1 distance unit (one add of |difference| per class per cycle), C <= 16 table rows; ENROLL C cycles, WINNER and MATCH C cycles per slot.
+Procedure for a deployment: ship a base vocabulary (here 5 words + 10 digits = 15 known classes in the table); the old words also get K = 3 prototypes each (competitive learning); to teach a new word, PREDICT on each of its 1-5 recordings and ENROLL (shift 0) into one new slot; to recognise, PREDICT then MATCH (the label of the nearest prototype by L1).
+Hardware-exact accuracy (`newword_embed_model_check.py`, 3 draws, single view, speech; all ten / new / old), k = 1 / 2 / 5, K = 3 prototypes per old word: **50.2 / 56.4 / 62.3, new 12.6 / 27.0 / 40.4, old 86.8 / 85.1 / 83.6**
+vs the shipped chip (new words as table rows): 48.0 / 50.0 / 51.5, new 11.1 / 12.7 / 18.5, old 84.0 / 86.3 / 83.6. K = 1: 51.1 / 58.3 / 64.0 (new 18.8 / 37.2 / 50.4) with old 82.6 / 78.9 / 77.4 (a trade); K = 4: 49.5 / 55.8 / 61.4, old 87.2 / 85.6 / 84.7.
+The table, the slow table, the staged and all-at-once accuracy of digits, clothing and words are untouched (the embedding is a separate path).
+
 Related: [month4 index](INDEX.md), [Redesign 1 note](fewshot_imprint.md), [Research: weak spots](../../../../docs/research_weak_spots.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)
