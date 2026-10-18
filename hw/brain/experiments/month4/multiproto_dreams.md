@@ -62,4 +62,15 @@ New words alone: 1 recording 22.2 -> 17.7, 2 recordings 22.0 -> 27.3, 5 recordin
 50.4 / 53.9 / 57.2. About +2 from 2 recordings up, a loss at 1; near seed noise. Not a rule; fitting the detectors on a broader set of
 words before shipping is free (a PC-side choice). The real gap (a word embedding learned on many words) is still open.
 
+## 5. Episodic exemplar memory for new words (18 Oct) - no gain, and where the difficulty is
+
+**Test (`fewshot_exemplar.py`, `fewshot_exemplar2.py`, SIMULATED, 3-5 draws).** Keep the k stored sparse codes of each new word (a hippocampus-like
+exemplar memory) and classify by the best cosine overlap, alone (5-way among the new words, chance 20%) and fused with the table (10-way).
+5-way, k = 1 / 2 / 5 recordings: table after IMPRINT + short sleep 37.7 / 45.0 / 47.4; exemplar nearest neighbour 35.3 / 45.5 / 48.7.
+10-way fusion (new word if its best exemplar overlap exceeds t x the best old-word overlap, t = 0.7 .. 1.1): 45-49%, always below the table alone
+(48.2 / 49.5 / 51.4). **Failure: the exemplar memory is no better than the table, and fusing them is worse.**
+**What it shows.** Among new words alone the chip already gets 38-47% (chance 20%); the 12-29% "new word" figure in the 10-way test is mostly new words
+confused with known words. The limit is the representation (the sound code of a word from 1-5 recordings), not the memory: a better memory rule will not
+fix it; only better features (learned from many words) can.
+
 Related: [month4 index](INDEX.md), [Redesign 1 note](fewshot_imprint.md), [Research: weak spots](../../../../docs/research_weak_spots.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

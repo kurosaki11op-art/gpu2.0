@@ -1,0 +1,12 @@
+{
+ "label": "SIMULATED, 5-way among the new words 5-9, 5 draws",
+ "k1_and": 0.3203,
+ "k1_jaccard": 0.3198,
+ "k1_cos": 0.3212,
+ "k2_and": 0.3818,
+ "k2_jaccard": 0.3788,
+ "k2_cos": 0.3788,
+ "k5_and": 0.4835,
+ "k5_jaccard": 0.4631,
+ "k5_cos": 0.4589
+}

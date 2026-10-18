@@ -551,4 +551,12 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   `docs/pitch_script_cortex.md`, `docs/pitch_qa_sheet.md`, `docs/paper_spark_cortex.md`. All numbers taken from the claims sheet and results page; failures stated on slide 10.
 - Redesign 5 (rectangular sound receptive fields) continues in the background (`sound_rf2.log`).
 
+### 18 Oct 2026 - exemplar memory for new words: no gain; the limit is the features
+
+- Tested a hippocampus-like exemplar memory (k stored codes per new word, nearest neighbour by cosine overlap) against the table after IMPRINT: 5-way among
+  new words 35.3 / 45.5 / 48.7 (exemplar) vs 37.7 / 45.0 / 47.4 (table) for 1 / 2 / 5 recordings; fusing them in the 10-way test is worse (SIMULATED).
+  Failure recorded. Insight: among new words alone the chip is at 38-47% (chance 20%); the low "new word" figure is mostly confusion with known words. The
+  gap is in the word features, which need speech from many words to learn; only 10 words are available here, so this needs a bigger speech set.
+  Rectangular sound fields so far: 9x5 82.5 / 81.8 and 7x5 81.7 / 82.2 (all at once / 5 stages), equal to 5x5 (82.6 / 82.1) with 17% fewer code bits. Notes: [multiproto_dreams](../hw/brain/experiments/month4/multiproto_dreams.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
