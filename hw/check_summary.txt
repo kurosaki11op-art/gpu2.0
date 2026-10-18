@@ -6,6 +6,8 @@ core with IMPRINT (few-shot fix): PASS
 core with IMPRINT, pipelined: PASS
 core with slow table (Redesign 6): PASS
 core with slow table, pipelined: PASS
+core with embedding path (Redesign 8): PASS
+core with embedding path, pipelined: PASS
 encoder (FPGA build): PASS
 encoder (ASIC, gated clocks): PASS
 encoder, finer grid (ENC_S1, ASIC build): PASS
