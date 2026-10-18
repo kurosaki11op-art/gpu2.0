@@ -1,0 +1,2 @@
+SHIPPED k=1 chip: all 0.480 | group-A (first 5 listed) 0.111, group-B 0.840 | A->B errors 0.687, B->A errors 0.089 | top confusions right->left 0.64, off->up 0.57, go->no 0.47, stop->up 0.46, on->down 0.40
+SHIPPED k=5 chip: all 0.515 | group-A (first 5 listed) 0.185, group-B 0.836 | A->B errors 0.592, B->A errors 0.097 | top confusions right->left 0.56, on->down 0.52, off->up 0.38, go->no 0.39, stop->up 0.34
