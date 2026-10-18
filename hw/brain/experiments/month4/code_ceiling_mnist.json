@@ -1,0 +1,8 @@
+{
+ "label": "SIMULATED diagnostic: floating-point networks with backprop, not part of the chip; 1 seed",
+ "dataset": "mnist",
+ "code_linear": 0.9834,
+ "code_mlp256": 0.983,
+ "pixels_mlp256": 0.9783,
+ "pixels_cnn": 0.9867
+}

@@ -57,6 +57,7 @@ copying only the new classes' rows is slightly better (all 10 classes 64.2 / 70.
 | group-structured dreams (`cortex_group.py`: cap on bits per position group, refill empty active groups by roulette) | 78.3 (cap 4), 77.3 (cap 4 with refill), 76.6 / 75.3 (cap 3), 70.0 (cap 2) | worse |
 | self-calibrated bias from dream scores (alpha x (mean dream score - mean)) | 79.2 best (alpha 0.5) | +0.9 |
 | homeostasis: bias steered so each class's prediction rate matches its training share | 79.2 | +0.8 (and assumes the deployment mix) |
+| larger margin for dreams only (`cortex_dm.py`, dmargin 64 / 128 / 256, real margin 32) | 79.5 / 79.0 / 78.9 | +1.0 at best, near noise |
 | oracle recency bias (ramp 320, needs hand tuning) | 81.8 | upper bound, not a rule |
 
 **Conclusion.** Staged accuracy is limited by dream fidelity: which features occur together in a class. The only fix that works so far is prototypes (K = 2: +1.6, K = 4:

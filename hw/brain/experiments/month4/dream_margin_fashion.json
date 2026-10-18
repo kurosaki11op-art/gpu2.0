@@ -1,0 +1,12 @@
+{
+ "label": "SIMULATED (exact integer model, 2 seeds), real margin 32",
+ "64": {
+  "5_stages": 0.7953
+ },
+ "128": {
+  "5_stages": 0.7903
+ },
+ "256": {
+  "5_stages": 0.7893
+ }
+}
