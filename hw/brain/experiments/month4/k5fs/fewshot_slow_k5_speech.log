@@ -1,1 +1,3 @@
 speech k 1 {'imprint': {'old': 0.84, 'new': 0.1108, 'all': 0.4801}, 'slow_copy': {'old': 0.84, 'new': 0.1108, 'all': 0.4801}, 'slow_rows': {'old': 0.7846, 'new': 0.1852, 'all': 0.4888}}
+speech k 5 {'imprint': {'old': 0.8362, 'new': 0.185, 'all': 0.5147}, 'slow_copy': {'old': 0.8362, 'new': 0.185, 'all': 0.5147}, 'slow_rows': {'old': 0.7497, 'new': 0.3086, 'all': 0.532}}
+speech k 20 {'imprint': {'old': 0.8574, 'new': 0.3854, 'all': 0.6245}, 'slow_copy': {'old': 0.8574, 'new': 0.3854, 'all': 0.6245}, 'slow_rows': {'old': 0.8744, 'new': 0.3391, 'all': 0.6102}}

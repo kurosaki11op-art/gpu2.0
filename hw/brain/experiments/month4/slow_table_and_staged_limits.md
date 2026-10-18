@@ -143,6 +143,9 @@ Final numbers, 5 seeds, margin 32, slow table FR 3, K 5 (`final_numbers_*_slow_k
 | digits, 5 stages | 94.9 / 95.8 | 94.6 / 95.5 | **95.0 / 95.9** |
 | words, 5 stages | 82.0 / 82.9 | 82.0 / 83.1 | **82.6 / 83.6** |
 
+Finer grid (ENC_S1, section 6) on top of the K = 5 slow table, 5 seeds, single view / LOOK AGAIN: clothing all at once 88.7 / 88.7 (+1.1), 5 stages 81.4 / 80.9 (-0.2 / -0.5); digits all at once 98.4 / 98.6 (+0.7 / +0.2), 5 stages 94.5 / 94.7 (-0.5 / -1.2).
+So with slow consolidation the finer grid is worth about +1 point all at once and nothing in stages: it stays an option.
+
 RTL: `SLOWK = 5` in `cortex_core.v`, bit-exact (`run_check_cortex_slow.py`). This is the first change that raises staged learning without extra dream memory.
 
 Related: [month4 index](INDEX.md), [multi-prototype dreams](multiproto_dreams.md), [Redesign 1 note](fewshot_imprint.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)
