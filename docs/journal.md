@@ -634,4 +634,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Full regression before this change: 23/23 PASS (`hw/check_summary.txt`). Re-run needed for 24.
 - Embedding path on these codes: see previous entry (all-ten 52.5/60.7/66.0 at k=1/2/5).
 
+### 21 Oct 2026 - floor2g routing: 0 violations
+
+- Routing with signal/clock layers limited to met1-met4 on the floor2e database finished with 0 detail-routing violations (floor2e: 1, floor2f: 6). Files: `hw/asic/cortex/route5.tcl`, `floor2g/run.sh`, `floor2g/route_full.log`; details in `hw/results/cortex_asic_estimate.md`. SIMULATED (open-flow routed database), not sign-off.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

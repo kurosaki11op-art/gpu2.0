@@ -188,6 +188,9 @@ document remain those of the global-route estimates above (not re-extracted from
 
 **floor2f (ESTIMATED):** floor2e routing database, router seed 43: ends at 6 violations (all at macro edges), worse than floor2e (1). Seeds only shuffle the last few; floor2e remains the best run.
 
+**floor2g (SIMULATED routing result, OpenROAD TritonRoute):** floor2e global route and CTS database, signal and clock routing limited to met1-met4 (met5 left to the power stripes), 40 passes, `hw/asic/cortex/route5.tcl` + `floor2g/run.sh`. Detail routing ends at **0 violations** (`floor2g/route_full.log`, DRT-0199 "Number of violations = 0", empty `route_drc.rpt`; 1 h 49 min elapsed). This clears floor2e's last short (VDD vs signal on met5). Still a routed-database result from the open flow, not a signed-off DRC/LVS run and nothing taped out.
+
+
 
 ## Slow table and finer-grid encoder options (19 Oct 2026, ESTIMATED by arithmetic, not re-run through the layout flow)
 
