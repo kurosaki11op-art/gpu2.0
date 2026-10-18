@@ -412,3 +412,7 @@ Up-via summary (total 885807):.
     elapsed time = 00:06:35, memory = 6940.85 (MB).
     Completing 60% with 22805 violations.
     elapsed time = 00:07:35, memory = 6940.85 (MB).
+    Completing 70% with 17268 violations.
+    elapsed time = 00:09:53, memory = 6940.85 (MB).
+    Completing 80% with 15288 violations.
+    elapsed time = 00:10:08, memory = 6940.85 (MB).
