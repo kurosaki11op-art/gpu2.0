@@ -23,7 +23,7 @@ Our rule is to follow the brain, not the GPU. Four things: senses that learn wit
 
 ## Slide 4: It learns in stages and keeps what it knew
 
-Here is the core result. Learning five stages of two classes each, the chip with the slow-table option keeps 95.9 percent on digits, 81.4 on clothing and 83.6 on spoken words (95.8, 78.3 and 82.9 without it), while a network that fine-tunes on each stage drops to roughly a fifth. This is simulated with the exact integer model, five seeds, and the RTL is bit-exact with it. Even one class at a time it holds 93, 79 and 71 percent in the earlier measurement.
+Here is the core result. Learning five stages of two classes each, the chip with the slow-table option keeps 95.9 percent on digits, 81.4 on clothing and 83.6 on spoken words (95.8, 78.3 and 82.9 without it), while a network that fine-tunes on each stage drops to roughly a fifth. This is simulated with the exact integer model, five seeds, and the RTL is bit-exact with it. Even one class at a time, with today's design, it holds 94 percent on digits and 79 on clothing.
 
 ## Slide 5: A new class from one example, after shipping
 

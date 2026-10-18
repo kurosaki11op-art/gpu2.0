@@ -50,8 +50,8 @@ s.addChart(pres.charts.BAR, [{ name: "SPARK Cortex (slow-table option)", labels:
 card(s, 6.5, 1.4, 3, 3.6);
 lab(s, "SIMULATED", 6.7, 1.55, 2.6, C.accent2, 12, true);
 lab(s, "Exact integer model of the chip, 5 seeds. The same arithmetic runs in the RTL, checked bit for bit.", 6.7, 1.9, 2.6, C.text1, 14, false, { h: 1.5 });
-lab(s, "One class at a time (10 stages): 93.0 / 78.7 / 71.2 vs a network near 10.", 6.7, 3.5, 2.6, C.text1, 14, false, { h: 1.3 });
-s.addNotes("Here is the core result. Learning five stages of two classes each, the chip with the slow-table option keeps 95.9 percent on digits, 81.4 on clothing and 83.6 on spoken words (95.8, 78.3 and 82.9 without it), while a network that fine-tunes on each stage drops to roughly a fifth. This is simulated with the exact integer model, five seeds, and the RTL is bit-exact with it. Even one class at a time it holds 93, 79 and 71 percent in the earlier measurement.");
+lab(s, "One class at a time (10 stages, today's design): digits 93.6, clothing 79.1 vs a network near 10.", 6.7, 3.5, 2.6, C.text1, 14, false, { h: 1.3 });
+s.addNotes("Here is the core result. Learning five stages of two classes each, the chip with the slow-table option keeps 95.9 percent on digits, 81.4 on clothing and 83.6 on spoken words (95.8, 78.3 and 82.9 without it), while a network that fine-tunes on each stage drops to roughly a fifth. This is simulated with the exact integer model, five seeds, and the RTL is bit-exact with it. Even one class at a time, with today's design, it holds 94 percent on digits and 79 on clothing.");
 
 // 5 imprint
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Results" });
