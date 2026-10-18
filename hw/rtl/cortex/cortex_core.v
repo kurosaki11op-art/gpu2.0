@@ -25,7 +25,7 @@
 //              W = max(W, min((on << IMPS) >> (blen(n) - 1), CMAX)) (shifts and compares; 3 cycles per code bit). The
 //              few-shot fix of 15 Oct 2026: a new class learned from a few examples is no longer outvoted by old ones.
 //              arg 5 (build option CORTEX_SLOW) = FOLLOW: slow table S (SB-bit signed fields) follows the fast table W:
-//              S += ((W << SFR) - S) >>> SLOWK for every code bit and class (3 cycles per code bit); arg 6 = SCOPY: S = W << SFR;
+//              S += (((W << SFR) - S) + 2^(SLOWK-1)) >>> SLOWK for every code bit and class (3 cycles per code bit); arg 6 = SCOPY: S = W << SFR;
 //              arg 7 = read S word mem_addr into rd_s. With CORTEX_SLOW, PREDICT scores with S instead of W (learning, PRACTISE
 //              and DREAM still use W). The host decides when to FOLLOW (every CH real examples / night dreams) and SCOPYs after
 //              a stage too short to consolidate. Redesign 6 of 18 Oct 2026 (all-at-once clothing +3.3, words +2.6 in the model).
@@ -42,7 +42,7 @@
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
     parameter CMAX = 15, parameter MARGIN = 32, parameter SW = 20, parameter IMPS = 2, parameter IMPN = 8,
-    parameter SB = 6, parameter SFR = 1, parameter SLOWK = 3
+    parameter SB = 8, parameter SFR = 3, parameter SLOWK = 3
 ) (
     input  wire          clk, rst,
     input  wire          cmd_valid, input wire [2:0] cmd_op, input wire [3:0] cmd_arg,
@@ -376,12 +376,12 @@ module cortex_core #(
         end
 `endif
 `ifdef CORTEX_SLOW
-        // ---- FOLLOW: S += ((W << SFR) - S) >>> SLOWK for every field of every code bit (3 cycles per code bit)
+        // ---- FOLLOW: S += (((W << SFR) - S) + 2^(SLOWK-1)) >>> SLOWK for every field of every code bit (3 cycles per code bit)
         S_L0: begin m_addr <= b[AW-1:0]; st <= S_L1; end
         S_L1: st <= S_L2;
         S_L2: begin
             for (j = 0; j < C; j = j + 1)
-                s_wd[j*SB +: SB] <= $signed(sq[j*SB +: SB]) + ((($signed(wq[j*WB +: WB]) <<< SFR) - $signed(sq[j*SB +: SB])) >>> SLOWK);
+                s_wd[j*SB +: SB] <= $signed(sq[j*SB +: SB]) + ((($signed(wq[j*WB +: WB]) <<< SFR) - $signed(sq[j*SB +: SB]) + (1 << (SLOWK - 1))) >>> SLOWK);
             s_wen <= 1;
             if (b == NB - 1) st <= S_DONE; else begin b <= b + 1; st <= S_L0; end
         end

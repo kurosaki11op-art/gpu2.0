@@ -569,4 +569,13 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   bias (+0.9), homeostatic bias (+0.8). Only prototypes help (K = 2 / 4). Details: [note](../hw/brain/experiments/month4/slow_table_and_staged_limits.md).
 - Sound receptive-field sweep ended equal to 5x5 (9x5, 7x5, 5x3). `rea-agents` still blocked (needs a Bash rule for `rea`).
 
+### 18-19 Oct 2026 - slow table in the RTL; stages and features, in that order
+
+- User: "do as you wish", then "both on, which comes first": **stages first, then features**.
+- Slow consolidating table (Redesign 6) is in the RTL as option `CORTEX_SLOW` (`cortex_core.v`, MEM args 5-7), 8-bit entries (5 + 3 fractional bits), round-to-nearest follow step. Bit-exact with `CortexSlow`
+  (`run_check_cortex_slow.py`: plain, pipelined, SKY130 macro models; 0 mismatches; added to `run_all_checks.sh`). Precision sweep: FR 1 hurt staged learning (floor-shift bias), FR 3 + rounding does not.
+- 5-seed final numbers (SIMULATED, LOOK AGAIN): clothing 87.9, words 87.2, digits 98.3 all at once (today 84.8 / 84.7 / 98.0). No change in stages. Level with a small MLP, not better (a CNN and a longer-trained MLP are ahead on clothing).
+- Prototype dreams combined with the slow table: staged clothing 80.7 with K = 4 (4x dream memory), words +0.5 (note section 5). No RTL for prototypes yet.
+- Details: [limits and slow table](../hw/brain/experiments/month4/slow_table_and_staged_limits.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

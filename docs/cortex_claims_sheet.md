@@ -28,6 +28,7 @@ MEASURED = real hardware; SIMULATED = our model or chip simulation; ESTIMATED = 
 | Hears words better with word alignment | sound 71.9 -> 83.1 all at once, 84.7 with LOOK AGAIN (margin 32, 5 seeds), 82.9 in 5 stages; holds in noise | SIMULATED, in RTL | `hw/brain/experiments/month4/noise_floor.md` | network on the same aligned pictures 85.5 |
 | Learns a new class from one example after shipping | IMPRINT + short sleep: 1 example per new class, all 10 classes: digits 69.9 (was 54.1), clothing 64.0 (was 49.7); old classes within 1-5 points | SIMULATED, in RTL | `hw/brain/experiments/month4/fewshot_imprint.md` | words stay weak (48.3, was 45.2) |
 | Hears raw sound and learns words on chip | cochlea + encoder + core in RTL, whole chain bit-exact from raw samples (12 clips, 0 mismatches); sound accuracy 71.2 after 5 stages (exact model, 5 seeds) | SIMULATED | `hw/results/cortex_sound_chip.md` | needs PSRAM or an ASIC (422 KB); not on the board |
+| Learning everything at once is level with a small network (slow table, ASIC option) | 5 seeds, LOOK AGAIN: digits 98.3, clothing 87.9, words 87.2 vs MLP 97.8 / 87.3 / 85.5 (single view 97.6 / 86.9 / 85.7) | SIMULATED, in RTL (bit-exact) | `hw/brain/experiments/month4/slow_table_and_staged_limits.md`, `hw/rtl/cortex/run_check_cortex_slow.py` | a second table (1.6x the fast table) that follows the fast one; no gain in stages; a floating-point MLP on raw clothing pixels reached 88.4, a small CNN 89.2; not on the Tang Nano (full) |
 | Better than the closest prior art in this test | after 5 stages vs HDC: digits +2.2, sound +5.9 (+5.7 with both on the new noise-floor sound codes), clothing +0.1 | SIMULATED | `hw/results/cortex_vs_hdc.md` | HDC staged retraining used 4,000 examples per stage |
 | Small as a real chip | logic < 1 mm2 in SKY130; ~18.8 mm2 with open SRAM macros | ESTIMATED (synthesis + placement/global routing) | `hw/results/cortex_asic_estimate.md` | ~43 MHz after layout; no detailed routing or sign-off |
 
@@ -37,7 +38,7 @@ MEASURED = real hardware; SIMULATED = our model or chip simulation; ESTIMATED = 
 |---|---|
 | "First chip that learns continuously" | HDC accelerators (Clo-HDnn, ImageHD) and Intel Loihi 2 exist (`docs/prior_art_cortex.md`) |
 | "Never forgets" without qualification | a new condition of known classes (rotated digits) drops upright digits 95 -> 45%; fix (frozen dream memory, 85%) is in the RTL as an ASIC build option (bit-exact), not on the FPGA |
-| "As accurate as deep learning" | all at once the network is ahead: 97.8 vs 96.9, 87.3 vs 82.9, 75.5 vs 71.9 (chip: seed means) |
+| "As accurate as deep learning" / "better than a network" | only "level with a small MLP, learning everything at once, with the slow table (ASIC option)". Without it the network is ahead (clothing 87.3 vs 84.8); a CNN is further ahead (about 89 on clothing); in stages the chip is at 78% on clothing |
 | "Learns from one example like a child" | with spread codes (simulation only) it matches a small network at 1 example and beats it at 20 on digits, but is behind at 5, and behind on clothing at 5-20 |
 | "Replaces GPUs / LLMs" | it is a small continual learner for sensors (images, sound); no language model |
 | Any MEASURED power or speed on hardware | not yet measured |

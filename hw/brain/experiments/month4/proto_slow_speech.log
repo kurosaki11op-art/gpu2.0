@@ -1,0 +1,3 @@
+speech K=0 {'5_stages': 0.8186, 'all_at_once': 0.8524}
+speech K=2 {'5_stages': 0.8173, 'all_at_once': 0.8557}
+speech K=4 {'5_stages': 0.825, 'all_at_once': 0.8513}

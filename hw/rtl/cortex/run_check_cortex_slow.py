@@ -63,7 +63,7 @@ def execute(m, cmds, trace=True):
             k = _dream(m.on, m.n, arg, m.rng, buf)
             out.append("D %d %d" % (k, _practise(m.W, buf, k, arg, m.known, m.margin, m.cmax)))
         elif op == 11:
-            _follow(m.S, m.W, m.K, m.FR)
+            _follow(m.S, m.W, m.K, m.FR, m.RND)
         elif op == 12:
             m.S[:] = m.W.astype(np.int32) << m.FR
         elif op == 4:
@@ -79,8 +79,8 @@ def execute(m, cmds, trace=True):
         cw = sum(int(m.on[c, b]) << (m.cb * c) for c in range(10))
         out.append("W %013x C %0*x" % (w, (10 * m.cb + 3) // 4, cw))
     for b in range(NB):
-        sw = sum((int(m.S[c, b]) & 0x3F) << (6 * c) for c in range(10))
-        out.append("S %015x" % sw)
+        sw = sum((int(m.S[c, b]) & 0xFF) << (8 * c) for c in range(10))
+        out.append("S %020x" % sw)
     return out
 
 
@@ -93,7 +93,7 @@ for CB, n_per, k_new, ndream, night, ch in ((10, 12, 1, 3, 1, 5), (5, 20, 3, 2, 
     for s in (s1, s2, s3):
         r.shuffle(s)
     tst = r.choice(np.where(yte < 6)[0], 30, replace=False)
-    kw = dict(B=CB, ndream=ndream, night=night, daydream=1, ch=ch, K=3, FR=1, small="copy")
+    kw = dict(B=CB, ndream=ndream, night=night, daydream=1, ch=ch, K=3, FR=3, rnd=1, small="copy")
     m = CortexSlow(NB, **kw); m.cb = CB; ref = CortexSlow(NB, **kw); seeds = m.rng.copy()
     sched = CortexSlow(NB, **kw)
     cmds = []

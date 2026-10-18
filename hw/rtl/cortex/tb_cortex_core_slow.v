@@ -2,7 +2,7 @@
 // every slow-table word is read (MEM arg 7) and written as 'S <hex>'. PREDICT scores with the slow table. Writes out_cortex.txt.
 `timescale 1ns/1ps
 module tb_cortex_core_slow;
-    parameter NB = 4608, AW = 13, CB = 10, NW = 1000, SB = 6;
+    parameter NB = 4608, AW = 13, CB = 10, NW = 1000, SB = 8;
     reg clk = 0, rst = 1; always #5 clk = ~clk;
     reg cmd_valid = 0; reg [2:0] cmd_op = 0; reg [3:0] cmd_arg = 0;
     reg lb_we = 0; reg [AW-1:0] lb_waddr = 0, lb_wdata = 0; reg [AW:0] lb_len = 0;

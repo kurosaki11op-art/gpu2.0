@@ -1,0 +1,6 @@
+mnist FR:rnd 1:0 {'5_stages': 0.9354, 'all_at_once': 0.9749}
+mnist FR:rnd 1:1 {'5_stages': 0.9393, 'all_at_once': 0.9755}
+mnist FR:rnd 2:1 {'5_stages': 0.9443, 'all_at_once': 0.9755}
+mnist FR:rnd 3:1 {'5_stages': 0.9472, 'all_at_once': 0.9756}
+mnist FR:rnd 4:0 {'5_stages': 0.9483, 'all_at_once': 0.9757}
+mnist FR:rnd 4:1 {'5_stages': 0.9483, 'all_at_once': 0.9757}
