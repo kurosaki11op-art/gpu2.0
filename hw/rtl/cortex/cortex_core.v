@@ -24,6 +24,11 @@
 //              examples, raise its table field at every code bit to its mean code times 2^IMPS:
 //              W = max(W, min((on << IMPS) >> (blen(n) - 1), CMAX)) (shifts and compares; 3 cycles per code bit). The
 //              few-shot fix of 15 Oct 2026: a new class learned from a few examples is no longer outvoted by old ones.
+//              arg 5 (build option CORTEX_SLOW) = FOLLOW: slow table S (SB-bit signed fields) follows the fast table W:
+//              S += ((W << SFR) - S) >>> SLOWK for every code bit and class (3 cycles per code bit); arg 6 = SCOPY: S = W << SFR;
+//              arg 7 = read S word mem_addr into rd_s. With CORTEX_SLOW, PREDICT scores with S instead of W (learning, PRACTISE
+//              and DREAM still use W). The host decides when to FOLLOW (every CH real examples / night dreams) and SCOPYs after
+//              a stage too short to consolidate. Redesign 6 of 18 Oct 2026 (all-at-once clothing +3.3, words +2.6 in the model).
 // Build option CORTEX_CONTEXT (context memory, bit-exact with CortexInt(context=True)): DREAM with cmd_frozen = 1
 // dreams from the frozen copy instead of the live counters. The host freezes before a day that brings known classes
 // back (a new condition), dreams old knowledge from the frozen copy during that day and alternates live / frozen at
@@ -36,7 +41,8 @@
 `endif
 module cortex_core #(
     parameter NB = 4608, parameter AW = 13, parameter C = 10, parameter WB = 5, parameter CB = 10,
-    parameter CMAX = 15, parameter MARGIN = 32, parameter SW = 20, parameter IMPS = 2, parameter IMPN = 8
+    parameter CMAX = 15, parameter MARGIN = 32, parameter SW = 20, parameter IMPS = 2, parameter IMPN = 8,
+    parameter SB = 6, parameter SFR = 1, parameter SLOWK = 3
 ) (
     input  wire          clk, rst,
     input  wire          cmd_valid, input wire [2:0] cmd_op, input wire [3:0] cmd_arg,
@@ -47,6 +53,9 @@ module cortex_core #(
     input  wire          lane_we, input wire [4:0] lane_waddr, input wire [31:0] lane_wdata,
     input  wire [AW-1:0] mem_addr, input wire [C*WB-1:0] wr_w, input wire [C*CB-1:0] wr_c,
     output reg           busy, output reg [3:0] pred, output reg updated, output reg [AW:0] llen_out,
+`ifdef CORTEX_SLOW
+    output reg [C*SB-1:0] rd_s,
+`endif
     output reg [C*WB-1:0] rd_w, output reg [C*CB-1:0] rd_c, output wire [C*CB-1:0] rd_n, output wire [C-1:0] rd_known
 );
     localparam [CB-1:0] TOP = (1 << CB) - 1;
@@ -57,12 +66,28 @@ module cortex_core #(
                S_U0 = 18, S_U1 = 19, S_U2 = 20, S_U3 = 21, S_U4 = 22, S_U5 = 23,
                S_D0 = 24, S_D1 = 25, S_D2 = 26, S_D3 = 27, S_P = 28, S_DONE = 29, S_Z0 = 30, S_Z1 = 31,
                S_M0 = 32, S_M1 = 33, S_M2 = 34, S_F0 = 35, S_F1 = 36, S_F2 = 37,
-               S_I0 = 38, S_I1 = 39, S_I2 = 40;
+               S_I0 = 38, S_I1 = 39, S_I2 = 40,
+               S_L0 = 41, S_L1 = 42, S_L2 = 43, S_Y0 = 44, S_Y1 = 45, S_Y2 = 46, S_Q0 = 47, S_Q1 = 48;
 
 `ifndef CORTEX_ASIC
     (* ram_style = "block" *) reg [C*WB-1:0] wmem [0:NB-1];
     (* ram_style = "block" *) reg [C*CB-1:0] cmem [0:NB-1];
     (* ram_style = "block" *) reg [AW-1:0]   lbuf [0:NB-1];
+`endif
+`ifdef CORTEX_SLOW
+    reg [C*SB-1:0] sq; reg s_wen, s_wen_n; reg [C*SB-1:0] s_wd, s_wd_n;
+    always @(negedge clk) begin s_wen_n <= s_wen; s_wd_n <= s_wd; end
+`ifndef CORTEX_ASIC
+    (* ram_style = "block" *) reg [C*SB-1:0] smem [0:NB-1];
+    always @(posedge clk) begin
+        sq <= smem[m_addr_n];
+        if (s_wen_n) smem[m_addr_n] <= s_wd_n;
+    end
+`else
+    wire [C*SB-1:0] s_rd;
+    sram_array #(.W(C*SB), .DEPTH(NB), .AW(AW)) u_smem (.clk(clk), .we(s_wen_n), .wa(m_addr_n), .wd(s_wd_n), .ra(m_addr_n), .rd(s_rd));
+    always @(*) sq = s_rd;
+`endif
 `endif
     reg [31:0] lanes [0:31];
     reg [CB-1:0] n [0:C-1];
@@ -167,6 +192,9 @@ module cortex_core #(
 
     always @(posedge clk) begin
         w_wen <= 0; c_wen <= 0; lb_wen <= 0;
+`ifdef CORTEX_SLOW
+        s_wen <= 0;
+`endif
 `ifdef CORTEX_CONTEXT
         f_wen <= 0;
 `endif
@@ -201,6 +229,14 @@ module cortex_core #(
                         end else if (cmd_arg == 4'd3) begin
                             for (j = 0; j < C; j = j + 1) fn[j] <= n[j];
                             b <= 0; st <= S_F0;
+`endif
+`ifdef CORTEX_SLOW
+                        end else if (cmd_arg == 4'd5) begin
+                            b <= 0; st <= S_L0;
+                        end else if (cmd_arg == 4'd6) begin
+                            b <= 0; st <= S_Y0;
+                        end else if (cmd_arg == 4'd7) begin
+                            m_addr <= mem_addr; st <= S_Q0;
 `endif
 `ifdef CORTEX_IMPRINT
                         end else if (cmd_arg == 4'd4) begin
@@ -241,7 +277,11 @@ module cortex_core #(
             sd1 <= sd0;
             if (sd1) begin m_addr <= lb_q; se0 <= 1; end else se0 <= 0;
             se1 <= se0;
+`ifdef CORTEX_SLOW
+            if (se1) for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + (predict_mode ? $signed(sq[j*SB +: SB]) : $signed(wq[j*WB +: WB]));
+`else
             if (se1) for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + $signed(wq[j*WB +: WB]);
+`endif
             if (i == llen && !sd0 && !sd1 && !se0 && !se1) begin sc_i <= 0; have_rv <= 0; st <= predict_mode ? S_P : S_R; end
         end
 `else
@@ -251,7 +291,11 @@ module cortex_core #(
         S_S2: begin m_addr <= lb_q; st <= S_S3; end
         S_S3: st <= S_S4;
         S_S4: begin
+`ifdef CORTEX_SLOW
+            for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + (predict_mode ? $signed(sq[j*SB +: SB]) : $signed(wq[j*WB +: WB]));
+`else
             for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + $signed(wq[j*WB +: WB]);
+`endif
             i <= i + 1; st <= S_S0;
         end
 `endif
@@ -331,6 +375,28 @@ module cortex_core #(
             if (b == NB - 1) st <= S_DONE; else begin b <= b + 1; st <= S_I0; end
         end
 `endif
+`ifdef CORTEX_SLOW
+        // ---- FOLLOW: S += ((W << SFR) - S) >>> SLOWK for every field of every code bit (3 cycles per code bit)
+        S_L0: begin m_addr <= b[AW-1:0]; st <= S_L1; end
+        S_L1: st <= S_L2;
+        S_L2: begin
+            for (j = 0; j < C; j = j + 1)
+                s_wd[j*SB +: SB] <= $signed(sq[j*SB +: SB]) + ((($signed(wq[j*WB +: WB]) <<< SFR) - $signed(sq[j*SB +: SB])) >>> SLOWK);
+            s_wen <= 1;
+            if (b == NB - 1) st <= S_DONE; else begin b <= b + 1; st <= S_L0; end
+        end
+        // ---- SCOPY: S = W << SFR
+        S_Y0: begin m_addr <= b[AW-1:0]; st <= S_Y1; end
+        S_Y1: st <= S_Y2;
+        S_Y2: begin
+            for (j = 0; j < C; j = j + 1) s_wd[j*SB +: SB] <= $signed(wq[j*WB +: WB]) <<< SFR;
+            s_wen <= 1;
+            if (b == NB - 1) st <= S_DONE; else begin b <= b + 1; st <= S_Y0; end
+        end
+        // ---- read S word
+        S_Q0: st <= S_Q1;
+        S_Q1: begin rd_s <= sq; st <= S_DONE; end
+`endif
         // ---- predict: first known class with the top score -------------------------------------------------------
         S_P: if (sc_i == C) st <= S_DONE;
              else begin
@@ -339,7 +405,11 @@ module cortex_core #(
              end
         // ---- clear ------------------------------------------------------------------------------------------------
         S_Z0: if (b == NB) begin known <= 0; for (j = 0; j < C; j = j + 1) n[j] <= 0; st <= S_DONE; end
-              else begin m_addr <= b[AW-1:0]; w_wd <= 0; c_wd <= 0; w_wen <= 1; c_wen <= 1; st <= S_Z1; end
+              else begin m_addr <= b[AW-1:0]; w_wd <= 0; c_wd <= 0; w_wen <= 1; c_wen <= 1;
+`ifdef CORTEX_SLOW
+                   s_wd <= 0; s_wen <= 1;
+`endif
+                   st <= S_Z1; end
         S_Z1: begin b <= b + 1; st <= S_Z0; end
         // ---- memory transfer ---------------------------------------------------------------------------------------
         S_M0: st <= S_M1;                                    // read: data valid the cycle after next

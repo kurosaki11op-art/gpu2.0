@@ -1,0 +1,24 @@
+{
+ "label": "SIMULATED (exact integer chip model, margin 32, 5 seeds, all at once, single view), ch 500, K 3",
+ "dataset": "mnist",
+ "today": {
+  "acc": [
+   0.968,
+   0.973,
+   0.9702,
+   0.9712,
+   0.9687
+  ],
+  "mean": 0.9702
+ },
+ "slow": {
+  "acc": [
+   0.9762,
+   0.9757,
+   0.9751,
+   0.9762,
+   0.9759
+  ],
+  "mean": 0.9758
+ }
+}

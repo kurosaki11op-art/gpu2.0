@@ -1,0 +1,23 @@
+{
+ "label": "SIMULATED (exact integer chip model + slow table, 2 seeds), spec = chunk:K",
+ "500:3:4": {
+  "fast": 0.8338,
+  "slow": 0.8671
+ },
+ "500:3:3": {
+  "fast": 0.8338,
+  "slow": 0.8672
+ },
+ "500:3:2": {
+  "fast": 0.8338,
+  "slow": 0.8667
+ },
+ "500:3:1": {
+  "fast": 0.8338,
+  "slow": 0.8661
+ },
+ "500:3:0": {
+  "fast": 0.8338,
+  "slow": 0.8486
+ }
+}

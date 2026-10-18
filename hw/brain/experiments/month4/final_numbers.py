@@ -1,4 +1,4 @@
-"""Final numbers with every adopted option together (16 Oct 2026): margin 32 (default now), word alignment lead 6 for
+"""(env SLOW=1: CortexSlow, slow table, 18 Oct 2026.) Final numbers with every adopted option together (16 Oct 2026): margin 32 (default now), word alignment lead 6 for
 sound, LOOK AGAIN at test time (images: the picture + 4 one-pixel shifts with the centre counted twice; sound: the word
 aligned at start frames 5, 6, 6, 7), IMPRINT + short sleep irrelevant here (no few-shot). Exact integer chip model, 5
 seeds, all at once and 5 stages, plus the single-view (no LOOK AGAIN) numbers. usage: DATA_DIR DS"""
@@ -7,6 +7,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import numpy as np
 from cortex_core import load
 from cortex_int import CortexInt
+from cortex_slow import CortexSlow
+SLOW = os.environ.get('SLOW') == '1'
 D, DS = sys.argv[1], sys.argv[2]
 if DS == "speech":
     import cochlea_int
@@ -41,13 +43,13 @@ res = {}
 for sname, stages in (("all_at_once", [tuple(range(10))]), ("5_stages", [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)])):
     r = {"single_view": [], "look_again": []}
     for seed in (1, 2, 3, 4, 5):
-        m = CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)       # margin 32 is the default now
+        m = CortexSlow(ctr.shape[1], ch=100 if DS == 'speech' else 500, K=3, night_stop=2, daydream=1, seed=seed) if SLOW else CortexInt(ctr.shape[1], night_stop=2, daydream=1, seed=seed)       # margin 32 is the default now
         for i, s in enumerate(stages):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]
             m.stage(ctr[sel], ytr[sel])
-        W = m.W.T.astype(np.int32); c0 = centre @ W
+        W = (m.S.T if SLOW else m.W.T).astype(np.int32); c0 = centre @ W
         tot = c0 + c0 + sum(v @ W for v in extra) if DS != "speech" else c0 + sum(v @ W for v in extra)
         r["single_view"].append(float((c0.argmax(1) == yte).mean())); r["look_again"].append(float((tot.argmax(1) == yte).mean()))
     res[sname] = {k: round(float(np.mean(v)), 4) for k, v in r.items()}; print(DS, sname, res[sname], flush=True)
 json.dump({"dataset": DS, "label": "SIMULATED (exact integer chip model, margin 32, 5 seeds)", **res},
-          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"final_numbers_{DS}.json"), "w"), indent=1)
+          open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"final_numbers_{DS}{'_slow' if SLOW else ''}.json"), "w"), indent=1)

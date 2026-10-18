@@ -4,6 +4,8 @@ core with context memory: PASS
 core with context, pipelined: PASS
 core with IMPRINT (few-shot fix): PASS
 core with IMPRINT, pipelined: PASS
+core with slow table (Redesign 6): PASS
+core with slow table, pipelined: PASS
 encoder (FPGA build): PASS
 encoder (ASIC, gated clocks): PASS
 encoder learning its detectors: PASS

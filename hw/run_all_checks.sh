@@ -11,6 +11,8 @@ run "core with context memory"        python run_check_cortex_ctx.py "$D"
 run "core with context, pipelined"    python run_check_cortex_ctx.py "$D" --pipe
 run "core with IMPRINT (few-shot fix)" python run_check_cortex_imprint.py "$D"
 run "core with IMPRINT, pipelined"   python run_check_cortex_imprint.py "$D" --pipe
+run "core with slow table (Redesign 6)" python run_check_cortex_slow.py "$D"
+run "core with slow table, pipelined" python run_check_cortex_slow.py "$D" --pipe
 run "encoder (FPGA build)"            python run_check_encoder.py "$D" mnist 10
 run "encoder (ASIC, gated clocks)"    python run_check_encoder.py "$D" fashion 10 --asic
 run "encoder learning its detectors"  python run_check_encoder_learn.py "$D" mnist 40 5 10
