@@ -638,4 +638,15 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 
 - Routing with signal/clock layers limited to met1-met4 on the floor2e database finished with 0 detail-routing violations (floor2e: 1, floor2f: 6). Files: `hw/asic/cortex/route5.tcl`, `floor2g/run.sh`, `floor2g/route_full.log`; details in `hw/results/cortex_asic_estimate.md`. SIMULATED (open-flow routed database), not sign-off.
 
+### 18 Oct 2026 - bigger base vocabulary (35-word Speech Commands subset from the user)
+
+- Data: `data/sc_subset` (35 words, 100 clips each, pushed by the user), converted by `hw/brain/experiments/month4/sc35_prep.py`; test script `sc35_embed.py`, log `sc35_embed.log`. New words: left, right, up, off, on; base = T table words (T = 5/10/15, fixed random order), speaker-disjoint test (about 20 clips per word, so every number has roughly +-5 points of noise), finer sound grid, 3 draws. SIMULATED.
+- Learning all T+5 words together (reference): T=5 79.0, T=10 76.7, T=15 68.0 all-word accuracy (new words 70-78). This subset is harder than the earlier 10-word set (35-word pool, about 80 training clips per word), so the ceiling itself is lower.
+- New-word accuracy, shipped IMPRINT path vs embedding path (k = 1 / 2 / 5 recordings):
+  - T=5: shipped 34.3 / 34.0 / 47.2, embedding 32.3 / 32.7 / 44.2 (embedding no better with a 5-word base).
+  - T=10: shipped 28.7 / 30.4 / 37.0, embedding 38.0 / 42.9 / 55.1.
+  - T=15: shipped 17.8 / 21.1 / 33.3, embedding 24.4 / 39.3 / 51.2.
+- Reading: the embedding path needs a base vocabulary of about 10 or more words to pay off, as predicted (+8 to +18 points on new words at k = 2 and 5), and the shipped path gets worse as more base words compete. One recording per new word is still weak (24-38%). Old-word accuracy with the embedding path stays 71-75% (shipped 66-82%), all-word accuracy at T=15, k=5: 65.7 vs 58.1.
+- Not fixed: one-shot new words, and accuracy drops as the pool grows (68% all-at-once at T=15, so the readout, not only the new-word rule, is limiting).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

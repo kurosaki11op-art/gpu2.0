@@ -4,3 +4,10 @@ T=5 k=1: shipped all 0.587 new 0.343 old 0.824 | embedding all 0.545 new 0.323 o
 T=5 k=2: shipped all 0.579 new 0.340 old 0.811 | embedding all 0.567 new 0.327 old 0.801
 T=5 k=5: shipped all 0.673 new 0.472 old 0.869 | embedding all 0.616 new 0.442 old 0.785
 T=10 all-at-once reference (T+5 words together): all 0.767  new 0.782  old 0.760
+T=10 k=1: shipped all 0.601 new 0.287 old 0.745 | embedding all 0.631 new 0.380 old 0.747
+T=10 k=2: shipped all 0.630 new 0.304 old 0.780 | embedding all 0.626 new 0.429 old 0.716
+T=10 k=5: shipped all 0.606 new 0.370 old 0.713 | embedding all 0.660 new 0.551 old 0.710
+T=15 all-at-once reference (T+5 words together): all 0.680  new 0.713  old 0.669
+T=15 k=1: shipped all 0.568 new 0.178 old 0.696 | embedding all 0.625 new 0.244 old 0.750
+T=15 k=2: shipped all 0.562 new 0.211 old 0.676 | embedding all 0.650 new 0.393 old 0.734
+T=15 k=5: shipped all 0.581 new 0.333 old 0.662 | embedding all 0.657 new 0.512 old 0.705
