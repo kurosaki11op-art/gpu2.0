@@ -46,6 +46,7 @@ tags: [spark, index]
 - [Hardware claims sheet](hardware_claims_sheet.md): labelled claims for the old pitch.
 - [Pitch script](pitch_script.md): speaking and video script for the old deck (superseded by the Cortex script below).
 - [Cortex pitch script](pitch_script_cortex.md): speaking script for the 23 Oct event, slide by slide, with a short cut list (deck: `SPARK_Cortex_pitch.pptx`).
+- [Event checklist](event_checklist.md): what to do before the 23 Oct event and what to say / not say.
 - [Pitch Q&A sheet](pitch_qa_sheet.md): the questions judges are likely to ask, with honest labelled answers.
 - [Short paper](paper_spark_cortex.md): abstract, design, results, cost, limits and related work in two pages, for the paper-style presentation.
 
