@@ -212,5 +212,10 @@ Prior art: `docs/prior_art_cortex.md`. Continual-learning chips without backprop
 ImageHD / C-FSCIL, Intel Loihi 2); never claim "first". Measured vs HDC (`hw/results/cortex_vs_hdc.md`): chip ahead on
 digits and sound, level on clothing, with less memory. Also cite WiSARD, BTHOWeN, ULEEN, Tsetlin, Numenta HTM.
 
+## Start here for a fresh session (21 Oct 2026)
+
+- Data folders live in a session scratchpad and are NOT in the repo: MNIST / Fashion / speech frame sums (`speech_framesums_int.npz`), `fsdd_framesums_int.npz` (made by `hw/brain/experiments/month4/fsdd_prep.py`, source raw.githubusercontent.com), `word_codes_*.npz` (made by `save_word_codes.py` / `save_word_codes_geom.py DATA 3,3,1,1,4,4,64 geom3311`). A new session must re-fetch them; the original speech source host was `download.tensorflow.org` (blocked unless added under Allowed domains, applies to new sessions).
+- Open work: larger base vocabulary for new spoken words (needs the bigger speech set; 1-shot new words ~15 %, 5-shot 44.7 %, SIMULATED); embedding path with the finer sound grid through the RTL; finer-grid noise check; re-run `hw/run_all_checks.sh` (expect 24 checks); floor2g routing result (met1-met4 attempt; run `diag/drc_summary.py`, not recorded yet); board day on the user's PC.
+
 Related: [Home](../README.md), [Journal](journal.md), [SPARK Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
