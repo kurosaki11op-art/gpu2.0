@@ -112,4 +112,13 @@ digits: all at once 98.3 single view / 98.4 LOOK AGAIN (today 97.0 / 98.0) but *
 **Verdict: a trade-off, not a free win.** Clothing gains in both settings (+4.6 all at once vs today's chip, +1.5 in stages vs the slow table), digits gain all at once and lose in stages, words unchanged. The same code size, so no memory cost; the cost is encoder time (2.3x cycles per image in the RTL: 48,162 vs 21,378).
 Adopt as a build / host option for clothing-like data (all-at-once or stage-light use), not as the default; the default image encoder stays stride 2.
 
+## 7. Competition inside each cell, class-incremental tricks, more sleep (19 Oct, SIMULATED, slow table, 2 seeds)
+
+- **Top-k winners per 4 x 4 cell** (`make_topk_codes.py`, `topk_run.py`; finer stride-1 grid but each cell keeps only its k most frequent winners, count >= 1): code density 272 / 401 on-bits per digit for k = 3 / 5 (today's grid 219-264, plain stride-1 pool-4 ~510).
+  Digits all at once / 5 stages: k = 3 98.0 / 94.3, k = 5 98.3 / 93.5 (today 97.6 / 94.6, stride 1 pool 4 98.3 / 93.2). Clothing: k = 3 87.5 / 79.3, k = 5 87.7 / 80.2 (today 86.9 / 78.5, stride 1 pool 4 88.0 / 80.0).
+  Competition buys a compromise on digits (k = 3: -0.3 staged, +0.4 all at once vs today) and little on clothing; not worth a third RTL option.
+- **Weight aligning / cosine normalisation / mass scaling at decision time** (`staged_cosine.py`, from the GPU class-incremental literature): staged clothing 78.4 plain -> 75.9 cosine, 74.0 mass-align, 78.1 mass^0.25; staged digits 94.8 -> 93.5 cosine, 95.4 mass-align (+0.6).
+  Our new classes have the SMALLER row mass (the opposite of the GPU case), so these corrections do not apply as is.
+- **More sleep** (slow table, staged clothing): ndream 6000 / 15000, night 2 / 4, both: 78.3 / 79.0 / 78.2 / 78.8. Flat: sleep length is not the limit.
+
 Related: [month4 index](INDEX.md), [multi-prototype dreams](multiproto_dreams.md), [Redesign 1 note](fewshot_imprint.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

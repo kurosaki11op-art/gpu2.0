@@ -1,0 +1,7 @@
+{
+ "label": "SIMULATED (exact integer model, 2 seeds), 5 stages",
+ "ndream=6000": 0.7825,
+ "ndream=15000": 0.7897,
+ "night=4": 0.782,
+ "ndream=15000,night=4": 0.7883
+}

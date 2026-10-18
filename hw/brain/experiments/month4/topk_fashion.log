@@ -1,1 +1,4 @@
 saved fashion 3 on bits 313.02955
+fashion sep_fashion_topk3_F32.npz on bits 313.0 {'5_stages': 0.7931, 'all_at_once': 0.8747}
+saved fashion 5 on bits 447.83441666666664
+fashion sep_fashion_topk5_F32.npz on bits 447.8 {'5_stages': 0.8015, 'all_at_once': 0.8774}

@@ -594,4 +594,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 
 - User asked where new words fail and whether the architecture limits it. Breakdown (SIMULATED): 69% (k = 1) / 59% (k = 5) of new-word clips are called an old word; only 11-18% correct; old words 84% kept. A novelty gate (low old-class score -> new word) only trades old for new (total 48.0 -> 47.6 at best). Prototype dreams + slow table with the finer image grid (mnist, 5 stages): K = 0 93.7, K = 2 93.6 (no recovery of the staged-digits loss). The 30-word Speech Commands set cannot be downloaded here (network policy blocks download.tensorflow.org). Note: [multiproto_dreams](../hw/brain/experiments/month4/multiproto_dreams.md).
 
+### 19 Oct 2026 (autonomous 2 h) - research and a round of fixes: none helps
+
+- Research agent report (GPU few-shot / class-incremental tricks, integer analogues): [research note](research_fewshot_gpu.md). Tested: logit adjustment, cosine / mass alignment, max-over-shift matching, trace-rule (slowness) detectors, top-k cell competition, more sleep, neurogenesis (balanced) - all within noise or a trade of old for new classes.
+  Details: [new-word sections 6-8](../hw/brain/experiments/month4/multiproto_dreams.md), [staged section 7](../hw/brain/experiments/month4/slow_table_and_staged_limits.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

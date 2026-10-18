@@ -93,4 +93,16 @@ and appends their bits to the code; old rows and old codes are untouched. Result
 **Reading.** Growing units is a sound brain idea and it does carry information about the new words (new-vs-new 5-way up to +7.8 at k = 5 before balancing), but the old / new boundary problem returns the moment the old rows lack statistics for the new bits;
 once balanced with a small buffer and rate scaling the net gain over all ten words is +0.7 at k = 2 (within noise). Not adopted. A version that needs no stored old recordings would have to estimate the old words' firing rate on the new detectors without audio (not possible), so growth fits cases where the new classes get their own separate readout, not a shared linear table.
 
+## 8. More new-word fixes tried on 19 Oct (all SIMULATED, 3 draws, IMPRINT + short sleep; none helps)
+
+Baseline all ten words / new words / old words: k = 1: 48.0 / 11.1 / 84.0; k = 2: 50.0 / 12.7 / 86.3; k = 5: 51.5 / 18.5 / 83.6 (single view).
+- **Logit adjustment by class size** (`newword_calibration.py`; bias = alpha x (bitlen(n_max) - bitlen(n_c)), from the GPU class-incremental literature): k = 1: alpha 4 / 8 / 16 / 32 -> 48.4 / 48.5 / 47.4 / 42.5 (new words 14 / 17 / 22 / 30, old 82 / 79 / 72 / 55);
+  k = 2: 50.4 / 50.4 / 50.7 / 47.9. At best +0.5, a trade of old for new words again. Cosine-style normalisation by row mass makes the small-mass new rows win everything (old words 0%).
+- **Max over shifts at test time** (`fewshot_words_maxshift.py`; word start at frames 4..8 and one frequency row up / down; per-class score = max instead of sum): k = 1: max 5,6,7 47.8, max 4..8 47.4, max over time + rows 47.3, vs sum 5,6,6,7 49.0 and single 48.0;
+  k = 5: 50.0 / 49.3 / 49.0 vs 51.3 / 51.5. **Max is worse than the sum** (old words rise, new words fall).
+- **Trace-rule detectors** (`hw/brain/trace_features.py`, `fewshot_words_trace.py`; detectors learned by tying the windows of time-shifted copies of each recording, Foldiak-style slowness learning, no labels): new words with virtual examples and LOOK AGAIN, k = 1 / 2 / 5:
+  20.6 / 27.5 / 25.4 vs 22.2 / 22.0 / 26.3 (plain detectors); all ten words 51.1 / 54.0 / 55.5 vs 51.1 / 51.7 / 55.5. Noise level; no consistent gain.
+Together with sections 3-7 the picture is the same every time: a new word from 1-5 recordings is mostly called an old word, every cheap correction trades old-word accuracy for new-word accuracy at roughly the same total, and the one thing the literature says works
+(an embedding learned from many words) cannot be tested with the 10 words available here. See also [research note](../../../../docs/research_fewshot_gpu.md).
+
 Related: [month4 index](INDEX.md), [Redesign 1 note](fewshot_imprint.md), [Research: weak spots](../../../../docs/research_weak_spots.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)
