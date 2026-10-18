@@ -1,0 +1,7 @@
+mnist plain          0.9475
+mnist cosine         0.9346
+mnist cosine_float   0.9438
+mnist mass_align     0.9536
+mnist mass^0.25      0.9497
+mnist mass^0.5       0.9487
+mnist mass^0.75      0.9480

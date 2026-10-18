@@ -14,6 +14,7 @@ tags: [spark, index]
 - [SPARK Cortex redesign](cortex_redesign.md): design, AI problems targeted, 6-8 month plan, status.
 - [Project scope](scope.md): what is in and out of scope, agreed with the founder.
 - [SPARK Cortex claims sheet](cortex_claims_sheet.md): every claim with its number, label, source and caveat; what not to claim.
+- [Research: GPU few-shot and class-incremental tricks](research_fewshot_gpu.md): what GPU systems do for new classes and which integer analogues we tested (19 Oct).
 - [Results at a glance](results_at_a_glance.md): one page of the headline results, costs and limits with labels and links (for the pitch).
 - [Prior art for SPARK Cortex](prior_art_cortex.md): what is not new (HDC, Loihi 2, replay) and what we can claim.
 - [Research: fixing the weak spots](research_weak_spots.md): dreams that keep co-occurrence, few-shot words, clothing gap.
