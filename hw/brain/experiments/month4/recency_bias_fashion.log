@@ -1,0 +1,21 @@
+mean own-row score, real test images vs dreams (seed 1), by stage age (0 = last):
+  age 0: real    828.5  dream    836.7
+  age 1: real    620.8  dream    646.0
+  age 2: real    575.8  dream    612.2
+  age 3: real    542.9  dream    587.0
+  age 4: real    655.3  dream    689.5
+dreamnorm_0.25 0.7895
+dreamnorm_0.5 0.7924
+dreamnorm_1 0.7903
+dreamnorm_1.5 0.7755
+dreamnorm_2 0.7414
+last_0 0.7838
+ramp_0 0.7838
+last_80 0.7967
+ramp_80 0.7978
+last_160 0.8046
+ramp_160 0.8085
+last_320 0.8092
+ramp_320 0.8183
+last_640 0.7434
+ramp_640 0.7911

@@ -1,0 +1,9 @@
+{
+ "label": "SIMULATED (exact integer model, 2 seeds), 5 stages, spec = mode:cap",
+ "0:4": 0.7838,
+ "1:4": 0.7825,
+ "2:4": 0.773,
+ "1:3": 0.7663,
+ "2:3": 0.7531,
+ "1:2": 0.7003
+}

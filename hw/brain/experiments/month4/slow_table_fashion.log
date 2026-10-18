@@ -1,0 +1,4 @@
+fashion 500:2 {'fast': 0.8338, 'slow': 0.8619}
+fashion 500:3 {'fast': 0.8338, 'slow': 0.8671}
+fashion 2000:1 {'fast': 0.8338, 'slow': 0.8604}
+fashion 200:4 {'fast': 0.8338, 'slow': 0.8668}

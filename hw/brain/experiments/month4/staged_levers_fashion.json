@@ -1,0 +1,7 @@
+{
+ "label": "SIMULATED (exact integer model, 2 seeds), 5 stages",
+ "daydream=2": 0.7844,
+ "daydream=4": 0.782,
+ "margin=64": 0.7849,
+ "margin=16": 0.7858
+}

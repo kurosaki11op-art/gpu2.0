@@ -559,4 +559,14 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
   gap is in the word features, which need speech from many words to learn; only 10 words are available here, so this needs a bigger speech set.
   Rectangular sound fields so far: 9x5 82.5 / 81.8 and 7x5 81.7 / 82.2 (all at once / 5 stages), equal to 5x5 (82.6 / 82.1) with 17% fewer code bits. Notes: [multiproto_dreams](../hw/brain/experiments/month4/multiproto_dreams.md).
 
+### 18 Oct 2026 - what limits the scores: the readout, not the senses (corrects an earlier answer); slow table adopted in the model
+
+- User: "can't we redesign and fix this", then "look what limits the staged training accuracy and redesign it".
+- Ceiling test (floating-point networks on the chip's own code): linear readout 87.9% clothing, 98.3% digits vs chip 83.4 / 97.0. **The code is not the limit; the chip's online 5-bit readout is.**
+  This corrects my chat answer that blamed the senses. Redesign 6, a slow table that follows the fast table (shift-add averaging): all at once clothing 83.4 -> 86.7, words 82.6 -> 85.3,
+  digits 97.0 -> 97.6; in 5 stages no change; few-shot unchanged (SIMULATED, 3 seeds). Model only so far (`hw/brain/cortex_slow.py`); RTL not yet.
+- Staged limit diagnosed: recency bias (last-stage classes absorb older classes, 7 -> 9 +21 points) from dream fidelity. Cheap fixes failed: more daydreams, margins, group-structured dreams (worse), dream-calibrated
+  bias (+0.9), homeostatic bias (+0.8). Only prototypes help (K = 2 / 4). Details: [note](../hw/brain/experiments/month4/slow_table_and_staged_limits.md).
+- Sound receptive-field sweep ended equal to 5x5 (9x5, 7x5, 5x3). `rea-agents` still blocked (needs a Bash rule for `rea`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

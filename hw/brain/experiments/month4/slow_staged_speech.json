@@ -1,0 +1,7 @@
+{
+ "label": "SIMULATED (exact integer chip model, margin 32, 3 seeds), spec = chunk:K (0:0 = today)",
+ "0:0": {
+  "all_at_once": 0.826,
+  "5_stages": 0.8213
+ }
+}

@@ -1,0 +1,8 @@
+{
+ "label": "SIMULATED diagnostic: floating-point networks with backprop, not part of the chip; 1 seed",
+ "dataset": "fashion",
+ "code_linear": 0.8785,
+ "code_mlp256": 0.8858,
+ "pixels_mlp256": 0.8837,
+ "pixels_cnn": 0.8921
+}
