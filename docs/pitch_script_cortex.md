@@ -23,7 +23,7 @@ Our rule is to follow the brain, not the GPU. Four things: senses that learn wit
 
 ## Slide 4: It learns in stages and keeps what it knew
 
-Here is the core result. Learning five stages of two classes each, the chip keeps 95.8 percent on digits, 78.3 on clothing and 82.9 on spoken words, while a network that fine-tunes on each stage drops to roughly a fifth. This is simulated with the exact integer model, five seeds, and the RTL is bit-exact with it. Even one class at a time it holds 93, 79 and 71 percent in the earlier measurement.
+Here is the core result. Learning five stages of two classes each, the chip with the slow-table option keeps 95.9 percent on digits, 81.4 on clothing and 83.6 on spoken words (95.8, 78.3 and 82.9 without it), while a network that fine-tunes on each stage drops to roughly a fifth. This is simulated with the exact integer model, five seeds, and the RTL is bit-exact with it. Even one class at a time it holds 93, 79 and 71 percent in the earlier measurement.
 
 ## Slide 5: A new class from one example, after shipping
 
@@ -39,7 +39,7 @@ Because the memory is counts, two chips that learned different classes can be me
 
 ## Slide 8: We found what limited the scores
 
-We asked what actually limits the scores and tested it. A floating-point classifier trained on the chip's own code reaches 87.9 percent on clothing and 98.3 on digits, so the senses are not the limit. The chip's one-pass 5-bit readout is. A slow second table that follows the fast one fixes most of that: clothing 83.4 to 86.9, words 83 to 86, digits 97.0 to 97.6, with shifts and adds only, checked bit-exact in the RTL. A finer detector grid for images adds more, but it makes staged digits worse, so it stays an option. All simulated.
+We asked what actually limits the scores and tested it. A floating-point classifier trained on the chip's own code reaches 87.9 percent on clothing and 98.3 on digits, so the senses are not the limit. The chip's one-pass 5-bit readout is. A slow second table that follows the fast one, slowly, fixes most of that: clothing 83.4 to 87.6, words 83 to 86, digits 97.0 to 97.8, and staged clothing 78.4 to 81.6, because slow consolidation damps the bias toward the newest classes. It uses shifts and adds only and is checked bit-exact in the RTL. A finer detector grid for images adds a little more all at once, but it made staged digits worse in an earlier setting, so it stays an option. All simulated.
 
 ## Slide 9: Small, cheap, and no multiplier
 
@@ -51,7 +51,7 @@ The design is not just a simulator result. Twenty-one bit-exact checks pass betw
 
 ## Slide 11: Where it is level, and where it is weaker
 
-This is the slide I want you to remember. Learning everything at once, with the slow-table option, the chip is level with a small network: 98.3 against 97.8 on digits, 87.9 against 87.3 on clothing, 87.2 against 85.5 on words, simulated, five seeds. Level, not better: a small convolutional network reaches about 89 on clothing and 91 on words. In stages clothing is 78 to 80 percent. New spoken words from one to five recordings are weak. We tried many fixes and recorded the failures, such as a second sensory layer, wider sound detectors and a shared prototype pool. And nothing is measured on hardware yet.
+This is the slide I want you to remember. Learning everything at once, with the slow-table option, the chip is level with a small network: 98.4 against 97.8 on digits, 88.3 against 87.3 on clothing, 87.5 against 85.5 on words, simulated, five seeds. Level, not better: a small convolutional network reaches about 89 on clothing and 91 on words. In stages clothing is 81 percent, digits 95 and words 83. New spoken words from one to five recordings are weak. We tried many fixes and recorded the failures, such as a second sensory layer, wider sound detectors and a shared prototype pool. And nothing is measured on hardware yet.
 
 ## Slide 12: Not the first, and what is new
 
