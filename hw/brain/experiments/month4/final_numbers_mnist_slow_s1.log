@@ -1,0 +1,2 @@
+mnist all_at_once {'single_view': 0.9833, 'look_again': 0.9843}
+mnist 5_stages {'single_view': 0.9316, 'look_again': 0.932}

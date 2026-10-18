@@ -1,0 +1,15 @@
+{
+ "label": "SIMULATED (exact integer model + slow table, 2 seeds, all at once, single view), spec = F:PS:ST:pool",
+ "32:5:2:2": {
+  "code_bits": 4608,
+  "acc": 0.9758
+ },
+ "32:5:1:4": {
+  "code_bits": 4608,
+  "acc": 0.9832
+ },
+ "32:3:1:4": {
+  "code_bits": 4608,
+  "acc": 0.9803
+ }
+}

@@ -1,0 +1,2 @@
+fashion all_at_once {'single_view': 0.8803, 'look_again': 0.8811}
+fashion 5_stages {'single_view': 0.8003, 'look_again': 0.7944}

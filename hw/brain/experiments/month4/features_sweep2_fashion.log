@@ -1,0 +1,5 @@
+fashion 32:3:1:3 {'code_bits': 8192, 'acc': 0.8809}
+fashion 16:3:1:2 {'code_bits': 10816, 'acc': 0.8809}
+fashion 32:3:2:2 {'code_bits': 4608, 'acc': 0.8519}
+fashion 16:3:1:3 {'code_bits': 4096, 'acc': 0.8743}
+fashion 32:3:1:4 {'code_bits': 4608, 'acc': 0.8782}

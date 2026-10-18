@@ -2,11 +2,11 @@
  "dataset": "speech",
  "label": "SIMULATED (exact integer chip model, margin 32, 5 seeds)",
  "all_at_once": {
-  "single_view": 0.8564,
-  "look_again": 0.8706
+  "single_view": 0.857,
+  "look_again": 0.8723
  },
  "5_stages": {
-  "single_view": 0.8187,
-  "look_again": 0.8256
+  "single_view": 0.8204,
+  "look_again": 0.8308
  }
 }
