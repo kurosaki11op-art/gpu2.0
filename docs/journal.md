@@ -620,4 +620,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 
 - `CORTEX_EMBED` option in `cortex_core.v` (ENROLL / WINNER / MATCH, prototype memory), reference `hw/brain/cortex_embed.py`, check `run_check_cortex_embed.py` (3 scenarios, 0 mismatches plain and pipelined), added to `run_all_checks.sh`. Hardware-exact accuracy with K = 3: all ten words 50.2 / 56.4 / 62.3, old words 86.8 / 85.1 / 83.6 (k = 1 / 2 / 5). Details: [note section 12](../hw/brain/experiments/month4/multiproto_dreams.md).
 
+### 18-20 Oct 2026 - embedding path + finer sound grid (model), ASIC-macro embed check
+
+- ASIC-macro and pipelined embed RTL checks: PASS, 0 mismatches (SIMULATED).
+- Embedding path on finer sound-grid codes (3,3,1,1,4,4,64), hardware-exact rules, K=3 (k=1/2/5): all-ten 52.5/60.7/66.0, new 14.5/32.9/44.7, old 89.5/87.8/86.7 (SIMULATED). Previous grid: 50.2/56.4/62.3, 12.6/27.0/40.4, 86.8/85.1/83.6. Better on every number; K=1 trades old words for new (k=5 new 54.7, old 79.9).
+- Still open: finer grid on all-at-once/staged/noise (sound_geom_full running), sound-encoder RTL for the grid, floor2g routing.
+- Logs: hw/brain/experiments/month4/sound_geom_full.log.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
