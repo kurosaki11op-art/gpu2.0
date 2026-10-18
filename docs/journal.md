@@ -544,4 +544,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - State at pause: regression 18/18 PASS, floorplan at 1 violation (floor2e), board test still paused, `rea-agents` installed but not run
   (needs a Bash rule for `rea`).
 
+### 18 Oct 2026 - event on 23 Oct: pitch material built
+
+- User: there is an event on 23 Oct (pitch / project / paper presentation); get everything ready and keep redesigning and fixing failures. Deck hold lifted.
+- Built `docs/SPARK_Cortex_pitch.pptx` (13 slides, native charts, speaker notes, labels on every number; generator `docs/SPARK_Cortex_pitch_build.js`),
+  `docs/pitch_script_cortex.md`, `docs/pitch_qa_sheet.md`, `docs/paper_spark_cortex.md`. All numbers taken from the claims sheet and results page; failures stated on slide 10.
+- Redesign 5 (rectangular sound receptive fields) continues in the background (`sound_rf2.log`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

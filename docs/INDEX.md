@@ -43,6 +43,9 @@ tags: [spark, index]
 - [Limitations and sustainability research](limitations_and_sustainability_research.md): GPU/LLM limits, power, water.
 - [SPARK v0 model format](spark_v0_model_format.md): trained model format and integer semantics.
 - [Hardware claims sheet](hardware_claims_sheet.md): labelled claims for the old pitch.
-- [Pitch script](pitch_script.md): speaking and video script for the old deck (deck on hold).
+- [Pitch script](pitch_script.md): speaking and video script for the old deck (superseded by the Cortex script below).
+- [Cortex pitch script](pitch_script_cortex.md): speaking script for the 23 Oct event, slide by slide, with a short cut list (deck: `SPARK_Cortex_pitch.pptx`).
+- [Pitch Q&A sheet](pitch_qa_sheet.md): the questions judges are likely to ask, with honest labelled answers.
+- [Short paper](paper_spark_cortex.md): abstract, design, results, cost, limits and related work in two pages, for the paper-style presentation.
 
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)

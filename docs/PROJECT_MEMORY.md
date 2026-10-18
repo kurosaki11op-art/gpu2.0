@@ -35,7 +35,7 @@ Last updated: 2026-10-14.
    No pull request unless asked.
 9. The user runs real-model tests on their PC. Point their downloads and models to the **D: drive**, not C:
    (`HF_HOME=D:\hf_cache`). Cloud work happens in the session container and never touches their PC.
-10. The deck (`docs/SPARK_innoWAH_2026_pitch.pptx`) is **on hold**; do not update it until asked.
+10. **Event on 23 Oct 2026** (user will present; "pitch / project / paper presentation"). The old GPU-helper deck (`docs/SPARK_innoWAH_2026_pitch.pptx`) is superseded by the Cortex deck `docs/SPARK_Cortex_pitch.pptx` (13 slides, speaker notes; script `docs/pitch_script_cortex.md`, Q&A `docs/pitch_qa_sheet.md`, short paper `docs/paper_spark_cortex.md`). The hold is lifted (18 Oct); keep these in step with `docs/results_at_a_glance.md` and the claims sheet.
 
 ## 3. History: the three phases
 
