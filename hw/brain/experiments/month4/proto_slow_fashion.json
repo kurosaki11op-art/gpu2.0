@@ -1,15 +1,11 @@
 {
  "label": "SIMULATED (exact integer model, margin 32, 3 seeds, single view); K -1 = today, 0 = slow table alone, >0 = prototypes + slow table",
  "K0": {
-  "5_stages": 0.7744,
-  "all_at_once": 0.8655
+  "5_stages": 0.8008,
+  "all_at_once": 0.8809
  },
  "K2": {
-  "5_stages": 0.7916,
-  "all_at_once": 0.8658
- },
- "K4": {
-  "5_stages": 0.8073,
-  "all_at_once": 0.8671
+  "5_stages": 0.8078,
+  "all_at_once": 0.882
  }
 }

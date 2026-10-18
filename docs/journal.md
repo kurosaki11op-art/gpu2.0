@@ -590,4 +590,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Open: board day (`python hw\board\board_day.py --port COMx --data D:\cortex_data` on the user's PC; the Tang Nano bitstream has neither the slow table nor ENC_S1, which are ASIC options), prototype dreams in RTL (optional),
   learned word features (needs more speech data), `rea-agents` run (needs a Bash rule for `rea`).
 
+### 19 Oct 2026 - where new spoken words fail
+
+- User asked where new words fail and whether the architecture limits it. Breakdown (SIMULATED): 69% (k = 1) / 59% (k = 5) of new-word clips are called an old word; only 11-18% correct; old words 84% kept. A novelty gate (low old-class score -> new word) only trades old for new (total 48.0 -> 47.6 at best). Prototype dreams + slow table with the finer image grid (mnist, 5 stages): K = 0 93.7, K = 2 93.6 (no recovery of the staged-digits loss). The 30-word Speech Commands set cannot be downloaded here (network policy blocks download.tensorflow.org). Note: [multiproto_dreams](../hw/brain/experiments/month4/multiproto_dreams.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -12,7 +12,7 @@ if DS == "speech":
     z = np.load(os.path.join(D, "sep_speech_align_F64_p2.npz")); f_ = np.load(os.path.join(D, "speech_framesums_int.npz"))
     y_, te_ = f_["y"], f_["te"]; ytr, yte = y_[~te_], y_[te_]; CHN = 100
 else:
-    z = np.load(os.path.join(D, f"sep_{DS}_F32_p2.npz")); _, ytr, _, yte = load(D, DS); CHN = 500
+    z = np.load(os.path.join(D, os.environ.get("CODEFILE", f"sep_{DS}_F32_p2.npz"))); _, ytr, _, yte = load(D, DS); CHN = 500
 ctr, cte = z["tr"], z["te"]; ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
 res = {}; out = f"proto_slow_{DS}.json"
 for K in [int(v) for v in sys.argv[3:]]:

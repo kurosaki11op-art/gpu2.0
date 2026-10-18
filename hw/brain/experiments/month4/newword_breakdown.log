@@ -1,0 +1,2 @@
+k=1: NEW-word clips: correct 0.11, as another new word 0.20, as an OLD word 0.69 | OLD-word clips: kept 0.84, lost to a new word 0.09, other old word 0.07
+k=5: NEW-word clips: correct 0.18, as another new word 0.22, as an OLD word 0.59 | OLD-word clips: kept 0.84, lost to a new word 0.10, other old word 0.07

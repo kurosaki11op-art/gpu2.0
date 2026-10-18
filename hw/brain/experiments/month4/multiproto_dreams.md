@@ -73,4 +73,12 @@ exemplar memory) and classify by the best cosine overlap, alone (5-way among the
 confused with known words. The limit is the representation (the sound code of a word from 1-5 recordings), not the memory: a better memory rule will not
 fix it; only better features (learned from many words) can.
 
+## 6. Where new spoken words fail, and a novelty gate (19 Oct) - no gain
+
+**Breakdown (`newword_breakdown.py`, SIMULATED, 3 draws; chip knows words 0-4, learns 5-9 from k recordings, IMPRINT + short sleep).** New-word test clips: with k = 1 recording, 11% correct, 20% called another new word,
+**69% called an OLD word**; with k = 5: 18% correct, 22% another new word, 59% an old word. Old-word clips: 84% kept, 9-10% lost to a new word, 7% confused with another old word.
+So the failure is at the old / new boundary: a new word learned from 1-5 recordings cannot outscore five old words that were learned from thousands. Among the new words alone the chip is at 38-47% (chance 20%).
+**Novelty gate (`newword_novelty.py`).** Send a clip to the new classes when its best old-class score is below tau x the old words' own mean score: k = 1, all ten words 48.0 (no gate) -> 47.6 / 46.3 / 43.8 / 40.5 / 36.5 for tau = 0.5 / 0.7 / 0.8 / 0.9 / 1.0
+(new words 11 -> 13 / 21 / 26 / 30 / 32, old words 84 -> 82 / 71 / 62 / 51 / 41). A pure trade of old for new, total accuracy only falls: the best-old-class score of a new word overlaps that of an old word. **Failure.**
+
 Related: [month4 index](INDEX.md), [Redesign 1 note](fewshot_imprint.md), [Research: weak spots](../../../../docs/research_weak_spots.md), [Project memory](../../../../docs/PROJECT_MEMORY.md)

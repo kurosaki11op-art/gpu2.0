@@ -1,0 +1,7 @@
+k=1 tau=0.0: all 0.480  new 0.111  old 0.840
+k=1 tau=0.5: all 0.476  new 0.128  old 0.816
+k=1 tau=0.7: all 0.463  new 0.213  old 0.707
+k=1 tau=0.8: all 0.438  new 0.257  old 0.615
+k=1 tau=0.9: all 0.405  new 0.295  old 0.512
+k=1 tau=1.0: all 0.365  new 0.324  old 0.405
+k=1 tau=1.1: all 0.324  new 0.343  old 0.306
