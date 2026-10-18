@@ -1,0 +1,6 @@
+/home/user/gpu2.0/hw/brain/experiments/month4/newword_selftrain.py:34: RuntimeWarning: Mean of empty slice
+  a = np.nanmean(v, 0); print(f"k={k} tau={tau}: all-10 {a[0]:.3f}  new {a[1]:.3f}  old {a[2]:.3f}  pseudo-label precision {a[3]:.2f}", flush=True)
+k=1 tau=None: all-10 0.506  new 0.156  old 0.847  pseudo-label precision nan
+k=1 tau=0: all-10 0.513  new 0.246  old 0.774  pseudo-label precision 0.33
+k=1 tau=50: all-10 0.514  new 0.210  old 0.810  pseudo-label precision 0.39
+k=1 tau=150: all-10 0.498  new 0.139  old 0.848  pseudo-label precision 0.47
