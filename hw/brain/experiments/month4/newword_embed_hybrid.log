@@ -1,0 +1,6 @@
+NK=10 k=1 table(no new rows): all-10 0.444  new 0.000  old 0.877
+NK=10 k=1 embedding         : all-10 0.512  new 0.182  old 0.833
+NK=10 k=1 hybrid            : all-10 0.462  new 0.029  old 0.884
+NK=10 k=5 table(no new rows): all-10 0.444  new 0.000  old 0.877
+NK=10 k=5 embedding         : all-10 0.632  new 0.481  old 0.779
+NK=10 k=5 hybrid            : all-10 0.490  new 0.088  old 0.882

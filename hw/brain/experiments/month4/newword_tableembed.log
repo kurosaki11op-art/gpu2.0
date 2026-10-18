@@ -1,0 +1,8 @@
+embedding from 5 old classes     cosine k=1: all-10 0.272  new 0.108  old 0.432
+embedding from 5 old classes     L1     k=1: all-10 0.269  new 0.118  old 0.417
+embedding from 5 old classes     cosine k=5: all-10 0.303  new 0.165  old 0.437
+embedding from 5 old classes     L1     k=5: all-10 0.292  new 0.170  old 0.410
+embedding from 15 known classes  cosine k=1: all-10 0.520  new 0.198  old 0.834
+embedding from 15 known classes  L1     k=1: all-10 0.509  new 0.174  old 0.836
+embedding from 15 known classes  cosine k=5: all-10 0.638  new 0.449  old 0.822
+embedding from 15 known classes  L1     k=5: all-10 0.644  new 0.495  old 0.789

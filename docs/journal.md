@@ -610,4 +610,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Round summary (autonomous): the one change that worked was consolidation lag (slow table K = 5: staged clothing 78.4 -> 81.6, all-at-once and noise up). Not helping (all recorded): logit adjustment, cosine / mass alignment, max-over-shift matching, trace-rule detectors,
   neurogenesis (balanced), novelty gate, top-k cell competition, more sleep, two time constants, finer grid in stages. New words remain the open failure (needs more speech data).
 
+### 20 Oct 2026 - more words found; table-score embedding lifts new words without lowering old words
+
+- User: if words are the problem, try more words; do not trade off other qualities. 10 extra words (FSDD spoken digits, 3,000 clips) fetched from raw.githubusercontent.com (the one data host reachable). Fitting detectors on them does not help; more known classes in the table hurts;
+  a GPU-style CNN baseline (backprop, diagnostic) beats the chip on new words (63.7 vs 51.5 at k = 5). Finer sound grid 3,3,1,1,4,4: new words 32.3 vs 18.5 (k = 5), old unchanged.
+- Table-score embedding (describe a new word by its scores over 15 known words, integer L1 nearest prototype, 3 competitive prototypes per old word): all ten 49.3 / 55.8 / 61.5 vs 48.0 / 50.0 / 51.5 shipped (k = 1 / 2 / 5), old 86.3 / 84.9 / 83.8 vs 84.0 / 86.3 / 83.6: no trade-off. Details: [note section 11](../hw/brain/experiments/month4/multiproto_dreams.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,0 +1,18 @@
+NK= 2 embedding raw L1 k=1: all-10 0.500  new 0.220  old 0.774
+NK= 2 embedding max L1 k=1: all-10 0.468  new 0.243  old 0.688
+NK= 2 embedding cen L1 k=1: all-10 0.501  new 0.222  old 0.773
+NK= 2 embedding raw L1 k=5: all-10 0.575  new 0.409  old 0.736
+NK= 2 embedding max L1 k=5: all-10 0.501  new 0.320  old 0.677
+NK= 2 embedding cen L1 k=5: all-10 0.576  new 0.410  old 0.738
+NK= 5 embedding raw L1 k=1: all-10 0.517  new 0.206  old 0.820
+NK= 5 embedding max L1 k=1: all-10 0.454  new 0.248  old 0.655
+NK= 5 embedding cen L1 k=1: all-10 0.516  new 0.205  old 0.818
+NK= 5 embedding raw L1 k=5: all-10 0.638  new 0.507  old 0.765
+NK= 5 embedding max L1 k=5: all-10 0.523  new 0.411  old 0.632
+NK= 5 embedding cen L1 k=5: all-10 0.636  new 0.505  old 0.764
+NK=10 embedding raw L1 k=1: all-10 0.534  new 0.222  old 0.837
+NK=10 embedding max L1 k=1: all-10 0.454  new 0.273  old 0.631
+NK=10 embedding cen L1 k=1: all-10 0.533  new 0.221  old 0.837
+NK=10 embedding raw L1 k=5: all-10 0.638  new 0.482  old 0.789
+NK=10 embedding max L1 k=5: all-10 0.513  new 0.413  old 0.612
+NK=10 embedding cen L1 k=5: all-10 0.639  new 0.483  old 0.792

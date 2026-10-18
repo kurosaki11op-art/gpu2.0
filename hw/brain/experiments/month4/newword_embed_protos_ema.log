@@ -1,0 +1,15 @@
+old prototypes  1, new mean      k=1: all-10 0.509  new 0.175  old 0.835
+old prototypes  1, new mean      k=2: all-10 0.581  new 0.356  old 0.801
+old prototypes  1, new mean      k=5: all-10 0.643  new 0.495  old 0.787
+old prototypes  2, new mean      k=1: all-10 0.496  new 0.132  old 0.852
+old prototypes  2, new mean      k=2: all-10 0.565  new 0.290  old 0.834
+old prototypes  2, new mean      k=5: all-10 0.621  new 0.412  old 0.824
+old prototypes  3, new mean      k=1: all-10 0.493  new 0.114  old 0.863
+old prototypes  3, new mean      k=2: all-10 0.558  new 0.259  old 0.849
+old prototypes  3, new mean      k=5: all-10 0.615  new 0.385  old 0.838
+old prototypes  4, new mean      k=1: all-10 0.496  new 0.107  old 0.875
+old prototypes  4, new mean      k=2: all-10 0.559  new 0.252  old 0.858
+old prototypes  4, new mean      k=5: all-10 0.611  new 0.363  old 0.852
+old prototypes  6, new mean      k=1: all-10 0.490  new 0.091  old 0.879
+old prototypes  6, new mean      k=2: all-10 0.548  new 0.222  old 0.866
+old prototypes  6, new mean      k=5: all-10 0.601  new 0.336  old 0.859
