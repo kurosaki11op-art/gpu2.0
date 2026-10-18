@@ -83,6 +83,13 @@ lab(s, "SIMULATED, 3 seeds", 6.7, 1.55, 2.6, C.accent2, 12, true);
 lab(s, "Two chips trained on different classes merge by adding their counters. A board demo design reached 91.4% on all ten digits after one night (bit-exact design, PC-side emulator).", 6.7, 1.9, 2.6, C.text1, 14, false, { h: 2.8 });
 s.addNotes("Because the memory is counts, two chips that learned different classes can be merged by adding their counters, or one chip can hand its memory to another that keeps learning. Merge gives 93, 81 and 64 percent; hand-over gives 96, 83 and 72. This is the weight-transfer story: no retraining on a server. The board demo reached 91.4 percent on all ten digits in the bit-exact emulator.");
 
+// 7b diagnosis
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Results" });
+s.addText("We found what limited the scores", { placeholder: "title" });
+const dg = [["Not the senses", "A plain classifier trained on the chip's own code reaches 87.9% on clothing and 98.3% on digits. The code is good enough."], ["The readout", "The chip learns its table online in one pass with 5-bit entries, which loses 3 to 4 points."], ["The fix", "A slow second table averages the fast one: clothing 83.4 to 86.9, words 83.1 to 85.7, digits 97.0 to 97.6. Shifts and adds only; bit-exact in RTL; an ASIC option."], ["Next gain", "A finer detector grid for images: clothing 88.0, digits 98.3 all at once. It makes staged digits worse (93.2%), so it is an option."]];
+dg.forEach((r, i) => { const y = 1.4 + i * 0.95; card(s, 0.5, y, 9, 0.82); s.addShape(pres.shapes.OVAL, { x: 0.65, y: y + 0.15, w: 0.5, h: 0.5, fill: { color: i === 2 ? C.accent3 : C.accent1 }, line: { color: i === 2 ? C.accent3 : C.accent1, width: 0 }, objectName: "marker" }); lab(s, String(i + 1), 0.65, y + 0.2, 0.5, C.text1, 18, true, { align: "center", h: 0.4 }); lab(s, r[0], 1.35, y + 0.08, 1.9, C.text1, 16, true, { h: 0.65, valign: "middle" }); lab(s, r[1], 3.2, y + 0.05, 6.1, C.text1, 13, false, { h: 0.72, valign: "middle" }); });
+s.addNotes("We asked what actually limits the scores and tested it. A floating-point classifier trained on the chip's own code reaches 87.9 percent on clothing and 98.3 on digits, so the senses are not the limit. The chip's one-pass 5-bit readout is. A slow second table that follows the fast one fixes most of that: clothing 83.4 to 86.9, words 83 to 86, digits 97.0 to 97.6, with shifts and adds only, checked bit-exact in the RTL. A finer detector grid for images adds more, but it makes staged digits worse, so it stays an option. All simulated.");
+
 // 8 cost
 pres.addSection({ title: "Build" });
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
@@ -96,23 +103,23 @@ s.addNotes("Cost. The image memory is 84 kilobytes. It fits a 25-dollar Tang Nan
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
 s.addText("Verified bit for bit, and laid out", { placeholder: "title" });
 card(s, 0.5, 1.4, 4.4, 3.5);
-lab(s, "18 / 18", 0.7, 1.55, 4.0, C.accent3, 54, true, { fontFace: "Cambria", h: 1.0 });
-lab(s, "RTL checks pass with 0 mismatches against the integer model: core, IMPRINT, encoder, learning detectors, cochlea, whole sound chain, board top, host schedule.", 0.7, 2.75, 4.0, C.text1, 14, false, { h: 1.8 });
+lab(s, "21 / 21", 0.7, 1.55, 4.0, C.accent3, 54, true, { fontFace: "Cambria", h: 1.0 });
+lab(s, "RTL checks pass with 0 mismatches against the integer model: core, IMPRINT, slow table, encoder, finer-grid encoder, learning detectors, cochlea, sound chain, board top, host schedule.", 0.7, 2.75, 4.0, C.text1, 14, false, { h: 1.8 });
 lab(s, "SIMULATED (RTL simulation)", 0.7, 4.45, 4.0, C.accent6, 11, true);
 card(s, 5.1, 1.4, 4.4, 3.5);
 lab(s, "1", 5.3, 1.55, 4.0, C.accent1, 54, true, { fontFace: "Cambria", h: 1.0 });
 lab(s, "violation left in detailed routing of the SKY130 layout (from 174,309 on the first pass). The last one is a power-versus-signal short at a memory macro edge.", 5.3, 2.75, 4.0, C.text1, 14, false, { h: 1.8 });
 lab(s, "ESTIMATED (open-source flow, no sign-off)", 5.3, 4.45, 4.0, C.accent6, 11, true);
-s.addNotes("The design is not just a simulator result. Eighteen bit-exact checks pass between the integer model and the RTL, covering the core, the few-shot fix, the sense layers, the whole sound chain and the board top. We also took it through an open-source SKY130 layout flow; detailed routing ended at one remaining violation at a memory macro edge. That is an estimate, with no sign-off and no fabrication.");
+s.addNotes("The design is not just a simulator result. Twenty-one bit-exact checks pass between the integer model and the RTL, covering the core, the few-shot fix, the sense layers, the whole sound chain and the board top. We also took it through an open-source SKY130 layout flow; detailed routing ended at one remaining violation at a memory macro edge. That is an estimate, with no sign-off and no fabrication.");
 
 // 10 limits
 pres.addSection({ title: "Honest" });
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Honest" });
-s.addText("Where it is weaker, and what we did about it", { placeholder: "title" });
-s.addChart(pres.charts.BAR, [{ name: "SPARK Cortex", labels: ["digits", "clothing", "spoken words"], values: [98.0, 84.8, 84.7] }, { name: "Network (MLP)", labels: ["digits", "clothing", "spoken words"], values: [97.8, 87.3, 85.5] }], Object.assign(chartBase("Learning everything at once (%)"), { x: 0.5, y: 1.3, w: 4.6, h: 3.8, barDir: "col", barGrouping: "clustered", chartColors: ["5B6BD6", "6B7280"], valAxisMinVal: 50 }));
-const lim = ["Clothing: 2.5 points behind the network", "Staged clothing 78%; multi-prototype dreams reach 81 to 82 for 2 to 4x dream memory", "New spoken words from 1 to 5 recordings: only 12 to 29%", "Nothing measured on hardware yet; board run is next"];
+s.addText("Where it is level, and where it is weaker", { placeholder: "title" });
+s.addChart(pres.charts.BAR, [{ name: "SPARK Cortex (slow-table option)", labels: ["digits", "clothing", "spoken words"], values: [98.3, 87.9, 87.2] }, { name: "Network (MLP)", labels: ["digits", "clothing", "spoken words"], values: [97.8, 87.3, 85.5] }], Object.assign(chartBase("All at once, chip with LOOK AGAIN (%)"), { x: 0.5, y: 1.3, w: 4.6, h: 3.8, barDir: "col", barGrouping: "clustered", chartColors: ["5B6BD6", "6B7280"], valAxisMinVal: 50 }));
+const lim = ["Level with a small network all at once, not better: a CNN reaches about 89 on clothing and 91 on words", "In stages clothing is 78 to 80%; digits 95%", "New spoken words from 1 to 5 recordings: only 12 to 29%", "Nothing measured on hardware yet; board run is next"];
 s.addText(lim.map((t, i) => ({ text: t, options: { bullet: true, breakLine: i < lim.length - 1, paraSpaceAfter: 8 } })), { x: 5.3, y: 1.4, w: 4.2, h: 3.6, fontSize: 14, color: C.text1, valign: "top", isTextBox: true, margin: 0, fontFace: "Calibri" });
-s.addNotes("This is the slide I want you to remember. All at once, the network is ahead on clothing by two and a half points. Staged clothing is 78 percent; our multi-prototype dreams recover 3 to 4 points but cost two to four times the dream memory. New spoken words from one to five recordings are weak. We tried many fixes and recorded the failures, such as a second sensory layer, wider sound detectors and a shared prototype pool. And nothing is measured on hardware yet.");
+s.addNotes("This is the slide I want you to remember. Learning everything at once, with the slow-table option, the chip is level with a small network: 98.3 against 97.8 on digits, 87.9 against 87.3 on clothing, 87.2 against 85.5 on words, simulated, five seeds. Level, not better: a small convolutional network reaches about 89 on clothing and 91 on words. In stages clothing is 78 to 80 percent. New spoken words from one to five recordings are weak. We tried many fixes and recorded the failures, such as a second sensory layer, wider sound detectors and a shared prototype pool. And nothing is measured on hardware yet.");
 
 // 11 prior art
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Honest" });
@@ -128,7 +135,7 @@ s.addNotes("We are not the first continual-learning chip. Hyperdimensional-compu
 pres.addSection({ title: "Next" });
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Next" });
 s.addText("What comes next", { placeholder: "title" });
-const steps = [["Done", "Model, RTL, 18 checks, FPGA fit, SKY130 layout estimate", C.accent3], ["Next", "First run on the real Tang Nano: the first MEASURED numbers", C.accent1], ["Then", "Learned word features, higher-fidelity dreams for clothing", C.accent2], ["Later", "Write-up, demo video, area and power estimates; no fabrication yet", C.accent5]];
+const steps = [["Done", "Model, RTL, 21 checks, slow-table option, FPGA fit, SKY130 layout estimate", C.accent3], ["Next", "First run on the real Tang Nano: the first MEASURED numbers", C.accent1], ["Then", "Learned word features, higher-fidelity dreams for clothing", C.accent2], ["Later", "Write-up, demo video, area and power estimates; no fabrication yet", C.accent5]];
 steps.forEach((t, i) => { const x = 0.5 + i * 2.3; card(s, x, 1.5, 2.15, 2.9); s.addShape(pres.shapes.OVAL, { x: x + 0.15, y: 1.65, w: 0.55, h: 0.55, fill: { color: t[2] }, line: { color: t[2], width: 0 }, objectName: "marker" }); lab(s, String(i + 1), x + 0.15, 1.75, 0.55, C.text1, 18, true, { align: "center", h: 0.4 }); lab(s, t[0], x + 0.15, 2.35, 1.85, C.text1, 20, true, { fontFace: "Cambria", h: 0.4 }); lab(s, t[1], x + 0.15, 2.85, 1.85, C.text1, 13, false, { h: 1.5 }); });
 lab(s, "Horizon: a provable result within 6 to 8 months, then shrink and attract investors.", 0.5, 4.6, 9, C.text1, 14, false, { h: 0.5 });
 s.addNotes("What comes next. The model, RTL and layout estimate are done. The next milestone is the real board, which gives the first measured numbers. Then we work on the weak spots, learned word features and higher-fidelity dreams for clothing. The horizon is a provable result within six to eight months, with no fabrication yet.");

@@ -1,13 +1,13 @@
 ---
 title: SPARK Cortex pitch script (23 Oct event)
-date: 2026-10-18
+date: 2026-10-19
 tags: [pitch, script, cortex]
 ---
 # SPARK Cortex: speaking script for the 23 October event
 
-Deck: [SPARK_Cortex_pitch.pptx](SPARK_Cortex_pitch.pptx) (13 slides, same notes inside the file). About 7 to 8 minutes at a calm pace, 40 to 60 seconds per slide.
-Cut list if time is short: drop slides 7, 9 and 11 (sharing, verification, prior art) and keep 1-6, 8, 10, 12, 13 (about 4 minutes).
-Rules while speaking: say the label (simulated, estimated) with every number; say "nothing is measured on hardware yet" once near the start and once at the limits slide; never say "first", "never forgets" or "replaces GPUs" (see [claims sheet](cortex_claims_sheet.md)).
+Deck: [SPARK_Cortex_pitch.pptx](SPARK_Cortex_pitch.pptx) (14 slides, same notes inside the file). About 8 minutes at a calm pace, 40 to 60 seconds per slide.
+Cut list if time is short: drop slides 7, 8, 10 and 12 (sharing, diagnosis, verification, prior art) and keep the rest (about 5 minutes).
+Rules while speaking: say the label (simulated, estimated) with every number; say "nothing is measured on hardware yet" once near the start and once at the limits slide; never say "first", "never forgets", "better than a network" or "replaces GPUs" (see [claims sheet](cortex_claims_sheet.md)).
 
 ## Slide 1: Cover
 
@@ -37,27 +37,31 @@ The sound path goes from raw samples through a cochlea, a noise-floor stage, the
 
 Because the memory is counts, two chips that learned different classes can be merged by adding their counters, or one chip can hand its memory to another that keeps learning. Merge gives 93, 81 and 64 percent; hand-over gives 96, 83 and 72. This is the weight-transfer story: no retraining on a server. The board demo reached 91.4 percent on all ten digits in the bit-exact emulator.
 
-## Slide 8: Small, cheap, and no multiplier
+## Slide 8: We found what limited the scores
+
+We asked what actually limits the scores and tested it. A floating-point classifier trained on the chip's own code reaches 87.9 percent on clothing and 98.3 on digits, so the senses are not the limit. The chip's one-pass 5-bit readout is. A slow second table that follows the fast one fixes most of that: clothing 83.4 to 86.9, words 83 to 86, digits 97.0 to 97.6, with shifts and adds only, checked bit-exact in the RTL. A finer detector grid for images adds more, but it makes staged digits worse, so it stays an option. All simulated.
+
+## Slide 9: Small, cheap, and no multiplier
 
 Cost. The image memory is 84 kilobytes. It fits a 25-dollar Tang Nano 20K with no hardware multipliers and timing met. Counting only the operations a decision needs, it uses about 74 times less energy than an 8-bit network, an estimate. I want to be careful: the layout estimate is higher, about a fifth of a microjoule per decision, so the honest wording is 74 times less per operation needed, not per chip.
 
-## Slide 9: Verified bit for bit, and laid out
+## Slide 10: Verified bit for bit, and laid out
 
-The design is not just a simulator result. Eighteen bit-exact checks pass between the integer model and the RTL, covering the core, the few-shot fix, the sense layers, the whole sound chain and the board top. We also took it through an open-source SKY130 layout flow; detailed routing ended at one remaining violation at a memory macro edge. That is an estimate, with no sign-off and no fabrication.
+The design is not just a simulator result. Twenty-one bit-exact checks pass between the integer model and the RTL, covering the core, the few-shot fix, the sense layers, the whole sound chain and the board top. We also took it through an open-source SKY130 layout flow; detailed routing ended at one remaining violation at a memory macro edge. That is an estimate, with no sign-off and no fabrication.
 
-## Slide 10: Where it is weaker
+## Slide 11: Where it is level, and where it is weaker
 
-This is the slide I want you to remember. All at once, the network is ahead on clothing by two and a half points. Staged clothing is 78 percent; our multi-prototype dreams recover 3 to 4 points but cost two to four times the dream memory. New spoken words from one to five recordings are weak. We tried many fixes and recorded the failures, such as a second sensory layer, wider sound detectors and a shared prototype pool. And nothing is measured on hardware yet.
+This is the slide I want you to remember. Learning everything at once, with the slow-table option, the chip is level with a small network: 98.3 against 97.8 on digits, 87.9 against 87.3 on clothing, 87.2 against 85.5 on words, simulated, five seeds. Level, not better: a small convolutional network reaches about 89 on clothing and 91 on words. In stages clothing is 78 to 80 percent. New spoken words from one to five recordings are weak. We tried many fixes and recorded the failures, such as a second sensory layer, wider sound detectors and a shared prototype pool. And nothing is measured on hardware yet.
 
-## Slide 11: Not the first, and what is new
+## Slide 12: Not the first, and what is new
 
 We are not the first continual-learning chip. Hyperdimensional-computing accelerators and Intel's Loihi 2 exist. What is new is the combination: dreams generated from small counters so no examples are stored, a night that ends by itself, no multipliers, and a design that is bit-exact from raw senses to the decision. Against hyperdimensional computing in our own test, after five stages we are ahead on digits by 2.2 and on sound by 5.7 points, simulated.
 
-## Slide 12: What comes next
+## Slide 13: What comes next
 
 What comes next. The model, RTL and layout estimate are done. The next milestone is the real board, which gives the first measured numbers. Then we work on the weak spots, learned word features and higher-fidelity dreams for clothing. The horizon is a provable result within six to eight months, with no fabrication yet.
 
-## Slide 13: Close
+## Slide 14: Close
 
 To close: SPARK Cortex is a chip that keeps learning after it ships. It keeps what it knew, shares what it learned, and needs no multiplier. It is weaker than a network in a few places, and I have told you where. Thank you, I am happy to take questions.
 

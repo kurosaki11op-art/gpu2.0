@@ -9,7 +9,7 @@ L Lawliet (Navin, CKCET). Short paper for the 23 October event. Labels: SIMULATE
 
 ## Abstract
 
-Neural networks forget earlier classes when they learn new ones, so a deployed network is retrained from scratch, which costs energy and hardware. We present SPARK Cortex, a small chip design that follows brain principles: sparse senses that learn without labels, one-pass learning by counting into a 5-bit table, sleep in which old classes are replayed from 10-bit counters instead of stored examples, and knowledge transfer between chips by adding counters. It uses no multiplier, no matrix product and no backpropagation. In the exact integer model, after five stages of new classes it keeps 95.8% (digits), 78.3% (clothing) and 82.9% (spoken words), where a network that fine-tunes at each stage keeps 19.5%, 20.0% and 15.9%. Learning everything at once it matches a small network on digits and words and trails it by 2.5 points on clothing. The RTL is bit-exact with the model (18 of 18 checks), fits a $25 FPGA in place and route, and has a SKY130 layout estimate at one remaining routing violation.
+Neural networks forget earlier classes when they learn new ones, so a deployed network is retrained from scratch, which costs energy and hardware. We present SPARK Cortex, a small chip design that follows brain principles: sparse senses that learn without labels, one-pass learning by counting into a 5-bit table, sleep in which old classes are replayed from 10-bit counters instead of stored examples, and knowledge transfer between chips by adding counters. It uses no multiplier, no matrix product and no backpropagation. In the exact integer model, after five stages of new classes it keeps 95.8% (digits), 78.3% (clothing) and 82.9% (spoken words), where a network that fine-tunes at each stage keeps 19.5%, 20.0% and 15.9%. Learning everything at once, an optional slow second table (an ASIC build option) lifts it level with a small network: digits 98.3 vs 97.8, clothing 87.9 vs 87.3, words 87.2 vs 85.5 (5 seeds, SIMULATED); without it clothing trails by 2.5 points. The RTL is bit-exact with the model (21 checks), the base design fits a $25 FPGA in place and route, and a SKY130 layout estimate ends at one remaining routing violation.
 
 ## 1. Problem
 
@@ -22,6 +22,7 @@ A network trained in stages overwrites earlier knowledge. Replay of stored examp
 3. **Sleep.** Per class, 10-bit counters generate dreams by rejection sampling; the night ends by itself when fewer than a threshold of surprises remain.
 4. **Few-shot after shipping.** IMPRINT: a novel example raises its class row immediately; a short sleep (300 dreams per known class) blends it in.
 5. **Sharing.** Memories merge by adding counters, or one chip hands its memory to another.
+6. **Slow table (option).** A second 8-bit table follows the fast table by shift-and-add averaging and is the one used to decide; it removes the order noise of one-pass learning.
 
 ## 3. Results (SIMULATED, exact integer model)
 
@@ -29,7 +30,8 @@ A network trained in stages overwrites earlier knowledge. Replay of stored examp
 |---|---|---|---|
 | 5 stages, chip | 95.8 | 78.3 | 82.9 |
 | 5 stages, fine-tuned network | 19.5 | 20.0 | 15.9 |
-| All at once, chip | 98.0 | 84.8 | 84.7 |
+| All at once, chip (today) | 98.0 | 84.8 | 84.7 |
+| All at once, chip with the slow table (ASIC option) | 98.3 | 87.9 | 87.2 |
 | All at once, network (MLP) | 97.8 | 87.3 | 85.5 |
 | 1 example per new class (all 10 classes), IMPRINT | 69.9 (was 54.1) | 64.0 (was 49.7) | 48.3 (was 45.2) |
 | Merge two chips / hand-over | 93.3 / 95.6 | 81.4 / 82.7 | 64.3 / 71.6 |
@@ -42,7 +44,7 @@ Sound in noise (trained clean): 80.3 / 72.4 / 58.9 / 47.1% at clean / 20 / 10 / 
 
 ## 5. Limits and failures
 
-Clothing trails the network by 2.5 points all at once; staged clothing is 78.3% (multi-prototype dreams reach 81 to 82% for 2 to 4x dream memory). New spoken words from 1 to 5 recordings reach only 12 to 29%. Rejected ideas include a second sensory layer, expansion coding, onset channels, tempo and pitch normalisation, wider sound detectors, a shared prototype pool, table rebuilds and merge variants (see [journal](journal.md)). A new condition of known classes (rotated digits) cut upright digits from 95 to 45% without a frozen dream memory (85% with it, an ASIC build option). Nothing is measured on hardware; data are small standard image sets and a 10-word speech set.
+Without the slow table clothing trails the network by 2.5 points all at once; with it the chip is level, not better (a floating-point MLP on raw clothing pixels reached 88.4, a small CNN 89.2, a CNN on words 91.4). Staged clothing is 78.3% (80.0 with a finer detector grid; multi-prototype dreams reach 81 to 82% for 2 to 4x dream memory) and the finer grid makes staged digits worse (93.2%). The limit in stages is dream fidelity. New spoken words from 1 to 5 recordings reach only 12 to 29%. Rejected ideas include a second sensory layer, expansion coding, onset channels, tempo and pitch normalisation, wider sound detectors, a shared prototype pool, table rebuilds and merge variants (see [journal](journal.md) and [what limits the scores](../hw/brain/experiments/month4/slow_table_and_staged_limits.md)). A new condition of known classes (rotated digits) cut upright digits from 95 to 45% without a frozen dream memory (85% with it, an ASIC build option). Nothing is measured on hardware; data are small standard image sets and a 10-word speech set.
 
 ## 6. Related work
 
