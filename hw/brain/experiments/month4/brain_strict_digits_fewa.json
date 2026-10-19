@@ -1,0 +1,77 @@
+{
+ "fewa:0.02:0": {
+  "acc": 0.9112,
+  "seeds": [
+   0.9245,
+   0.916,
+   0.893
+  ],
+  "info": [
+   {
+    "labelled": 200,
+    "pseudo_used": 9376,
+    "pseudo_precision": 0.9817
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 8942,
+    "pseudo_precision": 0.9827
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 8926,
+    "pseudo_precision": 0.9737
+   }
+  ]
+ },
+ "fewa:0.05:0": {
+  "acc": 0.9163,
+  "seeds": [
+   0.9325,
+   0.8975,
+   0.919
+  ],
+  "info": [
+   {
+    "labelled": 500,
+    "pseudo_used": 8967,
+    "pseudo_precision": 0.9906
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9153,
+    "pseudo_precision": 0.979
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9143,
+    "pseudo_precision": 0.9802
+   }
+  ]
+ },
+ "fewa:0.1:0": {
+  "acc": 0.9365,
+  "seeds": [
+   0.9405,
+   0.929,
+   0.94
+  ],
+  "info": [
+   {
+    "labelled": 1000,
+    "pseudo_used": 8838,
+    "pseudo_precision": 0.9895
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8846,
+    "pseudo_precision": 0.9865
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8828,
+    "pseudo_precision": 0.99
+   }
+  ]
+ }
+}

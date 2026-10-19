@@ -706,4 +706,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Sound, 20 words, 414 test clips (about +-3 points):** shipped alignment clean 68.5, fixed-loudness onset 60.7 / 65.1 (800 / 1600), adaptive onset 57.4 / 62.4 (not better). With look-again at test: shipped 69.2, onset 1600 66.3 (near parity, first-stage words 4.7 lower). Noisy night dreams that drop bits: clean +0.3 to +2.0, 5 dB +2.4 to +2.6, first-stage words -2.2 (within noise, guard slips, not adopted); adding spurious bits hurt new words by 8.
 - Final write-up: [brain-strict redesign tests](../hw/results/brain_strict_redesign.md). Audit status and project memory updated. Still open: novelty from inside, a temporal layer for twin words, neighbour-conditioned dreams (needs several times the dream memory), RTL for sleep pressure and self-labelling, clearly settling the onset trigger with a larger test set.
 
+### 19 Oct 2026 - agreement-gated labels and novelty signal (SIMULATED, 3 seeds)
+
+- Agreement gate (`fewa` in `brain_strict_digits.py`): digits 10 / 5 / 2 % labels 93.65 / 91.6 / 91.1, clothing 10 / 2 % 79.7 / 77.5; gap to full labels 0.5 (digits) and 1.1 (clothing) at 10 %.
+- Novelty from inside (`brain_strict_novelty.py`): margin between the top two classes separates unseen from known digits, AUROC 0.88 (best score 0.84, score per active bit 0.85); 60 % of unseen flagged at the threshold that keeps 90 % of known.
+- User asked what the chip is for if it fails at training too; answered in chat: the training claims that hold (learning in stages without forgetting, tiny memory, merging, few labels) and the ones that do not (one recording per new word, beating a CNN).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

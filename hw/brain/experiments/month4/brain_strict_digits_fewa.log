@@ -1,1 +1,11 @@
 codes (10000, 4608) 13s
+fewa:0.02:0 seed 1 0.9245 {'labelled': 200, 'pseudo_used': 9376, 'pseudo_precision': 0.9817} 80s
+fewa:0.02:0 seed 2 0.916 {'labelled': 200, 'pseudo_used': 8942, 'pseudo_precision': 0.9827} 114s
+fewa:0.02:0 seed 3 0.893 {'labelled': 200, 'pseudo_used': 8926, 'pseudo_precision': 0.9737} 169s
+fewa:0.05:0 seed 1 0.9325 {'labelled': 500, 'pseudo_used': 8967, 'pseudo_precision': 0.9906} 218s
+fewa:0.05:0 seed 2 0.8975 {'labelled': 500, 'pseudo_used': 9153, 'pseudo_precision': 0.979} 274s
+fewa:0.05:0 seed 3 0.919 {'labelled': 500, 'pseudo_used': 9143, 'pseudo_precision': 0.9802} 334s
+fewa:0.1:0 seed 1 0.9405 {'labelled': 1000, 'pseudo_used': 8838, 'pseudo_precision': 0.9895} 383s
+fewa:0.1:0 seed 2 0.929 {'labelled': 1000, 'pseudo_used': 8846, 'pseudo_precision': 0.9865} 424s
+fewa:0.1:0 seed 3 0.94 {'labelled': 1000, 'pseudo_used': 8828, 'pseudo_precision': 0.99} 474s
+{"fewa:0.02:0": 0.9112, "fewa:0.05:0": 0.9163, "fewa:0.1:0": 0.9365}
