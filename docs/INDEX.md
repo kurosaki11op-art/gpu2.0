@@ -12,6 +12,7 @@ tags: [spark, index]
 - [Month 4 board plan](month4_board_plan.md): the steps that turn simulated results into MEASURED ones on the Tang Nano.
 - [Overnight report, 15 Oct](overnight_report_2026-10-15.md): summary of the night's work and the board steps for today.
 - [SPARK Cortex redesign](cortex_redesign.md): design, AI problems targeted, 6-8 month plan, status.
+- [Brain-principles audit](brain_principles_audit.md): the six-point test every process must pass, which processes fail it, and the order of fixes.
 - [Project scope](scope.md): what is in and out of scope, agreed with the founder.
 - [SPARK Cortex claims sheet](cortex_claims_sheet.md): every claim with its number, label, source and caveat; what not to claim.
 - [Research: GPU few-shot and class-incremental tricks](research_fewshot_gpu.md): what GPU systems do for new classes and which integer analogues we tested (19 Oct).

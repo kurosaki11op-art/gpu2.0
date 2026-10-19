@@ -37,6 +37,10 @@ Last updated: 2026-10-19.
    (`HF_HOME=D:\hf_cache`). Cloud work happens in the session container and never touches their PC.
 10. **Event on 23 Oct 2026** (user will present; "pitch / project / paper presentation"). The old GPU-helper deck (`docs/SPARK_innoWAH_2026_pitch.pptx`) is superseded by the Cortex deck `docs/SPARK_Cortex_pitch.pptx` (13 slides, speaker notes; script `docs/pitch_script_cortex.md`, Q&A `docs/pitch_qa_sheet.md`, short paper `docs/paper_spark_cortex.md`). The hold is lifted (18 Oct); keep these in step with `docs/results_at_a_glance.md` and the claims sheet.
 
+11. **Strict brain principles in every process (21 Oct).** Each process must pass the six-point test in
+    `docs/brain_principles_audit.md` (local rule, no outside conductor, few labels, one pass with no stored data, innate or
+    locally learned sensing, cheap and sparse). Never describe the chip as "learning like a brain" beyond what the audit allows.
+
 ## 3. History: the three phases
 
 ### Phase A (9-13 Oct): SPARK v1/v2, a small brain-inspired language chip that helps a GPU
