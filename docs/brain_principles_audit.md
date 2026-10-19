@@ -1,6 +1,6 @@
-# Brain-principles audit of SPARK Cortex (21 Oct 2026)
+# Brain-principles audit of SPARK Cortex (19 Oct 2026)
 
-User rule (21 Oct): follow the principles of the brain strictly in every process. This note lists the test every process must pass,
+User rule (19 Oct): follow the principles of the brain strictly in every process. This note lists the test every process must pass,
 audits each process of the current design against it, and sets the order of fixes. Fixes are PROJECTED until measured.
 
 ## The test (a process passes only if all hold)

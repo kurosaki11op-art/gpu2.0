@@ -76,8 +76,8 @@ res = {}
 for arm in ARMS:
     kind = arm.split(":")[0]; C = codes("peak" if kind == "nd" else arm); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest")}
     for seed in range(1, SEEDS + 1):
-        m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), ch=100, K=5, night_stop=2, daydream=1, seed=seed) if kind == "nd" \
-            else CortexSlow(C["tr"].shape[1], ch=100, K=5, night_stop=2, daydream=1, seed=seed)
+        m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=20, ch=100, K=5, night_stop=2, daydream=1, seed=seed) if kind == "nd" \
+            else CortexSlow(C["tr"].shape[1], n_cls=20, ch=100, K=5, night_stop=2, daydream=1, seed=seed)
         for i, s in enumerate(STAGES):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]; m.stage(C["tr"][sel], ytr[sel])
         for k in ("clean", "20dB", "10dB", "5dB"): accs[k].append(float((m.predict(C[k]) == yte).mean()))

@@ -1,0 +1,27 @@
+{
+ "fewc:0.1:0": {
+  "acc": 0.9308,
+  "seeds": [
+   0.933,
+   0.9245,
+   0.935
+  ],
+  "info": [
+   {
+    "labelled": 1000,
+    "pseudo_used": 8950,
+    "pseudo_precision": 0.9822
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8986,
+    "pseudo_precision": 0.9797
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8970,
+    "pseudo_precision": 0.9781
+   }
+  ]
+ }
+}

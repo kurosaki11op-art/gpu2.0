@@ -660,17 +660,17 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Finer sound grid 3,3,1,1,4,4 in white noise (5 stages, slow table K=5, word alignment, 3 seeds, `noisy_slow_geom.py`, SIMULATED): clean / 20 / 10 / 5 dB = 84.4 / 77.5 / 67.7 / 57.0 against the shipped grid 82.7 / 75.2 / 64.4 / 52.3, so better at every noise level (+1.7 to +4.7 points). The finer grid is now checked on all-at-once, staged, few-shot and noise.
 - 35-word set readout sweeps (`sc35_readout_sweep.log`, `sc35_epochs.log`): weight range, margin, dream count and sleep length give no gain (70.1 % -> at most 70.7 %); repeating the data 2-5 times gives 71.5-72.4 % (diagnostic, the chip keeps no data); float readouts reach about 76 %.
 
-### 21 Oct 2026 - noisy dreams: script written, NOT yet run
+### 19 Oct 2026 - noisy dreams: script written, NOT yet run
 
 - User asked for brain-principled fixes (no CNN, no matrices) after the laptop noise run (trained clean, SIMULATED: clean 79.3, 20 dB 68.3, 10 dB 54.5, 5 dB 44.2; the noise-trained stages had not finished). Proposed: noisy dreams, cascade synapses, twin-word specialist, multi-scale vote (all PROJECTED, untested).
 - Wrote `hw/brain/experiments/month4/noisy_dreams_laptop.py`: the chip learns from clean clips only, night dreams get dropped and spurious bits (xorshift draws, integer only); five variants against a clean-dream baseline. **Untested**: the smoke test was interrupted, no result exists. Open before running: report old-word and new-word clean accuracy separately (pass condition: old words do not get worse) and add a half-noisy-night variant.
 
-### 21 Oct 2026 - strict brain-principles rule and audit
+### 19 Oct 2026 - strict brain-principles rule and audit
 
 - User: follow the principles of the brain strictly in every process (after asking whether the chip really learns like a brain; honest answer: brain-inspired, not brain-like in labels, host schedule, hand-made word alignment, offline detectors).
 - Wrote [brain-principles audit](brain_principles_audit.md): a six-point test, every process checked, order of fixes (few-label self-labelling, onset-triggered words, internal sleep pressure and novelty, on-chip detector learning default, noisy dreams last). Added standing rule 11 to project memory. No experiment run; all fixes PROJECTED.
 
-### 21 Oct 2026 - brain-strict digits: first results (self-labelling fails as built)
+### 19 Oct 2026 - brain-strict digits: first results (self-labelling fails as built)
 
 - Script `hw/brain/experiments/month4/brain_strict_digits.py`, logs `brain_strict_digits_fit.log` / `_chip.log` (MNIST, 2,000 examples per stage, 5 stages of 2 digits, 2,000 test images, 3 seeds, slow-table chip, SIMULATED). DET=fit is the shipped offline detector fit, DET=chip the one-pass on-chip rule.
 - Accuracy fit / chip: shipped path (labels on every example, host-scheduled night) 93.5 / 94.1; same labels fed in chunks with one separate night call 94.0 / 94.3; **sleep pressure** (night only when surprise writes reach 3,000) 94.0 / 94.6, but it slept only once, at the end, so the threshold was too high and this does not yet test internal sleep.
