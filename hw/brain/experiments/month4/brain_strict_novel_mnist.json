@@ -1,18 +1,35 @@
 {
  "ctxn:0.01": {
-  "acc": 0.525,
+  "acc": 0.4655,
   "seeds": [
-   0.532,
-   0.518
+   0.4995,
+   0.4315
   ],
   "info": [
    {
-    "slots_opened": 2,
-    "slots_named": 2
-   },
-   {
     "slots_opened": 1,
     "slots_named": 1
+   },
+   {
+    "slots_opened": 2,
+    "slots_named": 2
+   }
+  ]
+ },
+ "ctxn:0.02": {
+  "acc": 0.5523,
+  "seeds": [
+   0.6125,
+   0.492
+  ],
+  "info": [
+   {
+    "slots_opened": 3,
+    "slots_named": 3
+   },
+   {
+    "slots_opened": 3,
+    "slots_named": 3
    }
   ]
  }

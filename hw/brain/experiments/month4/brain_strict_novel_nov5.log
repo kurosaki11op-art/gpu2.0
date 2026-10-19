@@ -1,1 +1,5 @@
 ctxn:0.01 seed 1 0.4995 {'slots_opened': 1, 'slots_named': 1} 136s
+ctxn:0.01 seed 2 0.4315 {'slots_opened': 2, 'slots_named': 2} 401s
+ctxn:0.02 seed 1 0.6125 {'slots_opened': 3, 'slots_named': 3} 678s
+ctxn:0.02 seed 2 0.492 {'slots_opened': 3, 'slots_named': 3} 904s
+{"ctxn:0.01": 0.4655, "ctxn:0.02": 0.5523}

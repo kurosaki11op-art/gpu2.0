@@ -1,0 +1,40 @@
+{
+ "fews:0.02:0": {
+  "acc": 0.9392,
+  "seeds": [
+   0.943,
+   0.9355
+  ],
+  "info": [
+   {
+    "labelled": 200,
+    "pseudo_used": 9069,
+    "pseudo_precision": 0.9949
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 9174,
+    "pseudo_precision": 0.9957
+   }
+  ]
+ },
+ "fews:0.05:0": {
+  "acc": 0.9417,
+  "seeds": [
+   0.9435,
+   0.94
+  ],
+  "info": [
+   {
+    "labelled": 500,
+    "pseudo_used": 9016,
+    "pseudo_precision": 0.9963
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9049,
+    "pseudo_precision": 0.9973
+   }
+  ]
+ }
+}

@@ -1,1 +1,6 @@
 codes (10000, 4608) 8s
+fews:0.02:0 seed 1 0.943 {'labelled': 200, 'pseudo_used': 9069, 'pseudo_precision': 0.9949} 90s
+fews:0.02:0 seed 2 0.9355 {'labelled': 200, 'pseudo_used': 9174, 'pseudo_precision': 0.9957} 168s
+fews:0.05:0 seed 1 0.9435 {'labelled': 500, 'pseudo_used': 9016, 'pseudo_precision': 0.9963} 245s
+fews:0.05:0 seed 2 0.94 {'labelled': 500, 'pseudo_used': 9049, 'pseudo_precision': 0.9973} 308s
+{"fews:0.02:0": 0.9392, "fews:0.05:0": 0.9417}

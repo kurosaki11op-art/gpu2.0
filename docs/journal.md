@@ -718,4 +718,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Second sensory layer failed again** (`brain_strict_v2.py`, clothing): layer 1 + layer 2 staged 80.6 / all-at-once 85.65 against 80.8 / 86.0 for layer 1 alone; layer 2 alone 66.3 / 74.6.
 - **Prototype dreams are a memory trade, not a free fix** (`brain_strict_proto.py`): K = 4 gives staged clothing 83.3 (from 80.8) and digits 93.9 (from 94.1) for about 4x the dream memory; pruning the dream counts to buy memory back loses the gain (clothing 80.0 at 1/16 pruning, 74.0 at 1/8, 69.9 at 1/4; K = 1 pruned 74.9). Digits pruned 1/16: K = 1 92.6, K = 4 92.9.
 
+### 19 Oct 2026 - novelty recruitment FAILED; eye movements close the few-label gap on digits (SIMULATED, 2 seeds)
+
+- **Novelty recruitment on the margin signal FAILED** (`brain_strict_novel.py`, blended stream, 1 % and 2 % labels): novelty cut at the 2nd / 5th / 10th percentile of recent rewarded margins gives 52.5 / 46.6 / 45.2 at 1 % labels and 58.2 / 55.2 at 2 % (2nd, 5th), against 62.0 without novelty (1 % labels, 1 seed). Cause: the margin flags about as many ambiguous known examples as unseen ones (60 % precision at the loose cut), so the anonymous slot is contaminated. Note: the json file was overwritten by parallel runs; the logs `brain_strict_novel_nov2.log` / `_nov5.log` hold the numbers.
+- **Eye movements (`fews`, `brain_strict_digits.py`)**: labelled and pseudo-labelled examples are learned with their 4 one-pixel-shifted views, and an unlabelled example is pseudo-labelled only when all 5 views name the same class. Digits, 5 stages, 2 seeds: 2 % labels 93.9, 5 % labels 94.2 (own-label precision 99.5-99.7 %), against 90.7 / 91.3 without eye movements and 94.1 with every example labelled (no views). The fully labelled control with views, 1 % and 0.5 % labels, and Fashion-MNIST are running before this is called a win.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
