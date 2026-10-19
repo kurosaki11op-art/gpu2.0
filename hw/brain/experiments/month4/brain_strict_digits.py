@@ -18,9 +18,9 @@ from feature_layer import Features
 import detector_learn
 
 D = sys.argv[1]; NPS = int(os.environ.get("NPS", 2000)); SEEDS = int(os.environ.get("SEEDS", 3)); DET = os.environ.get("DET", "fit")
-ARMS = os.environ.get("ARMS", "base,chunk,few:0.1,few:0.25,press:3000").split(","); OUT = os.environ.get("OUT", "brain_strict_digits_%s.json" % DET)
+ARMS = os.environ.get("ARMS", "base,chunk,few:0.1,few:0.25,press:3000").split(","); OUT = os.environ.get("OUT", "brain_strict_%s_%s.json" % (os.environ.get("DS", "mnist"), DET))
 CH = (50, 150, ("on", 8), ("off", 8)); STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]; t0 = time.time()
-xtr, ytr, xte, yte = load(D, "mnist"); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
+DS = os.environ.get("DS", "mnist"); xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
 rs = np.random.RandomState(5); idx = np.concatenate([rs.permutation(np.where(np.isin(ytr, s))[0])[:NPS] for s in STAGES]); xtr, ytr = xtr[idx], ytr[idx]
 ti = rs.permutation(len(xte))[:2000]; xte, yte = xte[ti], yte[ti]
 first = xtr[np.isin(ytr, STAGES[0])]

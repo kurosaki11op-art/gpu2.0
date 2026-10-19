@@ -48,5 +48,30 @@
     "pseudo_precision": 0.9847
    }
   ]
+ },
+ "fewc:0.25:25": {
+  "acc": 0.9367,
+  "seeds": [
+   0.9345,
+   0.935,
+   0.9405
+  ],
+  "info": [
+   {
+    "labelled": 2500,
+    "pseudo_used": 6965,
+    "pseudo_precision": 0.9908
+   },
+   {
+    "labelled": 2500,
+    "pseudo_used": 7085,
+    "pseudo_precision": 0.9883
+   },
+   {
+    "labelled": 2500,
+    "pseudo_used": 7088,
+    "pseudo_precision": 0.9891
+   }
+  ]
  }
 }
