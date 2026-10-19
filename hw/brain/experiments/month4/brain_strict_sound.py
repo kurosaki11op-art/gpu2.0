@@ -3,6 +3,7 @@ Pictures: integer cochlea -> noise floor (low4x4) -> window alignment -> finer s
 Arms (env ARMS):
   peak           shipped alignment: the window starts at the first frame reaching 3/4 of the loudest frame of the clip (needs the whole clip: not causal)
   onset:TH       causal onset trigger: the window starts at the first frame whose loudness (sum of its 28 pixels) reaches TH; only the stream up to that frame is used
+  rel:TH         adaptive causal onset: first frame whose loudness reaches 3 x the running average of earlier frames + TH
   nd:DROP:ADD    peak alignment + noisy night dreams (drop bit with p = 2^-DROP, add len >> ADD random bits)
 Reports clean / 20 / 10 / 5 dB accuracy overall, and clean accuracy on the first stage's words (oldest) and the last stage's words (newest). usage: SUBSET_DIR [CACHE_DIR]"""
 import json, os, sys, time
@@ -58,13 +59,29 @@ def onset_align(P, th, lead=6):
     return out.reshape(len(P), -1)
 
 
+def rel_align(P, th, lead=6):
+    """adaptive onset: loudness is compared with a running average of the earlier frames (b += (L - b) >> 2, shift only); the window starts at the first frame with L >= 3 * b + th (a sudden rise, as the ear's adaptation responds); no onset -> frame 0"""
+    P0 = np.asarray(P).reshape(len(P), 28, 28); loud = P0.astype(np.int64).sum(1); start = np.zeros(len(P0), np.int64)
+    for i in range(len(P0)):
+        b = 0
+        for t in range(28):
+            if loud[i, t] >= 3 * b + th: start[i] = t; break
+            b += (loud[i, t] - b) >> 2
+    out = np.zeros_like(P0)
+    for i in range(len(P0)):
+        sh = lead - start[i]
+        if sh >= 0: out[i, :, sh:] = P0[i, :, :28 - sh]
+        else: out[i, :, :28 + sh] = P0[i, :, -sh:]
+    return out.reshape(len(P), -1)
+
+
 STAGES = [tuple(range(4 * i, 4 * i + 4)) for i in range(5)]; CH = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8)); ytr, yte = y[~te], y[te]
 fcache = {}
 
 
 def codes(mode):
     if mode in fcache: return fcache[mode]
-    al = (lambda P: cochlea_int.align_word(P, 6)) if mode == "peak" else (lambda P, th=int(mode.split(":")[1]): onset_align(P, th))
+    al = (lambda P: cochlea_int.align_word(P, 6)) if mode == "peak" else (lambda P, th=int(mode.split(":")[1]): rel_align(P, th)) if mode.startswith("rel") else (lambda P, th=int(mode.split(":")[1]): onset_align(P, th))
     ptr = al(pic["clean"][~te]); fes = [SoundFeatures(64, c, 3, 3, 1, 1, 4, 4).fit(ptr[np.isin(ytr, STAGES[0])][:12000]) for c in CH]
     enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
     out = {"tr": enc(ptr), "clean": enc(al(pic["clean"][te]))}
