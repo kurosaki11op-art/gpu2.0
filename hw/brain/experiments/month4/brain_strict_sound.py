@@ -5,6 +5,7 @@ Arms (env ARMS):
   onset:TH       causal onset trigger: the window starts at the first frame whose loudness (sum of its 28 pixels) reaches TH; only the stream up to that frame is used
   onsetla:TH     onset trigger (as onset:TH) plus look again at test: scores summed over the window starting at the onset frame - 1, 0, + 1
   peakla         shipped alignment plus the same look-again views (control for onsetla)
+  v2             shipped alignment + a second layer learned on the chip rule over 3 x 3 spot windows (frequency x time), 2 x 2 pooled
   rel:TH         adaptive causal onset: first frame whose loudness reaches 3 x the running average of earlier frames + TH
   nd:DROP:ADD    peak alignment + noisy night dreams (drop bit with p = 2^-DROP, add len >> ADD random bits)
 Reports clean / 20 / 10 / 5 dB accuracy overall, and clean accuracy on the first stage's words (oldest) and the last stage's words (newest). usage: SUBSET_DIR [CACHE_DIR]"""
@@ -100,9 +101,43 @@ def codes(mode):
     fcache[mode] = out; return out
 
 
+import detector_learn
+
+
+def _win(code, ch):
+    """(B, 16, 576) bool: 3 x 3 windows over the 6 x 6 spots (frequency x time) of channel ch (64 features per spot)"""
+    x = code[:, ch * 2304:(ch + 1) * 2304].reshape(len(code), 6, 6, 64); w = np.zeros((len(code), 4, 4, 3, 3, 64), bool)
+    for i in range(3):
+        for j in range(3): w[:, :, :, i, j] = x[:, i:i + 4, j:j + 4]
+    return w.reshape(len(code), 16, 576)
+
+
+def v2aug(C, MINON=10, F2=64):
+    """second layer on the chip's own rule (detector_learn): per channel 64 detectors over 3 x 3 spot windows, 2 x 2 pooled -> 256 bits per channel added to the code"""
+    first = np.isin(ytr, STAGES[0]); dets = []
+    for ch in range(10):
+        sd = detector_learn.StreamDetectors(F2, nb=576, min_on=MINON); sd.learn(_win(C["tr"][first], ch).reshape(-1, 576)); sd.reseed(); dets.append(np.where(sd.cnt >= 0, 1, -1).astype(np.float32))
+    def l2(code):
+        out = []
+        for i in range(0, len(code), 500):
+            c = code[i:i + 500]; parts = []
+            for ch in range(10):
+                w = _win(c, ch); on = (w.sum(2) >= MINON).reshape(len(c), 4, 4); win = (np.where(w, 1, -1).astype(np.float32).reshape(-1, 576) @ dets[ch].T).argmax(1).reshape(len(c), 4, 4)
+                z = np.zeros((len(c), 2, 2, F2), bool)
+                for di in range(2):
+                    for dj in range(2):
+                        ww = win[:, di::2, dj::2]; oo = on[:, di::2, dj::2]; bi, ii, jj = np.nonzero(oo); z[bi, ii, jj, ww[bi, ii, jj]] = True
+                parts.append(z.reshape(len(c), -1))
+            out.append(np.concatenate(parts, 1))
+        return np.concatenate(out)
+    return {k: np.concatenate([v, l2(v)], 1) for k, v in C.items()}
+
+
 res = {}
 for arm in ARMS:
-    kind = arm.split(":")[0]; C = codes("peak" if kind == "nd" else arm); la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest")}
+    kind = arm.split(":")[0]; C = codes("peak" if kind in ("nd", "v2") else arm)
+    if kind == "v2": C = v2aug(C)
+    la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest")}
     for seed in range(1, SEEDS + 1):
         m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed) if kind == "nd" \
             else CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed)

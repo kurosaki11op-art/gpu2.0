@@ -3,3 +3,4 @@ mnist slowp:16 {'staged': 0.9258, 'dream_counts_nonzero': 0.2477} 122s
 mnist proto:4:0 {'staged': 0.939, 'dream_counts_nonzero': 0.5825} 220s
 mnist proto:4:16 {'staged': 0.9288, 'dream_counts_nonzero': 0.2377} 316s
 mnist proto:4:8 {'staged': 0.9098, 'dream_counts_nonzero': 0.1398} 411s
+mnist proto:4:4 {'staged': 0.8068, 'dream_counts_nonzero': 0.0564} 503s
