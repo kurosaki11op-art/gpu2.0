@@ -216,6 +216,12 @@ Prior art: `docs/prior_art_cortex.md`. Continual-learning chips without backprop
 ImageHD / C-FSCIL, Intel Loihi 2); never claim "first". Measured vs HDC (`hw/results/cortex_vs_hdc.md`): chip ahead on
 digits and sound, level on clothing, with less memory. Also cite WiSARD, BTHOWeN, ULEEN, Tsetlin, Numenta HTM.
 
+## Brain-strict redesign (19 Oct 2026, SIMULATED)
+
+Rule 11 and the audit in `docs/brain_principles_audit.md`; results in `hw/results/brain_strict_redesign.md`. Working: on-chip detectors (digits 94.1), sleep from inside (digits 94.1-94.7), few-label learning with context-limited self-labelling
+(digits 10 / 5 / 2 % labelled 93.1 / 91.3 / 90.7 vs 94.1; clothing about 78 vs 80.8), pruning (19-30 % of synapses kept for 0-0.5 point; saving ESTIMATED). Failed: all-class self-labelling, scattered rewards, unsupervised category layer, cascade synapses,
+dreams with lateral inhibition, fixed-loudness onset. Open: novelty from inside, context signal, adaptive onset and noisy dreams on sound (running), temporal layer, correlated dreams, RTL for the new host-level logic.
+
 ## Start here for a fresh session (21 Oct 2026)
 
 - Data folders live in a session scratchpad and are NOT in the repo: MNIST / Fashion / speech frame sums (`speech_framesums_int.npz`), `fsdd_framesums_int.npz` (made by `hw/brain/experiments/month4/fsdd_prep.py`, source raw.githubusercontent.com), `word_codes_*.npz` (made by `save_word_codes.py` / `save_word_codes_geom.py DATA 3,3,1,1,4,4,64 geom3311`). A new session must re-fetch them; the original speech source host was `download.tensorflow.org` (blocked unless added under Allowed domains, applies to new sessions).
