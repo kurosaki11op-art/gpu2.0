@@ -1,0 +1,4 @@
+fashion default {'staged': 0.8082, 'once': 0.8597} 37s
+fashion margin=128 ndream=6000 night=2 {'staged': 0.8178, 'once': 0.8658} 57s
+fashion margin=128 ndream=1500 night=2 {'staged': 0.8258, 'once': 0.8658} 65s
+fashion margin=128 ndream=1500 night=1 {'staged': 0.8287, 'once': 0.8658} 72s

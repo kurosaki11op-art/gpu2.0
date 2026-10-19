@@ -5,3 +5,7 @@ fashion base seed 3 {'staged': 0.821, 'once': 0.8565} 94s
 fashion base {'staged': 0.8198, 'once': 0.859, 'memory_bits': {'fast_table': 460800, 'dream_counts': 921700, 'slow_table': 737280}, 'memory_kbytes': 258.8}
 codes s1 (10000, 9216) 159s
 fashion s1 seed 1 {'staged': 0.803, 'once': 0.877} 186s
+fashion s1 seed 2 {'staged': 0.8135, 'once': 0.881} 215s
+fashion s1 seed 3 {'staged': 0.816, 'once': 0.8805} 252s
+fashion s1 {'staged': 0.8108, 'once': 0.8795, 'memory_bits': {'fast_table': 460800, 'dream_counts': 921700, 'slow_table': 737280}, 'memory_kbytes': 258.8}
+{"base": {"staged": 0.8198, "once": 0.859}, "s1": {"staged": 0.8108, "once": 0.8795}}

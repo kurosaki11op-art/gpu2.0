@@ -8,5 +8,15 @@
    "slow_table": 737280
   },
   "memory_kbytes": 258.8
+ },
+ "s1": {
+  "staged": 0.8108,
+  "once": 0.8795,
+  "memory_bits": {
+   "fast_table": 460800,
+   "dream_counts": 921700,
+   "slow_table": 737280
+  },
+  "memory_kbytes": 258.8
  }
 }
