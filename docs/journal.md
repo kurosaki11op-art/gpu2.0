@@ -712,4 +712,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Novelty from inside (`brain_strict_novelty.py`): margin between the top two classes separates unseen from known digits, AUROC 0.88 (best score 0.84, score per active bit 0.85); 60 % of unseen flagged at the threshold that keeps 90 % of known.
 - User asked what the chip is for if it fails at training too; answered in chat: the training claims that hold (learning in stages without forgetting, tiny memory, merging, few labels) and the ones that do not (one recording per new word, beating a CNN).
 
+### 19 Oct 2026 - failure round: readout gap closed, second layer failed again, prototype dreams are a memory trade (SIMULATED, 3 seeds)
+
+- **Readout gap (F4) closed** (`brain_strict_ceiling.py`, a float ridge readout on the chip's own code, diagnostic only): clothing 86.05 vs chip 85.97, digits 96.95 vs 96.98, all data at once. The counting readout matches a float linear readout; the remaining gap to a CNN is the code, not the readout.
+- **Second sensory layer failed again** (`brain_strict_v2.py`, clothing): layer 1 + layer 2 staged 80.6 / all-at-once 85.65 against 80.8 / 86.0 for layer 1 alone; layer 2 alone 66.3 / 74.6.
+- **Prototype dreams are a memory trade, not a free fix** (`brain_strict_proto.py`): K = 4 gives staged clothing 83.3 (from 80.8) and digits 93.9 (from 94.1) for about 4x the dream memory; pruning the dream counts to buy memory back loses the gain (clothing 80.0 at 1/16 pruning, 74.0 at 1/8, 69.9 at 1/4; K = 1 pruned 74.9). Digits pruned 1/16: K = 1 92.6, K = 4 92.9.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,2 +1,5 @@
 mnist slow {'staged': 0.9413, 'dream_counts_nonzero': 0.706} 64s
 mnist slowp:16 {'staged': 0.9258, 'dream_counts_nonzero': 0.2477} 122s
+mnist proto:4:0 {'staged': 0.939, 'dream_counts_nonzero': 0.5825} 220s
+mnist proto:4:16 {'staged': 0.9288, 'dream_counts_nonzero': 0.2377} 316s
+mnist proto:4:8 {'staged': 0.9098, 'dream_counts_nonzero': 0.1398} 411s

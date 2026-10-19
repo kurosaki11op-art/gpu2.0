@@ -2,3 +2,5 @@ fashion slow {'staged': 0.8082, 'dream_counts_nonzero': 0.8215} 25s
 fashion slowp:16 {'staged': 0.7488, 'dream_counts_nonzero': 0.2347} 56s
 fashion proto:4:0 {'staged': 0.8328, 'dream_counts_nonzero': 0.6353} 100s
 fashion proto:4:16 {'staged': 0.8002, 'dream_counts_nonzero': 0.2369} 155s
+fashion proto:4:8 {'staged': 0.7403, 'dream_counts_nonzero': 0.1381} 242s
+fashion proto:4:4 {'staged': 0.6992, 'dream_counts_nonzero': 0.0628} 326s
