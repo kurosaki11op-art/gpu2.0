@@ -2,14 +2,14 @@
 // cmds.hex: 32-bit words, per command: op, arg, len, then len code-bit indices. lanes.hex: 32 lane seeds.
 `timescale 1ns/1ps
 module tb_cortex_core_hooks;
-    parameter NB = 4608, AW = 13, CB = 10, NW = 1000;
+    parameter NB = 4608, AW = 13, CB = 10, NW = 1000, MARGIN = 32;
     reg clk = 0, rst = 1; always #5 clk = ~clk;
     reg cmd_valid = 0; reg [2:0] cmd_op = 0; reg [3:0] cmd_arg = 0;
     reg lb_we = 0; reg [AW-1:0] lb_waddr = 0, lb_wdata = 0; reg [AW:0] lb_len = 0;
     reg lane_we = 0; reg [4:0] lane_waddr = 0; reg [31:0] lane_wdata = 0;
     wire busy, updated; wire [3:0] pred; wire [AW:0] llen_out; wire signed [19:0] top_margin; wire [31:0] wr_count;
     reg [AW-1:0] mem_addr = 0; wire [49:0] rd_w; wire [10*CB-1:0] rd_c, rd_n; wire [9:0] rd_known;
-    cortex_core #(.NB(NB), .AW(AW), .CB(CB)) dut(.clk(clk), .rst(rst), .cmd_valid(cmd_valid), .cmd_op(cmd_op),
+    cortex_core #(.NB(NB), .AW(AW), .CB(CB), .MARGIN(MARGIN)) dut(.clk(clk), .rst(rst), .cmd_valid(cmd_valid), .cmd_op(cmd_op),
         .cmd_arg(cmd_arg), .lb_we(lb_we), .lb_waddr(lb_waddr), .lb_wdata(lb_wdata), .lb_len(lb_len),
         .lane_we(lane_we), .lane_waddr(lane_waddr), .lane_wdata(lane_wdata),
         .mem_addr(mem_addr), .wr_w(50'd0), .wr_c({(10*CB){1'b0}}),

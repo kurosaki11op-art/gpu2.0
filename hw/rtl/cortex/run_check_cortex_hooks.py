@@ -2,7 +2,7 @@
 """cortex_core.v built with CORTEX_HOOKS (top_margin after PREDICT, wr_count of surprise-gated table writes; 19 Oct 2026) vs the integer model (hw/brain/cortex_int.py), bit-exact.
 Scenario (digits, 4,608-bit codes learned on the chip's own rule): classes 0-3 become known, LEARN clips of 0-3 in a shuffled order (some updates, some not), then PREDICT test clips of 0-4 (class 4 is unknown, so its margins are the
 'novel' ones) with LOOK AGAIN off, and a second pass with only class 0 known (margin saturates). Compared: every U line (updated flag, running write count) and every P line (predicted class, top-minus-runner-up margin, write count).
-usage: python run_check_cortex_hooks.py DATA_DIR"""
+usage: python run_check_cortex_hooks.py DATA_DIR [--margin=N] (N = the table update margin, default 32; 256 is the 19 Oct 2026 recommended setting)"""
 import os, subprocess, sys
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -11,12 +11,12 @@ from cortex_int import CortexInt, _count, _practise  # noqa
 from cortex_core import load  # noqa
 import detector_learn  # noqa
 
-D = sys.argv[1]; SW = 20; SAT = (1 << (SW - 1)) - 1
+D = sys.argv[1]; MARGIN = int([a.split("=")[1] for a in sys.argv if a.startswith("--margin=")][0]) if any(a.startswith("--margin=") for a in sys.argv) else 32; SW = 20; SAT = (1 << (SW - 1)) - 1
 xtr, ytr, xte, yte = load(D, "mnist"); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
 r = np.random.RandomState(3); itr = np.concatenate([r.choice(np.where(ytr == c)[0], 40, replace=False) for c in range(4)]); r.shuffle(itr); ite = r.choice(np.where(yte < 5)[0], 40, replace=False)
 fes = detector_learn.learn_features(xtr[itr]); enc = lambda x: np.concatenate([g.encode(x) for g in fes], 1)
 ctr, cte = enc(xtr[itr]), enc(xte[ite]); ytr, yte = ytr[itr], yte[ite]; NB = ctr.shape[1]
-m = CortexInt(NB, B=10, ndream=10, night=0, daydream=0); seeds = m.rng.copy(); cmds, exp, wr = [], [], 0
+m = CortexInt(NB, B=10, ndream=10, night=0, daydream=0, margin=MARGIN); seeds = m.rng.copy(); cmds, exp, wr = [], [], 0
 for c in range(4):
     cmds.append((5, c, [])); m.known[c] = True
 for i in range(len(itr)):
@@ -37,7 +37,7 @@ for op, arg, lst in cmds:
     words += [op, arg, len(lst)] + list(lst)
 words.append(0xFFFFFFFF)
 open(os.path.join(HERE, "cmds.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n"); open(os.path.join(HERE, "lanes.hex"), "w").write("\n".join("%08x" % s for s in seeds) + "\n")
-subprocess.run(["iverilog", "-g2005", "-DCORTEX_HOOKS", "-o", "/tmp/hk.vvp", f"-Ptb_cortex_core_hooks.NW={len(words) + 8}", "cortex_core.v", "tb_cortex_core_hooks.v"], cwd=HERE, check=True)
+subprocess.run(["iverilog", "-g2005", "-DCORTEX_HOOKS", "-o", "/tmp/hk.vvp", f"-Ptb_cortex_core_hooks.NW={len(words) + 8}", f"-Ptb_cortex_core_hooks.MARGIN={MARGIN}", "cortex_core.v", "tb_cortex_core_hooks.v"], cwd=HERE, check=True)
 res = subprocess.run("vvp -n /tmp/hk.vvp | grep ^commands", shell=True, cwd=HERE, capture_output=True, text=True); print((res.stdout.splitlines() or ["no summary line"])[-1].strip())
 got = [g for g in open(os.path.join(HERE, "out_cortex.txt")).read().split("\n") if g and g[0] in "UP"]
 bad = sum(1 for a, e in zip(got, exp) if a != e) + abs(len(got) - len(exp))

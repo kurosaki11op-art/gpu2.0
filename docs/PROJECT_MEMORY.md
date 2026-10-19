@@ -222,6 +222,11 @@ Rule 11 and the audit in `docs/brain_principles_audit.md`; results in `hw/result
 (digits 10 / 5 / 2 % labelled 93.1 / 91.3 / 90.7 vs 94.1; clothing about 78 vs 80.8), pruning (19-30 % of synapses kept for 0-0.5 point; saving ESTIMATED). Also: eye movements (5 shifted views) with agreement gating: few labels digits 2 % 93.9 vs 94.1 full, and every label present digits 94.9 vs 94.1 (not on clothing). Failed: all-class self-labelling, scattered rewards, unsupervised category layer, cascade synapses,
 dreams with lateral inhibition, fixed-loudness onset. Also: stages blended in one stream with context taken from recent rewards, no stage boundaries: digits 10 % labelled 92.7-93.1 vs 94.6 control. Sound: causal onset trigger near parity with the shipped alignment only with look-again (clean 66.3 vs 69.2), noisy dreams within noise (not adopted). Open: novelty from inside, a temporal layer for twin words, correlated dreams, a larger test to settle the onset trigger, RTL for the new host-level logic.
 
+## Recommended chip settings (19 Oct 2026, SIMULATED, 3 seeds)
+
+Update margin **256** (core parameter `MARGIN`, was 32), **1,500** dreams per old class per stage (was 6,000), **1** night pass (was 2). Staged / all at once, shipped settings -> new: digits 94.1 / 97.0 -> 95.5 / 97.5; clothing 80.8 / 86.0 -> 83.3 / 86.55 (stride-1 encoder 83.65 / 87.2); spoken words clean 68.5 -> 73.35, last-stage words 50.6 -> 57.1.
+No extra memory; RTL bit-exact at margin 256 (`run_check_cortex_hooks.py --margin=256`). Also in the overnight round: noisy-copy training lifts clean and noise accuracy (words clean 69.2 -> 73.3, 5 dB 33.5 -> 56.4; control pending), the stride-1 encoder lifts all-at-once on both image sets, RTL hooks (`CORTEX_HOOKS`: top margin, write counter) are bit-exact.
+
 ## Start here for a fresh session (21 Oct 2026)
 
 - Data folders live in a session scratchpad and are NOT in the repo: MNIST / Fashion / speech frame sums (`speech_framesums_int.npz`), `fsdd_framesums_int.npz` (made by `hw/brain/experiments/month4/fsdd_prep.py`, source raw.githubusercontent.com), `word_codes_*.npz` (made by `save_word_codes.py` / `save_word_codes_geom.py DATA 3,3,1,1,4,4,64 geom3311`). A new session must re-fetch them; the original speech source host was `download.tensorflow.org` (blocked unless added under Allowed domains, applies to new sessions).

@@ -71,6 +71,17 @@ New spoken words with time-shifted views (base 15 words, 3 draws, k = 1 / 2 / 5 
 
 No view type lifts clothing above normal learning; on digits only 1-pixel shifts help. More views or larger shifts hurt.
 
+## Overnight round: chip settings, noise, stacking (19 Oct, cloud, SIMULATED)
+
+| Change | Result |
+|---|---|
+| **Update margin 256, 1,500 dreams per old class, 1 night pass** (was 32 / 6,000 / 2) | digits staged / all at once 94.1 / 97.0 -> **95.5 / 97.5**; clothing 80.8 / 86.0 -> **83.3 / 86.55** (stride-1 encoder 83.65 / 87.2); words (20) clean 68.5 -> **73.35**, 20 / 10 / 5 dB 62.2 / 47.3 / 33.3 -> 65.7 / 51.5 / 39.5, last-stage words 50.6 -> 57.1. No extra memory; RTL bit-exact at margin 256 |
+| Training on noisy copies of the clips (words, 20, 3 seeds) | clean / 20 / 10 / 5 dB 69.2 / 62.7 / 47.5 / 33.5 -> **73.3 / 73.3 / 65.6 / 56.4**, old words 77.1 -> 77.9. Control "same clean clips twice" pending; agreement-gated noisy copies (41 % kept) 72.6 / 68.4 / 57.9 / 48.9 |
+| Stride-1 encoder (ENC_S1) | all at once: digits 97.0 -> 97.6, clothing 86.0 -> 87.3 (staged +0.7); same memory |
+| Prototype dreams + stride-1 encoder | not additive: clothing staged 82.55 (prototype dreams alone 83.3), 298 KB against 129 KB |
+| 64 / 128 detectors per channel | no gain worth the memory (clothing staged 82.0 / 80.7, 2x / 4x memory) |
+| RTL hooks `CORTEX_HOOKS` (top margin, write counter) | bit-exact, 0 mismatches over 200 lines |
+
 ## Still open
 
 Few labels on sound, novelty from inside (the chip noticing a new class itself), a context signal for fully mixed streams with no rewards at all (the tested one needs recent rewards), a temporal layer for twin words, neighbour-conditioned dreams (needs several times the dream memory), and the RTL for sleep pressure and context-limited self-labelling (both are host-level logic in these tests).
