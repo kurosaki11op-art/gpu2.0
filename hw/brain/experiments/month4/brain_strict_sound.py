@@ -79,6 +79,7 @@ def rel_align(P, th, lead=6):
     return out.reshape(len(P), -1)
 
 
+SW = NW // 5; TWIN = [w for a, b in (("no", "go"), ("left", "right"), ("up", "off"), ("on", "off"), ("bed", "bird"), ("down", "dog"), ("three", "tree"), ("four", "forward")) if a in WORDS and b in WORDS for w in (a, b)]; TWIN_IDX = [WORDS.index(w) for w in TWIN]   # acoustic twins present in the word list
 SW = NW // 5; STAGES = [tuple(range(SW * i, SW * i + SW)) for i in range(5)]; CH = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8)); ytr, yte = y[~te], y[te]
 fcache = {}
 
@@ -94,8 +95,9 @@ def codes(mode):
             src = pic[k][te] if k == "clean" else pic[k]
             for L in (5, 6, 7): out[k + str(L)] = enc(al(src, L))
         fcache[mode] = out; return out
-    al = (lambda P: cochlea_int.align_word(P, 6)) if mode == "peak" else (lambda P, th=int(mode.split(":")[1]): rel_align(P, th)) if mode.startswith("rel") else (lambda P, th=int(mode.split(":")[1]): onset_align(P, th))
-    ptr = al(pic["clean"][~te]); fes = [SoundFeatures(64, c, 3, 3, 1, 1, 4, 4).fit(ptr[np.isin(ytr, STAGES[0])][:12000]) for c in CH]
+    al = (lambda P: cochlea_int.align_word(P, 6)) if mode == "peak" or mode.startswith("geom") else (lambda P, th=int(mode.split(":")[1]): rel_align(P, th)) if mode.startswith("rel") else (lambda P, th=int(mode.split(":")[1]): onset_align(P, th))
+    GEO = tuple(int(v) for v in mode.split(":")[1:]) if mode.startswith("geom") else (3, 3, 1, 1, 4, 4)           # window rows, window columns (time), strides, pooling (rows, columns)
+    ptr = al(pic["clean"][~te]); fes = [SoundFeatures(64, c, *GEO).fit(ptr[np.isin(ytr, STAGES[0])][:12000]) for c in CH]
     enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
     out = {"tr": enc(ptr), "clean": enc(al(pic["clean"][te]))}
     for k in ("20dB", "10dB", "5dB"): out[k] = enc(al(pic[k]))
@@ -138,7 +140,7 @@ res = {}
 for arm in ARMS:
     kind = arm.split(":")[0]; C = codes("peak" if kind in ("nd", "v2") else arm)
     if kind == "v2": C = v2aug(C)
-    la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest")}
+    la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest", "twin", "other")}
     for seed in range(1, SEEDS + 1):
         m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if kind == "nd" \
             else CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
@@ -150,5 +152,5 @@ for arm in ARMS:
         else:
             predict = lambda k: m.predict(C[k])
         for k in ("clean", "20dB", "10dB", "5dB"): accs[k].append(float((predict(k) == yte).mean()))
-        p = predict("clean"); accs["oldest"].append(float((p == yte)[np.isin(yte, STAGES[0])].mean())); accs["newest"].append(float((p == yte)[np.isin(yte, STAGES[-1])].mean()))
+        p = predict("clean"); accs["oldest"].append(float((p == yte)[np.isin(yte, STAGES[0])].mean())); tw = np.isin(yte, TWIN_IDX); accs["twin"].append(float((p == yte)[tw].mean()) if tw.any() else 0.0); accs["other"].append(float((p == yte)[~tw].mean())); accs["newest"].append(float((p == yte)[np.isin(yte, STAGES[-1])].mean()))
     res[arm] = {k: round(float(np.mean(v)), 4) for k, v in accs.items()}; json.dump(res, open(OUT, "w"), indent=1); print(arm, res[arm], "%.0fs" % (time.time() - t0), flush=True)
