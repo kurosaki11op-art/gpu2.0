@@ -3,6 +3,8 @@ Pictures: integer cochlea -> noise floor (low4x4) -> window alignment -> finer s
 Arms (env ARMS):
   peak           shipped alignment: the window starts at the first frame reaching 3/4 of the loudest frame of the clip (needs the whole clip: not causal)
   onset:TH       causal onset trigger: the window starts at the first frame whose loudness (sum of its 28 pixels) reaches TH; only the stream up to that frame is used
+  onsetla:TH     onset trigger (as onset:TH) plus look again at test: scores summed over the window starting at the onset frame - 1, 0, + 1
+  peakla         shipped alignment plus the same look-again views (control for onsetla)
   rel:TH         adaptive causal onset: first frame whose loudness reaches 3 x the running average of earlier frames + TH
   nd:DROP:ADD    peak alignment + noisy night dreams (drop bit with p = 2^-DROP, add len >> ADD random bits)
 Reports clean / 20 / 10 / 5 dB accuracy overall, and clean accuracy on the first stage's words (oldest) and the last stage's words (newest). usage: SUBSET_DIR [CACHE_DIR]"""
@@ -81,6 +83,15 @@ fcache = {}
 
 def codes(mode):
     if mode in fcache: return fcache[mode]
+    if mode.startswith("onsetla") or mode == "peakla":       # test views with the window starting 1 frame earlier / later (look again)
+        al = (lambda P, L=6: cochlea_int.align_word(P, L)) if mode == "peakla" else (lambda P, L=6, th=int(mode.split(":")[1]): onset_align(P, th, L))
+        ptr = al(pic["clean"][~te]); fes = [SoundFeatures(64, c, 3, 3, 1, 1, 4, 4).fit(ptr[np.isin(ytr, STAGES[0])][:12000]) for c in CH]
+        enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
+        out = {"tr": enc(ptr)}
+        for k in ("clean", "20dB", "10dB", "5dB"):
+            src = pic[k][te] if k == "clean" else pic[k]
+            for L in (5, 6, 7): out[k + str(L)] = enc(al(src, L))
+        fcache[mode] = out; return out
     al = (lambda P: cochlea_int.align_word(P, 6)) if mode == "peak" else (lambda P, th=int(mode.split(":")[1]): rel_align(P, th)) if mode.startswith("rel") else (lambda P, th=int(mode.split(":")[1]): onset_align(P, th))
     ptr = al(pic["clean"][~te]); fes = [SoundFeatures(64, c, 3, 3, 1, 1, 4, 4).fit(ptr[np.isin(ytr, STAGES[0])][:12000]) for c in CH]
     enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
@@ -91,12 +102,17 @@ def codes(mode):
 
 res = {}
 for arm in ARMS:
-    kind = arm.split(":")[0]; C = codes("peak" if kind == "nd" else arm); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest")}
+    kind = arm.split(":")[0]; C = codes("peak" if kind == "nd" else arm); la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest")}
     for seed in range(1, SEEDS + 1):
         m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=20, ch=100, K=5, night_stop=2, daydream=1, seed=seed) if kind == "nd" \
             else CortexSlow(C["tr"].shape[1], n_cls=20, ch=100, K=5, night_stop=2, daydream=1, seed=seed)
         for i, s in enumerate(STAGES):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]; m.stage(C["tr"][sel], ytr[sel])
-        for k in ("clean", "20dB", "10dB", "5dB"): accs[k].append(float((m.predict(C[k]) == yte).mean()))
-        p = m.predict(C["clean"]); accs["oldest"].append(float((p == yte)[np.isin(yte, STAGES[0])].mean())); accs["newest"].append(float((p == yte)[np.isin(yte, STAGES[-1])].mean()))
+        if la:
+            def predict(k):
+                sc = sum(C[k + str(L)].astype(np.int32) @ m.S.T for L in (5, 6, 7)); sc[:, ~m.known] = -(1 << 30); return sc.argmax(1)
+        else:
+            predict = lambda k: m.predict(C[k])
+        for k in ("clean", "20dB", "10dB", "5dB"): accs[k].append(float((predict(k) == yte).mean()))
+        p = predict("clean"); accs["oldest"].append(float((p == yte)[np.isin(yte, STAGES[0])].mean())); accs["newest"].append(float((p == yte)[np.isin(yte, STAGES[-1])].mean()))
     res[arm] = {k: round(float(np.mean(v)), 4) for k, v in accs.items()}; json.dump(res, open(OUT, "w"), indent=1); print(arm, res[arm], "%.0fs" % (time.time() - t0), flush=True)

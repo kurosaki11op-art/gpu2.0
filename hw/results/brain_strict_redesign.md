@@ -23,7 +23,7 @@ These are smaller training sets than the month-4 final numbers, so compare arms 
 | Unsupervised category layer + sparse naming (competitive Hebbian assemblies, novelty and error-driven recruitment, homeostasis) | 53-66 % on a small test, fills every slot; a penalty for missing expected bits made it worse (12-37 %). Not tuned further |
 | Cascade synapses (metaplasticity, 3 extra bits per synapse) | clothing staged 80.8 -> 80.6 / 80.1 / 80.3, all at once 86.0 -> 85.3 / 84.5 / 84.1 |
 | Dreams with lateral inhibition (at most K drawn features per spot) | staged worse, more so with stronger inhibition: clothing 80.8 -> 79.9 / 78.6 / 74.7, digits 94.1 -> 93.7 / 93.0 / 90.4 for K = 4 / 3 / 2; all at once level |
-| Causal onset trigger at a fixed loudness instead of the shipped alignment | 20 words: threshold 800 clean 60.7, threshold 1600 clean 65.1, against 68.5 for the shipped alignment (equal at 5 dB, last-stage words 51.3 vs 50.6, first-stage words 71.4 vs 77.5); not adopted, adaptive variants running |
+| Causal onset triggers (fixed loudness 800 / 1600, adaptive 3 x running average) instead of the shipped alignment | 20 words: threshold 800 clean 60.7, threshold 1600 clean 65.1, against 68.5 for the shipped alignment (equal at 5 dB, last-stage words 51.3 vs 50.6, first-stage words 71.4 vs 77.5); not adopted, adaptive variants running |
 
 ## Sound (20 words of the 35-word subset, 5 stages of 4 words, 414 test clips, so about +-3 points of noise)
 
@@ -32,8 +32,13 @@ These are smaller training sets than the month-4 final numbers, so compare arms 
 | shipped alignment (peak) | 68.5 | 62.2 | 47.3 | 33.3 | 77.5 | 50.6 |
 | fixed-loudness onset 800 | 60.7 | 54.2 | 41.6 | 27.9 | 64.5 | 45.2 |
 | fixed-loudness onset 1600 | 65.1 | 61.1 | 45.8 | 33.3 | 71.4 | 51.3 |
+| adaptive onset (3 x running average + 400 / + 1200) | 57.4 / 62.4 | 55.2 / 55.3 | 42.7 / 45.0 | 30.0 / 32.1 | 63.2 / 67.5 | 41.0 / 38.3 |
+| noisy night dreams, drop 1/8 of bits | 70.5 | 62.6 | 47.9 | 35.9 | 75.3 | 51.0 |
+| noisy night dreams, drop 1/4 | 68.8 | 62.3 | 48.6 | 35.8 | 75.3 | 51.0 |
+| noisy night dreams, drop 1/8 + add len/16 random bits | 68.5 | 61.5 | 46.9 | 33.7 | 78.8 | 42.5 |
 
-Adaptive onset and noisy-dream arms were still running when this note was written; see `brain_strict_sound.log` and `brain_strict_sound_rel.log`.
+Reading (about +-3 points of noise on 414 clips): every causal onset trigger is below the shipped alignment, so the hand-made word alignment is NOT fixed (the shipped rule needs the whole clip's loudest frame). Noisy night dreams that only drop bits are within noise
+(clean +0.3 to +2.0, 5 dB +2.4 to +2.6) but first-stage words fall 2.2, which breaks the guard "old words must not get worse"; adding spurious bits hurts new words by 8. Not adopted. A look-again test (onset trigger with three test windows, against the shipped alignment with the same three) is running: `brain_strict_sound_la.log`, `brain_strict_sound_pla.log`.
 
 ## Still open
 
