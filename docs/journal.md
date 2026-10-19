@@ -690,4 +690,13 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Bug found and fixed: the sound test used 20 words but the chip model defaults to 10 classes (heap corruption); `n_cls=20` now passed. Sound results (onset-triggered words, noisy dreams) still pending.
 - Not yet clear wins: few labels at 5 % and below, Fashion. The architecture-change plan for the limits (unsupervised category layer, neighbour-conditioned dreams, temporal sound layer, context signal, pruning, cascade synapses) is the next step.
 
+### 19 Oct 2026 - redesign tests: pruning, category layer, cascade synapses, Fashion checks (SIMULATED, chip detectors, 2,000 per stage, 3 seeds unless noted)
+
+- **Synaptic pruning (WIN)** (`brain_strict_prune.py`, 2 seeds; memory saving ESTIMATED from the count of nonzero synapses, a sparse store also needs indices): zero slow-table synapses below a threshold after the last night. Digits 94.0 (40 % of synapses nonzero) -> 93.9 (30 %) -> 93.5 (19 %) -> 91.9 (12 %) -> 89.3 (7.5 %). Fashion 80.35 (54 %) -> 80.35 (30 %) -> 79.6 (21 %) -> 78.5 (16 %).
+- **Unsupervised category layer with sparse naming FAILED** (`brain_strict_clusters.py`, small test, 1 seed): competitive categories with novelty recruitment and error-driven recruitment reach 53-66 % at 10 % labels and fill every category slot; homeostasis (win-count handicap) changed little (62.5 -> 65.8 at best); penalising missing expected bits made it worse (12-37 %). Not tuned further; the table-based self-labelling (fewc) is the working route.
+- **Cascade synapses FAILED on Fashion** (`cortex_casc.py`, `brain_strict_casc.py`): staged 80.8 -> 80.6 / 80.1 / 80.3 and all-at-once 86.0 -> 85.3 / 84.5 / 84.1 for hidden levels 1 / 2 / 3, and they cost 3 extra bits per synapse. Not adopted. (Digits not run.)
+- **Few labels on Fashion** (no confidence cut, context-limited): 10 / 5 / 2 % labelled = 78.3 / 78.4 / 78.1 against 80.8 with all labels, so the loss is about 2.5 points and does not grow as labels shrink to 2 %. Digits with no cut: 10 / 5 / 2 % = 93.1 / 91.3 / 90.7 against 94.1.
+- **Sleep from inside on Fashion:** 79.3-79.7 at thresholds 200-4,000, equal to the chunked-feeding control (79.7) and 1.1 below the shipped path (80.8). The loss comes from feeding each stage in chunks (each chunk call replays the interleaved dreams again), not from the sleep trigger; digits were level or better (94.1-94.7 vs 94.1).
+- Sound arm `peak` (shipped alignment, 20 words, 5 stages of 4): clean 68.5, 20 dB 62.2, 10 dB 47.3, 5 dB 33.3; first-stage words 77.5, last-stage words 50.6 (1 seed set of 3, `brain_strict_sound.log`). Onset-trigger and noisy-dream arms still running.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

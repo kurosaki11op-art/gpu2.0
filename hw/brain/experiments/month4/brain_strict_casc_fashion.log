@@ -1,0 +1,13 @@
+fashion slow seed 1 {'staged': 0.799, 'once': 0.859} 15s
+fashion slow seed 2 {'staged': 0.808, 'once': 0.8635} 22s
+fashion slow seed 3 {'staged': 0.8175, 'once': 0.8565} 28s
+fashion casc:1 seed 1 {'staged': 0.801, 'once': 0.8545} 37s
+fashion casc:1 seed 2 {'staged': 0.8065, 'once': 0.858} 43s
+fashion casc:1 seed 3 {'staged': 0.811, 'once': 0.8465} 49s
+fashion casc:2 seed 1 {'staged': 0.7995, 'once': 0.8465} 54s
+fashion casc:2 seed 2 {'staged': 0.796, 'once': 0.841} 60s
+fashion casc:2 seed 3 {'staged': 0.8065, 'once': 0.8475} 66s
+fashion casc:3 seed 1 {'staged': 0.807, 'once': 0.843} 72s
+fashion casc:3 seed 2 {'staged': 0.8055, 'once': 0.839} 77s
+fashion casc:3 seed 3 {'staged': 0.795, 'once': 0.841} 82s
+{"slow": {"staged": 0.8082, "once": 0.8597}, "casc:1": {"staged": 0.8062, "once": 0.853}, "casc:2": {"staged": 0.8007, "once": 0.845}, "casc:3": {"staged": 0.8025, "once": 0.841}}

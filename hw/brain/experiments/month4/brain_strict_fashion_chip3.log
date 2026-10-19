@@ -1,0 +1,14 @@
+codes (10000, 4608) 8s
+chunk seed 1 0.794 {} 38s
+chunk seed 2 0.7995 {} 68s
+chunk seed 3 0.797 {} 97s
+press:200 seed 1 0.791 {'sleeps': 12} 134s
+press:200 seed 2 0.795 {'sleeps': 12} 173s
+press:200 seed 3 0.7985 {'sleeps': 11} 208s
+press:2000 seed 1 0.798 {'sleeps': 2} 233s
+press:2000 seed 2 0.7955 {'sleeps': 2} 260s
+press:2000 seed 3 0.7955 {'sleeps': 2} 286s
+press:4000 seed 1 0.7915 {'sleeps': 1} 312s
+press:4000 seed 2 0.7985 {'sleeps': 1} 337s
+press:4000 seed 3 0.8005 {'sleeps': 1} 364s
+{"chunk": 0.7968, "press:200": 0.7948, "press:2000": 0.7963, "press:4000": 0.7968}
