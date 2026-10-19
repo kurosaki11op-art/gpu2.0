@@ -44,6 +44,17 @@ These are smaller training sets than the month-4 final numbers, so compare arms 
 Reading (about +-3 points of noise on 414 clips): every causal onset trigger is below the shipped alignment, so the hand-made word alignment is NOT clearly fixed (the shipped rule needs the whole clip's loudest frame). Noisy night dreams that only drop bits are within noise
 (clean +0.3 to +2.0, 5 dB +2.4 to +2.6) but first-stage words fall 2.2, which breaks the guard "old words must not get worse"; adding spurious bits hurts new words by 8. Not adopted. With the same look-again at test time (three windows), the onset trigger (1600) is near parity with the shipped alignment: 2.9 points lower clean (about the size of the test noise), 0.2 higher at 20 dB, 1.0 lower at 10 dB, 1.9 higher at 5 dB, 4.7 lower on first-stage words. Not a clear win and not a clear loss; it needs a larger speaker-disjoint test set to settle (`brain_strict_sound_la.log`, `brain_strict_sound_pla.log`).
 
+## Sound, 35 words (717 test clips, about +-2 points), run on the user's PC
+
+| Arm | clean | 20 dB | 10 dB | 5 dB | first-stage words | last-stage words |
+|---|---|---|---|---|---|---|
+| shipped alignment + look again | 64.2 | 55.3 | 37.5 | 25.2 | 71.2 | 44.9 |
+| onset trigger 1600 + look again | 60.7 | 52.8 | 36.6 | 26.1 | 68.6 | 42.6 |
+
+The causal onset trigger is about 3 points lower on clean speech; the 20-word near-parity (66.3 vs 69.2) does not hold on the larger test. The shipped rule stays and is described as an echoic buffer with retrospective attention (the chip holds the one-second window and attends to the loudest part).
+
+New spoken words with time-shifted views (base 15 words, 3 draws, k = 1 / 2 / 5 recordings): new-word accuracy 24.4 / 39.3 / 51.2 (shipped embedding path) against 24.1 / 40.9 / 50.8 with three views per recording; no gain, old words 0.2-1.3 lower. Not adopted.
+
 ## Still open
 
 Few labels on sound, novelty from inside (the chip noticing a new class itself), a context signal for fully mixed streams with no rewards at all (the tested one needs recent rewards), a temporal layer for twin words, neighbour-conditioned dreams (needs several times the dream memory), and the RTL for sleep pressure and context-limited self-labelling (both are host-level logic in these tests).

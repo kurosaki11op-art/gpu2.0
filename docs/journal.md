@@ -735,4 +735,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Novelty signal improves with eye movements** (`brain_strict_novelty2.py`, digits, trained on 8 classes, 3 seeds, AUROC unseen vs known): single-view margin 0.882, mean margin over 5 views 0.910, mean margin plus view disagreement 0.912; share of unseen flagged at the threshold that keeps 90 % of known 72 % (was 60 %). Real but modest; recruitment on it not yet retested.
 - Started `sc35_views.py`: new spoken words (k = 1 / 2 / 5 recordings, base T = 15) with each recording enrolled at three window starts (look again), against the single-view embedding path.
 
+### 19 Oct 2026 - runs on the user's PC: few-shot words with views (no gain) and 35-word onset trigger (3 points lower) (SIMULATED)
+
+- Run by the user on their PC (`sc35_views.py`, `brain_strict_sound.py`; their push to GitHub failed with a 403 so the numbers were read from their screenshots; the local logs are on their machine only).
+- **Few-shot new words with time-shifted views (F9) FAILED to help**, base T = 15 words, 3 draws, single (shipped embedding path) vs views (3 window starts per recording, look-again at test): k = 1: all 62.5 vs 62.3, new 24.4 vs 24.1, old 75.0 vs 74.8; k = 2: all 65.0 vs 64.4, new 39.3 vs 40.9, old 73.4 vs 72.1; k = 5: all 65.7 vs 65.2, new 51.2 vs 50.8, old 70.5 vs 69.9. No gain beyond noise, old words slightly lower.
+- **Word alignment on all 35 words (717 test clips, F1):** onset trigger 1600 with look-again clean 60.7, 20 / 10 / 5 dB 52.8 / 36.6 / 26.1, first / last stage words 68.6 / 42.6, against the shipped alignment with look-again 64.2, 55.3 / 37.5 / 25.2, 71.2 / 44.9. The causal trigger is about 3 points lower clean and 2.5 lower at 20 dB; equal only at 5 dB. With the larger test set the 20-word near-parity does not hold. The shipped rule stays.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
