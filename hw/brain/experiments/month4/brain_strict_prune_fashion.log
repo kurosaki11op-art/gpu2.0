@@ -1,0 +1,15 @@
+fashion seed 1 T 0 acc 0.799 kept 0.5498
+fashion seed 1 T 4 acc 0.8 kept 0.4516
+fashion seed 1 T 8 acc 0.8005 kept 0.4245
+fashion seed 1 T 12 acc 0.8025 kept 0.3119
+fashion seed 1 T 16 acc 0.802 kept 0.2971
+fashion seed 1 T 24 acc 0.797 kept 0.2155
+fashion seed 1 T 32 acc 0.78 kept 0.1583
+fashion seed 2 T 0 acc 0.808 kept 0.5396
+fashion seed 2 T 4 acc 0.8055 kept 0.4434
+fashion seed 2 T 8 acc 0.807 kept 0.4189
+fashion seed 2 T 12 acc 0.8055 kept 0.3087
+fashion seed 2 T 16 acc 0.805 kept 0.2946
+fashion seed 2 T 24 acc 0.7955 kept 0.2139
+fashion seed 2 T 32 acc 0.7905 kept 0.1563
+{"0": {"acc": 0.8035, "kept": 0.5447}, "4": {"acc": 0.8028, "kept": 0.4475}, "8": {"acc": 0.8037, "kept": 0.4217}, "12": {"acc": 0.804, "kept": 0.3103}, "16": {"acc": 0.8035, "kept": 0.2959}, "24": {"acc": 0.7963, "kept": 0.2147}, "32": {"acc": 0.7853, "kept": 0.1573}}
