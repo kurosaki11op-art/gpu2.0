@@ -11,3 +11,7 @@ fewc:0.05:10 seed 3 0.918 {'labelled': 500, 'pseudo_used': 7875, 'pseudo_precisi
 fewc:0.02:0 seed 1 0.915 {'labelled': 200, 'pseudo_used': 9131, 'pseudo_precision': 0.9816} 584s
 fewc:0.02:0 seed 2 0.914 {'labelled': 200, 'pseudo_used': 9270, 'pseudo_precision': 0.9811} 618s
 fewc:0.02:0 seed 3 0.8915 {'labelled': 200, 'pseudo_used': 9053, 'pseudo_precision': 0.9652} 663s
+fewc:0.02:10 seed 1 0.901 {'labelled': 200, 'pseudo_used': 8073, 'pseudo_precision': 0.9907} 718s
+fewc:0.02:10 seed 2 0.916 {'labelled': 200, 'pseudo_used': 8184, 'pseudo_precision': 0.9946} 765s
+fewc:0.02:10 seed 3 0.882 {'labelled': 200, 'pseudo_used': 7996, 'pseudo_precision': 0.9861} 813s
+{"fewc:0.1:0": 0.9308, "fewc:0.05:0": 0.9133, "fewc:0.05:10": 0.9077, "fewc:0.02:0": 0.9068, "fewc:0.02:10": 0.8997}
