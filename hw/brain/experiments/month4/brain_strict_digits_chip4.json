@@ -1,0 +1,27 @@
+{
+ "mixc:0.1:50": {
+  "acc": 0.9113,
+  "seeds": [
+   0.9225,
+   0.9115,
+   0.9
+  ],
+  "info": [
+   {
+    "labelled": 990,
+    "pseudo_used": 5642,
+    "pseudo_precision": 0.9982
+   },
+   {
+    "labelled": 980,
+    "pseudo_used": 5238,
+    "pseudo_precision": 0.9979
+   },
+   {
+    "labelled": 905,
+    "pseudo_used": 5465,
+    "pseudo_precision": 0.9952
+   }
+  ]
+ }
+}

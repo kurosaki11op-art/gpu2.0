@@ -6,3 +6,4 @@ fewc:0.02:50 seed 1 0.882 {'labelled': 200, 'pseudo_used': 3455, 'pseudo_precisi
 fewc:0.02:50 seed 2 0.8285 {'labelled': 200, 'pseudo_used': 2189, 'pseudo_precision': 0.9991} 378s
 fewc:0.02:50 seed 3 0.7875 {'labelled': 200, 'pseudo_used': 2979, 'pseudo_precision': 0.9983} 473s
 fewc:0.01:50 seed 1 0.7145 {'labelled': 100, 'pseudo_used': 983, 'pseudo_precision': 1.0} 541s
+fewc:0.01:50 seed 2 0.7815 {'labelled': 100, 'pseudo_used': 1241, 'pseudo_precision': 1.0} 615s
