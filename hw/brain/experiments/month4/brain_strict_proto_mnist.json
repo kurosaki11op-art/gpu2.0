@@ -2,5 +2,9 @@
  "slow": {
   "staged": 0.9413,
   "dream_counts_nonzero": 0.706
+ },
+ "slowp:16": {
+  "staged": 0.9258,
+  "dream_counts_nonzero": 0.2477
  }
 }

@@ -10,5 +10,9 @@
  "proto:4:0": {
   "staged": 0.8328,
   "dream_counts_nonzero": 0.6353
+ },
+ "proto:4:16": {
+  "staged": 0.8002,
+  "dream_counts_nonzero": 0.2369
  }
 }

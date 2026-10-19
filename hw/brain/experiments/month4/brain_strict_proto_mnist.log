@@ -1,1 +1,2 @@
 mnist slow {'staged': 0.9413, 'dream_counts_nonzero': 0.706} 64s
+mnist slowp:16 {'staged': 0.9258, 'dream_counts_nonzero': 0.2477} 122s
