@@ -7,3 +7,5 @@ mnist proto4 seed 1 {'staged': 0.9375, 'once': 0.9685} 102s
 mnist proto4 seed 2 {'staged': 0.9425, 'once': 0.969} 136s
 mnist proto4 seed 3 {'staged': 0.937, 'once': 0.967} 172s
 mnist proto4 {'staged': 0.939, 'once': 0.9682, 'memory_bits': {'fast_table': 230400, 'dream_counts': 1843600, 'slow_table': 368640}, 'memory_kbytes': 298.2}
+codes s1 (10000, 4608) 204s
+mnist s1 seed 1 {'staged': 0.9385, 'once': 0.974} 228s

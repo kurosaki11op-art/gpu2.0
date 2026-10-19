@@ -13,3 +13,7 @@ fashion s1 seed 2 {'staged': 0.812, 'once': 0.867} 134s
 fashion s1 seed 3 {'staged': 0.826, 'once': 0.878} 144s
 fashion s1 {'staged': 0.815, 'once': 0.8727, 'memory_bits': {'fast_table': 230400, 'dream_counts': 460900, 'slow_table': 368640}, 'memory_kbytes': 129.4}
 fashion s1proto4 seed 1 {'staged': 0.8195, 'once': 0.8705} 161s
+fashion s1proto4 seed 2 {'staged': 0.8305, 'once': 0.8695} 182s
+fashion s1proto4 seed 3 {'staged': 0.8265, 'once': 0.878} 202s
+fashion s1proto4 {'staged': 0.8255, 'once': 0.8727, 'memory_bits': {'fast_table': 230400, 'dream_counts': 1843600, 'slow_table': 368640}, 'memory_kbytes': 298.2}
+{"base": {"staged": 0.8082, "once": 0.8597}, "proto4": {"staged": 0.8328, "once": 0.8592}, "s1": {"staged": 0.815, "once": 0.8727}, "s1proto4": {"staged": 0.8255, "once": 0.8727}}

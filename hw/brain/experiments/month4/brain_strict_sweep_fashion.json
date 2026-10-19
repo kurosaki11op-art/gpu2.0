@@ -22,5 +22,21 @@
  "night=1": {
   "staged": 0.8147,
   "once": 0.8613
+ },
+ "night=4": {
+  "staged": 0.7985,
+  "once": 0.8613
+ },
+ "daydream=0": {
+  "staged": 0.8087,
+  "once": 0.8565
+ },
+ "daydream=3": {
+  "staged": 0.8097,
+  "once": 0.863
+ },
+ "daydream=6": {
+  "staged": 0.8057,
+  "once": 0.8573
  }
 }

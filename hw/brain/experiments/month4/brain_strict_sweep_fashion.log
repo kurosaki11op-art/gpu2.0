@@ -4,3 +4,7 @@ fashion ndream=3000 {'staged': 0.8153, 'once': 0.8613} 36s
 fashion ndream=12000 {'staged': 0.8053, 'once': 0.8613} 58s
 fashion ndream=24000 {'staged': 0.7848, 'once': 0.8613} 123s
 fashion night=1 {'staged': 0.8147, 'once': 0.8613} 134s
+fashion night=4 {'staged': 0.7985, 'once': 0.8613} 151s
+fashion daydream=0 {'staged': 0.8087, 'once': 0.8565} 163s
+fashion daydream=3 {'staged': 0.8097, 'once': 0.863} 182s
+fashion daydream=6 {'staged': 0.8057, 'once': 0.8573} 205s
