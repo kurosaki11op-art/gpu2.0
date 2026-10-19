@@ -2,6 +2,7 @@
 Training arms (each stage: the clean clips first, then the noisy copies):
   clean   clean clips only (the shipped way)
   noisy   clean clips, then one noisy copy of every clip (SNR 20 / 10 / 5 dB at random, one copy each), all learned
+  twice   control: clean clips, then the same clean clips again
   gated   clean clips, then the noisy copies, but a noisy copy is learned only if its 3 window starts (lead 5, 6, 7) make the chip name the same class (agreement across time-shifted views)
 Test: clean, 20, 10, 5 dB white noise, single view; also first-stage words (oldest) and last-stage words (newest) on clean test clips. usage: SUBSET_DIR [CACHE_DIR]; env SEEDS, NW, ARMS."""
 import json, os, sys, time
@@ -44,6 +45,11 @@ rg = np.random.RandomState(9); snr_of = rg.choice([20, 10, 5], len(ytr)); N = {l
 for s in (20, 10, 5):
     ix = np.where(snr_of == s)[0]; P = pic(Str_noisy[s])[ix]
     for lead in (5, 6, 7): N[lead][ix] = enc(al(P, lead))
+CF = os.path.join(CACHE, "ng_codes_nw%d.npz" % NW)
+if os.path.exists(CF):
+    z = np.load(CF); C_tr, C_te = z["C_tr"], z["C_te"]; T = {20: z["T20"], 10: z["T10"], 5: z["T5"]}; N = {5: z["N5"], 6: z["N6"], 7: z["N7"]}
+else:
+    np.savez_compressed(CF, C_tr=C_tr, C_te=C_te, T20=T[20], T10=T[10], T5=T[5], N5=N[5], N6=N[6], N7=N[7])
 print("codes ready", C_tr.shape, "%.0fs" % (time.time() - t0), flush=True); NB = C_tr.shape[1]
 
 
@@ -55,7 +61,7 @@ res = {}
 for arm in ARMS:
     acc = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest", "kept")}
     for seed in range(1, SEEDS + 1):
-        m = CortexSlow(NB, n_cls=NW, ch=50, K=5, night_stop=2, daydream=1, seed=seed); kept = tot = 0
+        m = CortexSlow(NB, n_cls=NW, ch=50, K=5, night_stop=2, daydream=1, seed=seed); kept = tot = 0; src = C_tr if arm == "twice" else N[6]   # twice = control: the same clean clips a second time, to separate more data from noisy data
         for i, s in enumerate(STAGES):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]; m.stage(C_tr[sel], ytr[sel])
             if arm != "clean":
@@ -63,7 +69,7 @@ for arm in ARMS:
                 if arm == "gated":
                     p0 = pred(m, N[6][sel]); ok = (pred(m, N[5][sel]) == p0) & (pred(m, N[7][sel]) == p0)
                 kept += int(ok.sum()); tot += len(ok)
-                if ok.sum(): m.stage(N[6][sel][ok], ytr[sel][ok])
+                if ok.sum(): m.stage(src[sel][ok], ytr[sel][ok])
         for k, c in (("clean", C_te), ("20dB", T[20]), ("10dB", T[10]), ("5dB", T[5])): acc[k].append(float((pred(m, c) == yte).mean()))
         p = pred(m, C_te); acc["oldest"].append(float((p == yte)[np.isin(yte, STAGES[0])].mean())); acc["newest"].append(float((p == yte)[np.isin(yte, STAGES[-1])].mean())); acc["kept"].append(kept / max(tot, 1))
     res[arm] = {k: round(float(np.mean(v)), 4) for k, v in acc.items()}; print(arm, res[arm], "%.0fs" % (time.time() - t0), flush=True); json.dump(res, open("brain_strict_noise_gate.json", "w"), indent=1)
