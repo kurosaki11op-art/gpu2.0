@@ -1,3 +1,14 @@
 codes (10000, 4608) 8s
 ctx:1.0:50:30 seed 1 0.945 {'labelled': 10000, 'pseudo_used': 0, 'pseudo_precision': 0.0, 'sleeps': 2} 51s
 ctx:1.0:50:30 seed 2 0.941 {'labelled': 10000, 'pseudo_used': 0, 'pseudo_precision': 0.0, 'sleeps': 2} 91s
+ctx:1.0:50:30 seed 3 0.951 {'labelled': 10000, 'pseudo_used': 0, 'pseudo_precision': 0.0, 'sleeps': 2} 132s
+ctx:0.1:0:30 seed 1 0.9275 {'labelled': 1007, 'pseudo_used': 8715, 'pseudo_precision': 0.9243, 'sleeps': 3} 187s
+ctx:0.1:0:30 seed 2 0.918 {'labelled': 1020, 'pseudo_used': 8712, 'pseudo_precision': 0.91, 'sleeps': 3} 266s
+ctx:0.1:0:30 seed 3 0.934 {'labelled': 1026, 'pseudo_used': 8695, 'pseudo_precision': 0.9308, 'sleeps': 3} 327s
+ctx:0.05:0:30 seed 1 0.92 {'labelled': 515, 'pseudo_used': 9128, 'pseudo_precision': 0.8907, 'sleeps': 3} 404s
+ctx:0.05:0:30 seed 2 0.924 {'labelled': 506, 'pseudo_used': 9095, 'pseudo_precision': 0.8593, 'sleeps': 3} 477s
+ctx:0.05:0:30 seed 3 0.91 {'labelled': 522, 'pseudo_used': 9157, 'pseudo_precision': 0.8407, 'sleeps': 4} 548s
+ctx:0.1:0:60 seed 1 0.939 {'labelled': 1007, 'pseudo_used': 8729, 'pseudo_precision': 0.9306, 'sleeps': 3} 626s
+ctx:0.1:0:60 seed 2 0.925 {'labelled': 1020, 'pseudo_used': 8716, 'pseudo_precision': 0.919, 'sleeps': 3} 693s
+ctx:0.1:0:60 seed 3 0.9285 {'labelled': 1026, 'pseudo_used': 8703, 'pseudo_precision': 0.9258, 'sleeps': 3} 751s
+{"ctx:1.0:50:30": 0.9457, "ctx:0.1:0:30": 0.9265, "ctx:0.05:0:30": 0.918, "ctx:0.1:0:60": 0.9308}
