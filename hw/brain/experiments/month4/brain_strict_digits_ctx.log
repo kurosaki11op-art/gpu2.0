@@ -1,0 +1,3 @@
+codes (10000, 4608) 8s
+ctx:1.0:50:30 seed 1 0.945 {'labelled': 10000, 'pseudo_used': 0, 'pseudo_precision': 0.0, 'sleeps': 2} 51s
+ctx:1.0:50:30 seed 2 0.941 {'labelled': 10000, 'pseudo_used': 0, 'pseudo_precision': 0.0, 'sleeps': 2} 91s
