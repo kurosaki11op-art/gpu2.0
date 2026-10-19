@@ -3,7 +3,7 @@
   proto4    + prototype dreams (4 dream-count sets per class, cortex_proto_slow.py): about 4x the dream memory
   s1        + stride-1 detectors with 4 x 4 pooling (same 4,608-bit code, finer winner grid): the ENC_S1 encoder option
   s1proto4  both
-Each arm prints staged and all-at-once accuracy and the memory the chip's counters need (bits). Same data pipeline as brain_strict_digits.py. usage: DATA_DIR; env DS (mnist|fashion), NPS, SEEDS, ARMS."""
+Each arm prints staged and all-at-once accuracy and the memory the chip's counters need (bits). Same data pipeline as brain_strict_digits.py. usage: DATA_DIR; env DETF (detectors per channel, default 32), TAG (suffix of the json name); env DS (mnist|fashion), NPS, SEEDS, ARMS."""
 import json, os, sys, time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 import numpy as np
@@ -23,7 +23,7 @@ def codes(enc):
     """codes of the train and test images with the stride-2 (base) or stride-1 (s1) encoder; the detectors are learned on the chip's own rule from the first stage's images"""
     if enc not in CODES:
         feature_layer.PS, feature_layer.ST = (5, 1) if enc == "s1" else (5, 2)
-        fes = detector_learn.learn_features(xtr[np.isin(ytr, STAGES[0])])
+        fes = detector_learn.learn_features(xtr[np.isin(ytr, STAGES[0])], F=int(os.environ.get("DETF", 32)))
         if enc == "s1":
             for f in fes: f.pool = 4
         e = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 2000]) for g in fes], 1) for i in range(0, len(x), 2000)])
@@ -42,5 +42,5 @@ for arm in ARMS:
             out[mode].append(float((m.predict(cte) == yte).mean()))
         print(DS, arm, "seed", seed, {k: round(v[-1], 4) for k, v in out.items()}, "%.0fs" % (time.time() - t0), flush=True)
     res[arm] = {k: round(float(np.mean(v)), 4) for k, v in out.items()}; res[arm]["memory_bits"] = dict(m.memory_bits(), slow_table=int(m.S.size * 8)); res[arm]["memory_kbytes"] = round(sum(res[arm]["memory_bits"].values()) / 8 / 1024, 1); print(DS, arm, res[arm], flush=True)
-    json.dump(res, open("brain_strict_stack_%s.json" % DS, "w"), indent=1)
+    json.dump(res, open("brain_strict_stack_%s%s.json" % (DS, os.environ.get("TAG", "")), "w"), indent=1)
 print(json.dumps({k: {m: v[m] for m in ("staged", "once")} for k, v in res.items()}))

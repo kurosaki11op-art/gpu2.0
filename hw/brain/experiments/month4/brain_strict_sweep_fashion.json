@@ -38,5 +38,17 @@
  "daydream=6": {
   "staged": 0.8057,
   "once": 0.8573
+ },
+ "margin=8": {
+  "staged": 0.8003,
+  "once": 0.858
+ },
+ "margin=16": {
+  "staged": 0.7903,
+  "once": 0.8582
+ },
+ "margin=64": {
+  "staged": 0.811,
+  "once": 0.8618
  }
 }
