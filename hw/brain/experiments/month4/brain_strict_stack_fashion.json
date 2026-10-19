@@ -1,0 +1,36 @@
+{
+ "base": {
+  "staged": 0.7755,
+  "once": 0.769,
+  "memory_bits": {
+   "fast_table": 230400,
+   "dream_counts": 460900,
+   "slow_table": 368640
+  }
+ },
+ "proto4": {
+  "staged": 0.7875,
+  "once": 0.773,
+  "memory_bits": {
+   "fast_table": 230400,
+   "dream_counts": 1843600
+  }
+ },
+ "s1": {
+  "staged": 0.772,
+  "once": 0.779,
+  "memory_bits": {
+   "fast_table": 230400,
+   "dream_counts": 460900,
+   "slow_table": 368640
+  }
+ },
+ "s1proto4": {
+  "staged": 0.8005,
+  "once": 0.7955,
+  "memory_bits": {
+   "fast_table": 230400,
+   "dream_counts": 1843600
+  }
+ }
+}
