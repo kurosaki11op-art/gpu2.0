@@ -35,17 +35,19 @@ Xtr = []
 for w in cochlea.WORDS:
     for f in sorted(os.listdir(os.path.join(root, w))):
         if f"{w}/{f}" not in test:
-            Xtr.append(cochlea.read(os.path.join(root, w, f)))
+            Xtr.append(cochlea.read(os.path.join(root, w, f)).astype(np.int16))
 Xtr = np.stack(Xtr); gt = np.random.RandomState(777)
 def noisy_bank(X, snrs, gen):
     # each clip gets one noise level drawn from snrs (None = clean)
-    out = np.empty((len(X), 28, 28), np.int32); lv = gen.choice(len(snrs), len(X))
-    xs = X.copy()
-    for j, snr in enumerate(snrs):
-        if snr is None: continue
-        ix = np.where(lv == j)[0]; p = (X[ix] ** 2).mean(1, keepdims=True); xs[ix] = X[ix] + gen.standard_normal(X[ix].shape) * np.sqrt(p / 10 ** (snr / 10))
-    xs = np.clip(np.round(xs), -32768, 32767).astype(np.int16)
-    return np.concatenate([cochlea_int._bank(xs[i:i + 1000].astype(np.int64), cochlea_int.A1, cochlea_int.A2, cochlea_int.G, cochlea.FR, cochlea_int.FB) for i in range(0, len(xs), 1000)])
+    lv = gen.choice(len(snrs), len(X)); res = []
+    for i in range(0, len(X), 500):
+        xc = X[i:i + 500].astype(np.float64); l = lv[i:i + 500]
+        for j, snr in enumerate(snrs):
+            if snr is None: continue
+            ix = np.where(l == j)[0]; p = (xc[ix] ** 2).mean(1, keepdims=True); xc[ix] = xc[ix] + gen.standard_normal(xc[ix].shape) * np.sqrt(p / 10 ** (snr / 10))
+        xs = np.clip(np.round(xc), -32768, 32767).astype(np.int16)
+        res.append(cochlea_int._bank(xs.astype(np.int64), cochlea_int.A1, cochlea_int.A2, cochlea_int.G, cochlea.FR, cochlea_int.FB))
+    return np.concatenate(res)
 TRAINS = {"clean": [None], "mixed (clean/20/10/5)": [None, 20, 10, 5], "noisy only (20/10/5)": [20, 10, 5]}
 trS = {k: noisy_bank(Xtr, v, gt) for k, v in TRAINS.items() if k != "clean"}; trS["clean"] = S[~te]
 noisy = {}
