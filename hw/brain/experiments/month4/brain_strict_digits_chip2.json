@@ -73,5 +73,49 @@
     "pseudo_precision": 0.9891
    }
   ]
+ },
+ "fewc:0.25:50": {
+  "acc": 0.9378,
+  "seeds": [
+   0.939,
+   0.9435,
+   0.931
+  ],
+  "info": [
+   {
+    "labelled": 2500,
+    "pseudo_used": 6788,
+    "pseudo_precision": 0.9929
+   },
+   {
+    "labelled": 2500,
+    "pseudo_used": 6721,
+    "pseudo_precision": 0.989
+   },
+   {
+    "labelled": 2500,
+    "pseudo_used": 6789,
+    "pseudo_precision": 0.9928
+   }
+  ]
+ },
+ "press:200": {
+  "acc": 0.9408,
+  "seeds": [
+   0.9455,
+   0.929,
+   0.948
+  ],
+  "info": [
+   {
+    "sleeps": 4
+   },
+   {
+    "sleeps": 4
+   },
+   {
+    "sleeps": 4
+   }
+  ]
  }
 }

@@ -6,6 +6,7 @@ Audit: docs/brain_principles_audit.md. Arms (env ARMS, comma list):
             (no class list from the host); the unlabelled ones get the chip's own winner as label only when the winner is clear
             (top-2 margin >= the lower quartile of the labelled examples' margins), otherwise they are ignored; one night at the end of the stage
   fewc:P:Q  like few, but a pseudo-label may only be one of the classes rewarded in the current context (the stage's labelled ones), margin cut at percentile Q (default 25)
+  mixc:P:Q  like fewc, but the rewards arrive scattered through the stream; the margin cut comes from the margins of the most recent 200 rewarded examples (percentile Q)
   press:T   no stage boundaries for sleep: the stream is fed in chunks, the chip sleeps (one night) when the surprise writes since its last sleep reach T
 Detectors: env DET=fit (Features.fit, batch, offline) or DET=chip (one-pass on-chip rule, detector_learn.learn_features).
 usage: python brain_strict_digits.py DATA_DIR  (DATA_DIR holds mnist.npz); env NPS (examples per stage, default 2000), SEEDS (default 3)"""
@@ -73,6 +74,22 @@ def run(arm, seed):
                 tot += int(sel.sum()); ok += int((pred[sel] == ytr[u][sel]).sum())
                 if sel.any(): m.stage(ctr[u][sel], pred[sel])
             night(m); used += k
+        info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
+    elif kind == "mixc":
+        ps = p.split(":"); frac = float(ps[0]); q = float(ps[1]) if len(ps) > 1 else 50; m.night = 0; ok = tot = used = 0
+        for o in order:
+            rg = np.random.RandomState(7 * seed + len(o)); lab_mask = rg.rand(len(o)) < frac; lab_mask[:2] = True   # reward arrives scattered through the stream
+            allowed = np.zeros(0, np.int64); buf = []
+            for j in range(0, len(o), 250):
+                u = o[j:j + 250]; lm = lab_mask[j:j + 250]; lab, unl = u[lm], u[~lm]
+                if len(allowed):
+                    _, mg0 = margins(m, ctr[lab], allowed); buf = (buf + list(mg0))[-200:]
+                m.stage(ctr[lab], ytr[lab]); used += len(lab); allowed = np.union1d(allowed, np.unique(ytr[lab]))
+                if len(buf) >= 10 and len(unl):
+                    tau = np.percentile(buf, q); pred, mg = margins(m, ctr[unl], allowed); sel = mg >= tau
+                    tot += int(sel.sum()); ok += int((pred[sel] == ytr[unl][sel]).sum())
+                    if sel.any(): m.stage(ctr[unl][sel], pred[sel])
+            night(m)
         info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
     elif kind == "press":
         thr = int(p); m.night = 0; since = 0; sleeps = 0
