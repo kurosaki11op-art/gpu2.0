@@ -16,3 +16,4 @@ press:200 seed 2 0.929 {'sleeps': 4} 662s
 press:200 seed 3 0.948 {'sleeps': 4} 717s
 press:500 seed 1 0.9525 {'sleeps': 2} 768s
 press:500 seed 2 0.941 {'sleeps': 2} 818s
+press:500 seed 3 0.9485 {'sleeps': 2} 869s

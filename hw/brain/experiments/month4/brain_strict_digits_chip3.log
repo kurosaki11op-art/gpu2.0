@@ -3,3 +3,4 @@ fewc:0.05:50 seed 1 0.8915 {'labelled': 500, 'pseudo_used': 3778, 'pseudo_precis
 fewc:0.05:50 seed 2 0.8775 {'labelled': 500, 'pseudo_used': 4150, 'pseudo_precision': 0.9949} 158s
 fewc:0.05:50 seed 3 0.8835 {'labelled': 500, 'pseudo_used': 3552, 'pseudo_precision': 0.9992} 231s
 fewc:0.02:50 seed 1 0.882 {'labelled': 200, 'pseudo_used': 3455, 'pseudo_precision': 0.9959} 301s
+fewc:0.02:50 seed 2 0.8285 {'labelled': 200, 'pseudo_used': 2189, 'pseudo_precision': 0.9991} 378s
