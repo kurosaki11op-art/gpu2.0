@@ -9,3 +9,4 @@ fashion margin=512 ndream=6000 night=2 {'staged': 0.816, 'once': 0.8732} 220s
 fashion margin=512 ndream=1500 night=2 {'staged': 0.829, 'once': 0.8732} 230s
 fashion margin=512 ndream=1500 night=1 {'staged': 0.8307, 'once': 0.8732} 240s
 fashion margin=1024 ndream=6000 night=2 {'staged': 0.8188, 'once': 0.8678} 260s
+fashion margin=1024 ndream=1500 night=2 {'staged': 0.8263, 'once': 0.8678} 270s
