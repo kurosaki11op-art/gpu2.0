@@ -1,1 +1,5 @@
 codes base (10000, 18432) 44s
+fashion base seed 1 {'staged': 0.807, 'once': 0.8615} 109s
+fashion base seed 2 {'staged': 0.8115, 'once': 0.854} 140s
+fashion base seed 3 {'staged': 0.802, 'once': 0.8605} 174s
+fashion base {'staged': 0.8068, 'once': 0.8587, 'memory_bits': {'fast_table': 921600, 'dream_counts': 1843300, 'slow_table': 1474560}, 'memory_kbytes': 517.5}

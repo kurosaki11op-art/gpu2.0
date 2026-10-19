@@ -1,0 +1,12 @@
+{
+ "base": {
+  "staged": 0.8068,
+  "once": 0.8587,
+  "memory_bits": {
+   "fast_table": 921600,
+   "dream_counts": 1843300,
+   "slow_table": 1474560
+  },
+  "memory_kbytes": 517.5
+ }
+}

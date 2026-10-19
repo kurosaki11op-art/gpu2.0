@@ -14,3 +14,6 @@ mnist s1 seed 3 {'staged': 0.927, 'once': 0.9755} 276s
 mnist s1 {'staged': 0.9345, 'once': 0.9757, 'memory_bits': {'fast_table': 230400, 'dream_counts': 460900, 'slow_table': 368640}, 'memory_kbytes': 129.4}
 mnist s1proto4 seed 1 {'staged': 0.939, 'once': 0.9745} 315s
 mnist s1proto4 seed 2 {'staged': 0.948, 'once': 0.978} 353s
+mnist s1proto4 seed 3 {'staged': 0.9395, 'once': 0.9775} 396s
+mnist s1proto4 {'staged': 0.9422, 'once': 0.9767, 'memory_bits': {'fast_table': 230400, 'dream_counts': 1843600, 'slow_table': 368640}, 'memory_kbytes': 298.2}
+{"base": {"staged": 0.9413, "once": 0.9698}, "proto4": {"staged": 0.939, "once": 0.9682}, "s1": {"staged": 0.9345, "once": 0.9757}, "s1proto4": {"staged": 0.9422, "once": 0.9767}}
