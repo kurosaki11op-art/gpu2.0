@@ -62,14 +62,17 @@ def shifted_codes():
     return SH
 
 
-def chip(seed): return CortexSlow(NB, ch=100, K=5, night_stop=2, daydream=1, seed=seed)
+CFG = dict(margin=int(os.environ.get('MARGIN', 32)), ndream=int(os.environ.get('NDREAM', 6000)), night=int(os.environ.get('NIGHT', 2)))   # chip settings; shipped 32 / 6,000 / 2, recommended 19 Oct: 256 / 1,500 / 1
+
+
+def chip(seed): return CortexSlow(NB, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
 
 
 def night(m):
     """night only: no examples, dreams of every known class (the same njit loop as a stage with zero real examples)"""
     old = np.where(m.known)[0].astype(np.int64)
     _, m.tick = _stage_slow(m.W, m.S, m.on, m.n, m.rng, m.known, np.zeros((0, 1), np.int32), np.zeros(0, np.int32), np.zeros(0, np.int64), np.zeros(0, np.int64), old,
-                            m.ndream, 2, m.margin, m.cmax, m.top, m.daydream, m.night_stop, m.stats, m.ch, m.K, m.FR, m.RND, m.tick)
+                            m.ndream, CFG['night'], m.margin, m.cmax, m.top, m.daydream, m.night_stop, m.stats, m.ch, m.K, m.FR, m.RND, m.tick)
 
 
 def acc(m): return float((m.predict(cte) == yte).mean())
