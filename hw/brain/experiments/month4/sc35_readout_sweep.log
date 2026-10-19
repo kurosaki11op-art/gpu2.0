@@ -1,0 +1,11 @@
+shipped: 0.701
+cmax31: 0.694
+cmax63: 0.694
+margin16: 0.681
+margin64: 0.707
+margin128 cmax31: 0.703
+ndream12000: 0.701
+night4: 0.701
+cmax31 night4 ndream12000: 0.694
+no daydream: 0.697
+margin64 cmax31: 0.699
