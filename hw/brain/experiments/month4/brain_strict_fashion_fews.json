@@ -1,0 +1,59 @@
+{
+ "fews:1.0:0": {
+  "acc": 0.7843,
+  "seeds": [
+   0.785,
+   0.7835
+  ],
+  "info": [
+   {
+    "labelled": 10000,
+    "pseudo_used": 0,
+    "pseudo_precision": 0.0
+   },
+   {
+    "labelled": 10000,
+    "pseudo_used": 0,
+    "pseudo_precision": 0.0
+   }
+  ]
+ },
+ "fews:0.02:0": {
+  "acc": 0.7365,
+  "seeds": [
+   0.7055,
+   0.7675
+  ],
+  "info": [
+   {
+    "labelled": 200,
+    "pseudo_used": 9059,
+    "pseudo_precision": 0.916
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 9245,
+    "pseudo_precision": 0.9652
+   }
+  ]
+ },
+ "fews:0.1:0": {
+  "acc": 0.784,
+  "seeds": [
+   0.78,
+   0.788
+  ],
+  "info": [
+   {
+    "labelled": 1000,
+    "pseudo_used": 8553,
+    "pseudo_precision": 0.9819
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8460,
+    "pseudo_precision": 0.9818
+   }
+  ]
+ }
+}
