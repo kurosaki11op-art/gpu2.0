@@ -17,3 +17,7 @@ press:200 seed 3 0.948 {'sleeps': 4} 717s
 press:500 seed 1 0.9525 {'sleeps': 2} 768s
 press:500 seed 2 0.941 {'sleeps': 2} 818s
 press:500 seed 3 0.9485 {'sleeps': 2} 869s
+press:1000 seed 1 0.9455 {'sleeps': 1} 913s
+press:1000 seed 2 0.942 {'sleeps': 1} 957s
+press:1000 seed 3 0.949 {'sleeps': 1} 1000s
+{"fewc:0.1:25": 0.9332, "fewc:0.1:50": 0.934, "fewc:0.25:25": 0.9367, "fewc:0.25:50": 0.9378, "press:200": 0.9408, "press:500": 0.9473, "press:1000": 0.9455}
