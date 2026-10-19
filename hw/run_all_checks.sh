@@ -15,6 +15,7 @@ run "core with slow table (Redesign 6)" python run_check_cortex_slow.py "$D"
 run "core with slow table, pipelined" python run_check_cortex_slow.py "$D" --pipe
 run "core with embedding path (Redesign 8)" python run_check_cortex_embed.py "$D"
 run "core with embedding path, pipelined" python run_check_cortex_embed.py "$D" --pipe
+run "core with host hooks (top margin, write counter)" python run_check_cortex_hooks.py "$D"
 run "encoder (FPGA build)"            python run_check_encoder.py "$D" mnist 10
 run "encoder (ASIC, gated clocks)"    python run_check_encoder.py "$D" fashion 10 --asic
 run "encoder, finer grid (ENC_S1, ASIC build)" python run_check_encoder.py "$D" fashion 10 --s1 --asic

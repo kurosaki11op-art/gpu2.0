@@ -1,0 +1,9 @@
+codes base (10000, 4608) 9s
+mnist base seed 1 {'staged': 0.939, 'once': 0.9695} 28s
+mnist base seed 2 {'staged': 0.941, 'once': 0.9665} 48s
+mnist base seed 3 {'staged': 0.944, 'once': 0.9735} 69s
+mnist base {'staged': 0.9413, 'once': 0.9698, 'memory_bits': {'fast_table': 230400, 'dream_counts': 460900, 'slow_table': 368640}, 'memory_kbytes': 129.4}
+mnist proto4 seed 1 {'staged': 0.9375, 'once': 0.9685} 102s
+mnist proto4 seed 2 {'staged': 0.9425, 'once': 0.969} 136s
+mnist proto4 seed 3 {'staged': 0.937, 'once': 0.967} 172s
+mnist proto4 {'staged': 0.939, 'once': 0.9682, 'memory_bits': {'fast_table': 230400, 'dream_counts': 1843600, 'slow_table': 368640}, 'memory_kbytes': 298.2}

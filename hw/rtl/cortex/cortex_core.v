@@ -37,6 +37,9 @@
 //              arg 10 = MATCH: emb_slot / emb_lab / emb_dist = the filled slot (any) with the smallest L1 distance (first on a tie) and its label
 //              arg 11 = read prototype element mem_addr[9:0] = slot * 16 + class -> rd_e;  arg 12 = read slot meta mem_addr[5:0] -> rd_e = {filled, label, count}
 //              Old words are enrolled by competitive learning (WINNER, then ENROLL into the winner with shift 5), new words from a few recordings by ENROLL with shift 0 (a running mean).
+// Build option CORTEX_HOOKS (19 Oct 2026, for host-side self-labelling and sleep pressure): top_margin = the top score minus the runner-up among the known classes, valid after PREDICT
+// (saturated to the largest positive value when only one class is known); wr_count = the number of surprise-gated table updates (every PRACTISE that wrote: LEARN, PRACTISE, DREAM),
+// cleared by reset and by CLEAR. The host reads wr_count between commands, so "sleep when the surprise writes since the last sleep reach a threshold" needs no other state in the core.
 // Build option CORTEX_CONTEXT (context memory, bit-exact with CortexInt(context=True)): DREAM with cmd_frozen = 1
 // dreams from the frozen copy instead of the live counters. The host freezes before a day that brings known classes
 // back (a new condition), dreams old knowledge from the frozen copy during that day and alternates live / frozen at
@@ -62,6 +65,9 @@ module cortex_core #(
     input  wire          lane_we, input wire [4:0] lane_waddr, input wire [31:0] lane_wdata,
     input  wire [AW-1:0] mem_addr, input wire [C*WB-1:0] wr_w, input wire [C*CB-1:0] wr_c,
     output reg           busy, output reg [3:0] pred, output reg updated, output reg [AW:0] llen_out,
+`ifdef CORTEX_HOOKS
+    output reg signed [SW-1:0] top_margin, output reg [31:0] wr_count,
+`endif
 `ifdef CORTEX_SLOW
     output reg [C*SB-1:0] rd_s,
 `endif
@@ -112,7 +118,7 @@ module cortex_core #(
     reg [AW-1:0] lb_wa, lb_wd; reg lb_wen;
     reg [C*WB-1:0] w_wd; reg w_wen; reg [C*CB-1:0] c_wd; reg c_wen;
     reg signed [SW-1:0] acc [0:C-1];
-    reg signed [SW-1:0] best; reg have_rv; reg sd0, sd1, se0, se1;   // score pipeline stage flags
+    reg signed [SW-1:0] best, second; reg have_rv, have_second; reg sd0, sd1, se0, se1;   // score pipeline stage flags
     reg [AW:0] pb; reg pf0, pf1, push, pop; reg [2:0] qcnt; reg [1:0] qw, qr; reg [CB-1:0] dq [0:3];   // dream prefetch
     reg [CB-1:0] onf, ncur; reg [4:0] L;
     reg [C*WB-1:0] wt; reg [C*CB-1:0] ct; reg [CB:0] nn;
@@ -226,6 +232,9 @@ module cortex_core #(
         if (lane_we) lanes[lane_waddr] <= lane_wdata;
         if (rst) begin
             st <= S_IDLE; busy <= 0; known <= 0; pred <= 0; updated <= 0; llen_out <= 0;
+`ifdef CORTEX_HOOKS
+            wr_count <= 0; top_margin <= 0;
+`endif
             for (j = 0; j < C; j = j + 1) n[j] <= 0;
 `ifdef CORTEX_EMBED
             pfill <= 0;
@@ -326,10 +335,10 @@ module cortex_core #(
 `else
             if (se1) for (j = 0; j < C; j = j + 1) acc[j] <= acc[j] + $signed(wq[j*WB +: WB]);
 `endif
-            if (i == llen && !sd0 && !sd1 && !se0 && !se1) begin sc_i <= 0; have_rv <= 0; st <= predict_mode ? S_P : S_R; end
+            if (i == llen && !sd0 && !sd1 && !se0 && !se1) begin sc_i <= 0; have_rv <= 0; have_second <= 0; st <= predict_mode ? S_P : S_R; end
         end
 `else
-        S_S0: if (i == llen) begin sc_i <= 0; have_rv <= 0; st <= predict_mode ? S_P : S_R; end
+        S_S0: if (i == llen) begin sc_i <= 0; have_rv <= 0; have_second <= 0; st <= predict_mode ? S_P : S_R; end
               else begin lb_addr <= i[AW-1:0]; st <= S_S1; end
         S_S1: st <= S_S2;
         S_S2: begin m_addr <= lb_q; st <= S_S3; end
@@ -345,7 +354,12 @@ module cortex_core #(
 `endif
         // ---- rival: first known class other than y with the top score; update when the margin is small ---------
         S_R: if (sc_i == C) begin
-                 if (have_rv && (acc[y] - best <= MARGIN)) begin updated <= 1; i <= 0; st <= S_U0; end
+                 if (have_rv && (acc[y] - best <= MARGIN)) begin
+                     updated <= 1; i <= 0; st <= S_U0;
+`ifdef CORTEX_HOOKS
+                     wr_count <= wr_count + 1;
+`endif
+                 end
                  else st <= S_DONE;
              end else begin
                  if (sc_i != y && known[sc_i] && (!have_rv || acc[sc_i] > best)) begin
@@ -484,13 +498,23 @@ module cortex_core #(
         end
 `endif
         // ---- predict: first known class with the top score -------------------------------------------------------
-        S_P: if (sc_i == C) st <= S_DONE;
-             else begin
-                 if (known[sc_i] && (!have_rv || acc[sc_i] > best)) begin best <= acc[sc_i]; pred <= sc_i; have_rv <= 1; end
+        S_P: if (sc_i == C) begin
+`ifdef CORTEX_HOOKS
+                 top_margin <= have_second ? (best - second) : {1'b0, {(SW-1){1'b1}}};   // top score minus the runner-up (saturated when only one class is known)
+`endif
+                 st <= S_DONE;
+             end else begin
+                 if (known[sc_i] && (!have_rv || acc[sc_i] > best)) begin
+                     best <= acc[sc_i]; pred <= sc_i; have_rv <= 1;
+                     if (have_rv) begin second <= best; have_second <= 1; end
+                 end else if (known[sc_i] && (!have_second || acc[sc_i] > second)) begin second <= acc[sc_i]; have_second <= 1; end
                  sc_i <= sc_i + 1;
              end
         // ---- clear ------------------------------------------------------------------------------------------------
         S_Z0: if (b == NB) begin known <= 0; for (j = 0; j < C; j = j + 1) n[j] <= 0;
+`ifdef CORTEX_HOOKS
+                  wr_count <= 0;
+`endif
 `ifdef CORTEX_EMBED
                   pfill <= 0;
 `endif

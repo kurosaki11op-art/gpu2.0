@@ -1,0 +1,15 @@
+codes base (10000, 4608) 9s
+fashion base seed 1 {'staged': 0.799, 'once': 0.859} 15s
+fashion base seed 2 {'staged': 0.808, 'once': 0.8635} 23s
+fashion base seed 3 {'staged': 0.8175, 'once': 0.8565} 28s
+fashion base {'staged': 0.8082, 'once': 0.8597, 'memory_bits': {'fast_table': 230400, 'dream_counts': 460900, 'slow_table': 368640}, 'memory_kbytes': 129.4}
+fashion proto4 seed 1 {'staged': 0.8225, 'once': 0.858} 41s
+fashion proto4 seed 2 {'staged': 0.8405, 'once': 0.86} 58s
+fashion proto4 seed 3 {'staged': 0.8355, 'once': 0.8595} 74s
+fashion proto4 {'staged': 0.8328, 'once': 0.8592, 'memory_bits': {'fast_table': 230400, 'dream_counts': 1843600, 'slow_table': 368640}, 'memory_kbytes': 298.2}
+codes s1 (10000, 4608) 107s
+fashion s1 seed 1 {'staged': 0.807, 'once': 0.873} 121s
+fashion s1 seed 2 {'staged': 0.812, 'once': 0.867} 134s
+fashion s1 seed 3 {'staged': 0.826, 'once': 0.878} 144s
+fashion s1 {'staged': 0.815, 'once': 0.8727, 'memory_bits': {'fast_table': 230400, 'dream_counts': 460900, 'slow_table': 368640}, 'memory_kbytes': 129.4}
+fashion s1proto4 seed 1 {'staged': 0.8195, 'once': 0.8705} 161s

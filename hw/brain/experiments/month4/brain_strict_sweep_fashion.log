@@ -1,0 +1,6 @@
+fashion default {'staged': 0.8035, 'once': 0.8613} 23s
+fashion ndream=1500 {'staged': 0.8147, 'once': 0.8613} 29s
+fashion ndream=3000 {'staged': 0.8153, 'once': 0.8613} 36s
+fashion ndream=12000 {'staged': 0.8053, 'once': 0.8613} 58s
+fashion ndream=24000 {'staged': 0.7848, 'once': 0.8613} 123s
+fashion night=1 {'staged': 0.8147, 'once': 0.8613} 134s

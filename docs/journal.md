@@ -753,4 +753,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **No view type lifts clothing above its normal-learning 80.8** (best 78.9 and 78.5), so the clothing gap is not about the kind of view. On digits only the 1-pixel shifts give a clear win (94.9); larger shifts, diagonals and more views are worse (91.5-93.4), which points to the table being diluted by extra copies. The eye-movement gain is specific to digits.
 - Next idea for clothing: stack the partial wins already known (stride-1 encoder `ENC_S1` +1.5 staged, prototype dreams +2.5 staged, slow table) instead of views.
 
+### 19 Oct 2026 - F11: RTL hooks for the host-side logic (bit-exact, SIMULATED)
+
+- `hw/rtl/cortex/cortex_core.v` build option `CORTEX_HOOKS`: `top_margin` (top score minus the runner-up among known classes, valid after PREDICT, saturated when one class is known) and `wr_count` (number of surprise-gated table writes, cleared by reset and CLEAR). With these the host can do self-labelling (confidence margin) and sleep from pressure (writes since the last sleep) with no other state in the core. No new arithmetic: a compare and an add.
+- Check `hw/rtl/cortex/run_check_cortex_hooks.py` (+ `tb_cortex_core_hooks.v`, added to `hw/run_all_checks.sh`): 160 LEARN lines and 40 PREDICT lines on real digit codes, **0 mismatches** against the integer model (writes 41, margins 3 to 279). The default build (option off) gives identical predictions and update flags to the hooks build (200 lines compared). iverilog had to be installed in the container (`apt-get update` first).
+- Not yet done: the full 24-check regression after this change (the other checks need data files that are not in the cloud scratchpad), and the sleep-pressure / self-labelling logic itself is still host software.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
