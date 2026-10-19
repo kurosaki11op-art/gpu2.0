@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/user/gpu2.0/hw/brain/experiments/month4/sc35_views.py", line 11, in <module>
+    from sound_align_confirm import align
+  File "/home/user/gpu2.0/hw/brain/experiments/month4/sound_align_confirm.py", line 11, in <module>
+    z = np.load(os.path.join(D, "speech_framesums_int.npz")); S, y, te = z["S"], z["y"], z["te"]
+  File "/usr/local/lib/python3.13/dist-packages/numpy/lib/_npyio_impl.py", line 454, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/speech_framesums_int.npz'

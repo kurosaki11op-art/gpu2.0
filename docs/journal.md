@@ -730,4 +730,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **35-word, 717-clip test:** shipped alignment with look-again clean 64.2, 20 / 10 / 5 dB 55.3 / 37.5 / 25.2, first / last stage words 71.2 / 44.9. The onset-trigger arm was killed by a container restart (the machine restarted at about 14:20; background jobs die on restarts) and was relaunched.
 - Prototype-dream pruning on digits: K = 4 with 1/16 / 1/8 / 1/4 pruning 92.9 / 91.0 / 80.7 against 93.9 unpruned.
 
+### 19 Oct 2026 - novelty from view agreement, few-shot words with shifted views started (SIMULATED)
+
+- **Novelty signal improves with eye movements** (`brain_strict_novelty2.py`, digits, trained on 8 classes, 3 seeds, AUROC unseen vs known): single-view margin 0.882, mean margin over 5 views 0.910, mean margin plus view disagreement 0.912; share of unseen flagged at the threshold that keeps 90 % of known 72 % (was 60 %). Real but modest; recruitment on it not yet retested.
+- Started `sc35_views.py`: new spoken words (k = 1 / 2 / 5 recordings, base T = 15) with each recording enrolled at three window starts (look again), against the single-view embedding path.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

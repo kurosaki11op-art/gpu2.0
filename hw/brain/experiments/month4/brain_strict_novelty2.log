@@ -1,0 +1,4 @@
+seed 1 {'margin': 0.894, 'disagree': 0.746, 'min_margin': 0.874, 'mean_margin': 0.92, 'combo': 0.921, 'combo_flagged_at_90': 0.757}
+seed 2 {'margin': 0.854, 'disagree': 0.706, 'min_margin': 0.863, 'mean_margin': 0.887, 'combo': 0.89, 'combo_flagged_at_90': 0.639}
+seed 3 {'margin': 0.898, 'disagree': 0.761, 'min_margin': 0.881, 'mean_margin': 0.924, 'combo': 0.925, 'combo_flagged_at_90': 0.775}
+{"margin": 0.882, "disagree": 0.7377, "min_margin": 0.8728, "mean_margin": 0.9103, "combo": 0.9121, "combo_flagged_at_90": 0.7238}

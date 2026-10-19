@@ -1,0 +1,8 @@
+{
+ "margin": 0.882,
+ "disagree": 0.7377,
+ "min_margin": 0.8728,
+ "mean_margin": 0.9103,
+ "combo": 0.9121,
+ "combo_flagged_at_90": 0.7238
+}
