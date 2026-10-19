@@ -14,5 +14,41 @@
  "margin=128 ndream=1500 night=1": {
   "staged": 0.8287,
   "once": 0.8658
+ },
+ "margin=256 ndream=6000 night=2": {
+  "staged": 0.8252,
+  "once": 0.8655
+ },
+ "margin=256 ndream=1500 night=2": {
+  "staged": 0.8303,
+  "once": 0.8655
+ },
+ "margin=256 ndream=1500 night=1": {
+  "staged": 0.8327,
+  "once": 0.8655
+ },
+ "margin=512 ndream=6000 night=2": {
+  "staged": 0.8183,
+  "once": 0.8645
+ },
+ "margin=512 ndream=1500 night=2": {
+  "staged": 0.8238,
+  "once": 0.8645
+ },
+ "margin=512 ndream=1500 night=1": {
+  "staged": 0.8263,
+  "once": 0.8645
+ },
+ "margin=1024 ndream=6000 night=2": {
+  "staged": 0.802,
+  "once": 0.8515
+ },
+ "margin=1024 ndream=1500 night=2": {
+  "staged": 0.8097,
+  "once": 0.8515
+ },
+ "margin=1024 ndream=1500 night=1": {
+  "staged": 0.8097,
+  "once": 0.8515
  }
 }

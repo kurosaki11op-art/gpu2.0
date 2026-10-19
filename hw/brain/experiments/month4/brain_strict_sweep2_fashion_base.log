@@ -2,3 +2,12 @@ fashion default {'staged': 0.8082, 'once': 0.8597} 37s
 fashion margin=128 ndream=6000 night=2 {'staged': 0.8178, 'once': 0.8658} 57s
 fashion margin=128 ndream=1500 night=2 {'staged': 0.8258, 'once': 0.8658} 65s
 fashion margin=128 ndream=1500 night=1 {'staged': 0.8287, 'once': 0.8658} 72s
+fashion margin=256 ndream=6000 night=2 {'staged': 0.8252, 'once': 0.8655} 88s
+fashion margin=256 ndream=1500 night=2 {'staged': 0.8303, 'once': 0.8655} 95s
+fashion margin=256 ndream=1500 night=1 {'staged': 0.8327, 'once': 0.8655} 103s
+fashion margin=512 ndream=6000 night=2 {'staged': 0.8183, 'once': 0.8645} 118s
+fashion margin=512 ndream=1500 night=2 {'staged': 0.8238, 'once': 0.8645} 125s
+fashion margin=512 ndream=1500 night=1 {'staged': 0.8263, 'once': 0.8645} 132s
+fashion margin=1024 ndream=6000 night=2 {'staged': 0.802, 'once': 0.8515} 145s
+fashion margin=1024 ndream=1500 night=2 {'staged': 0.8097, 'once': 0.8515} 152s
+fashion margin=1024 ndream=1500 night=1 {'staged': 0.8097, 'once': 0.8515} 158s
