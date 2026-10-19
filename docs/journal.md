@@ -678,4 +678,16 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Few labels with self-labelling FAILED**: 10 % labelled 65.2 / 63.1, 25 % labelled 73.5 / 78.3, against 94 with all labels. Pseudo-label precision only 64-71 %, so the chip's own mistakes poisoned its table. Next, running: pseudo-labels restricted to classes rewarded in the current context (`fewc`) with a stricter margin cut, and sleep thresholds 200 / 500 / 1,000.
 - Also added `noisy_dream_chip.py` (noisy night dreams) and `brain_strict_sound.py` (causal onset trigger and noisy dreams on 20 words of the 35-word subset); a smoke test of the sound script was still running, no sound result yet.
 
+### 19 Oct 2026 - brain-strict digits and Fashion: results so far (SIMULATED, 3 seeds, on-chip detectors, 2,000 examples per stage)
+
+- Logs and json: `hw/brain/experiments/month4/brain_strict_digits_chip{,2,3,4,5}.log`, `brain_strict_fashion_chip.log`.
+- **Sleep from inside (WIN on digits):** host-scheduled night 94.1; sleep when surprise writes reach 200 / 500 / 1,000 gives 94.1 (4 sleeps) / 94.7 (2) / 94.6 (1). Level or slightly better with fewer sleeps.
+- **On-chip detectors (WIN on digits):** 94.1 against 93.5 for the offline fit.
+- **Few labels, rewards first, pseudo-labels only among classes rewarded in this context ("fewc"), margin cut at percentile 50:** 25 % labels 93.8, 10 % 93.4, 5 % 88.4, 2 % 83.3, 1 % 75.8 (full labels 94.1). Without the context limit it failed (10 % 63-65, 25 % 73-78, precision 64-71 %).
+- **Loosening the cut helps at low label counts:** 5 % labels, cut 50 / 10 / none = 88.4 / 90.8 / 91.4; 2 % labels with no cut: first seed 91.5 against 83.3 (cut 50); runs unfinished. Precision stays 96-99 %.
+- **Rewards scattered through the stream FAILED to help ("mixc"):** 10 % 91.1, 5 % 91.4, 2 % 88.6, below rewards-first at 10 %.
+- **Fashion-MNIST:** full labels 80.8; 10 % labels 78.9, 25 % 79.1 (gap about 2 points, not level).
+- Bug found and fixed: the sound test used 20 words but the chip model defaults to 10 classes (heap corruption); `n_cls=20` now passed. Sound results (onset-triggered words, noisy dreams) still pending.
+- Not yet clear wins: few labels at 5 % and below, Fashion. The architecture-change plan for the limits (unsupervised category layer, neighbour-conditioned dreams, temporal sound layer, context signal, pruning, cascade synapses) is the next step.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

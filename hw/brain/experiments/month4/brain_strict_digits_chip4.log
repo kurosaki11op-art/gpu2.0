@@ -7,3 +7,5 @@ mixc:0.05:50 seed 2 0.9145 {'labelled': 490, 'pseudo_used': 5454, 'pseudo_precis
 mixc:0.05:50 seed 3 0.9145 {'labelled': 475, 'pseudo_used': 6306, 'pseudo_precision': 0.9954} 657s
 mixc:0.02:50 seed 1 0.918 {'labelled': 200, 'pseudo_used': 4977, 'pseudo_precision': 0.9889} 761s
 mixc:0.02:50 seed 2 0.8805 {'labelled': 220, 'pseudo_used': 5216, 'pseudo_precision': 0.9875} 902s
+mixc:0.02:50 seed 3 0.8595 {'labelled': 230, 'pseudo_used': 4176, 'pseudo_precision': 0.9868} 985s
+{"mixc:0.1:50": 0.9113, "mixc:0.05:50": 0.9143, "mixc:0.02:50": 0.886}
