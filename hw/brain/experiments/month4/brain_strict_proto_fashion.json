@@ -6,5 +6,9 @@
  "slowp:16": {
   "staged": 0.7488,
   "dream_counts_nonzero": 0.2347
+ },
+ "proto:4:0": {
+  "staged": 0.8328,
+  "dream_counts_nonzero": 0.6353
  }
 }

@@ -39,7 +39,7 @@ def layer2(code):
             z = np.zeros((len(c), 2, 2, F2), bool)
             for di in range(2):
                 for dj in range(2):
-                    ww = win[:, di::2, dj::2]; oo = on[:, :, :].reshape(len(c), 4, 4)[:, di::2, dj::2]; bi, ii, jj = np.nonzero(oo); z[bi, ii, jj, ww[bi, ii, jj]] = True
+                    ww = win[:, di::2, dj::2]; oo = on.reshape(len(c), 4, 4)[:, di::2, dj::2]; bi, ii, jj = np.nonzero(oo); z[bi, ii, jj, ww[bi, ii, jj]] = True
             parts.append(z.reshape(len(c), -1))
         out.append(np.concatenate(parts, 1))
     return np.concatenate(out)
