@@ -5,6 +5,7 @@ Audit: docs/brain_principles_audit.md. Arms (env ARMS, comma list):
   few:P     only fraction P of each stage's examples are labelled (the reward); labelled ones come first and name the classes
             (no class list from the host); the unlabelled ones get the chip's own winner as label only when the winner is clear
             (top-2 margin >= the lower quartile of the labelled examples' margins), otherwise they are ignored; one night at the end of the stage
+  fewa:P:Q  like fewc, and the fast table must name the same class as the slow table before a pseudo-label is used
   fewc:P:Q  like few, but a pseudo-label may only be one of the classes rewarded in the current context (the stage's labelled ones), margin cut at percentile Q (default 25)
   mixc:P:Q  like fewc, but the rewards arrive scattered through the stream; the margin cut comes from the margins of the most recent 200 rewarded examples (percentile Q)
   ctx:P:Q:R   no stage boundaries: the stages blend in one stream, sleep comes from pressure, and the context is the set of classes rewarded among the last R rewards (P = labelled fraction, Q = margin percentile; P = 1 is the all-labelled control)
@@ -63,15 +64,17 @@ def run(arm, seed):
         for o in order:
             for j in range(0, len(o), 250): m.stage(ctr[o[j:j + 250]], ytr[o[j:j + 250]])
             night(m)
-    elif kind in ("few", "fewc"):
+    elif kind in ("few", "fewc", "fewa"):
         ps = p.split(":"); frac = float(ps[0]); q = float(ps[1]) if len(ps) > 1 else 25; m.night = 0; ok = tot = used = 0
         for o in order:
             k = max(2, int(len(o) * frac)); lab, unl = o[:k], o[k:]
             m.stage(ctr[lab], ytr[lab])
-            al = np.unique(ytr[lab]) if kind == "fewc" else None          # fewc: only classes rewarded in this context may be chosen
+            al = np.unique(ytr[lab]) if kind in ("fewc", "fewa") else None          # fewc: only classes rewarded in this context may be chosen
             _, mg = margins(m, ctr[lab], al); tau = np.percentile(mg, q)
             for j in range(0, len(unl), 250):
                 u = unl[j:j + 250]; pred, mg = margins(m, ctr[u], al); sel = mg >= tau
+                if kind == "fewa":                                            # fast and slow table must name the same class (hippocampus and cortex agree)
+                    sw = ctr[u].astype(np.int32) @ m.W.T.astype(np.int32); sw[:, ~np.isin(np.arange(sw.shape[1]), al)] = -(1 << 30); sw[:, ~m.known] = -(1 << 30); sel &= sw.argmax(1) == pred
                 tot += int(sel.sum()); ok += int((pred[sel] == ytr[u][sel]).sum())
                 if sel.any(): m.stage(ctr[u][sel], pred[sel])
             night(m); used += k
