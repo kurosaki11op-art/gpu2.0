@@ -6,6 +6,7 @@ Audit: docs/brain_principles_audit.md. Arms (env ARMS, comma list):
             (no class list from the host); the unlabelled ones get the chip's own winner as label only when the winner is clear
             (top-2 margin >= the lower quartile of the labelled examples' margins), otherwise they are ignored; one night at the end of the stage
   fewa:P:Q  like fewc, and the fast table must name the same class as the slow table before a pseudo-label is used
+  fews:P:Q  like fewc, with eye movements: labelled and pseudo-labelled examples are learned with their 4 one-pixel-shifted views, and an unlabelled example is pseudo-labelled only if all 5 views name the same class
   fewc:P:Q  like few, but a pseudo-label may only be one of the classes rewarded in the current context (the stage's labelled ones), margin cut at percentile Q (default 25)
   mixc:P:Q  like fewc, but the rewards arrive scattered through the stream; the margin cut comes from the margins of the most recent 200 rewarded examples (percentile Q)
   ctx:P:Q:R   no stage boundaries: the stages blend in one stream, sleep comes from pressure, and the context is the set of classes rewarded among the last R rewards (P = labelled fraction, Q = margin percentile; P = 1 is the all-labelled control)
@@ -31,6 +32,20 @@ fes = detector_learn.learn_features(first) if DET == "chip" else [Features(32, t
 enc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 2000]) for g in fes], 1) for i in range(0, len(x), 2000)])
 ctr, cte = enc(xtr), enc(xte); print("codes", ctr.shape, "%.0fs" % (time.time() - t0), flush=True)
 NB = ctr.shape[1]; EMPTY = (np.zeros((0, NB), np.uint8), np.zeros(0, np.int64))
+
+
+SH = None
+
+
+def shifted_codes():
+    """codes of the training images shifted one pixel (right, left, down, up): the views eye movements give (built once, only for arms that use them)"""
+    global SH
+    if SH is None:
+        X = xtr.reshape(len(xtr), 28, 28); SH = []
+        for dy, dx in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+            out = np.zeros_like(X); ys, yd = (slice(0, 28 - dy), slice(dy, 28)) if dy >= 0 else (slice(-dy, 28), slice(0, 28 + dy)); xs, xd = (slice(0, 28 - dx), slice(dx, 28)) if dx >= 0 else (slice(-dx, 28), slice(0, 28 + dx))
+            out[:, yd, xd] = X[:, ys, xs]; SH.append(enc(out.reshape(len(X), -1)))
+    return SH
 
 
 def chip(seed): return CortexSlow(NB, ch=100, K=5, night_stop=2, daydream=1, seed=seed)
@@ -77,6 +92,19 @@ def run(arm, seed):
                     sw = ctr[u].astype(np.int32) @ m.W.T.astype(np.int32); sw[:, ~np.isin(np.arange(sw.shape[1]), al)] = -(1 << 30); sw[:, ~m.known] = -(1 << 30); sel &= sw.argmax(1) == pred
                 tot += int(sel.sum()); ok += int((pred[sel] == ytr[u][sel]).sum())
                 if sel.any(): m.stage(ctr[u][sel], pred[sel])
+            night(m); used += k
+        info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
+    elif kind == "fews":
+        ps = p.split(":"); frac = float(ps[0]); q = float(ps[1]); m.night = 0; ok = tot = used = 0; sh = shifted_codes()
+        views = lambda idx: np.concatenate([ctr[idx]] + [v[idx] for v in sh])
+        for o in order:
+            k = max(2, int(len(o) * frac)); lab, unl = o[:k], o[k:]
+            m.stage(views(lab), np.tile(ytr[lab], 5)); al = np.unique(ytr[lab]); _, mg = margins(m, ctr[lab], al); tau = np.percentile(mg, q)
+            for j in range(0, len(unl), 250):
+                u = unl[j:j + 250]; pred, mg = margins(m, ctr[u], al); sel = mg >= tau
+                for v in sh: sel &= margins(m, v[u], al)[0] == pred            # every shifted view must name the same class
+                tot += int(sel.sum()); ok += int((pred[sel] == ytr[u][sel]).sum())
+                if sel.any(): m.stage(views(u[sel]), np.tile(pred[sel], 5))
             night(m); used += k
         info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
     elif kind == "mixc":

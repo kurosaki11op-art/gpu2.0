@@ -1,25 +1,18 @@
 {
- "ctx:0.01": {
-  "acc": 0.6195,
-  "seeds": [
-   0.6195
-  ],
-  "info": [
-   {
-    "slots_opened": 0,
-    "slots_named": 0
-   }
-  ]
- },
  "ctxn:0.01": {
-  "acc": 0.452,
+  "acc": 0.525,
   "seeds": [
-   0.452
+   0.532,
+   0.518
   ],
   "info": [
    {
     "slots_opened": 2,
     "slots_named": 2
+   },
+   {
+    "slots_opened": 1,
+    "slots_named": 1
    }
   ]
  }
