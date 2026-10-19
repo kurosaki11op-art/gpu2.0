@@ -7,6 +7,7 @@ Audit: docs/brain_principles_audit.md. Arms (env ARMS, comma list):
             (top-2 margin >= the lower quartile of the labelled examples' margins), otherwise they are ignored; one night at the end of the stage
   fewc:P:Q  like few, but a pseudo-label may only be one of the classes rewarded in the current context (the stage's labelled ones), margin cut at percentile Q (default 25)
   mixc:P:Q  like fewc, but the rewards arrive scattered through the stream; the margin cut comes from the margins of the most recent 200 rewarded examples (percentile Q)
+  ctx:P:Q:R   no stage boundaries: the stages blend in one stream, sleep comes from pressure, and the context is the set of classes rewarded among the last R rewards (P = labelled fraction, Q = margin percentile; P = 1 is the all-labelled control)
   press:T   no stage boundaries for sleep: the stream is fed in chunks, the chip sleeps (one night) when the surprise writes since its last sleep reach T
 Detectors: env DET=fit (Features.fit, batch, offline) or DET=chip (one-pass on-chip rule, detector_learn.learn_features).
 usage: python brain_strict_digits.py DATA_DIR  (DATA_DIR holds mnist.npz); env NPS (examples per stage, default 2000), SEEDS (default 3)"""
@@ -91,6 +92,23 @@ def run(arm, seed):
                     if sel.any(): m.stage(ctr[unl][sel], pred[sel])
             night(m)
         info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
+    elif kind == "ctx":
+        ps = p.split(":"); frac = float(ps[0]); q = float(ps[1]); R = int(ps[2]); thr = 500; m.night = 0; ok = tot = used = 0; since = 0; sleeps = 0
+        rg = np.random.RandomState(31 * seed); allidx = np.concatenate(order); key = np.concatenate([np.full(len(o), i, float) for i, o in enumerate(order)]) + rg.uniform(-0.8, 0.8, len(allidx))
+        stream = allidx[np.argsort(key)]; recent = []; buf = []                 # stages blend: no boundary is given; context = classes rewarded among the last R rewards
+        for j in range(0, len(stream), 250):
+            u = stream[j:j + 250]; lm = rg.rand(len(u)) < frac; lab, unl = u[lm], u[~lm]
+            allowed = np.unique(recent[-R:]) if len(recent) else np.zeros(0, np.int64)
+            if len(allowed) and len(lab):
+                _, mg0 = margins(m, ctr[lab], allowed); buf = (buf + list(mg0))[-200:]
+            if len(lab): since += int(m.stage(ctr[lab], ytr[lab])); used += len(lab); recent += list(ytr[lab])
+            allowed = np.unique(recent[-R:]) if len(recent) else np.zeros(0, np.int64)
+            if len(buf) >= 10 and len(unl) and len(allowed):
+                tau = np.percentile(buf, q); pred, mg = margins(m, ctr[unl], allowed); sel = mg >= tau
+                tot += int(sel.sum()); ok += int((pred[sel] == ytr[unl][sel]).sum())
+                if sel.any(): since += int(m.stage(ctr[unl][sel], pred[sel]))
+            if since >= thr: night(m); since = 0; sleeps += 1
+        night(m); sleeps += 1; info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4), "sleeps": sleeps}
     elif kind == "press":
         thr = int(p); m.night = 0; since = 0; sleeps = 0
         for o in order:
