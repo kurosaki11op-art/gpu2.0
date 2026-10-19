@@ -5,3 +5,4 @@ mixc:0.1:50 seed 3 0.9 {'labelled': 905, 'pseudo_used': 5465, 'pseudo_precision'
 mixc:0.05:50 seed 1 0.914 {'labelled': 530, 'pseudo_used': 5732, 'pseudo_precision': 0.9988} 439s
 mixc:0.05:50 seed 2 0.9145 {'labelled': 490, 'pseudo_used': 5454, 'pseudo_precision': 0.9971} 539s
 mixc:0.05:50 seed 3 0.9145 {'labelled': 475, 'pseudo_used': 6306, 'pseudo_precision': 0.9954} 657s
+mixc:0.02:50 seed 1 0.918 {'labelled': 200, 'pseudo_used': 4977, 'pseudo_precision': 0.9889} 761s
