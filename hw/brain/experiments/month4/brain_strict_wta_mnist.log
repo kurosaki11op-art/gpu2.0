@@ -1,0 +1,13 @@
+mnist slow seed 1 {'staged': 0.939, 'once': 0.9695} 27s
+mnist slow seed 2 {'staged': 0.941, 'once': 0.9665} 46s
+mnist slow seed 3 {'staged': 0.944, 'once': 0.9735} 65s
+mnist wta:4 seed 1 {'staged': 0.937, 'once': 0.9655} 89s
+mnist wta:4 seed 2 {'staged': 0.9375, 'once': 0.971} 112s
+mnist wta:4 seed 3 {'staged': 0.936, 'once': 0.9675} 137s
+mnist wta:3 seed 1 {'staged': 0.9275, 'once': 0.9705} 160s
+mnist wta:3 seed 2 {'staged': 0.936, 'once': 0.968} 184s
+mnist wta:3 seed 3 {'staged': 0.926, 'once': 0.97} 208s
+mnist wta:2 seed 1 {'staged': 0.898, 'once': 0.969} 232s
+mnist wta:2 seed 2 {'staged': 0.901, 'once': 0.9665} 256s
+mnist wta:2 seed 3 {'staged': 0.9115, 'once': 0.968} 281s
+{"slow": {"staged": 0.9413, "once": 0.9698}, "wta:4": {"staged": 0.9368, "once": 0.968}, "wta:3": {"staged": 0.9298, "once": 0.9695}, "wta:2": {"staged": 0.9035, "once": 0.9678}}
