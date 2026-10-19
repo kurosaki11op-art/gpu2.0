@@ -31,6 +31,11 @@ for w in cochlea.WORDS:
         if f"{w}/{f}" in test:
             Xte.append(cochlea.read(os.path.join(root, w, f)))
 Xte = np.stack(Xte); g = np.random.RandomState(12345)
+CACHE = os.path.join(D, "noisy_cache"); os.makedirs(CACHE, exist_ok=True)
+def cached(name, fn):
+    p = os.path.join(CACHE, name + ".npy")
+    if os.path.exists(p): return np.load(p)
+    a = fn(); np.save(p, a); return a
 Xtr = []
 for w in cochlea.WORDS:
     for f in sorted(os.listdir(os.path.join(root, w))):
@@ -51,11 +56,6 @@ def noisy_bank(X, snrs, gen):
 TRAINS = {"clean": [None], "mixed (clean/20/10/5)": [None, 20, 10, 5], "noisy only (20/10/5)": [20, 10, 5]}
 trS = {k: cached("train_" + k.split()[0], lambda k=k, v=v: noisy_bank(Xtr, v, np.random.RandomState(777 + len(k)))) for k, v in TRAINS.items() if k != "clean"}; trS["clean"] = S[~te]
 noisy = {}
-CACHE = os.path.join(D, "noisy_cache"); os.makedirs(CACHE, exist_ok=True)
-def cached(name, fn):
-    p = os.path.join(CACHE, name + ".npy")
-    if os.path.exists(p): return np.load(p)
-    a = fn(); np.save(p, a); return a
 def _test_noise(snr):
     gg = np.random.RandomState(12345 + snr)
     p = (Xte ** 2).mean(1, keepdims=True); n = gg.standard_normal(Xte.shape) * np.sqrt(p / 10 ** (snr / 10))
