@@ -1,0 +1,2 @@
+fashion slow {'staged': 0.8082, 'dream_counts_nonzero': 0.8215} 25s
+fashion slowp:16 {'staged': 0.7488, 'dream_counts_nonzero': 0.2347} 56s

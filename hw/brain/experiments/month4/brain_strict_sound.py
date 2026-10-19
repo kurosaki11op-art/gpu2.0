@@ -21,7 +21,7 @@ from noisy_dream_chip import NoisyDreamChip
 ROOT = sys.argv[1]; CACHE = sys.argv[2] if len(sys.argv) > 2 else "bs_cache"; SEEDS = int(os.environ.get("SEEDS", 3)); t0 = time.time()
 ARMS = os.environ.get("ARMS", "peak,onset:800,onset:1600,nd:3:0,nd:2:0,nd:3:4").split(","); OUT = os.environ.get("OUT", "brain_strict_sound.json")
 os.makedirs(CACHE, exist_ok=True)
-ALL = sorted(d for d in os.listdir(ROOT) if os.path.isdir(os.path.join(ROOT, d))); WORDS = [ALL[i] for i in sorted(np.random.RandomState(0).permutation(len(ALL))[:20])]
+ALL = sorted(d for d in os.listdir(ROOT) if os.path.isdir(os.path.join(ROOT, d))); NW = int(os.environ.get('NW', 20)); WORDS = [ALL[i] for i in sorted(np.random.RandomState(0).permutation(len(ALL))[:NW])]
 files, y, spk = [], [], []
 for wi, w in enumerate(WORDS):
     for f in sorted(os.listdir(os.path.join(ROOT, w))):
@@ -77,7 +77,7 @@ def rel_align(P, th, lead=6):
     return out.reshape(len(P), -1)
 
 
-STAGES = [tuple(range(4 * i, 4 * i + 4)) for i in range(5)]; CH = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8)); ytr, yte = y[~te], y[te]
+SW = NW // 5; STAGES = [tuple(range(SW * i, SW * i + SW)) for i in range(5)]; CH = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8)); ytr, yte = y[~te], y[te]
 fcache = {}
 
 
@@ -104,8 +104,8 @@ res = {}
 for arm in ARMS:
     kind = arm.split(":")[0]; C = codes("peak" if kind == "nd" else arm); la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest")}
     for seed in range(1, SEEDS + 1):
-        m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=20, ch=100, K=5, night_stop=2, daydream=1, seed=seed) if kind == "nd" \
-            else CortexSlow(C["tr"].shape[1], n_cls=20, ch=100, K=5, night_stop=2, daydream=1, seed=seed)
+        m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed) if kind == "nd" \
+            else CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed)
         for i, s in enumerate(STAGES):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]; m.stage(C["tr"][sel], ytr[sel])
         if la:
