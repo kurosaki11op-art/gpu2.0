@@ -8,7 +8,21 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 from sound_features import SoundFeatures
-from sound_align_confirm import align
+import cochlea_int
+
+
+def align(S, lead):
+    """same as sound_align_confirm.align (copied here because importing that module loads another data file): integer cochlea picture (noise floor), word start at frame `lead`"""
+    v = cochlea_int.noise_floor(S); e = np.floor(np.log2(v)).astype(np.int64)
+    lg = 4 * e + ((v >> np.maximum(e - 2, 0)) & 3); top = lg.reshape(len(v), -1).max(1)[:, None, None]
+    P0 = np.clip(255 - (top - lg) * 8, 0, 255).astype(np.uint8)
+    loud = P0.astype(np.int64).sum(1); thr = loud.max(1, keepdims=True) * 3 >> 2
+    start = np.argmax(loud >= thr, 1); P = np.zeros_like(P0)
+    for i in range(len(P0)):
+        sh = lead - start[i]
+        if sh >= 0: P[i, :, sh:] = P0[i, :, :28 - sh]
+        else: P[i, :, :28 + sh] = P0[i, :, -sh:]
+    return P.reshape(len(P), -1)
 from cortex_slow import CortexSlow
 from cortex_embed import CortexEmbed
 D = sys.argv[1]; T = int(os.environ.get("T", 15))
