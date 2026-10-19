@@ -46,5 +46,9 @@
  "margin=1024 ndream=1500 night=2": {
   "staged": 0.8263,
   "once": 0.8678
+ },
+ "margin=1024 ndream=1500 night=1": {
+  "staged": 0.8243,
+  "once": 0.8678
  }
 }
