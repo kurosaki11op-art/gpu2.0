@@ -649,4 +649,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Reading: the embedding path needs a base vocabulary of about 10 or more words to pay off, as predicted (+8 to +18 points on new words at k = 2 and 5), and the shipped path gets worse as more base words compete. One recording per new word is still weak (24-38%). Old-word accuracy with the embedding path stays 71-75% (shipped 66-82%), all-word accuracy at T=15, k=5: 65.7 vs 58.1.
 - Not fixed: one-shot new words, and accuracy drops as the pool grows (68% all-at-once at T=15, so the readout, not only the new-word rule, is limiting).
 
+### 19 Oct 2026 - where the 35-word limit sits (diagnostic)
+
+- `hw/brain/experiments/month4/sc35_ceiling.py`, log `sc35_ceiling.log`. All 35 words learned together, 2,783 training clips (about 80 per word), 717 test clips from held-out speakers. SIMULATED.
+- Chip table 70.1 %; float linear on the same sparse code 76.2 %; float MLP on the code 76.6 %; float CNN on the 28x28 cochlea picture 75.2 %.
+- Reading: the sparse code is not the limit (the CNN on the raw picture is no better than a linear readout on the code). Float readouts beat the 5-bit table by about 6 points, so the table readout / learning rule is the part that can still be improved, and the data (about 80 clips per word) caps everything near 76 %. One recording per new word cannot be fixed by design.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

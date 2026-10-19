@@ -1,0 +1,5 @@
+train 2783 test 717 classes 35
+chip table (all 35 together): 0.701
+float linear on code: 0.762
+float MLP (512) on code: 0.766
+float CNN on the 28x28 cochlea picture: 0.752
