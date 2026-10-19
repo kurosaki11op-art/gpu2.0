@@ -6,3 +6,5 @@ fewc:0.05:0 seed 1 0.927 {'labelled': 500, 'pseudo_used': 9024, 'pseudo_precisio
 fewc:0.05:0 seed 2 0.8965 {'labelled': 500, 'pseudo_used': 9391, 'pseudo_precision': 0.9649} 285s
 fewc:0.05:0 seed 3 0.9165 {'labelled': 500, 'pseudo_used': 9239, 'pseudo_precision': 0.973} 346s
 fewc:0.05:10 seed 1 0.906 {'labelled': 500, 'pseudo_used': 7627, 'pseudo_precision': 0.9962} 403s
+fewc:0.05:10 seed 2 0.899 {'labelled': 500, 'pseudo_used': 8275, 'pseudo_precision': 0.9952} 464s
+fewc:0.05:10 seed 3 0.918 {'labelled': 500, 'pseudo_used': 7875, 'pseudo_precision': 0.9967} 513s
