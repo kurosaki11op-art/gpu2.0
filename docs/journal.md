@@ -655,4 +655,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Chip table 70.1 %; float linear on the same sparse code 76.2 %; float MLP on the code 76.6 %; float CNN on the 28x28 cochlea picture 75.2 %.
 - Reading: the sparse code is not the limit (the CNN on the raw picture is no better than a linear readout on the code). Float readouts beat the 5-bit table by about 6 points, so the table readout / learning rule is the part that can still be improved, and the data (about 80 clips per word) caps everything near 76 %. One recording per new word cannot be fixed by design.
 
+### 19 Oct 2026 - finer sound grid in noise, readout sweeps
+
+- Finer sound grid 3,3,1,1,4,4 in white noise (5 stages, slow table K=5, word alignment, 3 seeds, `noisy_slow_geom.py`, SIMULATED): clean / 20 / 10 / 5 dB = 84.4 / 77.5 / 67.7 / 57.0 against the shipped grid 82.7 / 75.2 / 64.4 / 52.3, so better at every noise level (+1.7 to +4.7 points). The finer grid is now checked on all-at-once, staged, few-shot and noise.
+- 35-word set readout sweeps (`sc35_readout_sweep.log`, `sc35_epochs.log`): weight range, margin, dream count and sleep length give no gain (70.1 % -> at most 70.7 %); repeating the data 2-5 times gives 71.5-72.4 % (diagnostic, the chip keeps no data); float readouts reach about 76 %.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
