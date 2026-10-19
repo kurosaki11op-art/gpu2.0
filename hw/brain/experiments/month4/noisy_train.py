@@ -49,13 +49,21 @@ def noisy_bank(X, snrs, gen):
         res.append(cochlea_int._bank(xs.astype(np.int64), cochlea_int.A1, cochlea_int.A2, cochlea_int.G, cochlea.FR, cochlea_int.FB))
     return np.concatenate(res)
 TRAINS = {"clean": [None], "mixed (clean/20/10/5)": [None, 20, 10, 5], "noisy only (20/10/5)": [20, 10, 5]}
-trS = {k: noisy_bank(Xtr, v, gt) for k, v in TRAINS.items() if k != "clean"}; trS["clean"] = S[~te]
+trS = {k: cached("train_" + k.split()[0], lambda k=k, v=v: noisy_bank(Xtr, v, np.random.RandomState(777 + len(k)))) for k, v in TRAINS.items() if k != "clean"}; trS["clean"] = S[~te]
 noisy = {}
-for snr in (20, 10, 5):
-    p = (Xte ** 2).mean(1, keepdims=True); n = g.standard_normal(Xte.shape) * np.sqrt(p / 10 ** (snr / 10))
+CACHE = os.path.join(D, "noisy_cache"); os.makedirs(CACHE, exist_ok=True)
+def cached(name, fn):
+    p = os.path.join(CACHE, name + ".npy")
+    if os.path.exists(p): return np.load(p)
+    a = fn(); np.save(p, a); return a
+def _test_noise(snr):
+    gg = np.random.RandomState(12345 + snr)
+    p = (Xte ** 2).mean(1, keepdims=True); n = gg.standard_normal(Xte.shape) * np.sqrt(p / 10 ** (snr / 10))
     xn = np.clip(np.round(Xte + n), -32768, 32767).astype(np.int16)
-    noisy[snr] = np.concatenate([cochlea_int._bank(xn[i:i + 1000].astype(np.int64), cochlea_int.A1, cochlea_int.A2, cochlea_int.G,
-                                                   cochlea.FR, cochlea_int.FB) for i in range(0, len(xn), 1000)])
+    return np.concatenate([cochlea_int._bank(xn[i:i + 1000].astype(np.int64), cochlea_int.A1, cochlea_int.A2, cochlea_int.G,
+                                             cochlea.FR, cochlea_int.FB) for i in range(0, len(xn), 1000)])
+for snr in (20, 10, 5):
+    noisy[snr] = cached(f"test_{snr}", lambda snr=snr: _test_noise(snr))
 print("noisy frame sums ready %.0fs" % (time.time() - t0), flush=True)
 ytr, yte = y[~te].astype(np.int64), y[te].astype(np.int64)
 CH = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8)); res = {}
@@ -68,6 +76,10 @@ for mode in MODES:
         tests[f"{snr}dB"] = enc(picture(noisy[snr], mode))
     accs = {(n_, k): [] for n_ in TRAINS for k in tests}
     for n_ in TRAINS:
+        rp = os.path.join(CACHE, "result_" + n_.split()[0] + ".json")
+        if os.path.exists(rp):
+            for k_, v_ in json.load(open(rp)).items(): accs[(n_, k_)] = [v_]
+            print("trained on", n_, json.load(open(rp)), "(from cache)", flush=True); continue
         ctr = enc(picture(trS[n_], mode))
         for seed in (1, 2, 3):
             m = CortexSlow(ctr.shape[1], ch=100, K=5, night_stop=2, daydream=1, seed=seed)
@@ -76,7 +88,8 @@ for mode in MODES:
                 m.stage(ctr[sel], ytr[sel])
             for k, c in tests.items():
                 accs[(n_, k)].append(float((m.predict(c) == yte).mean()))
-        print("trained on", n_, {k: round(float(np.mean(accs[(n_, k)])), 4) for k in tests}, "%.0fs" % (time.time() - t0), flush=True)
+        rr = {k: round(float(np.mean(accs[(n_, k)])), 4) for k in tests}; json.dump(rr, open(rp, "w"))
+        print("trained on", n_, rr, "%.0fs" % (time.time() - t0), flush=True)
     res[mode] = {f'{n_}|{k}': round(float(np.mean(v)), 4) for (n_, k), v in accs.items()}
     print(mode, res[mode], "%.0fs" % (time.time() - t0), flush=True)
 json.dump({"label": "SIMULATED (integer cochlea, exact integer chip model, 3 seeds; white noise, fixed seed)", **res},
