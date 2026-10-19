@@ -38,7 +38,8 @@ audits each process of the current design against it, and sets the order of fixe
 
 - **Fixed:** detectors learned on the chip (digits 94.1 vs 93.5 offline); sleep triggered from inside (digits level or better); labels only on a fraction of examples (digits 93.1 / 91.3 / 90.7 at 10 / 5 / 2 % against 94.1; clothing about 78 against 80.8) when pseudo-labels are limited to the classes rewarded in the current context; weak-synapse pruning (19-30 % of synapses kept for 0-0.5 point).
 - **Tried and failed:** all-class self-labelling, scattered rewards, the unsupervised category layer, cascade synapses, dreams with lateral inhibition, fixed-loudness onset trigger.
-- **Not yet fixed:** novelty from inside (new class slot without a told class list), the context signal for fully mixed streams, hand-made word alignment (adaptive onset test running), temporal layer for twin words, correlated dreams, the RTL for sleep pressure and self-labelling.
+- **Partly fixed:** context on its own (stages blended, no boundary, context from recent rewards: digits 92.7-93.1 at 10 % labels vs 94.6 control).
+- **Not yet fixed:** novelty from inside (new class slot without a told class list), hand-made word alignment (a causal onset trigger with look-again is near parity, not a clear win), temporal layer for twin words, correlated dreams, the RTL for sleep pressure and self-labelling.
 
 ## Order of work
 

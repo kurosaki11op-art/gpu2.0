@@ -33,12 +33,14 @@ These are smaller training sets than the month-4 final numbers, so compare arms 
 | fixed-loudness onset 800 | 60.7 | 54.2 | 41.6 | 27.9 | 64.5 | 45.2 |
 | fixed-loudness onset 1600 | 65.1 | 61.1 | 45.8 | 33.3 | 71.4 | 51.3 |
 | adaptive onset (3 x running average + 400 / + 1200) | 57.4 / 62.4 | 55.2 / 55.3 | 42.7 / 45.0 | 30.0 / 32.1 | 63.2 / 67.5 | 41.0 / 38.3 |
+| shipped alignment + look again (3 test windows, control) | 69.2 | 61.5 | 48.8 | 34.2 | 79.2 | 50.2 |
+| fixed-loudness onset 1600 + look again | 66.3 | 61.7 | 47.8 | 36.2 | 74.5 | 50.2 |
 | noisy night dreams, drop 1/8 of bits | 70.5 | 62.6 | 47.9 | 35.9 | 75.3 | 51.0 |
 | noisy night dreams, drop 1/4 | 68.8 | 62.3 | 48.6 | 35.8 | 75.3 | 51.0 |
 | noisy night dreams, drop 1/8 + add len/16 random bits | 68.5 | 61.5 | 46.9 | 33.7 | 78.8 | 42.5 |
 
-Reading (about +-3 points of noise on 414 clips): every causal onset trigger is below the shipped alignment, so the hand-made word alignment is NOT fixed (the shipped rule needs the whole clip's loudest frame). Noisy night dreams that only drop bits are within noise
-(clean +0.3 to +2.0, 5 dB +2.4 to +2.6) but first-stage words fall 2.2, which breaks the guard "old words must not get worse"; adding spurious bits hurts new words by 8. Not adopted. A look-again test (onset trigger with three test windows, against the shipped alignment with the same three) is running: `brain_strict_sound_la.log`, `brain_strict_sound_pla.log`.
+Reading (about +-3 points of noise on 414 clips): every causal onset trigger is below the shipped alignment, so the hand-made word alignment is NOT clearly fixed (the shipped rule needs the whole clip's loudest frame). Noisy night dreams that only drop bits are within noise
+(clean +0.3 to +2.0, 5 dB +2.4 to +2.6) but first-stage words fall 2.2, which breaks the guard "old words must not get worse"; adding spurious bits hurts new words by 8. Not adopted. With the same look-again at test time (three windows), the onset trigger (1600) is near parity with the shipped alignment: 2.9 points lower clean (about the size of the test noise), 0.2 higher at 20 dB, 1.0 lower at 10 dB, 1.9 higher at 5 dB, 4.7 lower on first-stage words. Not a clear win and not a clear loss; it needs a larger speaker-disjoint test set to settle (`brain_strict_sound_la.log`, `brain_strict_sound_pla.log`).
 
 ## Still open
 

@@ -220,7 +220,7 @@ digits and sound, level on clothing, with less memory. Also cite WiSARD, BTHOWeN
 
 Rule 11 and the audit in `docs/brain_principles_audit.md`; results in `hw/results/brain_strict_redesign.md`. Working: on-chip detectors (digits 94.1), sleep from inside (digits 94.1-94.7), few-label learning with context-limited self-labelling
 (digits 10 / 5 / 2 % labelled 93.1 / 91.3 / 90.7 vs 94.1; clothing about 78 vs 80.8), pruning (19-30 % of synapses kept for 0-0.5 point; saving ESTIMATED). Failed: all-class self-labelling, scattered rewards, unsupervised category layer, cascade synapses,
-dreams with lateral inhibition, fixed-loudness onset. Open: novelty from inside, context signal, adaptive onset and noisy dreams on sound (running), temporal layer, correlated dreams, RTL for the new host-level logic.
+dreams with lateral inhibition, fixed-loudness onset. Also: stages blended in one stream with context taken from recent rewards, no stage boundaries: digits 10 % labelled 92.7-93.1 vs 94.6 control. Sound: causal onset trigger near parity with the shipped alignment only with look-again (clean 66.3 vs 69.2), noisy dreams within noise (not adopted). Open: novelty from inside, a temporal layer for twin words, correlated dreams, a larger test to settle the onset trigger, RTL for the new host-level logic.
 
 ## Start here for a fresh session (21 Oct 2026)
 

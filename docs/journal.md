@@ -699,4 +699,11 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Sleep from inside on Fashion:** 79.3-79.7 at thresholds 200-4,000, equal to the chunked-feeding control (79.7) and 1.1 below the shipped path (80.8). The loss comes from feeding each stage in chunks (each chunk call replays the interleaved dreams again), not from the sleep trigger; digits were level or better (94.1-94.7 vs 94.1).
 - Sound arm `peak` (shipped alignment, 20 words, 5 stages of 4): clean 68.5, 20 dB 62.2, 10 dB 47.3, 5 dB 33.3; first-stage words 77.5, last-stage words 50.6 (1 seed set of 3, `brain_strict_sound.log`). Onset-trigger and noisy-dream arms still running.
 
+### 19 Oct 2026 - redesign tests, round 2: context, sound, final status (SIMULATED)
+
+- **Context on its own (partly solved)** (`brain_strict_digits.py` arm `ctx`, 3 seeds): stages blended into one stream, no stage boundary, sleep from pressure, context = classes rewarded among the last 30 / 60 rewards. All-labelled control 94.6; 10 % labelled 92.7 / 93.1; 5 % labelled 91.8.
+- **Dreams with lateral inhibition FAILED** (`cortex_wta.py`): staged clothing 80.8 -> 79.9 / 78.6 / 74.7, digits 94.1 -> 93.7 / 93.0 / 90.4 for at most 4 / 3 / 2 features per spot; all at once level.
+- **Sound, 20 words, 414 test clips (about +-3 points):** shipped alignment clean 68.5, fixed-loudness onset 60.7 / 65.1 (800 / 1600), adaptive onset 57.4 / 62.4 (not better). With look-again at test: shipped 69.2, onset 1600 66.3 (near parity, first-stage words 4.7 lower). Noisy night dreams that drop bits: clean +0.3 to +2.0, 5 dB +2.4 to +2.6, first-stage words -2.2 (within noise, guard slips, not adopted); adding spurious bits hurt new words by 8.
+- Final write-up: [brain-strict redesign tests](../hw/results/brain_strict_redesign.md). Audit status and project memory updated. Still open: novelty from inside, a temporal layer for twin words, neighbour-conditioned dreams (needs several times the dream memory), RTL for sleep pressure and self-labelling, clearly settling the onset trigger with a larger test set.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
