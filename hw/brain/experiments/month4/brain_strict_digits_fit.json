@@ -1,0 +1,97 @@
+{
+ "base": {
+  "acc": 0.9347,
+  "seeds": [
+   0.944,
+   0.93,
+   0.93
+  ],
+  "info": [
+   {},
+   {},
+   {}
+  ]
+ },
+ "chunk": {
+  "acc": 0.9403,
+  "seeds": [
+   0.9455,
+   0.936,
+   0.9395
+  ],
+  "info": [
+   {},
+   {},
+   {}
+  ]
+ },
+ "few:0.1": {
+  "acc": 0.6522,
+  "seeds": [
+   0.678,
+   0.633,
+   0.6455
+  ],
+  "info": [
+   {
+    "labelled": 1000,
+    "pseudo_used": 7345,
+    "pseudo_precision": 0.5481
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 7122,
+    "pseudo_precision": 0.5161
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 7269,
+    "pseudo_precision": 0.4768
+   }
+  ]
+ },
+ "few:0.25": {
+  "acc": 0.7345,
+  "seeds": [
+   0.721,
+   0.7525,
+   0.73
+  ],
+  "info": [
+   {
+    "labelled": 2500,
+    "pseudo_used": 6384,
+    "pseudo_precision": 0.6444
+   },
+   {
+    "labelled": 2500,
+    "pseudo_used": 6360,
+    "pseudo_precision": 0.6417
+   },
+   {
+    "labelled": 2500,
+    "pseudo_used": 6334,
+    "pseudo_precision": 0.635
+   }
+  ]
+ },
+ "press:3000": {
+  "acc": 0.9397,
+  "seeds": [
+   0.944,
+   0.939,
+   0.936
+  ],
+  "info": [
+   {
+    "sleeps": 1
+   },
+   {
+    "sleeps": 1
+   },
+   {
+    "sleeps": 1
+   }
+  ]
+ }
+}
