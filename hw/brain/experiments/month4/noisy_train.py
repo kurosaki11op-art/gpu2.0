@@ -76,6 +76,7 @@ for mode in MODES:
                 m.stage(ctr[sel], ytr[sel])
             for k, c in tests.items():
                 accs[(n_, k)].append(float((m.predict(c) == yte).mean()))
+        print("trained on", n_, {k: round(float(np.mean(accs[(n_, k)])), 4) for k in tests}, "%.0fs" % (time.time() - t0), flush=True)
     res[mode] = {f'{n_}|{k}': round(float(np.mean(v)), 4) for (n_, k), v in accs.items()}
     print(mode, res[mode], "%.0fs" % (time.time() - t0), flush=True)
 json.dump({"label": "SIMULATED (integer cochlea, exact integer chip model, 3 seeds; white noise, fixed seed)", **res},
