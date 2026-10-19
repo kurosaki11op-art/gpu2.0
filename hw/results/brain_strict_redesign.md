@@ -56,6 +56,21 @@ The causal onset trigger is about 3 points lower on clean speech; the 20-word ne
 
 New spoken words with time-shifted views (base 15 words, 3 draws, k = 1 / 2 / 5 recordings): new-word accuracy 24.4 / 39.3 / 51.2 (shipped embedding path) against 24.1 / 40.9 / 50.8 with three views per recording; no gain, old words 0.2-1.3 lower. Not adopted.
 
+## Which views? (run on the user's PC; gate + views, every label present, 3 seeds)
+
+| Views | Clothing | Digits |
+|---|---|---|
+| none (normal learning) | 80.8 | 94.1 |
+| 1-pixel shifts (s1) | 78.9 | 94.9 |
+| 2-pixel shifts (s2) | 77.9 | 92.8 |
+| diagonal 1-pixel (d) | 77.3 | 93.4 |
+| scale 0.93 / 1.07 (sc) | 78.5 | 94.0 |
+| s1 + s2 | 76.7 | 91.5 |
+| s1 + scale | 78.0 | 94.1 |
+| s1 + diagonals | 77.0 | 93.1 |
+
+No view type lifts clothing above normal learning; on digits only 1-pixel shifts help. More views or larger shifts hurt.
+
 ## Still open
 
 Few labels on sound, novelty from inside (the chip noticing a new class itself), a context signal for fully mixed streams with no rewards at all (the tested one needs recent rewards), a temporal layer for twin words, neighbour-conditioned dreams (needs several times the dream memory), and the RTL for sleep pressure and context-limited self-labelling (both are host-level logic in these tests).

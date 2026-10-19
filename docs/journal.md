@@ -747,4 +747,10 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - Digits: normal learning 94.1; views without gate 92.0; gate only 92.1 (92.85 / 92.85 / 90.65); **gate + views 94.9** (95.15 / 94.65 / 94.80, every seed above the best baseline seed 94.4). Clothing: normal 80.8; views without gate 78.4; gate only 77.9; gate + views 78.9 (79.2 / 78.9 / 78.7), i.e. no win.
 - Reading: on digits the gate is what lets the views help (the combination beats each part alone); on clothing one-pixel shifts do not suit large shapes. The earlier few-label digits result (2 % labels 93.9) is the same mechanism.
 
+### 19 Oct 2026 - view types for agreement-gated learning (run on the user's PC, SIMULATED, 3 seeds, gate + views, every label present)
+
+- Clothing / digits (normal learning 80.8 / 94.1; 1-pixel shifts `s1` 78.9 / 94.9): 2-pixel shifts `s2` 77.9 / 92.8; diagonal 1-pixel `d` 77.3 / 93.4; scale 0.93 and 1.07 `sc` 78.5 / 94.0; `s1`+`s2` 76.7 / 91.5; `s1`+`sc` 78.0 / 94.1; `s1`+`d` 77.0 / 93.1.
+- **No view type lifts clothing above its normal-learning 80.8** (best 78.9 and 78.5), so the clothing gap is not about the kind of view. On digits only the 1-pixel shifts give a clear win (94.9); larger shifts, diagonals and more views are worse (91.5-93.4), which points to the table being diluted by extra copies. The eye-movement gain is specific to digits.
+- Next idea for clothing: stack the partial wins already known (stride-1 encoder `ENC_S1` +1.5 staged, prototype dreams +2.5 staged, slow table) instead of views.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
