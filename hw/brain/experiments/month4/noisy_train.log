@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/user/gpu2.0/hw/brain/experiments/month4/noisy_train.py", line 52, in <module>
+    trS = {k: cached("train_" + k.split()[0], lambda k=k, v=v: noisy_bank(Xtr, v, np.random.RandomState(777 + len(k)))) for k, v in TRAINS.items() if k != "clean"}; trS["clean"] = S[~te]
+              ^^^^^^
+NameError: name 'cached' is not defined
