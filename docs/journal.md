@@ -766,4 +766,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **One-knob sweep** (`brain_strict_sweep.py`, clothing, 2 seeds, default 80.35 / 86.1 staged / all at once): fewer dreams per old class (1,500 / 3,000) 81.5, one night pass 81.5, update margin 128 82.3, cmax 7 / 31 81.3; more dreams worse (24,000: 78.5); slow-table shift K = 7 collapses (52.6); everything else within about 1 point.
 - **Second sweep, margin x dreams x night** (3 seeds): shipped encoder, margin 256 + 1,500 dreams + 1 night pass **83.3 staged / 86.55 all at once** (default 80.8 / 86.0); margin 128 + 1,500 + 1: 82.9 / 86.6; margin 1,024 hurts (81.0 / 85.2). Stride-1 encoder, margin 256 + 1,500 + 1: **83.65 / 87.2** (default 81.5 / 87.3). Same memory as the shipped chip (129 KB), against 298 KB for prototype dreams at 83.3. Digits check running.
 
+### 19 Oct 2026 (overnight, cloud) - the new chip settings also win on digits (SIMULATED, 3 seeds, staged / all at once)
+
+- `brain_strict_sweep.py` GRID=2, digits, on-chip detectors, 2,000 per stage. Shipped settings (margin 32, 6,000 dreams per old class, 2 night passes): shipped encoder 94.1 / 97.0, stride-1 encoder 93.5 / 97.6. **Margin 256, 1,500 dreams, 1 night pass: shipped encoder 95.5 / 97.5, stride-1 encoder 95.1 / 98.05.** Other combinations: margin 128 95.1 / 97.4 (shipped encoder); margin 1,024 hurts the shipped encoder (92.5-94.0 staged) but suits the stride-1 encoder (95.7-95.95 staged, 97.9).
+- Same on clothing (previous entry): 83.3 / 86.55 and 83.65 / 87.2 against 80.8 / 86.0 and 81.5 / 87.3. The change is the update margin (a core parameter, MARGIN) and the host's dream / night schedule; no extra memory. Not yet adopted as the default: spoken words are being checked first (`brain_strict_sound.py` with MARGIN / NDREAM / NIGHT env).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

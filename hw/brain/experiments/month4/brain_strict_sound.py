@@ -22,6 +22,7 @@ from noisy_dream_chip import NoisyDreamChip
 ROOT = sys.argv[1]; CACHE = sys.argv[2] if len(sys.argv) > 2 else "bs_cache"; SEEDS = int(os.environ.get("SEEDS", 3)); t0 = time.time()
 ARMS = os.environ.get("ARMS", "peak,onset:800,onset:1600,nd:3:0,nd:2:0,nd:3:4").split(","); OUT = os.environ.get("OUT", "brain_strict_sound.json")
 os.makedirs(CACHE, exist_ok=True)
+CFG = dict(margin=int(os.environ.get('MARGIN', 32)), ndream=int(os.environ.get('NDREAM', 6000)), night=int(os.environ.get('NIGHT', 2)))   # chip settings (shipped: margin 32, 6,000 dreams, 2 night passes)
 ALL = sorted(d for d in os.listdir(ROOT) if os.path.isdir(os.path.join(ROOT, d))); NW = int(os.environ.get('NW', 20)); WORDS = [ALL[i] for i in sorted(np.random.RandomState(0).permutation(len(ALL))[:NW])]
 files, y, spk = [], [], []
 for wi, w in enumerate(WORDS):
@@ -139,8 +140,8 @@ for arm in ARMS:
     if kind == "v2": C = v2aug(C)
     la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest")}
     for seed in range(1, SEEDS + 1):
-        m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed) if kind == "nd" \
-            else CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed)
+        m = NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if kind == "nd" \
+            else CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
         for i, s in enumerate(STAGES):
             sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]; m.stage(C["tr"][sel], ytr[sel])
         if la:

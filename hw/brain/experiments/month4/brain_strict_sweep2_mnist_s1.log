@@ -1,0 +1,13 @@
+mnist default {'staged': 0.9345, 'once': 0.9757} 106s
+mnist margin=128 ndream=6000 night=2 {'staged': 0.9513, 'once': 0.979} 177s
+mnist margin=128 ndream=1500 night=2 {'staged': 0.9417, 'once': 0.979} 199s
+mnist margin=128 ndream=1500 night=1 {'staged': 0.9393, 'once': 0.979} 214s
+mnist margin=256 ndream=6000 night=2 {'staged': 0.9505, 'once': 0.9805} 284s
+mnist margin=256 ndream=1500 night=2 {'staged': 0.9502, 'once': 0.9805} 305s
+mnist margin=256 ndream=1500 night=1 {'staged': 0.9512, 'once': 0.9805} 321s
+mnist margin=512 ndream=6000 night=2 {'staged': 0.9547, 'once': 0.9797} 391s
+mnist margin=512 ndream=1500 night=2 {'staged': 0.9542, 'once': 0.9797} 413s
+mnist margin=512 ndream=1500 night=1 {'staged': 0.9525, 'once': 0.9797} 428s
+mnist margin=1024 ndream=6000 night=2 {'staged': 0.958, 'once': 0.979} 498s
+mnist margin=1024 ndream=1500 night=2 {'staged': 0.9573, 'once': 0.979} 518s
+mnist margin=1024 ndream=1500 night=1 {'staged': 0.9595, 'once': 0.979} 534s
