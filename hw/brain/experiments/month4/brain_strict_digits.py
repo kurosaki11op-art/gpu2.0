@@ -39,13 +39,26 @@ SH = None
 
 
 def shifted_codes():
-    """codes of the training images shifted one pixel (right, left, down, up): the views eye movements give (built once, only for arms that use them)"""
+    """codes of the training images under the views of env VIEWS (built once, only for arms that use them): s1 = one-pixel shifts right / left / down / up (default), s2 = two-pixel shifts, d = one-pixel diagonal shifts,
+    sc = two small scale changes (0.93 and 1.07 about the centre), and combinations s12 (s1 + s2), s1sc (s1 + sc), s1d (s1 + d). The centre view is always used too."""
     global SH
     if SH is None:
         X = xtr.reshape(len(xtr), 28, 28); SH = []
-        for dy, dx in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+
+        def shift(dy, dx):
             out = np.zeros_like(X); ys, yd = (slice(0, 28 - dy), slice(dy, 28)) if dy >= 0 else (slice(-dy, 28), slice(0, 28 + dy)); xs, xd = (slice(0, 28 - dx), slice(dx, 28)) if dx >= 0 else (slice(-dx, 28), slice(0, 28 + dx))
-            out[:, yd, xd] = X[:, ys, xs]; SH.append(enc(out.reshape(len(X), -1)))
+            out[:, yd, xd] = X[:, ys, xs]; return out
+
+        def scale(k):
+            src = np.round(13.5 + (np.arange(28) - 13.5) / k).astype(int); ok = (src >= 0) & (src <= 27); src = np.clip(src, 0, 27)
+            out = X[:, src][:, :, src]; out[:, ~ok, :] = 0; out[:, :, ~ok] = 0; return out
+
+        SPEC = {"s1": [(0, 1), (0, -1), (1, 0), (-1, 0)], "s2": [(0, 2), (0, -2), (2, 0), (-2, 0)], "d": [(1, 1), (-1, -1), (1, -1), (-1, 1)]}
+        ALIAS = {"s1": ["s1"], "s2": ["s2"], "d": ["d"], "sc": ["sc"], "s12": ["s1", "s2"], "s1sc": ["s1", "sc"], "s1d": ["s1", "d"]}; imgs = []
+        for tag in ALIAS[os.environ.get("VIEWS", "s1")]:
+            imgs += [scale(k) for k in (0.93, 1.07)] if tag == "sc" else [shift(*v) for v in SPEC[tag]]
+        for im in imgs: SH.append(enc(im.reshape(len(X), -1)))
+        print("views", os.environ.get("VIEWS", "s1"), "->", len(SH) + 1, "views per example", flush=True)
     return SH
 
 
@@ -100,12 +113,12 @@ def run(arm, seed):
         views = lambda idx: np.concatenate([ctr[idx]] + [v[idx] for v in sh])
         for o in order:
             k = max(2, int(len(o) * frac)); lab, unl = o[:k], o[k:]
-            m.stage(views(lab), np.tile(ytr[lab], 5)); al = np.unique(ytr[lab]); _, mg = margins(m, ctr[lab], al); tau = np.percentile(mg, q)
+            m.stage(views(lab), np.tile(ytr[lab], len(sh) + 1)); al = np.unique(ytr[lab]); _, mg = margins(m, ctr[lab], al); tau = np.percentile(mg, q)
             for j in range(0, len(unl), 250):
                 u = unl[j:j + 250]; pred, mg = margins(m, ctr[u], al); sel = mg >= tau
                 for v in sh: sel &= margins(m, v[u], al)[0] == pred            # every shifted view must name the same class
                 tot += int(sel.sum()); ok += int((pred[sel] == ytr[u][sel]).sum())
-                if sel.any(): m.stage(views(u[sel]), np.tile(pred[sel], 5))
+                if sel.any(): m.stage(views(u[sel]), np.tile(pred[sel], len(sh) + 1))
             night(m); used += k
         info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
     elif kind == "gate":
@@ -117,7 +130,7 @@ def run(arm, seed):
                 for v in sh: ok &= margins(m, v[u])[0] == pc
                 tot += len(u); kept += int(ok.sum())
                 if ok.sum():
-                    idx = u[ok]; m.stage(views(idx), np.tile(ytr[idx], 5 if use_views else 1))
+                    idx = u[ok]; m.stage(views(idx), np.tile(ytr[idx], len(sh) + 1 if use_views else 1))
             night(m)
         info = {"kept_fraction": round(kept / max(tot, 1), 4)}
     elif kind == "mixc":
