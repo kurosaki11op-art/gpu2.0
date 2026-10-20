@@ -1,0 +1,3 @@
+fashion coarse (shipped) 4608 bits, active per image 263 {'once': 0.8655, 'staged': 0.8327} 30s
+fashion fine 3x3 8192 bits, active per image 537 {'once': 0.8813, 'staged': 0.8285} 44s
+fashion coarse + fine 12800 bits, active per image 801 {'once': 0.8778, 'staged': 0.825} 70s

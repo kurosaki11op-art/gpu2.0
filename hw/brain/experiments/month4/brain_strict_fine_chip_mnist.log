@@ -1,0 +1,3 @@
+mnist coarse (shipped) 4608 bits, active per image 244 {'once': 0.9747, 'staged': 0.9552} 36s
+mnist fine 3x3 8192 bits, active per image 463 {'once': 0.9803, 'staged': 0.947} 59s
+mnist coarse + fine 12800 bits, active per image 707 {'once': 0.9813, 'staged': 0.9425} 95s

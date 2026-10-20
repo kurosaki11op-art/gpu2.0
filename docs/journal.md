@@ -888,4 +888,15 @@ Linear ridge 86.35; kNN on Hamming distance k=1/5/15: 77.9 / 79.8 / 80.0; exp-Ha
 **Words, delay-line coincidence cells** (7 frequency bands x 7 bands x delays 0..8 over onset and level events, any time, so independent of window position; 1,323 bits). Shipped peak code overall 79.95 / twin words 72.5; coincidence alone 57.5 / 53.6; shipped + coincidence **81.6 / 79.7** (+1.7 overall, +7.2 twin). A real ceiling gain on the twin-word weak spot; chip run still to do. Script `brain_strict_delay.py`, log `brain_strict_delay.log`.
 
 
+## 20 Oct 2026 (night) - Fine code on the chip: better one-pass, worse staged (SIMULATED, margin 256 / 1,500 dreams / 1 night, 3 seeds)
+
+| code | clothing once / staged | digits once / staged | active bits per image (clothing) |
+|---|---|---|---|
+| coarse (shipped), 4,608 bits | 86.55 / 83.27 | 97.47 / 95.52 | 263 |
+| fine 3x3 stride 1, 8,192 bits | **88.13** / 82.85 | **98.03** / 94.70 | 537 |
+| coarse + fine, 12,800 bits | 87.78 / 82.50 | 98.13 / 94.25 | 801 |
+
+The fine code gives +1.6 clothing and +0.6 digits one-pass (the float ceiling of 88.25 is reached), but staged learning gets worse (-0.4 clothing, -0.8 digits) and a decision reads twice as many bits. More bits = more forgetting in staged learning: the staged loss (clothing 5.3 points with the fine code) grows with code size. So the single remaining bottleneck for clothing is the staged-learning loss, not the code. Script `brain_strict_fine_chip.py`, logs `brain_strict_fine_chip_{fashion,mnist}.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

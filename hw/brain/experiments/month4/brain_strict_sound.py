@@ -85,8 +85,21 @@ SW = NW // 5; STAGES = [tuple(range(SW * i, SW * i + SW)) for i in range(5)]; CH
 fcache = {}
 
 
+def coincidence(P, delays=range(0, 9)):
+    """delay-line coincidence cells (auditory-brainstem style): 28 frequency rows -> 7 bands; a cell (band A, band B, delay d) fires if an event in A is followed by an event in B d frames later, anywhere in the window. Events: onset (level rose by more than a quarter of the loudest pixel) and level (above half of it). Compares, shifts and ANDs only."""
+    P = np.asarray(P).reshape(len(P), 28, 28).astype(np.int32); mx = P.reshape(len(P), -1).max(1)[:, None, None]; prev = np.concatenate([P[:, :, :1], P[:, :, :-1]], 2)
+    band = lambda E: E.reshape(len(E), 7, 4, 28).any(2); R = band((P - prev) * 4 > mx); L = band(P * 2 > mx); out = []
+    for A, B in ((R, R), (R, L), (L, L)):
+        for d in delays:
+            Bs = np.zeros_like(B); Bs[:, :, :28 - d] = B[:, :, d:]; out.append((A[:, :, None, :] & Bs[:, None, :, :]).any(3).reshape(len(P), -1))
+    return np.concatenate(out, 1)
+
+
 def codes(mode):
     if mode in fcache: return fcache[mode]
+    if mode == "coin":                                              # shipped peak code + delay-line coincidence cells
+        base = codes("peak"); al = lambda P: cochlea_int.align_word(P, 6); src = {"tr": pic["clean"][~te], "clean": pic["clean"][te], "20dB": pic["20dB"], "10dB": pic["10dB"], "5dB": pic["5dB"]}
+        out = {k: np.concatenate([base[k], coincidence(al(src[k])).astype(base[k].dtype)], 1) for k in base}; fcache[mode] = out; return out
     if mode.startswith("onsetla") or mode == "peakla":       # test views with the window starting 1 frame earlier / later (look again)
         al = (lambda P, L=6: cochlea_int.align_word(P, L)) if mode == "peakla" else (lambda P, L=6, th=int(mode.split(":")[1]): onset_align(P, th, L))
         ptr = al(pic["clean"][~te]); fes = [SoundFeatures(64, c, 3, 3, 1, 1, 4, 4).fit(ptr[np.isin(ytr, STAGES[0])][:12000]) for c in CH]
