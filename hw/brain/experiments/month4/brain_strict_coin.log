@@ -1,0 +1,12 @@
+clips 2000 test 414 2s
+channel 0 ready 2s
+channel 1 ready 2s
+channel 2 ready 2s
+channel 3 ready 2s
+channel 4 ready 2s
+channel 5 ready 2s
+channel 6 ready 2s
+channel 7 ready 2s
+channel 8 ready 2s
+channel 9 ready 2s
+coin {'clean': 0.7295, '20dB': 0.6659, '10dB': 0.5386, '5dB': 0.4026, 'oldest': 0.7576, 'newest': 0.567, 'twin': 0.7391, 'other': 0.7275} 160s
