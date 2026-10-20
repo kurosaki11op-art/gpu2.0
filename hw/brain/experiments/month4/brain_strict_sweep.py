@@ -1,6 +1,6 @@
 """One-knob-at-a-time sweep of the slow-table chip around its default (19 Oct 2026), staged (5 stages of 2 classes) and all-at-once, on-chip detectors, 2,000 examples per stage. SIMULATED.
 Knobs: ndream (dreams per old class per stage), night (night passes), daydream, margin, cmax, ch (ticks between slow-table follow steps), K (slow-table time constant shift).
-usage: DATA_DIR; env DS, NPS, SEEDS (default 2), ENC (base|s1 encoder), GRID (1 = one knob at a time, 2 = margin x ndream x night combinations). One line per setting; the default is `default`."""
+usage: DATA_DIR; env DS, NPS, SEEDS (default 2), ENC (base|s1 encoder), GRID (1 = one knob at a time around the shipped settings, 2 = margin x ndream x night combinations, 3 = one knob at a time around env DEF), DEF (json centre override). One line per setting; the default is `default`."""
 import json, os, sys, time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 import numpy as np
@@ -18,10 +18,12 @@ if ENC == "s1":
     for f in fes: f.pool = 4
 enc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 2000]) for g in fes], 1) for i in range(0, len(x), 2000)])
 ctr, cte = enc(xtr), enc(xte); NB = ctr.shape[1]
-DEF = dict(ch=100, K=5, night_stop=2, daydream=1, ndream=6000, night=2, margin=32, cmax=15)
+DEF = dict(ch=100, K=5, night_stop=2, daydream=1, ndream=6000, night=2, margin=32, cmax=15); DEF.update(json.loads(os.environ.get("DEF", "{}")))   # env DEF = json override of the centre, e.g. {"margin": 256, "ndream": 1500, "night": 1}
 GRID = [("default", {})] + [(f"{k}={v}", {k: v}) for k, vs in (("ndream", (1500, 3000, 12000, 24000)), ("night", (1, 4)), ("daydream", (0, 3, 6)), ("margin", (8, 16, 64, 128)), ("cmax", (7, 31)), ("ch", (25, 50, 200, 500)), ("K", (3, 4, 6, 7))) for v in vs]
 GRID2 = [("default", {})] + [(f"margin={mg} ndream={nd} night={nt}", dict(margin=mg, ndream=nd, night=nt)) for mg in (128, 256, 512, 1024) for nd, nt in ((6000, 2), (1500, 2), (1500, 1))]
+GRID3 = [("centre", {})] + [(f"{k}={v}", {k: v}) for k, vs in (("ndream", (500, 1000, 3000)), ("night", (2,)), ("daydream", (0, 2, 3)), ("margin", (128, 192, 384)), ("cmax", (7, 31)), ("ch", (50, 200)), ("K", (4, 6))) for v in vs]
 if GRIDSEL == "2": GRID = GRID2
+if GRIDSEL == "3": GRID = GRID3
 res = {}
 for name, kw in GRID:
     cfg = dict(DEF, **kw); out = {"staged": [], "once": []}
