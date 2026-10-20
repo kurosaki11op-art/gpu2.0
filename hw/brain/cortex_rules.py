@@ -5,7 +5,7 @@
   prio:B     our own: surprise-prioritised replay at night (blocks of B dreams; each class's share of the next block grows with the surprise writes its dreams caused in the last block)
   split      control: the night run as a separate call with no change (must equal the shipped chip)
 The day part is cortex_slow._stage_slow (built from its source for `grade`); `budget` / `shy` run the day with no night, apply their operation, then run the night alone."""
-import inspect, re
+import inspect, os, re
 import numpy as np
 from numba import njit
 import cortex_slow
@@ -42,6 +42,27 @@ def _night_prio(W, S, on, n, rng, known, total, margin, cmax, top, ch, K, FR, RN
     return tick
 
 
+@njit
+def _night_real(W, S, on, n, rng, known, st, stn, stc, total, mix, margin, cmax, top, ch, K, FR, RND, tick0, night_stop, stats):
+    """Night with a few stored real traces per class (hippocampal-style index): each replay is, with probability mix/16, one of the class's stored real codes, otherwise an independent-bit dream.
+    Class order is round robin; xorshift draws only."""
+    C = W.shape[0]; buf = np.zeros(on.shape[1], np.int32); kn = np.where(known)[0]; tick = tick0; blockw = 0
+    for j in range(total):
+        c = kn[j % len(kn)]; rng[0] = _xs32(rng[0]); r = rng[0]
+        if stc[c] > 0 and np.int64(r & np.uint32(15)) < mix:
+            q = np.int64((r >> np.uint32(4)) % np.uint32(stc[c])); na = stn[c, q]
+            for t in range(na): buf[t] = st[c, q, t]
+            k = na
+        else:
+            k = _dream(on, n, c, rng, buf)
+        w = _practise(W, buf, k, c, known, margin, cmax); blockw += w; stats[0] += 1; stats[1] += w; tick += 1
+        if tick % ch == 0: _follow(S, W, K, FR, RND)
+        if night_stop > 0 and stats[0] % 256 == 0:
+            if blockw > night_stop: break
+            blockw = 0
+    return tick
+
+
 def make_stage_grade(sh):
     src = f'''
 @njit
@@ -71,10 +92,16 @@ def _practise_g(W, act, na, y, known, margin, cmax):
     exec("@njit\n" + stage, ns); return ns["_stage_grade"]
 
 
+def n_cls_of(kw):
+    return kw.get('n_cls', 10)
+
+
 class CortexRules(CortexSlow):
     def __init__(self, n_bits, rule="split", par=0, **kw):
         super().__init__(n_bits, **kw); self.rule, self.par = rule, par; self._night = kw.get("night", 2)
         self._stage_g = make_stage_grade(par) if rule == "grade" else None
+        if rule == "real":
+            E = int(par or 8); self.st = np.zeros((n_cls_of(kw), E, 1), np.int32); self.stn = np.zeros((n_cls_of(kw), E), np.int32); self.stc = np.zeros(n_cls_of(kw), np.int32)
 
     def _call(self, fn, code, y, night):
         new = np.unique(y).astype(np.int64); old = np.where(self.known & ~np.isin(np.arange(len(self.known)), new))[0]
@@ -100,8 +127,19 @@ class CortexRules(CortexSlow):
                     if t > lim:
                         ones = np.where(np.abs(self.W[c]) == 1)[0]; need = min(len(ones), int(t - lim)); self.W[c, ones[:need]] = 0
             if self.rule == "shy": self.W[:] = self.W - np.sign(self.W)
+            if self.rule == "real":
+                A, na = self.pack(code)
+                if A.shape[1] > self.st.shape[2]:
+                    ns = np.zeros(self.st.shape[:2] + (A.shape[1],), np.int32); ns[:, :, :self.st.shape[2]] = self.st; self.st = ns
+                for c in np.unique(y):
+                    if self.stc[c] == 0:
+                        for i in np.where(y == c)[0][:self.st.shape[1]]:
+                            q = self.stc[c]; self.st[c, q, :A.shape[1]] = A[i]; self.stn[c, q] = na[i]; self.stc[c] += 1
             if len(np.where(self.known)[0]) > len(np.unique(y)):
-                if self.rule == "prio":
+                if self.rule == "real":
+                    kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
+                    self.tick = _night_real(self.W, self.S, self.on, self.n, self.rng, self.known, self.st, self.stn, self.stc, int(total), int(os.environ.get("REALMIX", 8)), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, self.night_stop, self.stats)
+                elif self.rule == "prio":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
                     self.tick = _night_prio(self.W, self.S, self.on, self.n, self.rng, self.known, int(total), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, int(self.par or 256))
                 else: self._night_only()

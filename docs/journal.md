@@ -832,4 +832,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 Shipped code 86.35, shifted-stride code 87.4, both side by side 87.75, 64 detectors per channel 87.65. The chip's one-pass (non-staged) result is already 86.55, so a richer visual code can add at most about 1.2 points. The 3.2-point loss that remains is staged (83.27 vs 86.55), so it is a continual-learning loss, which a training method can attack; Module 3 (richer code) is low value. Script `hw/brain/experiments/month4/brain_strict_ceiling2.py`.
 
 
+## 20 Oct 2026 (night) - Where the staged loss comes from; real-trace replay (SIMULATED, clothing, margin 256, 3 seeds)
+
+Per-class check (`forget_diag.py`): the 3.2-point staged loss is spread over old classes (trouser 99 -> 89, bag 94 -> 89, sandal/shirt/coat -3 each), a recency bias, not one broken class. Test: our own "stored real traces" night (`real:E`, `cortex_rules.py`; each replay is a stored real code with probability mix/16, else a dream). Half real: E=4 83.45, E=16 83.27; all real: E=16 83.58, E=200 **84.52** (one-pass 86.55, shipped 83.27). So dream fidelity explains at most ~1.2 of the 3.2 points, and only with 200 stored traces per class (far too much memory). The rest is inherent to learning classes in order with a margin table. Replay-side fixes are capped near 84.5; next targets are the order effect itself (new vs old competition) not the replay.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
