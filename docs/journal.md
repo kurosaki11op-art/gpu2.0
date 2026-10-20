@@ -871,4 +871,14 @@ Layer 1 alone 86.35. Layer 2 (competitive Hebbian over 3x3 / 2x2 neighbourhoods 
 After the table learns, an error image points at its most misleading active bit (largest table entry for the rival minus the right class); the patch behind that bit replaces the least-used detector. Chip one-pass 86.50 -> 86.70 / 86.80 / 86.75 / 87.00; ridge ceiling 86.35 -> 86.60 / 86.30 / 86.55 / 86.75; chip staged 83.10 -> 82.60 (worse). Gain at most +0.5 one-pass, none staged. Stronger variants (grow, 12-16 recruits) not run. Next hypothesis (untested): detectors are learned from the first stage's two classes only (T-shirt, trouser), so later classes are coded by detectors that never saw them; test the ceiling with detectors learned from all classes, then fix by neurogenesis (new detectors recruited from poorly matched patches when a new class arrives, old bits unchanged). Script `brain_strict_reward_det.py`, log `brain_strict_reward_det_fashion.log`.
 
 
+## 20 Oct 2026 (night) - Detector coverage hypothesis REFUTED (SIMULATED, ridge / chip one-pass / chip staged)
+
+Detectors learned from the first 2 / 4 / 6 / all 10 classes. Clothing: 86.35 / 86.50 / 83.10, 86.25 / 86.00 / 81.90, 86.55 / 86.70 / 83.05, 86.20 / 86.05 / 83.60. Digits: 96.95 / 97.40 / 95.60, 97.05 / 97.45 / 94.95, 97.10 / 97.20 / 95.60, 97.10 / 97.50 / 95.75. No effect: the shipped two-class detectors are as good as all-class ones, so detector coverage is not the limit and neurogenesis is not needed. Script `brain_strict_allcls.py`, logs `brain_strict_allcls_{fashion,mnist}.log`.
+
+
+## 20 Oct 2026 (night) - Is the information in the code? (SIMULATED, clothing, float classifiers on the shipped code)
+
+Linear ridge 86.35; kNN on Hamming distance k=1/5/15: 77.9 / 79.8 / 80.0; exp-Hamming kernel ridge (nonlinear): 87.3 / 88.3 / 88.35. A strongly nonlinear float readout gains only +2 over linear, so the shipped code holds at most about 88 % of clothing; the chip's one-pass 86.5 is already within 2 points of the best any readout can do on this code. Together with the negative probes (graded counts 87.5, depth 86.7, 64 detectors 87.65, all-class detectors 86.2, reward recruitment 87.0) the single-layer 5x5 detector code saturates near 88 for clothing. Reaching the 93 of a trained CNN would need features learned by task error through many layers, which this design forbids (no backprop). Script `brain_strict_info.py`, log `brain_strict_info_fashion.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

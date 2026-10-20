@@ -1,0 +1,6 @@
+fashion kNN k=1 on Hamming 0.7785
+fashion kNN k=5 on Hamming 0.7975
+fashion kNN k=15 on Hamming 0.7995
+fashion kernel ridge (exp Hamming), scale 0.25 x median 0.8725
+fashion kernel ridge (exp Hamming), scale 0.50 x median 0.883
+fashion kernel ridge (exp Hamming), scale 1.00 x median 0.8835

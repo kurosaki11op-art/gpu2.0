@@ -1,0 +1,4 @@
+fashion detectors from first 2 classes (shipped) (2000 images) ridge 0.8635 chip one-pass 0.8650 chip staged 0.8310 53s
+fashion detectors from first 4 classes (4000 images) ridge 0.8625 chip one-pass 0.8600 chip staged 0.8190 100s
+fashion detectors from first 6 classes (6000 images) ridge 0.8655 chip one-pass 0.8670 chip staged 0.8305 147s
+fashion detectors from all 10 classes (10000 images) ridge 0.8620 chip one-pass 0.8605 chip staged 0.8360 244s
