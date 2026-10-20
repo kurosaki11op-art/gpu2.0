@@ -7,13 +7,13 @@ module tb_cortex_core_hooks;
     reg cmd_valid = 0; reg [2:0] cmd_op = 0; reg [3:0] cmd_arg = 0;
     reg lb_we = 0; reg [AW-1:0] lb_waddr = 0, lb_wdata = 0; reg [AW:0] lb_len = 0;
     reg lane_we = 0; reg [4:0] lane_waddr = 0; reg [31:0] lane_wdata = 0;
-    wire busy, updated; wire [3:0] pred; wire [AW:0] llen_out; wire signed [19:0] top_margin; wire [31:0] wr_count;
+    wire busy, updated; wire [3:0] pred; wire [AW:0] llen_out; wire signed [19:0] top_margin; wire [31:0] wr_count; wire [199:0] rd_scores;
     reg [AW-1:0] mem_addr = 0; wire [49:0] rd_w; wire [10*CB-1:0] rd_c, rd_n; wire [9:0] rd_known;
     cortex_core #(.NB(NB), .AW(AW), .CB(CB), .MARGIN(MARGIN)) dut(.clk(clk), .rst(rst), .cmd_valid(cmd_valid), .cmd_op(cmd_op),
         .cmd_arg(cmd_arg), .lb_we(lb_we), .lb_waddr(lb_waddr), .lb_wdata(lb_wdata), .lb_len(lb_len),
         .lane_we(lane_we), .lane_waddr(lane_waddr), .lane_wdata(lane_wdata),
         .mem_addr(mem_addr), .wr_w(50'd0), .wr_c({(10*CB){1'b0}}),
-        .busy(busy), .pred(pred), .updated(updated), .llen_out(llen_out), .top_margin(top_margin), .wr_count(wr_count), .rd_w(rd_w), .rd_c(rd_c), .rd_n(rd_n), .rd_known(rd_known));
+        .busy(busy), .pred(pred), .updated(updated), .llen_out(llen_out), .top_margin(top_margin), .wr_count(wr_count), .rd_scores(rd_scores), .rd_w(rd_w), .rd_c(rd_c), .rd_n(rd_n), .rd_known(rd_known));
     task run(input [2:0] o, input [3:0] a); begin
         @(negedge clk); cmd_op = o; cmd_arg = a; cmd_valid = 1; @(negedge clk); cmd_valid = 0;
         while (busy) @(negedge clk);
@@ -39,7 +39,7 @@ module tb_cortex_core_hooks;
             @(negedge clk); lb_we = 0; lb_len = len; cmd_op = op; cmd_valid = 1;
             @(negedge clk); cmd_valid = 0;
             while (busy) @(negedge clk);
-            if (op == 4) $fdisplay(f, "P %0d %0d %0d", pred, top_margin, wr_count);
+            if (op == 4) begin $fdisplay(f, "P %0d %0d %0d", pred, top_margin, wr_count); $fdisplay(f, "S %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d", $signed(rd_scores[19:0]), $signed(rd_scores[39:20]), $signed(rd_scores[59:40]), $signed(rd_scores[79:60]), $signed(rd_scores[99:80]), $signed(rd_scores[119:100]), $signed(rd_scores[139:120]), $signed(rd_scores[159:140]), $signed(rd_scores[179:160]), $signed(rd_scores[199:180])); end
             else if (op == 1 || op == 2) $fdisplay(f, "U %0d %0d", updated, wr_count);
             else if (op == 3) $fdisplay(f, "D %0d %0d", llen_out, updated);
             ncmd = ncmd + 1;

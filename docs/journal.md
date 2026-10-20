@@ -1061,4 +1061,14 @@ Sound bits / picture + sound bits / sound alone on the held-out speaker / both s
 Next: sleep cleaning needs the core to show all 10 class scores after a PREDICT (build option) and an overlap unit (number of code bits two pictures share); the neighbour selection and score pooling stay host-side like the other sleep logic.
 
 
+## 20 Oct 2026 (night) - Sensory node, piece 4: the sleep cleaning runs on the chip's own parts, bit-exact
+
+Three additions, each checked against the Python model:
+1. **`cortex_core.v` (CORTEX_HOOKS build): `rd_scores`**, all 10 class scores left by the last PREDICT (the core already kept them in `acc[]`). `run_check_cortex_hooks.py` now also compares an `S` line of all 10 scores after every PREDICT: PASS (204 commands, 0 mismatches, margin 256).
+2. **`cortex_neighbours.v` (new)**: a buffer of NS codes (lists of active bits, up to 1,024 entries) and, for a query slot, the K buffered codes sharing the most active bits with it: the overlap = number of common list entries by a two-pointer merge (compares and one counter, no multiplier), top-K kept by insertion, ties to the lower slot. `run_check_neighbours.py`: real MNIST picture codes (about 250 active bits), 16 slots (some empty), K = 4, 6 queries, **0 mismatches** (6,446 cycles per query at 16 slots, about 26,000 at 64: a 64-picture buffer is cleaned in about 1.7 M cycles, 17 ms at 100 MHz).
+3. **`cross_modal.pool_names`** (host side: adds and compares): new name = argmax over the known classes of own score + the K neighbours' scores (+ the ear's vote); stable tie-breaking in `clean_names`.
+**End to end** `run_check_sleep_clean.py`: the core learns 120 pictures under 25 %-noisy names, then 32 buffered pictures are cleaned from the RTL's scores and the RTL's neighbours; the names equal those from the software model: **0 differing score rows, 0 differing neighbour rows, 0 differing names, PASS** (the ear's names 62 % right became 75 % right in this tiny scenario).
+So the sensory node is now: two sensors into one core (piece 3), one-sense or two-sense experiences, and sleep cleaning with the chip's scores and neighbour unit plus a few adds on the host. Not done: the host pooling is software, not RTL.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

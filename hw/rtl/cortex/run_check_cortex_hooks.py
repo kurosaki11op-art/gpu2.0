@@ -28,7 +28,7 @@ def predict_lines(known_set):
     for t in range(len(ite)):
         a = np.array(np.nonzero(cte[t])[0], np.int32); cmds.append((4, 0, a.tolist()))
         s = sorted([int(m.W[c, a].astype(np.int64).sum()) for c in known_set], reverse=True); pred = max(known_set, key=lambda c: (int(m.W[c, a].astype(np.int64).sum()), -c))
-        exp.append("P %d %d %d" % (pred, (s[0] - s[1]) if len(s) > 1 else SAT, wr))
+        exp.append("P %d %d %d" % (pred, (s[0] - s[1]) if len(s) > 1 else SAT, wr)); exp.append("S " + " ".join(str(int(m.W[c, a].astype(np.int64).sum())) for c in range(10)))
 
 
 predict_lines([0, 1, 2, 3])
@@ -39,9 +39,9 @@ words.append(0xFFFFFFFF)
 open(os.path.join(HERE, "cmds.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n"); open(os.path.join(HERE, "lanes.hex"), "w").write("\n".join("%08x" % s for s in seeds) + "\n")
 subprocess.run(["iverilog", "-g2005", "-DCORTEX_HOOKS", "-o", "/tmp/hk.vvp", f"-Ptb_cortex_core_hooks.NW={len(words) + 8}", f"-Ptb_cortex_core_hooks.MARGIN={MARGIN}", "cortex_core.v", "tb_cortex_core_hooks.v"], cwd=HERE, check=True)
 res = subprocess.run("vvp -n /tmp/hk.vvp | grep ^commands", shell=True, cwd=HERE, capture_output=True, text=True); print((res.stdout.splitlines() or ["no summary line"])[-1].strip())
-got = [g for g in open(os.path.join(HERE, "out_cortex.txt")).read().split("\n") if g and g[0] in "UP"]
+got = [g for g in open(os.path.join(HERE, "out_cortex.txt")).read().split("\n") if g and g[0] in "UPS"]
 bad = sum(1 for a, e in zip(got, exp) if a != e) + abs(len(got) - len(exp))
 for a, e in [(a, e) for a, e in zip(got, exp) if a != e][:5]:
     print("  MISMATCH rtl:", a, " model:", e)
-margins = [int(e.split()[2]) for e in exp if e.startswith("P")]; print(f"lines compared {len(exp)}, mismatches {bad}; writes {wr}; margins min {min(margins)} max {max(margins)}")
+margins = [int(e.split()[2]) for e in exp if e.startswith("P")]  # S lines: all 10 class scores after PREDICT (unknown classes show their zero sums); print(f"lines compared {len(exp)}, mismatches {bad}; writes {wr}; margins min {min(margins)} max {max(margins)}")
 print("PASS" if bad == 0 else "FAIL")

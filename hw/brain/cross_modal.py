@@ -26,10 +26,18 @@ def clean_names(table, codes, names, KN=8, B=256, ear_vote=200):
     S = table.S.astype(np.int64); out = names.copy()
     for j in range(0, len(codes), B):
         c = codes[j:j + B]; s = c.astype(np.int32) @ S.T; ov = c.astype(np.int32) @ c.T.astype(np.int32); np.fill_diagonal(ov, -1)
-        nn = np.argsort(-ov, 1)[:, :KN]; z = np.where(table.known[None, :], s, 0); pooled = z + z[nn].sum(1)
+        nn = np.argsort(-ov, 1, kind='stable')[:, :KN]; z = np.where(table.known[None, :], s, 0); pooled = z + z[nn].sum(1)
         if ear_vote: pooled[np.arange(len(c)), names[j:j + B]] += ear_vote * (KN + 1)
         out[j:j + B] = np.where(table.known[None, :], pooled, -(1 << 50)).argmax(1)
     return out
+
+
+def pool_names(scores, nb_ids, names, known, ear_vote=200):
+    """host-side pooling, exactly what the chip leaves to the host: scores (n, classes) = the core's class scores per buffered picture (rd_scores after a PREDICT), nb_ids (n, K) = the K neighbour slots of every picture (cortex_neighbours),
+    names = the ear's names; new name = argmax over the known classes of own score + sum of the neighbours' scores (+ ear_vote x (K+1) for the ear's own name). Integer adds and compares."""
+    K = nb_ids.shape[1]; z = np.where(known[None, :], scores, 0).astype(np.int64); pooled = z + z[nb_ids].sum(1)
+    if ear_vote: pooled[np.arange(len(z)), names] += ear_vote * (K + 1)
+    return np.where(known[None, :], pooled, -(1 << 50)).argmax(1)
 
 
 def learn_picture(codes, names, rounds=2, seed=1, **kw):

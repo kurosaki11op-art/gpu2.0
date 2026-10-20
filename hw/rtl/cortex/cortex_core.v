@@ -37,7 +37,7 @@
 //              arg 10 = MATCH: emb_slot / emb_lab / emb_dist = the filled slot (any) with the smallest L1 distance (first on a tie) and its label
 //              arg 11 = read prototype element mem_addr[9:0] = slot * 16 + class -> rd_e;  arg 12 = read slot meta mem_addr[5:0] -> rd_e = {filled, label, count}
 //              Old words are enrolled by competitive learning (WINNER, then ENROLL into the winner with shift 5), new words from a few recordings by ENROLL with shift 0 (a running mean).
-// Build option CORTEX_HOOKS (19 Oct 2026, for host-side self-labelling and sleep pressure): top_margin = the top score minus the runner-up among the known classes, valid after PREDICT
+// Build option CORTEX_HOOKS (19 Oct 2026, for host-side self-labelling and sleep pressure; 20 Oct 2026: rd_scores = all class scores left by the last PREDICT, for sleep cleaning): top_margin = the top score minus the runner-up among the known classes, valid after PREDICT
 // (saturated to the largest positive value when only one class is known); wr_count = the number of surprise-gated table updates (every PRACTISE that wrote: LEARN, PRACTISE, DREAM),
 // cleared by reset and by CLEAR. The host reads wr_count between commands, so "sleep when the surprise writes since the last sleep reach a threshold" needs no other state in the core.
 // Build option CORTEX_CONTEXT (context memory, bit-exact with CortexInt(context=True)): DREAM with cmd_frozen = 1
@@ -66,7 +66,7 @@ module cortex_core #(
     input  wire [AW-1:0] mem_addr, input wire [C*WB-1:0] wr_w, input wire [C*CB-1:0] wr_c,
     output reg           busy, output reg [3:0] pred, output reg updated, output reg [AW:0] llen_out,
 `ifdef CORTEX_HOOKS
-    output reg signed [SW-1:0] top_margin, output reg [31:0] wr_count,
+    output reg signed [SW-1:0] top_margin, output reg [31:0] wr_count, output wire [C*SW-1:0] rd_scores,   // rd_scores = the 10 class scores left by the last PREDICT (host-side sleep cleaning pools them over neighbours)
 `endif
 `ifdef CORTEX_SLOW
     output reg [C*SB-1:0] rd_s,
@@ -118,6 +118,9 @@ module cortex_core #(
     reg [AW-1:0] lb_wa, lb_wd; reg lb_wen;
     reg [C*WB-1:0] w_wd; reg w_wen; reg [C*CB-1:0] c_wd; reg c_wen;
     reg signed [SW-1:0] acc [0:C-1];
+`ifdef CORTEX_HOOKS
+    genvar gsc; generate for (gsc = 0; gsc < C; gsc = gsc + 1) begin : g_sc assign rd_scores[gsc*SW +: SW] = acc[gsc]; end endgenerate
+`endif
     reg signed [SW-1:0] best, second; reg have_rv, have_second; reg sd0, sd1, se0, se1;   // score pipeline stage flags
     reg [AW:0] pb; reg pf0, pf1, push, pop; reg [2:0] qcnt; reg [1:0] qw, qr; reg [CB-1:0] dq [0:3];   // dream prefetch
     reg [CB-1:0] onf, ncur; reg [4:0] L;
