@@ -1,0 +1,4 @@
+mnist once 0.9747
+mnist blocked (no replay) 0.5848
+mnist staged (shipped) 0.9552
+mnist replay all earlier real data 0.9715

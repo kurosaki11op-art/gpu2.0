@@ -909,4 +909,13 @@ Peak baseline: clean 73.35, 20 / 10 / 5 dB 65.7 / 51.5 / 39.5, oldest 77.5, newe
 Staged equals one-pass by construction (a class touches only its own cells). Clothing P=4 / 16 / 32: 80.45 / 83.20 / 82.95; digits 95.05 / 96.10 / 96.50. Chip staged for reference: clothing 83.27, digits 95.52. So the concept cells match the chip's staged result on clothing and beat it on digits by +0.6 to +1.0, but need 10 x P x 4,608 counters (P=16: 737 K counters, several times the chip's 129 KB), and their one-pass is below the chip's (clothing 83.2 vs 86.55). Correction to an earlier remark: this mechanism was the month-1 design (`ConceptMemory`), not untried; what was untested is its staged behaviour on today's code. Script `brain_strict_concept.py`, logs `brain_strict_concept_{fashion,mnist}.log`.
 
 
+## 20 Oct 2026 (night) - Where the staged loss comes from; cut-and-paste dreams FAILED; early exit WINS on energy (SIMULATED)
+
+**Isolation (`staged_diag2.py`, 3 seeds, coarse code, margin 256 / 1,500 dreams / 1 night).** Clothing: one pass 86.55; blocked by class with no dreams and no night **44.8**; shipped staged 83.27; every stage re-presenting all earlier real examples **87.07**. Digits 97.47 / 58.5 / 95.52 / 97.15. So the dreams carry almost all of the retention (44.8 -> 83.3) and the whole remaining staged loss (3.8 points clothing, 1.6 digits) is the fidelity of the replayed data (note the upper bound also gives old examples extra training passes).
+
+**Cut-and-paste dreams (our own, `xover:E` in `cortex_rules.py`):** each spatial cell of a dream copied from a randomly chosen one of E stored real traces per class (replay recombining fragments), mixed with the usual dreams at rate mix/16. All-cut-and-paste (E=8): staged **62.7**, far worse (overfits the few stored traces). Mixed 2/16, 4/16, 8/16 with E=8 or 32: 82.5-83.4 vs 83.3 baseline (1 seed). **FAILED**: no gain over independent-bit dreams.
+
+**Early exit (`brain_strict_exit.py`, seed 1, staged chip):** the code is read channel by channel; after each channel the chip answers if the top-2 score gap clears a threshold set on training examples (partial winner agreed with the full winner on >= 99 % of them). Clothing 83.10 -> 83.05 reading 58 % of the active bits (-42 % table reads); digits 95.60 -> 95.20 reading 29 % (-71 %). A real, free efficiency gain: compares and one threshold per step, no accuracy cost on clothing, -0.4 on digits. Memory layout note (not simulated): store the 10 class entries of one input bit side by side so one read returns all 10 contributions.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

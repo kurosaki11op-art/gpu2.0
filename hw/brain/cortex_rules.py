@@ -63,6 +63,28 @@ def _night_real(W, S, on, n, rng, known, st, stn, stc, total, mix, margin, cmax,
     return tick
 
 
+@njit
+def _dreamx(on, n, st, stc, blk, mixp, c, rng, out):
+    """cut-and-paste dream (replay recombines fragments of stored experience): with probability mixp/16 each block of `blk` code bits (one spatial cell) is copied from a randomly chosen one of the class's few stored real traces; otherwise the usual independent-bit dream.
+    xorshift draws, copies and compares only."""
+    rng[0] = _xs32(rng[0])
+    if stc[c] == 0 or np.int64(rng[0] & np.uint32(15)) >= mixp:
+        return _dream(on, n, c, rng, out)
+    nb = on.shape[1]; k = 0
+    for bs in range(0, nb, blk):
+        rng[0] = _xs32(rng[0]); q = np.int64(rng[0] % np.uint32(stc[c]))
+        for t in range(blk):
+            if st[c, q, bs + t]:
+                out[k] = bs + t; k += 1
+    return k
+
+
+def make_stage_xover():
+    base = re.sub(r"^@njit\(cache=True\)\n", "", inspect.getsource(cortex_slow._stage_slow.py_func))
+    stage = base.replace("def _stage_slow(", "def _stage_xover(").replace("tick0):", "tick0, st, stc, blk, mixp):").replace("_dream(on, n, ", "_dreamx(on, n, st, stc, blk, mixp, ")
+    ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _dreamx=_dreamx, np=np); exec("@njit\n" + stage, ns); return ns["_stage_xover"]
+
+
 def make_stage_grade(sh):
     src = f'''
 @njit
@@ -100,6 +122,8 @@ class CortexRules(CortexSlow):
     def __init__(self, n_bits, rule="split", par=0, **kw):
         super().__init__(n_bits, **kw); self.rule, self.par = rule, par; self._night = kw.get("night", 2)
         self._stage_g = make_stage_grade(par) if rule == "grade" else None
+        if rule == "xover":
+            E = int(par or 8); self._sx = make_stage_xover(); C = kw.get("n_cls", 10); self.xst = np.zeros((C, E, n_bits), np.uint8); self.xstc = np.zeros(C, np.int32); self.blk = int(os.environ.get("BLK", 32)); self.mixp = int(os.environ.get("REALMIX", 16))
         if rule == "real":
             E = int(par or 8); self.st = np.zeros((n_cls_of(kw), E, 1), np.int32); self.stn = np.zeros((n_cls_of(kw), E), np.int32); self.stc = np.zeros(n_cls_of(kw), np.int32)
 
@@ -116,6 +140,15 @@ class CortexRules(CortexSlow):
                                    self.ndream, self._night, self.margin, self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick)
 
     def stage(self, code, y):
+        if self.rule == "xover":
+            for c in np.unique(y):
+                if self.xstc[c] == 0:
+                    for i in np.where(y == c)[0][:self.xst.shape[1]]: self.xst[c, self.xstc[c]] = code[i]; self.xstc[c] += 1
+            new = np.unique(y).astype(np.int64); old = np.where(self.known & ~np.isin(np.arange(len(self.known)), new))[0]; A, na = self.pack(code)
+            r, self.tick = self._sx(self.W, self.S, self.on, self.n, self.rng, self.known, A, na, y.astype(np.int64), new, old.astype(np.int64), self.ndream, self._night, self.margin,
+                                    self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick, self.xst, self.xstc, self.blk, self.mixp)
+            if len(y) < 2 * self.ch: self.S[:] = self.W.astype(np.int32) << self.FR
+            return r
         if self.rule == "grade":
             r = self._call(self._stage_g, code, y, self._night)
         else:
