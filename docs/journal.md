@@ -1008,4 +1008,10 @@ A seen digit is paired with a clip of the same digit (different instances); scri
 Reading: a heard word can label a picture with no picture labels (89.7 from a 73.5 %-correct ear), two senses beat one (+0.9 and a large cover when one is damaged), as in the brain. The cost is the second sense's code (23,040 bits) in the table. Not yet tried: cleaning the ear's noisy names with the picture's own neighbours (Module 2), which should close part of 89.7 -> 97.4.
 
 
+## 20 Oct 2026 (night) - Cleaning the ear's names with the picture's own neighbours: 89.7 -> 93.9 with zero picture labels (SIMULATED, 3 seeds; script `brain_strict_twosense2.py`, log `brain_strict_twosense2.log`)
+
+Setup as the honest two-sense test (ear trained on speakers 0-2, correct on 73.5 % of the clips heard with the pictures). In sleep the pictures wait in a buffer (128 or 256); the K=5-8 buffered pictures that overlap each picture most (popcount of AND) pool their class scores with its own; the pooled winner is the new name; a fresh table is learned on the cleaned names; optionally the ear's own name also counts as a vote; 1-2 rounds.
+Picture learner on the ear's names as given 89.70; **cleaned, K=5 buffer 128, 2 rounds, no ear vote 93.70 (names 94.9 % correct)**; with ear vote 93.57; K=8 buffer 256, 2 rounds 93.72 (no vote) / **93.88** (with vote, names 95.0 % correct); 1 round 93.3 / 92.98; true labels (reference) 97.40. So the same sleep-time neighbour pooling that gave few-label gains lifts a heard-word-only label from 89.7 to 93.9 (+4.2), closing more than half of the gap to the true-label result, with no picture labels at all. Remaining gap to true labels 3.5 points; more rounds not tried.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,0 +1,19 @@
+vision (10000, 4608) hearing (2499, 23040) train clips 2499 test clips 500 35s
+seed 1 110s
+seed 2 185s
+seed 3 260s
+ear's names correct                                                    0.7353
+picture learner, ear's names as given                                  0.8970
+picture learner, true labels (reference)                               0.9740
+cleaned: K=5 buffer=128 ear vote=no rounds=1                           0.9330
+  cleaned: K=5 buffer=128 ear vote=no rounds=1 | names correct         0.9411
+cleaned: K=5 buffer=128 ear vote=no rounds=2                           0.9370
+  cleaned: K=5 buffer=128 ear vote=no rounds=2 | names correct         0.9486
+cleaned: K=5 buffer=128 ear vote=yes rounds=1                          0.9298
+  cleaned: K=5 buffer=128 ear vote=yes rounds=1 | names correct        0.9404
+cleaned: K=5 buffer=128 ear vote=yes rounds=2                          0.9357
+  cleaned: K=5 buffer=128 ear vote=yes rounds=2 | names correct        0.9487
+cleaned: K=8 buffer=256 ear vote=no rounds=2                           0.9372
+  cleaned: K=8 buffer=256 ear vote=no rounds=2 | names correct         0.9501
+cleaned: K=8 buffer=256 ear vote=yes rounds=2                          0.9388
+  cleaned: K=8 buffer=256 ear vote=yes rounds=2 | names correct        0.9497
