@@ -23,3 +23,8 @@ speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
 core, two-sense width (NB 27,648, AW 15): PASS
 neighbour unit (sleep cleaning): PASS
 sleep cleaning, chip scores + neighbours == model: PASS
+whole two-sense chip (retina + cochlea + one core): PASS
+sound chip, whole chain (aligned): SKIP (data missing: speech_framesums_int.npz)
+Tang Nano board design: PASS
+host schedule == chip model: PASS (rerun alone with the regenerated sep_fashion cache)
+failures: 0  skipped (data missing): 6 (cochlea x3, general encoder sound x2, sound chip whole chain: need speech_framesums_int.npz, run on the PC)
