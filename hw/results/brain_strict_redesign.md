@@ -80,6 +80,8 @@ No view type lifts clothing above normal learning; on digits only 1-pixel shifts
 | Stride-1 encoder (ENC_S1) | all at once: digits 97.0 -> 97.6, clothing 86.0 -> 87.3 (staged +0.7); same memory |
 | Prototype dreams + stride-1 encoder | not additive: clothing staged 82.55 (prototype dreams alone 83.3), 298 KB against 129 KB |
 | 64 / 128 detectors per channel | no gain worth the memory (clothing staged 82.0 / 80.7, 2x / 4x memory) |
+| **Few-shot new spoken words under margin 256** (base 15 words, k = 1 / 2 / 5 recordings) | new words 24.4 / 39.3 / 51.2 -> **30.4 / 46.9 / 61.7**, with three time-shifted views 31.4 / 49.8 / 64.4; old words 75.0 / 73.4 / 70.5 -> 77.5 / 76.3 / 73.6; one recording still weak |
+| Novelty recruitment under the new settings | still worse (50-57 % vs 79 % at 2 % labels) |
 | RTL hooks `CORTEX_HOOKS` (top margin, write counter) | bit-exact, 0 mismatches over 200 lines |
 
 ## Still open
