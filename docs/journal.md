@@ -851,4 +851,9 @@ Unlabelled codes wait in a buffer of B (64 / 128); the K buffered codes that ove
 Pseudo-label precision stays 99.5 % on digits, 97.9-98.8 % on clothing (gate only: 99.7 %). So Module 2 is a clear win on digits (+1.7 to +3.8 with a lower margin cut, which the buffer makes safe), and a +2.35 gain on clothing only with the lower cut. Second round (Q=0/10, B=128/256) running.
 
 
+## 20 Oct 2026 (night) - Module 2 round 2 (SIMULATED, 3 seeds, 5 % labels)
+
+Matched cut Q=10: gate only digits 91.33 / clothing 76.28; Module 2 digits 92.7-93.6, clothing 75.8-76.1 (no gain). Q=0, B=128: digits 93.75, clothing **78.32** (+2.0), clothing label precision 97.2 %. 2 % labels, Q=10: digits 93.5, clothing 76.1. Pattern across every idea so far: digits gain, clothing and words gain little or nothing; the ceiling check puts the limit in the code (confusable shirt/T-shirt/pullover/coat classes, twin words), so the next redesign target is Module 3, a code that separates those classes. Logs `k2_mnist.log`, `k2_fashion.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

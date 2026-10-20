@@ -148,30 +148,5 @@
     "pseudo_precision": 0.9953
    }
   ]
- },
- "fewa:0.02:25": {
-  "acc": 0.851,
-  "seeds": [
-   0.8475,
-   0.867,
-   0.8385
-  ],
-  "info": [
-   {
-    "labelled": 200,
-    "pseudo_used": 4471,
-    "pseudo_precision": 0.9987
-   },
-   {
-    "labelled": 200,
-    "pseudo_used": 5339,
-    "pseudo_precision": 0.9985
-   },
-   {
-    "labelled": 200,
-    "pseudo_used": 4944,
-    "pseudo_precision": 0.9958
-   }
-  ]
  }
 }

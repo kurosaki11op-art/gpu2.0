@@ -1,0 +1,17 @@
+codes (10000, 4608) 12s
+fewk:0.05:0:5:128 seed 1 0.778 {'labelled': 500, 'pseudo_used': 9094, 'pseudo_precision': 0.9633} 35s
+fewk:0.05:0:5:128 seed 2 0.7915 {'labelled': 500, 'pseudo_used': 9254, 'pseudo_precision': 0.9872} 54s
+fewk:0.05:0:5:128 seed 3 0.78 {'labelled': 500, 'pseudo_used': 9225, 'pseudo_precision': 0.9649} 76s
+fewk:0.05:10:5:128 seed 1 0.7295 {'labelled': 500, 'pseudo_used': 8245, 'pseudo_precision': 0.9831} 95s
+fewk:0.05:10:5:128 seed 2 0.7775 {'labelled': 500, 'pseudo_used': 8636, 'pseudo_precision': 0.9906} 112s
+fewk:0.05:10:5:128 seed 3 0.7755 {'labelled': 500, 'pseudo_used': 8777, 'pseudo_precision': 0.9883} 128s
+fewk:0.05:10:8:256 seed 1 0.7505 {'labelled': 500, 'pseudo_used': 7829, 'pseudo_precision': 0.9936} 145s
+fewk:0.05:10:8:256 seed 2 0.7605 {'labelled': 500, 'pseudo_used': 8278, 'pseudo_precision': 0.9694} 162s
+fewk:0.05:10:8:256 seed 3 0.7615 {'labelled': 500, 'pseudo_used': 8438, 'pseudo_precision': 0.9921} 179s
+fewk:0.02:10:5:128 seed 1 0.726 {'labelled': 200, 'pseudo_used': 8390, 'pseudo_precision': 0.9825} 197s
+fewk:0.02:10:5:128 seed 2 0.7765 {'labelled': 200, 'pseudo_used': 8639, 'pseudo_precision': 0.9876} 217s
+fewk:0.02:10:5:128 seed 3 0.7795 {'labelled': 200, 'pseudo_used': 8873, 'pseudo_precision': 0.9892} 234s
+fewa:0.05:10 seed 1 0.7515 {'labelled': 500, 'pseudo_used': 7075, 'pseudo_precision': 0.9942} 248s
+fewa:0.05:10 seed 2 0.765 {'labelled': 500, 'pseudo_used': 7328, 'pseudo_precision': 0.9962} 262s
+fewa:0.05:10 seed 3 0.772 {'labelled': 500, 'pseudo_used': 7628, 'pseudo_precision': 0.9969} 275s
+fewa:0.02:10 seed 1 0.7545 {'labelled': 200, 'pseudo_used': 6999, 'pseudo_precision': 0.9947} 291s

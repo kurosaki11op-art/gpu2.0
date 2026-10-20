@@ -123,55 +123,5 @@
     "pseudo_precision": 0.9886
    }
   ]
- },
- "fewk:0.02:25:5:64": {
-  "acc": 0.725,
-  "seeds": [
-   0.7155,
-   0.695,
-   0.7645
-  ],
-  "info": [
-   {
-    "labelled": 200,
-    "pseudo_used": 8176,
-    "pseudo_precision": 0.9814
-   },
-   {
-    "labelled": 200,
-    "pseudo_used": 6653,
-    "pseudo_precision": 0.9723
-   },
-   {
-    "labelled": 200,
-    "pseudo_used": 8120,
-    "pseudo_precision": 0.9882
-   }
-  ]
- },
- "fewa:0.02:25": {
-  "acc": 0.7305,
-  "seeds": [
-   0.7435,
-   0.724,
-   0.724
-  ],
-  "info": [
-   {
-    "labelled": 200,
-    "pseudo_used": 5294,
-    "pseudo_precision": 0.9941
-   },
-   {
-    "labelled": 200,
-    "pseudo_used": 5638,
-    "pseudo_precision": 0.9911
-   },
-   {
-    "labelled": 200,
-    "pseudo_used": 5885,
-    "pseudo_precision": 0.998
-   }
-  ]
  }
 }
