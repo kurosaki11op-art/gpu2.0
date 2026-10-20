@@ -1,0 +1,17 @@
+picture code (10000, 4608) most alike classes {0: [2, 4], 1: [3, 4], 2: [4, 6], 3: [4, 1], 4: [2, 6], 5: [7, 9], 6: [4, 2], 7: [9, 5], 8: [4, 9], 9: [8, 7]} | 11s
+seed 1 90s
+seed 2 169s
+seed 3 245s
+true labels (reference)                              0.8655
+uniform, 27 % wrong | as given                       0.8492
+uniform, 27 % wrong | cleaned                        0.8543
+uniform, 27 % wrong | cleaned names right            0.9511
+uniform, 40 % wrong | as given                       0.8403
+uniform, 40 % wrong | cleaned                        0.8513
+uniform, 40 % wrong | cleaned names right            0.9461
+confusable, 27 % wrong | as given                    0.8320
+confusable, 27 % wrong | cleaned                     0.8543
+confusable, 27 % wrong | cleaned names right         0.9529
+confusable, 40 % wrong | as given                    0.7872
+confusable, 40 % wrong | cleaned                     0.8520
+confusable, 40 % wrong | cleaned names right         0.9429

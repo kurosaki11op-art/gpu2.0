@@ -32,6 +32,9 @@ With labels the CNN is 0.5-1 point ahead; with **no picture labels SPARK is ahea
 ## Second dataset pair (SIMULATED, 3 seeds)
 MNIST pictures + Speech Commands spoken digits (many speakers, varied microphones): ear alone on unseen speakers 75.6, its names 72.5 % right; picture learner true labels 97.40; **zero picture labels 92.30 as given, 96.93 after sleep cleaning** (names 98.1 % right); both senses 98.87; picture 25 % damaged + sound 98.42 (87.15 without sound). See the [journal](../../docs/journal.md).
 
+## Clothing with no picture labels (SIMULATED ear, 3 seeds, one pass)
+With a name source that is right only 60-73 % of the time (errors random, or confusable: shirt / T-shirt / pullover / coat), sleep cleaning lifts clothing from 83.2 / 78.7 (names as given, confusable errors) to **85.4 / 85.2**, against 86.55 with every true label (cleaned names 94-95 % right). This is the digits result carried to the class set that limited the few-label tests (78 vs 83.3). The ear is simulated; there is no spoken clothing set. See the [journal](../../docs/journal.md).
+
 ## Limits
 - SIMULATED model plus RTL simulation; nothing measured on silicon or the board.
 - Two dataset pairs (MNIST + FSDD spoken digits, MNIST + Speech Commands digits); 2 seeds for the CNN rows, 3 seeds for SPARK.
