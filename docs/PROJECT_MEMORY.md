@@ -41,6 +41,8 @@ Last updated: 2026-10-19.
     `docs/brain_principles_audit.md` (local rule, no outside conductor, few labels, one pass with no stored data, innate or
     locally learned sensing, cheap and sparse). Never describe the chip as "learning like a brain" beyond what the audit allows.
 
+12. **No-regression rule (20 Oct night, user).** A change counts as a fix only if, against the shipped settings (margin 256 / 1,500 dreams / 1 night), it passes all three at once, 3 seeds, SIMULATED: digits staged >= 95.5, clothing staged >= 83.3, words (20) clean >= 73.3 with oldest words not lower. Anything that gains on one and loses on another is recorded as a failure (or as a trade-off) and stays a side experiment; do not merge it. A per-dataset switch is allowed only if the chip can decide it from its own signals (for example its surprise rate). Window of failed or traded-off ideas so far: fine code, hard-example replay, cut-and-paste dreams, delay-line cells (see `docs/journal.md`, 20 Oct night).
+
 ## 3. History: the three phases
 
 ### Phase A (9-13 Oct): SPARK v1/v2, a small brain-inspired language chip that helps a GPU
@@ -226,6 +228,10 @@ dreams with lateral inhibition, fixed-loudness onset. Also: stages blended in on
 
 Update margin **256** (core parameter `MARGIN`, was 32), **1,500** dreams per old class per stage (was 6,000), **1** night pass (was 2). Staged / all at once, shipped settings -> new: digits 94.1 / 97.0 -> 95.5 / 97.5; clothing 80.8 / 86.0 -> 83.3 / 86.55 (stride-1 encoder 83.65 / 87.2); spoken words clean 68.5 -> 73.35, last-stage words 50.6 -> 57.1.
 No extra memory; RTL bit-exact at margin 256 (`run_check_cortex_hooks.py --margin=256`). Also in the overnight round: noisy-copy training lifts clean and noise accuracy (words clean 69.2 -> 73.3, 5 dB 33.5 -> 56.4; control pending), the stride-1 encoder lifts all-at-once on both image sets, RTL hooks (`CORTEX_HOOKS`: top margin, write counter) are bit-exact.
+
+## Staged learning and efficiency findings (20 Oct 2026 night, SIMULATED)
+
+Isolation: blocked classes with no dreams 44.8 clothing, shipped staged 83.3, replaying all earlier real data 87.1: the staged loss (clothing 3.8, digits 1.6) is replay fidelity. Failed: prioritised replay, graded surprise, budget, night downscaling, cut-and-paste dreams, detector coverage, reward-gated detectors, graded code, second layer, fovea. Traded off: fine code (one-pass 88.1 / 98.0, staged lower), hard-example replay (clothing +1.2, digits -0.4 to -1.0), coincidence cells (twin +4.8, old words -1.7). Wins: Module 2 sleep category formation for few labels (digits 5 % labels 89.9 -> 91-94), timing cells (twin +4.8), early exit (clothing reads 58 % of the active bits, digits 29 %, at -0.05 / -0.4 accuracy). The single-layer code saturates near 88 for clothing (kernel readout 88.35).
 
 ## Start here for a fresh session (21 Oct 2026)
 
