@@ -43,13 +43,13 @@ def _night_prio(W, S, on, n, rng, known, total, margin, cmax, top, ch, K, FR, RN
 
 
 @njit
-def _night_real(W, S, on, n, rng, known, st, stn, stc, total, mix, drop, rmargin, margin, cmax, top, ch, K, FR, RND, tick0, night_stop, stats):
+def _night_real(W, S, on, n, rng, known, st, stn, stc, total, mixc, drop, rmargin, margin, cmax, top, ch, K, FR, RND, tick0, night_stop, stats):
     """Night with a few stored real traces per class (hippocampal-style index): each replay is, with probability mix/16, one of the class's stored real codes, otherwise an independent-bit dream.
     Class order is round robin; xorshift draws only."""
     C = W.shape[0]; buf = np.zeros(on.shape[1], np.int32); kn = np.where(known)[0]; tick = tick0; blockw = 0
     for j in range(total):
         c = kn[j % len(kn)]; rng[0] = _xs32(rng[0]); r = rng[0]; isreal = False
-        if stc[c] > 0 and np.int64(r & np.uint32(15)) < mix:
+        if stc[c] > 0 and np.int64(r & np.uint32(15)) < mixc[c]:
             isreal = True; q = np.int64((r >> np.uint32(4)) % np.uint32(stc[c])); na = stn[c, q]
             k = 0
             for t in range(na):
@@ -179,7 +179,16 @@ class CortexRules(CortexSlow):
             if len(np.where(self.known)[0]) > len(np.unique(y)):
                 if self.rule == "real":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
-                    self.tick = _night_real(self.W, self.S, self.on, self.n, self.rng, self.known, self.st, self.stn, self.stc, int(total), int(os.environ.get("REALMIX", 8)), int(os.environ.get("DROP", 0)), int(os.environ.get("RMARGIN", self.margin)), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, self.night_stop, self.stats)
+                    mixc = np.full(len(self.known), int(os.environ.get("REALMIX", 8)), np.int64)
+                    if os.environ.get("ADAPT"):                              # self-test: the fraction of a class's stored hard traces the table now gets wrong sets that class's real-replay share (0 when all are still recognised)
+                        Wi = self.W.astype(np.int32); mixc[:] = 0
+                        for c in kn:
+                            if self.stc[c] == 0: continue
+                            bad = 0
+                            for q in range(self.stc[c]):
+                                sc_ = Wi[:, self.st[c, q, :self.stn[c, q]]].sum(1); sc_[~self.known] = -(1 << 30); bad += int(sc_.argmax() != c)
+                            mixc[c] = (16 * bad) // self.stc[c]
+                    self.tick = _night_real(self.W, self.S, self.on, self.n, self.rng, self.known, self.st, self.stn, self.stc, int(total), mixc, int(os.environ.get("DROP", 0)), int(os.environ.get("RMARGIN", self.margin)), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, self.night_stop, self.stats)
                 elif self.rule == "prio":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
                     self.tick = _night_prio(self.W, self.S, self.on, self.n, self.rng, self.known, int(total), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, int(self.par or 256))

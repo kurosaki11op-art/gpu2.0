@@ -924,4 +924,9 @@ Store, per class, the E real examples the day found hardest (smallest gap betwee
 Clothing staged: E=2 83.75, 4 83.92, 8 84.08, 16 84.23 (mix 16) / 84.37 (mix 8), 64 84.52 vs 83.27 shipped (random first-E traces: 83.3-83.6). So hard examples carry far more than random ones (16 hard traces = 200 random traces). Digits staged: E=4 95.13, E=16 94.78, E=8 94.5-94.9 at every mix, noisy copies (drop 25 % / 12.5 %) 94.5-94.7, replay writes only on errors (margin 0) 94.55, hardest-among-correct 94.6-94.8, vs 95.52 shipped; even 8 random traces at 6 % share gave 92.6. **Not a clear win**: clothing +0.7 to +1.2, digits -0.4 to -1.0; the digits damage was not removed by noise, a smaller write margin or excluding misclassified outliers. Memory would also grow (16 traces x 10 classes x 263 indices x 13 bit = 68 KB). Staged loss on clothing stays ~2.3 points from the one-pass number.
 
 
+## 20 Oct 2026 (night) - Adaptive real-replay share FAILED on digits (SIMULATED, 3 seeds)
+
+The share of real replay per class was set by a self-test (fraction of its stored hard traces the table now gets wrong; 0 = dreams only). Clothing E=8 / 32: 83.88 / 84.62; digits E=8 / 32: 94.53 / 94.77 vs 95.52 shipped. The digits loss is not removed by an adaptive share (the hardest traces are nearly always among the "wrong", so the share stays high), nor by noisy copies, a write margin of 0, or excluding outliers; random traces at a 6 % share cost digits 3 points, so replaying a few real items hurts digits for a reason I have not found. Under the no-regression rule the hard-example buffer is not merged. Started: 35-word matched baseline (`peak`, `coin`, margin 256) to settle F1 and the coincidence cells at scale; log `brain_strict_peak35_m256.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
