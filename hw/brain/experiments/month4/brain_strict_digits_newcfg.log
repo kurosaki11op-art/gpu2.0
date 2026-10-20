@@ -1,0 +1,18 @@
+codes (10000, 4608) 12s
+base seed 1 0.956 {} 17s
+base seed 2 0.955 {} 21s
+base seed 3 0.9545 {} 26s
+fewa:0.02:0 seed 1 0.9095 {'labelled': 200, 'pseudo_used': 8652, 'pseudo_precision': 0.9815} 40s
+fewa:0.02:0 seed 2 0.9275 {'labelled': 200, 'pseudo_used': 9025, 'pseudo_precision': 0.9864} 51s
+fewa:0.02:0 seed 3 0.915 {'labelled': 200, 'pseudo_used': 8887, 'pseudo_precision': 0.9944} 62s
+views s1 -> 5 views per example
+fews:0.02:0 seed 1 0.9435 {'labelled': 200, 'pseudo_used': 9363, 'pseudo_precision': 0.9968} 110s
+fews:0.02:0 seed 2 0.9465 {'labelled': 200, 'pseudo_used': 9325, 'pseudo_precision': 0.9974} 134s
+fews:0.02:0 seed 3 0.9515 {'labelled': 200, 'pseudo_used': 9230, 'pseudo_precision': 0.9972} 159s
+fews:0.05:0 seed 1 0.9505 {'labelled': 500, 'pseudo_used': 9121, 'pseudo_precision': 0.9971} 183s
+fews:0.05:0 seed 2 0.947 {'labelled': 500, 'pseudo_used': 9160, 'pseudo_precision': 0.9978} 211s
+fews:0.05:0 seed 3 0.951 {'labelled': 500, 'pseudo_used': 9189, 'pseudo_precision': 0.9985} 236s
+gate:v seed 1 0.9565 {'kept_fraction': 0.6793} 250s
+gate:v seed 2 0.9565 {'kept_fraction': 0.6902} 262s
+gate:v seed 3 0.951 {'kept_fraction': 0.6712} 274s
+{"base": 0.9552, "fewa:0.02:0": 0.9173, "fews:0.02:0": 0.9472, "fews:0.05:0": 0.9495, "gate:v": 0.9547}
