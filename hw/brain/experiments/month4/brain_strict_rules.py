@@ -21,7 +21,7 @@ for arm in ARMS:
     rule, _, par = arm.partition(":"); out = {"staged": [], "once": []}
     for seed in range(1, SEEDS + 1):
         for mode in ("staged", "once"):
-            m = CortexSlow(NB, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if rule == "base" else CortexRules(NB, rule=rule, par=int(par or 0), ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
+            m = CortexSlow(NB, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if rule == "base" else CortexRules(NB, rule=rule, par=int(par or 0), ch=100, K=5, night_stop=int(os.environ.get("NSTOP", 2)), daydream=1, seed=seed, **CFG)
             for i, s in enumerate(STAGES if mode == "staged" else [tuple(range(10))]):
                 o = np.where(np.isin(ytr, s))[0]; o = o[np.random.RandomState(100 * seed + i).permutation(len(o))]; m.stage(ctr[o], ytr[o])
             out[mode].append(float((m.predict(cte) == yte).mean()))

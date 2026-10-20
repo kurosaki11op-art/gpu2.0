@@ -284,6 +284,14 @@ class CortexRules(CortexSlow):
                         ids = np.where(y == c)[0]
                         if sc_all is not None:                               # keep the hardest examples: smallest gap between the right class and the best rival (the ones the day had to correct)
                             s_ = sc_all[ids].copy(); t_ = s_[:, c].copy(); s_[:, c] = -(1 << 30); s_[:, ~self.known] = -(1 << 30); gap_ = t_ - s_.max(1); ids = ids[np.argsort(np.where(gap_ < 0, 1 << 20, gap_))] if os.environ.get('HARD') == '2' else ids[np.argsort(gap_)]     # HARD=2: hardest among the correctly classified (misclassified outliers last)
+                        if os.environ.get("FROZEN"):                           # control: store independent-bit DREAMS of the stage's class mean instead of real examples (same repetition, no real structure)
+                            pm = code[y == c].mean(0); gg = np.random.RandomState(int(c) + 77)
+                            for q in range(self.st.shape[1]):
+                                dz = np.nonzero(gg.random_sample(len(pm)) < pm)[0]
+                                if len(dz) > self.st.shape[2]:
+                                    ns = np.zeros(self.st.shape[:2] + (len(dz),), np.int32); ns[:, :, :self.st.shape[2]] = self.st; self.st = ns
+                                self.st[c, self.stc[c], :len(dz)] = dz; self.stn[c, self.stc[c]] = len(dz); self.stc[c] += 1
+                            continue
                         for i in ids[:self.st.shape[1]]:
                             q = self.stc[c]; self.st[c, q, :A.shape[1]] = A[i]; self.stn[c, q] = na[i]; self.stc[c] += 1
             if len(np.where(self.known)[0]) > len(np.unique(y)):
@@ -299,6 +307,7 @@ class CortexRules(CortexSlow):
                                 sc_ = Wi[:, self.st[c, q, :self.stn[c, q]]].sum(1); sc_[~self.known] = -(1 << 30); bad += int(sc_.argmax() != c)
                             mixc[c] = (16 * bad) // self.stc[c]
                     self.tick = _night_real(self.W, self.S, self.on, self.n, self.rng, self.known, self.st, self.stn, self.stc, int(total), mixc, int(os.environ.get("DROP", 0)), int(os.environ.get("RMARGIN", self.margin)), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, self.night_stop, self.stats)
+                    if os.environ.get("CONS"): self._night_only()                              # then the normal dream night, which gives the slow table the time to follow the fast one
                 elif self.rule == "prio":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
                     self.tick = _night_prio(self.W, self.S, self.on, self.n, self.rng, self.known, int(total), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, int(self.par or 256))
