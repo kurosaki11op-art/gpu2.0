@@ -1,0 +1,30 @@
+fashion coarse             one pass  accuracy 0.8655
+fashion fine               one pass  accuracy 0.8813
+fashion sum of both        one pass  accuracy 0.8820
+fashion second look 20%    one pass  accuracy 0.8803   (mean active bits read 374)
+fashion second look 40%    one pass  accuracy 0.8820   (mean active bits read 483)
+fashion second look 60%    one pass  accuracy 0.8820   (mean active bits read 592)
+fashion second look 80%    one pass  accuracy 0.8820   (mean active bits read 701)
+fashion coarse             staged    accuracy 0.8327
+fashion fine               staged    accuracy 0.8285
+fashion sum of both        staged    accuracy 0.8373
+fashion second look 20%    staged    accuracy 0.8372   (mean active bits read 374)
+fashion second look 40%    staged    accuracy 0.8375   (mean active bits read 483)
+fashion second look 60%    staged    accuracy 0.8373   (mean active bits read 592)
+fashion second look 80%    staged    accuracy 0.8373   (mean active bits read 701)
+fashion active bits read per decision: coarse 265, fine 544, both 810
+mnist coarse             one pass  accuracy 0.9747
+mnist fine               one pass  accuracy 0.9803
+mnist sum of both        one pass  accuracy 0.9810
+mnist second look 20%    one pass  accuracy 0.9810   (mean active bits read 338)
+mnist second look 40%    one pass  accuracy 0.9810   (mean active bits read 431)
+mnist second look 60%    one pass  accuracy 0.9810   (mean active bits read 524)
+mnist second look 80%    one pass  accuracy 0.9810   (mean active bits read 617)
+mnist coarse             staged    accuracy 0.9552
+mnist fine               staged    accuracy 0.9470
+mnist sum of both        staged    accuracy 0.9552
+mnist second look 20%    staged    accuracy 0.9553   (mean active bits read 338)
+mnist second look 40%    staged    accuracy 0.9552   (mean active bits read 431)
+mnist second look 60%    staged    accuracy 0.9552   (mean active bits read 524)
+mnist second look 80%    staged    accuracy 0.9552   (mean active bits read 617)
+mnist active bits read per decision: coarse 245, fine 465, both 710
