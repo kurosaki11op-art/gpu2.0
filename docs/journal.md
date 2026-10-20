@@ -827,4 +827,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 **Status:** F8 partly improved (timing cells), F7/F10/F3 still open. Next: Module 2 (category formation in sleep, bounded 64-code buffer).
 
 
+## 20 Oct 2026 (night) - Ceiling check (SIMULATED, clothing, float ridge readout on the same images)
+
+Shipped code 86.35, shifted-stride code 87.4, both side by side 87.75, 64 detectors per channel 87.65. The chip's one-pass (non-staged) result is already 86.55, so a richer visual code can add at most about 1.2 points. The 3.2-point loss that remains is staged (83.27 vs 86.55), so it is a continual-learning loss, which a training method can attack; Module 3 (richer code) is low value. Script `hw/brain/experiments/month4/brain_strict_ceiling2.py`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
