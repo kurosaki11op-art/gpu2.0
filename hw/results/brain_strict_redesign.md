@@ -85,6 +85,11 @@ No view type lifts clothing above normal learning; on digits only 1-pixel shifts
 | Novelty recruitment under the new settings | still worse (50-57 % vs 79 % at 2 % labels) |
 | RTL hooks `CORTEX_HOOKS` (top margin, write counter) | bit-exact, 0 mismatches over 200 lines |
 
+## Memory and energy (ESTIMATED, arithmetic on stated numbers, not a layout)
+
+- **Dreams per learned example.** Five stages of two classes, 2,000 examples each: shipped settings (6,000 dreams per old class per stage, 2 night passes) = 120,000 day dreams + 336,000 night dreams = 456,000 dreams for 10,000 examples (45.6 per example); new settings (1,500, 1 night pass) = 30,000 + 42,000 = 72,000 (7.2 per example), **6.3x fewer**. The earlier layout-based estimate (`hw/results/cortex_asic_estimate.md`, digits 45-62 uJ per learned example, about 95 % of it dreams) therefore scales to about **9-12.5 uJ per learned example** with the new settings, at higher accuracy. ESTIMATED; the layout was not re-run.
+- **Pruning the slow table.** Slow table 46.1 KB, fast table 28.8 KB, dream counts 57.6 KB (129.4 KB in all). A sparse store (13-bit index + 8-bit value = 21 bits per kept synapse) at 29.6 % kept (clothing, no accuracy loss) needs 35.8 KB (-10 KB, -8 % of the chip); at 21.5 % kept (-0.7 points) 26 KB (-20 KB, -15 %). Dream counts cannot be pruned (clothing 80.8 -> 74.9 at a 1/16 cut). So pruning is a modest saving, not a fix for the memory-bound energy.
+
 ## Still open
 
 Few labels on sound, novelty from inside (the chip noticing a new class itself), a context signal for fully mixed streams with no rewards at all (the tested one needs recent rewards), a temporal layer for twin words, neighbour-conditioned dreams (needs several times the dream memory), and the RTL for sleep pressure and context-limited self-labelling (both are host-level logic in these tests).
