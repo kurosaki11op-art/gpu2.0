@@ -1,0 +1,18 @@
+seed 1 39s
+seed 2 61s
+set sc
+novelty AUROC, top score of the joint code                                       0.9662
+novelty AUROC, margin                                                            0.9656
+novelty AUROC, picture bits only                                                 0.5298
+novelty AUROC, sound bits only                                                   0.7686
+flag recall (new pairs flagged)                                                  0.8938
+flag precision (flagged that are new)                                            0.9934
+flagged pairs                                                                    1797.0000
+flagged pairs: group names right                                                 0.9712
+flagged pairs: names right after sleep cleaning                                  0.9821
+ours (flag + groups + 30-ish names + sleep) | all 10 digits (both senses at test) 0.9732
+ours (flag + groups + 30-ish names + sleep) | new digits 8, 9 only               0.9828
+ours (flag + groups + 30-ish names + sleep) | old digits 0-7 after               0.9708
+oracle (true labels for the whole stream) | all 10 digits (both senses at test)  0.9763
+oracle (true labels for the whole stream) | new digits 8, 9 only                 0.9583
+oracle (true labels for the whole stream) | old digits 0-7 after                 0.9808
