@@ -12,7 +12,7 @@ import cochlea, cochlea_int, detector_learn, cross_modal
 from sound_features import SoundFeatures
 from noise_floor import picture as _picture
 from cortex_core import load
-D, ROOT = sys.argv[1], sys.argv[2]; SET = os.environ.get("SET", "fsdd"); t0 = time.time(); STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]; SEEDS = int(os.environ.get("SEEDS", 2)); ROUNDS = int(os.environ.get("ROUNDS", 3)); RESTARTS = int(os.environ.get("RESTARTS", 3)); K = 10
+D, ROOT = sys.argv[1], sys.argv[2]; SET = os.environ.get("SET", "fsdd"); t0 = time.time(); STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]; SEEDS = int(os.environ.get("SEEDS", 2)); ROUNDS = int(os.environ.get("ROUNDS", 3)); RESTARTS = int(os.environ.get("RESTARTS", 3)); K = int(os.environ.get("KG", 10))
 xtr, ytr, xte, yte = load(D, "mnist"); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
 rs = np.random.RandomState(5); idx = np.concatenate([rs.permutation(np.where(np.isin(ytr, s))[0])[:2000] for s in STAGES]); xtr, ytr = xtr[idx], ytr[idx]; ti = rs.permutation(len(xte))[:2000]; xte, yte = xte[ti], yte[ti]
 fes = detector_learn.learn_features(xtr[np.isin(ytr, STAGES[0])]); venc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 1000]) for g in fes], 1) for i in range(0, len(x), 1000)]); vtr, vte = venc(xtr), venc(xte)
@@ -48,9 +48,9 @@ R = {}
 for seed in range(1, SEEDS + 1):
     r = np.random.RandomState(seed); heard = A[np.array([r.choice(tr_i[sy[tr_i] == d]) for d in ytr])]; joint = np.concatenate([vtr, heard], 1)
     tp = np.array([r.choice(te_i[sy[te_i] == d]) for d in yte]); jte = np.concatenate([vte, A[tp]], 1)
-    a = kmeans(joint, K, seed); nm = np.zeros(K, np.int64)
+    a = kmeans(joint, K, seed); nm = np.zeros(K, np.int64); nlab = 0
     for j in range(K):
-        mem = np.where(a == j)[0]; nm[j] = np.bincount(ytr[r.choice(mem, min(5, len(mem)), replace=False)], minlength=10).argmax() if len(mem) else 0
+        mem = np.where(a == j)[0]; nm[j] = np.bincount(ytr[r.choice(mem, min(5, len(mem)), replace=False)], minlength=10).argmax() if len(mem) else 0; nlab += min(1, len(mem))
     names = nm[a]; R.setdefault("round 0: group names right", []).append(float((names == ytr).mean()))
     for rd in range(1, ROUNDS + 1):
         m = cross_modal.fit(joint, names, seed); names = cross_modal.clean_names(m, joint, names, KN=8, B=256, ear_vote=0)                  # the joint table re-names every pair with both senses, pooled over its neighbours
@@ -59,5 +59,5 @@ for seed in range(1, SEEDS + 1):
     R.setdefault("picture learner on the final names (picture only test)", []).append(float((mp.predict(vte) == yte).mean())); R.setdefault("joint learner on the final names (both senses test)", []).append(float((mj.predict(jte) == yte).mean()))
     R.setdefault("reference: picture learner, all true labels", []).append(float((cross_modal.fit(vtr, ytr, seed).predict(vte) == yte).mean())); R.setdefault("reference: joint learner, all true labels", []).append(float((cross_modal.fit(joint, ytr, seed).predict(jte) == yte).mean()))
     print("seed", seed, "%.0fs" % (time.time() - t0), flush=True)
-print("set", SET, "(10 labels in total, groups formed with no labels)")
+print("set", SET, "(%d groups, one label per group; groups formed with no labels)" % K)
 for k, v in R.items(): print("%-64s %.4f" % (k, np.mean(v)), flush=True)
