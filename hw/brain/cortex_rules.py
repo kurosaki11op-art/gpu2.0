@@ -178,6 +178,39 @@ def make_stage_gate():
     ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _practise_m=_practise_m, np=np); exec("@njit\n" + stage, ns); return ns["_stage_gate"]
 
 
+@njit
+def _dreamh(on, n, c, rng, out, act, na, mix, lam, tmp):
+    """boundary dream: with probability mix/16 the dream of the old class c has each spatial cell (32 bits) replaced, with probability lam/16, by the cells of the CURRENT new-class example (act, na: its active bits, ascending); the label stays c. A sample in the overlap region of the old class and the class being learned, made from the dream and today's example only (no stored old data). xorshift draws and copies."""
+    k = _dream(on, n, c, rng, out); rng[0] = _xs32(rng[0])
+    if k == 0 or np.int64(rng[0] & np.uint32(15)) >= mix:
+        return k
+    for t in range(k): tmp[t] = out[t]
+    nb = on.shape[1]; pd = 0; pr = 0; kk = 0
+    for bs in range(0, nb, 32):
+        rng[0] = _xs32(rng[0]); real = np.int64(rng[0] & np.uint32(15)) < lam; hi = bs + 32
+        if real:
+            while pr < na and act[pr] < hi:
+                if act[pr] >= bs:
+                    out[kk] = act[pr]; kk += 1
+                pr += 1
+            while pd < k and tmp[pd] < hi: pd += 1
+        else:
+            while pd < k and tmp[pd] < hi:
+                if tmp[pd] >= bs:
+                    out[kk] = tmp[pd]; kk += 1
+                pd += 1
+            while pr < na and act[pr] < hi: pr += 1
+    return kk
+
+
+def make_stage_bd():
+    base = re.sub(r"^@njit\(cache=True\)\n", "", inspect.getsource(cortex_slow._stage_slow.py_func))
+    stage = base.replace("def _stage_slow(", "def _stage_bd(").replace("tick0):", "tick0, hmix, hlam):").replace("    buf = np.zeros(on.shape[1], np.int32)\n", "    buf = np.zeros(on.shape[1], np.int32); hb = np.zeros(on.shape[1], np.int32)\n", 1)
+    old = "            c = old_cls[rr % len(old_cls)]; rr += 1\n            k = _dream(on, n, c, rng, buf)\n"; assert old in stage
+    stage = stage.replace(old, "            c = old_cls[rr % len(old_cls)]; rr += 1\n            k = _dreamh(on, n, c, rng, buf, acts[i], nacts[i], hmix, hlam, hb)\n", 1)
+    ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _dreamh=_dreamh, np=np); exec("@njit\n" + stage, ns); return ns["_stage_bd"]
+
+
 def make_stage_grade(sh):
     src = f'''
 @njit
@@ -215,6 +248,7 @@ class CortexRules(CortexSlow):
     def __init__(self, n_bits, rule="split", par=0, **kw):
         super().__init__(n_bits, **kw); self.rule, self.par = rule, par; self._night = kw.get("night", 2)
         self._stage_g = make_stage_grade(par) if rule == "grade" else None
+        if rule == "bdream": self._sbd = make_stage_bd(); self.hmix = int(os.environ.get("BMIX", 8)); self.hlam = int(os.environ.get("BLAM", 4))
         if rule == "protect": self._sp = make_stage_protect(int(par or 3))
         if rule == "gate":
             self._sg = make_stage_gate(); g = np.random.RandomState(11); C = kw.get("n_cls", 10); self.ctxmask = np.zeros((C, n_bits), np.uint8); frac = (par or 50) / 100.0
@@ -244,6 +278,12 @@ class CortexRules(CortexSlow):
                                    self.ndream, self._night, self.margin, self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick)
 
     def stage(self, code, y):
+        if self.rule == "bdream":
+            new = np.unique(y).astype(np.int64); old = np.where(self.known & ~np.isin(np.arange(len(self.known)), new))[0]; A, na = self.pack(code)
+            r, self.tick = self._sbd(self.W, self.S, self.on, self.n, self.rng, self.known, A, na, y.astype(np.int64), new, old.astype(np.int64), self.ndream, self._night, self.margin,
+                                     self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick, self.hmix, self.hlam)
+            if len(y) < 2 * self.ch: self.S[:] = self.W.astype(np.int32) << self.FR
+            return r
         if self.rule == "protect":
             r = self._call(self._sp, code, y, self._night)
             if len(y) < 2 * self.ch: self.S[:] = self.W.astype(np.int32) << self.FR
