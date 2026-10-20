@@ -1,0 +1,16 @@
+== shipped
+after stage 0 per-stage accuracy so far [0.69] | night replays 0 writes 0
+after stage 1 per-stage accuracy so far [0.83, 0.75] | night replays 12000 writes 2
+after stage 2 per-stage accuracy so far [0.81, 0.77, 0.76] | night replays 18000 writes 3
+after stage 3 per-stage accuracy so far [0.77, 0.83, 0.79, 0.61] | night replays 24000 writes 14
+after stage 4 per-stage accuracy so far [0.73, 0.83, 0.79, 0.7, 0.53] | night replays 30000 writes 7
+last-stage test clips go to: {'down': 3, 'follow': 1, 'four': 1, 'go': 11, 'house': 2, 'learn': 5, 'left': 3, 'nine': 1, 'on': 1, 'right': 1, 'stop': 3, 'three': 5, 'tree': 3, 'two': 8, 'up': 10, 'wow': 13, 'zero': 16} (own words: ['two', 'up', 'wow', 'zero'] )
+share of all test decisions per class: {'bird': 0.036, 'down': 0.046, 'follow': 0.053, 'four': 0.039, 'go': 0.087, 'house': 0.058, 'learn': 0.063, 'left': 0.056, 'marvin': 0.046, 'nine': 0.039, 'on': 0.089, 'right': 0.041, 'six': 0.041, 'stop': 0.06, 'three': 0.085, 'tree': 0.031, 'two': 0.024, 'up': 0.029, 'wow': 0.034, 'zero': 0.043}
+== hard replay E=16
+after stage 0 per-stage accuracy so far [0.69] | night replays 0 writes 0
+after stage 1 per-stage accuracy so far [0.88, 0.85] | night replays 12256 writes 54
+after stage 2 per-stage accuracy so far [0.87, 0.81, 0.67] | night replays 18032 writes 3
+after stage 3 per-stage accuracy so far [0.81, 0.81, 0.78, 0.68] | night replays 24176 writes 54
+after stage 4 per-stage accuracy so far [0.82, 0.78, 0.82, 0.73, 0.54] | night replays 30064 writes 12
+last-stage test clips go to: {'down': 5, 'follow': 2, 'four': 4, 'go': 6, 'house': 2, 'learn': 4, 'left': 5, 'nine': 3, 'on': 2, 'right': 1, 'stop': 2, 'three': 1, 'tree': 2, 'two': 11, 'up': 9, 'wow': 15, 'zero': 13} (own words: ['two', 'up', 'wow', 'zero'] )
+share of all test decisions per class: {'bird': 0.056, 'down': 0.056, 'follow': 0.058, 'four': 0.051, 'go': 0.06, 'house': 0.06, 'learn': 0.058, 'left': 0.056, 'marvin': 0.051, 'nine': 0.046, 'on': 0.08, 'right': 0.048, 'six': 0.043, 'stop': 0.056, 'three': 0.051, 'tree': 0.027, 'two': 0.043, 'up': 0.029, 'wow': 0.039, 'zero': 0.034}

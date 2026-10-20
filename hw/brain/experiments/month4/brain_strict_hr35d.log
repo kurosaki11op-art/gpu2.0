@@ -1,0 +1,14 @@
+clips 3500 test 717 3s
+channel 0 ready 3s
+channel 1 ready 3s
+channel 2 ready 3s
+channel 3 ready 3s
+channel 4 ready 3s
+channel 5 ready 3s
+channel 6 ready 3s
+channel 7 ready 3s
+channel 8 ready 3s
+channel 9 ready 3s
+hr:16:8 {'clean': 0.6825, '20dB': 0.563, '10dB': 0.4156, '5dB': 0.3031, 'oldest': 0.7381, 'newest': 0.5674, 'twin': 0.6538, 'other': 0.7045} 261s
+hr:8:8 {'clean': 0.6834, '20dB': 0.59, '10dB': 0.4105, '5dB': 0.2882, 'oldest': 0.7286, 'newest': 0.565, 'twin': 0.656, 'other': 0.7045} 519s
+hr:4:8 {'clean': 0.6885, '20dB': 0.583, '10dB': 0.4193, '5dB': 0.2975, 'oldest': 0.7357, 'newest': 0.5626, 'twin': 0.6613, 'other': 0.7095} 780s

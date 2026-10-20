@@ -1,0 +1,13 @@
+clips 2000 test 414 2s
+channel 0 ready 3s
+channel 1 ready 3s
+channel 2 ready 3s
+channel 3 ready 3s
+channel 4 ready 3s
+channel 5 ready 3s
+channel 6 ready 3s
+channel 7 ready 3s
+channel 8 ready 3s
+channel 9 ready 3s
+hr:16:8 {'clean': 0.7271, '20dB': 0.6441, '10dB': 0.5113, '5dB': 0.3696, 'oldest': 0.8182, 'newest': 0.5364, 'twin': 0.7053, 'other': 0.7314} 152s
+hr:8:8 {'clean': 0.6844, '20dB': 0.5982, '10dB': 0.4847, '5dB': 0.3559, 'oldest': 0.7835, 'newest': 0.3448, 'twin': 0.715, 'other': 0.6783} 306s

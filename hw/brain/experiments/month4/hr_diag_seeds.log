@@ -1,0 +1,30 @@
+##### seed 2
+== shipped
+after stage 0 per-stage accuracy so far [0.87] | night replays 0 writes 0
+after stage 1 per-stage accuracy so far [0.79, 0.8] | night replays 12000 writes 3
+after stage 2 per-stage accuracy so far [0.81, 0.83, 0.78] | night replays 18000 writes 3
+after stage 3 per-stage accuracy so far [0.79, 0.86, 0.75, 0.61] | night replays 24000 writes 3
+after stage 4 per-stage accuracy so far [0.77, 0.79, 0.8, 0.72, 0.64] | night replays 30000 writes 9
+last-stage test clips go to: {'down': 3, 'follow': 1, 'four': 1, 'go': 6, 'house': 2, 'learn': 3, 'left': 3, 'stop': 5, 'three': 1, 'tree': 3, 'two': 16, 'up': 10, 'wow': 17, 'zero': 16} (own words: ['two', 'up', 'wow', 'zero'] )
+== hard replay E=16
+after stage 0 per-stage accuracy so far [0.87] | night replays 0 writes 0
+after stage 1 per-stage accuracy so far [0.86, 0.75] | night replays 512 writes 55
+after stage 2 per-stage accuracy so far [0.82, 0.78, 0.74] | night replays 18256 writes 46
+after stage 3 per-stage accuracy so far [0.84, 0.79, 0.84, 0.62] | night replays 24176 writes 38
+after stage 4 per-stage accuracy so far [0.83, 0.81, 0.85, 0.63, 0.0] | night replays 576 writes 15
+last-stage test clips go to: {'down': 10, 'follow': 4, 'four': 9, 'go': 13, 'house': 3, 'learn': 7, 'left': 4, 'marvin': 3, 'nine': 9, 'on': 3, 'right': 3, 'stop': 10, 'three': 3, 'tree': 6} (own words: ['two', 'up', 'wow', 'zero'] )
+##### seed 3
+== shipped
+after stage 0 per-stage accuracy so far [0.9] | night replays 0 writes 0
+after stage 1 per-stage accuracy so far [0.9, 0.78] | night replays 12000 writes 1
+after stage 2 per-stage accuracy so far [0.87, 0.83, 0.76] | night replays 18000 writes 4
+after stage 3 per-stage accuracy so far [0.86, 0.85, 0.8, 0.71] | night replays 24000 writes 8
+after stage 4 per-stage accuracy so far [0.83, 0.88, 0.78, 0.71, 0.54] | night replays 30000 writes 1
+last-stage test clips go to: {'bird': 1, 'down': 3, 'follow': 1, 'four': 3, 'go': 15, 'house': 1, 'learn': 4, 'left': 1, 'on': 1, 'right': 1, 'stop': 2, 'three': 3, 'tree': 3, 'two': 4, 'up': 15, 'wow': 16, 'zero': 13} (own words: ['two', 'up', 'wow', 'zero'] )
+== hard replay E=16
+after stage 0 per-stage accuracy so far [0.9] | night replays 0 writes 0
+after stage 1 per-stage accuracy so far [0.87, 0.85] | night replays 12256 writes 54
+after stage 2 per-stage accuracy so far [0.82, 0.84, 0.71] | night replays 18032 writes 13
+after stage 3 per-stage accuracy so far [0.81, 0.88, 0.82, 0.61] | night replays 24176 writes 39
+after stage 4 per-stage accuracy so far [0.77, 0.86, 0.82, 0.7, 0.53] | night replays 30064 writes 20
+last-stage test clips go to: {'bird': 1, 'down': 2, 'follow': 3, 'four': 7, 'go': 6, 'house': 2, 'learn': 5, 'nine': 3, 'on': 2, 'right': 2, 'stop': 4, 'three': 1, 'tree': 3, 'two': 10, 'up': 10, 'wow': 11, 'zero': 15} (own words: ['two', 'up', 'wow', 'zero'] )

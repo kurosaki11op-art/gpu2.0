@@ -232,7 +232,13 @@ class CortexRules(CortexSlow):
                           self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick)
         return r
 
+    def _follow_only(self):
+        """the night as consolidation only: the slow table follows the fast one for as many steps as a full dream night would give (ndream x known classes x passes / ch), with no dream generated"""
+        for _ in range(max(1, (self.ndream * int(self.known.sum()) * self._night) // self.ch)): _follow(self.S, self.W, self.K, self.FR, self.RND)
+        self.tick += 1
+
     def _night_only(self):
+        if os.environ.get("FOLLOW"): return self._follow_only()
         old = np.where(self.known)[0].astype(np.int64)
         _, self.tick = _stage_slow(self.W, self.S, self.on, self.n, self.rng, self.known, np.zeros((0, 1), np.int32), np.zeros(0, np.int32), np.zeros(0, np.int64), np.zeros(0, np.int64), old,
                                    self.ndream, self._night, self.margin, self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick)
@@ -298,6 +304,7 @@ class CortexRules(CortexSlow):
                 if self.rule == "real":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
                     mixc = np.full(len(self.known), int(os.environ.get("REALMIX", 8)), np.int64)
+                    if os.environ.get("SKIPNEW"): mixc[np.unique(y)] = 0                         # the classes of the stage just learned are not replayed from stored traces yet (dreams only)
                     if os.environ.get("ADAPT"):                              # self-test: the fraction of a class's stored hard traces the table now gets wrong sets that class's real-replay share (0 when all are still recognised)
                         Wi = self.W.astype(np.int32); mixc[:] = 0
                         for c in kn:
@@ -307,7 +314,9 @@ class CortexRules(CortexSlow):
                                 sc_ = Wi[:, self.st[c, q, :self.stn[c, q]]].sum(1); sc_[~self.known] = -(1 << 30); bad += int(sc_.argmax() != c)
                             mixc[c] = (16 * bad) // self.stc[c]
                     self.tick = _night_real(self.W, self.S, self.on, self.n, self.rng, self.known, self.st, self.stn, self.stc, int(total), mixc, int(os.environ.get("DROP", 0)), int(os.environ.get("RMARGIN", self.margin)), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, self.night_stop, self.stats)
-                    if os.environ.get("CONS"): self._night_only()                              # then the normal dream night, which gives the slow table the time to follow the fast one
+                    if os.environ.get("CONS"):
+                        self._night_only()
+                        if os.environ.get("CONS") == "2": self._follow_only()                          # guarantee consolidation even if the dream night stopped early                              # then the normal dream night, which gives the slow table the time to follow the fast one
                 elif self.rule == "prio":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
                     self.tick = _night_prio(self.W, self.S, self.on, self.n, self.rng, self.known, int(total), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, int(self.par or 256))
