@@ -1,0 +1,14 @@
+seed 1 353s
+seed 2 681s
+seed 3 1018s
+set fsdd
+picture alone | purity                                                               0.6664
+picture alone | names right                                                          0.6500
+picture alone | picture learner on the group names (10 labels in total)              0.6705
+sound alone | purity                                                                 0.4115
+sound alone | names right                                                            0.3295
+sound alone | picture learner on the group names (10 labels in total)                0.4510
+both senses joined | purity                                                          0.7252
+both senses joined | names right                                                     0.6638
+both senses joined | picture learner on the group names (10 labels in total)         0.7677
+picture learner, all true labels (reference)                                         0.9740

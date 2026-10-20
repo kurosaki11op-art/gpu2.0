@@ -1,0 +1,14 @@
+seed 1 353s
+seed 2 681s
+seed 3 1018s
+set sc
+picture alone | purity                                                               0.6664
+picture alone | names right                                                          0.6574
+picture alone | picture learner on the group names (10 labels in total)              0.6735
+sound alone | purity                                                                 0.4443
+sound alone | names right                                                            0.3768
+sound alone | picture learner on the group names (10 labels in total)                0.5410
+both senses joined | purity                                                          0.8056
+both senses joined | names right                                                     0.7895
+both senses joined | picture learner on the group names (10 labels in total)         0.8897
+picture learner, all true labels (reference)                                         0.9740

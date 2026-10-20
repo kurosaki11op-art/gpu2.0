@@ -10,7 +10,7 @@ import cochlea, cochlea_int, detector_learn, cross_modal
 from sound_features import SoundFeatures
 from noise_floor import picture as _picture
 from cortex_core import load
-D, ROOT = sys.argv[1], sys.argv[2]; SET = os.environ.get("SET", "fsdd"); t0 = time.time(); STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]; SEEDS = 3; K = 10
+D, ROOT = sys.argv[1], sys.argv[2]; SET = os.environ.get("SET", "fsdd"); t0 = time.time(); STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]; SEEDS = int(os.environ.get('SEEDS', 3)); K = 10
 xtr, ytr, xte, yte = load(D, "mnist"); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
 rs = np.random.RandomState(5); idx = np.concatenate([rs.permutation(np.where(np.isin(ytr, s))[0])[:2000] for s in STAGES]); xtr, ytr = xtr[idx], ytr[idx]; ti = rs.permutation(len(xte))[:2000]; xte, yte = xte[ti], yte[ti]
 fes = detector_learn.learn_features(xtr[np.isin(ytr, STAGES[0])]); venc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 1000]) for g in fes], 1) for i in range(0, len(x), 1000)]); vtr, vte = venc(xtr), venc(xte)
@@ -26,7 +26,7 @@ else:
 pic = cochlea_int.align_word(_picture(S, "low4x4"), 6); sfs = [SoundFeatures(32, c, 3, 3, 1, 1, 4, 4).fit(pic[train_c][:12000]) for c in CHS]; A = np.concatenate([f.encode(pic) for f in sfs], 1); tr_i = np.where(train_c)[0]
 
 
-def kmeans(X, k, seed, iters=25, restarts=6):
+def kmeans(X, k, seed, iters=25, restarts=int(os.environ.get('RESTARTS', 6))):
     """competitive learning on binary codes: assign to the template with the best overlap score (x . c - |c|^2 / 2), templates = member means; best of several restarts by total score"""
     X = X.astype(np.float32); best = (-1e18, None); g = np.random.RandomState(seed)
     for _ in range(restarts):
@@ -56,6 +56,7 @@ for seed in range(1, SEEDS + 1):
             mem = np.where(a == j)[0]; nm[j] = np.bincount(ytr[r.choice(mem, min(5, len(mem)), replace=False)], minlength=10).argmax() if len(mem) else 0
         names = nm[a]; R.setdefault(name + " | names right", []).append(float((names == ytr).mean()))
         m = cross_modal.fit(vtr, names, seed); R.setdefault(name + " | picture learner on the group names (10 labels in total)", []).append(float((m.predict(vte) == yte).mean()))
+        mc, labc = cross_modal.learn_picture(vtr, names, rounds=2, seed=seed); R.setdefault(name + " | ... and the names cleaned in sleep (neighbour pooling)", []).append(float((mc.predict(vte) == yte).mean())); R.setdefault(name + " | ... cleaned names right", []).append(float((labc == ytr).mean()))
     R.setdefault("picture learner, all true labels (reference)", []).append(float((cross_modal.fit(vtr, ytr, seed).predict(vte) == yte).mean()))
     print("seed", seed, "%.0fs" % (time.time() - t0), flush=True)
 print("set", SET)
