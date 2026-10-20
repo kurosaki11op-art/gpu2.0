@@ -1,2 +1,14 @@
 clips 2000 test 414 2s
 channel 0 ready 5s
+channel 1 ready 9s
+channel 2 ready 14s
+channel 3 ready 19s
+channel 4 ready 24s
+channel 5 ready 28s
+channel 6 ready 32s
+channel 7 ready 36s
+channel 8 ready 42s
+channel 9 ready 47s
+channel 10 ready 52s
+channel 11 ready 54s
+tm:32 {'clean': 0.7415, '20dB': 0.6747, '10dB': 0.5338, '5dB': 0.3889, 'oldest': 0.7879, 'newest': 0.613, 'twin': 0.7391, 'other': 0.742} 229s

@@ -96,3 +96,8 @@ No view type lifts clothing above normal learning; on digits only 1-pixel shifts
 Few labels on sound, novelty from inside (the chip noticing a new class itself), a context signal for fully mixed streams with no rewards at all (the tested one needs recent rewards), a temporal layer for twin words, neighbour-conditioned dreams (needs several times the dream memory), and the RTL for sleep pressure and context-limited self-labelling (both are host-level logic in these tests).
 
 Related: [Results index](INDEX.md), [Brain principles audit](../../docs/brain_principles_audit.md), [Journal](../../docs/journal.md), [Project memory](../../docs/PROJECT_MEMORY.md)
+
+## 20 Oct 2026 late: own training rule and timing cells (SIMULATED)
+- Prioritised replay (our own rule) failed: clothing 79.8-80.5 vs 83.27 shipped, digits 95.1-95.3 vs 95.52. Graded surprise, synaptic budget and night downscaling also failed to beat the shipped rule. Shipped margin 256 + 1500 dreams rule stays.
+- Sound timing cells (`tm:32`): clean 74.15 vs 73.35, newest 61.3 vs 57.1, twin 73.9 vs 69.1 (20 words). Small gain. Geometry layer failed (58.2 clean).
+- 35-word onset confirmation incomplete (no matched baseline).

@@ -5,3 +5,7 @@ mnist grade:6 {'staged': 0.934, 'once': 0.9725} 77s
 mnist grade:7 {'staged': 0.9408, 'once': 0.9757} 97s
 mnist grade:8 {'staged': 0.9397, 'once': 0.975} 117s
 mnist budget:0 {'staged': 0.9542, 'once': 0.9747} 130s
+mnist budget:1 {'staged': 0.9555, 'once': 0.9747} 143s
+mnist budget:2 {'staged': 0.9453, 'once': 0.9747} 155s
+mnist budget:4 {'staged': 0.946, 'once': 0.9747} 167s
+mnist shy:1 {'staged': 0.9373, 'once': 0.9747} 178s

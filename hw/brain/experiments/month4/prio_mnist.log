@@ -1,0 +1,2 @@
+mnist base {'staged': 0.9552, 'once': 0.9747} 26s
+mnist prio:256 {'staged': 0.9513, 'once': 0.9747} 41s

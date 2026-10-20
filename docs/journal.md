@@ -816,4 +816,15 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 
 - `brain_strict_sound.py` with MARGIN 256 / NDREAM 1,500 / NIGHT 1. Shipped alignment (loudest-frame rule) clean / 20 / 10 / 5 dB 73.4 / 64.7 / 52.9 / 39.0; first-stage words 78.8; last-stage words 55.9; twin words 72.0; other words 73.7. Causal onset trigger (threshold 1600): 72.5 / 66.9 / 52.8 / 37.8; 74.9; 62.8; 73.0; 72.4. Under the old margin the trigger was 2.9 points lower on clean speech; now 0.9 lower, 2.3 higher at 20 dB, twin words +1.0, last-stage words +6.9, first-stage words -3.9. 35-word confirmation running.
 
+## 20 Oct 2026 (late) - Own learning rule (prioritised replay) FAILED; timing cells for sound help a little; geometry layer FAILED
+
+**Asked:** proceed with Group A redesign and the training-method test; if no known method helps, create our own.
+
+**Training rules (SIMULATED, margin 256, 1500 dreams, 1 night, 3 seeds, staged accuracy):** shipped rule: clothing 83.27 / digits 95.52. Graded surprise 83.7-83.9 / 93.4-94.7 (hurts digits). Synaptic budget ~83.1-83.4 (no effect). Night downscaling 82.9 clothing. **Our own rule, surprise-prioritised replay** (`prio:B`, dream classes drawn with weight 1 + the surprise writes they caused in the last block; xorshift + adds only): B=64 80.5 / 95.3, B=256 80.3 / 95.1, B=1024 79.8 / 95.2. **FAILED** - it takes replay away from stable classes, which then drift. Conclusion: the shipped margin + fewer dreams rule stays; no training-rule variant beat it. Code: `hw/brain/cortex_rules.py`, `hw/brain/experiments/month4/brain_strict_rules.py`, logs `prio_fashion.log`, `prio_mnist.log`.
+
+**Sound, 20 words (SIMULATED, margin 256):** peak baseline clean 73.35, newest 57.1, twin 69.1. Timing cells (rise/fall vs previous time column, `tm:32`): clean 74.15, newest 61.3, twin 73.9 (+0.8 / +4.2 / +4.8) - a small real gain, still far from a clear win. `tm:16`: 74.07 / 61.7 / 74.4. Noise: 10 dB 53.4 vs 51.5. Geometry layer (`geom:3:3:1:1:4:2`): clean 58.2 - **FAILED**, much worse than peak. 35-word onset run only finished its look-ahead arm (68.3 clean); no matched peak arm, so F1 at 35 words is still **unconfirmed**.
+
+**Status:** F8 partly improved (timing cells), F7/F10/F3 still open. Next: Module 2 (category formation in sleep, bounded 64-code buffer).
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

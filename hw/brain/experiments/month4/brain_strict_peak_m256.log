@@ -1,0 +1,12 @@
+clips 2000 test 414 0s
+channel 0 ready 3s
+channel 1 ready 6s
+channel 2 ready 8s
+channel 3 ready 11s
+channel 4 ready 13s
+channel 5 ready 16s
+channel 6 ready 18s
+channel 7 ready 20s
+channel 8 ready 22s
+channel 9 ready 25s
+peak {'clean': 0.7335, '20dB': 0.657, '10dB': 0.5153, '5dB': 0.3953, 'oldest': 0.7749, 'newest': 0.5709, 'twin': 0.6908, 'other': 0.742} 162s
