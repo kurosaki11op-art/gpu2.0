@@ -315,8 +315,11 @@ class CortexRules(CortexSlow):
                             mixc[c] = (16 * bad) // self.stc[c]
                     self.tick = _night_real(self.W, self.S, self.on, self.n, self.rng, self.known, self.st, self.stn, self.stc, int(total), mixc, int(os.environ.get("DROP", 0)), int(os.environ.get("RMARGIN", self.margin)), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, self.night_stop, self.stats)
                     if os.environ.get("CONS"):
-                        self._night_only()
-                        if os.environ.get("CONS") == "2": self._follow_only()                          # guarantee consolidation even if the dream night stopped early                              # then the normal dream night, which gives the slow table the time to follow the fast one
+                        s_before = int(self.stats[0]); self._night_only()
+                        if os.environ.get("CONS") == "2": self._follow_only()                          # always consolidate fully (hurts clothing: not used)
+                        if os.environ.get("CONS") == "3":                                               # guarantee consolidation only when the night stopped early: the missing follow steps are run without dreams
+                            want = (self.ndream * int(self.known.sum()) * self._night) // self.ch; done_ = (int(self.stats[0]) - s_before) // self.ch
+                            for _ in range(max(0, want - done_)): _follow(self.S, self.W, self.K, self.FR, self.RND)                              # then the normal dream night, which gives the slow table the time to follow the fast one
                 elif self.rule == "prio":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
                     self.tick = _night_prio(self.W, self.S, self.on, self.n, self.rng, self.known, int(total), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, int(self.par or 256))
