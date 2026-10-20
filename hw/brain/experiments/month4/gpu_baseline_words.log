@@ -1,0 +1,5 @@
+train 1586 test 414
+20 words joint 0.7705
+20 words staged naive 0.0628
+20 words staged replay RB=160 0.1232
+20 words staged replay RB=1000 0.7367

@@ -967,4 +967,17 @@ Taken with the earlier probes (graded code, depth, fovea, all-class detectors, r
 So at equal data the one-pass gap to a CNN is 2.3 points on clothing and 1.1 on digits (not 6 and 2 as measured against full-set figures). The decisive result is staged learning: a CNN without help collapses to the latest classes (about 20 %), and with a replay buffer at SPARK's memory size it reaches only 28-32 %; it needs about 4,000 stored real images (3.1 MB, 24x the chip's memory) to get near SPARK's staged accuracy (87.8 / 95.9), and 1,000 images (6x) is not enough. This is the first MEASURED head-to-head in the repo. Script `gpu_baseline_same_data.py`, logs `gpu_baseline_same_data_{fashion,mnist}.log`, `gpu_baseline_same_data_rb.log`. Caveat: one seed, one small CNN, no tuned continual-learning method (no regularisation or generative replay), so a stronger GPU baseline could do better.
 
 
+## 20 Oct 2026 (night) - Same-data GPU-style reference, 20 words (MEASURED, small CNN as above, 1,586 training / 414 test clips, speaker-disjoint, same 28x28 aligned sound picture as the chip, one seed)
+
+| | 20 words |
+|---|---|
+| CNN joint (25 epochs) | **77.05** |
+| CNN staged naive (5 stages of 4 words) | 6.3 |
+| CNN staged + 160 stored pictures | 12.3 |
+| CNN staged + 1,000 stored pictures (63 % of all the training pictures) | 73.7 |
+| SPARK staged, no stored data, margin 256 (SIMULATED) | **73.35** (float ridge on the same code 79.95) |
+
+At equal data the CNN is only 3.7 points above SPARK's staged result, and the float readout on SPARK's own code (79.95) is above the CNN. So the absolute weakness on words (about 73 %) comes from the tiny training set (about 80 clips per word) and the picture, not from our method being far behind a GPU-style model; a CNN with data augmentation or a pretrained front end would do better, which this baseline does not have. Staged, the CNN again collapses without stored data and needs most of the training set stored (1,000 of 1,586 pictures, about 6x the chip's memory) to reach SPARK's number. Script `gpu_baseline_words.py`, log `gpu_baseline_words.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
