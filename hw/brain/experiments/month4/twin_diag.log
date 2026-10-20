@@ -1,0 +1,11 @@
+words ['bird', 'down', 'follow', 'four', 'go', 'house', 'learn', 'left', 'marvin', 'nine', 'on', 'right', 'six', 'stop', 'three', 'tree', 'two', 'up', 'wow', 'zero']
+overall: CNN 0.771  SPARK float readout 0.800
+word          n | CNN acc (to partner)   | SPARK acc (to partner)
+left         14 | 0.86 (0.00)            | 1.00 (0.00)             partner(s) right
+right        20 | 0.75 (0.05)            | 0.65 (0.05)             partner(s) left
+three        20 | 0.95 (0.05)            | 0.70 (0.05)             partner(s) tree
+tree         15 | 0.80 (0.07)            | 0.60 (0.27)             partner(s) three
+CNN twin-word errors 11, to a twin partner 0.27, to another word 0.73
+SPARK twin-word errors 19, to a twin partner 0.32, to another word 0.68
+CNN non-twin words accuracy 0.757, twin words 0.841
+SPARK non-twin words accuracy 0.814, twin words 0.725

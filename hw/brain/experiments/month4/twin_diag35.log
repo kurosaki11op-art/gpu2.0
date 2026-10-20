@@ -1,0 +1,22 @@
+words ['backward', 'bed', 'bird', 'cat', 'dog', 'down', 'eight', 'five', 'follow', 'forward', 'four', 'go', 'happy', 'house', 'learn', 'left', 'marvin', 'nine', 'no', 'off', 'on', 'one', 'right', 'seven', 'sheila', 'six', 'stop', 'three', 'tree', 'two', 'up', 'visual', 'wow', 'yes', 'zero']
+overall: CNN 0.725  SPARK float readout 0.738
+word          n | CNN acc (to partner)   | SPARK acc (to partner)
+bed          26 | 0.46 (0.04)            | 0.62 (0.08)             partner(s) bird
+bird         22 | 0.41 (0.00)            | 0.82 (0.00)             partner(s) bed
+dog          17 | 0.65 (0.00)            | 0.82 (0.00)             partner(s) down
+down         16 | 0.75 (0.06)            | 0.88 (0.06)             partner(s) dog
+forward      18 | 0.67 (0.06)            | 0.78 (0.06)             partner(s) four
+four         19 | 0.74 (0.11)            | 0.63 (0.21)             partner(s) forward
+go           27 | 0.70 (0.04)            | 0.56 (0.00)             partner(s) no
+left         14 | 0.79 (0.00)            | 0.79 (0.00)             partner(s) right
+no           31 | 0.55 (0.23)            | 0.65 (0.13)             partner(s) go
+off          18 | 0.83 (0.17)            | 0.78 (0.06)             partner(s) up,on
+on           30 | 0.43 (0.07)            | 0.57 (0.13)             partner(s) off
+right        20 | 0.75 (0.05)            | 0.70 (0.05)             partner(s) left
+three        20 | 1.00 (0.00)            | 0.60 (0.20)             partner(s) tree
+tree         15 | 0.67 (0.20)            | 0.60 (0.13)             partner(s) three
+up           19 | 0.74 (0.11)            | 0.74 (0.05)             partner(s) off
+CNN twin-word errors 108, to a twin partner 0.22, to another word 0.78
+SPARK twin-word errors 98, to a twin partner 0.26, to another word 0.74
+CNN non-twin words accuracy 0.780, twin words 0.654
+SPARK non-twin words accuracy 0.778, twin words 0.686

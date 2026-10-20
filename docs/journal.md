@@ -1014,4 +1014,9 @@ Setup as the honest two-sense test (ear trained on speakers 0-2, correct on 73.5
 Picture learner on the ear's names as given 89.70; **cleaned, K=5 buffer 128, 2 rounds, no ear vote 93.70 (names 94.9 % correct)**; with ear vote 93.57; K=8 buffer 256, 2 rounds 93.72 (no vote) / **93.88** (with vote, names 95.0 % correct); 1 round 93.3 / 92.98; true labels (reference) 97.40. So the same sleep-time neighbour pooling that gave few-label gains lifts a heard-word-only label from 89.7 to 93.9 (+4.2), closing more than half of the gap to the true-label result, with no picture labels at all. Remaining gap to true labels 3.5 points; more rounds not tried.
 
 
+## 20 Oct 2026 (night) - CORRECTION: the twin-word gap was a small-sample artifact (MEASURED CNN, float readout on SPARK's own code; `twin_diag.py`, logs `twin_diag.log`, `twin_diag35.log`)
+
+The 20-word subset contains only **4 twin words** (left, right, three, tree; 69 test clips), so the earlier "CNN 84.06 vs SPARK about 70" is a four-word, 69-clip comparison (one word, "three", is 95 % vs 70 %; "left" is 86 % vs 100 %). On the 35-word set (15 twin words, about 340 test clips): CNN twin 65.4 / non-twin 78.0 / overall 72.5; **SPARK float readout twin 68.6 / non-twin 77.8 / overall 73.8**, i.e. SPARK is at or above the CNN on twin words, not behind. For both, only 22-32 % of twin-word errors land on the twin partner; 68-78 % go to other words. So twin words are not a special weakness of the code, my earlier statement of a 10-15 point twin gap was wrong, and the timing / coincidence / hyperdimensional / temporal-fovea attempts were chasing a difference that is mostly sampling noise. What remains real on words: the staged chip (73.35 on 20 words, 68.3 on 35) is below its own float readout on the same code (79.95 / 73.8) by about 5-6 points, the same staged-learning loss as on clothing and digits. F8 is reframed accordingly.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
