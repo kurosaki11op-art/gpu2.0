@@ -7,6 +7,7 @@ Audit: docs/brain_principles_audit.md. Arms (env ARMS, comma list):
             (top-2 margin >= the lower quartile of the labelled examples' margins), otherwise they are ignored; one night at the end of the stage
   fewa:P:Q  like fewc, and the fast table must name the same class as the slow table before a pseudo-label is used
   gate:v|1  every label is present; an example is learned (with its true label) only if its 5 shifted views agree on one class; v = learn all 5 views, 1 = centre view only
+  act:P     active labelling: a random seed of at most 40 labels, then labels requested for the lowest-margin examples up to the budget P of the stage, then agreement-gated pseudo-labels (as fewa)
   lab:P     control: only the labelled fraction P of each stage is learned (no pseudo-labels), to show how much the pseudo-labels add
   fews:P:Q  like fewc, with eye movements: labelled and pseudo-labelled examples are learned with their 4 one-pixel-shifted views, and an unlabelled example is pseudo-labelled only if all 5 views name the same class
   fewc:P:Q  like few, but a pseudo-label may only be one of the classes rewarded in the current context (the stage's labelled ones), margin cut at percentile Q (default 25)
@@ -124,6 +125,20 @@ def run(arm, seed):
                 tot += int(sel.sum()); ok += int((pred[sel] == ytr[u][sel]).sum())
                 if sel.any(): m.stage(views(u[sel]), np.tile(pred[sel], len(sh) + 1))
             night(m); used += k
+        info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
+    elif kind == "act":                                                      # active labelling: a small random seed, then the chip asks for labels on the examples it is least sure about (lowest top-2 margin), then pseudo-labels the rest like fewa
+        frac = float(p); m.night = 0; ok = tot = used = 0
+        for o in order:
+            budget = max(4, int(len(o) * frac)); k0 = min(budget // 2, 40); seed_ix = o[:k0]; rest = o[k0:]
+            m.stage(ctr[seed_ix], ytr[seed_ix]); al = np.unique(ytr[seed_ix]); _, mg = margins(m, ctr[rest], al)
+            q = rest[np.argsort(mg)[:budget - k0]]; m.stage(ctr[q], ytr[q]); al = np.unique(np.concatenate([ytr[seed_ix], ytr[q]]))
+            unl = np.setdiff1d(rest, q); _, mg = margins(m, ctr[q], al); tau = np.percentile(mg, 0)
+            for j in range(0, len(unl), 250):
+                u = unl[j:j + 250]; pred, mg = margins(m, ctr[u], al); sel = mg >= tau
+                sw = ctr[u].astype(np.int32) @ m.W.T.astype(np.int32); sw[:, ~np.isin(np.arange(sw.shape[1]), al)] = -(1 << 30); sw[:, ~m.known] = -(1 << 30); sel &= sw.argmax(1) == pred
+                tot += int(sel.sum()); ok += int((pred[sel] == ytr[u][sel]).sum())
+                if sel.any(): m.stage(ctr[u][sel], pred[sel])
+            night(m); used += budget
         info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
     elif kind == "lab":                                                      # control: only the labelled examples are used (no pseudo-labels at all), same stage and night structure
         frac = float(p); m.night = 0
