@@ -1,0 +1,39 @@
+# Sensory node: two senses in one chip (20 Oct 2026)
+
+What was built, what it measured, and what it still lacks. Numbers are labelled SIMULATED (software model of the chip), MEASURED (software run of an ordinary network, used only as a ruler) or bit-exact (RTL simulation equals the model, 0 mismatches). Journal entries: [journal](../../docs/journal.md) (20 Oct 2026, night).
+
+## The idea
+A brain senses with eyes and ears and combines them: a heard word can name a seen thing (no teacher), and one sense covers for the other. SPARK now has a retina and a cochlea feeding **one** table. A picture alone, a sound alone, or both work; the sound bits keep a fixed offset in the list.
+
+## What is in the chip (RTL)
+| Part | File | Check (bit-exact) |
+|---|---|---|
+| Two senses into one core (retina 4 x 32 detectors, cochlea with noise floor and word alignment, sound encoder 4 x 32; NB = 9,216, AW = 14) | `hw/rtl/cortex/cortex_sense_top.v`, `tb_sense_top.v` | `run_check_sense_top.py`: 48 commands, 9,270 lines, 0 mismatches |
+| Core at the full two-sense width with the big sound code (NB = 27,648, AW = 15) | `cortex_core.v` (parameters only) | `run_check_cortex_twosense.py`: 200 lines, 0 mismatches |
+| All 10 class scores after a PREDICT (`rd_scores`, hooks build) | `cortex_core.v` | `run_check_cortex_hooks.py` (now with `S` lines): PASS |
+| Sleep neighbours: the K buffered codes sharing the most active bits with a query (two-pointer merge, no multiplier) | `cortex_neighbours.v`, `tb_neighbours.v` | `run_check_neighbours.py`: 0 mismatches |
+| Sleep cleaning with the chip's scores and neighbours, host pools them (adds and compares) | `hw/brain/cross_modal.py` (`pool_names`) | `run_check_sleep_clean.py`: scores, neighbours and names identical to the model |
+All are in `hw/run_all_checks.sh`. The host pooling is software, like the other sleep logic; the overlap unit costs about 26,000 cycles per query at 64 slots (a 64-picture buffer in about 1.7 M cycles).
+
+## Size
+A smaller sound code works as well as the big one (SIMULATED, [soundsize log](../../hw/brain/experiments/month4/brain_strict_soundsize.log)): 4 channels x 32 detectors = 4,608 sound bits give both-senses accuracy 98.97 against 98.33 for 10 x 64 (23,040 bits). The two-sense table is then 9,216 bits, about 2x the one-sense chip (129 KB for 4,608 bits), not 6x.
+
+## Results (SIMULATED unless marked; MNIST digits + FSDD spoken digits; one pass, margin 256 / 1,500 dreams / 1 night; CNN rows MEASURED)
+| Test | SPARK | small CNN (ruler, never in the chip) |
+|---|---|---|
+| picture learner, true labels | 97.40 | 98.52 |
+| both senses in one table (labelled pairs) | 98.97 (4 x 32 sound code) | 99.45 |
+| picture 25 % damaged + sound | 97.3 | 99.25 |
+| picture 25 % damaged, no sound | 85.4 | 80.8 |
+| **zero picture labels**: the ear (right on 72-74 % of unfamiliar speakers) names the pictures | **89.67** | 83.45 |
+| zero picture labels + cleaning | **93.88** (sleep neighbour pooling, names 95 % right) | 82.87 (self-training) |
+With labels the CNN is 0.5-1 point ahead; with **no picture labels SPARK is ahead by 10 points**, because sleep-time neighbour pooling cleans the ear's noisy names, whereas the CNN's self-training reinforces its own mistakes. Damage was not identical (25 % of lit pixels for the CNN, 25 % of active code bits for SPARK).
+
+## Limits
+- SIMULATED model plus RTL simulation; nothing measured on silicon or the board.
+- One dataset pair (MNIST digits + spoken digits), one seed for the CNN rows (2 seeds), 3 seeds for SPARK.
+- The ear for the zero-label test was trained on 3 speakers and the paired clips come from 2 others; test speaker is a sixth.
+- The host pooling is not in RTL; the buffer is 64 pictures (K = 8).
+- The sound path needs the cochlea RTL and its detectors loaded (`tma_*`), like the one-sense sound chip.
+
+Related: [Results index](INDEX.md), [Journal](../../docs/journal.md), [Project memory](../../docs/PROJECT_MEMORY.md), [Hardware index](../HARDWARE_INDEX.md), [Redesign tests](brain_strict_redesign.md)

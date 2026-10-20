@@ -240,6 +240,10 @@ Two senses (kept as a separate capability, no change to the baselines): picture 
 
 Hard-example replay (20 Oct night, SIMULATED): NOT adopted. Its apparent +1.0 on clothing came from nights cut short by the stop rule; with consolidation made reliable clothing is 82.4 vs 83.2 shipped (digits +0.7, words +1.8 stay). Learned: the night's job is letting the slow table follow the fast one; dream replays almost never write; with about 1,000 stored traces per class staged equals one-pass (about 4 MB).
 
+## Sensory node (20 Oct 2026 night, built and checked)
+
+Two senses in one chip: `rtl/cortex/cortex_sense_top.v` (retina 4 x 32 + cochlea with a 4 x 32 sound encoder, one core NB = 9,216, AW = 14), `cortex_neighbours.v` (sleep neighbours), core `rd_scores`; host pooling `hw/brain/cross_modal.py`. All bit-exact (`run_check_sense_top.py`, `run_check_neighbours.py`, `run_check_sleep_clean.py`, `run_check_cortex_twosense.py`, hooks check with score lines), in `hw/run_all_checks.sh`. Results and limits: [sensory node](../hw/results/sensory_node.md). Wording rule: say "no stored examples" (the table and the dream counts are stored), never "no weights" or "no stored data".
+
 ## Start here for a fresh session (21 Oct 2026)
 
 - Data folders live in a session scratchpad and are NOT in the repo: MNIST / Fashion / speech frame sums (`speech_framesums_int.npz`), `fsdd_framesums_int.npz` (made by `hw/brain/experiments/month4/fsdd_prep.py`, source raw.githubusercontent.com), `word_codes_*.npz` (made by `save_word_codes.py` / `save_word_codes_geom.py DATA 3,3,1,1,4,4,64 geom3311`). A new session must re-fetch them; the original speech source host was `download.tensorflow.org` (blocked unless added under Allowed domains, applies to new sessions).

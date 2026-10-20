@@ -51,6 +51,19 @@ MEASURED on hardware yet** (the board run is next: [month 4 plan](month4_board_p
 
 Open and failed items are listed honestly in Q&A 17.
 
+## Update 20 Oct, night (MEASURED GPU ruler; SPARK SIMULATED and bit-exact in RTL)
+
+| Item | Result |
+|---|---|
+| Small CNN on the same 10,000 training images (MEASURED, a ruler only) | all classes together clothing 88.8, digits 98.55, 20 words 77.05; SPARK one pass 86.55 / 97.47 / about 75 |
+| Learning in stages, no stored examples | SPARK 83.3 / 95.5; the CNN 20 % (naive), 28-32 % with 160 stored images (our memory size), 88 % / 96 % only with 4,000 stored images (24x our memory) |
+| Two senses in one chip (picture + sound) | both senses 98.97 vs 97.4 picture alone; sound covers a damaged picture (85 -> 97) |
+| A heard word names pictures, zero picture labels | 89.7, then 93.9 after sleep neighbour cleaning (CNN with the same names: 83.5 / 82.9) |
+| Early exit | clothing reads 58 % of the active bits, digits 29 %, at about the same accuracy |
+| Twin words | not a special weakness (a four-word sample had misled us); SPARK's float readout 68.6 vs the CNN's 65.4 on 35 words |
+| Failed or traded off (see [journal](journal.md)) | about 25 ideas for the staged-learning loss, richer codes, deeper layers and sound timing: none passed the no-regression rule |
+| Sensory node RTL | retina + cochlea into one core, neighbour unit, class-score port: all bit-exact ([details](../hw/results/sensory_node.md)) |
+
 ## Say these limits first
 
 1. Not the first continual-learning chip (HDC accelerators, Intel Loihi 2): what is new is the combination - dreams

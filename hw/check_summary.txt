@@ -1,25 +1,2 @@
-core (FPGA build): FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core (pipelined): FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with context memory: FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with context, pipelined: FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with IMPRINT (few-shot fix): FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with IMPRINT, pipelined: FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with slow table (Redesign 6): FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with slow table, pipelined: FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with embedding path (Redesign 8): FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with embedding path, pipelined: FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/data/sep_mnist_F32_p2.npz'
-core with host hooks (top margin, write counter): PASS
-encoder (FPGA build): PASS
-encoder (ASIC, gated clocks): PASS
-encoder, finer grid (ENC_S1, ASIC build): PASS
-encoder learning its detectors: PASS
-general encoder, images: PASS
-speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
-speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
-general encoder, speckle removal: PASS
-speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
-speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
-speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
-core, two-sense width (NB 27,648, AW 15): PASS
-neighbour unit (sleep cleaning): PASS
-sleep cleaning, chip scores + neighbours == model: PASS
+core (FPGA build): PASS
+core (pipelined): PASS
