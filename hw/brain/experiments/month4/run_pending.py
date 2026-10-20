@@ -10,8 +10,6 @@ JOBS = [  # (log, script, args, env, arms)
     ("brain_strict_noise_twice.log", "brain_strict_noise_gate.py", [SUB, S + "/bs_cache"], {"OUT": "x"}, ["twice"]),
     ("brain_strict_geom_a.log", "brain_strict_sound.py", [SUB, S + "/bs_cache35"], {"NW": "35", "OUT": "brain_strict_geom_a.json"}, ["geom:3:3:1:1:4:4", "geom:3:3:1:1:4:2"]),
     ("brain_strict_geom_b.log", "brain_strict_sound.py", [SUB, S + "/bs_cache35"], {"NW": "35", "OUT": "brain_strict_geom_b.json"}, ["geom:3:5:1:1:4:4", "geom:2:7:1:1:4:4"]),
-    ("sc35_views_m32.log", "sc35_views.py", [S + "/data"], {"MARGIN": "32"}, ["T=15 k=5:"]),
-    ("sc35_views_m256.log", "sc35_views.py", [S + "/data"], {"MARGIN": "256"}, ["T=15 k=5:"]),
 ]
 
 
