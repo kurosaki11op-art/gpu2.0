@@ -4,6 +4,7 @@
 # Writes hw/check_summary.txt: one PASS/FAIL line per check.
 D=$1; HW=$(cd "$(dirname "$0")" && pwd); OUT=$HW/check_summary.txt; : > "$OUT"
 run() { name=$1; shift; r=$( "$@" 2>&1 | tail -1 ); echo "$name: $r" | tee -a "$OUT"; }
+need() { f=$1; name=$2; if [ ! -e "$D/$f" ]; then echo "$name: SKIP (data missing: $f)" | tee -a "$OUT"; return 1; fi; return 0; }
 cd "$HW/rtl/cortex"
 run "core (FPGA build)"               python run_check_cortex.py "$D"
 run "core (pipelined)"                python run_check_cortex.py "$D" --pipe
@@ -21,14 +22,18 @@ run "encoder (ASIC, gated clocks)"    python run_check_encoder.py "$D" fashion 1
 run "encoder, finer grid (ENC_S1, ASIC build)" python run_check_encoder.py "$D" fashion 10 --s1 --asic
 run "encoder learning its detectors"  python run_check_encoder_learn.py "$D" mnist 40 5 10
 run "general encoder, images"         python run_check_encoder_gen.py "$D" image 10
-run "general encoder, sound"          python run_check_encoder_gen.py "$D" sound 10
-run "general encoder, sound finer grid (3x3/s1/pool4)" python run_check_encoder_gen.py "$D" sound3 4
+need speech_framesums_int.npz "speech-dependent check" && run "general encoder, sound"          python run_check_encoder_gen.py "$D" sound 10
+need speech_framesums_int.npz "speech-dependent check" && run "general encoder, sound finer grid (3x3/s1/pool4)" python run_check_encoder_gen.py "$D" sound3 4
 run "general encoder, speckle removal" python run_check_encoder_gen.py "$D" image 10 --sup
-run "cochlea (buffered)"              python run_check_cochlea.py "$D" 4
-run "cochlea (streaming)"             python run_check_cochlea.py "$D" 4 --stream
-run "cochlea (streaming, word aligned)" python run_check_cochlea.py "$D" 4 --align
+need speech_framesums_int.npz "speech-dependent check" && run "cochlea (buffered)"              python run_check_cochlea.py "$D" 4
+need speech_framesums_int.npz "speech-dependent check" && run "cochlea (streaming)"             python run_check_cochlea.py "$D" 4 --stream
+need speech_framesums_int.npz "speech-dependent check" && run "cochlea (streaming, word aligned)" python run_check_cochlea.py "$D" 4 --align
+run "core, two-sense width (NB 27,648, AW 15)" python run_check_cortex_twosense.py "$D" --margin=256
+run "neighbour unit (sleep cleaning)" python run_check_neighbours.py "$D" 16 4
+run "sleep cleaning, chip scores + neighbours == model" python run_check_sleep_clean.py "$D"
+need fsdd/0_george_0.wav "whole two-sense chip (retina + cochlea + one core)" && run "whole two-sense chip (retina + cochlea + one core)" python run_check_sense_top.py "$D"
 cd "$HW/rtl/cortex/sound"
-run "sound chip, whole chain (aligned)" python run_check_sound_chain.py "$D"
+need speech_framesums_int.npz "sound chip, whole chain (aligned)" && run "sound chip, whole chain (aligned)" python run_check_sound_chain.py "$D"
 cd "$HW/board"
 run "Tang Nano board design"          python check_cortex_board.py "$D"
 run "host schedule == chip model"     python check_host_schedule.py "$D"
@@ -37,4 +42,4 @@ if [ "$2" = "--asic" ]; then
   run "core with SKY130 SRAM models"  python run_check_cortex.py "$D" --asic --small
   run "context with SRAM models"      python run_check_cortex_ctx.py "$D" --asic
 fi
-echo "failures: $(grep -vc ': PASS$' "$OUT")" | tee -a "$OUT"
+echo "failures: $(grep -v ': PASS$' "$OUT" | grep -vc ': SKIP')  skipped (data missing): $(grep -c ': SKIP' "$OUT")" | tee -a "$OUT"
