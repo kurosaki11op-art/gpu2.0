@@ -25,3 +25,6 @@ neighbour unit (sleep cleaning): PASS
 sleep cleaning, chip scores + neighbours == model: PASS
 whole two-sense chip (retina + cochlea + one core): PASS
 sound chip, whole chain (aligned): PASS
+Tang Nano board design: PASS
+host schedule == chip model: PASS
+failures: 0  skipped (data missing): 0
