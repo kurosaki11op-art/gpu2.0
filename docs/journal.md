@@ -945,4 +945,11 @@ Shipped `peak`: clean 68.29, 20 / 10 / 5 dB 56.5 / 39.8 / 27.4, oldest 68.8, new
 Taken with the earlier probes (graded code, depth, fovea, all-class detectors, reward-gated detectors, kernel readout), the single-layer counting chip appears to be at a local optimum for its principles: every added mechanism either adds nothing or trades one dataset against another. Things that did win: margin / dream / night settings, early exit (energy), Module 2 (few labels, digits), noisy-copy training and timing cells (small).
 
 
+## 20 Oct 2026 (night) - Class-aware pair cells ceiling probe, and an overdue fairness point about the CNN comparison (SIMULATED)
+
+**Pair cells** (`brain_strict_pairs.py`): 45 class pairs x R integer perceptron cells, each learning only a-vs-b over a random half of the input bits (own local label), binary outputs as hidden code; layer 2 ridge / counting table on a disjoint half of the data. Clothing, ridge / chip once / chip staged: input code only 86.35 / 84.98 / 81.75 -> input + 180 cells 86.65 / 85.75 / 81.35; raw binarised pixels only 84.35 / 83.67 / 76.95 -> + 360 cells 85.55 / 84.25 / 80.88; code + raw 86.75 / 85.08 / 80.13 -> + 360 cells 87.30 / 85.60 / 81.53. Gains +0.3 to +1.2 (the largest on the weaker raw input): not a breakthrough, because the cells see the same bits the readout already sees.
+
+**Fairness correction.** Our chip tests use **10,000 training images** (2,000 per class pair x 5), not the 60,000 of the full set. The usual "about 93 % for a CNN on clothing" is for all 60,000 images; a small CNN on 10,000 images is lower (I recall about 87-89 %, ESTIMATED from memory of learning curves, NOT measured). So the real gap to a CNN at equal data may be 1-3 points, not 6. To measure it, `gpu_baseline_same_data.py` (torch; run on a PC, the container has none) trains a small CNN on the same 10,000 / 2,000 images: joint, naive staged, and staged with a 160-image replay buffer (about the chip's memory). Results pending.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

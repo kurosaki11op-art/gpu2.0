@@ -1,0 +1,4 @@
+cells 180 10s
+fashion input only (second half of the data) 4608 bits | ridge 0.8635 | chip {'once': 0.8498, 'staged': 0.8175} 22s
+fashion hidden pair cells only 180 bits | ridge 0.8335 | chip {'once': 0.7883, 'staged': 0.6425} 26s
+fashion input + hidden pair cells 4788 bits | ridge 0.8665 | chip {'once': 0.8575, 'staged': 0.8135} 35s
