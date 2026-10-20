@@ -1,0 +1,12 @@
+seed 1 198s
+seed 2 443s
+ear's names correct (CNN ear, unseen speakers)                 0.7227
+A image CNN, true labels                                       0.9852
+B image CNN, zero image labels (ear's names)                   0.8345
+B+ image CNN, ear's names + 2 rounds of self-training          0.8287
+  B+ names correct after self-training                         0.8370
+D two-tower, both senses                                       0.9945
+D picture damaged 25 % + sound                                 0.9925
+D picture damaged 25 %, sound blank                            0.8080
+D picture only (sound blank)                                   0.8545
+D sound only (picture blank)                                   0.5790

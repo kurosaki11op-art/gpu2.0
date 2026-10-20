@@ -1071,4 +1071,21 @@ Three additions, each checked against the Python model:
 So the sensory node is now: two sensors into one core (piece 3), one-sense or two-sense experiences, and sleep cleaning with the chip's scores and neighbour unit plus a few adds on the host. Not done: the host pooling is software, not RTL.
 
 
+## 20 Oct 2026 (night) - Sensory node, piece 5: the CNN two-sense reference (MEASURED, 2 seeds; small CNNs, float32, backprop; a ruler only, never in the chip) (`gpu_twosense.py`, `gpu_twosense.log`)
+
+Same data as the chip tests (MNIST 10,000 / 2,000, FSDD spoken digits, ear trained on speakers 0-2, clips paired with pictures from speakers 3-4, test speaker the last): 
+| | CNN (MEASURED) | SPARK (SIMULATED) |
+|---|---|---|
+| the ear's names right on unseen speakers | 72.3 % | 73.5 % |
+| picture learner, true labels | 98.52 | 97.40 |
+| **zero picture labels, ear's names** | **83.45** | **89.67** (raw) |
+| zero picture labels + 2 rounds of cleaning | 82.87 (self-training; names 83.7 % right) | **93.88** (neighbour cleaning in sleep; names 95.0 % right) |
+| both senses, labelled pairs | **99.45** | 98.97 (4 x 32 sound code) |
+| picture damaged 25 % + sound | **99.25** | 97.3 (98.0 with the small code not re-run) |
+| picture damaged 25 %, no sound | 80.8 | 85.4 |
+| picture only (sound blank) | 85.45 | 86.0 |
+| sound only (picture blank) | 57.9 | 73.8 |
+Reading: with labels the CNN is 0.5-1 point better on two senses and on damage-with-sound (it has far more parameters and trains many epochs); **with no picture labels SPARK is clearly ahead (93.9 vs 83.5 / 82.9)**, because the neighbour pooling in sleep cleans the ear's noisy names while the CNN's own self-training only reinforces its mistakes (82.87 after two rounds). Not identical conditions: the damage was removing 25 % of lit pixels for the CNN and 25 % of active code bits for SPARK; the CNN also saw the same 10,000 pictures for 12 epochs.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
