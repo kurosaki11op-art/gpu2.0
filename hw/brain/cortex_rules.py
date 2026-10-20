@@ -211,6 +211,52 @@ def make_stage_bd():
     ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _dreamh=_dreamh, np=np); exec("@njit\n" + stage, ns); return ns["_stage_bd"]
 
 
+@njit
+def _hybrid2(a, ka, b, kb, rng, out, lam):
+    """cell-wise mixture of two dreams: each 32-bit cell comes from b with probability lam/16, else from a (lists ascending)"""
+    nb = out.shape[0]; pa = 0; pb = 0; kk = 0
+    for bs in range(0, 1 << 30, 32):
+        if pa >= ka and pb >= kb: break
+        rng[0] = _xs32(rng[0]); fb = np.int64(rng[0] & np.uint32(15)) < lam; hi = bs + 32
+        if fb:
+            while pb < kb and b[pb] < hi:
+                if b[pb] >= bs:
+                    out[kk] = b[pb]; kk += 1
+                pb += 1
+            while pa < ka and a[pa] < hi: pa += 1
+        else:
+            while pa < ka and a[pa] < hi:
+                if a[pa] >= bs:
+                    out[kk] = a[pa]; kk += 1
+                pa += 1
+            while pb < kb and b[pb] < hi: pb += 1
+    return kk
+
+
+@njit
+def _reverse_night(W, S, on, n, rng, known, steps, mu, cmax, ch, K, FR, RND, tick0):
+    """reverse learning (REM): dream a mixture of two known classes (it should be ambiguous); when the table answers it with a top-2 margin above mu (false certainty) the winner's synapses on the mixture's active bits step down by one. adds and compares."""
+    C = W.shape[0]; nb = W.shape[1]; ba = np.zeros(nb, np.int32); bb = np.zeros(nb, np.int32); bh = np.zeros(nb, np.int32); kn = np.where(known)[0]; tick = tick0
+    if len(kn) < 2: return tick
+    for st in range(steps):
+        rng[0] = _xs32(rng[0]); ia = np.int64(rng[0] % np.uint32(len(kn))); rng[0] = _xs32(rng[0]); ib = np.int64(rng[0] % np.uint32(len(kn) - 1))
+        if ib >= ia: ib += 1
+        ca = kn[ia]; cb = kn[ib]; ka = _dream(on, n, ca, rng, ba); kb = _dream(on, n, cb, rng, bb)
+        if ka == 0 or kb == 0: continue
+        kh = _hybrid2(ba, ka, bb, kb, rng, bh, 8)
+        sc = _scores(W, bh, kh, known); top = -1; t1 = -(1 << 30); t2 = -(1 << 30)
+        for c in range(C):
+            if known[c]:
+                if sc[c] > t1: t2 = t1; t1 = sc[c]; top = c
+                elif sc[c] > t2: t2 = sc[c]
+        if top >= 0 and t1 - t2 > mu:
+            for i in range(kh):
+                if W[top, bh[i]] > -cmax: W[top, bh[i]] -= 1
+        tick += 1
+        if tick % ch == 0: _follow(S, W, K, FR, RND)
+    return tick
+
+
 def make_stage_grade(sh):
     src = f'''
 @njit
@@ -278,6 +324,19 @@ class CortexRules(CortexSlow):
                                    self.ndream, self._night, self.margin, self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick)
 
     def stage(self, code, y):
+        if self.rule == "reverse":
+            r = self._call(_stage_slow, code, y, self._night)                      # the shipped day and night
+            if len(np.where(self.known)[0]) > len(np.unique(y)):
+                steps = int(os.environ.get("RSTEPS", 3000)) * int(self.known.sum()); self.tick = _reverse_night(self.W, self.S, self.on, self.n, self.rng, self.known, steps, int(os.environ.get("RMU", 128)), self.cmax, self.ch, self.K, self.FR, self.RND, self.tick)
+                for _ in range(max(1, steps // self.ch)): pass
+            if len(y) < 2 * self.ch: self.S[:] = self.W.astype(np.int32) << self.FR
+            return r
+        if self.rule == "schema":
+            new = [c for c in np.unique(y) if not self.known[c]]; kn = np.where(self.known)[0]
+            if len(new) and len(kn):
+                for c in new:                                                  # the new class starts as a copy of the known class its examples score highest on (schema assimilation)
+                    ex = code[y == c][:200].astype(np.int32); sc_ = (ex @ self.W[kn].T.astype(np.int32)).mean(0); a_ = kn[int(sc_.argmax())]
+                    self.W[c] = self.W[a_]; self.S[c] = self.S[a_]
         if self.rule == "bdream":
             new = np.unique(y).astype(np.int64); old = np.where(self.known & ~np.isin(np.arange(len(self.known)), new))[0]; A, na = self.pack(code)
             r, self.tick = self._sbd(self.W, self.S, self.on, self.n, self.rng, self.known, A, na, y.astype(np.int64), new, old.astype(np.int64), self.ndream, self._night, self.margin,
@@ -321,6 +380,7 @@ class CortexRules(CortexSlow):
                         ones = np.where(np.abs(self.W[c]) == 1)[0]; need = min(len(ones), int(t - lim)); self.W[c, ones[:need]] = 0
             if self.rule == "shy": self.W[:] = self.W - np.sign(self.W)
             if self.rule == "real":
+                if os.environ.get("DAYBUF"): self.stc[:] = 0                               # the hippocampal day buffer: only today's examples are kept, yesterday's are gone
                 A, na = self.pack(code)
                 if A.shape[1] > self.st.shape[2]:
                     ns = np.zeros(self.st.shape[:2] + (A.shape[1],), np.int32); ns[:, :, :self.st.shape[2]] = self.st; self.st = ns
@@ -344,6 +404,7 @@ class CortexRules(CortexSlow):
                 if self.rule == "real":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
                     mixc = np.full(len(self.known), int(os.environ.get("REALMIX", 8)), np.int64)
+                    if os.environ.get("DAYBUF"): keep = np.zeros(len(self.known), bool); keep[np.unique(y)] = True; mixc[~keep] = 0              # tonight only the new classes are replayed from the buffer; old classes are dreamed
                     if os.environ.get("SKIPNEW"): mixc[np.unique(y)] = 0                         # the classes of the stage just learned are not replayed from stored traces yet (dreams only)
                     if os.environ.get("ADAPT"):                              # self-test: the fraction of a class's stored hard traces the table now gets wrong sets that class's real-replay share (0 when all are still recognised)
                         Wi = self.W.astype(np.int32); mixc[:] = 0
