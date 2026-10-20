@@ -799,4 +799,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 
 - Control "the same clean clips a second time" (`brain_strict_noise_gate.py` arm `twice`): clean / 20 / 10 / 5 dB 71.7 / 64.5 / 52.2 / 36.8; first-stage words 75.3; last-stage words 60.2. Against clean-only (69.2 / 62.7 / 47.5 / 33.5; 77.1) and noisy copies (73.3 / 73.3 / 65.6 / 56.4; 77.9): more data alone explains +2.5 of the clean gain, but noisy copies are +8.8 / +13.4 / +19.6 points above the control at 20 / 10 / 5 dB, +1.6 on clean, and keep old words level (the control lowers them by 1.8). **F6 fixed.**
 
+### 20 Oct 2026 - F7 active labelling FAILED; twin-word geometry first results (SIMULATED)
+
+- **Active labelling** (`act:P` in `brain_strict_digits.py`, new settings, 3 seeds): a random seed of at most 40 labels, then labels requested for the chip's lowest-margin examples up to the budget, then agreement-gated pseudo-labels. Clothing 10 / 5 / 2 % labels 75.0 / 78.9 / 78.0 against random labels 79.1 / (n.a.) / 78.4; digits 92.75 / 93.8 / 91.9 against random 95.0 (5 %) / 94.7 (2 %) with `fews`. Hard examples are no more useful than random ones (10 % clothing is worse); the margin signal (AUROC 0.91 for unseen classes) does not translate into a better label set.
+- **Twin words, 35 words, 717 test clips** (`geom:` arms in `brain_strict_sound.py`, shipped margin 32; twin = no/go, left/right, up/off, on/off, bed/bird, down/dog, three/tree, four/forward): shipped grid 3 x 3 window, pool 4 x 4: clean 63.9, twin words 62.3, other words 65.1; 3 x 5 window (wider in time): clean 63.7, twin 64.4, other 63.1. Two more shapes still running.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
