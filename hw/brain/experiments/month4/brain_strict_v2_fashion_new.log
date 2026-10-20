@@ -1,0 +1,5 @@
+layer 1 (10000, 4608) 21s
+layer 2 (10000, 1024) active bits per example 35.2 32s
+fashion base {'staged': 0.8327, 'once': 0.8655} 51s
+fashion v2 {'staged': 0.8267, 'once': 0.864} 75s
+fashion v2only {'staged': 0.7017, 'once': 0.7213} 79s

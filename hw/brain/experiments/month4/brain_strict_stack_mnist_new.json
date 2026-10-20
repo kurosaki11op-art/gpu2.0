@@ -1,0 +1,42 @@
+{
+ "base": {
+  "staged": 0.9552,
+  "once": 0.9747,
+  "memory_bits": {
+   "fast_table": 230400,
+   "dream_counts": 460900,
+   "slow_table": 368640
+  },
+  "memory_kbytes": 129.4
+ },
+ "proto4": {
+  "staged": 0.9568,
+  "once": 0.9732,
+  "memory_bits": {
+   "fast_table": 230400,
+   "dream_counts": 1843600,
+   "slow_table": 368640
+  },
+  "memory_kbytes": 298.2
+ },
+ "s1": {
+  "staged": 0.9512,
+  "once": 0.9805,
+  "memory_bits": {
+   "fast_table": 230400,
+   "dream_counts": 460900,
+   "slow_table": 368640
+  },
+  "memory_kbytes": 129.4
+ },
+ "s1proto4": {
+  "staged": 0.9505,
+  "once": 0.9795,
+  "memory_bits": {
+   "fast_table": 230400,
+   "dream_counts": 1843600,
+   "slow_table": 368640
+  },
+  "memory_kbytes": 298.2
+ }
+}

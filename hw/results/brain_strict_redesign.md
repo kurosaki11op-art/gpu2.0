@@ -77,6 +77,7 @@ No view type lifts clothing above normal learning; on digits only 1-pixel shifts
 |---|---|
 | **Update margin 256, 1,500 dreams per old class, 1 night pass** (was 32 / 6,000 / 2) | digits staged / all at once 94.1 / 97.0 -> **95.5 / 97.5**; clothing 80.8 / 86.0 -> **83.3 / 86.55** (stride-1 encoder 83.65 / 87.2); words (20) clean 68.5 -> **73.35**, 20 / 10 / 5 dB 62.2 / 47.3 / 33.3 -> 65.7 / 51.5 / 39.5, last-stage words 50.6 -> 57.1. No extra memory; RTL bit-exact at margin 256 |
 | Training on noisy copies of the clips (words, 20, 3 seeds) | clean / 20 / 10 / 5 dB 69.2 / 62.7 / 47.5 / 33.5 -> **73.3 / 73.3 / 65.6 / 56.4**, old words 77.1 -> 77.9. Control "same clean clips twice" pending; agreement-gated noisy copies (41 % kept) 72.6 / 68.4 / 57.9 / 48.9 |
+| Prototype dreams / stride-1 encoder / second layer re-run under the new settings (clothing staged / all at once; base 83.3 / 86.55) | prototype dreams 84.65 / 86.6 (2.3x dream memory); stride-1 83.65 / 87.2; both 83.8 / 87.5; second sensory layer 82.7 / 86.4 (no gain). Digits: base 95.5 / 97.5, prototype 95.7 / 97.3, stride-1 95.1 / 98.05 |
 | Stride-1 encoder (ENC_S1) | all at once: digits 97.0 -> 97.6, clothing 86.0 -> 87.3 (staged +0.7); same memory |
 | Prototype dreams + stride-1 encoder | not additive: clothing staged 82.55 (prototype dreams alone 83.3), 298 KB against 129 KB |
 | 64 / 128 detectors per channel | no gain worth the memory (clothing staged 82.0 / 80.7, 2x / 4x memory) |

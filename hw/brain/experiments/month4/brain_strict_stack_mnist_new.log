@@ -1,0 +1,19 @@
+codes base (10000, 4608) 21s
+mnist base seed 1 {'staged': 0.956, 'once': 0.974} 36s
+mnist base seed 2 {'staged': 0.955, 'once': 0.9745} 47s
+mnist base seed 3 {'staged': 0.9545, 'once': 0.9755} 60s
+mnist base {'staged': 0.9552, 'once': 0.9747, 'memory_bits': {'fast_table': 230400, 'dream_counts': 460900, 'slow_table': 368640}, 'memory_kbytes': 129.4}
+mnist proto4 seed 1 {'staged': 0.9595, 'once': 0.9735} 77s
+mnist proto4 seed 2 {'staged': 0.958, 'once': 0.972} 90s
+mnist proto4 seed 3 {'staged': 0.953, 'once': 0.974} 104s
+mnist proto4 {'staged': 0.9568, 'once': 0.9732, 'memory_bits': {'fast_table': 230400, 'dream_counts': 1843600, 'slow_table': 368640}, 'memory_kbytes': 298.2}
+codes s1 (10000, 4608) 166s
+mnist s1 seed 1 {'staged': 0.953, 'once': 0.9815} 175s
+mnist s1 seed 2 {'staged': 0.9475, 'once': 0.979} 184s
+mnist s1 seed 3 {'staged': 0.953, 'once': 0.981} 194s
+mnist s1 {'staged': 0.9512, 'once': 0.9805, 'memory_bits': {'fast_table': 230400, 'dream_counts': 460900, 'slow_table': 368640}, 'memory_kbytes': 129.4}
+mnist s1proto4 seed 1 {'staged': 0.9465, 'once': 0.981} 203s
+mnist s1proto4 seed 2 {'staged': 0.9555, 'once': 0.978} 211s
+mnist s1proto4 seed 3 {'staged': 0.9495, 'once': 0.9795} 219s
+mnist s1proto4 {'staged': 0.9505, 'once': 0.9795, 'memory_bits': {'fast_table': 230400, 'dream_counts': 1843600, 'slow_table': 368640}, 'memory_kbytes': 298.2}
+{"base": {"staged": 0.9552, "once": 0.9747}, "proto4": {"staged": 0.9568, "once": 0.9732}, "s1": {"staged": 0.9512, "once": 0.9805}, "s1proto4": {"staged": 0.9505, "once": 0.9795}}

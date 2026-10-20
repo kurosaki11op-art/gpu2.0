@@ -786,4 +786,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **F9** (`sc35_views.py` with MARGIN env, 35-word subset, base 15 words, new words left / right / up / off / on, 3 draws, k = 1 / 2 / 5 recordings; the table learns with the stated margin). New-word accuracy / old-word accuracy: margin 32 single view 24.4 / 39.3 / 51.2 and 75.0 / 73.4 / 70.5 (reproduces the PC run); **margin 256 single view 30.4 / 46.9 / 61.7 and 77.5 / 76.3 / 73.6**; margin 256 with three time-shifted views per recording and look-again at test **31.4 / 49.8 / 64.4** and 77.4 / 76.1 / 73.9. All-word accuracy at k = 1 / 2 / 5: 62.5 / 65.0 / 65.7 -> 66.0 / 69.6 / 71.6. One recording is still weak (about 31 %).
 - **F7** (`brain_strict_novel.py`, blended stream, margin 256 / 1,500 dreams / 1 night, 2 seeds): with 2 % labels and no novelty rule 79 %; with novelty recruitment (2nd-percentile cut) 50-57 %. The recruitment rule still hurts.
 
+### 20 Oct 2026 - stacking and second layer re-run under the new settings (margin 256, 1,500 dreams, 1 night; SIMULATED, 3 seeds, staged / all at once)
+
+- Clothing: shipped encoder 83.3 / 86.55; prototype dreams 84.65 / 86.6 (2.3x dream memory); stride-1 encoder 83.65 / 87.2; both 83.8 / 87.5. Digits: 95.5 / 97.5; prototype dreams 95.7 / 97.3; stride-1 95.1 / 98.05; both 95.05 / 97.95. Under the new settings prototype dreams add only +1.3 on clothing staged and nothing on digits, so the settings capture almost all of the earlier prototype-dream gain at no memory cost; the stride-1 encoder is worth its all-at-once gain (+0.65 clothing, +0.55 digits) and nothing more.
+- **F10 second sensory layer FAILED again** (clothing, new settings): layer 1 + layer 2 82.7 / 86.4 against 83.3 / 86.55 for layer 1 alone; layer 2 alone 70.2 / 72.1.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

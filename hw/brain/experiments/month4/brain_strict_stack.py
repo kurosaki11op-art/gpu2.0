@@ -13,6 +13,7 @@ from cortex_slow import CortexSlow
 from cortex_proto_slow import CortexProtoSlow
 import detector_learn
 D = sys.argv[1]; DS = os.environ.get("DS", "mnist"); NPS = int(os.environ.get("NPS", 2000)); SEEDS = int(os.environ.get("SEEDS", 3)); ARMS = os.environ.get("ARMS", "base,proto4,s1,s1proto4").split(",")
+CFG = dict(margin=int(os.environ.get('MARGIN', 32)), ndream=int(os.environ.get('NDREAM', 6000)), night=int(os.environ.get('NIGHT', 2)))   # chip settings; recommended 19 Oct: 256 / 1,500 / 1
 STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]; t0 = time.time()
 xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
 rs = np.random.RandomState(5); idx = np.concatenate([rs.permutation(np.where(np.isin(ytr, s))[0])[:NPS] for s in STAGES]); xtr, ytr = xtr[idx], ytr[idx]
@@ -36,7 +37,7 @@ for arm in ARMS:
     enc = "s1" if arm.startswith("s1") else "base"; proto = arm.endswith("proto4"); ctr, cte = codes(enc); NB = ctr.shape[1]; out = {"staged": [], "once": []}
     for seed in range(1, SEEDS + 1):
         for mode in ("staged", "once"):
-            m = CortexProtoSlow(NB, protos=4, ch=100, K=5, night_stop=2, daydream=1, seed=seed) if proto else CortexSlow(NB, ch=100, K=5, night_stop=2, daydream=1, seed=seed)
+            m = CortexProtoSlow(NB, protos=4, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if proto else CortexSlow(NB, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
             for i, s in enumerate(STAGES if mode == "staged" else [tuple(range(10))]):
                 o = np.where(np.isin(ytr, s))[0]; o = o[np.random.RandomState(100 * seed + i).permutation(len(o))]; m.stage(ctr[o], ytr[o])
             out[mode].append(float((m.predict(cte) == yte).mean()))
