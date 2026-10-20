@@ -1,0 +1,9 @@
+seed 1 41s
+seed 2 61s
+seed 3 80s
+set sc
+both senses, tested with both                  one pass 0.9907  staged 0.9772  (staged loss 1.35)
+both senses, tested with the picture only      one pass 0.8905  staged 0.8632  (staged loss 2.73)
+both senses, tested with the sound only        one pass 0.7468  staged 0.7180  (staged loss 2.88)
+picture alone                                  one pass 0.9747  staged 0.9552  (staged loss 1.95)
+sound alone                                    one pass 0.8325  staged 0.8350  (staged loss -0.25)
