@@ -808,4 +808,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 
 - Dreams per learned example 45.6 -> 7.2 (6.3x fewer) with the new settings; the earlier layout-based 45-62 uJ per learned example (about 95 % dreams) scales to about 9-12.5 uJ. Pruning the slow table saves 8-15 % of chip memory (sparse store with indices); dream counts cannot be pruned. Details in the results note ("Memory and energy"). Not a layout re-run.
 
+### 20 Oct 2026 - F10 multi-scale vote: small gains for 2-3x memory (SIMULATED, 3 seeds, new settings, staged / all at once)
+
+- `brain_strict_ens.py`: chips with different encoders (base, stride-1 `s1`, a differently fitted base `base2`) learn the same data; their slow-table scores are added at test. Clothing: base 83.3 / 86.55, s1 83.65 / 87.2, base2 83.2 / 86.3; vote base + s1 83.9 / 87.55; vote of three 84.0 / 87.8. Digits: base 95.5 / 97.5, s1 95.1 / 98.05; vote base + s1 95.6 / 98.1; three 95.95 / 97.95. At most +0.7 staged and +1.3 all at once for 2-3x memory; the gap to a CNN is not closed. Consistent with the code, not the number of chips, being the limit.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

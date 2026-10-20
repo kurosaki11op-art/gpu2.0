@@ -83,6 +83,7 @@ No view type lifts clothing above normal learning; on digits only 1-pixel shifts
 | 64 / 128 detectors per channel | no gain worth the memory (clothing staged 82.0 / 80.7, 2x / 4x memory) |
 | **Few-shot new spoken words under margin 256** (base 15 words, k = 1 / 2 / 5 recordings) | new words 24.4 / 39.3 / 51.2 -> **30.4 / 46.9 / 61.7**, with three time-shifted views 31.4 / 49.8 / 64.4; old words 75.0 / 73.4 / 70.5 -> 77.5 / 76.3 / 73.6; one recording still weak |
 | Novelty recruitment under the new settings | still worse (50-57 % vs 79 % at 2 % labels) |
+| Multi-scale vote (chips with different encoders add their scores), new settings, staged / all at once | clothing 83.3 / 86.55 -> 84.0 / 87.8 (three chips); digits 95.5 / 97.5 -> 95.95 / 97.95; 2-3x memory; does not close the gap to a CNN |
 | RTL hooks `CORTEX_HOOKS` (top margin, write counter) | bit-exact, 0 mismatches over 200 lines |
 
 ## Memory and energy (ESTIMATED, arithmetic on stated numbers, not a layout)
