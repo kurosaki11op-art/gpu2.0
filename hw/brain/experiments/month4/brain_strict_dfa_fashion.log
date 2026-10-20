@@ -1,0 +1,2 @@
+fashion base H=1024 K=64 1 epoch 0.8372  3 epochs 0.8477 12s
+fashion rand H=1024 K=64 1 epoch 0.8470  3 epochs 0.8443 93s

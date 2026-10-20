@@ -929,4 +929,9 @@ Clothing staged: E=2 83.75, 4 83.92, 8 84.08, 16 84.23 (mix 16) / 84.37 (mix 8),
 The share of real replay per class was set by a self-test (fraction of its stored hard traces the table now gets wrong; 0 = dreams only). Clothing E=8 / 32: 83.88 / 84.62; digits E=8 / 32: 94.53 / 94.77 vs 95.52 shipped. The digits loss is not removed by an adaptive share (the hardest traces are nearly always among the "wrong", so the share stays high), nor by noisy copies, a write margin of 0, or excluding outliers; random traces at a 6 % share cost digits 3 points, so replaying a few real items hurts digits for a reason I have not found. Under the no-regression rule the hard-example buffer is not merged. Started: 35-word matched baseline (`peak`, `coin`, margin 256) to settle F1 and the coincidence cells at scale; log `brain_strict_peak35_m256.log`.
 
 
+## 20 Oct 2026 (night) - 35 words, matched baseline (SIMULATED, margin 256 / 1,500 dreams / 1 night, 3 seeds)
+
+Shipped `peak`: clean 68.29, 20 / 10 / 5 dB 56.5 / 39.8 / 27.4, oldest 68.8, newest 60.8, twin 65.2. Causal onset look-ahead (`onsetla:1600`, earlier run): clean 65.64, newest 56.5, twin 64.1: **F1 not at parity at 35 words (-2.7)**. Peak + delay-line coincidence cells (`coin`): clean 67.09 (-1.2), 57.1 / 43.3 / 31.9 dB (+0.6 / +3.5 / +4.5), oldest 69.3, newest 57.0 (-3.8), twin 66.0 (+0.9). Helps noise, hurts clean and newest words, twin gain shrinks to +0.9: fails the no-regression rule at scale. Logs `brain_strict_peak35_m256.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
