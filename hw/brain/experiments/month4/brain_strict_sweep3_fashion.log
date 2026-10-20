@@ -1,0 +1,17 @@
+fashion centre {'staged': 0.8327, 'once': 0.8655} 26s
+fashion ndream=500 {'staged': 0.8333, 'once': 0.8655} 36s
+fashion ndream=1000 {'staged': 0.8353, 'once': 0.8655} 48s
+fashion ndream=3000 {'staged': 0.827, 'once': 0.8655} 66s
+fashion night=2 {'staged': 0.8303, 'once': 0.8655} 80s
+fashion daydream=0 {'staged': 0.8317, 'once': 0.8633} 88s
+fashion daydream=2 {'staged': 0.8338, 'once': 0.8658} 107s
+fashion daydream=3 {'staged': 0.8322, 'once': 0.8665} 131s
+fashion margin=128 {'staged': 0.8287, 'once': 0.8658} 145s
+fashion margin=192 {'staged': 0.8338, 'once': 0.8675} 158s
+fashion margin=384 {'staged': 0.8283, 'once': 0.8633} 172s
+fashion cmax=7 {'staged': 0.8205, 'once': 0.8598} 185s
+fashion cmax=31 {'staged': 0.826, 'once': 0.8678} 199s
+fashion ch=50 {'staged': 0.8228, 'once': 0.8658} 212s
+fashion ch=200 {'staged': 0.8117, 'once': 0.8652} 226s
+fashion K=4 {'staged': 0.824, 'once': 0.866} 239s
+fashion K=6 {'staged': 0.807, 'once': 0.8648} 253s

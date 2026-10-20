@@ -1,0 +1,70 @@
+{
+ "centre": {
+  "staged": 0.8327,
+  "once": 0.8655
+ },
+ "ndream=500": {
+  "staged": 0.8333,
+  "once": 0.8655
+ },
+ "ndream=1000": {
+  "staged": 0.8353,
+  "once": 0.8655
+ },
+ "ndream=3000": {
+  "staged": 0.827,
+  "once": 0.8655
+ },
+ "night=2": {
+  "staged": 0.8303,
+  "once": 0.8655
+ },
+ "daydream=0": {
+  "staged": 0.8317,
+  "once": 0.8633
+ },
+ "daydream=2": {
+  "staged": 0.8338,
+  "once": 0.8658
+ },
+ "daydream=3": {
+  "staged": 0.8322,
+  "once": 0.8665
+ },
+ "margin=128": {
+  "staged": 0.8287,
+  "once": 0.8658
+ },
+ "margin=192": {
+  "staged": 0.8338,
+  "once": 0.8675
+ },
+ "margin=384": {
+  "staged": 0.8283,
+  "once": 0.8633
+ },
+ "cmax=7": {
+  "staged": 0.8205,
+  "once": 0.8598
+ },
+ "cmax=31": {
+  "staged": 0.826,
+  "once": 0.8678
+ },
+ "ch=50": {
+  "staged": 0.8228,
+  "once": 0.8658
+ },
+ "ch=200": {
+  "staged": 0.8117,
+  "once": 0.8652
+ },
+ "K=4": {
+  "staged": 0.824,
+  "once": 0.866
+ },
+ "K=6": {
+  "staged": 0.807,
+  "once": 0.8648
+ }
+}

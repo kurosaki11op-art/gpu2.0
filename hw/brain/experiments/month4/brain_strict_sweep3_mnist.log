@@ -1,0 +1,17 @@
+mnist centre {'staged': 0.9552, 'once': 0.9747} 39s
+mnist ndream=500 {'staged': 0.9365, 'once': 0.9747} 52s
+mnist ndream=1000 {'staged': 0.9497, 'once': 0.9747} 71s
+mnist ndream=3000 {'staged': 0.9567, 'once': 0.9747} 112s
+mnist night=2 {'staged': 0.952, 'once': 0.9747} 146s
+mnist daydream=0 {'staged': 0.9498, 'once': 0.9735} 164s
+mnist daydream=2 {'staged': 0.9528, 'once': 0.9733} 191s
+mnist daydream=3 {'staged': 0.9505, 'once': 0.9732} 227s
+mnist margin=128 {'staged': 0.9458, 'once': 0.9737} 253s
+mnist margin=192 {'staged': 0.9518, 'once': 0.9728} 266s
+mnist margin=384 {'staged': 0.9367, 'once': 0.9728} 277s
+mnist cmax=7 {'staged': 0.9447, 'once': 0.9695} 287s
+mnist cmax=31 {'staged': 0.9542, 'once': 0.9745} 300s
+mnist ch=50 {'staged': 0.953, 'once': 0.975} 312s
+mnist ch=200 {'staged': 0.9567, 'once': 0.9743} 325s
+mnist K=4 {'staged': 0.9527, 'once': 0.975} 338s
+mnist K=6 {'staged': 0.9525, 'once': 0.9738} 351s
