@@ -1,1 +1,11 @@
-clips 3500 test 717 11s
+clips 3500 test 717 4s
+channel 0 ready 10s
+channel 1 ready 15s
+channel 2 ready 20s
+channel 3 ready 24s
+channel 4 ready 30s
+channel 5 ready 34s
+channel 6 ready 38s
+channel 7 ready 43s
+channel 8 ready 47s
+channel 9 ready 54s

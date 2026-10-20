@@ -7,6 +7,7 @@ Audit: docs/brain_principles_audit.md. Arms (env ARMS, comma list):
             (top-2 margin >= the lower quartile of the labelled examples' margins), otherwise they are ignored; one night at the end of the stage
   fewa:P:Q  like fewc, and the fast table must name the same class as the slow table before a pseudo-label is used
   gate:v|1  every label is present; an example is learned (with its true label) only if its 5 shifted views agree on one class; v = learn all 5 views, 1 = centre view only
+  lab:P     control: only the labelled fraction P of each stage is learned (no pseudo-labels), to show how much the pseudo-labels add
   fews:P:Q  like fewc, with eye movements: labelled and pseudo-labelled examples are learned with their 4 one-pixel-shifted views, and an unlabelled example is pseudo-labelled only if all 5 views name the same class
   fewc:P:Q  like few, but a pseudo-label may only be one of the classes rewarded in the current context (the stage's labelled ones), margin cut at percentile Q (default 25)
   mixc:P:Q  like fewc, but the rewards arrive scattered through the stream; the margin cut comes from the margins of the most recent 200 rewarded examples (percentile Q)
@@ -124,6 +125,11 @@ def run(arm, seed):
                 if sel.any(): m.stage(views(u[sel]), np.tile(pred[sel], len(sh) + 1))
             night(m); used += k
         info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
+    elif kind == "lab":                                                      # control: only the labelled examples are used (no pseudo-labels at all), same stage and night structure
+        frac = float(p); m.night = 0
+        for o in order:
+            k = max(2, int(len(o) * frac)); lab = o[:k]; m.stage(ctr[lab], ytr[lab]); night(m)
+        info = {"labelled": int(sum(max(2, int(len(o) * frac)) for o in order))}
     elif kind == "gate":
         use_views = p == "v"; m.night = 0; kept = tot = 0; sh = shifted_codes()
         views = lambda idx: np.concatenate([ctr[idx]] + [v[idx] for v in sh]) if use_views else ctr[idx]

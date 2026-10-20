@@ -39,6 +39,18 @@ MEASURED on hardware yet** (the board run is next: [month 4 plan](month4_board_p
 | Energy per learned example, SKY130 layout | digits 45-62 uJ; "economy" setting ~3x less for -0.6 to -0.8 points | ESTIMATED | [energy per example](../hw/brain/experiments/month4/energy_per_example_layout.md), [dream budget](../hw/brain/experiments/month4/dream_budget.md) |
 | Chip area, SKY130 | images ~18.8 mm^2 (95% open SRAM macros; logic < 1 mm^2); sound memories ~90 mm^2 with open macros | ESTIMATED | [ASIC](../hw/results/cortex_asic_estimate.md), [sound chip](../hw/results/cortex_sound_chip.md) |
 
+## Update 19-20 Oct (SIMULATED, 3 seeds; details in [redesign tests](../hw/results/brain_strict_redesign.md))
+
+| Change | Result |
+|---|---|
+| Update margin 256, 1,500 dreams per old class, 1 night pass (was 32 / 6,000 / 2), no extra memory | staged / all at once: digits 94.1 / 97.0 -> **95.5 / 97.5**; clothing 80.8 / 86.0 -> **83.3 / 86.55**; spoken words clean 68.5 -> **73.35**, last-stage words 50.6 -> 57.1; RTL bit-exact at margin 256 |
+| Training on noisy copies (words) | clean / 20 / 10 / 5 dB 69.2 / 62.7 / 47.5 / 33.5 -> 73.3 / 73.3 / 65.6 / 56.4, old words level (control "same clips twice" pending) |
+| Few labels, digits | 5% labels 95.0 vs 95.5 fully labelled (2%: 94.7); clothing about 79 vs 83.3 at 10% labels (limited by label count) |
+| RTL hooks (top margin, write counter) | bit-exact, 0 mismatches over 200 lines |
+| Process fixes | detectors learned on the chip, sleep from the chip's own surprise count, weak-synapse pruning (19-30% of synapses kept) |
+
+Open and failed items are listed honestly in Q&A 17.
+
 ## Say these limits first
 
 1. Not the first continual-learning chip (HDC accelerators, Intel Loihi 2): what is new is the combination - dreams

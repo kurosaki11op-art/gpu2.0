@@ -97,10 +97,19 @@ def codes(mode):
         fcache[mode] = out; return out
     al = (lambda P: cochlea_int.align_word(P, 6)) if mode == "peak" or mode.startswith("geom") else (lambda P, th=int(mode.split(":")[1]): rel_align(P, th)) if mode.startswith("rel") else (lambda P, th=int(mode.split(":")[1]): onset_align(P, th))
     GEO = tuple(int(v) for v in mode.split(":")[1:]) if mode.startswith("geom") else (3, 3, 1, 1, 4, 4)           # window rows, window columns (time), strides, pooling (rows, columns)
-    ptr = al(pic["clean"][~te]); fes = [SoundFeatures(64, c, *GEO).fit(ptr[np.isin(ytr, STAGES[0])][:12000]) for c in CH]
-    enc = lambda x: np.concatenate([np.concatenate([f.encode(x[i:i + 2000]) for f in fes], 1) for i in range(0, len(x), 2000)])
-    out = {"tr": enc(ptr), "clean": enc(al(pic["clean"][te]))}
-    for k in ("20dB", "10dB", "5dB"): out[k] = enc(al(pic[k]))
+    ptr = al(pic["clean"][~te]); sets = {"tr": ptr, "clean": al(pic["clean"][te])}
+    for k in ("20dB", "10dB", "5dB"): sets[k] = al(pic[k])
+    parts = {k: [] for k in sets}                                                                                       # resumable: each channel's codes are saved as soon as they exist (a restart loses at most one channel)
+    for ci, c in enumerate(CH):
+        key = os.path.join(CACHE, "ch_%s_nw%d_c%d.npz" % (mode.replace(":", "_"), NW, ci))
+        if os.path.exists(key):
+            z = np.load(key); enc_c = {k: z[k] for k in sets}
+        else:
+            f = SoundFeatures(64, c, *GEO).fit(ptr[np.isin(ytr, STAGES[0])][:12000])
+            enc_c = {k: np.concatenate([f.encode(v[i:i + 2000]) for i in range(0, len(v), 2000)]) for k, v in sets.items()}; np.savez_compressed(key, **enc_c)
+        for k in sets: parts[k].append(enc_c[k])
+        print("channel", ci, "ready", "%.0fs" % (time.time() - t0), flush=True)
+    out = {k: np.concatenate(parts[k], 1) for k in sets}
     fcache[mode] = out; return out
 
 

@@ -40,7 +40,7 @@ print("view codes", CV.shape, flush=True); nb = CV.shape[2]
 tab = pool[:T]; lab = {w: i for i, w in enumerate(tab + NEW)}; sel = np.isin(y, tab + NEW); yy = np.array([lab.get(v, -1) for v in y])
 itr, ite = np.where(sel & ~te)[0], np.where(sel & te)[0]; ytr, yte = yy[itr], yy[ite]; nw = yte >= T; old = np.where(ytr < T)[0]
 ctr = CV[:, itr]; cte = CV[:, ite]                                                     # (3, n, nb)
-m0 = CortexEmbed(nb, n_cls=32, np_slots=64, seed=1, night=0, daydream=0); pp = np.random.RandomState(0).permutation(len(old)); m0.stage(ctr[1][old][pp], ytr[old][pp])   # the table learns from lead 6 only
+m0 = CortexEmbed(nb, n_cls=32, np_slots=64, seed=1, night=0, daydream=0, margin=int(os.environ.get('MARGIN', 32))); pp = np.random.RandomState(0).permutation(len(old)); m0.stage(ctr[1][old][pp], ytr[old][pp])   # the table learns from lead 6 only
 Etr = [m0.embedding_batch(ctr[v]) for v in range(3)]; Ete = [m0.embedding_batch(cte[v]) for v in range(3)]; Ete_sum = sum(Ete)
 for k in (1, 2, 5):
     res = {"single": [], "views": []}

@@ -22,7 +22,7 @@ ctr, cte = enc(xtr), enc(xte); NB = ctr.shape[1]
 def night(m):
     old = np.where(m.known)[0].astype(np.int64)
     _, m.tick = _stage_slow(m.W, m.S, m.on, m.n, m.rng, m.known, np.zeros((0, 1), np.int32), np.zeros(0, np.int32), np.zeros(0, np.int64), np.zeros(0, np.int64), old,
-                            m.ndream, 2, m.margin, m.cmax, m.top, m.daydream, m.night_stop, m.stats, m.ch, m.K, m.FR, m.RND, m.tick)
+                            m.ndream, int(os.environ.get('NIGHT', 2)), m.margin, m.cmax, m.top, m.daydream, m.night_stop, m.stats, m.ch, m.K, m.FR, m.RND, m.tick)
 
 
 def scores(m, c, allowed):
@@ -37,7 +37,7 @@ def best2(s):
 
 def run(arm, seed):
     kind, p = arm.split(":"); frac = float(p); nov_on = kind == "ctxn"
-    m = CortexSlow(NB, n_cls=20, ch=100, K=5, night_stop=2, daydream=1, seed=seed); m.night = 0
+    m = CortexSlow(NB, n_cls=20, ch=100, K=5, night_stop=2, daydream=1, seed=seed, margin=int(os.environ.get('MARGIN', 32)), ndream=int(os.environ.get('NDREAM', 6000))); m.night = 0
     order = [np.where(np.isin(ytr, s))[0] for s in STAGES]; order = [o[np.random.RandomState(100 * seed + i).permutation(len(o))] for i, o in enumerate(order)]
     rg = np.random.RandomState(31 * seed); allidx = np.concatenate(order); key = np.concatenate([np.full(len(o), i, float) for i, o in enumerate(order)]) + rg.uniform(-0.8, 0.8, len(allidx))
     stream = allidx[np.argsort(key)]; recent = []; buf = []; alias = np.full(20, -1); alias[:10] = np.arange(10); cur = -1; cur_n = 0; nxt = 10; since = 0; opened = 0
