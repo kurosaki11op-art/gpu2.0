@@ -1,0 +1,9 @@
+codes ready 46s
+mnist staged seed 1 {'base': 0.956, 's1': 0.953, 'base2': 0.9345, 'base+s1': 0.956, 'base+s1+base2': 0.9615} 57s
+mnist staged seed 2 {'base': 0.955, 's1': 0.9475, 'base2': 0.9385, 'base+s1': 0.9545, 'base+s1+base2': 0.9585} 68s
+mnist staged seed 3 {'base': 0.9545, 's1': 0.953, 'base2': 0.9495, 'base+s1': 0.9575, 'base+s1+base2': 0.9585} 79s
+mnist staged {'base': 0.9552, 's1': 0.9512, 'base2': 0.9408, 'base+s1': 0.956, 'base+s1+base2': 0.9595}
+mnist once seed 1 {'base': 0.974, 's1': 0.9815, 'base2': 0.9745, 'base+s1': 0.981, 'base+s1+base2': 0.981} 82s
+mnist once seed 2 {'base': 0.9745, 's1': 0.979, 'base2': 0.973, 'base+s1': 0.9805, 'base+s1+base2': 0.978} 84s
+mnist once seed 3 {'base': 0.9755, 's1': 0.981, 'base2': 0.974, 'base+s1': 0.9815, 'base+s1+base2': 0.9795} 86s
+mnist once {'base': 0.9747, 's1': 0.9805, 'base2': 0.9738, 'base+s1': 0.981, 'base+s1+base2': 0.9795}

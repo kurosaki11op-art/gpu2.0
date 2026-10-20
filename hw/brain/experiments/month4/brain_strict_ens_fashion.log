@@ -1,0 +1,9 @@
+codes ready 48s
+fashion staged seed 1 {'base': 0.831, 's1': 0.8275, 'base2': 0.8295, 'base+s1': 0.831, 'base+s1+base2': 0.833} 53s
+fashion staged seed 2 {'base': 0.8315, 's1': 0.836, 'base2': 0.8355, 'base+s1': 0.8415, 'base+s1+base2': 0.844} 59s
+fashion staged seed 3 {'base': 0.8355, 's1': 0.846, 'base2': 0.83, 'base+s1': 0.8445, 'base+s1+base2': 0.843} 64s
+fashion staged {'base': 0.8327, 's1': 0.8365, 'base2': 0.8317, 'base+s1': 0.839, 'base+s1+base2': 0.84}
+fashion once seed 1 {'base': 0.865, 's1': 0.867, 'base2': 0.8635, 'base+s1': 0.8735, 'base+s1+base2': 0.8775} 67s
+fashion once seed 2 {'base': 0.87, 's1': 0.8745, 'base2': 0.868, 'base+s1': 0.876, 'base+s1+base2': 0.8775} 69s
+fashion once seed 3 {'base': 0.8615, 's1': 0.8755, 'base2': 0.858, 'base+s1': 0.877, 'base+s1+base2': 0.8795} 72s
+fashion once {'base': 0.8655, 's1': 0.8723, 'base2': 0.8632, 'base+s1': 0.8755, 'base+s1+base2': 0.8782}
