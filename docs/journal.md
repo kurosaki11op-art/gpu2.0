@@ -989,4 +989,9 @@ digits 95.25 (Q=0) / 95.07 (Q=10) vs gate only 89.9, Module 2 alone 93.75, and *
 Clothing 77.98 / 78.13 vs Module 2 alone 78.32 vs all labels 83.3: no gain from views; the 5-point gap stays (pseudo-label precision 96-99 %: confusable shirt / T-shirt / pullover / coat pseudo-labels repeat the same mistakes, so they add little new). Logs `kv_mnist.log`, `kv_fashion.log`.
 
 
+## 20 Oct 2026 (night) - Twin words against the same-data CNN (MEASURED reference, 20 words)
+
+CNN joint: overall 77.05, **twin words 84.06** (the 8 acoustic pairs present: no/go, left/right, up/off, on/off, bed/bird, down/dog, three/tree, four/forward; accuracy over the clips of those words). SPARK staged (SIMULATED): twin 69.1 (shipped peak), 73.9 (timing cells / coincidence), float readout on the shipped code 72.5. So twin words are not hard for a trained network (84, above its own overall 77) while for SPARK they are below its overall (69 vs 73): a real gap of 10-15 points, a design weakness and not a data limit. Staged CNN: naive 0.0 on twins, 160-picture replay 5.8 (`gpu_baseline_words2.log`).
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

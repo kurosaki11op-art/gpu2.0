@@ -28,14 +28,18 @@ def fit(m, X, Y, epochs):
             b = p[i:i + 32]; opt.zero_grad(); nn.functional.cross_entropy(m(X[b]), Y[b]).backward(); opt.step()
 
 
+TWIN = [w for a, b in (("no", "go"), ("left", "right"), ("up", "off"), ("on", "off"), ("bed", "bird"), ("down", "dog"), ("three", "tree"), ("four", "forward")) if a in WORDS and b in WORDS for w in (a, b)]; TI = torch.tensor(np.isin(y[te], [WORDS.index(w) for w in TWIN]))
+
+
 def acc(m):
-    with torch.no_grad(): return float((m(Xte).argmax(1) == Yte).float().mean())
+    with torch.no_grad(): p = m(Xte).argmax(1)
+    return float((p == Yte).float().mean()), float((p[TI] == Yte[TI]).float().mean())
 
 
-m = net(); fit(m, Xtr, Ytr, 25); print("20 words joint", round(acc(m), 4), flush=True)
+m = net(); fit(m, Xtr, Ytr, 25); print("20 words joint (overall, twin words)", [round(v, 4) for v in acc(m)], flush=True)
 for name, rb in (("naive", 0), ("replay RB=160", 160), ("replay RB=1000", 1000)):
     m = net(); buf = np.zeros(0, np.int64)
     for s in STAGES:
         cur = np.where(np.isin(y[~te], s))[0]; sel = np.concatenate([cur, buf]); fit(m, Xtr[sel], Ytr[sel], 5)
         if rb: old = np.concatenate([buf, cur]); buf = old[np.random.RandomState(7).permutation(len(old))[:rb]]
-    print("20 words staged", name, round(acc(m), 4), flush=True)
+    print("20 words staged", name, [round(v, 4) for v in acc(m)], flush=True)
