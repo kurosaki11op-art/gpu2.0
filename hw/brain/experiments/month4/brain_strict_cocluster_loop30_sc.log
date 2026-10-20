@@ -1,0 +1,10 @@
+seed 1 888s
+seed 2 1759s
+set sc (30 groups, one label per group; groups formed with no labels)
+round 0: group names right                                       0.9196
+round 1: names right                                             0.9658
+round 2: names right                                             0.9739
+picture learner on the final names (picture only test)           0.9698
+joint learner on the final names (both senses test)              0.9835
+reference: picture learner, all true labels                      0.9743
+reference: joint learner, all true labels                        0.9935

@@ -35,6 +35,9 @@ MNIST pictures + Speech Commands spoken digits (many speakers, varied microphone
 ## Clothing with no picture labels (SIMULATED ear, 3 seeds, one pass)
 With a name source that is right only 60-73 % of the time (errors random, or confusable: shirt / T-shirt / pullover / coat), sleep cleaning lifts clothing from 83.2 / 78.7 (names as given, confusable errors) to **85.4 / 85.2**, against 86.55 with every true label (cleaned names 94-95 % right). This is the digits result carried to the class set that limited the few-label tests (78 vs 83.3). The ear is simulated; there is no spoken clothing set. See the [journal](../../docs/journal.md).
 
+## Categories with no labels (SIMULATED, 2 seeds)
+A seen digit and a heard clip of the same digit occur together. Competitive learning (k-means by overlap) on the joined picture + sound code forms the groups with **no labels**; each group is named by one label; a joint table then re-names every pair with both senses pooled over buffered neighbours (sleep). With **30 groups (30 labels in total, 3 per class)**: names right 92-93 % at the start, 96-97 % after sleep; a picture learner on the final names reaches **96.1 / 97.0** (FSDD / Speech Commands pairs) against 97.4 with all 10,000 labels; with 10 groups only 73 / 86. Picture-only groups reach about 67; sound-only groups 42-44. The second sense is what makes the category layer work. Grouping runs as host-side k-means (not in RTL). See the [journal](../../docs/journal.md).
+
 ## Limits
 - SIMULATED model plus RTL simulation; nothing measured on silicon or the board.
 - Two dataset pairs (MNIST + FSDD spoken digits, MNIST + Speech Commands digits); 2 seeds for the CNN rows, 3 seeds for SPARK.
