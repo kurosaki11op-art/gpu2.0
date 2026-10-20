@@ -1,0 +1,2 @@
+core (FPGA build): PASS
+core (pipelined): PASS
