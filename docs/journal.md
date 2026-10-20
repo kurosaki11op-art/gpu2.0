@@ -866,4 +866,9 @@ Shipped OR-pooled code 86.35; pooled counts as thermometer planes (>=1,2) 86.70;
 Layer 1 alone 86.35. Layer 2 (competitive Hebbian over 3x3 / 2x2 neighbourhoods of the layer-1 map, learned on stage-0 images): alone 67.7 / 68.1 / 74.8 / 80.3 (s=3 F2=64 k=1; s=3 F2=128 k=1; s=3 F2=128 k=3; s=2 F2=128 k=3); layer 1 + 2: 86.2 / 86.1 / 86.7 / 86.6. No gain (best +0.3). This is the third negative for a second layer (earlier: two chip-level attempts). Conclusion: the limit is not depth or grading but that all detectors are learned without any signal about what separates the classes. A GPU's advantage is task-driven feature learning (backprop). The brain-principled counterpart is reward-gated local learning (a three-factor rule: detector activity x neighbour activity x reward / surprise), the next thing to test. Script `brain_strict_depth.py`, log `brain_strict_depth_fashion.log`.
 
 
+## 20 Oct 2026 (night) - Reward-gated detector recruitment: tiny gain (SIMULATED, clothing, replace mode, 6 recruits/channel/round, 4 rounds)
+
+After the table learns, an error image points at its most misleading active bit (largest table entry for the rival minus the right class); the patch behind that bit replaces the least-used detector. Chip one-pass 86.50 -> 86.70 / 86.80 / 86.75 / 87.00; ridge ceiling 86.35 -> 86.60 / 86.30 / 86.55 / 86.75; chip staged 83.10 -> 82.60 (worse). Gain at most +0.5 one-pass, none staged. Stronger variants (grow, 12-16 recruits) not run. Next hypothesis (untested): detectors are learned from the first stage's two classes only (T-shirt, trouser), so later classes are coded by detectors that never saw them; test the ceiling with detectors learned from all classes, then fix by neurogenesis (new detectors recruited from poorly matched patches when a new class arrives, old bits unchanged). Script `brain_strict_reward_det.py`, log `brain_strict_reward_det_fashion.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

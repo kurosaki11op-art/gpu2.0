@@ -1,1 +1,5 @@
 fashion round 0 (shipped) bits 4608 chip one-pass 0.8650 ridge 0.8635 chip staged 0.8310 37s
+fashion round 1 (replace, 6 recruits/channel, 941 errors used) bits 4608 chip one-pass 0.8670 ridge 0.8660 chip staged nan 76s
+fashion round 2 (replace, 6 recruits/channel, 944 errors used) bits 4608 chip one-pass 0.8680 ridge 0.8630 chip staged nan 119s
+fashion round 3 (replace, 6 recruits/channel, 1086 errors used) bits 4608 chip one-pass 0.8675 ridge 0.8655 chip staged nan 162s
+fashion round 4 (replace, 6 recruits/channel, 932 errors used) bits 4608 chip one-pass 0.8700 ridge 0.8675 chip staged 0.8260 203s
