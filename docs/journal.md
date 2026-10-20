@@ -904,4 +904,9 @@ The fine code gives +1.6 clothing and +0.6 digits one-pass (the float ceiling of
 Peak baseline: clean 73.35, 20 / 10 / 5 dB 65.7 / 51.5 / 39.5, oldest 77.5, newest 57.1, twin 69.1. Peak + coincidence (1,323 bits, `coin` arm in `brain_strict_sound.py`): clean 72.95, 66.6 / 53.9 / 40.3, oldest 75.8, newest 56.7, **twin 73.9**. Twin +4.8 and noise +1 to +2.4, but clean -0.4 and old words -1.7: the same size of gain as the simple timing cells (twin 73.9-74.4), not additive evidence of a clear win; the float probe's +7.2 twin did not carry to the chip. Log `brain_strict_coin.log`. Common pattern across clothing, digits and words: a richer code helps one-pass but the staged loss (clothing 3-5 points, words newest 57 vs oldest 77) eats it, so staged learning is the shared bottleneck.
 
 
+## 20 Oct 2026 (night) - Concept cells (per-class prototypes, no interference) on today's code (SIMULATED, shipped coarse code, 1 seed)
+
+Staged equals one-pass by construction (a class touches only its own cells). Clothing P=4 / 16 / 32: 80.45 / 83.20 / 82.95; digits 95.05 / 96.10 / 96.50. Chip staged for reference: clothing 83.27, digits 95.52. So the concept cells match the chip's staged result on clothing and beat it on digits by +0.6 to +1.0, but need 10 x P x 4,608 counters (P=16: 737 K counters, several times the chip's 129 KB), and their one-pass is below the chip's (clothing 83.2 vs 86.55). Correction to an earlier remark: this mechanism was the month-1 design (`ConceptMemory`), not untried; what was untested is its staged behaviour on today's code. Script `brain_strict_concept.py`, logs `brain_strict_concept_{fashion,mnist}.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

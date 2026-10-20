@@ -1,0 +1,3 @@
+mnist concept cells P=4 (staged = once) accuracy 0.9505 cells x bits = 184320 8s
+mnist concept cells P=16 (staged = once) accuracy 0.9610 cells x bits = 737280 9s
+mnist concept cells P=32 (staged = once) accuracy 0.9650 cells x bits = 1474560 12s
