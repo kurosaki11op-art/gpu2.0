@@ -1,0 +1,4 @@
+fashion replay RB=1000 0.6905
+mnist replay RB=1000 0.9015
+fashion replay RB=4000 0.878
+mnist replay RB=4000 0.9585

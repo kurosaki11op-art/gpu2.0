@@ -952,4 +952,19 @@ Taken with the earlier probes (graded code, depth, fovea, all-class detectors, r
 **Fairness correction.** Our chip tests use **10,000 training images** (2,000 per class pair x 5), not the 60,000 of the full set. The usual "about 93 % for a CNN on clothing" is for all 60,000 images; a small CNN on 10,000 images is lower (I recall about 87-89 %, ESTIMATED from memory of learning curves, NOT measured). So the real gap to a CNN at equal data may be 1-3 points, not 6. To measure it, `gpu_baseline_same_data.py` (torch; run on a PC, the container has none) trains a small CNN on the same 10,000 / 2,000 images: joint, naive staged, and staged with a 160-image replay buffer (about the chip's memory). Results pending.
 
 
+## 20 Oct 2026 (night) - Same-data GPU-style reference MEASURED (small CNN, 421,642 float parameters, backprop, torch on the cloud CPU; same 10,000 training / 2,000 test images as the chip tests)
+
+| | clothing | digits |
+|---|---|---|
+| CNN joint (all classes together, 15 epochs) | **88.8** | **98.55** |
+| CNN staged, naive (5 stages of 2 classes, 5 epochs each) | 20.5 | 19.9 |
+| CNN staged + replay buffer of 160 real images (about the chip's 129 KB) | 31.6 | 27.4 |
+| CNN staged + 1,000 replayed images (784 KB) | 69.1 | 90.2 |
+| CNN staged + 4,000 replayed images (3.1 MB) | 87.8 | 95.9 |
+| SPARK one pass (SIMULATED) | 86.55 | 97.47 |
+| SPARK staged, no stored data, 129 KB (SIMULATED) | **83.3** | **95.5** |
+
+So at equal data the one-pass gap to a CNN is 2.3 points on clothing and 1.1 on digits (not 6 and 2 as measured against full-set figures). The decisive result is staged learning: a CNN without help collapses to the latest classes (about 20 %), and with a replay buffer at SPARK's memory size it reaches only 28-32 %; it needs about 4,000 stored real images (3.1 MB, 24x the chip's memory) to get near SPARK's staged accuracy (87.8 / 95.9), and 1,000 images (6x) is not enough. This is the first MEASURED head-to-head in the repo. Script `gpu_baseline_same_data.py`, logs `gpu_baseline_same_data_{fashion,mnist}.log`, `gpu_baseline_same_data_rb.log`. Caveat: one seed, one small CNN, no tuned continual-learning method (no regularisation or generative replay), so a stronger GPU baseline could do better.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

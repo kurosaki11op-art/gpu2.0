@@ -1,0 +1,4 @@
+parameters 421642
+mnist joint 0.9855 31s
+mnist naive 0.199
+mnist replay RB=160 0.2735
