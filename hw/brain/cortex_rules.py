@@ -9,7 +9,7 @@ import inspect, os, re
 import numpy as np
 from numba import njit
 import cortex_slow
-from cortex_int import _scores, _dream, _practise
+from cortex_int import _scores, _dream, _practise, _xs
 from cortex_slow import CortexSlow, _stage_slow, _follow
 
 
@@ -89,6 +89,65 @@ def make_stage_xover():
     ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _dreamx=_dreamx, np=np); exec("@njit\n" + stage, ns); return ns["_stage_xover"]
 
 
+def make_stage_protect(shp):
+    """protect-on-overlap (synaptic tagging): a real example's write on bit b is skipped with probability 1 - 2^-p where p = (sum over classes of |W[., b]|) >> shp, capped at 6: bits that the table already leans on heavily are hard to change, new knowledge goes mostly to quiet bits. shifts, adds, one xorshift draw."""
+    src = f'''
+@njit
+def _practise_p(W, act, na, y, known, margin, cmax, rng):
+    sc = _scores(W, act, na, known)
+    t = sc[y]; rv = -1; best = -(1 << 30) - 1
+    for c in range(W.shape[0]):
+        if c != y and sc[c] > best:
+            best = sc[c]; rv = c
+    if rv < 0 or not known[rv] or t - best > margin:
+        return 0
+    for i in range(na):
+        b = act[i]; imp = 0
+        for c in range(W.shape[0]):
+            imp += abs(W[c, b])
+        p = min(6, imp >> {shp})
+        if p > 0:
+            rng[0] = _xs(rng[0])
+            if (rng[0] >> 7) & ((1 << p) - 1) != 0:
+                continue
+        if W[y, b] < cmax:
+            W[y, b] += 1
+        if W[rv, b] > -cmax:
+            W[rv, b] -= 1
+    return 1
+'''
+    ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _scores=_scores, np=np, _xs=_xs); exec(src, ns)
+    base = re.sub(r"^@njit\(cache=True\)\n", "", inspect.getsource(cortex_slow._stage_slow.py_func))
+    stage = base.replace("def _stage_slow(", "def _stage_protect(").replace("writes += _practise(W, acts[i], nacts[i], ys[i], known, margin, cmax)", "writes += _practise_p(W, acts[i], nacts[i], ys[i], known, margin, cmax, rng)")
+    assert "_practise_p" in stage
+    exec("@njit\n" + stage, ns); return ns["_stage_protect"]
+
+
+@njit
+def _practise_m(MK, W, act, na, y, known, margin, cmax):
+    """context-gated practise: class c only owns the input bits of its context mask MK[c]; table entries outside the mask stay zero (so scoring ignores them) and are never written."""
+    sc = _scores(W, act, na, known)
+    t = sc[y]; rv = -1; best = -(1 << 30) - 1
+    for c in range(W.shape[0]):
+        if c != y and sc[c] > best:
+            best = sc[c]; rv = c
+    if rv < 0 or not known[rv] or t - best > margin:
+        return 0
+    for i in range(na):
+        b = act[i]
+        if MK[y, b] and W[y, b] < cmax:
+            W[y, b] += 1
+        if MK[rv, b] and W[rv, b] > -cmax:
+            W[rv, b] -= 1
+    return 1
+
+
+def make_stage_gate():
+    base = re.sub(r"^@njit\(cache=True\)\n", "", inspect.getsource(cortex_slow._stage_slow.py_func))
+    stage = base.replace("def _stage_slow(", "def _stage_gate(").replace("tick0):", "tick0, MK):").replace("_practise(W, ", "_practise_m(MK, W, ")
+    ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _practise_m=_practise_m, np=np); exec("@njit\n" + stage, ns); return ns["_stage_gate"]
+
+
 def make_stage_grade(sh):
     src = f'''
 @njit
@@ -126,6 +185,11 @@ class CortexRules(CortexSlow):
     def __init__(self, n_bits, rule="split", par=0, **kw):
         super().__init__(n_bits, **kw); self.rule, self.par = rule, par; self._night = kw.get("night", 2)
         self._stage_g = make_stage_grade(par) if rule == "grade" else None
+        if rule == "protect": self._sp = make_stage_protect(int(par or 3))
+        if rule == "gate":
+            self._sg = make_stage_gate(); g = np.random.RandomState(11); C = kw.get("n_cls", 10); self.ctxmask = np.zeros((C, n_bits), np.uint8); frac = (par or 50) / 100.0
+            self._ctx = {}
+            self._gen = lambda: (g.rand(n_bits) < frac).astype(np.uint8)
         if rule == "xover":
             E = int(par or 8); self._sx = make_stage_xover(); C = kw.get("n_cls", 10); self.xst = np.zeros((C, E, n_bits), np.uint8); self.xstc = np.zeros(C, np.int32); self.blk = int(os.environ.get("BLK", 32)); self.mixp = int(os.environ.get("REALMIX", 16))
         if rule == "real":
@@ -144,6 +208,22 @@ class CortexRules(CortexSlow):
                                    self.ndream, self._night, self.margin, self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick)
 
     def stage(self, code, y):
+        if self.rule == "protect":
+            r = self._call(self._sp, code, y, self._night)
+            if len(y) < 2 * self.ch: self.S[:] = self.W.astype(np.int32) << self.FR
+            return r
+        if self.rule == "gate":
+            new = np.unique(y).astype(np.int64)
+            if not any(self.known[c] for c in new): mk = self._gen()                              # a new context (stage): a fresh random mask over the input bits
+            for c in new:
+                if not self.known[c]: self.ctxmask[c] = mk
+            old = np.where(self.known & ~np.isin(np.arange(len(self.known)), new))[0]
+            for c in new: self.known[c] = False if False else self.known[c]
+            A, na = self.pack(code)
+            r, self.tick = self._sg(self.W, self.S, self.on, self.n, self.rng, self.known, A, na, y.astype(np.int64), new, old.astype(np.int64), self.ndream, self._night, self.margin,
+                                    self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick, self.ctxmask)
+            if len(y) < 2 * self.ch: self.S[:] = self.W.astype(np.int32) << self.FR
+            return r
         if self.rule == "xover":
             for c in np.unique(y):
                 if self.xstc[c] == 0:

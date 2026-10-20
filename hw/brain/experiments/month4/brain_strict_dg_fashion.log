@@ -1,0 +1,4 @@
+expansion (10000, 8192) active 163 15s
+fashion shipped code 4608 bits | ridge 0.8635 | chip {'once': 0.8655, 'staged': 0.8327} 53s
+fashion expansion only 8192 bits | ridge 0.8225 | chip {'once': 0.819, 'staged': 0.8032} 113s
+fashion input + expansion 12800 bits | ridge 0.8615 | chip {'once': 0.8625, 'staged': 0.8295} 184s

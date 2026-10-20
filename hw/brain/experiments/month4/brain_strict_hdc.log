@@ -1,0 +1,4 @@
+hdc bits 4096 mean on 0.461
+shipped peak code overall 0.7995  twin words 0.7246
+HDC temporal code alone overall 0.4855  twin words 0.4638
+shipped + HDC overall 0.7826  twin words 0.7246

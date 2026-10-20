@@ -934,4 +934,15 @@ The share of real replay per class was set by a self-test (fraction of its store
 Shipped `peak`: clean 68.29, 20 / 10 / 5 dB 56.5 / 39.8 / 27.4, oldest 68.8, newest 60.8, twin 65.2. Causal onset look-ahead (`onsetla:1600`, earlier run): clean 65.64, newest 56.5, twin 64.1: **F1 not at parity at 35 words (-2.7)**. Peak + delay-line coincidence cells (`coin`): clean 67.09 (-1.2), 57.1 / 43.3 / 31.9 dB (+0.6 / +3.5 / +4.5), oldest 69.3, newest 57.0 (-3.8), twin 66.0 (+0.9). Helps noise, hurts clean and newest words, twin gain shrinks to +0.9: fails the no-regression rule at scale. Logs `brain_strict_peak35_m256.log`.
 
 
+## 20 Oct 2026 (night) - Five new methods from the literature search, ALL FAILED the no-regression rule (SIMULATED)
+
+1. **Direct feedback alignment, binary hidden cells** (`brain_strict_dfa.py`, 1,024 cells, 64 fire, 3 seeds, clothing, chip-style table): table on input only 83.72 (1 epoch) / 84.77 (3); hidden cells fixed random (control) 84.70 / 84.43; hidden cells learned by feedback alignment **82.82 / 83.92**. Learning the hidden cells made it worse than fixed random cells. **FAILED.**
+2. **Protect-on-overlap (synaptic tagging)** (`protect:SH`, `cortex_rules.py`; a real example's write on a bit is skipped with probability 1 - 2^-p, p = (sum of |W| over classes) >> SH): SH 2 / 3 / 4 / 6 / 8 clothing staged 75.1 / 76.0 / 77.7 / 82.98 / 83.27 (shipped 83.27), once 80.1 / 83.7 / 85.7 / 86.7 / 86.55. Strong protection hurts; weak protection equals the baseline. **FAILED.**
+3. **Dentate pattern separation** (`brain_strict_dg.py`, 8,192 random-subset cells, 3 % fire): expansion alone clothing ridge 82.25, chip once / staged 81.9 / 80.3; input + expansion 86.15 ridge, chip 86.25 / 82.95 vs shipped 86.55 / 83.27. **FAILED** (no gain from separating the confusable classes this way).
+4. **Hyperdimensional temporal binding for words** (`brain_strict_hdc.py`, 4,096-bit order-bound bundles of event hypervectors, 20 words, ridge): HDC code alone 48.6 overall / 46.4 twin; shipped + HDC 78.3 / 72.5 vs shipped 79.95 / 72.5. **FAILED.**
+5. **Context gating (active-dendrite style)** (`gate:P`: each stage's classes own a random P % of the input bits, entries outside never written): P=50 / 75 clothing staged 82.2 / 82.4, once 86.1 / 86.2 vs 83.27 / 86.55. **FAILED.**
+
+Taken with the earlier probes (graded code, depth, fovea, all-class detectors, reward-gated detectors, kernel readout), the single-layer counting chip appears to be at a local optimum for its principles: every added mechanism either adds nothing or trades one dataset against another. Things that did win: margin / dream / night settings, early exit (energy), Module 2 (few labels, digits), noisy-copy training and timing cells (small).
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
