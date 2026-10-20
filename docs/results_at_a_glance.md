@@ -62,7 +62,12 @@ Open and failed items are listed honestly in Q&A 17.
 | Early exit | clothing reads 58 % of the active bits, digits 29 %, at about the same accuracy |
 | Twin words | not a special weakness (a four-word sample had misled us); SPARK's float readout 68.6 vs the CNN's 65.4 on 35 words |
 | Failed or traded off (see [journal](journal.md)) | about 25 ideas for the staged-learning loss, richer codes, deeper layers and sound timing: none passed the no-regression rule |
-| Sensory node RTL | retina + cochlea into one core, neighbour unit, class-score port: all bit-exact ([details](../hw/results/sensory_node.md)) |
+| Sensory node RTL | retina + cochlea into one core, neighbour unit, class-score port, pooling unit: all bit-exact; the whole sleep-cleaning loop runs on the chip's own parts ([details](../hw/results/sensory_node.md)) |
+| Zero-label learning (SIMULATED) | a heard word names pictures: 92.3 -> 96.9 after sleep cleaning (labelled 97.4); clothing with a simulated 60-73 %-right name source 85.2-85.4 (labelled 86.55) |
+| Categories with no labels (SIMULATED) | two senses co-occurring form 30 groups with no labels; 30 names in total; picture learner 96.1 / 97.0 vs 97.4 with all 10,000 labels (picture-only groups about 67) |
+| Noticing a new class itself (SIMULATED) | novelty AUROC 0.96 / 0.97, flagged pairs 99 % really new; new digits learned in one stage without forgetting (all 10 digits 93.7 / 97.3 vs 96.8 / 97.6 oracle) |
+| Regression | `hw/run_all_checks.sh`: every RTL check PASS (30 checks), none skipped |
+| Documented limits | staged clothing 83-84 vs 86.55 one pass; one-pass accuracy 1-4 points behind a trained CNN on the same data (MEASURED ruler); fully streaming word trigger about 3 points worse at 35 words; grouping step in software; nothing on silicon |
 
 ## Say these limits first
 

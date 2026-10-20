@@ -1,0 +1,6 @@
+fashion passes over the stage's own examples: 1 staged accuracy 0.8318
+fashion passes over the stage's own examples: 2 staged accuracy 0.8202
+fashion passes over the stage's own examples: 3 staged accuracy 0.8155
+mnist passes over the stage's own examples: 1 staged accuracy 0.9487
+mnist passes over the stage's own examples: 2 staged accuracy 0.9524
+mnist passes over the stage's own examples: 3 staged accuracy 0.9485
