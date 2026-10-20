@@ -113,6 +113,23 @@ def run(arm, seed):
                 if sel.any(): m.stage(ctr[u][sel], pred[sel])
             night(m); used += k
         info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
+    elif kind == "fewk":                                                     # Module 2: sleep category formation. Unlabelled codes wait in a bounded buffer of B; the codes of one buffer that overlap most (popcount of AND) pull each other's class scores together (K neighbours), the pooled winner must clear the margin cut and agree with the fast table
+        ps = p.split(":"); frac = float(ps[0]); q = float(ps[1]); KN = int(ps[2]); B = int(ps[3]); m.night = 0; ok = tot = used = 0
+        for o in order:
+            k = max(2, int(len(o) * frac)); lab, unl = o[:k], o[k:]
+            m.stage(ctr[lab], ytr[lab]); al = np.unique(ytr[lab]); mask = ~np.isin(np.arange(10), al)
+            sc = lambda c: np.where((mask | ~m.known)[None, :], -(1 << 30), c.astype(np.int32) @ m.S.T)
+            s0 = sc(ctr[lab]); o2 = np.sort(s0, 1); tau = np.percentile(o2[:, -1] - o2[:, -2], q)
+            for j in range(0, len(unl), B):
+                u = unl[j:j + B]; c = ctr[u]; s = sc(c).astype(np.int64); ov = c.astype(np.int32) @ c.T.astype(np.int32); np.fill_diagonal(ov, -1)
+                nn = np.argsort(-ov, 1)[:, :KN]; ok_cls = ~(mask | ~m.known)[None, :]
+                z = np.where(ok_cls, s, 0); pooled = z + z[nn].sum(1)                  # own scores plus the neighbours' scores
+                pooled = np.where(ok_cls, pooled, -(1 << 40)); pred = pooled.argmax(1); op = np.sort(pooled, 1); mg = (op[:, -1] - op[:, -2]) // (KN + 1)
+                sw = c.astype(np.int32) @ m.W.T.astype(np.int32); sw[:, mask | ~m.known] = -(1 << 30); sel = (mg >= tau) & (sw.argmax(1) == pred)
+                tot += int(sel.sum()); ok += int((pred[sel] == ytr[u][sel]).sum())
+                if sel.any(): m.stage(c[sel], pred[sel])
+            night(m); used += k
+        info = {"labelled": used, "pseudo_used": tot, "pseudo_precision": round(ok / max(tot, 1), 4)}
     elif kind == "fews":
         ps = p.split(":"); frac = float(ps[0]); q = float(ps[1]); m.night = 0; ok = tot = used = 0; sh = shifted_codes()
         views = lambda idx: np.concatenate([ctr[idx]] + [v[idx] for v in sh])
