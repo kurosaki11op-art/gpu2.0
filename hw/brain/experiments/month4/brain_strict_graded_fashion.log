@@ -1,0 +1,5 @@
+fashion OR (shipped) 4608 bits 0.8635
+fashion count>=1,2 9216 bits 0.867
+fashion count>=1,2,3,4 18432 bits 0.8685
+fashion OR + strong match (22/25) 9216 bits 0.8705
+fashion count>=1,2 + strong 13824 bits 0.875

@@ -856,4 +856,9 @@ Pseudo-label precision stays 99.5 % on digits, 97.9-98.8 % on clothing (gate onl
 Matched cut Q=10: gate only digits 91.33 / clothing 76.28; Module 2 digits 92.7-93.6, clothing 75.8-76.1 (no gain). Q=0, B=128: digits 93.75, clothing **78.32** (+2.0), clothing label precision 97.2 %. 2 % labels, Q=10: digits 93.5, clothing 76.1. Pattern across every idea so far: digits gain, clothing and words gain little or nothing; the ceiling check puts the limit in the code (confusable shirt/T-shirt/pullover/coat classes, twin words), so the next redesign target is Module 3, a code that separates those classes. Logs `k2_mnist.log`, `k2_fashion.log`.
 
 
+## 20 Oct 2026 (night) - Graded code ceiling probe: FAILED to raise the ceiling (SIMULATED, clothing, float dual-ridge readout)
+
+Shipped OR-pooled code 86.35; pooled counts as thermometer planes (>=1,2) 86.70; (>=1..4) 86.85; OR + strong-match plane 87.05; counts + strong match 87.50 (13,824 bits, three times the memory). Graded counts add at most about 1.1 points, so a graded code is not the missing piece; the limit is what the single detector layer can see (a 5x5 patch, one winner per spot), not how finely its firing is measured. Next probe: whether depth (a second layer of detectors over the first layer's map) raises the ceiling. Script `hw/brain/experiments/month4/brain_strict_graded.py`, log `brain_strict_graded_fashion.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
