@@ -49,7 +49,8 @@ R = {}
 for seed in range(1, SEEDS + 1):
     torch.manual_seed(seed); r = np.random.RandomState(seed)
     ear = fit(net(), Atr[sptr <= 2], torch.tensor(satr[sptr <= 2]), 25); pool = np.where(sptr >= 3)[0]
-    pair = np.array([r.choice(pool[satr[pool] == d]) for d in ytr]); with torch.no_grad(): names = ear(Atr[pair]).argmax(1).numpy()
+    pair = np.array([r.choice(pool[satr[pool] == d]) for d in ytr])
+    with torch.no_grad(): names = ear(Atr[pair]).argmax(1).numpy()
     R.setdefault("ear's names correct (CNN ear, unseen speakers)", []).append(float((names == ytr).mean()))
     R.setdefault("A image CNN, true labels", []).append(acc(fit(net(), Vtr, torch.tensor(ytr)), Vte, yte))
     mb = fit(net(), Vtr, torch.tensor(names)); R.setdefault("B image CNN, zero image labels (ear's names)", []).append(acc(mb, Vte, yte))
