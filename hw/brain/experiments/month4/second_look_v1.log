@@ -1,0 +1,18 @@
+fashion coarse         one pass  accuracy 0.8655
+fashion fine           one pass  accuracy 0.8813
+fashion sum of both    one pass  accuracy 0.8820
+fashion second look    one pass  accuracy 0.8820
+fashion coarse         staged    accuracy 0.8327
+fashion fine           staged    accuracy 0.8285
+fashion sum of both    staged    accuracy 0.8373
+fashion second look    staged    accuracy 0.8373
+fashion mean active bits read per decision: coarse 265, fine 544, sum of both 810, second look 660
+mnist coarse         one pass  accuracy 0.9747
+mnist fine           one pass  accuracy 0.9803
+mnist sum of both    one pass  accuracy 0.9810
+mnist second look    one pass  accuracy 0.9810
+mnist coarse         staged    accuracy 0.9552
+mnist fine           staged    accuracy 0.9470
+mnist sum of both    staged    accuracy 0.9552
+mnist second look    staged    accuracy 0.9552
+mnist mean active bits read per decision: coarse 245, fine 465, sum of both 710, second look 583

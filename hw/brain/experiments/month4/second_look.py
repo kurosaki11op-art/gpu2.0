@@ -42,9 +42,11 @@ for DS in ("fashion", "mnist"):
             sc = lambda m, c: np.where(m.known[None, :], c.astype(np.int32) @ m.S.T.astype(np.int32), -(1 << 28))
             sa_tr = sc(A, ca_tr); srt = np.sort(sa_tr, 1); th = np.percentile(srt[:, -1] - srt[:, -2], LOOKP)
             sa, sb = sc(A, ca_te), sc(B, cb_te); sab = sa + sb; srt = np.sort(sa, 1); look = (srt[:, -1] - srt[:, -2]) < th
-            for name, p in (("coarse", sa.argmax(1)), ("fine", sb.argmax(1)), ("sum of both", sab.argmax(1)), ("second look (%d %% of inputs)" % int(round(look.mean() * 100)), np.where(look, sab.argmax(1), sa.argmax(1)))):
-                R.setdefault((name.split(" (")[0], tag), []).append(float((p == yte).mean()))
-            R.setdefault(("reads", tag), []).append(reads_a + look.mean() * reads_b)
+            for name, p in (("coarse", sa.argmax(1)), ("fine", sb.argmax(1)), ("sum of both", sab.argmax(1))):
+                R.setdefault((name, tag), []).append(float((p == yte).mean()))
+            mg_te = srt[:, -1] - srt[:, -2]                                                  # the share of second looks is set from the UNLABELLED margin distribution of the stream (no labels used)
+            for share in (20, 40, 60, 80):
+                lk = mg_te < np.percentile(mg_te, share); p = np.where(lk, sab.argmax(1), sa.argmax(1)); R.setdefault(("second look %d%%" % share, tag), []).append(float((p == yte).mean())); R.setdefault(("reads look %d%%" % share, tag), []).append(reads_a + lk.mean() * reads_b)
     for (name, tag), v in R.items():
-        if name != "reads": print(DS, "%-14s %-9s accuracy %.4f" % (name, tag, np.mean(v)), flush=True)
-    print(DS, "mean active bits read per decision: coarse %.0f, fine %.0f, sum of both %.0f, second look %.0f" % (reads_a, reads_b, reads_a + reads_b, np.mean(R[("reads", "one pass")])), flush=True)
+        if not name.startswith("reads"): print(DS, "%-18s %-9s accuracy %.4f%s" % (name, tag, np.mean(v), ("   (mean active bits read %.0f)" % np.mean(R[("reads look " + name.split()[-1], tag)])) if name.startswith("second look") else ""), flush=True)
+    print(DS, "active bits read per decision: coarse %.0f, fine %.0f, both %.0f" % (reads_a, reads_b, reads_a + reads_b), flush=True)
