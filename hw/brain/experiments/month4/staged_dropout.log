@@ -1,0 +1,8 @@
+fashion picture alone (shipped) | one pass 0.8655 | staged 0.8327
+fashion picture + name code, dropout 0.0, tested with the picture only | one pass 0.6447 | staged 0.6295
+fashion picture + name code, dropout 0.5, tested with the picture only | one pass 0.8520 | staged 0.6675
+fashion picture + name code, dropout 0.8, tested with the picture only | one pass 0.8640 | staged 0.8167
+mnist picture alone (shipped) | one pass 0.9747 | staged 0.9552
+mnist picture + name code, dropout 0.0, tested with the picture only | one pass 0.7695 | staged 0.7367
+mnist picture + name code, dropout 0.5, tested with the picture only | one pass 0.9665 | staged 0.8793
+mnist picture + name code, dropout 0.8, tested with the picture only | one pass 0.9708 | staged 0.9462
