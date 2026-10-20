@@ -918,4 +918,10 @@ Staged equals one-pass by construction (a class touches only its own cells). Clo
 **Early exit (`brain_strict_exit.py`, seed 1, staged chip):** the code is read channel by channel; after each channel the chip answers if the top-2 score gap clears a threshold set on training examples (partial winner agreed with the full winner on >= 99 % of them). Clothing 83.10 -> 83.05 reading 58 % of the active bits (-42 % table reads); digits 95.60 -> 95.20 reading 29 % (-71 %). A real, free efficiency gain: compares and one threshold per step, no accuracy cost on clothing, -0.4 on digits. Memory layout note (not simulated): store the 10 class entries of one input bit side by side so one read returns all 10 contributions.
 
 
+## 20 Oct 2026 (night) - Hard-example replay buffer: +1.2 clothing, but costs digits (SIMULATED, 3 seeds, margin 256 / 1,500 dreams / 1 night; stage-time store, night replay mixed with dreams)
+
+Store, per class, the E real examples the day found hardest (smallest gap between the right class and its best rival, found by comparing table scores), replay them at night in place of a share mix/16 of the dreams (`real:E` with env HARD=1, `cortex_rules.py`).
+Clothing staged: E=2 83.75, 4 83.92, 8 84.08, 16 84.23 (mix 16) / 84.37 (mix 8), 64 84.52 vs 83.27 shipped (random first-E traces: 83.3-83.6). So hard examples carry far more than random ones (16 hard traces = 200 random traces). Digits staged: E=4 95.13, E=16 94.78, E=8 94.5-94.9 at every mix, noisy copies (drop 25 % / 12.5 %) 94.5-94.7, replay writes only on errors (margin 0) 94.55, hardest-among-correct 94.6-94.8, vs 95.52 shipped; even 8 random traces at 6 % share gave 92.6. **Not a clear win**: clothing +0.7 to +1.2, digits -0.4 to -1.0; the digits damage was not removed by noise, a smaller write margin or excluding misclassified outliers. Memory would also grow (16 traces x 10 classes x 263 indices x 13 bit = 68 KB). Staged loss on clothing stays ~2.3 points from the one-pass number.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

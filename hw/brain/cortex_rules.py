@@ -43,19 +43,23 @@ def _night_prio(W, S, on, n, rng, known, total, margin, cmax, top, ch, K, FR, RN
 
 
 @njit
-def _night_real(W, S, on, n, rng, known, st, stn, stc, total, mix, margin, cmax, top, ch, K, FR, RND, tick0, night_stop, stats):
+def _night_real(W, S, on, n, rng, known, st, stn, stc, total, mix, drop, rmargin, margin, cmax, top, ch, K, FR, RND, tick0, night_stop, stats):
     """Night with a few stored real traces per class (hippocampal-style index): each replay is, with probability mix/16, one of the class's stored real codes, otherwise an independent-bit dream.
     Class order is round robin; xorshift draws only."""
     C = W.shape[0]; buf = np.zeros(on.shape[1], np.int32); kn = np.where(known)[0]; tick = tick0; blockw = 0
     for j in range(total):
-        c = kn[j % len(kn)]; rng[0] = _xs32(rng[0]); r = rng[0]
+        c = kn[j % len(kn)]; rng[0] = _xs32(rng[0]); r = rng[0]; isreal = False
         if stc[c] > 0 and np.int64(r & np.uint32(15)) < mix:
-            q = np.int64((r >> np.uint32(4)) % np.uint32(stc[c])); na = stn[c, q]
-            for t in range(na): buf[t] = st[c, q, t]
-            k = na
+            isreal = True; q = np.int64((r >> np.uint32(4)) % np.uint32(stc[c])); na = stn[c, q]
+            k = 0
+            for t in range(na):
+                if drop > 0:
+                    rng[0] = _xs32(rng[0])
+                    if (rng[0] >> np.uint32(7)) % np.uint32(1 << drop) == 0: continue      # drop a stored bit with probability 2^-drop (a noisy copy of the stored trace)
+                buf[k] = st[c, q, t]; k += 1
         else:
             k = _dream(on, n, c, rng, buf)
-        w = _practise(W, buf, k, c, known, margin, cmax); blockw += w; stats[0] += 1; stats[1] += w; tick += 1
+        w = _practise(W, buf, k, c, known, rmargin if isreal else margin, cmax); blockw += w; stats[0] += 1; stats[1] += w; tick += 1
         if tick % ch == 0: _follow(S, W, K, FR, RND)
         if night_stop > 0 and stats[0] % 256 == 0:
             if blockw > night_stop: break
@@ -164,14 +168,18 @@ class CortexRules(CortexSlow):
                 A, na = self.pack(code)
                 if A.shape[1] > self.st.shape[2]:
                     ns = np.zeros(self.st.shape[:2] + (A.shape[1],), np.int32); ns[:, :, :self.st.shape[2]] = self.st; self.st = ns
+                sc_all = code.astype(np.int32) @ self.W.T.astype(np.int32) if os.environ.get("HARD") else None
                 for c in np.unique(y):
                     if self.stc[c] == 0:
-                        for i in np.where(y == c)[0][:self.st.shape[1]]:
+                        ids = np.where(y == c)[0]
+                        if sc_all is not None:                               # keep the hardest examples: smallest gap between the right class and the best rival (the ones the day had to correct)
+                            s_ = sc_all[ids].copy(); t_ = s_[:, c].copy(); s_[:, c] = -(1 << 30); s_[:, ~self.known] = -(1 << 30); gap_ = t_ - s_.max(1); ids = ids[np.argsort(np.where(gap_ < 0, 1 << 20, gap_))] if os.environ.get('HARD') == '2' else ids[np.argsort(gap_)]     # HARD=2: hardest among the correctly classified (misclassified outliers last)
+                        for i in ids[:self.st.shape[1]]:
                             q = self.stc[c]; self.st[c, q, :A.shape[1]] = A[i]; self.stn[c, q] = na[i]; self.stc[c] += 1
             if len(np.where(self.known)[0]) > len(np.unique(y)):
                 if self.rule == "real":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
-                    self.tick = _night_real(self.W, self.S, self.on, self.n, self.rng, self.known, self.st, self.stn, self.stc, int(total), int(os.environ.get("REALMIX", 8)), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, self.night_stop, self.stats)
+                    self.tick = _night_real(self.W, self.S, self.on, self.n, self.rng, self.known, self.st, self.stn, self.stc, int(total), int(os.environ.get("REALMIX", 8)), int(os.environ.get("DROP", 0)), int(os.environ.get("RMARGIN", self.margin)), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, self.night_stop, self.stats)
                 elif self.rule == "prio":
                     kn = np.where(self.known)[0]; total = self.ndream * len(kn) * self._night
                     self.tick = _night_prio(self.W, self.S, self.on, self.n, self.rng, self.known, int(total), self.margin, self.cmax, self.top, self.ch, self.K, self.FR, self.RND, self.tick, int(self.par or 256))
