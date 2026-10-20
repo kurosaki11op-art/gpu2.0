@@ -861,4 +861,9 @@ Matched cut Q=10: gate only digits 91.33 / clothing 76.28; Module 2 digits 92.7-
 Shipped OR-pooled code 86.35; pooled counts as thermometer planes (>=1,2) 86.70; (>=1..4) 86.85; OR + strong-match plane 87.05; counts + strong match 87.50 (13,824 bits, three times the memory). Graded counts add at most about 1.1 points, so a graded code is not the missing piece; the limit is what the single detector layer can see (a 5x5 patch, one winner per spot), not how finely its firing is measured. Next probe: whether depth (a second layer of detectors over the first layer's map) raises the ceiling. Script `hw/brain/experiments/month4/brain_strict_graded.py`, log `brain_strict_graded_fashion.log`.
 
 
+## 20 Oct 2026 (night) - Depth probe: a second unsupervised detector layer does NOT raise the ceiling (SIMULATED, clothing, float dual-ridge)
+
+Layer 1 alone 86.35. Layer 2 (competitive Hebbian over 3x3 / 2x2 neighbourhoods of the layer-1 map, learned on stage-0 images): alone 67.7 / 68.1 / 74.8 / 80.3 (s=3 F2=64 k=1; s=3 F2=128 k=1; s=3 F2=128 k=3; s=2 F2=128 k=3); layer 1 + 2: 86.2 / 86.1 / 86.7 / 86.6. No gain (best +0.3). This is the third negative for a second layer (earlier: two chip-level attempts). Conclusion: the limit is not depth or grading but that all detectors are learned without any signal about what separates the classes. A GPU's advantage is task-driven feature learning (backprop). The brain-principled counterpart is reward-gated local learning (a three-factor rule: detector activity x neighbour activity x reward / surprise), the next thing to test. Script `brain_strict_depth.py`, log `brain_strict_depth_fashion.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

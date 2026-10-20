@@ -1,2 +1,6 @@
 layer 1 (10000, 4608) map 6 x 6
 fashion layer 1 alone 0.8635
+fashion layer 2 s=3 F2=64 k=1 1024 bits: alone 0.677  layer1+2 0.862
+fashion layer 2 s=3 F2=128 k=1 2048 bits: alone 0.681  layer1+2 0.861
+fashion layer 2 s=3 F2=128 k=3 2048 bits: alone 0.7475  layer1+2 0.867
+fashion layer 2 s=2 F2=128 k=3 3200 bits: alone 0.803  layer1+2 0.866
