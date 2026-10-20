@@ -1,0 +1,6 @@
+per-class accuracy shipped [0.78, 0.89, 0.78, 0.82, 0.8, 0.89, 0.59, 0.9, 0.89, 0.96]
+share predicted per class [0.099, 0.085, 0.102, 0.104, 0.108, 0.095, 0.101, 0.102, 0.101, 0.103] (true share 0.1 each)
+bias from dreams [-18440, -18440, -18440, -18440, -17518, -18440, -17518, -18440, -18440, -18440] | from real data [0, 1468, 0, 0, -734, 0, 0, 0, 0, -734]
+fashion shipped staged 0.8327
+fashion bias from dreams 0.8123
+fashion bias from real data (bound) 0.8388
