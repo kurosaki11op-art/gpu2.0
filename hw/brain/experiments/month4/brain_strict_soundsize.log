@@ -1,0 +1,8 @@
+10 channels x 64 detectors (shipped)   sound bits  23040  picture+sound bits  27648 | sound alone 0.7747 | both senses 0.9833 | 53s
+10 x 32                                sound bits  11520  picture+sound bits  16128 | sound alone 0.7927 | both senses 0.9848 | 80s
+10 x 16                                sound bits   5760  picture+sound bits  10368 | sound alone 0.7680 | both senses 0.9883 | 99s
+5 channels x 64                        sound bits  11520  picture+sound bits  16128 | sound alone 0.7587 | both senses 0.9890 | 123s
+5 x 32                                 sound bits   5760  picture+sound bits  10368 | sound alone 0.7720 | both senses 0.9893 | 137s
+4 x 32                                 sound bits   4608  picture+sound bits   9216 | sound alone 0.7693 | both senses 0.9897 | 150s
+3 x 32                                 sound bits   3456  picture+sound bits   8064 | sound alone 0.7653 | both senses 0.9883 | 160s
+3 x 16                                 sound bits   1728  picture+sound bits   6336 | sound alone 0.7180 | both senses 0.9895 | 168s
