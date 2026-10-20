@@ -795,4 +795,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 
 - `brain_strict_sweep.py` GRID=3, centre margin 256 / 1,500 dreams / 1 night. Clothing centre 83.3 / 86.55; every one-knob change stays within 83.8-80.7 staged (best: 1,000 dreams 83.5, margin 192 83.4, 2 daydreams 83.4; worst: slow-table shift K = 6 80.7, ch = 200 81.2); digits centre 95.5 / 97.5, every change within 93.7-95.7 (500 dreams 93.65 worst). No setting beats the centre by more than the noise (about +-0.5), so the staged result is at a plateau for these knobs; the remaining gap to all-at-once (clothing 86.55, digits 97.5) is not a settings problem.
 
+### 20 Oct 2026 - F6 control done: the noise gains are real (SIMULATED, 20 words, 3 seeds, ch = 50)
+
+- Control "the same clean clips a second time" (`brain_strict_noise_gate.py` arm `twice`): clean / 20 / 10 / 5 dB 71.7 / 64.5 / 52.2 / 36.8; first-stage words 75.3; last-stage words 60.2. Against clean-only (69.2 / 62.7 / 47.5 / 33.5; 77.1) and noisy copies (73.3 / 73.3 / 65.6 / 56.4; 77.9): more data alone explains +2.5 of the clean gain, but noisy copies are +8.8 / +13.4 / +19.6 points above the control at 20 / 10 / 5 dB, +1.6 on clean, and keep old words level (the control lowers them by 1.8). **F6 fixed.**
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

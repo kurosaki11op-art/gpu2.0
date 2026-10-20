@@ -1,2 +1,3 @@
 cochlea done 4s
 codes ready (1586, 23040) 48s
+twice {'clean': 0.7166, '20dB': 0.6449, '10dB': 0.5217, '5dB': 0.368, 'oldest': 0.7532, 'newest': 0.6015, 'kept': 1.0} 1752s

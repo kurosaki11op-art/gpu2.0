@@ -44,7 +44,7 @@ MEASURED on hardware yet** (the board run is next: [month 4 plan](month4_board_p
 | Change | Result |
 |---|---|
 | Update margin 256, 1,500 dreams per old class, 1 night pass (was 32 / 6,000 / 2), no extra memory | staged / all at once: digits 94.1 / 97.0 -> **95.5 / 97.5**; clothing 80.8 / 86.0 -> **83.3 / 86.55**; spoken words clean 68.5 -> **73.35**, last-stage words 50.6 -> 57.1; RTL bit-exact at margin 256 |
-| Training on noisy copies (words) | clean / 20 / 10 / 5 dB 69.2 / 62.7 / 47.5 / 33.5 -> 73.3 / 73.3 / 65.6 / 56.4, old words level (control "same clips twice" pending) |
+| Training on noisy copies (words) | clean / 20 / 10 / 5 dB 69.2 / 62.7 / 47.5 / 33.5 -> 73.3 / 73.3 / 65.6 / 56.4, old words level; control "same clips twice" 71.7 / 64.5 / 52.2 / 36.8 |
 | Few labels, digits | 5% labels 95.0 vs 95.5 fully labelled (2%: 94.7); clothing about 79 vs 83.3 at 10% labels (limited by label count) |
 | RTL hooks (top margin, write counter) | bit-exact, 0 mismatches over 200 lines |
 | Process fixes | detectors learned on the chip, sleep from the chip's own surprise count, weak-synapse pruning (19-30% of synapses kept) |

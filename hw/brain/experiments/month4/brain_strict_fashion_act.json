@@ -1,0 +1,77 @@
+{
+ "act:0.1": {
+  "acc": 0.7497,
+  "seeds": [
+   0.757,
+   0.743,
+   0.749
+  ],
+  "info": [
+   {
+    "labelled": 1000,
+    "pseudo_used": 8511,
+    "pseudo_precision": 0.9307
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8421,
+    "pseudo_precision": 0.9267
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8717,
+    "pseudo_precision": 0.9389
+   }
+  ]
+ },
+ "act:0.05": {
+  "acc": 0.7893,
+  "seeds": [
+   0.8005,
+   0.785,
+   0.7825
+  ],
+  "info": [
+   {
+    "labelled": 500,
+    "pseudo_used": 8860,
+    "pseudo_precision": 0.9748
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 8307,
+    "pseudo_precision": 0.9829
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 8899,
+    "pseudo_precision": 0.9746
+   }
+  ]
+ },
+ "act:0.02": {
+  "acc": 0.7795,
+  "seeds": [
+   0.7765,
+   0.778,
+   0.784
+  ],
+  "info": [
+   {
+    "labelled": 200,
+    "pseudo_used": 8816,
+    "pseudo_precision": 0.9837
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 8407,
+    "pseudo_precision": 0.9822
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 8767,
+    "pseudo_precision": 0.9703
+   }
+  ]
+ }
+}

@@ -9,3 +9,14 @@ channel 6 ready 31s
 channel 7 ready 34s
 channel 8 ready 38s
 channel 9 ready 43s
+geom:3:3:1:1:4:4 {'clean': 0.6388, '20dB': 0.5402, '10dB': 0.3682, '5dB': 0.2538, 'oldest': 0.7095, 'newest': 0.4444, 'twin': 0.6229, 'other': 0.651} 1641s
+channel 0 ready 1648s
+channel 1 ready 1653s
+channel 2 ready 1658s
+channel 3 ready 1662s
+channel 4 ready 1667s
+channel 5 ready 1672s
+channel 6 ready 1676s
+channel 7 ready 1680s
+channel 8 ready 1686s
+channel 9 ready 1693s

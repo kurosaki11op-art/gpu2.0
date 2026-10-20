@@ -1,0 +1,52 @@
+{
+ "act:0.1": {
+  "acc": 0.9275,
+  "seeds": [
+   0.8925,
+   0.952,
+   0.938
+  ],
+  "info": [
+   {
+    "labelled": 1000,
+    "pseudo_used": 8837,
+    "pseudo_precision": 0.9668
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8867,
+    "pseudo_precision": 0.995
+   },
+   {
+    "labelled": 1000,
+    "pseudo_used": 8877,
+    "pseudo_precision": 0.9895
+   }
+  ]
+ },
+ "act:0.05": {
+  "acc": 0.9378,
+  "seeds": [
+   0.9435,
+   0.9335,
+   0.9365
+  ],
+  "info": [
+   {
+    "labelled": 500,
+    "pseudo_used": 9122,
+    "pseudo_precision": 0.9932
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9130,
+    "pseudo_precision": 0.9886
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 8916,
+    "pseudo_precision": 0.9944
+   }
+  ]
+ }
+}
