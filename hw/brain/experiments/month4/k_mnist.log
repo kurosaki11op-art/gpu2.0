@@ -1,9 +1,1 @@
-codes (10000, 4608) 12s
-fewa:0.05:25 seed 1 0.8965 {'labelled': 500, 'pseudo_used': 5586, 'pseudo_precision': 0.9987} 31s
-fewa:0.05:25 seed 2 0.903 {'labelled': 500, 'pseudo_used': 6566, 'pseudo_precision': 0.9994} 47s
-fewa:0.05:25 seed 3 0.898 {'labelled': 500, 'pseudo_used': 6037, 'pseudo_precision': 0.9988} 62s
-fewk:0.05:25:5:64 seed 1 0.909 {'labelled': 500, 'pseudo_used': 7479, 'pseudo_precision': 0.9949} 90s
-fewk:0.05:25:5:64 seed 2 0.8995 {'labelled': 500, 'pseudo_used': 7861, 'pseudo_precision': 0.9955} 120s
-fewk:0.05:25:5:64 seed 3 0.9145 {'labelled': 500, 'pseudo_used': 7619, 'pseudo_precision': 0.9957} 152s
-fewk:0.05:25:8:64 seed 1 0.911 {'labelled': 500, 'pseudo_used': 6559, 'pseudo_precision': 0.9947} 190s
-fewk:0.05:25:8:64 seed 2 0.9005 {'labelled': 500, 'pseudo_used': 7497, 'pseudo_precision': 0.9957} 227s
+codes (10000, 4608) 11s
