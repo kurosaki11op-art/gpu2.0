@@ -1,2 +1,7 @@
 mnist base {'staged': 0.9552, 'once': 0.9747} 23s
 mnist split {'staged': 0.9552, 'once': 0.9747} 36s
+mnist grade:5 {'staged': 0.947, 'once': 0.9728} 57s
+mnist grade:6 {'staged': 0.934, 'once': 0.9725} 77s
+mnist grade:7 {'staged': 0.9408, 'once': 0.9757} 97s
+mnist grade:8 {'staged': 0.9397, 'once': 0.975} 117s
+mnist budget:0 {'staged': 0.9542, 'once': 0.9747} 130s

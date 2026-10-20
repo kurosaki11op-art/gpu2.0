@@ -6,6 +6,7 @@ Arms (env ARMS):
   onsetla:TH     onset trigger (as onset:TH) plus look again at test: scores summed over the window starting at the onset frame - 1, 0, + 1
   peakla         shipped alignment plus the same look-again views (control for onsetla)
   v2             shipped alignment + a second layer learned on the chip rule over 3 x 3 spot windows (frequency x time), 2 x 2 pooled
+  tm:D           shipped alignment + timing cells: two extra channels, rise / fall by more than D since the previous frame (auditory onset / offset cells)
   rel:TH         adaptive causal onset: first frame whose loudness reaches 3 x the running average of earlier frames + TH
   nd:DROP:ADD    peak alignment + noisy night dreams (drop bit with p = 2^-DROP, add len >> ADD random bits)
 Reports clean / 20 / 10 / 5 dB accuracy overall, and clean accuracy on the first stage's words (oldest) and the last stage's words (newest). usage: SUBSET_DIR [CACHE_DIR]"""
@@ -95,12 +96,13 @@ def codes(mode):
             src = pic[k][te] if k == "clean" else pic[k]
             for L in (5, 6, 7): out[k + str(L)] = enc(al(src, L))
         fcache[mode] = out; return out
-    al = (lambda P: cochlea_int.align_word(P, 6)) if mode == "peak" or mode.startswith("geom") else (lambda P, th=int(mode.split(":")[1]): rel_align(P, th)) if mode.startswith("rel") else (lambda P, th=int(mode.split(":")[1]): onset_align(P, th))
+    al = (lambda P: cochlea_int.align_word(P, 6)) if mode == "peak" or mode.startswith("geom") or mode.startswith("tm") else (lambda P, th=int(mode.split(":")[1]): rel_align(P, th)) if mode.startswith("rel") else (lambda P, th=int(mode.split(":")[1]): onset_align(P, th))
     GEO = tuple(int(v) for v in mode.split(":")[1:]) if mode.startswith("geom") else (3, 3, 1, 1, 4, 4)           # window rows, window columns (time), strides, pooling (rows, columns)
+    chs = CH + (("rise", int(mode.split(":")[1])), ("fall", int(mode.split(":")[1]))) if mode.startswith("tm") else CH             # tm:D adds timing cells (rise / fall by more than D since the previous frame) to the code
     ptr = al(pic["clean"][~te]); sets = {"tr": ptr, "clean": al(pic["clean"][te])}
     for k in ("20dB", "10dB", "5dB"): sets[k] = al(pic[k])
     parts = {k: [] for k in sets}                                                                                       # resumable: each channel's codes are saved as soon as they exist (a restart loses at most one channel)
-    for ci, c in enumerate(CH):
+    for ci, c in enumerate(chs):
         key = os.path.join(CACHE, "ch_%s_nw%d_c%d.npz" % (mode.replace(":", "_"), NW, ci))
         if os.path.exists(key):
             z = np.load(key); enc_c = {k: z[k] for k in sets}

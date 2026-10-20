@@ -26,11 +26,15 @@ def binarize(x, thr):
     if isinstance(thr, list):                                               # several channels seen jointly
         return np.stack([binarize(x, t) for t in thr], -1)                  # (B, pixels, channels)
     """thr = int: on if brighter than thr (receptor threshold).
+    thr = ('rise', d) / ('fall', d): auditory onset / offset (timing) cells, see below.
     thr = ('on', d) / ('off', d): retina centre-surround cells: on if the pixel is brighter (darker) than the average
     of its 3x3 neighbourhood by more than d. Hardware: 8 adds, a shift (divide by 8) and a compare."""
     if not isinstance(thr, tuple):
         return x > thr
     im = x.reshape(-1, 28, 28).astype(np.int32)
+    if thr[0] in ("rise", "fall"):                                          # timing cells (sound pictures: rows = frequency, columns = time): on if the level rose (fell) by more than d since the previous frame
+        prev = np.concatenate([im[:, :, :1], im[:, :, :-1]], 2)             # hardware: one subtract and a compare per pixel
+        return ((im - prev > thr[1]) if thr[0] == "rise" else (prev - im > thr[1])).reshape(len(x), -1)
     p = np.pad(im, ((0, 0), (1, 1), (1, 1)), mode="edge")
     nb = sum(p[:, 1 + dy:29 + dy, 1 + dx:29 + dx] for dy in (-1, 0, 1) for dx in (-1, 0, 1) if dy or dx) >> 3
     out = im - nb > thr[1] if thr[0] == "on" else nb - im > thr[1]

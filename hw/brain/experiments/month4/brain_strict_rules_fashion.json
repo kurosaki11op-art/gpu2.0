@@ -10,5 +10,37 @@
  "grade:5": {
   "staged": 0.8372,
   "once": 0.8658
+ },
+ "grade:6": {
+  "staged": 0.836,
+  "once": 0.8643
+ },
+ "grade:7": {
+  "staged": 0.8387,
+  "once": 0.8677
+ },
+ "grade:8": {
+  "staged": 0.8392,
+  "once": 0.8677
+ },
+ "budget:0": {
+  "staged": 0.8327,
+  "once": 0.8655
+ },
+ "budget:1": {
+  "staged": 0.8315,
+  "once": 0.8655
+ },
+ "budget:2": {
+  "staged": 0.8342,
+  "once": 0.8655
+ },
+ "budget:4": {
+  "staged": 0.8308,
+  "once": 0.8655
+ },
+ "shy:1": {
+  "staged": 0.8293,
+  "once": 0.8655
  }
 }
