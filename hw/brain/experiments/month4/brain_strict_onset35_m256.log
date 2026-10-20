@@ -1,2 +1,3 @@
 clips 3500 test 717 2s
 peakla {'clean': 0.6834, '20dB': 0.57, '10dB': 0.4059, '5dB': 0.2808, 'oldest': 0.6929, 'newest': 0.5839, 'twin': 0.6496, 'other': 0.7095} 331s
+onsetla:1600 {'clean': 0.6564, '20dB': 0.557, '10dB': 0.4045, '5dB': 0.2808, 'oldest': 0.7024, 'newest': 0.565, 'twin': 0.641, 'other': 0.6683} 670s
