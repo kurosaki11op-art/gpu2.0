@@ -994,4 +994,9 @@ Clothing 77.98 / 78.13 vs Module 2 alone 78.32 vs all labels 83.3: no gain from 
 CNN joint: overall 77.05, **twin words 84.06** (the 8 acoustic pairs present: no/go, left/right, up/off, on/off, bed/bird, down/dog, three/tree, four/forward; accuracy over the clips of those words). SPARK staged (SIMULATED): twin 69.1 (shipped peak), 73.9 (timing cells / coincidence), float readout on the shipped code 72.5. So twin words are not hard for a trained network (84, above its own overall 77) while for SPARK they are below its overall (69 vs 73): a real gap of 10-15 points, a design weakness and not a data limit. Staged CNN: naive 0.0 on twins, 160-picture replay 5.8 (`gpu_baseline_words2.log`).
 
 
+## 20 Oct 2026 (night) - Temporal fovea for sound FAILED (SIMULATED, 20 words, float dual-ridge ceiling)
+
+The same integer cochlea run with finer frames (FF = 224 / 112 / 56 per second, ~4.5 / 9 / 18 ms); a window of 28 fine frames starting one coarse frame before the shipped alignment's word start, turned into a second 28x28 picture (same noise floor and level scale), encoded with the same 10-channel detector rule and appended to the shipped code. Shipped peak 79.95 overall / 72.46 twin. FF=224: fine window alone 57.3 / 36.2, shipped + window 79.47 / 66.67. FF=112: 79.95 / 63.77. FF=56: 78.02 / 66.67. No gain on overall, and twin words got worse in every case: the onset detail adds noise the readout cannot use. The measured twin-word gap (CNN 84.06) is therefore not a time-resolution problem of the first 100 ms. Script `brain_strict_tfovea.py`, log `brain_strict_tfovea.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

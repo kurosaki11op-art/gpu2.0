@@ -1,0 +1,9 @@
+fine frame sums (2000, 28, 224) 13s
+fine code (1586, 23040) 40s
+shipped peak code overall 0.7995  twin words 0.7246
+fine onset window alone overall 0.5725  twin words 0.3623
+shipped + fine onset window overall 0.7947  twin words 0.6667
+shipped peak code overall 0.7995  twin words 0.7246
+shipped + fine onset window overall 0.7995  twin words 0.6377
+shipped peak code overall 0.7995  twin words 0.7246
+shipped + fine onset window overall 0.7802  twin words 0.6667
