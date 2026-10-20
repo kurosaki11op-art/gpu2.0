@@ -837,4 +837,18 @@ Shipped code 86.35, shifted-stride code 87.4, both side by side 87.75, 64 detect
 Per-class check (`forget_diag.py`): the 3.2-point staged loss is spread over old classes (trouser 99 -> 89, bag 94 -> 89, sandal/shirt/coat -3 each), a recency bias, not one broken class. Test: our own "stored real traces" night (`real:E`, `cortex_rules.py`; each replay is a stored real code with probability mix/16, else a dream). Half real: E=4 83.45, E=16 83.27; all real: E=16 83.58, E=200 **84.52** (one-pass 86.55, shipped 83.27). So dream fidelity explains at most ~1.2 of the 3.2 points, and only with 200 stored traces per class (far too much memory). The rest is inherent to learning classes in order with a margin table. Replay-side fixes are capped near 84.5; next targets are the order effect itself (new vs old competition) not the replay.
 
 
+## 20 Oct 2026 (night) - Module 2 (sleep category formation, bounded buffer) works for digits, partly for clothing (SIMULATED, 3 seeds, margin 256)
+
+Unlabelled codes wait in a buffer of B (64 / 128); the K buffered codes that overlap each code most (popcount of AND) pool their class scores with it; the pooled winner must clear the margin cut (percentile Q of the labelled examples) and agree with the fast table; pseudo-labels only among classes rewarded in the context. Arm `fewk:P:Q:K:B` in `brain_strict_digits.py`; logs `k_mnist.log`, `k_fashion.log`.
+
+| labels | digits: gate only (`fewa`) | digits: Module 2 | clothing: gate only | clothing: Module 2 |
+|---|---|---|---|---|
+| 5 %, Q=25, K=5, B=64 | 89.92 | 90.77 | 74.63 | 73.50 (worse) |
+| 5 %, Q=25, K=5, B=128 | 89.92 | 91.62 | 74.63 | 74.63 (same) |
+| 5 %, Q=10, K=5, B=64 | - | **93.68** | - | **76.98** (+2.35) |
+| 2 %, Q=25, K=5, B=64 | 85.10 | 87.45 (+2.35) | 73.05 | 72.50 (worse) |
+
+Pseudo-label precision stays 99.5 % on digits, 97.9-98.8 % on clothing (gate only: 99.7 %). So Module 2 is a clear win on digits (+1.7 to +3.8 with a lower margin cut, which the buffer makes safe), and a +2.35 gain on clothing only with the lower cut. Second round (Q=0/10, B=128/256) running.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

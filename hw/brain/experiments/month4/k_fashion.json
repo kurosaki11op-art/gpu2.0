@@ -98,5 +98,80 @@
     "pseudo_precision": 0.9893
    }
   ]
+ },
+ "fewk:0.05:10:5:64": {
+  "acc": 0.7698,
+  "seeds": [
+   0.764,
+   0.7655,
+   0.78
+  ],
+  "info": [
+   {
+    "labelled": 500,
+    "pseudo_used": 8561,
+    "pseudo_precision": 0.9602
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 8267,
+    "pseudo_precision": 0.9871
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 8589,
+    "pseudo_precision": 0.9886
+   }
+  ]
+ },
+ "fewk:0.02:25:5:64": {
+  "acc": 0.725,
+  "seeds": [
+   0.7155,
+   0.695,
+   0.7645
+  ],
+  "info": [
+   {
+    "labelled": 200,
+    "pseudo_used": 8176,
+    "pseudo_precision": 0.9814
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 6653,
+    "pseudo_precision": 0.9723
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 8120,
+    "pseudo_precision": 0.9882
+   }
+  ]
+ },
+ "fewa:0.02:25": {
+  "acc": 0.7305,
+  "seeds": [
+   0.7435,
+   0.724,
+   0.724
+  ],
+  "info": [
+   {
+    "labelled": 200,
+    "pseudo_used": 5294,
+    "pseudo_precision": 0.9941
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 5638,
+    "pseudo_precision": 0.9911
+   },
+   {
+    "labelled": 200,
+    "pseudo_used": 5885,
+    "pseudo_precision": 0.998
+   }
+  ]
  }
 }
