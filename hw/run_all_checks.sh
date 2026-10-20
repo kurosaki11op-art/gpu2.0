@@ -2,8 +2,10 @@
 # Every bit-exact check of SPARK Cortex, one after another (never two in the same folder at once: they share files).
 # usage: sh hw/run_all_checks.sh DATA_DIR [--asic]   (--asic adds the slow SRAM-macro-model runs)
 # Writes hw/check_summary.txt: one PASS/FAIL line per check.
-D=$1; HW=$(cd "$(dirname "$0")" && pwd); OUT=$HW/check_summary.txt; : > "$OUT"
-run() { name=$1; shift; r=$( "$@" 2>&1 | tail -1 ); echo "$name: $r" | tee -a "$OUT"; }
+D=$1; HW=$(cd "$(dirname "$0")" && pwd); OUT=$HW/check_summary.txt
+# RESUME=1: keep the PASS lines already in check_summary.txt and run only the checks that are not there yet (a container restart then costs one check, not the whole run)
+if [ "$RESUME" = "1" ] && [ -s "$OUT" ]; then grep ": PASS" "$OUT" > "$OUT.keep"; mv "$OUT.keep" "$OUT"; else : > "$OUT"; fi
+run() { name=$1; shift; if [ "$RESUME" = "1" ] && grep -q "^$name: PASS" "$OUT"; then echo "$name: PASS (kept from the earlier run)"; return; fi; r=$( "$@" 2>&1 | tail -1 ); echo "$name: $r" | tee -a "$OUT"; }
 need() { f=$1; name=$2; if [ ! -e "$D/$f" ]; then echo "$name: SKIP (data missing: $f)" | tee -a "$OUT"; return 1; fi; return 0; }
 cd "$HW/rtl/cortex"
 run "core (FPGA build)"               python run_check_cortex.py "$D"
