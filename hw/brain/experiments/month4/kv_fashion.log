@@ -1,0 +1,12 @@
+codes (10000, 4608) 14s
+fewk:0.05:0:5:128 seed 1 0.778 {'labelled': 500, 'pseudo_used': 9094, 'pseudo_precision': 0.9633} 37s
+fewk:0.05:0:5:128 seed 2 0.7915 {'labelled': 500, 'pseudo_used': 9254, 'pseudo_precision': 0.9872} 57s
+fewk:0.05:0:5:128 seed 3 0.78 {'labelled': 500, 'pseudo_used': 9225, 'pseudo_precision': 0.9649} 79s
+views s1 -> 5 views per example
+fewkv:0.05:0:5:128 seed 1 0.7735 {'labelled': 500, 'pseudo_used': 9130, 'pseudo_precision': 0.9551} 132s
+fewkv:0.05:0:5:128 seed 2 0.7875 {'labelled': 500, 'pseudo_used': 9133, 'pseudo_precision': 0.9906} 164s
+fewkv:0.05:0:5:128 seed 3 0.7785 {'labelled': 500, 'pseudo_used': 9139, 'pseudo_precision': 0.9907} 195s
+fewkv:0.05:10:5:128 seed 1 0.7765 {'labelled': 500, 'pseudo_used': 9037, 'pseudo_precision': 0.9606} 222s
+fewkv:0.05:10:5:128 seed 2 0.783 {'labelled': 500, 'pseudo_used': 9021, 'pseudo_precision': 0.9912} 250s
+fewkv:0.05:10:5:128 seed 3 0.7845 {'labelled': 500, 'pseudo_used': 9000, 'pseudo_precision': 0.9679} 279s
+{"fewk:0.05:0:5:128": 0.7832, "fewkv:0.05:0:5:128": 0.7798, "fewkv:0.05:10:5:128": 0.7813}

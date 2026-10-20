@@ -980,4 +980,13 @@ So at equal data the one-pass gap to a CNN is 2.3 points on clothing and 1.1 on 
 At equal data the CNN is only 3.7 points above SPARK's staged result, and the float readout on SPARK's own code (79.95) is above the CNN. So the absolute weakness on words (about 73 %) comes from the tiny training set (about 80 clips per word) and the picture, not from our method being far behind a GPU-style model; a CNN with data augmentation or a pretrained front end would do better, which this baseline does not have. Staged, the CNN again collapses without stored data and needs most of the training set stored (1,000 of 1,586 pictures, about 6x the chip's memory) to reach SPARK's number. Script `gpu_baseline_words.py`, log `gpu_baseline_words.log`.
 
 
+## 20 Oct 2026 (night) - Categorical dreams fail; Module 2 + eye movements closes the few-label gap on digits (SIMULATED, 3 seeds, margin 256 / 1,500 dreams / 1 night)
+
+**Categorical dreams** (`catdream`, `cortex_rules.py`: per spatial cell the expected number of winners is drawn from the on-counts and that many distinct detectors are chosen in proportion to their counts; same memory): clothing staged 83.8 / digits 94.58 (pure); mixed with independent-bit dreams at 4/16, 8/16, 12/16: clothing 83.6 / 83.2 / 83.2, digits 95.1 / 94.1 / 95.5 vs 83.27 / 95.52 shipped. Within seed noise (about +-0.5), no clear gain: **FAILED** the no-regression rule. Staged loss stays.
+
+**Module 2 + eye movements** (`fewkv:P:Q:K:B` in `brain_strict_digits.py`: the sleep buffer's neighbour-pooled pseudo-labels, and every one of the 4 one-pixel-shifted views must name the same class; labelled and pseudo-labelled examples are learned with their views), 5 % labels:
+digits 95.25 (Q=0) / 95.07 (Q=10) vs gate only 89.9, Module 2 alone 93.75, and **all labels 95.52**; pseudo-label precision 99.8-99.9 %. So with 5 % of the labels the chip is within 0.3 points of the all-labelled result on digits (**WIN**; affects only the few-label mode, the all-label path is unchanged).
+Clothing 77.98 / 78.13 vs Module 2 alone 78.32 vs all labels 83.3: no gain from views; the 5-point gap stays (pseudo-label precision 96-99 %: confusable shirt / T-shirt / pullover / coat pseudo-labels repeat the same mistakes, so they add little new). Logs `kv_mnist.log`, `kv_fashion.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -83,10 +83,40 @@ def _dreamx(on, n, st, stc, blk, mixp, c, rng, out):
     return k
 
 
-def make_stage_xover():
+@njit
+def _dreamc(on, n, st, stc, blk, mixp, c, rng, out):
+    """categorical dream: a real code has, in every spatial cell (block of `blk` bits), a small number of winning detectors, not a scatter of independent bits. Per block the expected number of winners is the sum of that block's on-counts over the class count (integer part plus one more with the fractional probability); that many distinct detectors are drawn with probability proportional to their on-counts. Same counts, no extra memory; xorshift draws, adds, compares."""
+    nc = n[c]; nb = on.shape[1]; k = 0
+    if nc == 0:
+        return 0
+    rng[0] = _xs32(rng[0])
+    if np.int64(rng[0] & np.uint32(15)) >= mixp:
+        return _dream(on, n, c, rng, out)
+    for bs in range(0, nb, blk):
+        tot = 0
+        for t in range(blk): tot += on[c, bs + t]
+        if tot == 0: continue
+        cnt = tot // nc; rem = tot - cnt * nc; rng[0] = _xs32(rng[0])
+        if np.int64(rng[0] % np.uint32(nc)) < rem: cnt += 1
+        used = 0
+        for _ in range(min(cnt, blk)):
+            rest = 0
+            for t in range(blk):
+                if not ((used >> t) & 1): rest += on[c, bs + t]
+            if rest == 0: break
+            rng[0] = _xs32(rng[0]); r = np.int64(rng[0] % np.uint32(rest)); acc = 0
+            for t in range(blk):
+                if (used >> t) & 1: continue
+                acc += on[c, bs + t]
+                if r < acc:
+                    used |= (1 << t); out[k] = bs + t; k += 1; break
+    return k
+
+
+def make_stage_xover(dreamfn='_dreamx'):
     base = re.sub(r"^@njit\(cache=True\)\n", "", inspect.getsource(cortex_slow._stage_slow.py_func))
     stage = base.replace("def _stage_slow(", "def _stage_xover(").replace("tick0):", "tick0, st, stc, blk, mixp):").replace("_dream(on, n, ", "_dreamx(on, n, st, stc, blk, mixp, ")
-    ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _dreamx=_dreamx, np=np); exec("@njit\n" + stage, ns); return ns["_stage_xover"]
+    ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _dreamx=_dreamx, _dreamc=_dreamc, np=np); exec("@njit\n" + stage.replace("_dreamx(on, n, st, stc, blk, mixp, ", dreamfn + "(on, n, st, stc, blk, mixp, "), ns); return ns["_stage_xover"]
 
 
 def make_stage_protect(shp):
@@ -190,8 +220,8 @@ class CortexRules(CortexSlow):
             self._sg = make_stage_gate(); g = np.random.RandomState(11); C = kw.get("n_cls", 10); self.ctxmask = np.zeros((C, n_bits), np.uint8); frac = (par or 50) / 100.0
             self._ctx = {}
             self._gen = lambda: (g.rand(n_bits) < frac).astype(np.uint8)
-        if rule == "xover":
-            E = int(par or 8); self._sx = make_stage_xover(); C = kw.get("n_cls", 10); self.xst = np.zeros((C, E, n_bits), np.uint8); self.xstc = np.zeros(C, np.int32); self.blk = int(os.environ.get("BLK", 32)); self.mixp = int(os.environ.get("REALMIX", 16))
+        if rule in ("xover", "catdream"):
+            E = int(par or 8) if rule == "xover" else 1; self._sx = make_stage_xover("_dreamc" if rule == "catdream" else "_dreamx"); C = kw.get("n_cls", 10); self.xst = np.zeros((C, E, n_bits), np.uint8); self.xstc = np.zeros(C, np.int32); self.blk = int(os.environ.get("BLK", 32)); self.mixp = int(os.environ.get("REALMIX", 16))
         if rule == "real":
             E = int(par or 8); self.st = np.zeros((n_cls_of(kw), E, 1), np.int32); self.stn = np.zeros((n_cls_of(kw), E), np.int32); self.stc = np.zeros(n_cls_of(kw), np.int32)
 
@@ -224,7 +254,7 @@ class CortexRules(CortexSlow):
                                     self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick, self.ctxmask)
             if len(y) < 2 * self.ch: self.S[:] = self.W.astype(np.int32) << self.FR
             return r
-        if self.rule == "xover":
+        if self.rule in ("xover", "catdream"):
             for c in np.unique(y):
                 if self.xstc[c] == 0:
                     for i in np.where(y == c)[0][:self.xst.shape[1]]: self.xst[c, self.xstc[c]] = code[i]; self.xstc[c] += 1

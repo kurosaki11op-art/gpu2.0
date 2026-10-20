@@ -1,0 +1,77 @@
+{
+ "fewk:0.05:0:5:128": {
+  "acc": 0.9375,
+  "seeds": [
+   0.9425,
+   0.9315,
+   0.9385
+  ],
+  "info": [
+   {
+    "labelled": 500,
+    "pseudo_used": 9246,
+    "pseudo_precision": 0.9961
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9357,
+    "pseudo_precision": 0.9937
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9214,
+    "pseudo_precision": 0.9952
+   }
+  ]
+ },
+ "fewkv:0.05:0:5:128": {
+  "acc": 0.9525,
+  "seeds": [
+   0.952,
+   0.9535,
+   0.952
+  ],
+  "info": [
+   {
+    "labelled": 500,
+    "pseudo_used": 9173,
+    "pseudo_precision": 0.9979
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9193,
+    "pseudo_precision": 0.9985
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9184,
+    "pseudo_precision": 0.9985
+   }
+  ]
+ },
+ "fewkv:0.05:10:5:128": {
+  "acc": 0.9507,
+  "seeds": [
+   0.9525,
+   0.951,
+   0.9485
+  ],
+  "info": [
+   {
+    "labelled": 500,
+    "pseudo_used": 9078,
+    "pseudo_precision": 0.9979
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9136,
+    "pseudo_precision": 0.999
+   },
+   {
+    "labelled": 500,
+    "pseudo_used": 9147,
+    "pseudo_precision": 0.9981
+   }
+  ]
+ }
+}
