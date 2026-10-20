@@ -27,10 +27,11 @@ f_tr, f_te = enc(fesf, xtr), enc(fesf, xte); feature_layer.PS, feature_layer.ST 
 nch = len(fesf); F = fesf[0].F; m = f_tr.shape[1] // (nch * F); m = int(round(m ** 0.5)); print("coarse", c_tr.shape, "fine", f_tr.shape, "fine map", m, flush=True)
 
 
-def ridge(a, b, lams=(100.0, 300.0, 1000.0), pred=False):
+def ridge(a, b, lams=(100.0, 300.0, 1000.0), pred=False, lab=None):
+    lab = yte if lab is None else lab
     a = a.astype(np.float32); b = b.astype(np.float32); mu = a.mean(0); A = a - mu; Kt = A @ A.T; Kte = (b - mu) @ A.T; best = (0, None)
     for lam in lams:
-        al = np.linalg.solve(Kt + lam * np.eye(len(Kt), dtype=np.float32), Y - Y.mean(0)); s = Kte @ al; acc = float((s.argmax(1) == yte).mean())
+        al = np.linalg.solve(Kt + lam * np.eye(len(Kt), dtype=np.float32), Y - Y.mean(0)); s = Kte @ al; acc = float((s.argmax(1) == lab).mean())
         if acc > best[0]: best = (acc, s)
     return best if pred else best[0]
 
@@ -54,7 +55,7 @@ def masked(f, a, b, rnd=False):
 
 
 # train side: for each training image use its true class and the best rival under the coarse readout as the pair (the pair the chip would meet on a surprise)
-a_tr = ytr.copy(); sc_tr = ridge(c_tr, c_tr, pred=True)[1]; sc_tr[np.arange(len(ytr)), ytr] = -1e9; b_tr = sc_tr.argmax(1)
+a_tr = ytr.copy(); sc_tr = ridge(c_tr, c_tr, pred=True, lab=ytr, lams=(300.0,))[1]; sc_tr[np.arange(len(ytr)), ytr] = -1e9; b_tr = sc_tr.argmax(1)
 for name, rnd in (("fovea (rival-template cells, 25 %)", False), ("random cells (control, 25 %)", True)):
     mtr = masked(ft, a_tr, b_tr, rnd); mte = masked(fe, top2[:, 0], top2[:, 1], rnd)
     print(DS, "coarse + " + name, round(ridge(np.concatenate([c_tr, mtr], 1), np.concatenate([c_te, mte], 1)), 4), flush=True)

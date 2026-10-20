@@ -2,11 +2,5 @@ coarse (10000, 4608) fine (10000, 8192) fine map 8
 fashion coarse alone 0.8635
 fashion coarse + full fine 0.8825 (12800 bits)
 fashion fine alone 0.8825
-Traceback (most recent call last):
-  File "/home/user/gpu2.0/hw/brain/experiments/month4/brain_strict_fovea.py", line 57, in <module>
-    a_tr = ytr.copy(); sc_tr = ridge(c_tr, c_tr, pred=True)[1]; sc_tr[np.arange(len(ytr)), ytr] = -1e9; b_tr = sc_tr.argmax(1)
-                               ~~~~~^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/user/gpu2.0/hw/brain/experiments/month4/brain_strict_fovea.py", line 33, in ridge
-    al = np.linalg.solve(Kt + lam * np.eye(len(Kt), dtype=np.float32), Y - Y.mean(0)); s = Kte @ al; acc = float((s.argmax(1) == yte).mean())
-                                                                                                                  ^^^^^^^^^^^^^^^^^^
-ValueError: operands could not be broadcast together with shapes (10000,) (2000,) 
+fashion coarse + fovea (rival-template cells, 25 %) 0.8695
+fashion coarse + random cells (control, 25 %) 0.8675

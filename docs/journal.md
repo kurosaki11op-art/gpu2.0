@@ -881,4 +881,11 @@ Detectors learned from the first 2 / 4 / 6 / all 10 classes. Clothing: 86.35 / 8
 Linear ridge 86.35; kNN on Hamming distance k=1/5/15: 77.9 / 79.8 / 80.0; exp-Hamming kernel ridge (nonlinear): 87.3 / 88.3 / 88.35. A strongly nonlinear float readout gains only +2 over linear, so the shipped code holds at most about 88 % of clothing; the chip's one-pass 86.5 is already within 2 points of the best any readout can do on this code. Together with the negative probes (graded counts 87.5, depth 86.7, 64 detectors 87.65, all-class detectors 86.2, reward recruitment 87.0) the single-layer 5x5 detector code saturates near 88 for clothing. Reaching the 93 of a trained CNN would need features learned by task error through many layers, which this design forbids (no backprop). Script `brain_strict_info.py`, log `brain_strict_info_fashion.log`.
 
 
+## 20 Oct 2026 (night) - Fovea probe and delay-line coincidence probe (SIMULATED, float dual-ridge ceilings, not chip runs)
+
+**Clothing, fovea.** Coarse (shipped) 86.35; fine code (3x3 patches, stride 1, pooled 3x3; 8,192 bits) alone 88.25; coarse + full fine 88.25 (12,800 bits). So finer looking adds about +1.9 of new information, but costs 2.8x the code. Fovea restricted to the 25 % of cells where the top-2 rival templates differ most: 86.95; random 25 % cells (control): 86.75. The rival-template fovea beats its control by only +0.2: **the fovea as designed FAILED**; the gain is in the fine code as a whole, not in the selected places. Script `brain_strict_fovea.py`, log `brain_strict_fovea_fashion.log`.
+
+**Words, delay-line coincidence cells** (7 frequency bands x 7 bands x delays 0..8 over onset and level events, any time, so independent of window position; 1,323 bits). Shipped peak code overall 79.95 / twin words 72.5; coincidence alone 57.5 / 53.6; shipped + coincidence **81.6 / 79.7** (+1.7 overall, +7.2 twin). A real ceiling gain on the twin-word weak spot; chip run still to do. Script `brain_strict_delay.py`, log `brain_strict_delay.log`.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
