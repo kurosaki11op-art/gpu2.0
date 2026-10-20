@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Sleep cleaning with the chip's own parts, bit-exact (20 Oct 2026): the ear's noisy names of NS buffered pictures are cleaned using (1) the class scores of the core (cortex_core.v, CORTEX_HOOKS build, rd_scores after one PREDICT per buffered picture) and (2) the K nearest buffered pictures by shared code bits (cortex_neighbours.v),
-and (3) the host's pooling (cross_modal.pool_names: adds and compares). The names obtained from the RTL's scores and neighbours must equal the names obtained from the software model's. Scenario: 5 known classes (MNIST digits 0-4), the table learns 120 pictures under noisy names (25 % wrong), then NS = 32 buffered pictures are cleaned.
+"""Sleep cleaning with the chip's own parts, bit-exact (20 Oct 2026): the ear's noisy names of NS buffered pictures are cleaned using (1) the class scores of the core (cortex_core.v, CORTEX_HOOKS build, rd_scores after one PREDICT per buffered picture), (2) the K nearest buffered pictures by shared code bits (cortex_neighbours.v),
+and (3) the pooling (cortex_pool.v in RTL, and cross_modal.pool_names in software: adds and compares). The names obtained from the RTL's scores, neighbours AND pooling must equal the names obtained from the software model's. Scenario: 5 known classes (MNIST digits 0-4), the table learns 120 pictures under noisy names (25 % wrong), then NS = 32 buffered pictures are cleaned.
 usage: python run_check_sleep_clean.py DATA_DIR [--margin=N]"""
 import os, subprocess, sys
 import numpy as np
@@ -37,8 +37,15 @@ subprocess.run(["vvp", "-n", "/tmp/nb.vvp"], cwd=HERE, capture_output=True, text
 nb_r = np.array([[int(v) for v in l.split()][0::2] for l in open(os.path.join(HERE, "nb_out.txt")).read().split("\n") if l.strip()])
 dense = cbuf.astype(np.int32); ov = dense @ dense.T; np.fill_diagonal(ov, -1); nb_m = np.argsort(-ov, 1, kind="stable")[:, :K]
 known = np.zeros(10, bool); known[:KC] = True
-names_r = cross_modal.pool_names(np.array(scores_r), nb_r, ear, known); names_m = cross_modal.pool_names(np.array(scores_m), nb_m, ear, known)
-bad = int((np.array(scores_r) != np.array(scores_m)).any(1).sum()) + int((nb_r != nb_m).any(1).sum()) + int((names_r != names_m).sum())
-print(f"buffered pictures {NS}, K {K}; score rows differing {int((np.array(scores_r) != np.array(scores_m)).any(1).sum())}, neighbour rows differing {int((nb_r != nb_m).any(1).sum())}, names differing {int((names_r != names_m).sum())}")
+names_r = cross_modal.pool_names(np.array(scores_r), nb_r, ear, known, ear_vote=200); names_m = cross_modal.pool_names(np.array(scores_m), nb_m, ear, known, ear_vote=200)
+# the pooling in RTL (cortex_pool.v) on the RTL's own scores and neighbours
+words = [int(sum(1 << c for c in range(10) if known[c])), NS]
+for q in range(NS): words += [int(v) & 0xFFFFF for v in scores_r[q]] + [int(v) for v in nb_r[q]] + [int(ear[q])]
+open(os.path.join(HERE, "pool_in.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n")
+subprocess.run(["iverilog", "-g2005", "-o", "/tmp/pool.vvp", f"-Ptb_pool.NS={NS}", f"-Ptb_pool.SW={SW}", f"-Ptb_pool.K={K}", "-Ptb_pool.EV=200", "cortex_pool.v", "tb_pool.v"], cwd=HERE, check=True)
+subprocess.run(["vvp", "-n", "/tmp/pool.vvp"], cwd=HERE, capture_output=True, text=True)
+names_p = np.array([int(l) for l in open(os.path.join(HERE, "pool_out.txt")).read().split("\n") if l.strip()])
+bad = int((np.array(scores_r) != np.array(scores_m)).any(1).sum()) + int((nb_r != nb_m).any(1).sum()) + int((names_r != names_m).sum()) + int((names_p != names_m).sum())
+print(f"buffered pictures {NS}, K {K}; score rows differing {int((np.array(scores_r) != np.array(scores_m)).any(1).sum())}, neighbour rows differing {int((nb_r != nb_m).any(1).sum())}, names differing {int((names_r != names_m).sum())}; names from the pooling unit differing {int((names_p != names_m).sum())}")
 print(f"ear's names right {float((ear == ytr[ibuf]).mean()):.2f} -> cleaned names right {float((names_r == ytr[ibuf]).mean()):.2f} (true labels of the buffer used only to score)")
 print("PASS" if bad == 0 else "FAIL")

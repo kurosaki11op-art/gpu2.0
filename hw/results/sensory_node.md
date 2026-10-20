@@ -12,8 +12,9 @@ A brain senses with eyes and ears and combines them: a heard word can name a see
 | Core at the full two-sense width with the big sound code (NB = 27,648, AW = 15) | `cortex_core.v` (parameters only) | `run_check_cortex_twosense.py`: 200 lines, 0 mismatches |
 | All 10 class scores after a PREDICT (`rd_scores`, hooks build) | `cortex_core.v` | `run_check_cortex_hooks.py` (now with `S` lines): PASS |
 | Sleep neighbours: the K buffered codes sharing the most active bits with a query (two-pointer merge, no multiplier) | `cortex_neighbours.v`, `tb_neighbours.v` | `run_check_neighbours.py`: 0 mismatches |
-| Sleep cleaning with the chip's scores and neighbours, host pools them (adds and compares) | `hw/brain/cross_modal.py` (`pool_names`) | `run_check_sleep_clean.py`: scores, neighbours and names identical to the model |
-All are in `hw/run_all_checks.sh`. The host pooling is software, like the other sleep logic; the overlap unit costs about 26,000 cycles per query at 64 slots (a 64-picture buffer in about 1.7 M cycles).
+| Pooling of the scores over the neighbours: the new name of each buffered picture (adds and one compare per class; 3,521 cycles for 32 pictures) | `hw/rtl/cortex/cortex_pool.v`, `tb_pool.v`; software twin `hw/brain/cross_modal.py` (`pool_names`) | `run_check_pool.py`: 0 names differing (ties, negative scores, 10 / 6 / 1 known classes) |
+| Whole sleep cleaning on the chip's own parts: core scores + neighbour unit + pooling unit | the three above | `run_check_sleep_clean.py`: scores, neighbours, names (software and pooling unit) identical to the model |
+All are in `hw/run_all_checks.sh`. The grouping step (competitive learning for label-free categories) is the part still in software; the overlap unit costs about 26,000 cycles per query at 64 slots (a 64-picture buffer in about 1.7 M cycles, ESTIMATED).
 
 ## Size
 A smaller sound code works as well as the big one (SIMULATED, [soundsize log](../../hw/brain/experiments/month4/brain_strict_soundsize.log)): 4 channels x 32 detectors = 4,608 sound bits give both-senses accuracy 98.97 against 98.33 for 10 x 64 (23,040 bits). The two-sense table is then 9,216 bits, about 2x the one-sense chip (129 KB for 4,608 bits), not 6x.
@@ -42,7 +43,7 @@ A seen digit and a heard clip of the same digit occur together. Competitive lear
 - SIMULATED model plus RTL simulation; nothing measured on silicon or the board.
 - Two dataset pairs (MNIST + FSDD spoken digits, MNIST + Speech Commands digits); 2 seeds for the CNN rows, 3 seeds for SPARK.
 - The ear for the zero-label test was trained on 3 speakers and the paired clips come from 2 others; test speaker is a sixth.
-- The host pooling is not in RTL; the buffer is 64 pictures (K = 8).
+- The grouping step (k-means for the label-free categories) is not in RTL; the buffer is 64 pictures (K = 8); the all-pairs overlap grows with the square of the buffer.
 - The sound path needs the cochlea RTL and its detectors loaded (`tma_*`), like the one-sense sound chip.
 
 Related: [Results index](INDEX.md), [Journal](../../docs/journal.md), [Project memory](../../docs/PROJECT_MEMORY.md), [Hardware index](../HARDWARE_INDEX.md), [Redesign tests](brain_strict_redesign.md)

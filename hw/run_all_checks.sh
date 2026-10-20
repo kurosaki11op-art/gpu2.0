@@ -30,7 +30,8 @@ need speech_framesums_int.npz "speech-dependent check" && run "cochlea (streamin
 need speech_framesums_int.npz "speech-dependent check" && run "cochlea (streaming, word aligned)" python run_check_cochlea.py "$D" 4 --align
 run "core, two-sense width (NB 27,648, AW 15)" python run_check_cortex_twosense.py "$D" --margin=256
 run "neighbour unit (sleep cleaning)" python run_check_neighbours.py "$D" 16 4
-run "sleep cleaning, chip scores + neighbours == model" python run_check_sleep_clean.py "$D"
+run "pooling unit (sleep cleaning, random cases with ties)" python run_check_pool.py
+run "sleep cleaning, chip scores + neighbours + pooling unit == model" python run_check_sleep_clean.py "$D"
 need fsdd/0_george_0.wav "whole two-sense chip (retina + cochlea + one core)" && run "whole two-sense chip (retina + cochlea + one core)" python run_check_sense_top.py "$D"
 cd "$HW/rtl/cortex/sound"
 need speech_framesums_int.npz "sound chip, whole chain (aligned)" && run "sound chip, whole chain (aligned)" python run_check_sound_chain.py "$D"

@@ -30,11 +30,12 @@ module cortex_pool #(parameter NS = 64, parameter SW = 6, parameter C = 10, para
         else case (st)
             S_IDLE: if (start) begin busy <= 1'b1; q <= 0; c <= 0; have <= 1'b0; bestc <= 0; best <= 0; st <= S_OWN; end
             S_OWN: begin                                              // own score of class c (an unknown class counts 0 in the sums and is skipped when comparing)
-                acc <= known[c] ? sc[q[SW-1:0] * C + c] : {AWID{1'b0}}; kk <= 0; st <= S_NB;
+                if (known[c]) acc <= sc[q[SW-1:0] * C + c]; else acc <= 0;                          // (explicit branches: a ?: mixing a signed value with an unsigned constant would zero-extend the score)
+                kk <= 0; st <= S_NB;
             end
             S_NB: begin
                 if (kk == K) st <= S_CMP;
-                else begin acc <= acc + (known[c] ? sc[nbq * C + c] : {AWID{1'b0}}); kk <= kk + 1'b1; end
+                else begin if (known[c]) acc <= acc + sc[nbq * C + c]; kk <= kk + 1'b1; end
             end
             S_CMP: begin
                 if (known[c]) begin
