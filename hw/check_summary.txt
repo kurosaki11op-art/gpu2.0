@@ -1,2 +1,25 @@
 core (FPGA build): PASS
 core (pipelined): PASS
+core with context memory: PASS
+core with context, pipelined: PASS
+core with IMPRINT (few-shot fix): PASS
+core with IMPRINT, pipelined: PASS
+core with slow table (Redesign 6): PASS
+core with slow table, pipelined: PASS
+core with embedding path (Redesign 8): PASS
+core with embedding path, pipelined: PASS
+core with host hooks (top margin, write counter): PASS
+encoder (FPGA build): PASS
+encoder (ASIC, gated clocks): PASS
+encoder, finer grid (ENC_S1, ASIC build): PASS
+encoder learning its detectors: PASS
+general encoder, images: PASS
+speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
+speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
+general encoder, speckle removal: PASS
+speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
+speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
+speech-dependent check: SKIP (data missing: speech_framesums_int.npz)
+core, two-sense width (NB 27,648, AW 15): PASS
+neighbour unit (sleep cleaning): PASS
+sleep cleaning, chip scores + neighbours == model: PASS
