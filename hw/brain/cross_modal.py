@@ -1,0 +1,43 @@
+"""Cross-modal (two-sense) learning for the counting chip (20 Oct 2026). SIMULATED model of host-side sleep logic around the chip's own table; no multiplies, no backprop, nothing stored but a small buffer.
+  heard_names(ear, heard_codes)         the ear (a chip table trained on labelled sound codes) names each heard clip: the name a seen picture is learned under (zero picture labels)
+  clean_names(table, codes, names, ...) sleep: pictures wait in a buffer of B; the K buffered pictures that overlap each picture most (popcount of AND) pool their class scores with its own, optionally plus a vote for the name the ear gave; the pooled winner is the new name
+  learn_picture(codes, names, ...)      learns the pictures under the (cleaned) names in one pass on a CortexSlow table, 1-2 cleaning rounds
+  joint_code(picture_code, sound_code)  one table over both senses (concatenated bits)
+Results (MNIST + FSDD, 3 seeds): ear right on 73.5 % of unfamiliar speakers; pictures learned from its names 89.7; after cleaning 93.9; true labels 97.4; both senses in one table 98.33. See docs/journal.md (20 Oct 2026 night)."""
+import numpy as np
+from cortex_slow import CortexSlow
+
+
+def new_table(n_bits, seed=1, **kw):
+    cfg = dict(ch=100, K=5, night_stop=2, daydream=1, margin=256, ndream=1500, night=1); cfg.update(kw)
+    return CortexSlow(n_bits, seed=seed, **cfg)
+
+
+def fit(codes, labels, seed=1, **kw):
+    m = new_table(codes.shape[1], seed, **kw); o = np.random.RandomState(seed).permutation(len(labels)); m.stage(codes[o], labels[o]); return m
+
+
+def heard_names(ear, heard_codes):
+    return ear.predict(heard_codes)
+
+
+def clean_names(table, codes, names, KN=8, B=256, ear_vote=200):
+    """one cleaning pass over the buffered pictures; returns the pooled names"""
+    S = table.S.astype(np.int64); out = names.copy()
+    for j in range(0, len(codes), B):
+        c = codes[j:j + B]; s = c.astype(np.int32) @ S.T; ov = c.astype(np.int32) @ c.T.astype(np.int32); np.fill_diagonal(ov, -1)
+        nn = np.argsort(-ov, 1)[:, :KN]; z = np.where(table.known[None, :], s, 0); pooled = z + z[nn].sum(1)
+        if ear_vote: pooled[np.arange(len(c)), names[j:j + B]] += ear_vote * (KN + 1)
+        out[j:j + B] = np.where(table.known[None, :], pooled, -(1 << 50)).argmax(1)
+    return out
+
+
+def learn_picture(codes, names, rounds=2, seed=1, **kw):
+    """pictures learned under the ear's names, cleaned in sleep for `rounds` rounds; returns (table, final names)"""
+    lab = names; m = fit(codes, lab, seed, **kw)
+    for _ in range(rounds): lab = clean_names(m, codes, names); m = fit(codes, lab, seed, **kw)
+    return m, lab
+
+
+def joint_code(picture_code, sound_code):
+    return np.concatenate([picture_code, sound_code], 1)

@@ -1,0 +1,4 @@
+  File "/home/user/gpu2.0/hw/brain/experiments/month4/gpu_twosense.py", line 52
+    pair = np.array([r.choice(pool[satr[pool] == d]) for d in ytr]); with torch.no_grad(): names = ear(Atr[pair]).argmax(1).numpy()
+                                                                     ^^^^
+SyntaxError: invalid syntax
