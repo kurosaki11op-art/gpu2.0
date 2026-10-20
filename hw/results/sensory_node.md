@@ -29,9 +29,12 @@ A smaller sound code works as well as the big one (SIMULATED, [soundsize log](..
 | zero picture labels + cleaning | **93.88** (sleep neighbour pooling, names 95 % right) | 82.87 (self-training) |
 With labels the CNN is 0.5-1 point ahead; with **no picture labels SPARK is ahead by 10 points**, because sleep-time neighbour pooling cleans the ear's noisy names, whereas the CNN's self-training reinforces its own mistakes. Damage was not identical (25 % of lit pixels for the CNN, 25 % of active code bits for SPARK).
 
+## Second dataset pair (SIMULATED, 3 seeds)
+MNIST pictures + Speech Commands spoken digits (many speakers, varied microphones): ear alone on unseen speakers 75.6, its names 72.5 % right; picture learner true labels 97.40; **zero picture labels 92.30 as given, 96.93 after sleep cleaning** (names 98.1 % right); both senses 98.87; picture 25 % damaged + sound 98.42 (87.15 without sound). See the [journal](../../docs/journal.md).
+
 ## Limits
 - SIMULATED model plus RTL simulation; nothing measured on silicon or the board.
-- One dataset pair (MNIST digits + spoken digits), one seed for the CNN rows (2 seeds), 3 seeds for SPARK.
+- Two dataset pairs (MNIST + FSDD spoken digits, MNIST + Speech Commands digits); 2 seeds for the CNN rows, 3 seeds for SPARK.
 - The ear for the zero-label test was trained on 3 speakers and the paired clips come from 2 others; test speaker is a sixth.
 - The host pooling is not in RTL; the buffer is 64 pictures (K = 8).
 - The sound path needs the cochlea RTL and its detectors loaded (`tma_*`), like the one-sense sound chip.

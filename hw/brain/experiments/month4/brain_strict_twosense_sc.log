@@ -1,0 +1,13 @@
+clips: ear-teaching 409, paired 390, test 201; sound code 4608 bits; picture code 4608 bits | 20s
+seed 1 46s
+seed 2 70s
+seed 3 98s
+ear alone, unseen test speakers                                0.7562
+ear's names right on the clips heard with the pictures         0.7250
+A picture learner, true labels                                 0.9740
+B picture learner, ear's names as given (zero picture labels)  0.9230
+B+ picture learner, names cleaned in sleep                     0.9693
+  cleaned names right                                          0.9813
+D both senses in one table                                     0.9887
+D picture 25% dropped + sound                                  0.9842
+D picture 25% dropped, sound blank                             0.8715
