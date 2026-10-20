@@ -1,2 +1,3 @@
 fashion base {'staged': 0.8327, 'once': 0.8655} 18s
 fashion split {'staged': 0.8327, 'once': 0.8655} 24s
+fashion grade:5 {'staged': 0.8372, 'once': 0.8658} 40s
