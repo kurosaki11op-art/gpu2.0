@@ -999,4 +999,13 @@ CNN joint: overall 77.05, **twin words 84.06** (the 8 acoustic pairs present: no
 The same integer cochlea run with finer frames (FF = 224 / 112 / 56 per second, ~4.5 / 9 / 18 ms); a window of 28 fine frames starting one coarse frame before the shipped alignment's word start, turned into a second 28x28 picture (same noise floor and level scale), encoded with the same 10-channel detector rule and appended to the shipped code. Shipped peak 79.95 overall / 72.46 twin. FF=224: fine window alone 57.3 / 36.2, shipped + window 79.47 / 66.67. FF=112: 79.95 / 63.77. FF=56: 78.02 / 66.67. No gain on overall, and twin words got worse in every case: the onset detail adds noise the readout cannot use. The measured twin-word gap (CNN 84.06) is therefore not a time-resolution problem of the first 100 ms. Script `brain_strict_tfovea.py`, log `brain_strict_tfovea.log`.
 
 
+## 20 Oct 2026 (night) - Two senses: picture + sound (SIMULATED, MNIST digits + FSDD spoken digits (2,999 clips, 6 speakers, downloaded from raw.githubusercontent.com), one pass, margin 256 / 1,500 dreams / 1 night, 3 seeds)
+
+A seen digit is paired with a clip of the same digit (different instances); script `brain_strict_twosense.py`, log `brain_strict_twosense.log`. Test speaker = the last speaker, never in training.
+- Picture learner with true labels (reference): **97.40**.
+- **Zero picture labels, the ear names the digit** (ear trained on 3 speakers; the clips paired with the pictures come from 2 other speakers it never heard): the ear is right on **73.5 %** of them (sound alone on the new test speaker 77.5 %), and the picture learner trained only on the ear's names still reaches **89.67** on pictures. (A first version, where the ear named clips from its own training speakers, was 98.7 % right and gave 97.35; that was optimistic and is not the honest number.)
+- **Both senses in one table** (joint code, 27,648 bits): pictures + sound **98.33** against 97.40 for the picture learner alone. With 25 % of the picture's active bits dropped: sound present 97.28, sound absent 85.4 (the sound covers +11.9). With 50 % of the sound dropped, picture present: 98.33. Sound only 73.8, picture only (sound blanked) 86.0 (a blanked sense shifts the table sums, so this is not the picture-alone score).
+Reading: a heard word can label a picture with no picture labels (89.7 from a 73.5 %-correct ear), two senses beat one (+0.9 and a large cover when one is damaged), as in the brain. The cost is the second sense's code (23,040 bits) in the table. Not yet tried: cleaning the ear's noisy names with the picture's own neighbours (Module 2), which should close part of 89.7 -> 97.4.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
