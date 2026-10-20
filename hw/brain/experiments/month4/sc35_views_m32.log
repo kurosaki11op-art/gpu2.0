@@ -1,0 +1,4 @@
+view codes (3, 3500, 23040)
+T=15 k=1: single all 0.625 new 0.244 old 0.750 | views all 0.623 new 0.241 old 0.748
+T=15 k=2: single all 0.650 new 0.393 old 0.734 | views all 0.644 new 0.409 old 0.721
+T=15 k=5: single all 0.657 new 0.512 old 0.705 | views all 0.652 new 0.508 old 0.699

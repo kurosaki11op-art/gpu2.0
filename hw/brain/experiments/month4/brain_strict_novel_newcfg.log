@@ -1,0 +1,9 @@
+ctx:0.01 seed 1 0.576 {'slots_opened': 0, 'slots_named': 0} 77s
+ctx:0.01 seed 2 0.4305 {'slots_opened': 0, 'slots_named': 0} 138s
+ctxn:0.01 seed 1 0.4415 {'slots_opened': 1, 'slots_named': 1} 223s
+ctxn:0.01 seed 2 0.2765 {'slots_opened': 1, 'slots_named': 1} 257s
+ctx:0.02 seed 1 0.708 {'slots_opened': 0, 'slots_named': 0} 281s
+ctx:0.02 seed 2 0.79 {'slots_opened': 0, 'slots_named': 0} 299s
+ctxn:0.02 seed 1 0.5025 {'slots_opened': 1, 'slots_named': 1} 321s
+ctxn:0.02 seed 2 0.5665 {'slots_opened': 1, 'slots_named': 1} 347s
+{"ctx:0.01": 0.5032, "ctxn:0.01": 0.359, "ctx:0.02": 0.749, "ctxn:0.02": 0.5345}
