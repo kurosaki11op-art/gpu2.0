@@ -812,4 +812,8 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 
 - `brain_strict_ens.py`: chips with different encoders (base, stride-1 `s1`, a differently fitted base `base2`) learn the same data; their slow-table scores are added at test. Clothing: base 83.3 / 86.55, s1 83.65 / 87.2, base2 83.2 / 86.3; vote base + s1 83.9 / 87.55; vote of three 84.0 / 87.8. Digits: base 95.5 / 97.5, s1 95.1 / 98.05; vote base + s1 95.6 / 98.1; three 95.95 / 97.95. At most +0.7 staged and +1.3 all at once for 2-3x memory; the gap to a CNN is not closed. Consistent with the code, not the number of chips, being the limit.
 
+### 20 Oct 2026 - F1 under the new margin: the causal onset trigger is near parity (SIMULATED, 20 words, 3 seeds, look-again)
+
+- `brain_strict_sound.py` with MARGIN 256 / NDREAM 1,500 / NIGHT 1. Shipped alignment (loudest-frame rule) clean / 20 / 10 / 5 dB 73.4 / 64.7 / 52.9 / 39.0; first-stage words 78.8; last-stage words 55.9; twin words 72.0; other words 73.7. Causal onset trigger (threshold 1600): 72.5 / 66.9 / 52.8 / 37.8; 74.9; 62.8; 73.0; 72.4. Under the old margin the trigger was 2.9 points lower on clean speech; now 0.9 lower, 2.3 higher at 20 dB, twin words +1.0, last-stage words +6.9, first-stage words -3.9. 35-word confirmation running.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
