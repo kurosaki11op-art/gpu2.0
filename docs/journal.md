@@ -1187,4 +1187,8 @@ Shipped staged, 5 seeds: clothing 83.18 / digits 94.87. Share 2/16: 84.44 / 94.6
 **Result (clean / oldest / newest):** coarse (shipped) 73.35 / 77.49 / 57.09; fine alone 72.30 / 75.32 / 59.77; second look for 20 % least-sure 75.44 / 80.52 / 61.69; 40 % **75.93** / 80.52 / 62.45; 60 % 75.85; both always added 75.85 / 80.09 / 62.45. At 5 dB: 39.5 -> 40.8 (20 %) / 41.9 (40 %) / 42.8 (sum). Passes rule 12 at every share. CNN ruler 77.05 (all at once). Cost: second table on the fine code, about 2x sound memory (ASIC option, not in RTL). 35-word leg still running (`brain_strict_look35.log`).
 **Files:** `hw/brain/experiments/month4/brain_strict_look20.log`, `look20.json`.
 
+## 21 Oct 2026 - Second look for words, 35 words (SIMULATED, 3 seeds, staged, same settings)
+**Result (clean / oldest / newest):** coarse 68.29 / 68.81 / 60.76; fine alone 66.57 / 71.67 / 58.16; second look 20 % **70.66** / 72.38 / 61.23; 40 % 70.71 / 73.33 / 61.47; sum 70.76 / 73.57 / 61.47. At 5 dB: 27.4 -> 27.8 (20 %) / 28.8 (40 %); 10 dB 39.8 -> 41.6 (20 %) / 42.3 (40 %). Passes rule 12 on both vocabularies (+2.4 at 35 words, +2.1 to +2.6 at 20); the CNN ruler is about 72.5 at 35 words. Words still ASIC option (about 2x sound memory), not in RTL. Next: stack with tail memory (not yet tested together).
+**Files:** `hw/brain/experiments/month4/brain_strict_look35.log`, `look35.json`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
