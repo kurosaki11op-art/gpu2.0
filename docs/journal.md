@@ -1191,4 +1191,8 @@ Shipped staged, 5 seeds: clothing 83.18 / digits 94.87. Share 2/16: 84.44 / 94.6
 **Result (clean / oldest / newest):** coarse 68.29 / 68.81 / 60.76; fine alone 66.57 / 71.67 / 58.16; second look 20 % **70.66** / 72.38 / 61.23; 40 % 70.71 / 73.33 / 61.47; sum 70.76 / 73.57 / 61.47. At 5 dB: 27.4 -> 27.8 (20 %) / 28.8 (40 %); 10 dB 39.8 -> 41.6 (20 %) / 42.3 (40 %). Passes rule 12 on both vocabularies (+2.4 at 35 words, +2.1 to +2.6 at 20); the CNN ruler is about 72.5 at 35 words. Words still ASIC option (about 2x sound memory), not in RTL. Next: stack with tail memory (not yet tested together).
 **Files:** `hw/brain/experiments/month4/brain_strict_look35.log`, `look35.json`.
 
+## 21 Oct 2026 - Stacking tail memory + second look on words: NOT additive (SIMULATED, 20 words, 3 seeds, `STACK=1` in `brain_strict_sound.py`)
+**Result (clean / oldest / newest):** tail memory in both tables, coarse alone 74.15 / 81.82 / 59.39 (as before); second look 20 % 74.80 / 80.95 / 60.15; 40 % **75.04** / 81.82 / 60.15; sum 74.96. Second look alone (no tail memory) was 75.93 at 40 %, so the stack is about 0.9 **worse** than the second look alone and only 0.9 above the tail memory alone: both fix the same weakness (typical-vs-tail boundary), so gains overlap. Decision: for words, the second look alone is the better option (75.9 / 70.7 at 20 / 35 words); tail memory alone is the cheaper one (+57 KB, 74.15 / 68.53). The 35-word stack run was killed twice by container restarts and not repeated.
+**Files:** `hw/brain/experiments/month4/brain_strict_stack20.log`, `stack20.json`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
