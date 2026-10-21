@@ -9,3 +9,5 @@ channel 6 ready 13s
 channel 7 ready 13s
 channel 8 ready 13s
 channel 9 ready 13s
+tail:3 {'clean': 0.6853, '20dB': 0.5746, '10dB': 0.4133, '5dB': 0.2947, 'oldest': 0.7095, 'newest': 0.5697, 'twin': 0.6592, 'other': 0.7053} 243s
+tail:4 {'clean': 0.6899, '20dB': 0.5755, '10dB': 0.41, '5dB': 0.2961, 'oldest': 0.6905, 'newest': 0.6052, 'twin': 0.6624, 'other': 0.7111} 463s

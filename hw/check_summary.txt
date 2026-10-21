@@ -24,3 +24,6 @@ core, two-sense width (NB 27,648, AW 15): PASS
 neighbour unit (sleep cleaning): PASS
 pooling unit (sleep cleaning, random cases with ties): PASS
 sleep cleaning, chip scores + neighbours + pooling unit == model: PASS
+whole two-sense chip (retina + cochlea + one core): PASS
+sound chip, whole chain (aligned): PASS
+Tang Nano board design: PASS
