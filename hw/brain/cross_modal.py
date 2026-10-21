@@ -52,6 +52,13 @@ def cue_combine(sa, sb, known, TA, TB, sw=20):
     return comb.argmax(1), ia, ib
 
 
+def look_combine(sa, sb, known, th, sw=20):
+    """second look: table A answers alone when its top-2 margin is at least th; otherwise A and B scores are added; first known class wins ties. returns (pred, look flags)"""
+    big = (1 << (sw + 1)) - 1; look = cue_margin(sa, known, big) < th
+    comb = sa.astype(np.int64) + np.where(look[:, None], sb.astype(np.int64), 0); comb = np.where(known[None, :], comb, -(1 << 50))
+    return comb.argmax(1), look
+
+
 def pool_names(scores, nb_ids, names, known, ear_vote=200):
     """host-side pooling, exactly what the chip leaves to the host: scores (n, classes) = the core's class scores per buffered picture (rd_scores after a PREDICT), nb_ids (n, K) = the K neighbour slots of every picture (cortex_neighbours),
     names = the ear's names; new name = argmax over the known classes of own score + sum of the neighbours' scores (+ ear_vote x (K+1) for the ear's own name). Integer adds and compares."""

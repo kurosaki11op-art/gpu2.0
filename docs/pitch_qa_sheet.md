@@ -48,7 +48,7 @@ Every answer keeps the label (SIMULATED / ESTIMATED / MEASURED). Source of each 
 
 **18f. Damaged input (21 Oct, SIMULATED):** weighting each sense by how confident it is (powers of two, shifts only) lifts picture-25%-damaged + sound from 97.4 to 98.4 and clean two-sense from 98.3 to 98.9; it loses 0.35 when the sound is the damaged one.
 
-**18g. Second look for words (21 Oct, SIMULATED):** a second table on a finer sound code, consulted for the 20-40 % least-sure clips, lifts staged words 73.35 to 75.4-75.9 (20 words) and 68.29 to 70.7 (35 words) against a CNN ruler of 77.05 / about 72.5; about 2x sound memory, ASIC option, not in RTL.
+**18g. Second look for words (21 Oct, SIMULATED):** a second table on a finer sound code, consulted for the 20-40 % least-sure clips, lifts staged words 73.35 to 75.4-75.9 (20 words) and 68.29 to 70.7 (35 words) against a CNN ruler of 77.05 / about 72.5; about 2x sound memory, ASIC option; decision logic in RTL, bit-exact.
 
 **18d. How close are you to a trained network on one pass?** (same 10,000 training images, SIMULATED chip, MEASURED CNN) With a "second look" (a second table on a finer code consulted only for the 20 % of inputs the first table is least sure about) clothing reaches **88.0** against the CNN's 88.8, digits 98.1 against 98.55, with 41 % more reads and about 2.8x the memory (an ASIC option, not in RTL yet); staged clothing also improves slightly (83.7). New spoken words learned while their object is seen reach 56 / 71 from sound alone against 10 / 34 from 5 recordings.
 
