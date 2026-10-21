@@ -1,0 +1,22 @@
+clips 2000 test 414 1s
+channel 0 ready 1s
+channel 1 ready 1s
+channel 2 ready 1s
+channel 3 ready 2s
+channel 4 ready 2s
+channel 5 ready 2s
+channel 6 ready 2s
+channel 7 ready 2s
+channel 8 ready 2s
+channel 9 ready 2s
+channel 0 ready 2s
+channel 1 ready 2s
+channel 2 ready 2s
+channel 3 ready 2s
+channel 4 ready 2s
+channel 5 ready 2s
+channel 6 ready 2s
+channel 7 ready 2s
+channel 8 ready 2s
+channel 9 ready 2s
+look:20/40/60 {'clean coarse': 0.7335, 'clean coarse oldest': 0.7749, 'clean coarse newest': 0.5709, 'clean fine': 0.723, 'clean fine oldest': 0.7532, 'clean fine newest': 0.5977, 'clean sum': 0.7585, 'clean sum oldest': 0.8009, 'clean sum newest': 0.6245, 'clean look20': 0.7544, 'clean look20 oldest': 0.8052, 'clean look20 newest': 0.6169, 'clean look40': 0.7593, 'clean look40 oldest': 0.8052, 'clean look40 newest': 0.6245, 'clean look60': 0.7585, 'clean look60 oldest': 0.8009, 'clean look60 newest': 0.6245, '20dB coarse': 0.657, '20dB fine': 0.6409, '20dB sum': 0.6659, '20dB look20': 0.6634, '20dB look40': 0.6634, '20dB look60': 0.6659, '10dB coarse': 0.5153, '10dB fine': 0.5177, '10dB sum': 0.5499, '10dB look20': 0.5322, '10dB look40': 0.5459, '10dB look60': 0.5515, '5dB coarse': 0.3953, '5dB fine': 0.4042, '5dB sum': 0.4283, '5dB look20': 0.4082, '5dB look40': 0.4195, '5dB look60': 0.4259} 335s

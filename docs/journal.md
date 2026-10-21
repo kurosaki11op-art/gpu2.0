@@ -1182,4 +1182,9 @@ Shipped staged, 5 seeds: clothing 83.18 / digits 94.87. Share 2/16: 84.44 / 94.6
 **Result (accuracy, joint table / plain sum / shift-weighted):** clean 98.33 / 98.60 / **98.87**; picture 25 % dropped 97.45 / 97.42 / **98.40**; picture 50 % dropped 94.60 / 94.65 / **96.18**; both 25 % dropped 98.08 / 98.08 / **98.45**. **Trade:** sound 50 % dropped 98.60 / 99.20 / 98.85 (plain sum is best there). Closes about half the gap to the small CNN on damaged input (reference 99.25). Not in RTL yet; the host-side order of operations is two core score reads plus a shift-add combiner (small).
 **Files:** `hw/brain/experiments/month4/brain_strict_cuecomb.py`, `brain_strict_cuecomb.log`.
 
+## 21 Oct 2026 - Second look for spoken words, 20 words (SIMULATED, 3 seeds, staged, margin 256 / 1,500 dreams / 1 night; arm `look:N` in `brain_strict_sound.py`)
+**Asked:** try the second look (F10 concept: a second table on a finer code consulted for the least-sure inputs) on words. Fine code = same cochlea picture, 3x3 windows, stride 1, pooled 3x3 (`geom:3:3:1:1:3:3`).
+**Result (clean / oldest / newest):** coarse (shipped) 73.35 / 77.49 / 57.09; fine alone 72.30 / 75.32 / 59.77; second look for 20 % least-sure 75.44 / 80.52 / 61.69; 40 % **75.93** / 80.52 / 62.45; 60 % 75.85; both always added 75.85 / 80.09 / 62.45. At 5 dB: 39.5 -> 40.8 (20 %) / 41.9 (40 %) / 42.8 (sum). Passes rule 12 at every share. CNN ruler 77.05 (all at once). Cost: second table on the fine code, about 2x sound memory (ASIC option, not in RTL). 35-word leg still running (`brain_strict_look35.log`).
+**Files:** `hw/brain/experiments/month4/brain_strict_look20.log`, `look20.json`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

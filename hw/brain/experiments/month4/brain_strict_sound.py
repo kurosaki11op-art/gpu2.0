@@ -160,8 +160,29 @@ def v2aug(C, MINON=10, F2=64):
     return {k: np.concatenate([v, l2(v)], 1) for k, v in C.items()}
 
 
+def run_look(arm):
+    """second look for words: table A on the shipped code, table B on a finer code (geometry from FINE, e.g. geom:3:3:1:1:2:2); for the share LOOKP % of test clips whose A margin is lowest the scores of A and B are added"""
+    CA, CB = codes("peak"), codes(os.environ.get("FINE", "geom:3:3:1:1:3:3")); accs = {k: {} for k in ("clean", "20dB", "10dB", "5dB")}; share = [float(v) for v in arm.split(":")[1].split("/")]
+    sc = lambda m, c: np.where(m.known[None, :], c.astype(np.int32) @ m.S.T.astype(np.int32), -(1 << 28))
+    for seed in range(1, SEEDS + 1):
+        ms = []
+        for C in (CA, CB):
+            m = CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
+            for i, s in enumerate(STAGES):
+                sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]; m.stage(C["tr"][sel], ytr[sel])
+            ms.append(m)
+        for k in accs:
+            sa, sb = sc(ms[0], CA[k]), sc(ms[1], CB[k]); t = np.sort(sa, 1); mg = t[:, -1] - t[:, -2]
+            for name, p in [("coarse", sa), ("fine", sb), ("sum", sa + sb)] + [("look%d" % q, np.where((mg < np.percentile(mg, q))[:, None], sa + sb, sa)) for q in share]:
+                accs[k].setdefault(name, []).append(float((p.argmax(1) == yte).mean()))
+                if k == "clean": accs[k].setdefault(name + " oldest", []).append(float((p.argmax(1) == yte)[np.isin(yte, STAGES[0])].mean())); accs[k].setdefault(name + " newest", []).append(float((p.argmax(1) == yte)[np.isin(yte, STAGES[-1])].mean()))
+    return {k + " " + n: round(float(np.mean(v)), 4) for k in accs for n, v in accs[k].items()}
+
+
 res = {}
 for arm in ARMS:
+    if arm.startswith("look:"):
+        res[arm] = run_look(arm); json.dump(res, open(OUT, "w"), indent=1); print(arm, res[arm], "%.0fs" % (time.time() - t0), flush=True); continue
     kind = arm.split(":")[0]; C = codes("peak" if kind in ("nd", "v2", "hr", "tail") else arm)
     if kind == "v2": C = v2aug(C)
     la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest", "twin", "other")}
