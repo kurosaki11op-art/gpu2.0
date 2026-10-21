@@ -1,0 +1,39 @@
+vision (10000, 4608) hearing (2499, 23040) train clips 2499 test clips 500 30s
+seed 1 43s
+seed 2 55s
+seed 3 67s
+clean | joint table                                  0.9833
+clean | sum                                          0.9860
+clean | confidence weight ^1                         0.9888
+clean | confidence weight ^2                         0.9875
+clean | shift weights ^1                             0.9887
+clean | shift weights ^2                             0.9865
+clean | trust the more confident                     0.9845
+picture 25% dropped | joint table                    0.9745
+picture 25% dropped | sum                            0.9742
+picture 25% dropped | confidence weight ^1           0.9835
+picture 25% dropped | confidence weight ^2           0.9825
+picture 25% dropped | shift weights ^1               0.9840
+picture 25% dropped | shift weights ^2               0.9832
+picture 25% dropped | trust the more confident       0.9802
+picture 50% dropped | joint table                    0.9460
+picture 50% dropped | sum                            0.9465
+picture 50% dropped | confidence weight ^1           0.9622
+picture 50% dropped | confidence weight ^2           0.9638
+picture 50% dropped | shift weights ^1               0.9618
+picture 50% dropped | shift weights ^2               0.9622
+picture 50% dropped | trust the more confident       0.9653
+sound 50% dropped | joint table                      0.9860
+sound 50% dropped | sum                              0.9920
+sound 50% dropped | confidence weight ^1             0.9872
+sound 50% dropped | confidence weight ^2             0.9860
+sound 50% dropped | shift weights ^1                 0.9885
+sound 50% dropped | shift weights ^2                 0.9867
+sound 50% dropped | trust the more confident         0.9825
+both 25% dropped | joint table                       0.9808
+both 25% dropped | sum                               0.9808
+both 25% dropped | confidence weight ^1              0.9850
+both 25% dropped | confidence weight ^2              0.9843
+both 25% dropped | shift weights ^1                  0.9845
+both 25% dropped | shift weights ^2                  0.9838
+both 25% dropped | trust the more confident          0.9808
