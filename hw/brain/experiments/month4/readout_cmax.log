@@ -1,0 +1,16 @@
+CMAX 7
+fashion base {'staged': 0.8205, 'once': 0.8598} 18s
+CMAX 7
+mnist base {'staged': 0.9447, 'once': 0.9695} 19s
+CMAX 15
+fashion base {'staged': 0.8327, 'once': 0.8655} 16s
+CMAX 15
+mnist base {'staged': 0.9552, 'once': 0.9747} 21s
+CMAX 31
+fashion base {'staged': 0.826, 'once': 0.8678} 16s
+CMAX 31
+mnist base {'staged': 0.9542, 'once': 0.9745} 20s
+CMAX 63
+fashion base {'staged': 0.831, 'once': 0.8673} 15s
+CMAX 63
+mnist base {'staged': 0.9547, 'once': 0.9755} 20s

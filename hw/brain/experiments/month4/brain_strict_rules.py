@@ -10,7 +10,7 @@ from cortex_rules import CortexRules
 import detector_learn
 D = sys.argv[1]; DS = os.environ.get("DS", "mnist"); NPS = int(os.environ.get("NPS", 2000)); SEEDS = int(os.environ.get("SEEDS", 3)); t0 = time.time()
 ARMS = os.environ.get("ARMS", "base,split,grade:5,grade:6,grade:7,grade:8,budget:0,budget:1,budget:2,budget:4,shy:1").split(",")
-CFG = dict(margin=int(os.environ.get('MARGIN', 32)), ndream=int(os.environ.get('NDREAM', 6000)), night=int(os.environ.get('NIGHT', 2))); STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]
+CFG = dict(margin=int(os.environ.get('MARGIN', 32)), ndream=int(os.environ.get('NDREAM', 6000)), night=int(os.environ.get('NIGHT', 2)), cmax=int(os.environ.get('CMAX', 15))); STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]
 xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
 rs = np.random.RandomState(5); idx = np.concatenate([rs.permutation(np.where(np.isin(ytr, s))[0])[:NPS] for s in STAGES]); xtr, ytr = xtr[idx], ytr[idx]
 ti = rs.permutation(len(xte))[:2000]; xte, yte = xte[ti], yte[ti]

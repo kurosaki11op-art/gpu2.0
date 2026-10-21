@@ -1201,4 +1201,8 @@ Shipped staged, 5 seeds: clothing 83.18 / digits 94.87. Share 2/16: 84.44 / 94.6
 **Check:** scenarios with 10-, 5-, 4- and 3-bit counters (the last two make the tail counts halve), 805-811 commands each: 0 mismatches; also with the pipelined core; the old context check still passes with the changed core. Added to `hw/run_all_checks.sh` (two lines). Full regression rerun started because the core changed.
 **Files:** `hw/rtl/cortex/cortex_core.v`, `run_check_cortex_tail.py`, `tb_cortex_core_ctx.v` (op cast only), `hw/brain/cortex_rules.py`.
 
+## 21 Oct 2026 - Plan steps 2 and 3: digits one-pass gap and readout precision (SIMULATED, 3 seeds): LIMITS, no gain
+**Digits one pass (98.10 vs CNN 98.55):** fine table alone 98.03; coarse + fine summed 98.10; second look 20-80 % all 98.10; shift-weighted sum of the two tables 98.07 (`second_look_w.py`). The second look has plateaued at 98.10: the gap left (0.45) is not closed by combining these two codes. Recorded as a limit.
+**Readout precision (count range CMAX, margin 256 / 1,500 dreams / 1 night; one pass / staged):** clothing CMAX 7: 85.98 / 82.05; 15 (shipped): 86.55 / 83.27; 31: 86.78 / 82.60; 63: 86.73 / 83.10. Digits 7: 96.95 / 94.47; 15: 97.47 / 95.52; 31: 97.45 / 95.42; 63: 97.55 / 95.47. Wider counts move one-pass results by at most +0.2 and make staged results no better; 5-bit is the sweet spot, so **the 1-2 point gap to a float readout is not a precision problem**. No change to the shipped 5-bit table. `CMAX` env added to `brain_strict_rules.py`; log `readout_cmax.log`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
