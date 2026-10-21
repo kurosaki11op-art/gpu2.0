@@ -548,6 +548,9 @@ module cortex_core #(
              end
         // ---- clear ------------------------------------------------------------------------------------------------
         S_Z0: if (b == NB) begin known <= 0; for (j = 0; j < C; j = j + 1) n[j] <= 0;
+`ifdef CORTEX_CONTEXT
+                  for (j = 0; j < C; j = j + 1) fn[j] <= 0;   // the tail memory starts empty too
+`endif
 `ifdef CORTEX_HOOKS
                   wr_count <= 0;
 `endif
@@ -558,6 +561,9 @@ module cortex_core #(
               else begin m_addr <= b[AW-1:0]; w_wd <= 0; c_wd <= 0; w_wen <= 1; c_wen <= 1;
 `ifdef CORTEX_SLOW
                    s_wd <= 0; s_wen <= 1;
+`endif
+`ifdef CORTEX_CONTEXT
+                   f_wd <= 0; f_wa <= b[AW-1:0]; f_wen <= 1;
 `endif
                    st <= S_Z1; end
         S_Z1: begin b <= b + 1; st <= S_Z0; end

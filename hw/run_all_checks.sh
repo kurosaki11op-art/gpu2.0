@@ -12,6 +12,8 @@ run "core (FPGA build)"               python run_check_cortex.py "$D"
 run "core (pipelined)"                python run_check_cortex.py "$D" --pipe
 run "core with context memory"        python run_check_cortex_ctx.py "$D"
 run "core with context, pipelined"    python run_check_cortex_ctx.py "$D" --pipe
+run "core with tail memory (op 0 + tail dreams)"  python run_check_cortex_tail.py "$D"
+run "core with tail memory, pipelined"  python run_check_cortex_tail.py "$D" --pipe
 run "core with IMPRINT (few-shot fix)" python run_check_cortex_imprint.py "$D"
 run "core with IMPRINT, pipelined"   python run_check_cortex_imprint.py "$D" --pipe
 run "core with slow table (Redesign 6)" python run_check_cortex_slow.py "$D"
