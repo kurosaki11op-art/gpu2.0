@@ -9,7 +9,7 @@ import inspect, os, re
 import numpy as np
 from numba import njit
 import cortex_slow
-from cortex_int import _scores, _dream, _practise, _xs
+from cortex_int import _scores, _dream, _practise, _xs, _count
 from cortex_slow import CortexSlow, _stage_slow, _follow
 
 
@@ -257,6 +257,24 @@ def _reverse_night(W, S, on, n, rng, known, steps, mu, cmax, ch, K, FR, RND, tic
     return tick
 
 
+@njit
+def _dreamt(on, n, ont, nt, mixt, c, rng, out):
+    """surprise-tagged dreaming: with probability mixt/16 (and when the class has a tail memory) the dream of class c is drawn from the TAIL counts (only the examples that made the table write, i.e. the surprising, near-boundary ones), otherwise from the usual counts. xorshift draws and the usual dream routine."""
+    rng[0] = _xs32(rng[0])
+    if nt[c] > 0 and np.int64(rng[0] & np.uint32(15)) < mixt:
+        return _dream(ont, nt, c, rng, out)
+    return _dream(on, n, c, rng, out)
+
+
+def make_stage_tail():
+    base = re.sub(r"^@njit\(cache=True\)\n", "", inspect.getsource(cortex_slow._stage_slow.py_func))
+    stage = base.replace("def _stage_slow(", "def _stage_tail(").replace("tick0):", "tick0, ont, nt, mixt):")
+    old = "        writes += _practise(W, acts[i], nacts[i], ys[i], known, margin, cmax)\n"; assert old in stage
+    stage = stage.replace(old, "        w_ = _practise(W, acts[i], nacts[i], ys[i], known, margin, cmax)\n        writes += w_\n        if w_ > 0:\n            _count(ont, nt, acts[i], nacts[i], ys[i], top)\n", 1)
+    stage = stage.replace("_dream(on, n, ", "_dreamt(on, n, ont, nt, mixt, ")
+    ns = dict(cortex_slow.__dict__); ns.update(njit=njit, _dreamt=_dreamt, _count=_count, np=np); exec("@njit\n" + stage, ns); return ns["_stage_tail"]
+
+
 def make_stage_grade(sh):
     src = f'''
 @njit
@@ -294,6 +312,8 @@ class CortexRules(CortexSlow):
     def __init__(self, n_bits, rule="split", par=0, **kw):
         super().__init__(n_bits, **kw); self.rule, self.par = rule, par; self._night = kw.get("night", 2)
         self._stage_g = make_stage_grade(par) if rule == "grade" else None
+        if rule == "tailmem":
+            self._st = make_stage_tail(); self.ont = np.zeros_like(self.on); self.nt = np.zeros_like(self.n); self.tmix = int(os.environ.get("TMIX", 8))
         if rule == "bdream": self._sbd = make_stage_bd(); self.hmix = int(os.environ.get("BMIX", 8)); self.hlam = int(os.environ.get("BLAM", 4))
         if rule == "protect": self._sp = make_stage_protect(int(par or 3))
         if rule == "gate":
@@ -324,6 +344,12 @@ class CortexRules(CortexSlow):
                                    self.ndream, self._night, self.margin, self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick)
 
     def stage(self, code, y):
+        if self.rule == "tailmem":
+            new = np.unique(y).astype(np.int64); old = np.where(self.known & ~np.isin(np.arange(len(self.known)), new))[0]; A, na = self.pack(code)
+            r, self.tick = self._st(self.W, self.S, self.on, self.n, self.rng, self.known, A, na, y.astype(np.int64), new, old.astype(np.int64), self.ndream, self._night, self.margin,
+                                    self.cmax, self.top, self.daydream, self.night_stop, self.stats, self.ch, self.K, self.FR, self.RND, self.tick, self.ont, self.nt, self.tmix)
+            if len(y) < 2 * self.ch: self.S[:] = self.W.astype(np.int32) << self.FR
+            return r
         if self.rule == "reverse":
             r = self._call(_stage_slow, code, y, self._night)                      # the shipped day and night
             if len(np.where(self.known)[0]) > len(np.unique(y)):

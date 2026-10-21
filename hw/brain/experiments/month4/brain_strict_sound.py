@@ -162,13 +162,16 @@ def v2aug(C, MINON=10, F2=64):
 
 res = {}
 for arm in ARMS:
-    kind = arm.split(":")[0]; C = codes("peak" if kind in ("nd", "v2", "hr") else arm)
+    kind = arm.split(":")[0]; C = codes("peak" if kind in ("nd", "v2", "hr", "tail") else arm)
     if kind == "v2": C = v2aug(C)
     la = kind in ("onsetla", "peakla"); accs = {k: [] for k in ("clean", "20dB", "10dB", "5dB", "oldest", "newest", "twin", "other")}
     for seed in range(1, SEEDS + 1):
         if kind == "hr":                                                   # hard-example replay: E stored hardest examples per word, replayed in a short night (mix/16 of the replays), then the normal dream night
             import cortex_rules; os.environ["HARD"] = "1"; os.environ["CONS"] = os.environ.get("CONSMODE", "1"); os.environ["REALMIX"] = arm.split(":")[2]
-        m = cortex_rules.CortexRules(C["tr"].shape[1], rule="real", par=int(arm.split(":")[1]), n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if kind == "hr" \
+        if kind == "tail":                                                 # surprise-tagged tail memory: the share (n/16) of dreams drawn from the counts of the examples that made the table write
+            import cortex_rules; os.environ["TMIX"] = arm.split(":")[1]
+        m = cortex_rules.CortexRules(C["tr"].shape[1], rule="tailmem", n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if kind == "tail" \
+            else cortex_rules.CortexRules(C["tr"].shape[1], rule="real", par=int(arm.split(":")[1]), n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if kind == "hr" \
             else NoisyDreamChip(C["tr"].shape[1], drop=int(arm.split(":")[1]), add=int(arm.split(":")[2]), n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG) if kind == "nd" \
             else CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
         for i, s in enumerate(STAGES):
