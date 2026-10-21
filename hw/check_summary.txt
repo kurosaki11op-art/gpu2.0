@@ -15,3 +15,17 @@ encoder (FPGA build): PASS
 encoder (ASIC, gated clocks): PASS
 encoder, finer grid (ENC_S1, ASIC build): PASS
 encoder learning its detectors: PASS
+general encoder, images: PASS
+general encoder, sound: PASS
+general encoder, sound finer grid (3x3/s1/pool4): PASS
+general encoder, speckle removal: PASS
+cochlea (buffered): PASS
+cochlea (streaming): PASS
+cochlea (streaming, word aligned): PASS
+core, two-sense width (NB 27,648, AW 15): PASS
+neighbour unit (sleep cleaning): PASS
+pooling unit (sleep cleaning, random cases with ties): PASS
+cue-weighting unit (two senses, shifts only): PASS
+second-look unit (A alone or A + B by margin): PASS
+second look: two cores (coarse + fine) + look unit: PASS
+sleep cleaning, chip scores + neighbours + pooling unit == model: PASS
