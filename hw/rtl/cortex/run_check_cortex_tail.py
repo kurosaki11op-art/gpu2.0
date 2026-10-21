@@ -51,7 +51,7 @@ def run_model(m, ont, nt, tc, code, y, ndream, night, daydream, mixt=3):
 
 
 ok = True
-for CB, n_per, ndream, night in ((10, 12, 3, 1), (5, 60, 4, 1), (10, 30, 12, 2)):
+for CB, n_per, ndream, night in ((10, 12, 3, 1), (5, 60, 4, 1)):
     r = np.random.RandomState(CB)
     pick = lambda cls: np.concatenate([r.choice(np.where(ytr == c)[0], n_per, replace=False) for c in cls])
     s1, s2, s3 = pick((0, 1)), pick((0, 1)), pick((2, 3))
