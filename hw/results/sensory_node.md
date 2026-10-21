@@ -14,6 +14,7 @@ A brain senses with eyes and ears and combines them: a heard word can name a see
 | Sleep neighbours: the K buffered codes sharing the most active bits with a query (two-pointer merge, no multiplier) | `cortex_neighbours.v`, `tb_neighbours.v` | `run_check_neighbours.py`: 0 mismatches |
 | Pooling of the scores over the neighbours: the new name of each buffered picture (adds and one compare per class; 3,521 cycles for 32 pictures) | `hw/rtl/cortex/cortex_pool.v`, `tb_pool.v`; software twin `hw/brain/cross_modal.py` (`pool_names`) | `run_check_pool.py`: 0 names differing (ties, negative scores, 10 / 6 / 1 known classes) |
 | Whole sleep cleaning on the chip's own parts: core scores + neighbour unit + pooling unit | the three above | `run_check_sleep_clean.py`: scores, neighbours, names (software and pooling unit) identical to the model |
+| Cue weighting across the two senses: each sense weighted by its confidence (margin against 7 host thresholds), scores shifted and added (shifts, adds, compares) | `hw/rtl/cortex/cortex_cue.v`, `tb_cue.v`; software twin `hw/brain/cross_modal.py` (`cue_combine`) | `run_check_cue.py`: 1,200 random cases, 0 differing; picture 25 % damaged 97.4 -> 98.4 (SIMULATED) |
 All are in `hw/run_all_checks.sh`. The grouping step (competitive learning for label-free categories) is the part still in software; the overlap unit costs about 26,000 cycles per query at 64 slots (a 64-picture buffer in about 1.7 M cycles, ESTIMATED).
 
 ## Size

@@ -30,3 +30,4 @@ whole two-sense chip (retina + cochlea + one core): PASS
 sound chip, whole chain (aligned): PASS
 Tang Nano board design: PASS
 host schedule == chip model: PASS
+cue-weighting unit (two senses, shifts only): PASS

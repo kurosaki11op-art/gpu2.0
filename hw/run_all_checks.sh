@@ -35,6 +35,7 @@ need speech_framesums_int.npz "speech-dependent check" && run "cochlea (streamin
 run "core, two-sense width (NB 27,648, AW 15)" python run_check_cortex_twosense.py "$D" --margin=256
 run "neighbour unit (sleep cleaning)" python run_check_neighbours.py "$D" 16 4
 run "pooling unit (sleep cleaning, random cases with ties)" python run_check_pool.py
+run "cue-weighting unit (two senses, shifts only)" python run_check_cue.py
 run "sleep cleaning, chip scores + neighbours + pooling unit == model" python run_check_sleep_clean.py "$D"
 need fsdd/0_george_0.wav "whole two-sense chip (retina + cochlea + one core)" && run "whole two-sense chip (retina + cochlea + one core)" python run_check_sense_top.py "$D"
 cd "$HW/rtl/cortex/sound"

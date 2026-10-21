@@ -32,6 +32,26 @@ def clean_names(table, codes, names, KN=8, B=256, ear_vote=200):
     return out
 
 
+def cue_index(margin, T):
+    """confidence index of a sense: how many of the 7 ascending thresholds its score margin reaches (0..7 = exponent + 4); thresholds are the typical clean margin times 2^(k-0.5), k = -3..3, loaded by the host"""
+    return (np.asarray(margin)[..., None] >= np.asarray(T)).sum(-1)
+
+
+def cue_margin(scores, known, big):
+    """top score minus runner-up among the known classes (one known class: saturated to big; none: 0)"""
+    s = np.where(known[None, :], scores, -(1 << 40)).astype(np.int64); t = np.sort(s, 1)
+    m = t[:, -1] - t[:, -2]; nk = int(known.sum())
+    return np.full(len(s), big if nk == 1 else 0, np.int64) if nk <= 1 else m
+
+
+def cue_combine(sa, sb, known, TA, TB, sw=20):
+    """reliability-weighted cue combination of two senses' class scores (shifts only): returns (pred, index A, index B); first known class wins ties"""
+    big = (1 << (sw + 1)) - 1
+    ia, ib = cue_index(cue_margin(sa, known, big), TA), cue_index(cue_margin(sb, known, big), TB); i0 = np.minimum(ia, ib)
+    comb = (sa.astype(np.int64) << (ia - i0)[:, None]) + (sb.astype(np.int64) << (ib - i0)[:, None]); comb = np.where(known[None, :], comb, -(1 << 50))
+    return comb.argmax(1), ia, ib
+
+
 def pool_names(scores, nb_ids, names, known, ear_vote=200):
     """host-side pooling, exactly what the chip leaves to the host: scores (n, classes) = the core's class scores per buffered picture (rd_scores after a PREDICT), nb_ids (n, K) = the K neighbour slots of every picture (cortex_neighbours),
     names = the ear's names; new name = argmax over the known classes of own score + sum of the neighbours' scores (+ ear_vote x (K+1) for the ear's own name). Integer adds and compares."""

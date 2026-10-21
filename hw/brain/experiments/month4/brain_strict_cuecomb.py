@@ -50,6 +50,14 @@ for seed in range(1, SEEDS + 1):
         rp, ra = mg(sp_) / mp, mg(sa_) / ma
         for gam in (1, 2):
             wp, wa = rp ** gam, ra ** gam; add(name + " | confidence weight ^%d" % gam, float(((sp_ * wp[:, None] + sa_ * wa[:, None]).argmax(1) == yte).mean()))
+        bl = lambda v: np.where(v >= 1, np.floor(np.log2(np.maximum(v, 1))).astype(int) + 1, 0)      # bit length, 0 for 0
+        mp_i, ma_i = int(mp), int(ma); mpv, mav = mg(sp_), mg(sa_)
+        for nm, f in (("x1", lambda v: v), ("x1.25", lambda v: v + (v >> 2)), ("x1.5", lambda v: v + (v >> 1)), ("x1.75", lambda v: v + (v >> 1) + (v >> 2))):
+            ebp, eba = np.clip(bl(f(mpv)) - bl(np.full_like(mpv, mp_i)), -4, 3), np.clip(bl(f(mav)) - bl(np.full_like(mav, ma_i)), -4, 3); e0 = np.minimum(ebp, eba)
+            add(name + " | bit-length weights " + nm, float((((sp_ << (ebp - e0)[:, None]) + (sa_ << (eba - e0)[:, None])).argmax(1) == yte).mean()))
+        import cross_modal
+        Tt = lambda ref: np.array([int(np.ceil(ref * 2 ** (k - 0.5))) for k in range(-3, 4)]); known_all = P.known
+        add(name + " | chip combiner (thresholds, cross_modal.cue_combine)", float((cross_modal.cue_combine(sp_, sa_, known_all, Tt(mp), Tt(ma))[0] == yte).mean()))
         for gam in (1, 2):
             ep, ea = np.clip(np.round(np.log2(np.maximum(rp, 1/16))), -4, 3).astype(int) * gam, np.clip(np.round(np.log2(np.maximum(ra, 1/16))), -4, 3).astype(int) * gam
             e0 = np.minimum(ep, ea); shp, sha = ep - e0, ea - e0                       # relative shifts only: scores shifted left, no multiply
