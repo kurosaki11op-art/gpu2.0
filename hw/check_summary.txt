@@ -29,3 +29,8 @@ cue-weighting unit (two senses, shifts only): PASS
 second-look unit (A alone or A + B by margin): PASS
 second look: two cores (coarse + fine) + look unit: PASS
 sleep cleaning, chip scores + neighbours + pooling unit == model: PASS
+whole two-sense chip (retina + cochlea + one core): PASS
+sound chip, whole chain (aligned): PASS
+Tang Nano board design: PASS
+host schedule == chip model: PASS
+failures: 0  skipped (data missing): 0

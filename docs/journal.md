@@ -1219,4 +1219,7 @@ All checks in `hw/check_summary.txt` pass on the changed core (two new tail-memo
 **Checks:** (1) the unit alone, 1,400 random cases (10 / 6 / 3 / 2 / 1 known classes, ties, thresholds from 0 to above every margin): 0 differing. (2) Integration: two `cortex_core` instances with different code widths (coarse and fine; tables imported over the MEM interface) + the unit: class scores, look flag and decision for random code lists equal the model, 240 cases, 4 thresholds: 0 differing. **Bug found and fixed on the way:** a `?:` mixing the signed score difference with an unsigned constant zero-extended the difference (same class of bug as the pooling unit's); explicit branches fix it. Added both to `hw/run_all_checks.sh` (35 checks). A full regression rerun is still owed after the last RTL additions (the core is unchanged since the 32/32 pass; the new modules are separate files).
 **Files:** `hw/rtl/cortex/cortex_look.v`, `tb_look.v`, `tb_look_top.v`, `run_check_look.py`, `run_check_look_top.py`.
 
+## 21 Oct 2026 - Full regression after all RTL additions: 35 of 35 checks PASS in one uninterrupted run (SIMULATED RTL)
+`sh hw/run_all_checks.sh DATA_DIR` (fresh, no resume, kept running inside an active turn, about 1.3 hours): 35 PASS, 0 failures, 0 skipped. It includes the tail-memory core (plain and pipelined), the cue-weighting unit, the second-look unit and the two-core second-look integration, plus every earlier check on the changed core. This closes the plan's step 1.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
