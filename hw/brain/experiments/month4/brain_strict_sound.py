@@ -167,7 +167,9 @@ def run_look(arm):
     for seed in range(1, SEEDS + 1):
         ms = []
         for C in (CA, CB):
-            m = CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
+            if os.environ.get("STACK"):                                         # both tables use the tail memory (share 3/16)
+                import cortex_rules; os.environ["TMIX"] = "3"; m = cortex_rules.CortexRules(C["tr"].shape[1], rule="tailmem", n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
+            else: m = CortexSlow(C["tr"].shape[1], n_cls=NW, ch=100, K=5, night_stop=2, daydream=1, seed=seed, **CFG)
             for i, s in enumerate(STAGES):
                 sel = np.where(np.isin(ytr, s))[0]; sel = sel[np.random.RandomState(100 * seed + i).permutation(len(sel))]; m.stage(C["tr"][sel], ytr[sel])
             ms.append(m)
