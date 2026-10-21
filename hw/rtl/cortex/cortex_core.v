@@ -182,7 +182,7 @@ module cortex_core #(
 `endif
 `ifdef CORTEX_CONTEXT
     // context memory: frozen copy of the dream counters (read with the live ones, written only by FREEZE)
-    reg [CB-1:0] fn [0:C-1]; reg dsrc; reg f_wen, f_wen_n; reg [AW-1:0] f_wa, f_wa_n; reg [C*CB-1:0] f_wd, f_wd_n, fq;
+    reg [CB-1:0] fn [0:C-1]; reg dsrc; reg tsel; reg f_wen, f_wen_n; reg [AW-1:0] f_wa, f_wa_n; reg [C*CB-1:0] f_wd, f_wd_n, fq;
     always @(negedge clk) begin f_wen_n <= f_wen; f_wa_n <= f_wa; f_wd_n <= f_wd; end
 `ifdef CORTEX_ASIC
     wire [C*CB-1:0] f_rd;
@@ -239,6 +239,9 @@ module cortex_core #(
             wr_count <= 0; top_margin <= 0;
 `endif
             for (j = 0; j < C; j = j + 1) n[j] <= 0;
+`ifdef CORTEX_CONTEXT
+            tsel <= 0;
+`endif
 `ifdef CORTEX_EMBED
             pfill <= 0;
 `endif
@@ -253,7 +256,15 @@ module cortex_core #(
                 if (!(cmd_op == 3'd4 && cmd_arg[0])) for (j = 0; j < C; j = j + 1) acc[j] <= 0;   // PREDICT arg 1 keeps the sum
 `endif
                 case (cmd_op)
-                    3'd1: st <= S_C0;
+                    3'd1: begin
+`ifdef CORTEX_CONTEXT
+                        tsel <= 0;
+`endif
+                        st <= S_C0;
+                    end
+`ifdef CORTEX_CONTEXT
+                    3'd0: begin tsel <= 1; st <= S_C0; end   // TAILCOUNT: count the loaded list into the tail (second dream-count) memory of class arg; no table update (host issues it after a LEARN that wrote)
+`endif
                     3'd2: st <= S_S0;
                     3'd3: begin                     // a class with no examples dreams nothing (skips straight to practise)
                         st <= S_D0; b <= (ndream == 0) ? NB : 0; k <= 0; lane <= 0; L <= blen(ndream); ncur <= ndream;
@@ -310,18 +321,40 @@ module cortex_core #(
         S_C1: st <= S_C2;
         S_C2: begin m_addr <= lb_q; st <= S_C3; end
         S_C3: st <= S_C4;
+`ifdef CORTEX_CONTEXT
+        S_C4: if (tsel) begin f_wd <= fq + ({{(C*CB-1){1'b0}}, 1'b1} << (y * CB)); f_wa <= m_addr; f_wen <= 1; st <= S_C5; end
+              else begin c_wd <= cq + ({{(C*CB-1){1'b0}}, 1'b1} << (y * CB)); c_wen <= 1; st <= S_C5; end
+`else
         S_C4: begin c_wd <= cq + ({{(C*CB-1){1'b0}}, 1'b1} << (y * CB)); c_wen <= 1; st <= S_C5; end
+`endif
         S_C5: begin i <= i + 1; st <= S_C0; end
+`ifdef CORTEX_CONTEXT
+        S_N: if (tsel) begin
+            nn = fn[y] + 1'b1; fn[y] <= nn[CB-1:0];
+            if (nn >= TOP) begin b <= 0; st <= S_H0; end else st <= S_DONE;
+        end else begin
+`else
         S_N: begin
+`endif
             nn = n[y] + 1'b1;
             if (nn >= TOP) begin n[y] <= nn[CB-1:0]; b <= 0; st <= S_H0; end
             else begin n[y] <= nn[CB-1:0]; i <= 0; st <= S_S0; end
         end
         // ---- synaptic scaling: halve every on-count of class y, then n[y] ---------------------------------------
+`ifdef CORTEX_CONTEXT
+        S_H0: if (b == NB) begin if (tsel) begin fn[y] <= fn[y] >> 1; st <= S_DONE; end else begin n[y] <= n[y] >> 1; i <= 0; st <= S_S0; end end
+              else begin m_addr <= b[AW-1:0]; st <= S_H1; end
+`else
         S_H0: if (b == NB) begin n[y] <= n[y] >> 1; i <= 0; st <= S_S0; end
               else begin m_addr <= b[AW-1:0]; st <= S_H1; end
+`endif
         S_H1: st <= S_H2;
+`ifdef CORTEX_CONTEXT
+        S_H2: if (tsel) begin ct = fq; ct[y*CB +: CB] = fq[y*CB +: CB] >> 1; f_wd <= ct; f_wa <= m_addr; f_wen <= 1; st <= S_H3; end
+              else begin ct = cq; ct[y*CB +: CB] = cq[y*CB +: CB] >> 1; c_wd <= ct; c_wen <= 1; st <= S_H3; end
+`else
         S_H2: begin ct = cq; ct[y*CB +: CB] = cq[y*CB +: CB] >> 1; c_wd <= ct; c_wen <= 1; st <= S_H3; end
+`endif
         S_H3: begin b <= b + 1; st <= S_H0; end
         // ---- score: acc[c] += table[c, bit] for every listed bit -----------------------------------------------
 `ifdef CORTEX_PIPE

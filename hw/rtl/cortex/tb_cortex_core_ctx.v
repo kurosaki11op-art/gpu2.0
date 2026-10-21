@@ -37,7 +37,7 @@ module tb_cortex_core_ctx;
             end
             p = p + len;
             @(negedge clk); lb_we = 0; lb_len = len; cmd_valid = 1;
-            cmd_frozen = (op == 8); cmd_op = (op == 8) ? 3'd3 : (op == 9) ? 3'd7 : op; if (op == 9) cmd_arg = 4'd3;
+            cmd_frozen = (op == 8); cmd_op = (op == 8) ? 3'd3 : (op == 9) ? 3'd7 : op[2:0]; if (op == 9) cmd_arg = 4'd3;
             @(negedge clk); cmd_valid = 0; cmd_frozen = 0;
             while (busy) @(negedge clk);
             if (op == 4) $fdisplay(f, "P %0d", pred);

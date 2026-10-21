@@ -260,8 +260,8 @@ def _reverse_night(W, S, on, n, rng, known, steps, mu, cmax, ch, K, FR, RND, tic
 @njit
 def _dreamt(on, n, ont, nt, mixt, c, rng, out):
     """surprise-tagged dreaming: with probability mixt/16 (and when the class has a tail memory) the dream of class c is drawn from the TAIL counts (only the examples that made the table write, i.e. the surprising, near-boundary ones), otherwise from the usual counts. xorshift draws and the usual dream routine."""
-    rng[0] = _xs32(rng[0])
-    if nt[c] > 0 and np.int64(rng[0] & np.uint32(15)) < mixt:
+    t = nt[nt.shape[0] - 1]; nt[nt.shape[0] - 1] = t + 1                                  # host pattern, no random draw: dream number t (counted in the last slot of nt) uses the tail memory when (t mod 16) < mixt
+    if nt[c] > 0 and np.int64(t & 15) < mixt:
         return _dream(ont, nt, c, rng, out)
     return _dream(on, n, c, rng, out)
 
@@ -313,7 +313,7 @@ class CortexRules(CortexSlow):
         super().__init__(n_bits, **kw); self.rule, self.par = rule, par; self._night = kw.get("night", 2)
         self._stage_g = make_stage_grade(par) if rule == "grade" else None
         if rule == "tailmem":
-            self._st = make_stage_tail(); self.ont = np.zeros_like(self.on); self.nt = np.zeros_like(self.n); self.tmix = int(os.environ.get("TMIX", 8))
+            self._st = make_stage_tail(); self.ont = np.zeros_like(self.on); self.nt = np.zeros(len(self.n) + 1, self.n.dtype); self.tmix = int(os.environ.get("TMIX", 8))
         if rule == "bdream": self._sbd = make_stage_bd(); self.hmix = int(os.environ.get("BMIX", 8)); self.hlam = int(os.environ.get("BLAM", 4))
         if rule == "protect": self._sp = make_stage_protect(int(par or 3))
         if rule == "gate":
