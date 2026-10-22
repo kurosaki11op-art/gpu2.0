@@ -1,0 +1,2 @@
+  Of those cells 77330 are proven and 0 are unproven.
+  Equivalence successfully proven!

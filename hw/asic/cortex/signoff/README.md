@@ -31,5 +31,6 @@ Two things to know:
 - **Antenna (OPEN, ESTIMATED):** OpenROAD `check_antennas` on the routed layout: 2,279 net violations and 2,611 pin violations out of 115,506 nets (2%). `repair_antennas` crashes in this OpenROAD build (segmentation fault in `GlobalRouter::addLocalConnections`, with and without `-iterations`), so antenna diodes are not inserted yet.
 - **LVS (OPEN):** not run.
 - **Environment note:** the container's disk allowance ran out once (about 30 GB); jobs writing at that moment crashed or wrote empty files. Large intermediate files are now deleted as soon as they are used.
+- **Logical equivalence (SIMULATED, formal):** post-layout netlist (with hold and clock-tree buffers) vs the synthesised netlist, yosys `equiv_make`/`equiv_simple`/`equiv_induct` (`equiv_postpnr.ys`, `equiv_result.txt`): 77,330 equivalence points proven, 0 unproven. SRAM macros replaced by the same stand-in on both sides, tap/decap cells removed, clock-gate cell modelled by behaviour. Netlist-to-netlist, not a physical LVS.
 
 Related: [Hardware index](../../../HARDWARE_INDEX.md), [ASIC estimate](../../../results/cortex_asic_estimate.md), [Journal](../../../../docs/journal.md)

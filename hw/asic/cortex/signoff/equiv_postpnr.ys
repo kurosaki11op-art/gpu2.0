@@ -1,0 +1,16 @@
+read_liberty -overwrite -ignore_miss_func -setattr liberty_cell hd_tt_dontuse.lib
+read_verilog -overwrite icg.v
+read_verilog sram_dummy.v
+read_verilog gold.v
+rename cortex_board_top gold
+read_verilog gate.v
+rename cortex_board_top gate
+proc gold gate
+flatten gold gate
+proc gold gate
+opt_clean -purge gold gate
+equiv_make gold gate equiv
+opt -fast equiv
+equiv_simple -seq 2
+equiv_induct
+equiv_status
