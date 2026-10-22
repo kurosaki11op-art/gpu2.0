@@ -43,6 +43,7 @@ run "novelty flag unit (on-chip threshold + flag)" python run_check_novel.py
 run "clustering unit (rate prototypes, label-free grouping)" python run_check_cluster.py
 run "stage and night sequencer (on-chip schedule)" python run_check_seq.py
 run "stage and night sequencer, pipelined core" python run_check_seq.py --pipe
+need fsdd/0_george_0.wav "node (raw senses to a whole stage)" && run "node: raw senses to a whole learning stage" python run_check_node.py "$D"
 run "sleep cleaning, chip scores + neighbours + pooling unit == model" python run_check_sleep_clean.py "$D"
 need fsdd/0_george_0.wav "whole two-sense chip (retina + cochlea + one core)" && run "whole two-sense chip (retina + cochlea + one core)" python run_check_sense_top.py "$D"
 cd "$HW/rtl/cortex/sound"
