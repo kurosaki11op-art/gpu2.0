@@ -1,0 +1,14 @@
+fashion NPS 12000 proto:1 staged 0.8069 48s
+fashion NPS 12000 proto:2 staged 0.8192 62s
+fashion NPS 12000 proto:4 staged 0.8273 78s
+fashion NPS 12000 proto:8 staged 0.8316 95s
+mnist NPS 12000 proto:1 staged 0.9564 50s
+mnist NPS 12000 proto:4 staged 0.9574 69s
+mnist NPS 12000 proto:8 staged 0.9585 89s
+fashion NPS 12000 proto:16 staged 0.8367 54s
+fashion NPS 2000 proto:1 staged 0.8074 14s
+fashion NPS 2000 proto:4 staged 0.8241 23s
+fashion NPS 2000 proto:8 staged 0.8296 31s
+mnist NPS 2000 proto:1 staged 0.9496 49s
+mnist NPS 2000 proto:4 staged 0.9538 62s
+mnist NPS 2000 proto:8 staged 0.9550 75s

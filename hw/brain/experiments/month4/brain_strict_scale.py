@@ -20,6 +20,8 @@ for DS in os.environ.get("DS", "fashion,mnist").split(","):
                 if arm.startswith("real"):                                           # stored examples: E hardest real traces per class, replayed in a short night (mix/16 of the replays)
                     _, E, mix = arm.split(":"); os.environ["HARD"] = "1"; os.environ["CONS"] = os.environ.get("CONSMODE", "1"); os.environ["REALMIX"] = mix
                     m = cortex_rules.CortexRules(ctr.shape[1], rule="real", par=int(E), **kw)
+                elif arm.startswith("proto"):
+                    from cortex_proto_slow import CortexProtoSlow; m = CortexProtoSlow(ctr.shape[1], protos=int(arm.split(":")[1]), **kw)
                 else: m = CortexSlow(ctr.shape[1], **kw) if arm == "base" else cortex_rules.CortexRules(ctr.shape[1], rule="tailmem", **kw)
                 for i, s in enumerate(STAGES if staged else [tuple(range(10))]):
                     o = np.where(np.isin(ytr, s))[0]; o = o[np.random.RandomState(100 * seed + i).permutation(len(o))]; m.stage(ctr[o], ytr[o])

@@ -23,7 +23,7 @@ def learn_fine(x, F=32, chans=(50, 150, ("on", 8), ("off", 8)), nb=9, pool=3):
     return out
 
 
-NPS = int(os.environ.get("NPS", 12000)); SEEDS = int(os.environ.get("SEEDS", 2)); CHK = max(100, NPS // 30)
+NPS = int(os.environ.get("NPS", 12000)); SEEDS = int(os.environ.get("SEEDS", 2)); CHK = max(100, NPS >> 5)
 for DS in os.environ.get("DSS", "fashion,mnist").split(","):
     xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
     rs = np.random.RandomState(5); idx = np.concatenate([rs.permutation(np.where(np.isin(ytr, s))[0])[:NPS] for s in STAGES]); xtr, ytr = xtr[idx], ytr[idx]; first = xtr[np.isin(ytr, STAGES[0])][:12000]
@@ -35,7 +35,7 @@ for DS in os.environ.get("DSS", "fashion,mnist").split(","):
         tag = "staged" if staged else "one pass"
         for seed in range(1, SEEDS + 1):
             def build(code):
-                m = CortexSlow(code.shape[1], ch=CHK, K=5, night_stop=2, daydream=1, seed=seed, margin=256, ndream=1500, night=1)
+                m = CortexSlow(code.shape[1], ch=CHK, K=5, night_stop=2, daydream=1, seed=seed, margin=256, ndream=1500, night=1) if not os.environ.get("PROTOS") else __import__("cortex_proto_slow").CortexProtoSlow(code.shape[1], protos=int(os.environ["PROTOS"]), ch=CHK, K=5, night_stop=2, daydream=1, seed=seed, margin=256, ndream=1500, night=1)
                 for i, s in enumerate(STAGES if staged else [tuple(range(10))]):
                     o = np.where(np.isin(ytr, s))[0]; o = o[np.random.RandomState(100 * seed + i).permutation(len(o))]; m.stage(code[o], ytr[o])
                 return m
