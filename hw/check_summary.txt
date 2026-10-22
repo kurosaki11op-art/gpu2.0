@@ -18,3 +18,4 @@ encoder learning its detectors: PASS
 general encoder, images: PASS
 general encoder, sound: PASS
 general encoder, sound finer grid (3x3/s1/pool4): PASS
+general encoder, speckle removal: PASS
