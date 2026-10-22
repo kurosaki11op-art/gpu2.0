@@ -1,6 +1,6 @@
-# SPARK model accuracy — from 41% to 74% (MEASURED)
+# L model accuracy — from 41% to 74% (MEASURED)
 
-Task: predict the next byte of Python source code (held-out files from the local CPython standard library; 2.7 MB training text). All "chip" models use the exact integer rules of the SPARK core and are verified bit-exact (0 mismatches) between PyTorch and the golden reference model; the RTL is verified bit-exact against the golden model.
+Task: predict the next byte of Python source code (held-out files from the local CPython standard library; 2.7 MB training text). All "chip" models use the exact integer rules of the L core and are verified bit-exact (0 mismatches) between PyTorch and the golden reference model; the RTL is verified bit-exact against the golden model.
 
 ## Baselines on the same held-out text
 | Predictor | Next-byte accuracy |

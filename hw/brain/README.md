@@ -1,9 +1,9 @@
 ---
-title: SPARK Cortex brain code
+title: L Cortex brain code
 tags: [spark, cortex, code]
 ---
 
-# SPARK Cortex brain code
+# L Cortex brain code
 
 Software model of the brain core. Chip logic is compare, count, add, XOR and table lookups; numpy products in the
 simulator only add table values quickly.
@@ -22,7 +22,7 @@ simulator only add table values quickly.
 - `proof_suite.py`: first proof suite. `proof_suite_v2.py`: month-1 suite (`DATA_DIR mnist|fashion|speech`).
 - `experiments/month1/` to `experiments/month4/`: exploration scripts and raw logs.
 
-Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Month 1](../results/cortex_month1.md),
+Related: [L Cortex redesign](../../docs/cortex_redesign.md), [Month 1](../results/cortex_month1.md),
 [Month 2 log](../results/cortex_month2_log.md)
 - [experiments/month3/](experiments/month3/INDEX.md)
 - [experiments/month4/](experiments/month4/INDEX.md)

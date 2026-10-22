@@ -5,7 +5,7 @@ tags: [L, accelerator, architecture, review]
 ---
 # Accelerator for L: profile, microarchitecture, staged path, fair comparison, risks
 
-Scope: this note is about **L** (the brain-inspired, attention-free language model), not SPARK Cortex. Labels: **MEASURED** = from the numbers you gave me; **MODELLED** = computed here, formula shown, assumptions listed; **ESTIMATED** = from a source I name (recalled from the literature, not looked up live: verify before quoting). I have not run L; the only L facts I have are your message and `prompts/L_architecture_changes_prompt.md` in this repo.
+Scope: this note is about **L** (the brain-inspired, attention-free language model), not L Cortex. Labels: **MEASURED** = from the numbers you gave me; **MODELLED** = computed here, formula shown, assumptions listed; **ESTIMATED** = from a source I name (recalled from the literature, not looked up live: verify before quoting). I have not run L; the only L facts I have are your message and `prompts/L_architecture_changes_prompt.md` in this repo.
 
 ## 0. Things in your numbers that a reviewer will question first
 
@@ -159,7 +159,7 @@ Two sanity points. (1) The weight reads dominate (68%), so batching B streams th
 | 1. Cycle-accurate simulator (Python, then C++) with the section B energy model | integer inference bit-exact with the PyTorch model (ternary weights, int spikes), op/byte counters, bit-width sweep | $0 | 4-8 weeks | integer model within 1% bits/byte of the fp model; reported pJ/token with the op table and a sensitivity analysis |
 | 2a. Tang Nano 20K | d=64 variant fully on chip (ternary weights 57 KB + S 8 KB + state fit the 103.5 KB BSRAM, MODELLED); d=128 streams weights from the module's SDRAM: 227 KB per token, so 400-664 MB/s gives **1.8k-2.9k tokens/s** upper bound at batch 1 (MODELLED; part speed and width to verify) | board ~$25-35 (ESTIMATED, retail) | 6-10 weeks | bit-exact vs simulator on 1,000 tokens; measured tokens/s and board power (USB meter) |
 | 2b. Bigger FPGA (if 2a is too small) | whole d=128/192 model on chip with a bigger hash table. Candidates: Lattice ECP5-85 (ULX3S, ~3.7 Mbit block RAM), Xilinx Artix-7 100T (Arty A7, ~4.9 Mbit), Sipeed Tang Mega 60K/138K (verify memory sizes) | board ~$120-300 (ESTIMATED) | 4-8 weeks more | same pass criteria at d=192 |
-| 3. Silicon | Tiny Tapeout tiles are too small for a ~0.3 MB SRAM (a tile is a tiny fraction of a mm^2); a real shuttle needs an SRAM macro flow and a few mm^2 at 130 nm: order $10k-$50k for an MPW slot plus packaging and board (ESTIMATED; I have no current price list, and I recall Efabless, the open-shuttle broker, stopped operating in 2025: verify); open SRAM macros are small (the SPARK repo's own SKY130 estimates showed memory macros dominating area) | $15k-$60k all-in (ESTIMATED) | 6-12 months | measured pJ/token within 2x of the FPGA-calibrated model; do not start unless stage 0 and 2 pass |
+| 3. Silicon | Tiny Tapeout tiles are too small for a ~0.3 MB SRAM (a tile is a tiny fraction of a mm^2); a real shuttle needs an SRAM macro flow and a few mm^2 at 130 nm: order $10k-$50k for an MPW slot plus packaging and board (ESTIMATED; I have no current price list, and I recall Efabless, the open-shuttle broker, stopped operating in 2025: verify); open SRAM macros are small (the L repo's own SKY130 estimates showed memory macros dominating area) | $15k-$60k all-in (ESTIMATED) | 6-12 months | measured pJ/token within 2x of the FPGA-calibrated model; do not start unless stage 0 and 2 pass |
 
 ## E. Fair comparison and what would falsify the claim
 
@@ -206,4 +206,4 @@ Two sanity points. (1) The weight reads dominate (68%), so batching B streams th
 2. **Write the bit-exact integer simulator of L inference with op/byte counters (weeks 2-4).** Ternary weights, 4-bit spikes, 8/12/16-bit S; sweep widths; report bits/byte versus width, bytes moved per token and the section B energy table with real counts. Pass: within 1% bits/byte of the fp model.
 3. **Settle the quality evidence (weeks 1-4, in parallel).** Train L and the matched transformer at 3 sizes (for example 1M, 9M, 30M) with 3 seeds each, fp and ternary, and run the hippocampus ablation. If the 4.5% bits/byte edge is not outside the seed noise, or ternary erases it, stop here and redirect effort to the model.
 
-Related: [Docs index](INDEX.md), [Prior art for SPARK Cortex](prior_art_cortex.md), [Project memory](PROJECT_MEMORY.md)
+Related: [Docs index](INDEX.md), [Prior art for L Cortex](prior_art_cortex.md), [Project memory](PROJECT_MEMORY.md)

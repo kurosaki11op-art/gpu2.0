@@ -1,4 +1,4 @@
-# SPARK core — synthesis and place-and-route (target: Tang Nano 20K, Gowin GW2AR-18)
+# L core — synthesis and place-and-route (target: Tang Nano 20K, Gowin GW2AR-18)
 
 Tools: Yosys 0.33 (`synth_gowin`), nextpnr-himbaechel (built from source, GW2A-18C chip database from Apycula), `gowin_pack`.
 

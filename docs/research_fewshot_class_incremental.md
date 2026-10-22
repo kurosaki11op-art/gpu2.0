@@ -24,9 +24,9 @@ papers before quoting them elsewhere.
 | Synaptic scaling | Hofmann & Maeder, IEEE TNNLS 2022 | homeostatic down-scaling frees headroom | night pass shifts old rows down |
 | Bleaching (weightless nets) | WiSARD bleaching ([arXiv 2005.00887](https://arxiv.org/abs/2005.00887)); ULEEN ([arXiv 2304.10618](https://arxiv.org/abs/2304.10618)) | counters thresholded at b to break saturation ties | our per-bit counters as thresholded prototypes |
 
-Ranking for SPARK: (1) one-shot imprint with a 1/n step, (2) per-class norm alignment, (3) hippocampus gating,
+Ranking for L: (1) one-shot imprint with a 1/n step, (2) per-class norm alignment, (3) hippocampus gating,
 (4) night down-scaling + bias calibration, (5) counter prototypes. Caution from the literature: imprinting at full
 scale can swing the bias toward new classes, so measure old and new accuracy separately. Tested in
 `hw/brain/experiments/month4/fewshot_fixes.py`.
 
-Related: [Prior art for SPARK Cortex](prior_art_cortex.md), [Project memory](PROJECT_MEMORY.md), [Few-shot note](../hw/brain/experiments/month4/fewshot_saccades.md)
+Related: [Prior art for L Cortex](prior_art_cortex.md), [Project memory](PROJECT_MEMORY.md), [Few-shot note](../hw/brain/experiments/month4/fewshot_saccades.md)

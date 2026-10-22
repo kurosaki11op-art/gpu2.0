@@ -1,9 +1,9 @@
 ---
-title: SPARK Cortex pitch script (23 Oct event)
+title: L Cortex pitch script (23 Oct event)
 date: 2026-10-19
 tags: [pitch, script, cortex]
 ---
-# SPARK Cortex: speaking script for the 23 October event
+# L Cortex: speaking script for the 23 October event
 
 Deck: [SPARK_Cortex_pitch.pptx](SPARK_Cortex_pitch.pptx) (14 slides, same notes inside the file). About 8 minutes at a calm pace, 40 to 60 seconds per slide.
 Cut list if time is short: drop slides 7, 8, 10 and 12 (sharing, diagnosis, verification, prior art) and keep the rest (about 5 minutes).
@@ -11,7 +11,7 @@ Rules while speaking: say the label (simulated, estimated) with every number; sa
 
 ## Slide 1: Cover
 
-Hello judges. We are L Lawliet from CKCET. SPARK Cortex is a small chip that learns new things after it has shipped, without forgetting the old ones, and without a multiplier or backpropagation. One promise before we start: every number I show is labelled as simulated, estimated or measured, and nothing is measured on hardware yet.
+Hello judges. We are L Lawliet from CKCET. L Cortex is a small chip that learns new things after it has shipped, without forgetting the old ones, and without a multiplier or backpropagation. One promise before we start: every number I show is labelled as simulated, estimated or measured, and nothing is measured on hardware yet.
 
 ## Slide 2: AI stops learning the day it ships
 
@@ -63,6 +63,6 @@ What comes next. The model, RTL and layout estimate are done. The next milestone
 
 ## Slide 14: Close
 
-To close: SPARK Cortex is a chip that keeps learning after it ships. It keeps what it knew, shares what it learned, and needs no multiplier. It is weaker than a network in a few places, and I have told you where. Thank you, I am happy to take questions.
+To close: L Cortex is a chip that keeps learning after it ships. It keeps what it knew, shares what it learned, and needs no multiplier. It is weaker than a network in a few places, and I have told you where. Thank you, I am happy to take questions.
 
 Related: [Q&A sheet](pitch_qa_sheet.md), [Claims sheet](cortex_claims_sheet.md), [Results at a glance](results_at_a_glance.md), [Old script](pitch_script.md), [Project memory](PROJECT_MEMORY.md)

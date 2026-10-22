@@ -1,7 +1,7 @@
-# Brain as a chip: what is known, what is not, and what SPARK can take from it
+# Brain as a chip: what is known, what is not, and what L can take from it
 
 Method: web search on 2026-10-11. Figures come from the cited pages' search excerpts, not full-paper reads, and the
-vendor figures are vendor claims. Treat everything here as RESEARCH CONTEXT, not a SPARK result.
+vendor figures are vendor claims. Treat everything here as RESEARCH CONTEXT, not an L result.
 
 ## 1. What we know about the brain (and what limits copying it)
 
@@ -35,18 +35,18 @@ Consequence: copying the brain's hardware without its algorithm gives something 
 
 Reading: brain-like hardware is real and improving, but best systems are about 1% of a human brain's neurons, and LLM-class results on it are early.
 
-## 4. What transfers to SPARK and to helping GPUs now
+## 4. What transfers to L and to helping GPUs now
 
-1. **Event-driven work** (do nothing when nothing changes): SPARK already does this.
+1. **Event-driven work** (do nothing when nothing changes): L already does this.
 2. **Compute next to memory**: the GPU's wall is memory bandwidth (H020). Analog and in-memory attention is the research route; the token-pruning chip above shows a digital version is buildable today.
-3. **Pruning before heavy compute**: the analog chip cuts ~75% of tokens before the digital part. SPARK's analogue is cutting what the GPU must verify via drafts and confidence.
+3. **Pruning before heavy compute**: the analog chip cuts ~75% of tokens before the digital part. L's analogue is cutting what the GPU must verify via drafts and confidence.
 4. **Spiking LLM encodings** (SpikeLLM, SpikingBrain) are a way to put real LLM layers on event-driven hardware, but results so far are about accuracy and speed, not measured energy.
 
 ## 5. Roadmap that stays honest
 
 | Stage | What | Evidence needed |
 |---|---|---|
-| Now | SPARK as a decode co-processor beside the GPU (copy engine + tree drafts + calibrated draft length) | Real-model acceptance (done, 2.2–2.3 tokens/pass), then timed end-to-end speed and wall-plug joules |
-| Next | Multi-stream, multi-chip SPARK on FPGA, then larger simulation | Measured throughput per stream and per watt |
+| Now | L as a decode co-processor beside the GPU (copy engine + tree drafts + calibrated draft length) | Real-model acceptance (done, 2.2–2.3 tokens/pass), then timed end-to-end speed and wall-plug joules |
+| Next | Multi-stream, multi-chip L on FPGA, then larger simulation | Measured throughput per stream and per watt |
 | Research | Event-driven, compute-near-memory tiles for pruning and attention | Compare to the fabricated analog/digital attention chip above on the same tasks |
 | Vision | Brain-scale event-driven hardware | Not claimed. Needs a known learning algorithm and a model class that trains on it |

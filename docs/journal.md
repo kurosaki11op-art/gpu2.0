@@ -1,4 +1,4 @@
-# SPARK journal
+# L journal
 
 One entry per step, newest at the bottom. Each entry: what was asked, what was done, the result (with its label),
 and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJECT_MEMORY.md` section 3 and in
@@ -11,9 +11,9 @@ and where the files are. Earlier history (9-13 Oct) is summarised in `docs/PROJE
 - **Video** the user shared (Instagram reel about a founder asking why pay for a website when AI costs $20):
   watched the frames; the audio could not be transcribed in the container; the user pasted the Tamil-English
   transcript. Point: AI writes code but does not understand the business (UX, SEO, security, indexing, rate
-  limiting). Conclusion given: these are judgement limits, not hardware limits; SPARK does not fix them.
+  limiting). Conclusion given: these are judgement limits, not hardware limits; L does not fix them.
 - **User rejected the helper direction** ("6% is of no use, go for something big, brain as a chip, brain
-  principles only, provable in 6-8 months"). Redesign to SPARK Cortex. `docs/cortex_redesign.md`.
+  principles only, provable in 6-8 months"). Redesign to L Cortex. `docs/cortex_redesign.md`.
 - **First proof** (SIMULATED): random-wiring lookup neurons, then learned features + count memory.
   `hw/results/cortex_proof.md`. Digits in stages 95.6 vs network 19.5; exact merge; few-shot loses.
 - **Month 1** (user: "close the accuracy gap"): retina centre-surround, concept cells, sleep with dreams,
@@ -961,10 +961,10 @@ Taken with the earlier probes (graded code, depth, fovea, all-class detectors, r
 | CNN staged + replay buffer of 160 real images (about the chip's 129 KB) | 31.6 | 27.4 |
 | CNN staged + 1,000 replayed images (784 KB) | 69.1 | 90.2 |
 | CNN staged + 4,000 replayed images (3.1 MB) | 87.8 | 95.9 |
-| SPARK one pass (SIMULATED) | 86.55 | 97.47 |
-| SPARK staged, no stored data, 129 KB (SIMULATED) | **83.3** | **95.5** |
+| L one pass (SIMULATED) | 86.55 | 97.47 |
+| L staged, no stored data, 129 KB (SIMULATED) | **83.3** | **95.5** |
 
-So at equal data the one-pass gap to a CNN is 2.3 points on clothing and 1.1 on digits (not 6 and 2 as measured against full-set figures). The decisive result is staged learning: a CNN without help collapses to the latest classes (about 20 %), and with a replay buffer at SPARK's memory size it reaches only 28-32 %; it needs about 4,000 stored real images (3.1 MB, 24x the chip's memory) to get near SPARK's staged accuracy (87.8 / 95.9), and 1,000 images (6x) is not enough. This is the first MEASURED head-to-head in the repo. Script `gpu_baseline_same_data.py`, logs `gpu_baseline_same_data_{fashion,mnist}.log`, `gpu_baseline_same_data_rb.log`. Caveat: one seed, one small CNN, no tuned continual-learning method (no regularisation or generative replay), so a stronger GPU baseline could do better.
+So at equal data the one-pass gap to a CNN is 2.3 points on clothing and 1.1 on digits (not 6 and 2 as measured against full-set figures). The decisive result is staged learning: a CNN without help collapses to the latest classes (about 20 %), and with a replay buffer at L's memory size it reaches only 28-32 %; it needs about 4,000 stored real images (3.1 MB, 24x the chip's memory) to get near L's staged accuracy (87.8 / 95.9), and 1,000 images (6x) is not enough. This is the first MEASURED head-to-head in the repo. Script `gpu_baseline_same_data.py`, logs `gpu_baseline_same_data_{fashion,mnist}.log`, `gpu_baseline_same_data_rb.log`. Caveat: one seed, one small CNN, no tuned continual-learning method (no regularisation or generative replay), so a stronger GPU baseline could do better.
 
 
 ## 20 Oct 2026 (night) - Same-data GPU-style reference, 20 words (MEASURED, small CNN as above, 1,586 training / 414 test clips, speaker-disjoint, same 28x28 aligned sound picture as the chip, one seed)
@@ -975,9 +975,9 @@ So at equal data the one-pass gap to a CNN is 2.3 points on clothing and 1.1 on 
 | CNN staged naive (5 stages of 4 words) | 6.3 |
 | CNN staged + 160 stored pictures | 12.3 |
 | CNN staged + 1,000 stored pictures (63 % of all the training pictures) | 73.7 |
-| SPARK staged, no stored data, margin 256 (SIMULATED) | **73.35** (float ridge on the same code 79.95) |
+| L staged, no stored data, margin 256 (SIMULATED) | **73.35** (float ridge on the same code 79.95) |
 
-At equal data the CNN is only 3.7 points above SPARK's staged result, and the float readout on SPARK's own code (79.95) is above the CNN. So the absolute weakness on words (about 73 %) comes from the tiny training set (about 80 clips per word) and the picture, not from our method being far behind a GPU-style model; a CNN with data augmentation or a pretrained front end would do better, which this baseline does not have. Staged, the CNN again collapses without stored data and needs most of the training set stored (1,000 of 1,586 pictures, about 6x the chip's memory) to reach SPARK's number. Script `gpu_baseline_words.py`, log `gpu_baseline_words.log`.
+At equal data the CNN is only 3.7 points above L's staged result, and the float readout on L's own code (79.95) is above the CNN. So the absolute weakness on words (about 73 %) comes from the tiny training set (about 80 clips per word) and the picture, not from our method being far behind a GPU-style model; a CNN with data augmentation or a pretrained front end would do better, which this baseline does not have. Staged, the CNN again collapses without stored data and needs most of the training set stored (1,000 of 1,586 pictures, about 6x the chip's memory) to reach L's number. Script `gpu_baseline_words.py`, log `gpu_baseline_words.log`.
 
 
 ## 20 Oct 2026 (night) - Categorical dreams fail; Module 2 + eye movements closes the few-label gap on digits (SIMULATED, 3 seeds, margin 256 / 1,500 dreams / 1 night)
@@ -991,7 +991,7 @@ Clothing 77.98 / 78.13 vs Module 2 alone 78.32 vs all labels 83.3: no gain from 
 
 ## 20 Oct 2026 (night) - Twin words against the same-data CNN (MEASURED reference, 20 words)
 
-CNN joint: overall 77.05, **twin words 84.06** (the 8 acoustic pairs present: no/go, left/right, up/off, on/off, bed/bird, down/dog, three/tree, four/forward; accuracy over the clips of those words). SPARK staged (SIMULATED): twin 69.1 (shipped peak), 73.9 (timing cells / coincidence), float readout on the shipped code 72.5. So twin words are not hard for a trained network (84, above its own overall 77) while for SPARK they are below its overall (69 vs 73): a real gap of 10-15 points, a design weakness and not a data limit. Staged CNN: naive 0.0 on twins, 160-picture replay 5.8 (`gpu_baseline_words2.log`).
+CNN joint: overall 77.05, **twin words 84.06** (the 8 acoustic pairs present: no/go, left/right, up/off, on/off, bed/bird, down/dog, three/tree, four/forward; accuracy over the clips of those words). L staged (SIMULATED): twin 69.1 (shipped peak), 73.9 (timing cells / coincidence), float readout on the shipped code 72.5. So twin words are not hard for a trained network (84, above its own overall 77) while for L they are below its overall (69 vs 73): a real gap of 10-15 points, a design weakness and not a data limit. Staged CNN: naive 0.0 on twins, 160-picture replay 5.8 (`gpu_baseline_words2.log`).
 
 
 ## 20 Oct 2026 (night) - Temporal fovea for sound FAILED (SIMULATED, 20 words, float dual-ridge ceiling)
@@ -1014,9 +1014,9 @@ Setup as the honest two-sense test (ear trained on speakers 0-2, correct on 73.5
 Picture learner on the ear's names as given 89.70; **cleaned, K=5 buffer 128, 2 rounds, no ear vote 93.70 (names 94.9 % correct)**; with ear vote 93.57; K=8 buffer 256, 2 rounds 93.72 (no vote) / **93.88** (with vote, names 95.0 % correct); 1 round 93.3 / 92.98; true labels (reference) 97.40. So the same sleep-time neighbour pooling that gave few-label gains lifts a heard-word-only label from 89.7 to 93.9 (+4.2), closing more than half of the gap to the true-label result, with no picture labels at all. Remaining gap to true labels 3.5 points; more rounds not tried.
 
 
-## 20 Oct 2026 (night) - CORRECTION: the twin-word gap was a small-sample artifact (MEASURED CNN, float readout on SPARK's own code; `twin_diag.py`, logs `twin_diag.log`, `twin_diag35.log`)
+## 20 Oct 2026 (night) - CORRECTION: the twin-word gap was a small-sample artifact (MEASURED CNN, float readout on L's own code; `twin_diag.py`, logs `twin_diag.log`, `twin_diag35.log`)
 
-The 20-word subset contains only **4 twin words** (left, right, three, tree; 69 test clips), so the earlier "CNN 84.06 vs SPARK about 70" is a four-word, 69-clip comparison (one word, "three", is 95 % vs 70 %; "left" is 86 % vs 100 %). On the 35-word set (15 twin words, about 340 test clips): CNN twin 65.4 / non-twin 78.0 / overall 72.5; **SPARK float readout twin 68.6 / non-twin 77.8 / overall 73.8**, i.e. SPARK is at or above the CNN on twin words, not behind. For both, only 22-32 % of twin-word errors land on the twin partner; 68-78 % go to other words. So twin words are not a special weakness of the code, my earlier statement of a 10-15 point twin gap was wrong, and the timing / coincidence / hyperdimensional / temporal-fovea attempts were chasing a difference that is mostly sampling noise. What remains real on words: the staged chip (73.35 on 20 words, 68.3 on 35) is below its own float readout on the same code (79.95 / 73.8) by about 5-6 points, the same staged-learning loss as on clothing and digits. F8 is reframed accordingly.
+The 20-word subset contains only **4 twin words** (left, right, three, tree; 69 test clips), so the earlier "CNN 84.06 vs L about 70" is a four-word, 69-clip comparison (one word, "three", is 95 % vs 70 %; "left" is 86 % vs 100 %). On the 35-word set (15 twin words, about 340 test clips): CNN twin 65.4 / non-twin 78.0 / overall 72.5; **L float readout twin 68.6 / non-twin 77.8 / overall 73.8**, i.e. L is at or above the CNN on twin words, not behind. For both, only 22-32 % of twin-word errors land on the twin partner; 68-78 % go to other words. So twin words are not a special weakness of the code, my earlier statement of a 10-15 point twin gap was wrong, and the timing / coincidence / hyperdimensional / temporal-fovea attempts were chasing a difference that is mostly sampling noise. What remains real on words: the staged chip (73.35 on 20 words, 68.3 on 35) is below its own float readout on the same code (79.95 / 73.8) by about 5-6 points, the same staged-learning loss as on clothing and digits. F8 is reframed accordingly.
 
 
 ## 20 Oct 2026 (night) - Staged loss is NOT a class-balance (recency) problem: intrinsic-plasticity bias FAILED (SIMULATED, 3 seeds; `bias_calib.py`, logs `bias_calib_{fashion,mnist}.log`)
@@ -1074,7 +1074,7 @@ So the sensory node is now: two sensors into one core (piece 3), one-sense or tw
 ## 20 Oct 2026 (night) - Sensory node, piece 5: the CNN two-sense reference (MEASURED, 2 seeds; small CNNs, float32, backprop; a ruler only, never in the chip) (`gpu_twosense.py`, `gpu_twosense.log`)
 
 Same data as the chip tests (MNIST 10,000 / 2,000, FSDD spoken digits, ear trained on speakers 0-2, clips paired with pictures from speakers 3-4, test speaker the last): 
-| | CNN (MEASURED) | SPARK (SIMULATED) |
+| | CNN (MEASURED) | L (SIMULATED) |
 |---|---|---|
 | the ear's names right on unseen speakers | 72.3 % | 73.5 % |
 | picture learner, true labels | 98.52 | 97.40 |
@@ -1085,7 +1085,7 @@ Same data as the chip tests (MNIST 10,000 / 2,000, FSDD spoken digits, ear train
 | picture damaged 25 %, no sound | 80.8 | 85.4 |
 | picture only (sound blank) | 85.45 | 86.0 |
 | sound only (picture blank) | 57.9 | 73.8 |
-Reading: with labels the CNN is 0.5-1 point better on two senses and on damage-with-sound (it has far more parameters and trains many epochs); **with no picture labels SPARK is clearly ahead (93.9 vs 83.5 / 82.9)**, because the neighbour pooling in sleep cleans the ear's noisy names while the CNN's own self-training only reinforces its mistakes (82.87 after two rounds). Not identical conditions: the damage was removing 25 % of lit pixels for the CNN and 25 % of active code bits for SPARK; the CNN also saw the same 10,000 pictures for 12 epochs.
+Reading: with labels the CNN is 0.5-1 point better on two senses and on damage-with-sound (it has far more parameters and trains many epochs); **with no picture labels L is clearly ahead (93.9 vs 83.5 / 82.9)**, because the neighbour pooling in sleep cleans the ear's noisy names while the CNN's own self-training only reinforces its mistakes (82.87 after two rounds). Not identical conditions: the damage was removing 25 % of lit pixels for the CNN and 25 % of active code bits for L; the CNN also saw the same 10,000 pictures for 12 epochs.
 
 
 ## 20 Oct 2026 (night) - Sensory node, piece 6: full regression and the end of the build
@@ -1112,7 +1112,7 @@ Digits in 5 stages of 2 classes with the chip's dreams between stages (margin 25
 
 ## 20 Oct 2026 (night) - E: new words from 1-5 recordings are at rough parity with a GPU-style model (no new run; numbers from earlier logs)
 
-Same split (5 known words, 5 new words, enrolled from k recordings): the chip's table-score embedding path (RTL option CORTEX_EMBED, bit-exact) 50.2 / 56.4 / 62.3 over all ten words at k = 1 / 2 / 5 with the old words unchanged (SIMULATED); a small CNN (float, backprop) used as a prototype embedding, `gpu_style_fewshot.log` (MEASURED): all ten words 55.1 / 63.7 at k = 1 / 5 (new words alone 25.5 / 43.5, old words 84.0 / 83.3; with the FSDD digits as extra training classes 53.6 / 65.4, new alone 21.0 / 49.0). So on this task SPARK is within about 2-5 points of the GPU-style model overall (-4.9 at k = 1, -1.4 at k = 5) and the limit is shared: the known vocabulary (about 5-15 words) and the picture's features; more detectors, more fitting words and an exemplar memory did not help (earlier entries). E is closed as measured and documented, not as solved.
+Same split (5 known words, 5 new words, enrolled from k recordings): the chip's table-score embedding path (RTL option CORTEX_EMBED, bit-exact) 50.2 / 56.4 / 62.3 over all ten words at k = 1 / 2 / 5 with the old words unchanged (SIMULATED); a small CNN (float, backprop) used as a prototype embedding, `gpu_style_fewshot.log` (MEASURED): all ten words 55.1 / 63.7 at k = 1 / 5 (new words alone 25.5 / 43.5, old words 84.0 / 83.3; with the FSDD digits as extra training classes 53.6 / 65.4, new alone 21.0 / 49.0). So on this task L is within about 2-5 points of the GPU-style model overall (-4.9 at k = 1, -1.4 at k = 5) and the limit is shared: the known vocabulary (about 5-15 words) and the picture's features; more detectors, more fitting words and an exemplar memory did not help (earlier entries). E is closed as measured and documented, not as solved.
 
 ## 20 Oct 2026 (night) - Regression complete: 29 of 29 checks PASS, none skipped
 

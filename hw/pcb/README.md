@@ -1,6 +1,6 @@
-# SPARK power-measurement board (KiCad 7) — v0.1
+# L power-measurement board (KiCad 7) — v0.1
 
-An inline USB-C power meter for the SPARK FPGA prototype:
+An inline USB-C power meter for the L FPGA prototype:
 laptop USB-C (J1) → 0.1 Ω shunt (RS1) → USB-C (J2) → Sipeed Tang Nano 20K. USB 2.0 data passes straight through.
 INA219 (U1) measures shunt current and bus voltage, LM75 (U2) board temperature, J5 takes a DS18B20 probe for the
 FPGA package, J3 takes the FPGA's benchmark marker wire, and J4 connects any ESP32 board (3V3, GND, SDA, SCL, MARKER, DQ).

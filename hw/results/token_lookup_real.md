@@ -3,7 +3,7 @@
 Model: Qwen/Qwen2.5-Coder-1.5B (base, not instruct), fp16 on the PC's GPU; greedy; 20 prompts x 128 generated tokens per text type; draft up to K = 8 tokens.
 Unit: tokens committed per target pass, bonus included (plain decoding = 1.00), computed offline from the model's own greedy output, so it is exact for greedy verification. Raw JSON is on the PC (`hw/results/token_lookup_Qwen_Qwen2.5-Coder-1.5B.json`); numbers transcribed from the console.
 
-| Text | Prompt lookup (free software) | Hashed tables (SPARK-L design, token level) | Both, as a 2-branch tree |
+| Text | Prompt lookup (free software) | Hashed tables (L-lookup design, token level) | Both, as a 2-branch tree |
 |---|---|---|---|
 | Code (Python source excerpts) | 2.39 | 2.41 (+0.8%) | 2.48 (+3.8%) |
 | Prose (four old books) | 2.21 | 2.29 (+3.6%) | 2.31 (+4.5%) |

@@ -1,4 +1,4 @@
-# Sequence memory (SPARK-L lookup core) across text domains - SIMULATED, 15 Oct 2026
+# Sequence memory (L lookup core) across text domains - SIMULATED, 15 Oct 2026
 
 Reference model `hw/system/lookup_ref.py` LookupCoreV2. Learn 16 KB of code, then read 80 KB of prose; measure
 next-byte accuracy on 4 KB of held-out code (learning stays on while reading it, from a copy of the state).

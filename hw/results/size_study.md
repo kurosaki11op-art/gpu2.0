@@ -1,4 +1,4 @@
-# Shrinking SPARK before fabrication: size vs accuracy (SIMULATED, trained, not RTL)
+# Shrinking L before fabrication: size vs accuracy (SIMULATED, trained, not RTL)
 
 Identical settings: 1,500 training steps, 3-byte context, threshold spikes, 4-bit weights, evaluated on 3,000 held-out bytes.
 These are shorter runs than the shipped model, so compare rows to each other, not to earlier numbers.

@@ -1,4 +1,4 @@
-# How brains compute and move "weights", and what SPARK takes from it
+# How brains compute and move "weights", and what L takes from it
 
 Scope: short horizon (weeks, not years). The brain-on-a-chip concept stays our identity. Each principle below is paired
 with an experiment we can run now and a number we can show. Research was via web search (excerpts, not full-paper reads);
@@ -20,17 +20,17 @@ Principle 5 is the strongest match to what you said. The GPU's cost per token is
 Published ML work shows the same trick on today's models: skip the weight columns for inactive neurons and the decode step reads fewer bytes.
 That is "removing the big matrices from the critical path" in a form that has measured speed-ups, on models people already have.
 
-SPARK's brain-like role here: a small, stateful, event-driven unit that **predicts which parts of the big model will be needed**, ahead of time, from its own leaky state. That is a leaky integrator per hidden unit, which is SPARK's native neuron.
+L's brain-like role here: a small, stateful, event-driven unit that **predicts which parts of the big model will be needed**, ahead of time, from its own leaky state. That is a leaky integrator per hidden unit, which is L's native neuron.
 
-## 3. Mapping to SPARK, and what to test
+## 3. Mapping to L, and what to test
 
-| Principle | SPARK component today | Experiment (all weeks, not years) | Number to show |
+| Principle | L component today | Experiment (all weeks, not years) | Number to show |
 |---|---|---|---|
-| 5. Contextual sparsity | none yet | `hw/system/activation_sparsity.py` on the real 3B model: output error when only a fraction f of MLP weight columns is read, using an oracle, the previous token's active set, or a leaky trace (SPARK-style state). | Error vs fraction of weights read; whether a cheap stateful predictor stays close to the oracle |
+| 5. Contextual sparsity | none yet | `hw/system/activation_sparsity.py` on the real 3B model: output error when only a fraction f of MLP weight columns is read, using an oracle, the previous token's active set, or a leaky trace (L-style state). | Error vs fraction of weights read; whether a cheap stateful predictor stays close to the oracle |
 | 2. Sparse activity | event-driven network, skips silent neurons | Existing RTL results: 2.5×-4.5× fewer cycles and weight reads than a dense pass (simulated, 600-byte sample, small model). Add the accuracy-vs-firing-rate curve. | Events per token vs next-byte accuracy |
 | 3. Predictive coding | draft is the prediction, GPU verification is the error signal | Already measured: 2.2-2.3 tokens/GPU pass on real 3B and 9B models (acceptance). Extension: send the GPU only where the draft is uncertain (confidence-chosen length, simulated). | Tokens/pass and wall-clock (still needed) |
 | 4. Fast + slow memory | recall hash tables (fast, one-shot, sparse) + trained network (slow) | Hysteresis update on recall entries (a synapse-like confidence count): +2.2 points agreement on the fast path (simulated). Next: replay recent recall entries into the slow network to adapt to a new domain. | Agreement before/after a domain shift |
-| 1. Compute in memory | SPARK weights sit on-chip next to the lanes | Ternary weights: weights in {-1, 0, +1}, multiply-free and smaller. Training in progress, see section 4. | Accuracy and weight size, ternary vs int4 |
+| 1. Compute in memory | L weights sit on-chip next to the lanes | Ternary weights: weights in {-1, 0, +1}, multiply-free and smaller. Training in progress, see section 4. | Accuracy and weight size, ternary vs int4 |
 
 ## 4. Result so far on multiply-free weights
 
@@ -42,5 +42,5 @@ Ternary vs int4, trained from scratch under identical settings (3,000 steps): pa
 - The concept is built from five specific brain principles, each tied to a published result and a test of ours.
 - Measured on real models: lossless drafting gives about 2.2× fewer big-model passes on code (acceptance, not yet wall-clock).
 - Simulated on our chip: event-driven operation cuts cycles and weight reads versus a dense pass; hysteresis memory raises agreement with the GPU model.
-- Not yet shown: that SPARK beats a free software drafter, or that a predictor can cut real-model weight reads. Those are the two experiments in section 3 that decide the pitch.
+- Not yet shown: that L beats a free software drafter, or that a predictor can cut real-model weight reads. Those are the two experiments in section 3 that decide the pitch.
 - Not claimed: a human-brain-scale chip, replacing the GPU, or any silicon measurement.

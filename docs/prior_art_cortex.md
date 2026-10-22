@@ -1,9 +1,9 @@
 ---
-title: Prior art for SPARK Cortex
+title: Prior art for L Cortex
 tags: [spark, cortex, prior-art]
 ---
 
-# Prior art for SPARK Cortex (checked 15 Oct 2026, web search)
+# Prior art for L Cortex (checked 15 Oct 2026, web search)
 
 Purpose: know exactly what is new before anyone says "first". Short answer: **"a chip that keeps learning without
 forgetting" is not new**. Our combination is, as far as this search found.
@@ -20,7 +20,7 @@ forgetting" is not new**. Our combination is, as far as this search found.
 | Weightless / RAM-based networks: WiSARD (1981), BTHOWeN (2022), ULEEN (2023); [FPGA pyramidal WNN learning](https://pubmed.ncbi.nlm.nih.gov/12964210/) | lookup-table neurons, often on FPGAs | lookup and count, no multiplies | not aimed at continual learning; no sleep |
 | Tsetlin machines, Numenta HTM | logic / sparse sequence memory | local learning | different mechanisms |
 
-## What SPARK Cortex adds (claims to defend, all SIMULATED so far)
+## What L Cortex adds (claims to defend, all SIMULATED so far)
 
 1. **A surprise-gated fast table on top of additive memory**, so decisions are sharper than a sum-of-examples memory
    while old classes are still protected.
@@ -39,8 +39,8 @@ forgetting" is not new**. Our combination is, as far as this search found.
 
 ## Measured against HDC (SIMULATED)
 
-[SPARK Cortex vs HDC](../hw/results/cortex_vs_hdc.md): after 5 stages, the chip is ahead of the best HDC variant on digits
+[L Cortex vs HDC](../hw/results/cortex_vs_hdc.md): after 5 stages, the chip is ahead of the best HDC variant on digits
 (94.6 vs 92.4) and sound (69.4 vs 63.5) and level on clothing (78.3 vs 78.2), with ~2.3x less class memory and ~1,000x
 fewer additions per example.
 
-Related: [SPARK Cortex redesign](cortex_redesign.md), [Project memory](PROJECT_MEMORY.md), [Docs index](INDEX.md)
+Related: [L Cortex redesign](cortex_redesign.md), [Project memory](PROJECT_MEMORY.md), [Docs index](INDEX.md)

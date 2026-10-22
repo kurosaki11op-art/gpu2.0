@@ -3,7 +3,7 @@ title: Research - GPU few-shot and class-incremental tricks, integer analogues (
 date: 2026-10-19
 tags: [research, fewshot, class-incremental]
 ---
-# Research: GPU few-shot / class-incremental tricks and integer analogues for SPARK Cortex
+# Research: GPU few-shot / class-incremental tricks and integer analogues for L Cortex
 Caveat: search snippets only; arxiv.org fetch failed (DNS). Items marked (memory) are from my background knowledge, not verified this session.
 
 ## Sources

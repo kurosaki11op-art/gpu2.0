@@ -1,4 +1,4 @@
-# SPARK Cortex: first proof results (SIMULATED, bit-exact chip logic on CPU)
+# L Cortex: first proof results (SIMULATED, bit-exact chip logic on CPU)
 
 Brain core = sensory layer that learns its own feature detectors without labels (5x5 receptive fields,
 winner-take-all, Hebbian counters) + cortex memory that counts which features fire for which class and decides
@@ -57,4 +57,4 @@ learning only adds counts, so new learning never overwrites old learning.
 - Earlier variant (random wiring, no learned features, `cortex_core.py`): 96.1% MNIST but forgot like the network
   (15.9% on the first classes after 5 stages). Learned features + counting memory is what removed forgetting.
 
-Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)
+Related: [L Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)

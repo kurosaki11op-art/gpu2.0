@@ -5,7 +5,7 @@ tags: [research, asic, routing, openroad]
 ---
 # Research: why detailed routing failed, and the fixes (15 Oct 2026)
 
-**The failure.** OpenROAD (2022 build) detailed routing of the SPARK Cortex layout (63 OpenRAM
+**The failure.** OpenROAD (2022 build) detailed routing of the L Cortex layout (63 OpenRAM
 `sky130_sram_2kbyte_1rw1r_32x512_8` macros, 8 x 8 grid) left 100k-160k design-rule violations after the first pass and
 converged far too slowly. Global routing reported almost no congestion, so the cause looked like setup, not capacity.
 

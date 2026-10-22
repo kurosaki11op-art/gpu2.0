@@ -1,4 +1,4 @@
-# SPARK switching-activity power simulation (SIMULATED, pre-silicon)
+# L switching-activity power simulation (SIMULATED, pre-silicon)
 
 Method (standard pre-silicon power estimation, as in Vivado Power Analyzer / PrimeTime PX with VCD/SAIF):
 the real Verilog core runs in iverilog on real held-out Python text with the trained sparsity-0.05 model.
@@ -15,9 +15,9 @@ access, 0.06 pJ per bit of small-RAM access, 2 fJ per flip-flop per cycle (no cl
 |---|---|---|---|---|---|---|
 | Compute every neuron (GPU-style dense) | 10,665 | 3.45 M | 38,814 | 362 nJ | 648 nJ | 1× |
 | Skip silent neurons | 5,147 | 1.71 M | 17,645 | 169 nJ | 313 nJ | 2.1× less |
-| **SPARK effort LOW** | 1,714 | 0.56 M | 5,769 | 56 nJ | 104 nJ | **6.2–6.5× less** |
-| SPARK effort MEDIUM | 3,584 | 1.22 M | 11,995 | 116 nJ | 218 nJ | 3.0–3.1× less |
-| **SPARK effort HIGH** | 4,531 | 1.45 M | 15,055 | 147 nJ | 275 nJ | **2.4–2.5× less** |
+| **L effort LOW** | 1,714 | 0.56 M | 5,769 | 56 nJ | 104 nJ | **6.2–6.5× less** |
+| L effort MEDIUM | 3,584 | 1.22 M | 11,995 | 116 nJ | 218 nJ | 3.0–3.1× less |
+| **L effort HIGH** | 4,531 | 1.45 M | 15,055 | 147 nJ | 275 nJ | **2.4–2.5× less** |
 
 - The raw bit-flip count alone (no energy assumptions) falls **6.2×** on low effort and **2.4×** on high effort.
 - Agrees with the independent operation-count estimate (`energy_estimate.md`: 7.9× / 2.5×); the simulation is a

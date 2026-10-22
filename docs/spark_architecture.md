@@ -1,10 +1,10 @@
-# SPARK architecture: learning from the weaknesses of existing AI chips
+# L architecture: learning from the weaknesses of existing AI chips
 
-Framing for judges: **"SPARK combines the strengths of existing brain-inspired and AI chips and is designed around their documented weaknesses."** Avoid "we fixed Intel/IBM" — we fix specific, published weak points, at prototype scale.
+Framing for judges: **"L combines the strengths of existing brain-inspired and AI chips and is designed around their documented weaknesses."** Avoid "we fixed Intel/IBM" — we fix specific, published weak points, at prototype scale.
 
-## 1. Weakness → SPARK design answer
+## 1. Weakness → L design answer
 
-| # | Documented weakness (who) | Evidence | SPARK design answer | Prototype? |
+| # | Documented weakness (who) | Evidence | L design answer | Prototype? |
 |---|---|---|---|---|
 | W1 | Computes everything, can't skip zeros except fixed 2:4 (GPU); lockstep array idles on sparse work (TPU) | NVIDIA 2:4 docs; FlexTPU (U. Michigan) | **Event-driven engine**: work is a queue of active neurons only; no lockstep, so no idle units waiting on zeros | ✔ |
 | W2 | Data movement up to 84% of dynamic energy (GPU) | A100 energy study | **Weight- and state-stationary tiles**: weights, neuron state, fast-weight state live in on-chip SRAM beside the compute | ✔ (small model) |
@@ -24,16 +24,16 @@ Framing for judges: **"SPARK combines the strengths of existing brain-inspired a
 | W16 | Closed access (Loihi via research programme) | Lava/INRC | **Open design**: RTL, toolchain and measurements published | ✔ |
 | W17 | Big-chip cost and e-waste | Gen-AI e-waste 1.2–5 Mt | **Add-on tile beside existing GPUs** extends their useful life; low-cost FPGA → small ASIC path | Proposal |
 
-## 2. What SPARK cannot fix (say it before judges do)
+## 2. What L cannot fix (say it before judges do)
 - **Training** stays on GPUs (dense backprop is what GPUs are good at).
-- **Very large models** still need external memory; SPARK reduces traffic, it doesn't remove capacity limits.
+- **Very large models** still need external memory; L reduces traffic, it doesn't remove capacity limits.
 - **FPGA is several times less efficient than a custom chip**; full benefits need silicon.
 - **New risks we introduce**: event-queue load imbalance, hash-table capacity/collisions, wrong "habits" in skill memory (handled by audits), and confidence gates that are miscalibrated (handled by thresholds tuned on held-out data).
 
-## 3. SPARK core block diagram
+## 3. L core block diagram
 
 ```
-                ┌──────────────────────── SPARK CORE ─────────────────────────┐
+                ┌──────────────────────── L CORE ─────────────────────────┐
  byte in ──────►│ [Input encoder]                                              │
                 │       │                                                      │
                 │       ▼                                                      │

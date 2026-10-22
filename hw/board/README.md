@@ -1,4 +1,4 @@
-# SPARK on the Tang Nano 20K: board bring-up and power measurement
+# L on the Tang Nano 20K: board bring-up and power measurement
 
 This folder puts `rtl/spark_core.v` on a Sipeed Tang Nano 20K (Gowin GW2AR-LV18QN88C8/I7), drives it over the onboard USB-UART, and measures board power with an ESP32 + INA219 logger.
 
@@ -174,7 +174,7 @@ For a run of `N` tokens lasting `T` seconds, with mean board power `P_run` and i
 
 ---
 
-# SPARK-L (lookup-only core) on the Tang Nano 20K
+# L-lookup (lookup-only core) on the Tang Nano 20K
 
 This section is for the lookup-only core `rtl/lookup/spark_lookup2.v`: no matrices, no multipliers, no weights.
 It uses the same pins as above: `tangnano20k.cst` works unchanged, and its TODO lines still need checking against the Sipeed wiki.
@@ -220,7 +220,7 @@ It uses the same pins as above: `tangnano20k.cst` works unchanged, and its TODO 
    - It should report about 11,000 bytes/s, which is the UART limit. The core itself runs at about 5 cycles per byte.
 4. **If nothing answers:** check the pin TODOs in `tangnano20k.cst` (UART pins 69/70, and the reset-button polarity).
 
-# SPARK Cortex (the brain core that keeps learning) on the Tang Nano 20K
+# L Cortex (the brain core that keeps learning) on the Tang Nano 20K
 
 Files: `cortex_board_top.v` (top, same pins as above, so `tangnano20k.cst` works unchanged), `../rtl/cortex/cortex_core.v`
 (core), `uart_rx.v`, `uart_tx.v`. Host: `cortex_host.py`. Checks: `check_cortex_board.py` (UART-level testbench vs

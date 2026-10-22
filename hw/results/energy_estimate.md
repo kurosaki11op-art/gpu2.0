@@ -1,4 +1,4 @@
-# SPARK energy per token — MODELLED from MEASURED operation counts
+# L energy per token — MODELLED from MEASURED operation counts
 
 Operation counts come from the bit-exact golden model (the RTL matches it with 0 mismatches): which stages run
 per token, how many input events each stage processes (weight words read, multiply-accumulates) and the
@@ -30,7 +30,7 @@ conservative), 20 pJ per token for recall. Script: `hw/energy/energy_model.py`. 
 ## Water (PROJECTED)
 Data-centre cooling water scales with the energy that becomes heat, so a 2.5–7.9× energy cut per token is a
 60–87% cut in cooling water per token at the same water-use efficiency. This is a proportional projection,
-not a measurement, and assumes SPARK-style processing at data-centre scale.
+not a measurement, and assumes L-style processing at data-centre scale.
 
 ## Limits
 - Baseline is our own core in dense mode, not a GPU.

@@ -1,4 +1,4 @@
-# Parallel "thought branches" in SPARK: what we can build and prove, and what we cannot
+# Parallel "thought branches" in L: what we can build and prove, and what we cannot
 
 Responds to the "System 2 / AGI substrate" brief. Labels: MEASURED / SIMULATED / ESTIMATED (arithmetic on stated assumptions) / PROJECTED.
 

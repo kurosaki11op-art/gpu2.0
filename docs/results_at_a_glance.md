@@ -1,9 +1,9 @@
 ---
-title: SPARK Cortex results at a glance
+title: L Cortex results at a glance
 tags: [spark, cortex, pitch, summary]
 ---
 
-# SPARK Cortex: results at a glance (15 Oct 2026)
+# L Cortex: results at a glance (15 Oct 2026)
 
 A brain-principled chip that keeps learning after it ships: it senses (eyes, ears), learns each example once without
 backprop, dreams and sleeps to keep what it knew, and copies its knowledge to another chip. No multiplier anywhere.
@@ -51,16 +51,16 @@ MEASURED on hardware yet** (the board run is next: [month 4 plan](month4_board_p
 
 Open and failed items are listed honestly in Q&A 17.
 
-## Update 20 Oct, night (MEASURED GPU ruler; SPARK SIMULATED and bit-exact in RTL)
+## Update 20 Oct, night (MEASURED GPU ruler; L SIMULATED and bit-exact in RTL)
 
 | Item | Result |
 |---|---|
-| Small CNN on the same 10,000 training images (MEASURED, a ruler only) | all classes together clothing 88.8, digits 98.55, 20 words 77.05; SPARK one pass 86.55 / 97.47 / about 75 |
-| Learning in stages, no stored examples | SPARK 83.3 / 95.5; the CNN 20 % (naive), 28-32 % with 160 stored images (our memory size), 88 % / 96 % only with 4,000 stored images (24x our memory) |
+| Small CNN on the same 10,000 training images (MEASURED, a ruler only) | all classes together clothing 88.8, digits 98.55, 20 words 77.05; L one pass 86.55 / 97.47 / about 75 |
+| Learning in stages, no stored examples | L 83.3 / 95.5; the CNN 20 % (naive), 28-32 % with 160 stored images (our memory size), 88 % / 96 % only with 4,000 stored images (24x our memory) |
 | Two senses in one chip (picture + sound) | both senses 98.97 vs 97.4 picture alone; sound covers a damaged picture (85 -> 97) |
 | A heard word names pictures, zero picture labels | 89.7, then 93.9 after sleep neighbour cleaning (CNN with the same names: 83.5 / 82.9) |
 | Early exit | clothing reads 58 % of the active bits, digits 29 %, at about the same accuracy |
-| Twin words | not a special weakness (a four-word sample had misled us); SPARK's float readout 68.6 vs the CNN's 65.4 on 35 words |
+| Twin words | not a special weakness (a four-word sample had misled us); L's float readout 68.6 vs the CNN's 65.4 on 35 words |
 | Failed or traded off (see [journal](journal.md)) | about 25 ideas for the staged-learning loss, richer codes, deeper layers and sound timing: none passed the no-regression rule |
 | Sensory node RTL | retina + cochlea into one core, neighbour unit, class-score port, pooling unit: all bit-exact; the whole sleep-cleaning loop runs on the chip's own parts ([details](../hw/results/sensory_node.md)) |
 | Zero-label learning (SIMULATED) | a heard word names pictures: 92.3 -> 96.9 after sleep cleaning (labelled 97.4); clothing with a simulated 60-73 %-right name source 85.2-85.4 (labelled 86.55) |

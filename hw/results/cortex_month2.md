@@ -1,9 +1,9 @@
 ---
-title: SPARK Cortex month 2 results
+title: L Cortex month 2 results
 tags: [spark, cortex, results]
 ---
 
-# SPARK Cortex month 2: memory shrunk to chip size, one rule for every task
+# L Cortex month 2: memory shrunk to chip size, one rule for every task
 
 All numbers SIMULATED on the **exact integer chip model** (`hw/brain/cortex_int.py`), which the RTL matches bit for
 bit (`hw/rtl/cortex/run_check_cortex.py`, 0 mismatches) and which the board design matches over UART
@@ -65,5 +65,5 @@ FPGA synthesis of the core (yosys, GW2AR-18, image size, before place and route)
 6. Time on the board (ESTIMATED from the RTL cycle counts at 27 MHz): about 1 ms per dream, 1-2 minutes for a full
    night; learning over UART at 115,200 baud is ~50 ms per example (the host link, not the core, is the bottleneck).
 
-Related: [Month-2 log](cortex_month2_log.md), [Month 1](cortex_month1.md), [SPARK Cortex redesign](../../docs/cortex_redesign.md),
+Related: [Month-2 log](cortex_month2_log.md), [Month 1](cortex_month1.md), [L Cortex redesign](../../docs/cortex_redesign.md),
 [Brain code](../brain/README.md), [Results index](INDEX.md)

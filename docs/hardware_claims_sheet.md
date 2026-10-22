@@ -1,4 +1,4 @@
-# SPARK hardware — claims sheet for the pitch
+# L hardware — claims sheet for the pitch
 
 Labels: **MEASURED** (our RTL simulation, synthesis/place-and-route, or golden-model evaluation, which is bit-exact with the RTL; watts not yet) · **SIMULATED** (switching-activity power simulation of the real RTL) · **CITED** (published source) · **MODELLED** (calculation with stated assumptions) · **VISION** (proposal, not built).
 
@@ -57,4 +57,4 @@ Sources: `hw/results/model_accuracy.md` (trained model), `hw/results/sim_results
 | "What's novel vs Loihi / NorthPole?" | A brain-like language model co-designed with its chip: recall unit, adaptive think-less controller and event-driven engine, with measured accuracy and a measured accuracy–sparsity trade-off. |
 
 ## 6. Vision claims (label as VISION)
-SPARK as a chiplet beside a GPU; many tiles on an on-chip spike network; stacked SRAM; near-threshold "instinct" mode; warm-water closed-loop cooling; long-term analog in-memory, photonic and reversible logic. See `docs/spark_full_stack_hardware_proposal.md`.
+L as a chiplet beside a GPU; many tiles on an on-chip spike network; stacked SRAM; near-threshold "instinct" mode; warm-water closed-loop cooling; long-term analog in-memory, photonic and reversible logic. See `docs/spark_full_stack_hardware_proposal.md`.

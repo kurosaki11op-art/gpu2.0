@@ -1,5 +1,5 @@
 ---
-title: SPARK Cortex, new conditions for known classes
+title: L Cortex, new conditions for known classes
 tags: [spark, cortex, results, limits]
 ---
 

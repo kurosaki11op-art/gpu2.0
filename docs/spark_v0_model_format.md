@@ -1,6 +1,6 @@
-# SPARK core v0 — trained model format and exact integer semantics
+# L core v0 — trained model format and exact integer semantics
 
-Any model loaded into SPARK core v0 must match this architecture and these integer rules exactly. The reference implementation is `hw/golden/spark_golden.py`; the RTL is bit-exact with it.
+Any model loaded into L core v0 must match this architecture and these integer rules exactly. The reference implementation is `hw/golden/spark_golden.py`; the RTL is bit-exact with it.
 
 ## Architecture (fixed sizes in v0)
 | Name | Shape | Meaning |
@@ -37,7 +37,7 @@ For input byte `b` (all integers; `>>` is arithmetic shift, floor):
 Change-only, adaptive, recall and energy-cap modes change **how much work** is done; with no cap they produce the same accumulators as normal mode (the recall bypass and early exit change which path answers).
 
 ## Accumulator range
-SPARK v0 uses 16-bit accumulators. With int4 weights and spikes (|w| ≤ 8, |s| ≤ 8) the worst case is 128 × 8 × 8 = 8,192, so overflow is impossible by construction.
+L v0 uses 16-bit accumulators. With int4 weights and spikes (|w| ≤ 8, |s| ≤ 8) the worst case is 128 × 8 × 8 = 8,192, so overflow is impossible by construction.
 
 ## How to load trained weights
 ```

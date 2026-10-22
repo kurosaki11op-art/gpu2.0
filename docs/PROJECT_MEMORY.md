@@ -1,8 +1,13 @@
-# SPARK: project memory (read this first)
+# L: project memory (read this first)
 
 The single place that remembers the whole project. Every session reads it first and updates it after every
 experiment, decision or change of direction. The step-by-step record is `docs/journal.md`.
-Last updated: 2026-10-19.
+Last updated: 2026-10-22.
+
+## 0. Direction change (22 Oct 2026)
+
+- The project is renamed **L** (was SPARK). In the documents "SPARK" now reads "L"; code, board, KiCad and file names keep the `spark_` prefix so nothing breaks (for example `hw/board/spark_board_top.v`, `hw/golden/spark_golden.py`, `docs/SPARK_Cortex_pitch.pptx`, whose slides still say SPARK until the deck is rebuilt).
+- Two workstreams: (1) **L Cortex**, the counting chip (everything below, 35 RTL checks pass); (2) the **L accelerator**, a dedicated chip for the L language model (attention-free, delta-rule fast weights, integer spikes, hash recall, ternary option) as the alternative to a GPU: first review in [L accelerator design](L_accelerator_design.md) (inference on the chip, training on a GPU; stage 0 = fused GPU baseline, stage 1 = bit-exact integer simulator with energy model, stage 2 = FPGA, stage 3 = silicon). Rule change for workstream 2 only: ternary add-only matrix-vector units are allowed; L Cortex keeps its brain rules. Money: the founder cannot pay for fabrication or a larger board now, so everything runs in simulation first.
 
 ## 1. Who and what
 
@@ -12,7 +17,7 @@ Last updated: 2026-10-19.
 - **Hardware the team owns:** Sipeed Tang Nano 20K (Gowin GW2AR-18: 20,736 LUT4, 15,552 FF, 46 x 18 Kbit block RAM
   (about 103 KB), plus 64 Mbit (8 MB) PSRAM in the package). A Windows PC with an NVIDIA GPU (runs Ollama and
   Hugging Face models; small GPU memory, so 1.5B-3B models fit and larger ones spill to CPU).
-- **Project name:** SPARK. Current design: **SPARK Cortex**, a brain-principled chip that keeps learning after it ships.
+- **Project name:** L. Current design: **L Cortex**, a brain-principled chip that keeps learning after it ships.
 
 ## 2. Standing rules from the user (never break these)
 
@@ -45,20 +50,20 @@ Last updated: 2026-10-19.
 
 ## 3. History: the three phases
 
-### Phase A (9-13 Oct): SPARK v1/v2, a small brain-inspired language chip that helps a GPU
+### Phase A (9-13 Oct): L v1/v2, a small brain-inspired language chip that helps a GPU
 - Spiking-style recurrent byte model + recall memory, RTL, golden model, Tang Nano 20K bitstream (fits, 54 MHz),
   SKY130 ASIC flow (synthesis, OpenROAD, gate-level sim 0 mismatches, chip top with UART), KiCad boards, 3D model,
   power simulation (2.4-6.2x less energy per byte vs dense, SIMULATED), pitch deck.
 - Modes tested with a GPU: answer mode, router, draft (speculative decoding) mode.
 - **Key MEASURED results (real models on the user's PC):** qwen3.5:9b draft mode 1.51 tokens per big-model pass
-  (lossless); answer mode safe on only ~6% of tokens; router unusable. Test 3: copy drafting 2.12, SPARK 1.58,
+  (lossless); answer mode safe on only ~6% of tokens; router unusable. Test 3: copy drafting 2.12, L 1.58,
   multi 2.17 (9B); multi 2.28 on 3B, ~0.14 J/token ESTIMATED.
 - Helper ideas tested and mostly failed: training-data filter (no gain over random), context compression (loses to
   plain), copy-failure retraining (+0.3-0.4 pt, marginal), activation-sparsity predictor (far from oracle on 3B).
 - Files: `docs/spark_architecture.md`, `docs/spark_ai_development_positioning.md`, `hw/results/*` (many),
   `hw/rtl`, `hw/asic`, `hw/board`, `hw/system`.
 
-### Phase B (12-14 Oct): matrix-free lookup core (SPARK-L)
+### Phase B (12-14 Oct): matrix-free lookup core (L-lookup)
 - User asked to remove maths and matrices. Hashed lookup tables + 2-bit counters (CRC hash, XOR/shift only) matched
   the network on byte prediction; paired bootstrap: the network adds only +0.6 to +1.2 points. An earlier "network
   adds ~3 points" claim was a weak-hash artifact and was withdrawn.
@@ -69,13 +74,13 @@ Last updated: 2026-10-19.
   vs 2.21). **Chat model (Qwen2.5-1.5B-Instruct):** code 1.70, prose **1.04**. The prose gain was the base model
   repeating itself. Conclusion: a drafting helper cannot be the project.
 
-### Phase C (14 Oct onward): SPARK Cortex, the redesign
+### Phase C (14 Oct onward): L Cortex, the redesign
 - Trigger: the 1.04 result + the user's demand for something big, brain-only, provable in 6-8 months.
 - Idea: today's AI is trained once and frozen; a brain keeps learning, does not forget, needs no data centre.
-  SPARK Cortex keeps learning on the chip, never forgets, and chips can merge their knowledge.
+  L Cortex keeps learning on the chip, never forgets, and chips can merge their knowledge.
 - Plan and status: `docs/cortex_redesign.md`.
 
-## 4. SPARK Cortex: how it works (current design, month 2-3, in the chip)
+## 4. L Cortex: how it works (current design, month 2-3, in the chip)
 
 | Part | Brain principle | What it does | Code / RTL |
 |---|---|---|---|
@@ -95,7 +100,7 @@ Last updated: 2026-10-19.
 
 Arithmetic: compare, count, add, shift, XOR, table lookup. No multiplier, no divider, no backprop (also true in RTL).
 
-## 5. SPARK Cortex results so far (all SIMULATED)
+## 5. L Cortex results so far (all SIMULATED)
 
 First proof (`hw/results/cortex_proof.md`): learning in 5 stages, digits 95.6% vs network 19.5% (replay 51.6%);
 exact merge; few-shot worse than the network.
@@ -209,7 +214,7 @@ New spoken words (20 Oct, `hw/brain/experiments/month4/multiproto_dreams.md` sec
    new class from a few examples (digits 1 example 54.1 -> 69.9, clothing 49.7 -> 64.0); see
    `hw/brain/experiments/month4/fewshot_imprint.md`. Board testing set aside by the user.
 5. Month 5, two boards learn separately and merge memories; also try the hand-over (`cortex_transfer.py --handover`), which beats the merge in simulation (+7.3 on sound).
-6. Month 6, sequence memory (the SPARK-L lookup core) joins for live streams.
+6. Month 6, sequence memory (the L lookup core) joins for live streams.
 7. Months 7-8, SKY130 area/power estimates (no fabrication), write-up, demo video, pitch. Started early: synthesis,
    placement, clock tree, global routing, clock gating; ~0.18-0.26 uJ per decision, 45-62 uJ per learned example
    (digits); detailed routing: converged 16 Oct to **1 violation** (from 174,309) after spreading the cells (placement density 0.15) and moving the met5 power stripes away from the SRAM macro edges; see `hw/results/cortex_asic_estimate.md`.
@@ -235,7 +240,7 @@ Isolation: blocked classes with no dreams 44.8 clothing, shipped staged 83.3, re
 
 ## Kept: measured GPU comparison and two-sense learning (20 Oct 2026 night, SIMULATED unless MEASURED)
 
-Same-data reference (MEASURED, a small CNN trained on the same 10,000 / 2,000 images; a ruler only, never in the chip): clothing joint 88.8 vs SPARK one-pass 86.55; digits 98.55 vs 97.47; 20 words 77.05 vs 73.35 (staged). Staged, the CNN collapses (about 20 % without help; with 160 stored images 28-32 %; it needs about 4,000 stored images, 24x the chip's memory, to reach 87.8 / 95.9 vs SPARK 83.3 / 95.5 with no stored data). Twin words are NOT a special gap (corrected 20 Oct night: the 20-word set has only 4 twin words; on 35 words SPARK's float readout 68.6 vs CNN 65.4 on twin words); the real word gap is the staged loss (chip 73.35 / 68.3 vs its float readout 79.95 / 73.8).
+Same-data reference (MEASURED, a small CNN trained on the same 10,000 / 2,000 images; a ruler only, never in the chip): clothing joint 88.8 vs L one-pass 86.55; digits 98.55 vs 97.47; 20 words 77.05 vs 73.35 (staged). Staged, the CNN collapses (about 20 % without help; with 160 stored images 28-32 %; it needs about 4,000 stored images, 24x the chip's memory, to reach 87.8 / 95.9 vs L 83.3 / 95.5 with no stored data). Twin words are NOT a special gap (corrected 20 Oct night: the 20-word set has only 4 twin words; on 35 words L's float readout 68.6 vs CNN 65.4 on twin words); the real word gap is the staged loss (chip 73.35 / 68.3 vs its float readout 79.95 / 73.8).
 Two senses (kept as a separate capability, no change to the baselines): picture + sound in one table 98.33 vs 97.40 picture alone; a damaged picture is covered by sound (97.28 vs 85.4); with ZERO picture labels, names from an ear that is right on 73.5 % of unfamiliar speakers give 89.7, and sleep-time neighbour cleaning lifts that to 93.9 (true labels 97.40). Cost: the sound code adds 23,040 bits to the table. Scripts `brain_strict_twosense.py`, `brain_strict_twosense2.py`; data: FSDD downloaded with `fsdd_prep.py`.
 
 Hard-example replay (20 Oct night, SIMULATED): NOT adopted. Its apparent +1.0 on clothing came from nights cut short by the stop rule; with consolidation made reliable clothing is 82.4 vs 83.2 shipped (digits +0.7, words +1.8 stay). Learned: the night's job is letting the slow table follow the fast one; dream replays almost never write; with about 1,000 stored traces per class staged equals one-pass (about 4 MB).
@@ -250,5 +255,5 @@ Weak-spot round (20 Oct night, SIMULATED unless marked): A the two-sense result 
 - Data folders live in a session scratchpad and are NOT in the repo: MNIST / Fashion / speech frame sums (`speech_framesums_int.npz`), `fsdd_framesums_int.npz` (made by `hw/brain/experiments/month4/fsdd_prep.py`, source raw.githubusercontent.com), `word_codes_*.npz` (made by `save_word_codes.py` / `save_word_codes_geom.py DATA 3,3,1,1,4,4,64 geom3311`). A new session must re-fetch them; the original speech source host was `download.tensorflow.org` (blocked unless added under Allowed domains, applies to new sessions).
 - Open work: larger base vocabulary for new spoken words (needs the bigger speech set; 1-shot new words ~15 %, 5-shot 44.7 %, SIMULATED); embedding path with the finer sound grid through the RTL; finer-grid noise check; re-run `hw/run_all_checks.sh` (expect 24 checks); floor2g routing result (met1-met4 attempt; run `diag/drc_summary.py`, not recorded yet); board day on the user's PC.
 
-Related: [Home](../README.md), [Journal](journal.md), [SPARK Cortex redesign](cortex_redesign.md),
+Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

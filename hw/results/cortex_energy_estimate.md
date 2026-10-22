@@ -1,9 +1,9 @@
 ---
-title: SPARK Cortex energy estimate
+title: L Cortex energy estimate
 tags: [spark, cortex, results, energy]
 ---
 
-# SPARK Cortex energy per decision and per learning step (ESTIMATED)
+# L Cortex energy per decision and per learning step (ESTIMATED)
 
 Script: `hw/brain/energy_cortex.py`; numbers `cortex_energy_estimate.json`. Operation counts come from the design
 (active code bits measured on the digit test images: 246 on average; memory words from the RTL). Energy per operation
@@ -11,7 +11,7 @@ from Horowitz, ISSCC 2014 (45 nm): 8-bit add 0.03 pJ, 32-bit add 0.1 pJ, 8-bit m
 float multiply 3.7 pJ, 64-bit SRAM read 10 pJ (8 KB) / 20 pJ (32 KB) / 100 pJ (1 MB). These are estimates for a custom
 chip, not FPGA numbers and not measurements. Board power is measured in month 4.
 
-| | SPARK Cortex | Neural network 784-256-10 | Ratio |
+| | L Cortex | Neural network 784-256-10 | Ratio |
 |---|---|---|---|
 | One decision | **9.4 nJ** (4.2 sensing + 5.2 deciding) | 696 nJ (8-bit weights) / 11,100 nJ (float) | **~74x** (vs 8-bit) |
 | Learning one real example | 29 nJ (sense, count, decide, update) | 33,300 nJ per example per training pass (float, forward + backward + update) | ~1,100x per pass |

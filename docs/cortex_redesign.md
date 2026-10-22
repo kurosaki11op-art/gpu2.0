@@ -1,4 +1,4 @@
-# SPARK redesign: SPARK Cortex, a chip that learns like a brain
+# L redesign: L Cortex, a chip that learns like a brain
 
 Decided 14 Oct 2026. Replaces the "drafting helper for GPUs" direction. Why: with a chat model, lookup drafting
 gave 1.04 tokens per pass on prose and 1.7 on code (`hw/results/token_lookup_real.md`), and the chip could answer
@@ -7,12 +7,12 @@ on its own only about 6% of the time. A helper that wins at the margins is not t
 ## The idea in one line
 
 Today's AI is trained once on GPUs and then frozen. A brain never stops learning, never needs a data centre to
-learn, and does not forget yesterday when it learns today. **SPARK Cortex is a chip that keeps learning after it
+learn, and does not forget yesterday when it learns today. **L Cortex is a chip that keeps learning after it
 ships, with brain principles only: no matrices, no multiplies, no backprop.**
 
 ## Brain principles used (and nothing else)
 
-| Brain | SPARK Cortex | Hardware |
+| Brain | L Cortex | Hardware |
 |---|---|---|
 | Receptors fire or stay quiet | inputs become on/off spikes (brightness thresholds) | comparators |
 | Neurons with local receptive fields | each feature detector sees a 5x5 patch | wires |
@@ -26,7 +26,7 @@ ships, with brain principles only: no matrices, no multiplies, no backprop.**
 
 ## Which AI problems it targets
 
-| Problem | Today | SPARK Cortex (status 15 Oct 2026) | Label |
+| Problem | Today | L Cortex (status 15 Oct 2026) | Label |
 |---|---|---|---|
 | Training cost | backprop on GPUs, many passes | counting on the chip, each example seen once; senses learned on chip without labels (`ENC_LEARN`, 94.5 / 80.0 vs 95.0 / 79.2 with PC detectors) | SIMULATED |
 | Forgetting | a network keeps ~20% after 5 learning stages | 5 stages: digits 94.6, clothing 78.3, sound 71.2 (with the cochlea noise floor) vs network 19.5 / 20.0 / 15.9; new conditions of known classes: context memory 85% vs 45% (in RTL) | SIMULATED |

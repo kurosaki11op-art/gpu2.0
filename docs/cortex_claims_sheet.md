@@ -1,9 +1,9 @@
 ---
-title: SPARK Cortex claims sheet
+title: L Cortex claims sheet
 tags: [spark, cortex, pitch]
 ---
 
-# SPARK Cortex claims sheet (15 Oct 2026)
+# L Cortex claims sheet (15 Oct 2026)
 
 One line per claim: what we can say, the number, its label, where it comes from, and the caveat to say with it.
 MEASURED = real hardware; SIMULATED = our model or chip simulation; ESTIMATED = arithmetic on stated assumptions.

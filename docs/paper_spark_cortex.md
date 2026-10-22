@@ -1,15 +1,15 @@
 ---
-title: "SPARK Cortex: a brain-principled chip that keeps learning after it ships"
+title: "L Cortex: a brain-principled chip that keeps learning after it ships"
 date: 2026-10-18
 tags: [paper, cortex, pitch]
 ---
-# SPARK Cortex: a brain-principled chip that keeps learning after it ships
+# L Cortex: a brain-principled chip that keeps learning after it ships
 
 L Lawliet (Navin, CKCET). Short paper for the 23 October event. Labels: SIMULATED = our exact integer chip model or RTL simulation; ESTIMATED = layout tools or arithmetic on stated assumptions; **nothing is MEASURED on hardware yet**.
 
 ## Abstract
 
-Neural networks forget earlier classes when they learn new ones, so a deployed network is retrained from scratch, which costs energy and hardware. We present SPARK Cortex, a small chip design that follows brain principles: sparse senses that learn without labels, one-pass learning by counting into a 5-bit table, sleep in which old classes are replayed from 10-bit counters instead of stored examples, and knowledge transfer between chips by adding counters. It uses no multiplier, no matrix product and no backpropagation. In the exact integer model, after five stages of new classes it keeps 95.8% (digits), 78.3% (clothing) and 82.9% (spoken words), where a network that fine-tunes at each stage keeps 19.5%, 20.0% and 15.9%. Learning everything at once, an optional slow second table (an ASIC build option) lifts it level with a small network: digits 98.4 vs 97.8, clothing 88.3 vs 87.3, words 87.5 vs 85.5 (5 seeds, SIMULATED); in stages clothing rises from 78.4 to 81.6; without it clothing trails by 2.5 points. The RTL is bit-exact with the model (21 checks), the base design fits a $25 FPGA in place and route, and a SKY130 layout estimate ends at one remaining routing violation.
+Neural networks forget earlier classes when they learn new ones, so a deployed network is retrained from scratch, which costs energy and hardware. We present L Cortex, a small chip design that follows brain principles: sparse senses that learn without labels, one-pass learning by counting into a 5-bit table, sleep in which old classes are replayed from 10-bit counters instead of stored examples, and knowledge transfer between chips by adding counters. It uses no multiplier, no matrix product and no backpropagation. In the exact integer model, after five stages of new classes it keeps 95.8% (digits), 78.3% (clothing) and 82.9% (spoken words), where a network that fine-tunes at each stage keeps 19.5%, 20.0% and 15.9%. Learning everything at once, an optional slow second table (an ASIC build option) lifts it level with a small network: digits 98.4 vs 97.8, clothing 88.3 vs 87.3, words 87.5 vs 85.5 (5 seeds, SIMULATED); in stages clothing rises from 78.4 to 81.6; without it clothing trails by 2.5 points. The RTL is bit-exact with the model (21 checks), the base design fits a $25 FPGA in place and route, and a SKY130 layout estimate ends at one remaining routing violation.
 
 ## 1. Problem
 

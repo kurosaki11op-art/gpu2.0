@@ -3,7 +3,7 @@
 What was built, what it measured, and what it still lacks. Numbers are labelled SIMULATED (software model of the chip), MEASURED (software run of an ordinary network, used only as a ruler) or bit-exact (RTL simulation equals the model, 0 mismatches). Journal entries: [journal](../../docs/journal.md) (20 Oct 2026, night).
 
 ## The idea
-A brain senses with eyes and ears and combines them: a heard word can name a seen thing (no teacher), and one sense covers for the other. SPARK now has a retina and a cochlea feeding **one** table. A picture alone, a sound alone, or both work; the sound bits keep a fixed offset in the list.
+A brain senses with eyes and ears and combines them: a heard word can name a seen thing (no teacher), and one sense covers for the other. L now has a retina and a cochlea feeding **one** table. A picture alone, a sound alone, or both work; the sound bits keep a fixed offset in the list.
 
 ## What is in the chip (RTL)
 | Part | File | Check (bit-exact) |
@@ -22,7 +22,7 @@ All are in `hw/run_all_checks.sh`. The grouping step (competitive learning for l
 A smaller sound code works as well as the big one (SIMULATED, [soundsize log](../../hw/brain/experiments/month4/brain_strict_soundsize.log)): 4 channels x 32 detectors = 4,608 sound bits give both-senses accuracy 98.97 against 98.33 for 10 x 64 (23,040 bits). The two-sense table is then 9,216 bits, about 2x the one-sense chip (129 KB for 4,608 bits), not 6x.
 
 ## Results (SIMULATED unless marked; MNIST digits + FSDD spoken digits; one pass, margin 256 / 1,500 dreams / 1 night; CNN rows MEASURED)
-| Test | SPARK | small CNN (ruler, never in the chip) |
+| Test | L | small CNN (ruler, never in the chip) |
 |---|---|---|
 | picture learner, true labels | 97.40 | 98.52 |
 | both senses in one table (labelled pairs) | 98.97 (4 x 32 sound code) | 99.45 |
@@ -30,7 +30,7 @@ A smaller sound code works as well as the big one (SIMULATED, [soundsize log](..
 | picture 25 % damaged, no sound | 85.4 | 80.8 |
 | **zero picture labels**: the ear (right on 72-74 % of unfamiliar speakers) names the pictures | **89.67** | 83.45 |
 | zero picture labels + cleaning | **93.88** (sleep neighbour pooling, names 95 % right) | 82.87 (self-training) |
-With labels the CNN is 0.5-1 point ahead; with **no picture labels SPARK is ahead by 10 points**, because sleep-time neighbour pooling cleans the ear's noisy names, whereas the CNN's self-training reinforces its own mistakes. Damage was not identical (25 % of lit pixels for the CNN, 25 % of active code bits for SPARK).
+With labels the CNN is 0.5-1 point ahead; with **no picture labels L is ahead by 10 points**, because sleep-time neighbour pooling cleans the ear's noisy names, whereas the CNN's self-training reinforces its own mistakes. Damage was not identical (25 % of lit pixels for the CNN, 25 % of active code bits for L).
 
 ## Second dataset pair (SIMULATED, 3 seeds)
 MNIST pictures + Speech Commands spoken digits (many speakers, varied microphones): ear alone on unseen speakers 75.6, its names 72.5 % right; picture learner true labels 97.40; **zero picture labels 92.30 as given, 96.93 after sleep cleaning** (names 98.1 % right); both senses 98.87; picture 25 % damaged + sound 98.42 (87.15 without sound). See the [journal](../../docs/journal.md).
@@ -46,7 +46,7 @@ The chip knows digits 0-7 (picture + sound) and sees an unlabelled stream where 
 
 ## Limits
 - SIMULATED model plus RTL simulation; nothing measured on silicon or the board.
-- Two dataset pairs (MNIST + FSDD spoken digits, MNIST + Speech Commands digits); 2 seeds for the CNN rows, 3 seeds for SPARK.
+- Two dataset pairs (MNIST + FSDD spoken digits, MNIST + Speech Commands digits); 2 seeds for the CNN rows, 3 seeds for L.
 - The ear for the zero-label test was trained on 3 speakers and the paired clips come from 2 others; test speaker is a sixth.
 - The grouping step (k-means for the label-free categories) is not in RTL; the buffer is 64 pictures (K = 8); the all-pairs overlap grows with the square of the buffer.
 - The sound path needs the cochlea RTL and its detectors loaded (`tma_*`), like the one-sense sound chip.

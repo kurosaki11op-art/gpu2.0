@@ -1,4 +1,4 @@
-# SPARK core v0 — working RTL
+# L core v0 — working RTL
 
 An event-driven, "think-less" inference core for a small L-style spiking model, written in Verilog, verified bit-exact against a Python reference model, and synthesised for the Tang Nano 20K FPGA (Gowin GW2AR-18).
 

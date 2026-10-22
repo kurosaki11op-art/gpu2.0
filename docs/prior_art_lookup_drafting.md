@@ -37,4 +37,4 @@ Discrepancy between the two answers: one quotes "10.41x" for SuffixDecoding on A
 
 ## Next test (written, needs your PC)
 
-`hw/system/token_lookup_test.py` measures MAT on a real model for code and prose, for prompt lookup, hashed tables with hysteresis counters (the SPARK-L design at token level) and both together. Plumbing and the simulation logic are checked on synthetic streams here (perfect repetition 8.3, random 1.0); the real numbers need a model.
+`hw/system/token_lookup_test.py` measures MAT on a real model for code and prose, for prompt lookup, hashed tables with hysteresis counters (the L-lookup design at token level) and both together. Plumbing and the simulation logic are checked on synthetic streams here (perfect repetition 8.3, random 1.0); the real numbers need a model.

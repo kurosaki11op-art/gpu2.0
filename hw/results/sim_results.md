@@ -1,4 +1,4 @@
-# SPARK core v0 — simulation results (MEASURED in RTL simulation)
+# L core v0 — simulation results (MEASURED in RTL simulation)
 
 Input: 527 bytes (built-in Python-like text with repeated passages). Weights: random sparse int4 demo weights (not trained).
 Every configuration is checked token-by-token against the bit-exact golden model (prediction, path and per-stage event counts).

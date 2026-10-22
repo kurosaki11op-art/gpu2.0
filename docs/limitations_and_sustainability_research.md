@@ -18,7 +18,7 @@ Status labels: ✔ peer-reviewed or primary source · ⚠ vendor, secondary or n
 | Most queries don't need the big model | Router kept 95% of GPT-4 quality sending only **14–26%** of queries to it; cost −85% (MT-Bench), −45% (MMLU), −35% (GSM8K) | ✔ [RouteLLM, LMSYS 2024](https://lmsys.org/blog/2024-07-01-routellm/) |
 | Energy of one chat prompt today | Gemini median **0.24 Wh, 0.26 mL water**; ChatGPT ~**0.3 Wh** (Epoch), 0.34 Wh (OpenAI) | ⚠ [Google via DCD](https://www.datacenterdynamics.com/en/news/google-median-gemini-prompt-uses-024-watt-hours-of-power-and-consumes-026ml-of-water/); [Epoch AI](https://epoch.ai/gradient-updates/how-much-energy-does-chatgpt-use) |
 
-**Takeaway:** one prompt is small; billions a day are not. Today neither the models (fixed depth, long reasoning) nor the hardware (dense, batch-oriented) can cheaply scale effort **down** for easy inputs. SPARK's rule: **effort proportional to difficulty.**
+**Takeaway:** one prompt is small; billions a day are not. Today neither the models (fixed depth, long reasoning) nor the hardware (dense, batch-oriented) can cheaply scale effort **down** for easy inputs. L's rule: **effort proportional to difficulty.**
 
 ---
 
@@ -131,12 +131,12 @@ Status labels: ✔ peer-reviewed or primary source · ⚠ vendor, secondary or n
 | Waste-heat reuse (district heating) | Viable; 0.6–7.3% operating cost saving in an Espoo case | ✔ [UPC/TU Wien](https://repositum.tuwien.at/handle/20.500.12708/208093?mode=full) |
 | AI water footprint | GPT-3 training ~700,000 L directly evaporated; global AI 4.2–6.6 billion m³ withdrawal projected in 2027 | ✔ [Li et al., arXiv 2304.03271](https://arxiv.org/abs/2304.03271v2) |
 
-**Where SPARK fits:** facilities remove heat better; schedulers move it to better places and times; SPARK **removes the heat at the source** by not doing unnecessary computation. These stack.
+**Where L fits:** facilities remove heat better; schedulers move it to better places and times; L **removes the heat at the source** by not doing unnecessary computation. These stack.
 
 ---
 
-## 6. SPARK + L: limitation → mechanism → what we measure
-| Limitation | SPARK/L mechanism | Metric on the prototype |
+## 6. L + L: limitation → mechanism → what we measure
+| Limitation | L/L mechanism | Metric on the prototype |
 |---|---|---|
 | Same effort for 2+2 as for hard input | Confidence-gated depth (early exit), recall-bypass via hippocampus, per-token energy budget | Average layers used per token; energy/token on easy vs hard text |
 | Dense compute of silent neurons | Event-driven sparse engine | Ops/token, sparsity on vs off |

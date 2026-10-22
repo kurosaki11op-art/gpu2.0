@@ -1,9 +1,9 @@
 ---
-title: SPARK Cortex month 3 results
+title: L Cortex month 3 results
 tags: [spark, cortex, results, rtl]
 ---
 
-# SPARK Cortex month 3: from simulation to a placed-and-routed chip design
+# L Cortex month 3: from simulation to a placed-and-routed chip design
 
 Month 3 of the plan (RTL bit-exact with the model) was reached early, during the night of 14-15 Oct.
 
@@ -61,5 +61,5 @@ violations), CLEAR command (memories can be wiped after a reset).
    energy; clock gating, encoder memories in SRAM and a real switching activity are needed
    ([ASIC estimate](cortex_asic_estimate.md)).
 
-Related: [Month 2 results](cortex_month2.md), [SPARK Cortex vs HDC](cortex_vs_hdc.md), [Energy estimate](cortex_energy_estimate.md),
+Related: [Month 2 results](cortex_month2.md), [L Cortex vs HDC](cortex_vs_hdc.md), [Energy estimate](cortex_energy_estimate.md),
 [Board README](../board/README.md), [Results index](INDEX.md)

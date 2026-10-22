@@ -1,9 +1,9 @@
-# Existing AI/brain chips: how they are built, where they fall short, and SPARK's "think less, work less" design
+# Existing AI/brain chips: how they are built, where they fall short, and L's "think less, work less" design
 
 ## 1. Positioning (fixed)
-SPARK does **not** replace the GPU. It is an **efficiency co-processor** that sits next to (and later inside) a GPU system and takes over the work GPUs do badly: sparse, recurrent, memory-heavy, brain-like inference. The GPU keeps training and dense maths.
+L does **not** replace the GPU. It is an **efficiency co-processor** that sits next to (and later inside) a GPU system and takes over the work GPUs do badly: sparse, recurrent, memory-heavy, brain-like inference. The GPU keeps training and dense maths.
 
-Precedent: Google did exactly this inside TPU v4. Its systolic array is poor at sparse, irregular lookups, so Google added a small **SparseCore** that speeds embedding-heavy models **5–7× using ~5% of die area and power** ([TPU v4 paper, arXiv 2304.01433](https://arxiv.org/pdf/2304.01433)). SPARK is the same move for brain-like AI.
+Precedent: Google did exactly this inside TPU v4. Its systolic array is poor at sparse, irregular lookups, so Google added a small **SparseCore** that speeds embedding-heavy models **5–7× using ~5% of die area and power** ([TPU v4 paper, arXiv 2304.01433](https://arxiv.org/pdf/2304.01433)). L is the same move for brain-like AI.
 
 ## 2. Existing chips
 
@@ -26,8 +26,8 @@ Precedent: Google did exactly this inside TPU v4. Its systolic array is poor at 
 | **Cerebras WSE-3** | One whole wafer, 44 GB SRAM, ~23 kW, liquid cooled | Extreme heat density; models larger than the wafer go to off-wafer MemoryX ([Introl](https://introl.com/blog/cerebras-wafer-scale-engine-cs3-alternative-ai-architecture-guide-2025)) |
 | **Etched Sohu** | Transformer attention hard-wired in silicon | Lock-in: cannot run RNNs, CNNs or new architectures; no independent benchmarks ([The Register](https://www.theregister.com/2024/06/26/etched_asic_ai/)) |
 
-## 3. Weak points across the whole field = SPARK's opening
-| Gap in existing chips | Evidence | SPARK's answer |
+## 3. Weak points across the whole field = L's opening
+| Gap in existing chips | Evidence | L's answer |
 |---|---|---|
 | **Software gap**: models must be hand-converted or redesigned for each chip | Reviews call it "the primary bottleneck" ([arXiv 2603.26722](https://arxiv.org/pdf/2603.26722)) | Model and chip co-designed: L is trained in PyTorch and exported automatically (integer golden model, test vectors) |
 | **Accuracy gap**: spiking nets trail standard ML | [Frontiers editorial 2024](https://bohrium.dp.tech/paper/arxiv/26422422) | L already beats a same-size transformer at 9M params (to be replicated with 3+ seeds) |
@@ -35,9 +35,9 @@ Precedent: Google did exactly this inside TPU v4. Its systolic array is poor at 
 | **Memory capacity**: on-chip SRAM limits model size | NorthPole, Groq | L's state is constant-size per token (no growing KV cache); only active weight rows are fetched |
 | **Lock-in to one model family** | Etched | Configurable core (layer sizes, neuron rules); FPGA first |
 | **Heat density** | Cerebras 23 kW per wafer | Low activity → low power density by design |
-| **No language-model memory**: no chip combines event-driven compute + fast-weight learning + associative recall for language | None found | SPARK's fast-weight unit + hippocampus unit |
+| **No language-model memory**: no chip combines event-driven compute + fast-weight learning + associative recall for language | None found | L's fast-weight unit + hippocampus unit |
 
-## 4. "Think less, work less, produce more" — SPARK's design rule
+## 4. "Think less, work less, produce more" — L's design rule
 **Do nothing unless something changed, matters, or is new.** Each mechanism is a hardware feature, each needs a matching change in L, and each is proven with an on/off ablation.
 
 | # | Mechanism | What is skipped | Evidence it works | Change needed in L |

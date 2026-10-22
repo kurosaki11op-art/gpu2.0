@@ -1,6 +1,6 @@
-# SPARK chip evaluation board (KiCad 7) — v0.1
+# L chip evaluation board (KiCad 7) — v0.1
 
-Board for the packaged SKY130 SPARK chip (`hw/rtl/spark_chip.v`, QFN-32 package plan in `gen_symbol.py`).
+Board for the packaged SKY130 L chip (`hw/rtl/spark_chip.v`, QFN-32 package plan in `gen_symbol.py`).
 
 - USB-C (J1) → AP2112K-3.3 (U3) → AP2112K-1.8 (U4) → **0.1 Ω shunt (RS1) → chip core rail VCCD**;
   INA219 (U5) measures the chip's own core current and voltage (I2C on J2).
@@ -16,4 +16,4 @@ Board for the packaged SKY130 SPARK chip (`hw/rtl/spark_chip.v`, QFN-32 package 
 | PCB ↔ schematic parity | 168 pads, **0 mismatches** |
 
 60 × 46 mm, 2 layers, Freerouting + GND pours. Chip rails use 0.25 mm tracks to reach the 0.5 mm-pitch QFN pins.
-Limits: the SPARK chip package/pinout is our plan (the die pad ring is not designed yet); not manufactured or tested.
+Limits: the L chip package/pinout is our plan (the die pad ring is not designed yet); not manufactured or tested.

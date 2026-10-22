@@ -1,4 +1,4 @@
-# SPARK core v0 — simulation results (MEASURED in RTL simulation)
+# L core v0 — simulation results (MEASURED in RTL simulation)
 
 Input: 600 bytes (hw/train/out_sparse/sample_eval.txt). Weights: hw/train/out_sparse/spark_v0_model.npz.
 Every configuration is checked token-by-token against the bit-exact golden model (prediction, path and per-stage event counts).

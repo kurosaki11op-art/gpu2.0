@@ -1,4 +1,4 @@
-# SPARK-L: the lookup-only core (RTL sketch, verified in simulation)
+# L-lookup: the lookup-only core (RTL sketch, verified in simulation)
 
 Files: `hw/rtl/lookup/spark_lookup.v` (core), `tb_spark_lookup.v`, `run_check.py`; reference model `hw/system/lookup_ref.py`.
 Why this core exists: `hw/results/matrix_free.md` shows a lookup-and-counter design comes within about 0.6 points (pooled, paired; 1.2 points if the network arbitrates) of the network hybrid on byte prediction, at about 57% of the memory. That is a small gap, not zero.

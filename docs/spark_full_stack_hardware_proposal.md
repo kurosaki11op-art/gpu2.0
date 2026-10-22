@@ -1,15 +1,15 @@
-# SPARK full-stack hardware proposal: a fix for every GPU energy, heat and water problem
+# L full-stack hardware proposal: a fix for every GPU energy, heat and water problem
 
 ## 0. Honest framing (use this in the pitch)
 - Data centres used ~1.5% of world electricity in 2024 (415 TWh) and the IEA projects ~3% (~945 TWh) by 2030; they are <10% of global demand growth to 2030 ([IEA](https://www.iea.org/reports/energy-and-ai/executive-summary), [Sustainability Online](https://sustainabilityonline.net/news/data-centres-to-account-for-3-of-global-electricity-consumption-by-2030/)).
 - The real danger is **local and fast-growing**: grids and water in specific places, like India's capacity rising ~2.2 GW → 12 GW by 2030, many sites in water-stressed regions.
-- **Efficiency alone is not enough** — the rebound (Jevons) effect: cheaper AI drives more AI use ([Luccioni, Strubell, Crawford 2025](https://arxiv.org/abs/2501.16548v1)). So SPARK's principle is not only "do work cheaper" but **"don't do unnecessary work"** (effort proportional to need) plus a hard energy cap per token.
+- **Efficiency alone is not enough** — the rebound (Jevons) effect: cheaper AI drives more AI use ([Luccioni, Strubell, Crawford 2025](https://arxiv.org/abs/2501.16548v1)). So L's principle is not only "do work cheaper" but **"don't do unnecessary work"** (effort proportional to need) plus a hard energy cap per token.
 - Do NOT claim "AI will destroy the world" or "we solve everything". Claim: a measurable, scalable reduction at the source, which stacks with cooling and grid fixes.
 
-## 1. Every GPU problem → SPARK hardware fix (three tiers)
+## 1. Every GPU problem → L hardware fix (three tiers)
 Tiers: **B** = build on the FPGA prototype · **C** = chip proposal (realistic custom silicon) · **R** = long-term research direction.
 
-| # | GPU problem | Root cause | SPARK hardware fix | Tier | Evidence |
+| # | GPU problem | Root cause | L hardware fix | Tier | Evidence |
 |---|---|---|---|---|---|
 | 1 | Computes every value, even zeros | Dense SIMT / lockstep design | Event-driven engine: queue of active neurons only; block-structured spikes for low overhead | B | Event-driven SNN FPGA ~15× ([Sommer](https://arxiv.org/pdf/2203.12437)); S2TA |
 | 2 | Same effort for every token | No hardware notion of difficulty | Metacognitive controller: instinct / flag / deliberate paths, early exit, recall-bypass, power-gates unused units | B | Overthinking, routing studies |
@@ -29,12 +29,12 @@ Tiers: **B** = build on the FPGA prototype · **C** = chip proposal (realistic c
 | 16 | Matrix–vector energy | Digital MACs | Analog in-memory tiles for 4-bit spike layers (9.76 TOPS/W peak, 3–4-bit precision) | R | [IBM HERMES](https://www.arxiv.org/pdf/2212.02872) |
 | 17 | Energy lost on every switch | Irreversible logic | Reversible/adiabatic circuits (2025 proof of concept: ~30% less energy, ~50% recovered) | R | [IEEE Spectrum](https://spectrum.ieee.org/reversible-computing) |
 
-## 2. SPARK at three scales
-1. **SPARK core (FPGA, now):** event-driven engine, membrane unit with lazy decay, change-only spikes, hippocampus recall, confidence gate + early exit, energy cap, clock gating, counters; stretch: learning unit, skill memory, prefetch, hot/cold split.
-2. **SPARK chiplet (custom silicon proposal):** many tiles on an on-chip spike network, stacked SRAM, per-tile voltage/power gating with a near-threshold "instinct" mode, warm-water cooling-ready package, UCIe link to sit beside a GPU.
-3. **SPARK research directions:** clockless tiles, analog in-memory spike layers, photonic links, adiabatic logic.
+## 2. L at three scales
+1. **L core (FPGA, now):** event-driven engine, membrane unit with lazy decay, change-only spikes, hippocampus recall, confidence gate + early exit, energy cap, clock gating, counters; stretch: learning unit, skill memory, prefetch, hot/cold split.
+2. **L chiplet (custom silicon proposal):** many tiles on an on-chip spike network, stacked SRAM, per-tile voltage/power gating with a near-threshold "instinct" mode, warm-water cooling-ready package, UCIe link to sit beside a GPU.
+3. **L research directions:** clockless tiles, analog in-memory spike layers, photonic links, adiabatic logic.
 
-## 3. The physics chain SPARK attacks at each link
+## 3. The physics chain L attacks at each link
 - **Work:** do only needed work (event-driven, think-less, metacognition) → fewer operations.
 - **Joules per operation:** low bits, short wires, memory beside compute, low voltage → fewer joules each.
 - **Idle joules:** gating, energy proportionality → near-zero when nothing happens.

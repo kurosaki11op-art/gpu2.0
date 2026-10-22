@@ -1,4 +1,4 @@
-# SPARK Cortex month 1: closing the accuracy gap (SIMULATED)
+# L Cortex month 1: closing the accuracy gap (SIMULATED)
 
 Goal set in `docs/cortex_redesign.md`: within 3 points of a standard neural network on 3 datasets, still no
 forgetting. Script: `hw/brain/proof_suite_v2.py`; raw numbers `cortex_v2_mnist.json`, `cortex_v2_fashion.json`,
@@ -69,4 +69,4 @@ first proof.
 5. The simulator uses floating point and matrix products to *add* table values quickly; the chip logic is counting,
    comparing and adding. Bit-exact integer RTL is month 3.
 
-Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)
+Related: [L Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)

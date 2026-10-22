@@ -1,4 +1,4 @@
-# SPARK pre-fabrication verification (software only, no silicon)
+# L pre-fabrication verification (software only, no silicon)
 
 Goal: prove the chip works before paying for fabrication. Every level is checked against the Python
 reference model (`hw/golden/spark_golden.py`): same inputs, same weights, the hardware must give the same
@@ -6,12 +6,12 @@ answer for every token. All results are SIMULATED (Icarus Verilog; SkyWater sky1
 
 | # | Design level | Test | Result |
 |---|---|---|---|
-| 1 | SPARK core RTL (FPGA build) | 100 tokens, all effort modes | 0 mismatches |
+| 1 | L core RTL (FPGA build) | 100 tokens, all effort modes | 0 mismatches |
 | 2 | FPGA board top | UART testbench, 40 tokens | PASS |
 | 3 | ASIC core + 44 OpenRAM SRAM macros | memories start unknown; 2 configs × 20 tokens | 0 mismatches |
 | 4 | ASIC core, gate level (101,799 sky130 cells) | flip-flops power up 0 and 1 | 0 mismatches |
-| 5 | SPARK chip top, pins only, RTL | 448 weight words written over UART and read back; 20 tokens | all words correct, 0 mismatches |
-| 6 | SPARK chip top, pins only, gate level (95k cells + 44 SRAMs) | power-up 0 and power-up 1; 448 words; 6 tokens each | all words correct, 0 mismatches, PASS both |
+| 5 | L chip top, pins only, RTL | 448 weight words written over UART and read back; 20 tokens | all words correct, 0 mismatches |
+| 6 | L chip top, pins only, gate level (95k cells + 44 SRAMs) | power-up 0 and power-up 1; 448 words; 6 tokens each | all words correct, 0 mismatches, PASS both |
 | 7 | Chip evaluation PCB (KiCad 7) | DRC, schematic ERC, PCB-vs-schematic parity | 0 errors / 0 warnings / 0 unconnected; 168 pads, 0 mismatches |
 | 8 | Physical design (OpenROAD) | placement, clock tree, global route done; detailed route in progress | see `hw/asic/README.md` |
 

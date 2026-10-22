@@ -1,6 +1,6 @@
-# SPARK chip in SkyWater SKY130 (open-source ASIC flow)
+# L chip in SkyWater SKY130 (open-source ASIC flow)
 
-The SPARK core (the same Verilog that runs on the FPGA) implemented as a silicon layout in the SkyWater
+The L core (the same Verilog that runs on the FPGA) implemented as a silicon layout in the SkyWater
 130 nm open PDK, with open-source tools:
 
 | Step | Tool | Result |

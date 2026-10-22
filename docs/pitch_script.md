@@ -1,10 +1,10 @@
-# SPARK pitch: speaking script
+# L pitch: speaking script
 
 Two versions: the **3-minute video script** (use this for the PYP video) and the **full slide notes** (for live presentations and Q&A, ~7.5 min).
 
 ## 3-minute video script (~420 words, 9 slides: cover, hook, twoplustwo, rootcause, evidence, solution, thinkless, proof, close)
 
-**[cover]** We are [team name] from [college]. This is SPARK: a brain-inspired co-processor that makes AI do only the work a question needs.
+**[cover]** We are [team name] from [college]. This is L: a brain-inspired co-processor that makes AI do only the work a question needs.
 
 **[hook]** Your brain runs on about 20 watts. One modern AI rack draws around 120 kilowatts. Data centres used 415 terawatt-hours in 2024, and that may double by 2030. Every joule becomes heat, and removing heat costs power and water. India's data centres could need 358 billion litres a year by 2030.
 
@@ -14,11 +14,11 @@ Two versions: the **3-minute video script** (use this for the PYP video) and the
 
 **[evidence]** We hit this ourselves. We built L, a brain-like language model with spiking neurons and a memory that learns while it reads. It already beats a same-size transformer. But 95 percent of its neurons are silent, and the GPU still computes them all.
 
-**[solution]** So we're building SPARK. It doesn't replace the GPU; it sits beside it, like Google's SparseCore beside the TPU. The GPU trains. SPARK runs brain-like AI with memory beside compute, 4-bit spikes, and on-chip learning and recall.
+**[solution]** So we're building L. It doesn't replace the GPU; it sits beside it, like Google's SparseCore beside the TPU. The GPU trains. L runs brain-like AI with memory beside compute, 4-bit spikes, and on-chip learning and recall.
 
 **[thinkless]** Its rule: think less, work less. Skip silent neurons. Skip neurons that didn't change. Recall instead of recomputing. Stop early when the answer is clear. Cap the energy per token.
 
-**[proof]** Our prototype is one SPARK core on a 4,199-rupee FPGA. We'll prove identical output to the GPU, lower energy per token, and the saving from each switch, in watts and degrees.
+**[proof]** Our prototype is one L core on a 4,199-rupee FPGA. We'll prove identical output to the GPU, lower energy per token, and the saving from each switch, in watts and degrees.
 
 **[close]** Less work means less power, less heat and less water. We don't claim to replace GPUs, and our prototype is small. But we can show AI that thinks only as hard as it needs to. Thank you.
 
@@ -28,7 +28,7 @@ Two versions: the **3-minute video script** (use this for the PYP video) and the
 
 ## 1. cover  (~43 words)
 
-Hello judges. We are [team name] from [college]. Our project is SPARK: a brain-inspired co-processor that works alongside GPUs and makes AI do only the work a question actually needs, so it uses less power, makes less heat and needs less cooling water.
+Hello judges. We are [team name] from [college]. Our project is L: a brain-inspired co-processor that works alongside GPUs and makes AI do only the work a question actually needs, so it uses less power, makes less heat and needs less cooling water.
 
 ## 2. hook  (~46 words)
 
@@ -60,19 +60,19 @@ We were careful here. Many GPU problems can be fixed in software: fused kernels,
 
 ## 9. solution  (~71 words)
 
-So we're not replacing the GPU. SPARK is a co-processor that sits beside it. The GPU keeps training and dense maths. SPARK runs brain-like models: an event-driven engine that computes only firing neurons, four-bit spikes, memory beside compute, a learning unit and a recall unit. There's precedent: Google added a small SparseCore to its TPU and got five to seven times faster sparse work for about five percent of the chip.
+So we're not replacing the GPU. L is a co-processor that sits beside it. The GPU keeps training and dense maths. L runs brain-like models: an event-driven engine that computes only firing neurons, four-bit spikes, memory beside compute, a learning unit and a recall unit. There's precedent: Google added a small SparseCore to its TPU and got five to seven times faster sparse work for about five percent of the chip.
 
 ## 10. thinkless  (~83 words)
 
-The heart of SPARK is one rule: think less, work less. Do nothing unless something changed, matters or is new. It skips silent neurons, neurons that barely changed, and idle neurons until they're needed. When the memory already knows the answer, it recalls instead of recomputing. When an early layer is confident, it stops. And a hard energy cap bounds the worst-case heat per token. Each of these is backed by published work, and each one we'll switch on and off to measure.
+The heart of L is one rule: think less, work less. Do nothing unless something changed, matters or is new. It skips silent neurons, neurons that barely changed, and idle neurons until they're needed. When the memory already knows the answer, it recalls instead of recomputing. When an early layer is confident, it stops. And a hard energy cap bounds the worst-case heat per token. Each of these is backed by published work, and each one we'll switch on and off to measure.
 
 ## 11. competition  (~108 words)
 
-Others have built brain-inspired chips, and each leaves a gap. Intel's Loihi beats an H100 on energy for generation, but Intel's own survey says standard networks see little benefit, and access is research-only. IBM's NorthPole keeps memory beside compute, but the model must fit on the chip and it can't learn. Edge chips like Akida and Innatera only run small sensor models. Fast transformer chips need hundreds of chips or lock you into one architecture. SPARK is the first we know of to co-design a brain-like language model with its chip, including on-chip learning, recall and think-less skipping. Our gap: we still have to prove it at scale.
+Others have built brain-inspired chips, and each leaves a gap. Intel's Loihi beats an H100 on energy for generation, but Intel's own survey says standard networks see little benefit, and access is research-only. IBM's NorthPole keeps memory beside compute, but the model must fit on the chip and it can't learn. Edge chips like Akida and Innatera only run small sensor models. Fast transformer chips need hundreds of chips or lock you into one architecture. L is the first we know of to co-design a brain-like language model with its chip, including on-chip learning, recall and think-less skipping. Our gap: we still have to prove it at scale.
 
 ## 12. proof  (~64 words)
 
-Our prototype is one SPARK core on a 4,199-rupee FPGA, running a small version of L byte by byte, with an ESP32 logging power and a sensor measuring heat. We'll prove three things: identical output to the GPU, lower energy per token, and the saving from each think-less switch, measured off versus on, on easy and hard text. Watts and degrees, not just claims.
+Our prototype is one L core on a 4,199-rupee FPGA, running a small version of L byte by byte, with an ESP32 logging power and a sensor measuring heat. We'll prove three things: identical output to the GPU, lower energy per token, and the saving from each think-less switch, measured off versus on, on easy and hard text. Watts and degrees, not just claims.
 
 ## 13. viability  (~67 words)
 
@@ -80,7 +80,7 @@ The path is low-cost. Today, a six-thousand-rupee FPGA prototype with open measu
 
 ## 14. impact  (~62 words)
 
-The impact follows from physics. Less work means less power, and nearly every joule becomes heat, so less heat to remove and less cooling water. We'll measure power and heat directly on the prototype, and project water clearly labelled as an estimate. Better cooling and smarter scheduling remove heat more efficiently. SPARK removes it at the source, and the gains stack together.
+The impact follows from physics. Less work means less power, and nearly every joule becomes heat, so less heat to remove and less cooling water. We'll measure power and heat directly on the prototype, and project water clearly labelled as an estimate. Better cooling and smarter scheduling remove heat more efficiently. L removes it at the source, and the gains stack together.
 
 ## 15. close  (~77 words)
 

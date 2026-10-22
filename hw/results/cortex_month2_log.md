@@ -1,4 +1,4 @@
-# SPARK Cortex month 2: running log (memory shrink), SIMULATED
+# L Cortex month 2: running log (memory shrink), SIMULATED
 
 Scripts and raw logs: `hw/brain/experiments/month2/` (month-1 exploration: `experiments/month1/`).
 Datasets and cached codes are not in git; scripts rebuild them.
@@ -71,4 +71,4 @@ rejection-sampled dreams (no divider). After 5 stages:
 The night helps images (+3 to +4) and hurts sound (-4 to -6). Next: a self-regulated night that stops when dreams
 keep surprising the table.
 
-Related: [SPARK Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)
+Related: [L Cortex redesign](../../docs/cortex_redesign.md), [Brain code](../brain/README.md), [Results index](INDEX.md)

@@ -1,15 +1,15 @@
 # Project scope (agreed with the founder)
 
-**The idea:** a brain-inspired chip. We take how brains compute and move memory, build those principles into SPARK, and prove with
+**The idea:** a brain-inspired chip. We take how brains compute and move memory, build those principles into L, and prove with
 measured numbers that the concept works. Not "replace the GPU" and not "a faster LLM decoder"; those are things we check against,
 not what we are building.
 
 **Constraints:** short horizon (weeks, not years). No fabrication until the design is small and the concept is proven; not at 130 nm now.
 Every claim labelled MEASURED / SIMULATED / ESTIMATED / PROJECTED.
 
-## In scope (each ties a brain principle to a SPARK measurement)
+## In scope (each ties a brain principle to an L measurement)
 
-| Brain principle | SPARK experiment |
+| Brain principle | L experiment |
 |---|---|
 | Sparse, event-driven activity | events/cycles vs accuracy curve; firing-rate target |
 | Compute where the weights live | multiply-free (ternary) weights; smaller weights and smaller chip |

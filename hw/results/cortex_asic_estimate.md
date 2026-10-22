@@ -1,9 +1,9 @@
 ---
-title: SPARK Cortex ASIC estimate (SKY130)
+title: L Cortex ASIC estimate (SKY130)
 tags: [spark, cortex, results, asic]
 ---
 
-# SPARK Cortex as a real chip: SkyWater 130 nm estimate (ESTIMATED, no fabrication)
+# L Cortex as a real chip: SkyWater 130 nm estimate (ESTIMATED, no fabrication)
 
 What the whole design (sensory encoder + learning core + UART) would take in the open SkyWater 130 nm process, using
 the open-source flow from Phase A. Files: `hw/asic/cortex/` (`synth.ys`, `synth_stat.txt`, `sta.tcl`, `sta_report.txt`).

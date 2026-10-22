@@ -1,4 +1,4 @@
-# Brain-principles audit of SPARK Cortex (19 Oct 2026)
+# Brain-principles audit of L Cortex (19 Oct 2026)
 
 User rule (19 Oct): follow the principles of the brain strictly in every process. This note lists the test every process must pass,
 audits each process of the current design against it, and sets the order of fixes. Fixes are PROJECTED until measured.
@@ -52,4 +52,4 @@ audits each process of the current design against it, and sets the order of fixe
 Each is written to `hw/brain/experiments/`, logged in the journal with its label, and reported whether it wins or fails.
 Before the 23 Oct event none of these can be finished and measured properly: the deck and Q&A should say plainly which steps are engineered (see the table).
 
-Related: [Project memory](PROJECT_MEMORY.md), [Journal](journal.md), [SPARK Cortex redesign](cortex_redesign.md), [Docs index](INDEX.md)
+Related: [Project memory](PROJECT_MEMORY.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md), [Docs index](INDEX.md)

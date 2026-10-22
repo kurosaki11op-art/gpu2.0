@@ -1,5 +1,5 @@
 ---
-title: SPARK Cortex pitch Q&A sheet
+title: L Cortex pitch Q&A sheet
 date: 2026-10-18
 tags: [pitch, qa, cortex]
 ---
@@ -66,7 +66,7 @@ Every answer keeps the label (SIMULATED / ESTIMATED / MEASURED). Source of each 
 
 **18. Does it use more than one sense, and does that help?** Yes (SIMULATED, bit-exact in RTL): a retina and a cochlea feed one table. Both senses together score 98.97 on digits (picture alone 97.4); when a quarter of the picture is damaged the sound brings 85 back to 97. A heard word can **name pictures with no picture labels**: the ear is right on only 73 % of unfamiliar speakers, the picture learner reaches 89.7 from its names and 93.9 after sleep-time neighbour cleaning (a small CNN given the same names: 83.5, and 82.9 after self-training; MEASURED ruler). Caveats: one dataset pair, the pooling runs on the host, nothing on silicon yet. See [sensory node](../hw/results/sensory_node.md).
 
-**19. How does it compare with a GPU network on the same data?** A small CNN is only a ruler, never in the chip. Same 10,000 training images (MEASURED): all classes together CNN clothing 88.8 / digits 98.55 / 20 words 77.05 against SPARK one pass 86.55 / 97.47 / about 75. **Learning in stages with no stored examples**: CNN 20 % without help, 28-32 % with a replay buffer the size of our memory, 88 % / 96 % only after storing about 4,000 images (24x our memory); SPARK 83.3 / 95.5 with no stored examples (the learned table and the per-bit counts of the dream memory are kept; no examples). Say "no stored examples", not "no weights". Honest gaps: one-pass accuracy 1-4 points behind; staged clothing 3 points below one pass.
+**19. How does it compare with a GPU network on the same data?** A small CNN is only a ruler, never in the chip. Same 10,000 training images (MEASURED): all classes together CNN clothing 88.8 / digits 98.55 / 20 words 77.05 against L one pass 86.55 / 97.47 / about 75. **Learning in stages with no stored examples**: CNN 20 % without help, 28-32 % with a replay buffer the size of our memory, 88 % / 96 % only after storing about 4,000 images (24x our memory); L 83.3 / 95.5 with no stored examples (the learned table and the per-bit counts of the dream memory are kept; no examples). Say "no stored examples", not "no weights". Honest gaps: one-pass accuracy 1-4 points behind; staged clothing 3 points below one pass.
 
 
 Related: [Pitch script](pitch_script_cortex.md), [Claims sheet](cortex_claims_sheet.md), [Results at a glance](results_at_a_glance.md), [Project memory](PROJECT_MEMORY.md)

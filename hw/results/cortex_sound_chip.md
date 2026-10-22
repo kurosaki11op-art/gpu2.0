@@ -1,5 +1,5 @@
 ---
-title: SPARK Cortex sound chip (raw sound in, RTL)
+title: L Cortex sound chip (raw sound in, RTL)
 tags: [spark, cortex, results, sound, rtl]
 ---
 
