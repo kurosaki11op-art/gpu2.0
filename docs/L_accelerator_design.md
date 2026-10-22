@@ -7,6 +7,27 @@ tags: [L, accelerator, architecture, review]
 
 Scope: this note is about **L** (the brain-inspired, attention-free language model), not L Cortex. Labels: **MEASURED** = from the numbers you gave me; **MODELLED** = computed here, formula shown, assumptions listed; **ESTIMATED** = from a source I name (recalled from the literature, not looked up live: verify before quoting). I have not run L; the only L facts I have are your message and `prompts/L_architecture_changes_prompt.md` in this repo.
 
+## Revision 1 (22 Oct 2026): the founder's rule is "no matrix, especially no heavy matrix"
+
+This overrides the ternary add-only matrix-vector array of section B (block 3), which is a dense matrix-vector product even though it has no multipliers. What that changes, stated plainly:
+
+**What is a heavy matrix in L (MODELLED, d=128, section A):** the in/out projections and the FFN are **0.907M of the ~0.98M MACs per token (93%)** and 227 KB of ternary weights: this is the heavy matrix and it has to go. The delta-rule state is a 32 x 32 matrix per head (16,384 elements in total, 4% of the weights): a light matrix, kept for now but a candidate to replace (below). The scan, conv delay line and hash recall contain no matrix.
+
+**Candidates to replace the heavy projections (none is proven for language; each is a model change that must be trained and measured on a GPU first):**
+
+| Option | How a layer works | Hardware | What I know / do not know |
+|---|---|---|---|
+| 1. Event-driven sparse rows | a fired neuron looks up its row of fan-out weights and accumulates; nothing happens for silent neurons | table lookups + adds, no dense product | still stores a weight table (it is a sparse matrix, executed as lookups). Cost is events x fan-out, not d^2. At the repo's 2-10% firing rate for FFN neurons the weight traffic is 5-10x lower than dense (MODELLED: rho x 227 KB); the residual stream may be dense, then the saving is smaller. Firing rate per layer: **not measured by me** |
+| 2. Lookup (weightless) layers | the layer address is built from a few spike bits (n-tuples), one table read returns the output bits; tables are counters or learned bits | SRAM read + counters, the style of L Cortex and the L lookup core | closest to the project's brain rules; weightless networks and FPGA accelerators exist (e.g. WiSARD / ULEEN, recalled). **No evidence I know of at language-model quality** |
+| 3. Differentiable logic-gate networks | each neuron is a learned two-input logic gate with fixed random wiring, trained by a relaxation on a GPU, run as plain gates | gates only: smallest hardware | published for images (Petersen et al., 2022; convolutional version 2024, recalled); **language use unproven**, training cost is high |
+| 4. Hash/associative memory instead of the fast-weight matrix | replace S (32 x 32) by key -> value slots written and read by hash | the same SRAM + tag-compare unit as the hippocampus | removes the light matrix; changes what the model can learn; needs an ablation of L's 4.5% bits/byte edge |
+
+**Consequences for the plan:**
+1. Section B shrinks to: scan unit, event queue, sparse-row lookup unit (SRAM read + 16-bit add), conv delay line, hash unit, small delta-rule unit (or none under option 4). Block 3 (TMV array) is deleted. Energy (section B.1) changes because weight reads become events x fan-out: formula E = events x (row bytes / 8 x 20 pJ + fan-out x 0.05 pJ); with 5% of 0.907M weights per token this is about 11 KB per token, 28 nJ of reads (MODELLED, assumes the dense inputs also become sparse, which is the open question).
+2. **The L model itself must change before any chip is designed.** Stage 0 becomes: on the GPU, replace the heavy projections by option 1, then 2 or 3, and measure bits/byte and firing rates. If no matrix-free variant keeps most of L's 4.5% edge over the transformer (0.872 vs 0.913, one reported run), the matrix-free accelerator has no model to run. This is now the main risk (F), ahead of memory bandwidth.
+3. Honest wording for a pitch: today's L is a matrix model (ternary or not); the accelerator for a matrix-free L is a research plan, not a result.
+4. Training still stays on a GPU (backprop through time and relaxations need dense math); the matrix-free rule applies to the chip.
+
 ## 0. Things in your numbers that a reviewer will question first
 
 1. **Which model do the GPU numbers belong to?** You give L5 (d=128, 4 layers, ~0.94M params) and a 9M-parameter bits/byte result. The same 0.84 mJ/token means very different things for the two. MODELLED, training FLOPs ~ 6 x params per token: 0.94M params -> 5.6 MFLOP/token -> 4,096 tokens in 114 ms = **0.20 TFLOP/s** (149 pJ/FLOP); 9M params -> **1.94 TFLOP/s** (15.6 pJ/FLOP). Neither says how close a 3050 is to its peak (I do not have its datasheet peak in front of me; look it up). Tell me which model was timed.

@@ -13,9 +13,10 @@
    - **L Cortex** (the counting chip, done to a bit-exact RTL): keep to brain principles, no matrices, no multiplies,
      no backprop in the chip design. Do not reframe it as a GPU helper or an FPGA builder.
    - **L accelerator** (the dedicated chip for the L language model, the alternative to a GPU; see
-     `docs/L_accelerator_design.md`): inference on the chip first, training stays on a GPU. Ternary add-only
-     matrix-vector units, delta-rule state units and hash recall are allowed here (they are the model); say
-     explicitly where a multiplier is needed. Label every number MEASURED / MODELLED / ESTIMATED.
+     `docs/L_accelerator_design.md`): **also matrix-free** (founder's rule, 22 Oct 2026: no matrix, especially no heavy
+     matrix: no dense matrix-vector products, ternary or not). Allowed: scans, event-driven sparse row lookups, table
+     and hash lookups, counters, small state. Inference on the chip, training on a GPU. Label every number
+     MEASURED / MODELLED / ESTIMATED.
 5. Never write AI model identifiers into repo content.
 6. This repo is the team's **second brain**, opened in Obsidian as a vault (home: `README.md`). Keep it linked:
    every new note is linked from its folder's index (`docs/INDEX.md`, `hw/results/INDEX.md`, `hw/HARDWARE_INDEX.md`)
