@@ -1270,4 +1270,7 @@ Table A on the coarse code, table B on the finer code (3x3 patches, stride 1, po
 **Check:** 7 streams and 52 references (steps, saturation at 0 and at the top, n = 1..15): 0 differing. Added to `hw/run_all_checks.sh` (36 checks; a full rerun is owed).
 **Still on the host:** the grouping loop of the label-free category step (k-means on joined codes) and the novelty flag threshold (it can now use the same tracker, not yet wired); the schedule of nights and stages.
 
+## 22 Oct 2026 - Full regression with the threshold unit: 36 of 36 checks PASS in one run (SIMULATED RTL)
+`sh hw/run_all_checks.sh DATA_DIR` fresh (no resume, run inside an active turn, about 1 hour): 36 PASS, 0 failures, 0 skipped. It includes the tail-memory core, cue-weighting unit, second-look unit and two-core integration, and the new threshold unit, plus every earlier check.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
