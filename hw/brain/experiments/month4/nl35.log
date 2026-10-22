@@ -3,3 +3,14 @@ coarse codes ready (2783, 23040) 52s
 fine codes ready (2783, 40960) 107s
 seed 1 700s
 seed 2 1301s
+seed 3 1922s
+RESULT clean coarse  clean 0.6829 20dB 0.5653 10dB 0.3984 5dB 0.2743 oldest 0.6881 newest 0.6076
+RESULT clean fine    clean 0.6657 20dB 0.5686 10dB 0.3989 5dB 0.2771 oldest 0.7167 newest 0.5816
+RESULT clean sum     clean 0.7076 20dB 0.5779 10dB 0.4291 5dB 0.2882 oldest 0.7357 newest 0.6147
+RESULT clean look20  clean 0.7066 20dB 0.5728 10dB 0.4156 5dB 0.2775 oldest 0.7238 newest 0.6123
+RESULT clean look40  clean 0.7071 20dB 0.5755 10dB 0.4231 5dB 0.2882 oldest 0.7333 newest 0.6147
+RESULT noisy coarse  clean 0.6983 20dB 0.6402 10dB 0.5267 5dB 0.4282 oldest 0.7357 newest 0.6288
+RESULT noisy fine    clean 0.7034 20dB 0.6699 10dB 0.5923 5dB 0.4858 oldest 0.7643 newest 0.6927
+RESULT noisy sum     clean 0.7248 20dB 0.6792 10dB 0.5890 5dB 0.4877 oldest 0.7786 newest 0.6619
+RESULT noisy look20  clean 0.7164 20dB 0.6625 10dB 0.5551 5dB 0.4496 oldest 0.7595 newest 0.6501
+RESULT noisy look40  clean 0.7243 20dB 0.6727 10dB 0.5755 5dB 0.4723 oldest 0.7786 newest 0.6619
