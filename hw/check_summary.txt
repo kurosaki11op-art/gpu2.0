@@ -37,3 +37,5 @@ sound chip, whole chain (aligned): PASS
 Tang Nano board design: PASS
 host schedule == chip model: PASS
 failures: 0  skipped (data missing): 0
+stage and night sequencer (on-chip schedule): PASS
+stage and night sequencer, pipelined core: PASS

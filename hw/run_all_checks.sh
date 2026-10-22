@@ -41,6 +41,8 @@ run "second look: two cores (coarse + fine) + look unit" python run_check_look_t
 run "threshold unit (streaming quantile + cue thresholds)" python run_check_thresh.py
 run "novelty flag unit (on-chip threshold + flag)" python run_check_novel.py
 run "clustering unit (rate prototypes, label-free grouping)" python run_check_cluster.py
+run "stage and night sequencer (on-chip schedule)" python run_check_seq.py
+run "stage and night sequencer, pipelined core" python run_check_seq.py --pipe
 run "sleep cleaning, chip scores + neighbours + pooling unit == model" python run_check_sleep_clean.py "$D"
 need fsdd/0_george_0.wav "whole two-sense chip (retina + cochlea + one core)" && run "whole two-sense chip (retina + cochlea + one core)" python run_check_sense_top.py "$D"
 cd "$HW/rtl/cortex/sound"
