@@ -42,7 +42,7 @@ notes(s, "A normal neural network learns once. Teach it in stages and it keeps o
 // 3 idea
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Why" });
 s.addText("The idea: a brain, as a chip", { placeholder: "title" });
-const rows = [["Senses", "Eyes and ears turn pixels and sound into a sparse code. Detectors learn by themselves, no labels."], ["Learn by counting", "Each example is counted into a small fast table. No backpropagation, no multiplier, no matrices."], ["Dream and sleep", "Old classes are replayed from 10-bit counters, so nothing is stored. A slow table consolidates the fast one."], ["Look again", "When unsure, a second look at a finer code; when two senses disagree, trust the more confident one."], ["Share", "A second chip takes over the memory, or two memories merge by adding counts."]];
+const rows = [["Senses", "Eyes and ears turn pixels and sound into a sparse code. Detectors learn by themselves, no labels."], ["Learn by counting", "Each example is counted into a small fast table. No backpropagation, no multiplier, no matrices."], ["Dream and sleep", "Old classes are replayed from 10-bit counters, so nothing is stored. A slow table consolidates the fast one."], ["Look again", "When unsure, a second look at a finer code; when two senses disagree, trust the more confident one."], ["Share (optional)", "One chip works alone. Two chips can merge what they learned by adding counts, or one hands its memory to the other. A normal network cannot do this."]];
 rows.forEach((r, i) => { const y = 1.25 + i * 0.77; card(s, 0.5, y, 9, 0.68); s.addShape(pres.shapes.OVAL, { x: 0.62, y: y + 0.1, w: 0.46, h: 0.46, fill: { color: C.accent1 }, line: { color: C.accent1, width: 0 }, objectName: "marker" }); lab(s, String(i + 1), 0.62, y + 0.16, 0.46, C.text1, 15, true, { align: "center", h: 0.3 }); lab(s, r[0], 1.25, y + 0.07, 2.2, C.text1, 15, true, { h: 0.5 }); lab(s, r[1], 3.4, y + 0.07, 5.9, C.text1, 12, false, { h: 0.55 }); });
 notes(s, "Our rule is to follow the brain, not the GPU. Senses that learn without labels. Learning by counting, one example at a time, with no backpropagation, no multiplier and no matrices. Sleep: the chip dreams old classes from small counters instead of storing examples, and a slow table consolidates the fast one. Looking again when unsure, and trusting the more confident sense. And sharing: memory is counts, so chips can merge.");
 
@@ -109,12 +109,12 @@ notes(s, "A brand-new class seen once was almost invisible. IMPRINT writes its m
 
 // 10 sharing
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Results" });
-s.addText("Knowledge moves between chips", { placeholder: "title" });
+s.addText("Two chips can share what they learned", { placeholder: "title" });
 bar(s, [{ name: "Merge two chips", labels: ["digits", "clothing", "spoken words"], values: [93.3, 81.4, 64.3] }, { name: "Hand-over, then learn on", labels: ["digits", "clothing", "spoken words"], values: [95.6, 82.7, 71.6] }], "Accuracy after moving knowledge (%)", { x: 0.5, y: 1.3, w: 5.8, h: 3.8, chartColors: ["8A93C9", "2FA37A"] });
 card(s, 6.5, 1.4, 3, 3.6);
 tag(s, "SIMULATED, 3 seeds", 6.7, 1.55, 2.6);
-lab(s, "Because memory is counts, two chips that learned different classes merge by adding counters. No retraining on a server. The board demo design reached 91.4% on all ten digits after one night (PC-side emulator).", 6.7, 1.95, 2.6, C.text1, 13, false, { h: 2.8 });
-notes(s, "Because the memory is counts, two chips that learned different classes can be merged by adding their counters, or one chip hands its memory to another that keeps learning. Merge gives 93, 81 and 64 percent; hand-over gives 96, 83 and 72. This is weight transfer without a server.");
+lab(s, "One chip works alone; this is an option. Because memory is counts, two chips that learned different classes merge by adding counters, with no retraining. A trained network cannot merge this way. The board demo design reached 91.4% on all ten digits after one night (PC-side emulator).", 6.7, 1.95, 2.6, C.text1, 12, false, { h: 2.9 });
+notes(s, "One chip works alone; sharing is an option. Because the memory is counts, two chips that learned different classes can be merged by adding their counters, or one chip hands its memory to another that keeps learning. Merge gives 93, 81 and 64 percent; hand-over gives 96, 83 and 72. A normal network cannot merge two separately trained copies like this. A GPU cluster joins many GPUs for size and speed, which is a different thing.");
 
 // 11 cost
 pres.addSection({ title: "Build" });
