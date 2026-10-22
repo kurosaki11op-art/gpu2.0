@@ -1,2 +1,16 @@
 cochlea done 1s
 coarse codes ready (1586, 23040) 32s
+fine codes ready (1586, 40960) 62s
+seed 1 401s
+seed 2 728s
+seed 3 1061s
+RESULT clean coarse  clean 0.7335 20dB 0.6570 10dB 0.5153 5dB 0.3953 oldest 0.7749 newest 0.5709
+RESULT clean fine    clean 0.7230 20dB 0.6409 10dB 0.5177 5dB 0.4042 oldest 0.7532 newest 0.5977
+RESULT clean sum     clean 0.7585 20dB 0.6659 10dB 0.5499 5dB 0.4283 oldest 0.8009 newest 0.6245
+RESULT clean look20  clean 0.7544 20dB 0.6634 10dB 0.5322 5dB 0.4082 oldest 0.8052 newest 0.6169
+RESULT clean look40  clean 0.7593 20dB 0.6634 10dB 0.5459 5dB 0.4195 oldest 0.8052 newest 0.6245
+RESULT noisy coarse  clean 0.7359 20dB 0.7415 10dB 0.6594 5dB 0.5902 oldest 0.7749 newest 0.6628
+RESULT noisy fine    clean 0.7407 20dB 0.7287 10dB 0.6667 5dB 0.6055 oldest 0.7922 newest 0.7356
+RESULT noisy sum     clean 0.7568 20dB 0.7512 10dB 0.6876 5dB 0.6176 oldest 0.8182 newest 0.7280
+RESULT noisy look20  clean 0.7544 20dB 0.7504 10dB 0.6812 5dB 0.6047 oldest 0.8139 newest 0.7165
+RESULT noisy look40  clean 0.7568 20dB 0.7520 10dB 0.6876 5dB 0.6192 oldest 0.8182 newest 0.7280
