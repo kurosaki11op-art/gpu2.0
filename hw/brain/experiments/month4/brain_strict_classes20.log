@@ -1,0 +1,5 @@
+train (20000, 4608) test (20000, 4608) 21s
+20 classes base one pass all 0.9118 | digits 0.9681 | clothing 0.8554 27s
+20 classes base staged all 0.8742 | digits 0.9342 | clothing 0.8142 49s
+20 classes tail one pass all 0.9134 | digits 0.9690 | clothing 0.8579 58s
+20 classes tail staged all 0.8844 | digits 0.9448 | clothing 0.8239 80s

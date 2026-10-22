@@ -1,1 +1,19 @@
 seed 1 326s
+seed 2 655s
+set fsdd
+picture alone | purity                                                               0.6774
+picture alone | names right                                                          0.6757
+picture alone | picture learner on the group names (10 labels in total)              0.6930
+picture alone | ... and the names cleaned in sleep (neighbour pooling)               0.7590
+picture alone | ... cleaned names right                                              0.7611
+sound alone | purity                                                                 0.4178
+sound alone | names right                                                            0.3125
+sound alone | picture learner on the group names (10 labels in total)                0.4005
+sound alone | ... and the names cleaned in sleep (neighbour pooling)                 0.3797
+sound alone | ... cleaned names right                                                0.4001
+both senses joined | purity                                                          0.7127
+both senses joined | names right                                                     0.6587
+both senses joined | picture learner on the group names (10 labels in total)         0.7742
+both senses joined | ... and the names cleaned in sleep (neighbour pooling)          0.8257
+both senses joined | ... cleaned names right                                         0.8401
+picture learner, all true labels (reference)                                         0.9743
