@@ -12,6 +12,7 @@ tags: [spark, index]
 - [Month 4 board plan](month4_board_plan.md): the steps that turn simulated results into MEASURED ones on the Tang Nano.
 - [Overnight report, 15 Oct](overnight_report_2026-10-15.md): summary of the night's work and the board steps for today.
 - [Accelerator for L, a skeptical design review](L_accelerator_design.md): profile, microarchitecture, staged path, fair comparison and risks for a dedicated chip for the L language model (a separate project from L Cortex).
+- [Prompt: facts the L accelerator needs](../prompts/L_facts_for_accelerator_prompt.md): paste into an agent inside the L model repo; it measures activity sparsity, ablations, profile and exports golden vectors.
 - [L Cortex redesign](cortex_redesign.md): design, AI problems targeted, 6-8 month plan, status.
 - [Brain-principles audit](brain_principles_audit.md): the six-point test every process must pass, which processes fail it, and the order of fixes.
 - [Project scope](scope.md): what is in and out of scope, agreed with the founder.
