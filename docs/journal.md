@@ -1293,4 +1293,7 @@ Table A on the coarse code, table B on the finer code (3x3 patches, stride 1, po
 **RTL:** sequential unit (levels 3 bits per bit and group, counts 8 bits, adders and compares, no multiplier, no divider); the host loads the buffer lists and the K x restarts start indices (stride positions). Check: 5 random buffers (K = 3..5, 1-3 restarts, 2-4 iterations): the winning total score and the group of every pair identical (e.g. K = 4, 3 iterations, 2 restarts: 26,577 cycles for 48 pairs of 256 bits). Added to `hw/run_all_checks.sh` (38 checks; a full rerun is owed).
 **Cost note:** one iteration scans the buffer lists twice and the prototype memory once; with the real 9,216-bit joined codes the prototype memory is 9,216 words x 3 bits x K and the count memory 9,216 words x 8 bits x K (K = 30: 83 KB and 276 KB), so the real unit is an ASIC option with SRAM, not a Tang Nano feature.
 
+## 22 Oct 2026 - Full regression with all additions: 38 of 38 checks PASS in one run (SIMULATED RTL); final pitch deck
+Fresh run of `sh hw/run_all_checks.sh DATA_DIR` (no resume, inside an active turn, about 1 hour): 38 PASS, 0 failures, 0 skipped (adds the novelty flag unit and the clustering unit to the previous 36). Final deck: `docs/L_pitch_final.pptx` (22 slides, generator `docs/L_pitch_build.js`).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
