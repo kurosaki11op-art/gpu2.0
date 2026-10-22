@@ -21,7 +21,7 @@ for op, arg, lst in cmds: words += [op, arg, len(lst)] + list(lst)
 words.append(0xFFFFFFFF); open(os.path.join(HERE, "cmds.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n"); open(os.path.join(HERE, "lanes.hex"), "w").write("\n".join("%08x" % s for s in seeds) + "\n")
 print(f"{'build':<22} {'LEARN':>10} {'DREAM':>10} {'PREDICT':>10}   (clock cycles, mean over the measured commands)")
 for build, flags in (("FPGA build", []), ("pipelined (ASIC option)", ["-DCORTEX_PIPE"])):
-    subprocess.run(["iverilog", "-g2005", "-s", "tb_bench", "-o", VVP, f"-Ptb_bench.NW={len(words) + 8}", "cortex_core.v", "tb_bench.v"] + flags, cwd=HERE, check=True)
+    subprocess.run(["iverilog", "-g2005"] + flags + ["-s", "tb_bench", "-o", VVP, f"-Ptb_bench.NW={len(words) + 8}", "cortex_core.v", "tb_bench.v"], cwd=HERE, check=True)   # flags before the files (the Windows build of Icarus Verilog reads options after file names as files)
     subprocess.run(["vvp", "-n", VVP], cwd=HERE, stdout=subprocess.DEVNULL)
     rows = [l.split() for l in open(os.path.join(HERE, "out_bench.txt")).read().split("\n") if l.startswith("C")]
     cyc = {op: np.mean([int(x[3]) for x in rows if int(x[1]) == op]) for op in (1, 3, 4)}
