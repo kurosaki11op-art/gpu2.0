@@ -14,7 +14,7 @@ module tb_sense_top;
         .see(see), .see_done(see_done), .see_count(see_count), .smp_valid(smp_valid), .smp_data(smp_data), .smp_ready(smp_ready), .tma_we(tma_we), .tma_addr(tma_addr), .tma_data(tma_data),
         .hear(hear), .hear_done(hear_done), .hear_count(hear_count), .lane_we(lane_we), .lane_waddr(lane_waddr), .lane_wdata(lane_wdata),
         .cmd_valid(cmd_valid), .cmd_op(cmd_op), .cmd_arg(cmd_arg), .lb_len(lb_len), .code_len(code_len), .mem_addr(mem_addr),
-        .busy(busy), .pred(pred), .updated(updated), .llen_out(llen_out), .rd_w(rd_w), .rd_c(rd_c), .rd_n(rd_n));
+        .busy(busy), .pred(pred), .updated(updated), .llen_out(llen_out), .rd_w(rd_w), .rd_c(rd_c), .rd_n(rd_n), .rd_known());
     reg [7:0] pics [0:NPIC*784-1]; reg [15:0] clips [0:NCLIP*16000-1]; reg [24:0] tv [0:127]; reg [24:0] ta [0:127]; reg [31:0] seeds [0:31]; reg [31:0] cmds [0:NW-1];
     integer f, p, q, op, pi, ci, b, c, ncmd;
     task run(input [2:0] o, input [3:0] a); begin

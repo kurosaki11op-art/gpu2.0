@@ -14,7 +14,7 @@ module tb_cluster;
             len = mem[p]; p = p + 1; @(negedge clk); ln_we = 1; ln_pair = n; ln_val = len; @(negedge clk); ln_we = 0;
             for (q = 0; q < len; q = q + 1) begin @(negedge clk); lw_we = 1; lw_pair = n; lw_pos = q; lw_val = mem[p + q]; end @(negedge clk); lw_we = 0; p = p + len;
         end
-        for (q = 0; q < RST * K; q = q + 1) begin @(negedge clk); in_we = 1; in_idx = q; in_val = mem[p + q]; end @(negedge clk); in_we = 0;
+        
         @(negedge clk); start = 1; @(negedge clk); start = 0; cyc = 0; while (!done) begin @(negedge clk); cyc = cyc + 1; end
         $fdisplay(f, "T %0d", tot_out);
         for (n = 0; n < mem[0]; n = n + 1) begin rd_pair = n; @(negedge clk); @(negedge clk); $fdisplay(f, "G %0d", rd_group); end

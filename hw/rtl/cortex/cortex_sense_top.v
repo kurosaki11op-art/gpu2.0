@@ -19,7 +19,7 @@ module cortex_sense_top #(parameter ALIGN = 1, parameter LEAD = 6, parameter NBS
     output wire [14:0] code_len,
     input  wire [13:0] mem_addr,
     output wire        busy, output wire [3:0] pred, output wire updated, output wire [14:0] llen_out,
-    output wire [49:0] rd_w, output wire [99:0] rd_c, output wire [99:0] rd_n
+    output wire [49:0] rd_w, output wire [99:0] rd_c, output wire [99:0] rd_n, output wire [9:0] rd_known
 );
     // retina
     wire v_busy, v_done, v_we; wire [14:0] v_count; wire [13:0] v_addr, v_data;
@@ -41,7 +41,6 @@ module cortex_sense_top #(parameter ALIGN = 1, parameter LEAD = 6, parameter NBS
     wire        l_we   = v_we | a_we;
     wire [13:0] l_addr = v_we ? v_addr : (a_addr + a_base[13:0]);
     wire [13:0] l_data = v_we ? v_data : (a_data + NBS[13:0]);
-    wire [9:0] rd_known;
     cortex_core #(.NB(2 * NBS), .AW(14)) u_core (.clk(clk), .rst(rst), .cmd_valid(cmd_valid), .cmd_op(cmd_op), .cmd_arg(cmd_arg),
         .lb_we(l_we), .lb_waddr(l_addr), .lb_wdata(l_data), .lb_len(lb_len),
         .lane_we(lane_we), .lane_waddr(lane_waddr), .lane_wdata(lane_wdata),

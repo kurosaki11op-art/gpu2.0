@@ -15,7 +15,7 @@ for K, ITER, RST, seed in ((4, 3, 2, 1), (4, 3, 2, 2), (3, 4, 3, 3), (5, 2, 2, 4
     lists = [np.where(x)[0].tolist() for x in X]; init = [((i * NS) // K + (rr * NS) // (K * RST)) % NS for rr in range(RST) for i in range(K)]
     words = [NS]
     for l in lists: words += [len(l)] + l
-    words += init; open(os.path.join(HERE, "cluster_in.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n")
+    open(os.path.join(HERE, "cluster_in.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n")
     res = subprocess.run("vvp -n /tmp/cl.vvp | grep ^cycles", shell=True, cwd=HERE, capture_output=True, text=True)
     out = open(os.path.join(HERE, "cluster_out.txt")).read().split("\n"); tot = int(out[0].split()[1]); g = np.array([int(l.split()[1]) for l in out[1:] if l.startswith("G")])
     a, t = cross_modal.kmeans_int(X, K, ITER, RST, return_total=True); d = int(tot != t) + int((g != a).sum()); bad += d

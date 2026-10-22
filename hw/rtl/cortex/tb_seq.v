@@ -2,7 +2,7 @@
 // everything else (KNOWN, LEARN, DREAM, FOLLOW, SCOPY, the night and its early stop) is issued by the sequencer. At the end it dumps N, every fast word and every slow word like tb_cortex_core_slow.v (out_cortex.txt).
 `timescale 1ns/1ps
 module tb_seq;
-    parameter NB = 256, AW = 8, CB = 10, MARGIN = 32, NW = 40000, SB = 8;
+    parameter NB = 256, AW = 8, CB = 10, MARGIN = 32, NW = 40000, SB = 8, CHMIN = 100, CHSH = 5;
     reg clk = 0, rst = 1; always #5 clk = ~clk;
     wire cmd_valid; wire [2:0] cmd_op; wire [3:0] cmd_arg;
     reg lb_we = 0; reg [AW-1:0] lb_waddr = 0, lb_wdata = 0; reg [AW:0] lb_len = 0;
@@ -14,7 +14,7 @@ module tb_seq;
         .lane_we(lane_we), .lane_waddr(lane_waddr), .lane_wdata(lane_wdata), .mem_addr(mem_addr), .wr_w(50'd0), .wr_c({(10*CB){1'b0}}),
         .busy(busy), .pred(pred), .updated(updated), .llen_out(llen_out), .rd_s(rd_s), .rd_w(rd_w), .rd_c(rd_c), .rd_n(rd_n), .rd_known(rd_known));
     reg cfg_we = 0; reg [2:0] cfg_addr = 0; reg [31:0] cfg_val = 0; reg start = 0, ex_valid = 0; reg [3:0] ex_label = 0; wire ex_ready, done;
-    cortex_seq #(.C(10)) seq(.clk(clk), .rst(rst), .cfg_we(cfg_we), .cfg_addr(cfg_addr), .cfg_val(cfg_val), .start(start), .ex_valid(ex_valid), .ex_label(ex_label), .ex_ready(ex_ready), .done(done),
+    cortex_seq #(.C(10), .CHMIN(CHMIN), .CHSH(CHSH)) seq(.clk(clk), .rst(rst), .cfg_we(cfg_we), .cfg_addr(cfg_addr), .cfg_val(cfg_val), .start(start), .ex_valid(ex_valid), .ex_label(ex_label), .ex_ready(ex_ready), .done(done),
         .cmd_valid(cmd_valid), .cmd_op(cmd_op), .cmd_arg(cmd_arg), .busy(busy), .updated(updated), .known(rd_known));
     task cfg(input [2:0] a, input [31:0] v); begin @(negedge clk); cfg_we = 1; cfg_addr = a; cfg_val = v; @(negedge clk); cfg_we = 0; end endtask
     task hrun(input [2:0] o, input [3:0] a); begin

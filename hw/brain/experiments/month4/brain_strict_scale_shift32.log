@@ -1,0 +1,6 @@
+shift32 fashion NPS 2000 base staged 0.8099 16s
+shift32 mnist NPS 2000 base staged 0.9498 35s
+shift32 fashion NPS 6000 base staged 0.8109 27s
+shift32 mnist NPS 6000 base staged 0.9542 58s
+shift32 fashion NPS 12000 base staged 0.8078 47s
+shift32 mnist NPS 12000 base staged 0.9551 95s

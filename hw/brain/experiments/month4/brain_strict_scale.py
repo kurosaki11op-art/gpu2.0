@@ -16,7 +16,7 @@ for DS in os.environ.get("DS", "fashion,mnist").split(","):
         for staged in ((True,) if os.environ.get("STAGED_ONLY") else (False, True)):
             acc = []
             for seed in range(1, SEEDS + 1):
-                kw = dict(ch=(max(100, NPS // 30) if os.environ.get("CHK") == "auto" else int(os.environ.get("CHK", 100))), K=int(os.environ.get("KS", 5)), night_stop=2, daydream=int(os.environ.get("DAYD", 1)), seed=seed, margin=int(os.environ.get("MARGIN", 256)), ndream=int(os.environ.get("NDREAM", 1500)), night=int(os.environ.get("NIGHT", 1)), B=int(os.environ.get("B", 10)))
+                kw = dict(ch=(max(100, NPS // 30) if os.environ.get("CHK") == "auto" else max(100, NPS >> 5) if os.environ.get("CHK") == "shift32" else int(os.environ.get("CHK", 100))), K=int(os.environ.get("KS", 5)), night_stop=2, daydream=int(os.environ.get("DAYD", 1)), seed=seed, margin=int(os.environ.get("MARGIN", 256)), ndream=int(os.environ.get("NDREAM", 1500)), night=int(os.environ.get("NIGHT", 1)), B=int(os.environ.get("B", 10)))
                 if arm.startswith("real"):                                           # stored examples: E hardest real traces per class, replayed in a short night (mix/16 of the replays)
                     _, E, mix = arm.split(":"); os.environ["HARD"] = "1"; os.environ["CONS"] = os.environ.get("CONSMODE", "1"); os.environ["REALMIX"] = mix
                     m = cortex_rules.CortexRules(ctr.shape[1], rule="real", par=int(E), **kw)
