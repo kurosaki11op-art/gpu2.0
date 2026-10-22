@@ -125,12 +125,21 @@ kp.forEach((k, i) => { const x = 0.5 + (i % 2) * 4.6, y = 1.3 + Math.floor(i / 2
 lab(s, "Say it carefully: the 74x is per operation needed. The SKY130 layout estimate is 0.18 to 0.26 uJ per decision, 20 to 28x above the operation count.", 0.5, 4.95, 8.7, C.accent4, 12, false, { h: 0.45 });
 notes(s, "Cost. The image memory is 84 kilobytes and fits a 25-dollar Tang Nano 20K with no hardware multipliers. Counting only the operations a decision needs it uses about 74 times less energy than an 8-bit network, an estimate. The layout estimate is higher, about a fifth of a microjoule. The second look costs about 2.8 times the table memory, and sound needs 422 kilobytes.");
 
+// 11b embedded
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
+s.addText("Why this is an embedded system", { placeholder: "title" });
+const emb = [["Built for tight limits", ["84 KB of memory for images", "No multiplier: counts, compares, shifts", "Fits a Rs 4,000 FPGA (89% logic, 0 multipliers, SIMULATED place and route)"], C.accent3], ["Real device interfaces", ["Camera-style 28x28 picture and 16 kHz microphone samples, encoded on the chip", "UART byte protocol to any microcontroller or PC: learn, dream, predict, read and write memory", "The board's top-level design was simulated end to end: digits recognised from UART bytes"], C.accent2], ["Behaviour a device needs", ["Learns new classes in the field, no server", "Sleeps when idle; the night ends by itself", "Memory moves between devices by adding counts"], C.accent1]];
+emb.forEach((c, i) => { const x = 0.5 + i * 3.05; card(s, x, 1.3, 2.9, 3.0); lab(s, c[0], x + 0.15, 1.4, 2.6, c[2], 14, true, { fontFace: "Cambria", h: 0.5 }); s.addText(c[1].map((t, j) => ({ text: t, options: { bullet: true, breakLine: j < c[1].length - 1, paraSpaceAfter: 6 } })), { x: x + 0.15, y: 1.95, w: 2.6, h: 2.3, fontSize: 11, color: C.text1, valign: "top", isTextBox: true, margin: 0, fontFace: "Calibri" }); });
+card(s, 0.5, 4.45, 9, 0.6, "FFF4DD");
+lab(s, "Not measured yet: real power, latency and clock speed. They need the board run. Everything here is a design and simulation result.", 0.65, 4.55, 8.7, C.text1, 12, true, { h: 0.45 });
+notes(s, "Why this belongs with embedded systems. It is a dedicated function inside a device under tight limits: 84 kilobytes of memory for images, no multiplier, a small low-cost FPGA. It has real device interfaces: a camera-style picture input and microphone samples encoded on the chip, and a UART byte protocol so any microcontroller or PC can teach it, ask it, and read or write its memory. We simulated the board's top-level design end to end: digits recognised from UART bytes. On the device it learns new classes in the field, sleeps when idle, and its memory can be moved between devices. The honest limit: real power, latency and clock speed are not measured yet; they need the board run.");
+
 // 12 verified
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
 s.addText("Verified bit for bit, and laid out", { placeholder: "title" });
 card(s, 0.5, 1.4, 4.4, 3.5);
-lab(s, "REGRESSION_COUNT", 0.7, 1.55, 4.0, C.accent3, 54, true, { fontFace: "Cambria", h: 1.0 });
-lab(s, "RTL checks, 0 mismatches against the integer model: core, tail memory, IMPRINT, slow table, encoders, cochlea, sound chain, two-sense chip, cue weighting, second look, threshold and novelty units, clustering, board top, host schedule.", 0.7, 2.75, 4.0, C.text1, 12, false, { h: 1.9 });
+lab(s, "38 / 38", 0.7, 1.55, 4.0, C.accent3, 54, true, { fontFace: "Cambria", h: 1.0 });
+lab(s, "RTL checks in one full run, 0 mismatches against the integer model: core, tail memory, IMPRINT, slow table, encoders, cochlea, sound chain, two-sense chip, cue weighting, second look, threshold and novelty units, clustering, board top, host schedule. Newer checks pass on their own: stage and night sequencer, raw senses to a whole stage.", 0.7, 2.75, 4.0, C.text1, 12, false, { h: 1.9 });
 lab(s, "SIMULATED (RTL simulation)", 0.7, 4.5, 4.0, C.accent6, 11, true);
 card(s, 5.1, 1.4, 4.4, 3.5);
 lab(s, "1", 5.3, 1.55, 4.0, C.accent1, 54, true, { fontFace: "Cambria", h: 1.0 });
