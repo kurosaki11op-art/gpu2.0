@@ -1352,5 +1352,11 @@ One command runs the integer model of the chip (software, CPU: stages with no st
 **Gate-level, second attempt (SIMULATED, core only, NB=64, 24 commands, 95 lines vs the integer model):** a netlist from plain Yosys gates (42,778 cells) gives **0 mismatches**; the ASIC netlist in real SKY130 `sky130_fd_sc_hd` cells with the OpenRAM macro models and the clock gates (11,228 cells, 7 macros) gives **0 mismatches with all flip-flops powering up 0 and again with all powering up 1** (first try showed X outputs only because the flip-flops had no power-up value in the simulation; the reset covers the control state). So the design and its SKY130 synthesis agree; the Gowin-model hang is blamed on my hand-made cell models and is left open. Files: `hw/synth/gate_level/sky130/`. Limit: small core only, not the full 4,608-bit chip.
 **Routing at 16:20:** 3rd pass 5,980 violations (130k, 42k, 33k, 6k).
 
+## 22 Oct 2026 - Fabrication-readiness checks on the L Cortex layout (FAILURES recorded)
+
+**Asked:** finish detailed routing, GDSII, DRC/LVS, fix power. **Done:** rebuilt the whole layout in a new container (open tools installed through micromamba): routing again **0 violations** (router count). GDSII exported (193 MB). Timing re-read: setup -6.19 ns at 20 ns (~38 MHz), **hold -0.21 ns (fails)**; power ~55 mW (ESTIMATED). **Magic DRC: the first "0 errors" was an artefact (lazy check) and is retracted; the real run finds 124,286 errors (92% met1 minimum area, tiny isolated 0.355 x 0.14 um pieces in the logic area, only 5 in the macros).** A control cell with two close wires is flagged, so the check works. Cause not known: either the KLayout DEF-to-GDS conversion or the routing. Not claimed fabrication-ready. LVS not run. Power fix not started (it only matters after the layout is clean). Files: `hw/asic/cortex/signoff/`.
+**Correction of an earlier statement:** I said detailed routing was "not done"; the repo already had a 0-violation routed run (floor2g); what was missing was GDSII, DRC/LVS and a re-extraction.
+**Answer to "why does it use more power than a GPU":** it does not; the layout estimate (35-55 mW, 0.18-0.26 uJ/decision) is far below the measured GPU (about 38 W at batch 1, 69 mJ, 1.95 mJ at batch 1024); the gap is to the 9.4 nJ operation-count figure.
+
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

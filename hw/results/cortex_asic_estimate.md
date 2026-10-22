@@ -199,4 +199,9 @@ document remain those of the global-route estimates above (not re-extracted from
 - `ENC_S1` (finer winner grid) changes no memory (same 4,608-bit code); the encoder takes 2.3x the cycles per image (48,162 vs 21,378 cycles per image, simulation; the receptor stage is shared). Not placed or routed.
 - Functional checks: `run_check_cortex_slow.py` (plain, pipelined, SRAM macro models) and `run_check_encoder.py --s1 --asic`: 0 mismatches.
 
+
+## Re-run and pre-fabrication checks (22 Oct 2026)
+
+Routing reproduced at 0 violations, GDSII exported, timing/power re-read, magic DRC run: **the GDSII fails the foundry-style DRC (124k minimum-area errors on met1, mostly) and hold fails by 0.21 ns.** Details and files: [signoff folder](../asic/cortex/signoff/README.md).
+
 Related: [Month 3 results](cortex_month3.md), [Energy estimate](cortex_energy_estimate.md), [Results index](INDEX.md)
