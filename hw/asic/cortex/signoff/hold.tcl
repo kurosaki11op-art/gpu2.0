@@ -15,7 +15,7 @@ set_wire_rc -clock -layer met5
 set_routing_layers -signal met1-met4 -clock met1-met4
 estimate_parasitics -placement
 puts "BEFORE: hold [sta::worst_slack -min]  setup [sta::worst_slack -max]"
-repair_timing -hold -hold_margin 0.1 -allow_setup_violations -verbose
+repair_timing -hold -slack_margin 0.1
 estimate_parasitics -placement
 puts "AFTER repair: hold [sta::worst_slack -min]  setup [sta::worst_slack -max]"
 write_db floor2e/cortex_hold.odb

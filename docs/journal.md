@@ -1358,5 +1358,7 @@ One command runs the integer model of the chip (software, CPU: stages with no st
 **Correction of an earlier statement:** I said detailed routing was "not done"; the repo already had a 0-violation routed run (floor2g); what was missing was GDSII, DRC/LVS and a re-extraction.
 **Answer to "why does it use more power than a GPU":** it does not; the layout estimate (35-55 mW, 0.18-0.26 uJ/decision) is far below the measured GPU (about 38 W at batch 1, 69 mJ, 1.95 mJ at batch 1024); the gap is to the 9.4 nJ operation-count figure.
 
+**Night 22-23 Oct update (layout checks):** root cause of the ~325,000 well and latch-up DRC errors found: **no filler cells in the flow**. With 3.17 M fill cells added, tile 0_1 falls from about 12,500 errors to 1,036, all within 3 um of an SRAM macro (my thin pin stand-in shapes), 0 elsewhere. Hold repair works (-0.21 -> +0.10 ns on the old layout; -0.31 -> +0.35 ns pre-route on the rebuilt one). New open items: **antenna violations** (2,279 nets of 115,506, ESTIMATED; `repair_antennas` segfaults in this OpenROAD build) and **LVS not run**. Incidents: the disk allowance filled once and crashed a routing run and a DRC batch (re-run). Rebuilt layout (taps at 13 um, hold repaired before routing) is routing now. Details: `hw/asic/cortex/signoff/README.md`.
+
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
