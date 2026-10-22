@@ -138,8 +138,18 @@ lab(s, "violation left in detailed routing of the SKY130 layout (from 174,309 on
 lab(s, "ESTIMATED (open-source flow, no sign-off)", 5.3, 4.5, 4.0, C.accent6, 11, true);
 notes(s, "The design is not just a simulator result. Every check passes bit for bit between the integer model and the RTL, covering the learning core, the sense layers, the whole sound chain, the two-sense chip, the new units that moved host steps onto the chip, and the board top. We also took it through an open-source SKY130 layout flow; routing ended at one remaining violation. This is verification in simulation, not a chip.");
 
-// 13 limits
+// 13a what it solves
 pres.addSection({ title: "Honest" });
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Honest" });
+s.addText("What L solves, and what it does not", { placeholder: "title" });
+card(s, 0.5, 1.4, 4.4, 3.6); card(s, 5.1, 1.4, 4.4, 3.6);
+lab(s, "What L solves", 0.7, 1.55, 4.0, C.accent3, 20, true, { fontFace: "Cambria" });
+s.addText([{ text: "Small AI on devices that must keep learning: no retraining on a server, no hardware thrown away to update it (SIMULATED)", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } }, { text: "No stored examples, 84 KB of memory for images, no multiplier", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } }, { text: "About 74x less energy per decision than an 8-bit network, counting operations needed (ESTIMATED)", options: { bullet: true } }], { x: 0.7, y: 2.05, w: 4.0, h: 2.8, fontSize: 13, color: C.text1, valign: "top", isTextBox: true, margin: 0, fontFace: "Calibri" });
+lab(s, "What L does not solve", 5.3, 1.55, 4.0, C.accent4, 20, true, { fontFace: "Cambria" });
+s.addText([{ text: "The cost of large language models and image generators: GPU and memory prices, data-centre heat and water", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } }, { text: "It cannot run existing models (CNNs, transformers, LLMs): it is a dedicated chip for its own brain-style model", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } }, { text: "Nothing is measured on hardware yet", options: { bullet: true } }], { x: 5.3, y: 2.05, w: 4.0, h: 2.8, fontSize: 13, color: C.text1, valign: "top", isTextBox: true, margin: 0, fontFace: "Calibri" });
+notes(s, "Be clear about scope. L solves a small part of the AI problem: devices that must keep learning in the field without retraining on a server and without being thrown away. That is simulated, and the energy figure is an estimate. L does not solve what is driving GPU and memory prices today, which is large language models and image generators in data centres. It also cannot run existing models: it is a dedicated chip for its own model. And nothing is measured on hardware yet.");
+
+// 13 limits
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Honest" });
 s.addText("Where it is level, and where it is weaker", { placeholder: "title" });
 const lim = ["Nothing is measured on hardware yet: every chip number is simulated", "Staged clothing about 82%, 5 points below its one pass; many ideas tried", "A trained CNN is ahead by about 2 points on clothing when all data is available", "Small tests: digits, clothing, 20 classes, up to 35 words; noise is simulated; two-sense data is paired by class", "Second look costs about 2.8x memory; a few steps still run on the host"];
@@ -164,6 +174,17 @@ const steps = [["Done", "Model, RTL with every check passing, second look, tail 
 steps.forEach((t, i) => { const x = 0.5 + i * 2.3; card(s, x, 1.5, 2.15, 2.9); s.addShape(pres.shapes.OVAL, { x: x + 0.15, y: 1.65, w: 0.55, h: 0.55, fill: { color: t[2] }, line: { color: t[2], width: 0 }, objectName: "marker" }); lab(s, String(i + 1), x + 0.15, 1.75, 0.55, C.text1, 18, true, { align: "center", h: 0.4 }); lab(s, t[0], x + 0.15, 2.35, 1.9, C.text1, 17, true, { fontFace: "Cambria" }); lab(s, t[1], x + 0.15, 2.8, 1.9, C.text1, 11, false, { h: 1.5 }); });
 lab(s, "Horizon: a provable result within 6 to 8 months, then shrink and attract investors. No fabrication is planned yet.", 0.5, 4.6, 9, C.text1, 14, false, { h: 0.5 });
 notes(s, "What comes next. The model and RTL are done and verified in simulation. The next milestone is the real Tang Nano board, which gives the first measured numbers. Then harder tests: a larger vocabulary, real recorded noise and a harder image set. Later, a matrix-free chip for the L language model, and external memory for sound and the second look. No fabrication is planned yet.");
+
+// 15b two tracks
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Next" });
+s.addText("Two tracks toward the bigger problem", { placeholder: "title" });
+card(s, 0.5, 1.4, 4.4, 3.6); card(s, 5.1, 1.4, 4.4, 3.6);
+lab(s, "Track 1: the L chip (hardware)", 0.7, 1.52, 4.0, C.accent3, 17, true, { fontFace: "Cambria" });
+s.addText([{ text: "Now: verified in simulation, bit-exact RTL", options: { bullet: true, breakLine: true, paraSpaceAfter: 5 } }, { text: "Next: run on the Tang Nano for the first MEASURED numbers", options: { bullet: true, breakLine: true, paraSpaceAfter: 5 } }, { text: "Then: harder tests, external memory for sound and the second look", options: { bullet: true } }], { x: 0.7, y: 2.0, w: 4.0, h: 2.9, fontSize: 13, color: C.text1, valign: "top", isTextBox: true, margin: 0, fontFace: "Calibri" });
+lab(s, "Track 2: the L AI model (later)", 5.3, 1.52, 4.0, C.accent2, 17, true, { fontFace: "Cambria" });
+s.addText([{ text: "Gate 1: measure the model: firing rates, ablations, seeds", options: { bullet: true, breakLine: true, paraSpaceAfter: 4 } }, { text: "Gate 2: fused GPU baseline; stop if a GPU is already close", options: { bullet: true, breakLine: true, paraSpaceAfter: 4 } }, { text: "Gate 3: matrix-free version keeps its quality", options: { bullet: true, breakLine: true, paraSpaceAfter: 4 } }, { text: "Then: simulator and FPGA; study memory: can constant-size state and event-driven reads move work from scarce HBM to cheaper DRAM or SRAM? (a question, not a claim)", options: { bullet: true } }], { x: 5.3, y: 2.0, w: 4.0, h: 2.9, fontSize: 12, color: C.text1, valign: "top", isTextBox: true, margin: 0, fontFace: "Calibri" });
+lab(s, "PLAN: the language-model track has small-scale evidence only (9M parameters).", 0.5, 5.05, 9, C.accent6, 11, false, { h: 0.3 });
+notes(s, "We plan to approach the bigger problem on two tracks. Track one is the L chip, which is done in simulation and next goes to a real board. Track two is the L AI model for language, which has small-scale evidence only, so it goes through gates: first measure the model, then compare against a fused GPU implementation and stop if the GPU is already close, then check that a matrix-free version keeps its quality. Only then a simulator and an FPGA. Later we study memory: whether the constant-size state and event-driven reads can move work from scarce high-bandwidth memory to cheaper DRAM or on-chip memory. That is a question to study, not a claim.");
 
 // 16 close
 s = pres.addSlide({ masterName: "DARK", sectionTitle: "Next" });
