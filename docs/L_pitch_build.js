@@ -138,8 +138,8 @@ notes(s, "Why this belongs with embedded systems. It is a dedicated function ins
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
 s.addText("Verified bit for bit, and laid out", { placeholder: "title" });
 card(s, 0.5, 1.4, 4.4, 3.5);
-lab(s, "38 / 38", 0.7, 1.55, 4.0, C.accent3, 54, true, { fontFace: "Cambria", h: 1.0 });
-lab(s, "RTL checks in one full run, 0 mismatches against the integer model: core, tail memory, IMPRINT, slow table, encoders, cochlea, sound chain, two-sense chip, cue weighting, second look, threshold and novelty units, clustering, board top, host schedule. Newer checks pass on their own: stage and night sequencer, raw senses to a whole stage.", 0.7, 2.75, 4.0, C.text1, 12, false, { h: 1.9 });
+lab(s, "41 / 41", 0.7, 1.55, 4.0, C.accent3, 54, true, { fontFace: "Cambria", h: 1.0 });
+lab(s, "RTL checks in one full run, 0 mismatches against the integer model: core, tail memory, IMPRINT, slow table, encoders, cochlea, sound chain, two-sense chip, cue weighting, second look, threshold and novelty units, clustering, stage and night sequencer, raw senses to a whole stage, board top, host schedule.", 0.7, 2.75, 4.0, C.text1, 12, false, { h: 1.9 });
 lab(s, "SIMULATED (RTL simulation)", 0.7, 4.5, 4.0, C.accent6, 11, true);
 card(s, 5.1, 1.4, 4.4, 3.5);
 lab(s, "1", 5.3, 1.55, 4.0, C.accent1, 54, true, { fontFace: "Cambria", h: 1.0 });
