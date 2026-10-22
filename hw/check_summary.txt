@@ -1,2 +1,5 @@
 core (FPGA build): PASS
 core (pipelined): PASS
+core with context memory: PASS
+core with context, pipelined: PASS
+core with tail memory (op 0 + tail dreams): PASS
