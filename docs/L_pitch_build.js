@@ -138,6 +138,23 @@ lab(s, "violation left in detailed routing of the SKY130 layout (from 174,309 on
 lab(s, "ESTIMATED (open-source flow, no sign-off)", 5.3, 4.5, 4.0, C.accent6, 11, true);
 notes(s, "The design is not just a simulator result. Every check passes bit for bit between the integer model and the RTL, covering the learning core, the sense layers, the whole sound chain, the two-sense chip, the new units that moved host steps onto the chip, and the board top. We also took it through an open-source SKY130 layout flow; routing ended at one remaining violation. This is verification in simulation, not a chip.");
 
+// 12b design
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
+s.addText("The design, so you can verify it", { placeholder: "title" });
+const bx = (x, y, w, h, t, fill, col, size) => { s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, fill: { color: fill }, line: { color: fill, width: 0 }, rectRadius: 0.08, objectName: "box" }); lab(s, t, x + 0.08, y + 0.05, w - 0.16, col || C.text1, size || 11, true, { h: h - 0.1, align: "center", valign: "middle" }); };
+const arr = (x1, y1, x2, y2) => s.addShape(pres.shapes.LINE, { x: x1, y: y1, w: x2 - x1, h: y2 - y1, line: { color: "6B7280", width: 1.5, endArrowType: "triangle" }, objectName: "arrow" });
+bx(0.4, 1.4, 1.5, 0.6, "Retina (picture)", "F2A93B"); bx(0.4, 2.2, 1.5, 0.6, "Cochlea (sound)", "F2A93B");
+arr(1.9, 1.7, 2.35, 1.95); arr(1.9, 2.5, 2.35, 2.25);
+bx(2.35, 1.6, 1.7, 0.8, "Detectors: sparse code, learned without labels", "2B3270", C.background1, 10);
+arr(4.05, 2.0, 4.5, 2.0);
+bx(4.5, 1.3, 2.6, 1.6, "Core: fast 5-bit table, dream counters (10-bit), slow table; counts, compares, shifts; no multiplier", "5B6BD6", C.background1, 11);
+arr(7.1, 2.0, 7.55, 2.0); bx(7.55, 1.6, 1.9, 0.8, "Decision (XNOR + popcount)", "2FA37A", C.background1, 11);
+bx(0.4, 3.2, 2.1, 0.55, "Second look (finer code)", C.background2, C.text1, 10); bx(2.6, 3.2, 2.1, 0.55, "Tail memory (sleep)", C.background2, C.text1, 10); bx(4.8, 3.2, 2.1, 0.55, "Cue weighting (2 senses)", C.background2, C.text1, 10); bx(7.0, 3.2, 2.4, 0.55, "Thresholds, novelty, grouping", C.background2, C.text1, 10);
+lab(s, "On-chip units added after the core, each checked bit for bit", 0.4, 2.95, 9, C.accent6, 10);
+card(s, 0.4, 3.95, 9.1, 1.0);
+lab(s, "Verify: every unit has a Verilog file, a testbench and a script that compares the RTL with the integer model (0 mismatches). One command, sh hw/run_all_checks.sh, reruns all checks. The repository and all logs are available to reviewers on request. Everything shown is SIMULATED; nothing is measured on hardware yet.", 0.55, 4.05, 8.8, C.text1, 12, false, { h: 0.85 });
+notes(s, "This is the design, so you can check it. Pictures and sound go through detectors that learn without labels and make a sparse code. The core is a fast five-bit table, ten-bit dream counters for sleep and a slow consolidating table, using counts, compares and shifts, with no multiplier. The decision is an XNOR and popcount. On top are the units we added: the second look, the tail memory, the confidence weighting of two senses, and the threshold, novelty and grouping units. Each has a Verilog file, a testbench and a script that compares it bit for bit with the integer model. One command reruns every check. The repository and logs are available to reviewers on request. Everything is simulated.");
+
 // 13a what it solves
 pres.addSection({ title: "Honest" });
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Honest" });
@@ -210,6 +227,14 @@ lab(s, "The only practical choice for dense logic: mature, high yield, full tool
 card(s, 0.5, 3.95, 9, 1.05, "FFF4DD");
 lab(s, "Plan: write the design node-agnostic; compare energy against GPUs at a GPU-class node using published scaling (ESTIMATED, uncertain); prove it on an FPGA; tape out at an accessible mature node when funded. A 5 nm-class chip needs tens of millions of dollars and foundry access we do not have: say so.", 0.7, 4.05, 8.6, C.text1, 12, false, { h: 0.9 });
 notes(s, "On fabrication. The open 130 nanometre flow is good for a prototype but not comparable to a GPU. Today's data-centre GPUs use a five-nanometre-class process and dies up to about 800 square millimetres. Reaching that node costs tens of millions of dollars and needs foundry access we do not have, so we will not claim it. The plan is to write the design independent of the node, compare energy against GPUs at a GPU-class node using published scaling, which is an uncertain estimate, prove the design on an FPGA, and tape out at an accessible mature node, around 28 to 65 nanometres through a university or shuttle programme, when funded. Silicon CMOS is the only practical material for dense logic: mature, high yield, full tools. Its limits are cost at advanced nodes, heat, SRAM that no longer shrinks as fast, and supply concentrated in a few fabs. Other materials are not ready for dense logic. All cost figures are estimates from memory of public reports; verify before quoting.");
+
+// 15d ask
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Next" });
+s.addText("What we need to go further", { placeholder: "title" });
+const ask = [["1", "FPGA board run", "Tang Nano 20K, about Rs 4,200 incl. GST (listing price + 18%, MODELLED)", "Pass: bit-exact with simulation, accuracy and power measured"], ["2", "Micro-chip on a shared shuttle", "about $100-300 per tile, 130 nm (ESTIMATED)", "Pass: the verified on-chip units run in real silicon"], ["3", "Full chip at a mature node", "shuttle $50k-300k, 28-65 nm (ESTIMATED), with a university or programme partner", "Pass: measured energy within 2x of the FPGA-calibrated model"], ["4", "GPU-class node (5 nm class)", "tens of millions of dollars: not requested now", "Only after steps 1-3"]];
+ask.forEach((r, i) => { const y = 1.3 + i * 0.86; card(s, 0.5, y, 9, 0.76); s.addShape(pres.shapes.OVAL, { x: 0.62, y: y + 0.13, w: 0.48, h: 0.48, fill: { color: i < 3 ? C.accent1 : C.accent6 }, line: { color: i < 3 ? C.accent1 : C.accent6, width: 0 }, objectName: "marker" }); lab(s, r[0], 0.62, y + 0.2, 0.48, C.text1, 15, true, { align: "center", h: 0.3 }); lab(s, r[1], 1.25, y + 0.08, 2.6, C.text1, 13, true, { h: 0.6 }); lab(s, r[2], 3.9, y + 0.06, 2.9, C.text1, 10, false, { h: 0.65 }); lab(s, r[3], 6.9, y + 0.06, 2.5, C.accent3, 10, false, { h: 0.65 }); });
+lab(s, "Also welcome: a university or programme partner for shuttle access, a mentor, and compute credits for the language-model gates. Prices are estimates from public information: verify before committing.", 0.5, 4.8, 9, C.text1, 11, false, { h: 0.5 });
+notes(s, "What we need to go further, in steps, each with a pass criterion. Step one is the FPGA board run, about four thousand rupees including tax, and it gives the first measured numbers: bit-exact agreement with the simulation, accuracy and power. Step two is a micro-chip on a shared shuttle, around a hundred to three hundred dollars per tile, to show the verified on-chip units in real silicon. Step three is a full chip at a mature node through a university or programme partner, tens of thousands of dollars. Step four, a GPU-class node, costs tens of millions and is not requested now. Besides money we welcome a partner for shuttle access, a mentor, and compute credits for the language-model gates. All prices are estimates; verify before committing.");
 
 // 16 close
 s = pres.addSlide({ masterName: "DARK", sectionTitle: "Next" });

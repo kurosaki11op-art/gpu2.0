@@ -32,3 +32,4 @@ threshold unit (streaming quantile + cue thresholds): PASS
 novelty flag unit (on-chip threshold + flag): PASS
 clustering unit (rate prototypes, label-free grouping): PASS
 sleep cleaning, chip scores + neighbours + pooling unit == model: PASS
+whole two-sense chip (retina + cochlea + one core): PASS
