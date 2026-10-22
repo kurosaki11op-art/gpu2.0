@@ -1,0 +1,5 @@
+read_verilog -sv cortex_core.v
+hierarchy -check -top cortex_core -chparam NB 64 -chparam AW 6
+synth_gowin -top cortex_core -nowidelut -noalu -nobram
+write_verilog -noattr netlist_core.v
+stat

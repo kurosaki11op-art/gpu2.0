@@ -35,3 +35,5 @@ stage and night sequencer (on-chip schedule): PASS
 stage and night sequencer, pipelined core: PASS
 node: raw senses to a whole learning stage: PASS
 sleep cleaning, chip scores + neighbours + pooling unit == model: PASS
+whole two-sense chip (retina + cochlea + one core): PASS
+sound chip, whole chain (aligned): PASS
