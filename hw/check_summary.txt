@@ -5,3 +5,5 @@ core with context, pipelined: PASS
 core with tail memory (op 0 + tail dreams): PASS
 core with tail memory, pipelined: PASS
 core with IMPRINT (few-shot fix): PASS
+core with IMPRINT, pipelined: PASS
+core with slow table (Redesign 6): PASS
