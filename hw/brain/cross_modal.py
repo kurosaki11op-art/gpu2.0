@@ -81,6 +81,27 @@ def novelty_threshold(known_tops, n=2, w=20, e0=9, k=7, emin=2):
     return q - flip
 
 
+def kmeans_int(X, k, iters=8, restarts=3):
+    """label-free grouping on the chip, integers only (the sleep-time buffer of unlabelled pairs, X = bool codes): binary prototypes by majority vote.
+    score of a pair x for prototype j: 2 * overlap(x, p_j) - |p_j|  (the k-means distance with binary centroids: popcounts, shifts, compares; first prototype wins ties)
+    init (farthest first): prototype 0 = the first pair of the restart; each further prototype = the pair whose best score against the prototypes so far is smallest (lowest index on ties)
+    iteration: assign every pair; per prototype count the on-bits of its members (c) and the members (m); the new prototype has bit b when 2 * c[b] >= m (an empty prototype keeps its bits)
+    restart r starts with pair (r * N) // restarts; the restart with the largest total score wins (first on ties). returns the assignment of every pair"""
+    X = np.asarray(X, bool); N = len(X); Xi = X.astype(np.int32); best = (None, None)
+    for r in range(restarts):
+        first = (r * N) // restarts; P = np.zeros((k, X.shape[1]), bool); P[0] = X[first]; used = 1
+        for j in range(1, k):
+            sc = 2 * (Xi @ P[:j].T.astype(np.int32)) - P[:j].sum(1)[None, :]; far = int(np.argmin(sc.max(1))); P[j] = X[far]; used += 1
+        for _ in range(iters):
+            sc = 2 * (Xi @ P.T.astype(np.int32)) - P.sum(1)[None, :]; a = sc.argmax(1)
+            for j in range(k):
+                m = int((a == j).sum())
+                if m: P[j] = 2 * Xi[a == j].sum(0) >= m
+        sc = 2 * (Xi @ P.T.astype(np.int32)) - P.sum(1)[None, :]; a = sc.argmax(1); tot = int(sc.max(1).sum())
+        if best[0] is None or tot > best[0]: best = (tot, a)
+    return best[1]
+
+
 def pool_names(scores, nb_ids, names, known, ear_vote=200):
     """host-side pooling, exactly what the chip leaves to the host: scores (n, classes) = the core's class scores per buffered picture (rd_scores after a PREDICT), nb_ids (n, K) = the K neighbour slots of every picture (cortex_neighbours),
     names = the ear's names; new name = argmax over the known classes of own score + sum of the neighbours' scores (+ ear_vote x (K+1) for the ear's own name). Integer adds and compares."""

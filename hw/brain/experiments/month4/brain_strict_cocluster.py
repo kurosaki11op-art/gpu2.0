@@ -50,7 +50,7 @@ R = {}
 for seed in range(1, SEEDS + 1):
     r = np.random.RandomState(seed); heard = A[np.array([r.choice(tr_i[sy[tr_i] == d]) for d in ytr])]; views = {"picture alone": vtr, "sound alone": heard, "both senses joined": np.concatenate([vtr, heard], 1)}
     for name, code in views.items():
-        a = kmeans(code, K, seed); R.setdefault(name + " | purity", []).append(purity(a, ytr))
+        a = cross_modal.kmeans_int(code, K, 8, 3) if os.environ.get("KM") == "int" else kmeans(code, K, seed); R.setdefault(name + " | purity", []).append(purity(a, ytr))
         nm = np.zeros(K, np.int64)
         for j in range(K):                                                            # name each group by ONE label: the majority of 5 randomly chosen labelled members (10 labels in total)
             mem = np.where(a == j)[0]; nm[j] = np.bincount(ytr[r.choice(mem, min(5, len(mem)), replace=False)], minlength=10).argmax() if len(mem) else 0

@@ -73,7 +73,7 @@ for seed in range(1, SEEDS + 1):
     pic_top = (jstream[:, :NP].astype(np.int32) @ Sbase[:, :NP].T); pic_top[:, ~base.known] = -(1 << 30); snd_top = (jstream[:, NP:].astype(np.int32) @ Sbase[:, NP:].T); snd_top[:, ~base.known] = -(1 << 30)
     R.setdefault("novelty AUROC, picture bits only", []).append(auroc(-pic_top.max(1)[novel_true], -pic_top.max(1)[~novel_true])); R.setdefault("novelty AUROC, sound bits only", []).append(auroc(-snd_top.max(1)[novel_true], -snd_top.max(1)[~novel_true]))
     flag = top < thr; R.setdefault("flag recall (new pairs flagged)", []).append(float(flag[novel_true].mean())); R.setdefault("flag precision (flagged that are new)", []).append(float(novel_true[flag].mean()) if flag.any() else 0.0); R.setdefault("flagged pairs", []).append(float(flag.sum()))
-    fi = np.where(flag)[0]; a = kmeans(jstream[fi], min(KG, max(2, len(fi) // 20)), seed); nm = np.zeros(a.max() + 1, np.int64)
+    fi = np.where(flag)[0]; a = (cross_modal.kmeans_int(jstream[fi], min(KG, max(2, len(fi) // 20))) if os.environ.get("KM") == "int" else kmeans(jstream[fi], min(KG, max(2, len(fi) // 20)), seed)); nm = np.zeros(a.max() + 1, np.int64)
     for j in range(a.max() + 1):
         mem = np.where(a == j)[0]; nm[j] = np.bincount(ystream[fi][r.choice(mem, min(5, len(mem)), replace=False)], minlength=10).argmax() if len(mem) else 0
     names = nm[a]; R.setdefault("flagged pairs: group names right", []).append(float((names == ystream[fi]).mean()))
