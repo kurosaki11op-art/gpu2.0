@@ -1,1 +1,6 @@
 parameters 421642
+fashion joint 0.9096 74s
+fashion naive 0.1995
+parameters 421642
+mnist joint 0.9887 52s
+mnist naive 0.195
