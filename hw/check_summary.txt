@@ -37,3 +37,6 @@ node: raw senses to a whole learning stage: PASS
 sleep cleaning, chip scores + neighbours + pooling unit == model: PASS
 whole two-sense chip (retina + cochlea + one core): PASS
 sound chip, whole chain (aligned): PASS
+Tang Nano board design: PASS
+host schedule == chip model: PASS
+failures: 0  skipped (data missing): 0
