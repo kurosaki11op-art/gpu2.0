@@ -1,0 +1,21 @@
+import matplotlib; matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+f, a = plt.subplots(figsize=(13, 7.2)); a.set_xlim(0, 13); a.set_ylim(-0.9, 7.2); a.axis("off")
+def box(x, y, w, h, t, c, s=10, tc="white"):
+    a.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.03,rounding_size=0.12", fc=c, ec="none")); a.text(x + w / 2, y + h / 2, t, ha="center", va="center", fontsize=s, color=tc, fontweight="bold")
+def arr(x1, y1, x2, y2): a.add_patch(FancyArrowPatch((x1, y1), (x2, y2), arrowstyle="-|>", mutation_scale=16, color="#2B3270", lw=1.8))
+a.text(6.5, 6.95, "L Cortex: block diagram (no multiplier, no matrix, no backprop)", ha="center", fontsize=15, fontweight="bold", color="#151A3D")
+box(0.2, 5.0, 1.9, 1.1, "Camera\n28x28 picture", "#6B7280"); box(0.2, 3.5, 1.9, 1.1, "Microphone\n16 kHz samples", "#6B7280")
+box(2.8, 5.0, 2.2, 1.1, "Retina\nbrightness + centre-\nsurround bits", "#5B6BD6", 9); box(2.8, 3.5, 2.2, 1.1, "Cochlea\n28 shift-add\nresonators", "#5B6BD6", 9)
+box(5.7, 4.2, 2.3, 1.6, "Sensory cortex\n32 detectors / window\nXNOR + popcount\n2x2 pooling", "#5B6BD6", 9)
+box(8.7, 4.2, 2.0, 1.6, "Sparse code\n4,608 bits\n(9,216 with sound)", "#F2A93B", 10, "#151A3D")
+box(5.4, 1.6, 2.6, 1.6, "Fast table\n5-bit counter per\n(class, bit)\nadd up = decide", "#2FA37A", 10); box(8.7, 1.6, 2.0, 1.6, "Slow table\n(ASIC option)\nfollows fast table", "#2FA37A", 10)
+box(2.6, 1.6, 2.4, 1.6, "Dream memory\n10-bit on-counts\nper class and bit", "#8A93C9", 10); box(2.0, 0.2, 6.6, 0.8, "Day / night sequencer: count, practise, dream, sleep ends itself", "#2B3270", 10)
+box(11.2, 3.3, 1.6, 1.6, "Answer\n(class)\nnovelty flag", "#D9534F", 11); box(11.2, 0.9, 1.6, 1.7, "UART\nto PC or\nmicrocontroller", "#6B7280", 10)
+arr(2.1, 5.55, 2.8, 5.55); arr(2.1, 4.05, 2.8, 4.05); arr(5.0, 5.55, 5.7, 5.2); arr(5.0, 4.05, 5.7, 4.8); arr(8.0, 5.0, 8.7, 5.0)
+arr(9.7, 4.2, 7.2, 3.2); arr(9.7, 4.2, 9.7, 3.2); arr(5.4, 2.4, 5.0, 2.4); arr(5.0, 2.8, 5.4, 2.8); arr(5.3, 1.6, 5.3, 1.0)
+arr(8.0, 2.4, 8.7, 2.4); arr(10.7, 2.7, 11.2, 3.6); arr(12.0, 3.3, 12.0, 2.6)
+a.text(0.2, -0.35, "Fast table decides. Dreams replay old classes so they are not forgotten. Two chips merge by adding tables.", fontsize=9, color="#6B7280", va="bottom")
+a.text(0.2, -0.7, "Design and simulation only: not yet run on a board.", fontsize=9, color="#D9534F", fontweight="bold", va="bottom")
+f.savefig("l_cortex_block.png", dpi=130, bbox_inches="tight", facecolor="white")
