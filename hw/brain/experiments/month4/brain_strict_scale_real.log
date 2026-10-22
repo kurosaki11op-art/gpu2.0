@@ -1,0 +1,9 @@
+mnist NPS 12000 real:128:16 staged 0.9620 59s
+mnist NPS 12000 real:2048:16 staged 0.9591 83s
+fashion NPS 12000 real:8:8 staged 0.8097
+fashion NPS 12000 real:32:8 staged 0.8094
+fashion NPS 12000 real:128:8 staged 0.8146
+fashion NPS 12000 real:512:8 staged 0.8153
+fashion NPS 12000 real:512:16 staged 0.8197
+fashion NPS 12000 real:2048:8 staged 0.8145
+fashion NPS 12000 real:2048:16 staged 0.8202
