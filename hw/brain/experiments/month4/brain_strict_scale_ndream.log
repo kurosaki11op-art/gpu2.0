@@ -14,3 +14,26 @@ MARGIN=64
 fashion NPS 12000 base staged 0.7795 47s
 B=14 NDREAM=6000 MARGIN=64
 fashion NPS 12000 base staged 0.7846 63s
+KS=3
+KS=3
+fashion NPS 12000 base staged 0.7786 49s
+KS=7
+fashion NPS 12000 base staged 0.7980 51s
+CHK=20
+fashion NPS 12000 base staged 0.7760 49s
+CHK=500
+fashion NPS 12000 base staged 0.8157 49s
+NIGHT=3
+fashion NPS 12000 base staged 0.7811 50s
+CHK=1000
+fashion NPS 12000 base staged 0.8241 50s
+CHK=2000
+fashion NPS 12000 base staged 0.8141 48s
+CHK=5000
+fashion NPS 12000 base staged 0.7863 49s
+CHK=1000 KS=7
+fashion NPS 12000 base staged 0.7987 50s
+CHK=2000 KS=7
+fashion NPS 12000 base staged 0.7832 51s
+CHK=500 KS=7
+fashion NPS 12000 base staged 0.8125 48s

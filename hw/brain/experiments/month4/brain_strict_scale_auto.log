@@ -1,0 +1,24 @@
+auto fashion NPS 2000 base one pass 0.8555 15s
+auto fashion NPS 2000 base staged 0.8092 23s
+auto fashion NPS 2000 tail one pass 0.8551 31s
+auto fashion NPS 2000 tail staged 0.8215 42s
+auto mnist NPS 2000 base one pass 0.9707 56s
+auto mnist NPS 2000 base staged 0.9497 70s
+auto mnist NPS 2000 tail one pass 0.9700 77s
+auto mnist NPS 2000 tail staged 0.9546 91s
+auto fashion NPS 6000 base one pass 0.8692 28s
+auto fashion NPS 6000 base staged 0.8121 38s
+auto fashion NPS 6000 tail one pass 0.8696 48s
+auto fashion NPS 6000 tail staged 0.8246 62s
+auto mnist NPS 6000 base one pass 0.9770 89s
+auto mnist NPS 6000 base staged 0.9543 106s
+auto mnist NPS 6000 tail one pass 0.9773 116s
+auto mnist NPS 6000 tail staged 0.9630 133s
+auto fashion NPS 12000 base one pass 0.8763 52s
+auto fashion NPS 12000 base staged 0.8101 69s
+auto fashion NPS 12000 tail one pass 0.8750 85s
+auto fashion NPS 12000 tail staged 0.8105 105s
+auto mnist NPS 12000 base one pass 0.9792 152s
+auto mnist NPS 12000 base staged 0.9560 172s
+auto mnist NPS 12000 tail one pass 0.9793 187s
+auto mnist NPS 12000 tail staged 0.9663 207s
