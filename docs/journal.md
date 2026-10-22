@@ -1343,4 +1343,11 @@ One command runs the integer model of the chip (software, CPU: stages with no st
 **Deck:** added slide 12 "Deciding one digit: chip design vs a real GPU" (the user's measured RTX 3050 table, each row labelled; 24 slides now, so the "41 / 41" slide is 14). Files: `docs/L_pitch_build.js`, `docs/L_pitch_final.pptx`.
 **Deck:** added slide 11 "The L Cortex design in one picture" (block diagram `docs/img/l_cortex_block.png`, script `l_cortex_block.py`); 25 slides now, so the GPU slide is 13 and "41 / 41" is 15. Gate-level simulation of the NB=64 netlist was still running (restarted after the container lost the first run); no result yet.
 
+## 22 Oct 2026 - Gate-level simulation: the synthesised netlist HANGS (FAILURE, SIMULATED)
+
+**Asked:** "first check whether gate level simulation runs". **Found:** the long run (about 2 h, `hw/synth/gate_level/run_gate.py`, NB=64) was not slow; the netlist hangs. Test with a command stream truncated to the first N commands (`/tmp/gate_small`): empty stream (CLEAR + dump) runs in 1.3 s (488,000 cycles); 3 KNOWN commands (op 5) run fine (497,000 cycles); the first LEARN (op 1, 16 code bits) does not finish in 60 s (and not in 10 min for 5 commands). The same command stream runs to completion on the RTL in under a minute (24 commands, 6,873,000 cycles). So the RTL is fine and the synthesised Gowin netlist, as simulated with the extracted cell models, never drops `busy` after a LEARN.
+**Not yet known:** whether this is a bug in the test setup (the list buffer `lbuf` is `ram_style = block` and was synthesised with `-nobram`; the hand-made `MUX2` model and the extracted `cells_used.v` are the suspects) or a real synthesis mismatch. Until root-caused, no gate-level claim is made anywhere; this entry replaces the earlier "still running" notes (the first run killed by `timeout 1500` was probably this same hang).
+**Same day, layout rebuild:** synthesis reproduced (18.80 mm2, 63 SRAM macros); floor2e placement + clock tree rebuilt in a work copy; detailed routing with the floor2g settings running (first pass 33,077 violations).
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
