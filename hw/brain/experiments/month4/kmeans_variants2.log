@@ -1,0 +1,6 @@
+levels 0..4, stride init,  8 iterations, 1 restarts: purity 0.670
+levels 0..4, stride init,  8 iterations, 3 restarts: purity 0.670
+levels 0..4, stride init,  8 iterations, 6 restarts: purity 0.741
+levels 0..4, stride init, 16 iterations, 1 restarts: purity 0.664
+levels 0..4, stride init, 16 iterations, 3 restarts: purity 0.664
+levels 0..4, stride init, 16 iterations, 6 restarts: purity 0.744

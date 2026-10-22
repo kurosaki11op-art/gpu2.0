@@ -1,0 +1,11 @@
+float k-means (host)       0.655 78s
+integer, current (binary, farthest-first, 3 restarts) 0.404
+integer, current, 8 iter, 8 restarts 0.414
+rate prototypes (2-bit), rand init, seed 1: 0.636
+rate prototypes (2-bit), rand init, seed 2: 0.657
+rate prototypes (4-bit), rand init, seed 1: 0.658
+rate prototypes (4-bit), rand init, seed 2: 0.645
+rate prototypes (2-bit), far init, seed 1: 0.628
+rate prototypes (2-bit), far init, seed 2: 0.602
+rate prototypes (4-bit), far init, seed 1: 0.616
+rate prototypes (4-bit), far init, seed 2: 0.524

@@ -81,25 +81,24 @@ def novelty_threshold(known_tops, n=2, w=20, e0=9, k=7, emin=2):
     return q - flip
 
 
-def kmeans_int(X, k, iters=8, restarts=3):
-    """label-free grouping on the chip, integers only (the sleep-time buffer of unlabelled pairs, X = bool codes): binary prototypes by majority vote.
-    score of a pair x for prototype j: 2 * overlap(x, p_j) - |p_j|  (the k-means distance with binary centroids: popcounts, shifts, compares; first prototype wins ties)
-    init (farthest first): prototype 0 = the first pair of the restart; each further prototype = the pair whose best score against the prototypes so far is smallest (lowest index on ties)
-    iteration: assign every pair; per prototype count the on-bits of its members (c) and the members (m); the new prototype has bit b when 2 * c[b] >= m (an empty prototype keeps its bits)
-    restart r starts with pair (r * N) // restarts; the restart with the largest total score wins (first on ties). returns the assignment of every pair"""
-    X = np.asarray(X, bool); N = len(X); Xi = X.astype(np.int32); best = (None, None)
+def kmeans_int(X, k, iters=8, restarts=6, return_total=False):
+    """label-free grouping on the chip, integers only, no multiply and no divide (the sleep-time buffer of unlabelled pairs, X = bool codes).
+    prototype j = a level R[j, b] in 0..4 per code bit (the member rate times 4), found by compares only: R = #{l in 1..4 : 8 c >= (2 l - 1) m}, with c = members that have the bit and m = members ((2 l - 1) m by shifts and adds)
+    score of a pair x for prototype j: sum of R[j, b] over the active bits of x  -  (sum over b of R[j, b]^2) >> 3   (the k-means distance with quantised means; squares from the table 0, 1, 4, 9, 16; first prototype wins ties)
+    init: restart r takes the pairs at positions (i N) // k + (r N) // (k restarts) (mod N), i = 0..k-1, as prototypes with level 4 on their bits
+    iteration: assign every pair, then recompute every non-empty prototype from its members; the restart with the largest total score wins (first on ties). returns the assignment of every pair"""
+    X = np.asarray(X, bool); N = len(X); Xi = X.astype(np.int32); sq = np.array([0, 1, 4, 9, 16]); best = (None, None)
+    level = lambda c, m: sum((8 * c >= (2 * l - 1) * m).astype(np.int32) for l in range(1, 5))
     for r in range(restarts):
-        first = (r * N) // restarts; P = np.zeros((k, X.shape[1]), bool); P[0] = X[first]; used = 1
-        for j in range(1, k):
-            sc = 2 * (Xi @ P[:j].T.astype(np.int32)) - P[:j].sum(1)[None, :]; far = int(np.argmin(sc.max(1))); P[j] = X[far]; used += 1
+        idx = [((i * N) // k + (r * N) // (k * restarts)) % N for i in range(k)]; R = X[idx].astype(np.int32) * 4
         for _ in range(iters):
-            sc = 2 * (Xi @ P.T.astype(np.int32)) - P.sum(1)[None, :]; a = sc.argmax(1)
+            sc = Xi @ R.T - (sq[R].sum(1)[None, :] >> 3); a = sc.argmax(1)
             for j in range(k):
                 m = int((a == j).sum())
-                if m: P[j] = 2 * Xi[a == j].sum(0) >= m
-        sc = 2 * (Xi @ P.T.astype(np.int32)) - P.sum(1)[None, :]; a = sc.argmax(1); tot = int(sc.max(1).sum())
+                if m: R[j] = level(Xi[a == j].sum(0), m)
+        sc = Xi @ R.T - (sq[R].sum(1)[None, :] >> 3); a = sc.argmax(1); tot = int(sc.max(1).sum())
         if best[0] is None or tot > best[0]: best = (tot, a)
-    return best[1]
+    return (best[1], best[0]) if return_total else best[1]
 
 
 def pool_names(scores, nb_ids, names, known, ear_vote=200):
