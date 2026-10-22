@@ -14,3 +14,8 @@ core with host hooks (top margin, write counter): PASS
 encoder (FPGA build): PASS
 encoder (ASIC, gated clocks): PASS
 encoder, finer grid (ENC_S1, ASIC build): PASS
+encoder learning its detectors: PASS
+general encoder, images: PASS
+general encoder, sound: PASS
+general encoder, sound finer grid (3x3/s1/pool4): PASS
+general encoder, speckle removal: PASS
