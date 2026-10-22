@@ -10,13 +10,14 @@ from cortex_core import load  # noqa
 D = sys.argv[1]; NPER = int(os.environ.get("NPER", 20)); NTEST = int(os.environ.get("NTEST", 12)); DREAMS = int(os.environ.get("DREAMS", 2))
 z = np.load(os.path.join(D, "sep_mnist_F32_p2.npz")); ctr, cte = z["tr"], z["te"]
 _, ytr, _, yte = load(D, "mnist"); ytr, yte = ytr.astype(int), yte.astype(int); NB = ctr.shape[1]
-m = CortexInt(NB); buf = np.zeros(NB, np.int32); cmds, replies, truth = [], [], []
+m = CortexInt(NB); buf = np.zeros(NB, np.int32); cmds, replies, truth = [], [], []; train_idx = {}
 def cmd(b, rep, label=None): cmds.append(bytes(b)); replies.append(bytes(rep)); truth.append(label)
 cmd([0xE0], [0x5A]); cmd([0x53] + [x for s in m.rng.copy() for x in int(s).to_bytes(4, "little")], [0x53]); cmd([0x43], [0x43]); r = np.random.RandomState(7)
 def lst(a): return [len(a) & 255, len(a) >> 8] + [x for v in a for x in (int(v) & 255, int(v) >> 8)]
 for c in range(4):
     cmd([0x4B, c], [0x4B]); m.known[c] = True
-    for idx in r.choice(np.where(ytr == c)[0], NPER, replace=False):
+    sel_c = r.choice(np.where(ytr == c)[0], NPER, replace=False); train_idx[c] = sel_c
+    for idx in sel_c:
         a = np.nonzero(ctr[idx])[0].astype(np.int32)
         _count(m.on, m.n, a, len(a), c, m.top); u = _practise(m.W, a, len(a), c, m.known, m.margin, m.cmax); cmd([0x4C, c] + lst(a), [u])
         for oc in range(c):                                           # dreams of the earlier digits, so they are not overwritten
@@ -41,4 +42,5 @@ for c, rp, tr in zip(cmds, replies, truth):
 right = sum(1 for a, t in ans if a == t)
 print(f"reply bytes expected {len(exp)} got {len(got)}, mismatches against the integer model {bad}")
 print(f"the simulated board design recognised {right} of {len(ans)} held-out test digits ({100 * right / len(ans):.1f} %) after learning digits 0-3 from {NPER} examples each")
+np.savez(os.path.join(HERE, "demo_split.npz"), train=np.concatenate([train_idx[c] for c in range(4)]), train_y=np.concatenate([[c] * len(train_idx[c]) for c in range(4)]), test=tests, answers=np.array([a for a, _ in ans]))
 print("PASS" if bad == 0 else "FAIL")
