@@ -56,6 +56,8 @@ Every answer keeps the label (SIMULATED / ESTIMATED / MEASURED). Source of each 
 
 **18k. Strong or weak with 60,000 images? (22 Oct, CNN MEASURED, chip SIMULATED)** All together: CNN 90.96 clothing / 98.87 digits, chip 87.63 / 97.92 (3.3 and 0.95 behind). In stages with no stored examples: chip 81.0 / 95.6 (follow interval scaled with the stage size), CNN 19.95 / 19.50. Say: far ahead of a network when learning in stages, a few points behind it when all the data is available at once.
 
+**18l. Second look at 60,000 images (22 Oct, SIMULATED):** clothing one pass 87.58 -> 88.93 (CNN 90.96), digits 97.92 -> 98.45 (CNN 98.87); staged clothing 81.0 -> 82.5; about 2.8x table memory and 40 % more reads.
+
 **18j. What happens with more data? (22 Oct, SIMULATED)** One pass barely improves (clothing 86.55 -> 87.31, digits 97.47 -> 97.88 with 60,000 images). Staged learning gets worse as each stage gets bigger (clothing 83.3 -> 78.0, digits 95.5 -> 93.4 at 60,000 images; settings do not fix it): our staged numbers are for small stages of 2,000 images; say so.
 
 **18d. How close are you to a trained network on one pass?** (same 10,000 training images, SIMULATED chip, MEASURED CNN) With a "second look" (a second table on a finer code consulted only for the 20 % of inputs the first table is least sure about) clothing reaches **88.0** against the CNN's 88.8, digits 98.1 against 98.55, with 41 % more reads and about 2.8x the memory (an ASIC option, not in RTL yet); staged clothing also improves slightly (83.7). New spoken words learned while their object is seen reach 56 / 71 from sound alone against 10 / 34 from 5 recordings.
