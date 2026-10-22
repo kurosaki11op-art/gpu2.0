@@ -4,3 +4,4 @@ core with context memory: PASS
 core with context, pipelined: PASS
 core with tail memory (op 0 + tail dreams): PASS
 core with tail memory, pipelined: PASS
+core with IMPRINT (few-shot fix): PASS
