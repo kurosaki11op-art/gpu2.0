@@ -125,6 +125,21 @@ kp.forEach((k, i) => { const x = 0.5 + (i % 2) * 4.6, y = 1.3 + Math.floor(i / 2
 lab(s, "Say it carefully: the 74x is per operation needed. The SKY130 layout estimate is 0.18 to 0.26 uJ per decision, 20 to 28x above the operation count.", 0.5, 4.95, 8.7, C.accent4, 12, false, { h: 0.45 });
 notes(s, "Cost. The image memory is 84 kilobytes and fits a 25-dollar Tang Nano 20K with no hardware multipliers. Counting only the operations a decision needs it uses about 74 times less energy than an 8-bit network, an estimate. The layout estimate is higher, about a fifth of a microjoule. The second look costs about 2.8 times the table memory, and sound needs 422 kilobytes.");
 
+// 11a gpu
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
+s.addText("Deciding one digit: chip design vs a real GPU", { placeholder: "title" });
+const ghd = (t) => ({ text: t, options: { bold: true, color: "FFFFFF", fill: { color: "2B3270" }, fontSize: 12, fontFace: "Calibri" } });
+const gcl = (t, b) => ({ text: t, options: { fontSize: 12, bold: !!b, color: "151A3D", fontFace: "Calibri" } });
+const gpuRows = [[ghd("One digit image"), ghd("Time"), ghd("Decisions/s"), ghd("Energy"), ghd("Label")],
+  [gcl("L chip, FPGA build, 27 MHz"), gcl("55.7 us"), gcl("17,952"), gcl("9.4 nJ"), gcl("cycles SIMULATED, time and energy ESTIMATED")],
+  [gcl("L chip, pipelined (ASIC option)"), gcl("11.7 us"), gcl("85,174"), gcl("9.4 nJ"), gcl("cycles SIMULATED, time and energy ESTIMATED")],
+  [gcl("RTX 3050 6GB Laptop GPU, batch 1"), gcl("1,809 us"), gcl("553"), gcl("69.3 mJ"), gcl("MEASURED", true)],
+  [gcl("RTX 3050 6GB Laptop GPU, batch 1024"), gcl("-"), gcl("22,226"), gcl("1.95 mJ"), gcl("MEASURED", true)]];
+s.addTable(gpuRows, { x: 0.5, y: 1.3, w: 9, colW: [2.9, 1.0, 1.2, 1.0, 2.9], rowH: 0.45, border: { type: "solid", pt: 0.5, color: "DDE0F0" }, fill: { color: "EEF0FA" }, valign: "middle" });
+card(s, 0.5, 3.75, 9, 1.05, "FFF4DD");
+lab(s, "Read it honestly: chip times are cycle counts from the RTL simulation divided by 27 MHz, not a board run, and the chip energy is an operation count, not a power reading. The GPU rows were measured on a laptop GPU. One chip serves one stream; the GPU wins on throughput when it can batch. A trained CNN is still ahead on accuracy when all classes are learned at once (99.1% vs 97.9% at 59k images); the chip's case is learning classes in stages without forgetting (CNN fell to 19.6%).", 0.65, 3.82, 8.7, C.text1, 11, false, { h: 0.95 });
+notes(s, "We ran the same decision on a real laptop GPU, an RTX 3050, and on our chip design in simulation. The GPU numbers are measured. At batch one it takes about 1.8 milliseconds and 69 millijoules per decision; at batch 1024 it reaches 22 thousand decisions a second. The chip design needs 2,900 clock cycles for the FPGA build, which is about 56 microseconds at 27 megahertz, and about 12 microseconds for the pipelined option. Those times and the 9.4 nanojoule energy are estimates from simulation, not board measurements. A trained network is still more accurate when everything is learned at once; our case is learning in stages without forgetting.");
+
 // 11b embedded
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
 s.addText("Why this is an embedded system", { placeholder: "title" });
