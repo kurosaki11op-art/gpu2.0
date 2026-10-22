@@ -1,0 +1,8 @@
+fashion share  3/16 = 0.188: exact threshold    1733, chip estimate    1536 (e0 9, k 7), share of test inputs below it 0.221
+fashion share  6/16 = 0.375: exact threshold    3078, chip estimate    3072 (e0 9, k 7), share of test inputs below it 0.429
+fashion share  8/16 = 0.500: exact threshold    3832, chip estimate    3776 (e0 9, k 7), share of test inputs below it 0.528
+fashion median margin 3832; cue thresholds exact [339, 678, 1355, 2710, 5419, 10838, 21675], integer [339, 678, 1355, 2709, 5418, 10836, 21672], max difference 3
+mnist share  3/16 = 0.188: exact threshold    2848, chip estimate    2752 (e0 9, k 7), share of test inputs below it 0.211
+mnist share  6/16 = 0.375: exact threshold    3772, chip estimate    3776 (e0 9, k 7), share of test inputs below it 0.396
+mnist share  8/16 = 0.500: exact threshold    4332, chip estimate    4544 (e0 9, k 7), share of test inputs below it 0.570
+mnist median margin 4332; cue thresholds exact [383, 766, 1532, 3064, 6127, 12253, 24506], integer [383, 766, 1532, 3063, 6126, 12252, 24504], max difference 2

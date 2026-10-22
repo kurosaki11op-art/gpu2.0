@@ -59,6 +59,22 @@ def look_combine(sa, sb, known, th, sw=20):
     return comb.argmax(1), look
 
 
+def quantile_track(x, n, e0=9, k=7, emin=2, w=21):
+    """streaming quantile estimate on the chip (shifts and adds only): tracks the value q below which a share n/16 of the stream lies. q starts at the first sample; for every further sample x: if x < q then q -= (16 - n) << e else q += n << e (stationary point: share(x < q) = n/16); the step shift e = max(emin, e0 - (count >> k)) shrinks as samples arrive. returns the list of q after each sample"""
+    q = int(x[0]); out = [q]
+    for t in range(1, len(x)):
+        e = max(emin, e0 - (t >> k))
+        q = q - ((16 - n) << e) if int(x[t]) < q else q + (n << e)
+        q = min(max(q, 0), (1 << w) - 1); out.append(q)
+    return out
+
+
+def cue_thresholds(ref, w=21):
+    """the 7 cue-weighting thresholds ref * 2^(k - 0.5), k = -3..3, from shifts and adds only: ref * 2^-0.5 ~ (ref * 181) >> 8 with 181 = 128 + 32 + 16 + 4 + 1; then shifted by k (rounded up when shifting right)"""
+    r = int(ref); h = ((r << 7) + (r << 5) + (r << 4) + (r << 2) + r + 255) >> 8
+    return [min(((h >> -k) + (1 if (h & ((1 << -k) - 1)) else 0)) if k < 0 else h << k, (1 << w) - 1) for k in range(-3, 4)]
+
+
 def pool_names(scores, nb_ids, names, known, ear_vote=200):
     """host-side pooling, exactly what the chip leaves to the host: scores (n, classes) = the core's class scores per buffered picture (rd_scores after a PREDICT), nb_ids (n, K) = the K neighbour slots of every picture (cortex_neighbours),
     names = the ear's names; new name = argmax over the known classes of own score + sum of the neighbours' scores (+ ear_vote x (K+1) for the ear's own name). Integer adds and compares."""

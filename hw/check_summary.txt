@@ -34,3 +34,4 @@ sound chip, whole chain (aligned): PASS
 Tang Nano board design: PASS
 host schedule == chip model: PASS
 failures: 0  skipped (data missing): 0
+threshold unit (streaming quantile + cue thresholds): PASS
