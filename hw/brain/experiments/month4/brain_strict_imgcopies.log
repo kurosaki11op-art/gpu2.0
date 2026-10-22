@@ -1,0 +1,10 @@
+fashion none   staged clean 0.8327 | test with 25% of the lit pixels removed 0.7340
+fashion drop   staged clean 0.8105 | test with 25% of the lit pixels removed 0.7762
+fashion gauss  staged clean 0.8110 | test with 25% of the lit pixels removed 0.7648
+fashion shift  staged clean 0.8137 | test with 25% of the lit pixels removed 0.7403
+fashion mix    staged clean 0.8115 | test with 25% of the lit pixels removed 0.7653
+mnist none   staged clean 0.9552 | test with 25% of the lit pixels removed 0.9218
+mnist drop   staged clean 0.9523 | test with 25% of the lit pixels removed 0.9262
+mnist gauss  staged clean 0.9200 | test with 25% of the lit pixels removed 0.8680
+mnist shift  staged clean 0.9568 | test with 25% of the lit pixels removed 0.9253
+mnist mix    staged clean 0.9298 | test with 25% of the lit pixels removed 0.8853
