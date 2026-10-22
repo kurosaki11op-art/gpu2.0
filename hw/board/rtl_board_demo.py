@@ -2,12 +2,12 @@
 """The Tang Nano top-level design (cortex_board_top.v: UART + core + encoder) in RTL simulation (Icarus Verilog), learning and recognising digits (22 Oct 2026, SIMULATED RTL).
 The host sends the UART protocol bytes of the real board (seed lanes, clear, KNOWN, LEARN with a code list, DREAM, PREDICT); the board design answers byte by byte. Teaches digits 0-3 in four stages (each new digit learned with dreams of the earlier ones), then asks it to
 recognise held-out test images. The integer model gets the same bytes and must give the same replies (bit-exact); the accuracy reported is computed from the REPLY BYTES of the simulated board design. usage: python rtl_board_demo.py DATA_DIR"""
-import os, subprocess, sys
+import os, subprocess, sys, tempfile
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(HERE, "..", "brain"))
 from cortex_int import CortexInt, _count, _practise, _dream  # noqa
 from cortex_core import load  # noqa
-D = sys.argv[1]; NPER = int(os.environ.get("NPER", 20)); NTEST = int(os.environ.get("NTEST", 12)); DREAMS = int(os.environ.get("DREAMS", 2))
+VVP = os.path.join(tempfile.gettempdir(), "boarddemo.vvp"); D = sys.argv[1]; NPER = int(os.environ.get("NPER", 20)); NTEST = int(os.environ.get("NTEST", 12)); DREAMS = int(os.environ.get("DREAMS", 2))
 z = np.load(os.path.join(D, "sep_mnist_F32_p2.npz")); ctr, cte = z["tr"], z["te"]
 _, ytr, _, yte = load(D, "mnist"); ytr, yte = ytr.astype(int), yte.astype(int); NB = ctr.shape[1]
 m = CortexInt(NB); buf = np.zeros(NB, np.int32); cmds, replies, truth = [], [], []; train_idx = {}
@@ -30,8 +30,8 @@ allb = b"".join(cmds)
 open(os.path.join(HERE, "in_cortex.hex"), "w").write("\n".join("%02x" % x for x in allb) + "\n")
 open(os.path.join(HERE, "in_cortex_n.hex"), "w").write("\n".join("%04x\n%04x" % (len(c), len(rp)) for c, rp in zip(cmds, replies)) + "\n")
 print(f"{len(cmds)} commands, {len(allb)} bytes to the board design", flush=True)
-subprocess.run(["iverilog", "-g2005", "-o", "/tmp/boarddemo.vvp", f"-Ptb_cortex_board.NBYTES={len(allb) + 4}", "-I", "../rtl/cortex", "cortex_board_top.v", "uart_rx.v", "uart_tx.v", "../rtl/cortex/cortex_core.v", "../rtl/cortex/cortex_encoder.v", "tb_cortex_board.v"], cwd=HERE, check=True)
-res = subprocess.run(["vvp", "-n", "/tmp/boarddemo.vvp"], cwd=HERE, capture_output=True, text=True); print(res.stdout.strip().splitlines()[-1] if res.stdout.strip() else res.stderr[-300:])
+subprocess.run(["iverilog", "-g2005", "-o", VVP, f"-Ptb_cortex_board.NBYTES={len(allb) + 4}", "-I", "../rtl/cortex", "cortex_board_top.v", "uart_rx.v", "uart_tx.v", "../rtl/cortex/cortex_core.v", "../rtl/cortex/cortex_encoder.v", "tb_cortex_board.v"], cwd=HERE, check=True)
+res = subprocess.run(["vvp", "-n", VVP], cwd=HERE, capture_output=True, text=True); print(res.stdout.strip().splitlines()[-1] if res.stdout.strip() else res.stderr[-300:])
 got = bytes(int(x, 16) for x in open(os.path.join(HERE, "out_cortex_board.txt")).read().split()); exp = b"".join(replies)
 bad = sum(a != b for a, b in zip(got, exp)) + abs(len(got) - len(exp))
 # the replies of the PREDICT commands, in order, are the board design's answers
