@@ -75,6 +75,12 @@ def cue_thresholds(ref, w=21):
     return [min(((h >> -k) + (1 if (h & ((1 << -k) - 1)) else 0)) if k < 0 else h << k, (1 << w) - 1) for k in range(-3, 4)]
 
 
+def novelty_threshold(known_tops, n=2, w=20, e0=9, k=7, emin=2):
+    """novelty flag threshold on the chip: the streaming quantile tracker (n/16 of known pairs fall below it) run over the top scores of pairs the chip knows; signed scores are mapped to ordered unsigned values by flipping the sign bit; returns the signed threshold. A pair is flagged when its top score is below it."""
+    flip = 1 << (w - 1); q = quantile_track([int(v) + flip for v in known_tops], n, e0, k, emin, w)[-1]
+    return q - flip
+
+
 def pool_names(scores, nb_ids, names, known, ear_vote=200):
     """host-side pooling, exactly what the chip leaves to the host: scores (n, classes) = the core's class scores per buffered picture (rd_scores after a PREDICT), nb_ids (n, K) = the K neighbour slots of every picture (cortex_neighbours),
     names = the ear's names; new name = argmax over the known classes of own score + sum of the neighbours' scores (+ ear_vote x (K+1) for the ear's own name). Integer adds and compares."""

@@ -34,3 +34,15 @@ module cortex_cuethr #(parameter W = 21) (input wire [W-1:0] ref, output reg [7*
         end
     end
 endmodule
+
+// cortex_novel (22 Oct 2026): the novelty flag. During calibration (cal = 1) the tracker learns the n/16 quantile of the top scores of pairs the chip knows; afterwards a pair is flagged (flag = 1) when its top score is below that threshold.
+// Signed top scores are mapped to ordered unsigned values by flipping the sign bit. Bit-exact with cross_modal.novelty_threshold.
+module cortex_novel #(parameter SW = 20, parameter E0 = 9, parameter K = 7, parameter EMIN = 2) (
+    input  wire clk, rst, cal, input wire signed [SW-1:0] top, input wire [4:0] n,
+    output wire signed [SW-1:0] thr, output wire flag
+);
+    wire [SW-1:0] xu = {~top[SW-1], top[SW-2:0]}; wire [SW-1:0] q; wire [19:0] cnt;
+    cortex_quant #(.W(SW), .E0(E0), .K(K), .EMIN(EMIN)) Q(.clk(clk), .rst(rst), .valid(cal), .x(xu), .n(n), .q(q), .cnt(cnt));
+    assign thr = {~q[SW-1], q[SW-2:0]};
+    assign flag = (xu < q);
+endmodule

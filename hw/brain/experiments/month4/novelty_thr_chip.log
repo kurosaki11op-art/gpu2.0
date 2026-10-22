@@ -1,0 +1,22 @@
+seed 2 61s
+set fsdd
+novelty AUROC, top score of the joint code                                       0.9600
+novelty AUROC, margin                                                            0.9648
+novelty AUROC, picture bits only                                                 0.5696
+novelty AUROC, sound bits only                                                   0.6500
+flag recall (new pairs flagged)                                                  0.9124
+flag precision (flagged that are new)                                            0.9916
+flagged pairs                                                                    1837.5000
+flagged pairs: group names right                                                 0.9889
+flagged pairs: names right after sleep cleaning                                  0.9894
+F9 new words 8, 9 from sound alone (learned through the pictures seen with them) 0.4436
+F9 all 10 words from sound alone                                                 0.6638
+F9 known words 0-7 from sound alone, after                                       0.7202
+F9 oracle: sound-only learner with true labels for the whole stream, new words 8, 9 0.4485
+F9 baseline: 5 labelled recordings of each new word only, new words 8, 9         0.0650
+ours (flag + groups + 30-ish names + sleep) | all 10 digits (both senses at test) 0.9413
+ours (flag + groups + 30-ish names + sleep) | new digits 8, 9 only               0.9473
+ours (flag + groups + 30-ish names + sleep) | old digits 0-7 after               0.9397
+oracle (true labels for the whole stream) | all 10 digits (both senses at test)  0.9677
+oracle (true labels for the whole stream) | new digits 8, 9 only                 0.9547
+oracle (true labels for the whole stream) | old digits 0-7 after                 0.9711

@@ -67,7 +67,7 @@ for seed in range(1, SEEDS + 1):
     base_stages = [(joint[known_pool[np.isin(ytr[known_pool], s)]], ytr[known_pool][np.isin(ytr[known_pool], s)]) for s in STAGES[:4]]; base = build(None, base_stages)
     jstream = joint[stream]; ystream = ytr[stream]
     Sbase = base.S.astype(np.int32); sc_all = jstream.astype(np.int32) @ Sbase.T; sc_all[:, ~base.known] = -(1 << 30); top = sc_all.max(1)
-    sc_known = joint[known_pool[:2000]].astype(np.int32) @ Sbase.T; sc_known[:, ~base.known] = -(1 << 30); top_known = sc_known.max(1); thr = np.percentile(top_known, 10)
+    sc_known = joint[known_pool[:2000]].astype(np.int32) @ Sbase.T; sc_known[:, ~base.known] = -(1 << 30); top_known = sc_known.max(1); thr = np.percentile(top_known, 10) if os.environ.get("THR") != "chip" else cross_modal.novelty_threshold(top_known[np.random.RandomState(seed + 50).permutation(len(top_known))].tolist(), int(os.environ.get("NOVN", 2)), 20)   # THR=chip: the on-chip streaming quantile (n/16 of known pairs below the threshold)
     srt = np.sort(sc_all, 1); mg = srt[:, -1] - srt[:, -2]
     R.setdefault("novelty AUROC, top score of the joint code", []).append(auroc(-top[novel_true], -top[~novel_true])); R.setdefault("novelty AUROC, margin", []).append(auroc(-mg[novel_true], -mg[~novel_true]))
     pic_top = (jstream[:, :NP].astype(np.int32) @ Sbase[:, :NP].T); pic_top[:, ~base.known] = -(1 << 30); snd_top = (jstream[:, NP:].astype(np.int32) @ Sbase[:, NP:].T); snd_top[:, ~base.known] = -(1 << 30)

@@ -39,6 +39,7 @@ run "cue-weighting unit (two senses, shifts only)" python run_check_cue.py
 run "second-look unit (A alone or A + B by margin)" python run_check_look.py
 run "second look: two cores (coarse + fine) + look unit" python run_check_look_top.py
 run "threshold unit (streaming quantile + cue thresholds)" python run_check_thresh.py
+run "novelty flag unit (on-chip threshold + flag)" python run_check_novel.py
 run "sleep cleaning, chip scores + neighbours + pooling unit == model" python run_check_sleep_clean.py "$D"
 need fsdd/0_george_0.wav "whole two-sense chip (retina + cochlea + one core)" && run "whole two-sense chip (retina + cochlea + one core)" python run_check_sense_top.py "$D"
 cd "$HW/rtl/cortex/sound"
