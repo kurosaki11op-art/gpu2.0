@@ -1,0 +1,16 @@
+NDREAM 6000
+fashion NPS 12000 base staged 0.7782 56s
+mnist NPS 12000 base staged 0.9442 120s
+NDREAM 15000
+fashion NPS 12000 base staged 0.7746 65s
+mnist NPS 12000 base staged 0.9487 161s
+B=12
+fashion NPS 12000 base staged 0.7799 49s
+B=14
+fashion NPS 12000 base staged 0.7826 48s
+MARGIN=1024
+fashion NPS 12000 base staged 0.7712 48s
+MARGIN=64
+fashion NPS 12000 base staged 0.7795 47s
+B=14 NDREAM=6000 MARGIN=64
+fashion NPS 12000 base staged 0.7846 63s

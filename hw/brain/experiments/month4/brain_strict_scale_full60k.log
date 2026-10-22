@@ -1,0 +1,10 @@
+fashion train (60000, 4608) test (10000, 4608) 38s
+fashion NPS 12000 base one pass 0.8731 48s
+fashion NPS 12000 base staged 0.7798 59s
+fashion NPS 12000 tail one pass 0.8710 70s
+fashion NPS 12000 tail staged 0.7751 83s
+mnist train (59063, 4608) test (10000, 4608) 118s
+mnist NPS 12000 base one pass 0.9788 126s
+mnist NPS 12000 base staged 0.9342 139s
+mnist NPS 12000 tail one pass 0.9783 150s
+mnist NPS 12000 tail staged 0.9435 163s
