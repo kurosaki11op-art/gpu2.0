@@ -1,0 +1,15 @@
+fashion coarse             one pass  accuracy 0.8772
+fashion fine               one pass  accuracy 0.8846
+fashion sum of both        one pass  accuracy 0.8899
+fashion second look 20%    one pass  accuracy 0.8896   (mean active bits read 374)
+fashion second look 40%    one pass  accuracy 0.8899   (mean active bits read 483)
+fashion second look 60%    one pass  accuracy 0.8899   (mean active bits read 591)
+fashion second look 80%    one pass  accuracy 0.8899   (mean active bits read 700)
+fashion coarse             staged    accuracy 0.8316
+fashion fine               staged    accuracy 0.8386
+fashion sum of both        staged    accuracy 0.8423
+fashion second look 20%    staged    accuracy 0.8424   (mean active bits read 374)
+fashion second look 40%    staged    accuracy 0.8424   (mean active bits read 483)
+fashion second look 60%    staged    accuracy 0.8424   (mean active bits read 591)
+fashion second look 80%    staged    accuracy 0.8424   (mean active bits read 700)
+fashion active bits read per decision: coarse 265, fine 544, both 809
