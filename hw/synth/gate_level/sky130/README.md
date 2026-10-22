@@ -17,4 +17,4 @@ Same test as `../run_gate.py` (NB = 64 code bits, 24 commands, 95 output lines c
 
 Reproduce: `yosys -q synth_core_sky130.ys` (paths inside point at the PDK, the OpenRAM macros and `hd_tt_dontuse.lib` as in `hw/asic`), then `iverilog -g2005 -DFUNCTIONAL -DUNIT_DELAY=#0 -s tb_cortex_core -Ptb_cortex_core.NB=64 -Ptb_cortex_core.AW=9 ... netlist_sky.v tb_gate.v primitives.v sky130_fd_sc_hd.v <sram macro .v>`. For the power-up test the flip-flop and latch primitives in `primitives.v` get `initial Q = 1'b0` (or 1'b1). Limit: the core only, NB = 64; the full 4,608-bit chip has not been simulated at gate level.
 
-Related: [Hardware index](../../HARDWARE_INDEX.md), [Pre-fabrication verification](../../results/prefab_verification.md)
+Related: [Hardware index](../../../HARDWARE_INDEX.md), [Pre-fabrication verification](../../../results/prefab_verification.md)
