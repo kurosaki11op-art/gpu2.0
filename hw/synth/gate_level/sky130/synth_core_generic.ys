@@ -1,0 +1,11 @@
+read_verilog -sv cortex_core.v
+hierarchy -check -top cortex_core -chparam NB 64 -chparam AW 6
+synth -top cortex_core -flatten
+memory_map
+opt
+techmap
+opt -fast
+abc -g AND,NAND,OR,NOR,XOR,XNOR,MUX
+opt_clean
+write_verilog -noattr netlist_gen.v
+stat

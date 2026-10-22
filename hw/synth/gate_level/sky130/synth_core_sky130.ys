@@ -1,0 +1,16 @@
+read_liberty -lib /opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8_TT_1p8V_25C.lib
+read_liberty -lib /tmp/aw/hw/asic/syn/hd_tt_dontuse.lib
+read_verilog -DCORTEX_ASIC -DCG_SKY130 /home/user/gpu2.0/hw/rtl/cortex/cortex_core.v /home/user/gpu2.0/hw/rtl/cortex/cortex_cg.v /home/user/gpu2.0/hw/asic/spark_mem_sky130.v
+hierarchy -check -top cortex_core -chparam NB 64 -chparam AW 9
+synth -top cortex_core -flatten
+memory_map
+opt
+dfflibmap -liberty /tmp/aw/hw/asic/syn/hd_tt_dontuse.lib
+abc -D 20000 -liberty /tmp/aw/hw/asic/syn/hd_tt_dontuse.lib
+setundef -zero
+opt_clean -purge
+hilomap -hicell sky130_fd_sc_hd__conb_1 HI -locell sky130_fd_sc_hd__conb_1 LO
+insbuf -buf sky130_fd_sc_hd__buf_2 A X
+opt_clean -purge
+tee -o stat.txt stat
+write_verilog -noattr -noexpr -nohex -nodec netlist_sky.v

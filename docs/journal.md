@@ -1349,5 +1349,8 @@ One command runs the integer model of the chip (software, CPU: stages with no st
 **Not yet known:** whether this is a bug in the test setup (the list buffer `lbuf` is `ram_style = block` and was synthesised with `-nobram`; the hand-made `MUX2` model and the extracted `cells_used.v` are the suspects) or a real synthesis mismatch. Until root-caused, no gate-level claim is made anywhere; this entry replaces the earlier "still running" notes (the first run killed by `timeout 1500` was probably this same hang).
 **Same day, layout rebuild:** synthesis reproduced (18.80 mm2, 63 SRAM macros); floor2e placement + clock tree rebuilt in a work copy; detailed routing with the floor2g settings running (first pass 33,077 violations).
 
+**Gate-level, second attempt (SIMULATED, core only, NB=64, 24 commands, 95 lines vs the integer model):** a netlist from plain Yosys gates (42,778 cells) gives **0 mismatches**; the ASIC netlist in real SKY130 `sky130_fd_sc_hd` cells with the OpenRAM macro models and the clock gates (11,228 cells, 7 macros) gives **0 mismatches with all flip-flops powering up 0 and again with all powering up 1** (first try showed X outputs only because the flip-flops had no power-up value in the simulation; the reset covers the control state). So the design and its SKY130 synthesis agree; the Gowin-model hang is blamed on my hand-made cell models and is left open. Files: `hw/synth/gate_level/sky130/`. Limit: small core only, not the full 4,608-bit chip.
+**Routing at 16:20:** 3rd pass 5,980 violations (130k, 42k, 33k, 6k).
+
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
