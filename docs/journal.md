@@ -1341,5 +1341,6 @@ One command runs the integer model of the chip (software, CPU: stages with no st
 **Gate-level run:** RTL half finished (24 commands, 6,873,000 cycles); gate half had not reported when the container was last checked. Not claimed.
 **Rerun after the fix (user, same GPU):** chip FPGA build 55.7 us, 17,952 decisions/s; chip pipelined (ASIC option) 11.7 us, 85,174 decisions/s (cycles 1,952 / 9,412 / 317; SIMULATED cycles, time ESTIMATED at 27 MHz); chip energy 9.4 nJ for both rows (ESTIMATED, op count, not a power reading). GPU batch 1: 1,809.2 us, 553 decisions/s, 69.27 mJ (MEASURED); batch 1024: 22,226 decisions/s, 1.953 mJ (MEASURED). One chip handles one stream; the GPU number at batch 1024 uses many images at once.
 **Deck:** added slide 12 "Deciding one digit: chip design vs a real GPU" (the user's measured RTX 3050 table, each row labelled; 24 slides now, so the "41 / 41" slide is 14). Files: `docs/L_pitch_build.js`, `docs/L_pitch_final.pptx`.
+**Deck:** added slide 11 "The L Cortex design in one picture" (block diagram `docs/img/l_cortex_block.png`, script `l_cortex_block.py`); 25 slides now, so the GPU slide is 13 and "41 / 41" is 15. Gate-level simulation of the NB=64 netlist was still running (restarted after the container lost the first run); no result yet.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

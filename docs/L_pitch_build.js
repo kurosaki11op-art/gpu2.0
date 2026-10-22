@@ -116,6 +116,12 @@ tag(s, "SIMULATED, 3 seeds", 6.7, 1.55, 2.6);
 lab(s, "One chip works alone; this is an option. Because memory is counts, two chips that learned different classes merge by adding counters, with no retraining. A trained network cannot merge this way. The board demo design reached 91.4% on all ten digits after one night (PC-side emulator).", 6.7, 1.95, 2.6, C.text1, 12, false, { h: 2.9 });
 notes(s, "One chip works alone; sharing is an option. Because the memory is counts, two chips that learned different classes can be merged by adding their counters, or one chip hands its memory to another that keeps learning. Merge gives 93, 81 and 64 percent; hand-over gives 96, 83 and 72. A normal network cannot merge two separately trained copies like this. A GPU cluster joins many GPUs for size and speed, which is a different thing.");
 
+// 10b block diagram
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Results" });
+s.addText("The L Cortex design in one picture", { placeholder: "title" });
+s.addImage({ path: __dirname + "/img/l_cortex_block.png", x: 1.2, y: 1.2, w: 7.6, h: 4.31, altText: "Block diagram of L Cortex: sensors, retina and cochlea, sensory cortex, sparse code, fast and slow tables, dream memory, sequencer, answer" });
+notes(s, "This is the whole design. Sensors feed a retina and a cochlea, which turn pictures and sound into on and off bits. The sensory cortex picks the best matching detectors and makes a sparse code of 4,608 bits. The fast table keeps a small counter for every class and bit; adding up the counters for the bits that are on gives the answer, with no multiplier. The dream memory keeps per-class counts so the chip can dream old classes at night and not forget them. A sequencer runs day and night. Everything here is design and simulation; nothing has run on a board yet.");
+
 // 11 cost
 pres.addSection({ title: "Build" });
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
