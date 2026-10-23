@@ -1,0 +1,7 @@
+code bits 4608 active per image 246 15s
+accuracy after 5 stages: 94.15 %  (18s)
+fast table W     entries   46080  stored bits  5  non-zero  68.4 %  largest used    15  bits really needed  5  entropy 3.80 bits/entry | dense 28.1 KB, trimmed 28.1 KB, entropy limit 21.4 KB | code bits unused by every class 12.7 %
+slow table S     entries   46080  stored bits  8  non-zero  53.9 %  largest used   105  bits really needed  8  entropy 3.97 bits/entry | dense 45.0 KB, trimmed 45.0 KB, entropy limit 22.4 KB | code bits unused by every class 19.8 %
+dream counts on  entries   46080  stored bits 10  non-zero  71.0 %  largest used   833  bits really needed 10  entropy 5.94 bits/entry | dense 56.2 KB, trimmed 56.2 KB, entropy limit 33.4 KB | code bits unused by every class 7.9 %
+round trip of the fast table is exact: True | accuracy unchanged by construction: 94.15 %
+TOTAL dense 129.4 KB | value-width trimmed 129.4 KB | entropy limit 77.2 KB  -> lossless saving at most 1.7x
