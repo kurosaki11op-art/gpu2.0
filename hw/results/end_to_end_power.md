@@ -37,4 +37,17 @@ Time per image: about 0.43 ms at 50 MHz, 0.54 ms at the 40 MHz the layout reache
 
 **Limits.** Switching activity is a bracket (5% to 10%), not yet measured from a simulated image; the OpenRAM macros' energy is taken from their library; the encoder, which dominates, was designed for area, not energy, and an energy-lean or parallel encoder is the obvious improvement; power analysis is for the typical corner and 50 MHz; the chip is not built, so this is an estimate until the board run. GPU power is energy divided by time from the energy counter, not a separate meter reading.
 
+## Update: switching activity measured in simulation (Level 3)
+
+The encoder was simulated in RTL with 5 real MNIST test images (the ASIC build with gated clocks; `hw/rtl/cortex/run_check_encoder.py`, VCD of one image's encode window). **Measured:** 21,378 cycles per image (matches the earlier figure), 210 active code bits per image (these 5 images), switching of the encoder's control and datapath signals 1.2% (registers), 2.7% (wires), 1.8% overall of the cycles, and clock-gate pulses in only 3.7% (bmap), 2.4% (cmap) and 0% (pixel and template memories) of the cycles during encoding. Feeding these into the layout power analysis (gate enables as generated clocks, activity 1.2 / 1.8 / 2.7%):
+
+| Phase | Power (50 MHz) | Energy per cycle | Cycles | Energy |
+|---|---|---|---|---|
+| Encode | 29.0 / 30.2 / 31.9 mW | 0.58 / 0.60 / 0.64 nJ | 21,378 | **12.4 / 12.9 / 13.6 uJ** |
+| Pixel load (g_pix every cycle; activity 2%, not measured) | 50.5 mW | 1.01 nJ | 784 | 0.79 uJ |
+| Decide (pipelined; activity 2%, not measured) | 39.5 mW | 0.79 nJ | 317 | 0.25 uJ |
+| **Picture to answer** | about 30 mW while encoding | | about 22,500 | **about 13.5 to 14.6 uJ, about 14 uJ** |
+
+Time per image: 0.45 ms at 50 MHz, 0.56 ms at 40 MHz, 0.83 ms at the 27 MHz FPGA clock. **The earlier 40 to 45 uJ (5 to 10% guessed activity, encoder gates always on) was an upper bound; the measured activity gives about 14 uJ.** Ratio against the GPU: about 900 times (12.56 mJ), 21 times (0.294 mJ), 4,900 times (69.3 mJ), 140 times (1.95 mJ), so **about 20 to 5,000 times** depending on the GPU's power state and batch. Limits: only the encoder's top-level signals were counted (not the flip-flop arrays' own toggling, which is low because their clocks are gated); activity in the load and decide phases is not measured (together 7% of the energy); one corpus of 5 images; typical corner; the chip is not built. Files: `hw/asic/cortex/signoff/power_phase.tcl`, `pm_*.log`.
+
 Related: [Results index](INDEX.md), [ASIC estimate](cortex_asic_estimate.md), [Journal](../../docs/journal.md)

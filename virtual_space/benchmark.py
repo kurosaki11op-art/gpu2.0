@@ -50,14 +50,19 @@ with torch.no_grad():
     for _ in range(NR): m(X1)
     sync(); e1 = pynvml.nvmlDeviceGetTotalEnergyConsumption(H) if H else None; ej1 = (e1 - e0) / 1000.0 / NR if H else None
 # ---------------------------------------------------------------- the table
-print("\n" + "=" * 100); print("DECIDING ONE DIGIT IMAGE".ljust(48), "latency".rjust(12), "decisions/s".rjust(13), "energy per decision".rjust(22)); print("=" * 100)
+print("\n" + "=" * 100); print("ONE DIGIT IMAGE".ljust(48), "latency".rjust(12), "decisions/s".rjust(13), "energy per decision".rjust(22)); print("=" * 100)
 if "fpga" in cyc:
-    t = cyc["fpga"][2] / (a.mhz * 1e6); print(("virtual chip, FPGA build, %.0f MHz (SIMULATED cycles)" % a.mhz).ljust(48), ("%.1f us" % (t * 1e6)).rjust(12), ("%.0f" % (1 / t)).rjust(13), "9.4 nJ (ESTIMATED)".rjust(22))
+    t = cyc["fpga"][2] / (a.mhz * 1e6); print(("chip, decision from the code only, FPGA, %.0f MHz" % a.mhz).ljust(48), ("%.1f us" % (t * 1e6)).rjust(12), ("%.0f" % (1 / t)).rjust(13), "9.4 nJ (ESTIMATED)".rjust(22))
 if "pipe" in cyc:
-    t = cyc["pipe"][2] / (a.mhz * 1e6); print(("virtual chip, pipelined (ASIC option), %.0f MHz" % a.mhz).ljust(48), ("%.1f us" % (t * 1e6)).rjust(12), ("%.0f" % (1 / t)).rjust(13), "9.4 nJ (ESTIMATED)".rjust(22))
+    t = cyc["pipe"][2] / (a.mhz * 1e6); print(("chip, decision from the code only, pipelined, %.0f MHz" % a.mhz).ljust(48), ("%.1f us" % (t * 1e6)).rjust(12), ("%.0f" % (1 / t)).rjust(13), "9.4 nJ (ESTIMATED)".rjust(22))
+ENC_CYCLES, LOAD_CYCLES = 21378, 784   # encoder cycles per image (RTL simulation, hw/results/end_to_end_power.md) and pixel loading
+for key, label in (("fpga", "FPGA"), ("pipe", "pipelined")):
+    if key in cyc:
+        t = (ENC_CYCLES + LOAD_CYCLES + cyc[key][2]) / (a.mhz * 1e6)
+        print(("chip, PICTURE TO ANSWER, %s, %.0f MHz" % (label, a.mhz)).ljust(48), ("%.1f us" % (t * 1e6)).rjust(12), ("%.0f" % (1 / t)).rjust(13), "~14 uJ (ESTIMATED)".rjust(22))
 print(("%s, batch 1 (MEASURED)" % name[:30]).ljust(48), ("%.1f us" % (lat * 1e6)).rjust(12), ("%.0f" % (1 / lat)).rjust(13), ("%.2f mJ (MEASURED)" % (ej1 * 1e3) if ej1 else "n/a (no NVML)").rjust(22))
 print(("%s, batch %d (MEASURED)" % (name[:26], a.batch)).ljust(48), "-".rjust(12), ("%.0f" % ips).rjust(13), ("%.3f mJ (MEASURED)" % (ej * 1e3) if ej else "n/a (no NVML)").rjust(22))
 print("=" * 100)
-print("The chip rows are the design running in a simulator: cycle counts are exact, times are modelled at the stated clock, energy is the deck's estimate. The GPU rows are measured on this machine. The chip does one decision per 'stream'; a real product could run many.")
+print("The chip rows are the design running in a simulator: cycle counts are exact, times are modelled at the stated clock, energy is a layout estimate (picture to answer: encoder 21,378 cycles + decision; the GPU rows also process the whole picture). The GPU rows are measured on this machine. The chip does one decision per 'stream'; a real product could run many.")
 if a.accuracy:
     subprocess.run([sys.executable, os.path.join(ROOT, "hw", "board", "virtual_chip_vs_gpu.py"), a.data, "--per-class", "80", "--test", "15", "--epochs", "20"])

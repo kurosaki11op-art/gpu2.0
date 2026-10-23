@@ -163,17 +163,17 @@ notes(s, "Cost. The image memory is 84 kilobytes and fits a 25-dollar Tang Nano 
 
 // 11a gpu
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
-s.addText("Deciding one digit: chip design vs a real GPU", { placeholder: "title" });
+s.addText("Picture to answer: chip vs a real GPU", { placeholder: "title" });
 const ghd = (t) => ({ text: t, options: { bold: true, color: "FFFFFF", fill: { color: "2B3270" }, fontSize: 12, fontFace: "Calibri" } });
 const gcl = (t, b) => ({ text: t, options: { fontSize: 12, bold: !!b, color: "151A3D", fontFace: "Calibri" } });
-const gpuRows = [[ghd("One digit image"), ghd("Time"), ghd("Decisions/s"), ghd("Energy"), ghd("Label")],
-  [gcl("L chip, FPGA build, 27 MHz"), gcl("55.7 us"), gcl("17,952"), gcl("9.4 nJ"), gcl("cycles SIMULATED, time and energy ESTIMATED")],
-  [gcl("L chip, pipelined (ASIC option)"), gcl("11.7 us"), gcl("85,174"), gcl("9.4 nJ"), gcl("cycles SIMULATED, time and energy ESTIMATED")],
-  [gcl("RTX 3050 6GB Laptop GPU, batch 1"), gcl("1,809 us"), gcl("553"), gcl("69.3 mJ"), gcl("MEASURED", true)],
-  [gcl("RTX 3050 6GB Laptop GPU, batch 1024"), gcl("-"), gcl("22,226"), gcl("1.95 mJ"), gcl("MEASURED", true)]];
+const gpuRows = [[ghd("One image, start to finish"), ghd("Time"), ghd("Images/s"), ghd("Energy"), ghd("Label")],
+  [gcl("L chip, encoder + decision, FPGA clock 27 MHz"), gcl("0.83 ms"), gcl("1,200"), gcl("about 14 uJ"), gcl("cycles SIMULATED; time, energy ESTIMATED (layout, measured activity)")],
+  [gcl("L chip, decision from the code only (pipelined)"), gcl("11.7 us"), gcl("85,174"), gcl("0.25 uJ"), gcl("the encoder, 21,378 cycles, is NOT in this row; ESTIMATED")],
+  [gcl("RTX 3050 6GB Laptop GPU, batch 1"), gcl("0.42 to 1.8 ms"), gcl("553 to 2,373"), gcl("12.6 to 69 mJ"), gcl("MEASURED, two runs", true)],
+  [gcl("RTX 3050 6GB Laptop GPU, batch 1024"), gcl("-"), gcl("22,000 to 98,000"), gcl("0.29 to 1.95 mJ"), gcl("MEASURED, two runs", true)]];
 s.addTable(gpuRows, { x: 0.5, y: 1.3, w: 9, colW: [2.9, 1.0, 1.2, 1.0, 2.9], rowH: 0.45, border: { type: "solid", pt: 0.5, color: "DDE0F0" }, fill: { color: "EEF0FA" }, valign: "middle" });
-card(s, 0.5, 3.75, 9, 1.05, "FFF4DD");
-lab(s, "Read it honestly: chip times are cycle counts from the RTL simulation divided by 27 MHz, not a board run, and the chip energy is an operation count, not a power reading. The GPU rows were measured on a laptop GPU. One chip serves one stream; the GPU wins on throughput when it can batch. A trained CNN is still ahead on accuracy when all classes are learned at once (99.1% vs 97.9% at 59k images); the chip's case is learning classes in stages without forgetting (CNN fell to 19.6%).", 0.65, 3.82, 8.7, C.text1, 11, false, { h: 0.95 });
+card(s, 0.5, 4.0, 9, 1.05, "FFF4DD");
+lab(s, "Read it honestly: picture to answer, the chip spends 21,378 of its 22,500 cycles in the encoder, so at 27 MHz it is NOT faster than this GPU at batch 1; its advantage is energy (about 14 uJ against 12.6 to 69 mJ) and learning on the device. Chip rows are a layout estimate, no board run. The GPU range is two runs: its power state changes the result.", 0.65, 4.07, 8.7, C.text1, 11, false, { h: 0.95 });
 notes(s, "We ran the same decision on a real laptop GPU, an RTX 3050, and on our chip design in simulation. The GPU numbers are measured. At batch one it takes about 1.8 milliseconds and 69 millijoules per decision; at batch 1024 it reaches 22 thousand decisions a second. The chip design needs about 1,500 clock cycles per decision in the FPGA build, which is about 56 microseconds at 27 megahertz, and about 320 cycles, 12 microseconds, for the pipelined option. Those times and the 9.4 nanojoule energy are estimates from simulation, not board measurements. A trained network is still more accurate when everything is learned at once; our case is learning in stages without forgetting.");
 
 // 11a1 where the GPU spends more energy
@@ -182,13 +182,13 @@ s.addText("Where the GPU uses more energy, and L less", { placeholder: "title" }
 const eh = (t) => ({ text: t, options: { bold: true, color: "FFFFFF", fill: { color: "2B3270" }, fontSize: 12, fontFace: "Calibri" } });
 const ec = (t, b) => ({ text: t, options: { fontSize: 11, bold: !!b, color: "151A3D", fontFace: "Calibri" } });
 const energyRows = [[eh("Process"), eh("GPU (RTX 3050 laptop)"), eh("L chip design"), eh("Why")],
-  [ec("One decision, alone (batch 1)", true), ec("69.3 mJ  MEASURED"), ec("0.18 to 0.26 uJ layout estimate; 9.4 nJ by operation count  ESTIMATED"), ec("The GPU powers thousands of cores for one input; L touches a few table rows")],
-  [ec("One decision, in a crowd (batch 1024)", true), ec("1.95 mJ  MEASURED"), ec("same as above  ESTIMATED"), ec("Batching helps the GPU a lot, but a device decides one at a time")],
-  [ec("Learning from 59,063 digit images", true), ec("1,148 J whole training run  MEASURED"), ec("about 3 J: 45 to 62 uJ per example, one pass  ESTIMATED"), ec("The CNN trains for several passes (4 epochs); L counts each example once, in place")],
+  [ec("One image to answer, alone (batch 1)", true), ec("12.6 to 69 mJ  MEASURED (two runs)"), ec("about 14 uJ end to end (encoder 13 uJ); 9.3 nJ by operation count  ESTIMATED"), ec("The GPU powers thousands of cores for one input; L touches a few table rows")],
+  [ec("One image, in a crowd (batch 1024)", true), ec("0.29 to 1.95 mJ  MEASURED"), ec("same as above  ESTIMATED"), ec("Batching helps the GPU a lot, but a device decides one at a time")],
+  [ec("Learning from 59,063 digit images", true), ec("1,148 J whole training run  MEASURED"), ec("about 4 J (older gating assumptions, encoder added)  ESTIMATED"), ec("The CNN trains for several passes (4 epochs); L counts each example once, in place")],
   [ec("Learning a new class later", true), ec("retrain in a data centre (510 J in stages, and it forgets: 19.6%)  MEASURED"), ec("learns it in place with dreams, no retraining  SIMULATED"), ec("No gradients, no weights to rewrite")]];
 s.addTable(energyRows, { x: 0.5, y: 1.25, w: 9, colW: [2.0, 2.2, 2.6, 2.2], rowH: [0.35, 0.62, 0.55, 0.62, 0.62], border: { type: "solid", pt: 0.5, color: "DDE0F0" }, fill: { color: "EEF0FA" }, valign: "middle" });
 card(s, 0.5, 4.4, 9, 0.7, "FFF4DD");
-lab(s, "Read it as orders of magnitude, not a final ratio: the chip numbers are estimates (core only, no board or memory interface), the GPU numbers are the whole GPU. The GPU wins at training big models and at batched throughput on big jobs. The board run will measure L.", 0.65, 4.47, 8.7, C.text1, 11, true, { h: 0.6 });
+lab(s, "Orders of magnitude, not a final ratio: chip = layout estimate with activity measured in simulation (about 30 mW while encoding; GPU about 30 W), GPU = whole GPU, two runs. End to end the chip is about 20 to 5,000 times lower in energy. The GPU wins at big-model training and batched throughput. The board run will measure L.", 0.65, 4.47, 8.7, C.text1, 11, true, { h: 0.6 });
 notes(s, "Where does the GPU use more power, and where does L use less? Four processes. One decision on its own: my laptop GPU used 69 millijoules, measured; the chip design is estimated at about 0.2 microjoule from the layout and 9 nanojoules by counting operations. In a crowd of a thousand the GPU improves to about 2 millijoules, but a device decides one input at a time. Learning from 59 thousand digit images: the CNN's whole training run used 1,148 joules, measured; the chip learns each example once, in place, estimated at about 45 to 62 microjoules per example, so about 3 joules in all. And learning a new class later: the GPU has to retrain in a data centre, and in stages it forgets, 19.6 percent; the chip learns it in place with dreams. Read these as orders of magnitude. The chip numbers are estimates for the core only, with no board or memory interface; the GPU numbers are the whole GPU. The GPU still wins at training big models and at batched throughput on big jobs. The board run will measure L.");
 
 // 11a2 why use L

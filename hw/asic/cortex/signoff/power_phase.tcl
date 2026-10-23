@@ -20,8 +20,14 @@ set_power_activity -global -activity $::env(ACT)
 set k 0; set ne 0; set nr 0; set nw 0
 foreach c $icg {
   set n [get_full_name $c]
-  if {[string match "*u_enc*" $n]} { set d [expr {$::env(PHASE) eq "enc" ? 1 : 1000}]; incr ne
-  } elseif {[regexp {\.g1\.} $n]} { set d [expr {$::env(PHASE) eq "enc" ? 1000 : 9}]; incr nr
+  if {[string match "*u_enc*" $n]} {
+    # measured in the RTL simulation of real MNIST images (encode window of 21,378 cycles): ck_bmap pulses in 3.67% of cycles (1 in 27),
+    # ck_cmap in 2.44% (1 in 41), ck_pix and ck_tm in none; pixel loading (784 cycles) runs g_pix every cycle
+    set d 1000
+    if {$::env(PHASE) eq "enc"} { if {[string match "*g_bmap*" $n]} { set d 27 } elseif {[string match "*g_cmap*" $n]} { set d 41 } }
+    if {$::env(PHASE) eq "load" && [string match "*g_pix*" $n]} { set d 1 }
+    incr ne
+  } elseif {[regexp {\.g1\.} $n]} { set d [expr {$::env(PHASE) eq "dec" ? 9 : 1000}]; incr nr
   } else { set d 1000; incr nw }
   create_generated_clock -name gck$k -source [get_ports clk] -divide_by $d [get_pins $n/GCLK]
   incr k
