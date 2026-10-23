@@ -1410,4 +1410,8 @@ User rule: do not trade accuracy for memory; design our own memory. First measur
 
 **Bits against accuracy (23 Oct, SIMULATED):** user asked whether fewer bits cost accuracy. Measured (`hw/results/bits_vs_accuracy.md`): yes, more so on the harder task. Clothing: fast table 5 -> 4 bits loses 1.3 (staged) / 1.0 (all at once), 3 bits loses 4-6, 2 bits collapses; dream counts 10 -> 6 bits loses about 2 staged. Digits: 4 bits is as good as 5. Shipped widths sit near the knee; wider gains at most a few tenths. Consistent with the earlier 5-bit readout gap. Conclusion: narrowing the counters is not a free memory saving; a bigger memory needs a denser memory.
 
+## 23 Oct 2026 - Direction: keep memory on chip, scale with several chips (Groq / Cerebras style); first multi-chip benchmark
+
+User decision: no DRAM or HBM; run bigger models by using several chips, each with its own on-chip memory. First simulation (`hw/results/multichip_lm.md`): the 8 MB counting language model split over 1 to 64 chips by hashed slot; measured 98% remote lookups at 64 chips, about 280 B per token, and **load imbalance 2.1x at 64 chips** (hot contexts); modelled latency 1.6 us per token (8 sequential steps x 200 ns assumed link round trip) and 12 nJ per token. Dense 7B comparison is cost only (different quality). Next: replicate hot rows, test fetching several steps at once, then a real model comparison at matched quality.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

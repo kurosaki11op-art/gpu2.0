@@ -1,0 +1,20 @@
+characters 561285, lookups per token 48, 2s
+
+| chips | remote lookups | busiest chip / average | messages per token | bytes per token | latency per token (8 sequential steps) | energy per token (lookups + links) |
+|---|---|---|---|---|---|---|
+| 1 | 0.0 % | 1.00 | 0.0 | 0 B | 0.04 us | 0.67 nJ |
+| 2 | 47.9 % | 1.04 | 23.0 | 138 B | 1.64 us | 6.19 nJ |
+| 4 | 73.1 % | 1.08 | 35.1 | 211 B | 1.64 us | 9.09 nJ |
+| 8 | 86.7 % | 1.09 | 41.6 | 250 B | 1.64 us | 10.66 nJ |
+| 16 | 93.4 % | 1.24 | 44.8 | 269 B | 1.64 us | 11.43 nJ |
+| 32 | 96.3 % | 1.52 | 46.2 | 277 B | 1.64 us | 11.77 nJ |
+| 64 | 97.7 % | 2.12 | 46.9 | 281 B | 1.64 us | 11.92 nJ |
+
+Dense 7-billion-parameter model, 4-bit weights = 3.5 GB, pipeline split, cost only (a different quality, see text):
+| SRAM per chip | chips needed | cross-chip bytes per token | compute energy per token (int8 MACs at 0.2 pJ, 45 nm figure) | link energy per token |
+|---|---|---|---|---|
+| 3 MB (130 nm open macros, 400 mm2) | 1167 | 4775936 B | 2.8 mJ | 191.04 uJ |
+| 300 MB (28 nm, 400 mm2, Groq-class 230 MB) | 12 | 45056 B | 2.8 mJ | 1.80 uJ |
+| 1.2 GB (7 nm, 400 mm2) | 3 | 8192 B | 2.8 mJ | 0.33 uJ |
+
+Counting model table 8 MB needs: 2.7 chips of 3 MB, 1 chip of 300 MB
