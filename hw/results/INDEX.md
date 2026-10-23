@@ -58,5 +58,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Shirt against T-shirt on real colour photos](shirt_real_photos.md): colour lifts L's Shirt recall 61.0 to 79.6 on the pair (level with a CNN), not on the 4-way task; no label at test time (SIMULATED, small real data set).
 - [L deployed table size against accuracy](l_deployed_memory.md): 11 KB at 2 bits per entry still gives 88.65% on clothing, about 10x smaller than the 4-bit MLP for 0.9 points less (SIMULATED).
 - [Fair continual-learning baselines](staged_replay_baselines.md): replay with 200 images per class (1.5 MB) matches L's staged accuracy; EWC stays at 20%; L's edge is about 10x less memory (MEASURED, 3 seeds).
+- [Clothing accuracy round: features and readout](clothing_features_round.md): limit is the single binary layer with a linear readout (~90%); conjunctions chosen by counting add +0.8 to +0.9 at 2 to 5x memory; Shirt stays 66 to 74% (SIMULATED).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

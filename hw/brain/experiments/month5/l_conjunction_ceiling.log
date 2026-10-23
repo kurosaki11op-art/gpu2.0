@@ -1,0 +1,4 @@
+float linear on codes + 0 random 2-way ANDs        accuracy 0.8997 | Shirt recall 0.700 | T-shirt 0.848 | 42s
+float linear on codes + 10000 random 2-way ANDs    accuracy 0.9039 | Shirt recall 0.686 | T-shirt 0.829 | 76s
+float linear on codes + 30000 random 2-way ANDs    accuracy 0.9130 | Shirt recall 0.730 | T-shirt 0.871 | 190s
+float linear on codes + 30000 random 3-way ANDs    accuracy 0.9050 | Shirt recall 0.722 | T-shirt 0.840 | 536s

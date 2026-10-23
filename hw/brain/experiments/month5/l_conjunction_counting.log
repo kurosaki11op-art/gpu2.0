@@ -1,0 +1,2 @@
+counting readout, codes only (9,312)                 bits   9312 | accuracy 0.8976 | Shirt recall 0.662 | T-shirt 0.875 | 43s
+counting readout + 10000 selected 2-way ANDs (of 100000) bits  19312 | accuracy 0.9053 | Shirt recall 0.700 | T-shirt 0.872 | 218s
