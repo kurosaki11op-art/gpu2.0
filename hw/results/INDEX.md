@@ -52,5 +52,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Staged learning of a standard network](staged_mlp.md): the 4-bit and float MLP both end near 20% after five stages; L Cortex keeps 81.5 to 94.2% (SIMULATED).
 - [Neural baseline for the counting language model](neural_vs_counting_lm.md): a small neural model beats the counting model at equal memory up to ~0.5 MB; the counting model only wins with more memory (SIMULATED, failure recorded).
 - [Tang Nano 20K preparation of the tile](tile_board_prep.md): single-tile board top passes a UART simulation and synthesises into 1,014 cells + 32 block RAMs (64 KB); not run on a board yet.
+- [Where L Cortex loses on clothing](clothing_confusion.md): Shirt/T-shirt/Pullover/Coat limit all-at-once; staged loss falls on similar pairs (SIMULATED, one seed).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

@@ -1444,4 +1444,10 @@ Tiny neural char model (6-character context) beats the counting model at equal m
 
 `tile_board_top.v` (UART to one tile) passes `tb_tile_board.v`; yosys synth_gowin: 1,014 cells, 32 block RAMs for 64 KB. No place and route tool here, nothing run on a board. Note `hw/results/tile_board_prep.md`, host script `hw/board/tile_host.py`.
 
+## 24 Oct 2026 - Clothing limits per class (SIMULATED, one seed)
+
+All at once 88.9 / staged 81.4. Shirt is weakest (63%, confused with T-shirt); staged loss concentrates on similar pairs (Trouser/Dress, Sandal/Sneaker, Sneaker/Boot). Feature limit (upper-body group) and replay-fidelity limit (similar pairs). Next ideas not yet tried. Note `hw/results/clothing_confusion.md`.
+
+User direction (24 Oct): order of work is design first (weak spots of the L chip, other GPU limitations, SRAM placement on chip), fabrication last. User also asked for an ESP32 logic and power test.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
