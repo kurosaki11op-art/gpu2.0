@@ -55,5 +55,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Where L Cortex loses on clothing](clothing_confusion.md): Shirt/T-shirt/Pullover/Coat limit all-at-once; staged loss falls on similar pairs (SIMULATED, one seed).
 - [Specialist for Shirt/T-shirt/Pullover/Coat](shirt_specialist.md): second decision with the same code gains nothing; finer detectors give +1.7 within the group, +0.7 overall at 4x the code (SIMULATED, one seed).
 - [Second sense for Shirt against T-shirt](shirt_second_sense.md): oracle-label experiment, NOT a recognition gain (a spoken name is the label); kept as a record with a correction at the top.
+- [Shirt against T-shirt on real colour photos](shirt_real_photos.md): colour lifts L's Shirt recall 61.0 to 79.6 on the pair (level with a CNN), not on the 4-way task; no label at test time (SIMULATED, small real data set).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

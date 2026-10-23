@@ -1462,4 +1462,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Correction (24 Oct, user):** the 'second sense' test on Shirt vs T-shirt used the spoken name of the garment at test time, which is the label, so it is an oracle-label experiment and NOT evidence of better recognition. Picture-only Shirt recall (63-74%, CNN ruler 79.4%) stands. A valid second sense must be independent non-label evidence (colour, resolution, touch, weight, context), none of which exists in the 28 x 28 grey data. Earlier two-sense gains that used a spoken label carry the same caveat. Notes corrected: `hw/results/shirt_second_sense.md`, results index.
 
+**Real photos, colour (24 Oct, SIMULATED, 5 splits):** Grigorev clothing photos. Shirt vs T-shirt: L grey Shirt recall 61.0, L colour 79.6 (accuracy 83.7 to 89.8), CNN grey 79.8; 4-way: Shirt 61.3 to 58.0 (no gain), accuracy 67.8 to 70.2. CNN at 56 px no better than 28 px. Colour is legitimate independent evidence for the pair; small noisy data, possible colour bias. Note `hw/results/shirt_real_photos.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,0 +1,29 @@
+images 2294 [984 372 661 277]
+
+Shirt vs T-Shirt (2-way) n = 1356
+ split 0 {'L grey 28': 0.85, 'L colour 28': 0.867, 'CNN grey 28': 0.903, 'CNN colour 28': 0.85, 'CNN colour 56': 0.897}
+ split 1 {'L grey 28': 0.841, 'L colour 28': 0.912, 'CNN grey 28': 0.861, 'CNN colour 28': 0.873, 'CNN colour 56': 0.864}
+ split 2 {'L grey 28': 0.776, 'L colour 28': 0.891, 'CNN grey 28': 0.917, 'CNN colour 28': 0.909, 'CNN colour 56': 0.894}
+ split 3 {'L grey 28': 0.853, 'L colour 28': 0.929, 'CNN grey 28': 0.906, 'CNN colour 28': 0.9, 'CNN colour 56': 0.912}
+ split 4 {'L grey 28': 0.867, 'L colour 28': 0.891, 'CNN grey 28': 0.909, 'CNN colour 28': 0.888, 'CNN colour 56': 0.923}
+| input | T-Shirt recall | Shirt recall | accuracy |
+|---|---|---|---|
+| L grey 28 | 0.932 | 0.610 | 0.837 |
+| L colour 28 | 0.941 | 0.796 | 0.898 |
+| CNN grey 28 | 0.940 | 0.798 | 0.899 |
+| CNN colour 28 | 0.939 | 0.748 | 0.884 |
+| CNN colour 56 | 0.966 | 0.734 | 0.898 |
+
+4-way: T-Shirt, Shirt, Longsleeve, Outwear n = 2294
+ split 0 {'L grey 28': 0.676, 'L colour 28': 0.707, 'CNN grey 28': 0.697, 'CNN colour 28': 0.716, 'CNN colour 56': 0.72}
+ split 1 {'L grey 28': 0.678, 'L colour 28': 0.706, 'CNN grey 28': 0.733, 'CNN colour 28': 0.704, 'CNN colour 56': 0.737}
+ split 2 {'L grey 28': 0.672, 'L colour 28': 0.709, 'CNN grey 28': 0.7, 'CNN colour 28': 0.746, 'CNN colour 56': 0.737}
+ split 3 {'L grey 28': 0.676, 'L colour 28': 0.707, 'CNN grey 28': 0.732, 'CNN colour 28': 0.746, 'CNN colour 56': 0.72}
+ split 4 {'L grey 28': 0.688, 'L colour 28': 0.681, 'CNN grey 28': 0.733, 'CNN colour 28': 0.725, 'CNN colour 56': 0.749}
+| input | T-Shirt recall | Shirt recall | Longsleeve recall | Outwear recall | accuracy |
+|---|---|---|---|---|---|
+| L grey 28 | 0.860 | 0.613 | 0.537 | 0.515 | 0.678 |
+| L colour 28 | 0.898 | 0.580 | 0.563 | 0.547 | 0.702 |
+| CNN grey 28 | 0.919 | 0.506 | 0.652 | 0.516 | 0.719 |
+| CNN colour 28 | 0.896 | 0.540 | 0.691 | 0.521 | 0.727 |
+| CNN colour 56 | 0.886 | 0.562 | 0.697 | 0.551 | 0.732 |
