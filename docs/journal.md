@@ -1420,4 +1420,6 @@ User decision: no DRAM or HBM; run bigger models by using several chips, each wi
 
 Founder asked what could be done with days and weeks of work toward a Cerebras-class chip ready to receive SRAM. Started: `hw/rtl/tile/` (router, tile with bank controller, 4 x 4 mesh testbench replaying 3,200 tokens of real counting-language-model lookups). Result (RTL simulation, cycle accurate): one stream 260 cycles per token, 4,800 lookups, 0 wrong replies; 16 streams in parallel 262 cycles per token each, 76,800 lookups, 0 wrong. Replaces the 200 ns link assumption of the first multi-chip estimate. Next: SRAM wrapper for the OpenRAM macro, synthesis and placement of one tile, hot-row copies, token sequencer in hardware.
 
+**Tile, SRAM wrapper and first synthesis (23 Oct):** memory-agnostic `sram_wrap.v` (behavioural / OpenRAM / replaceable), controller with zero-fill after reset; checks pass (mesh 38,400 lookups 0 wrong, 268 cycles per token; OpenRAM tile 24 lookups 0 mismatches). One tile (8 KB, 4 macros) synthesises to 5,753 cells and 1.20 mm2, 95% of it the macros. Next: place, clock-tree, route and power the tile.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

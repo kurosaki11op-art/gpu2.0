@@ -1,9 +1,9 @@
 // L tile: two routers (request network and response network), one SRAM bank of 16-bit words (two 8-bit counters n0, n1) and a bank controller.
 // Flit (72 bits): {type[1:0], dst[5:0], src[5:0], tag[7:0], addr[17:0], data[31:0]}; dst/src = {y[2:0], x[2:0]}.
 // Requests: type 0 = lookup (returns the word in a type 1 response), type 2 = update (posted): n0 += data[7:0], n1 += data[15:8], saturating at 255.
-// The memory is a behavioural model here; in the chip it is replaced by sram_wrap (an OpenRAM macro or any foundry compiler) with the same ports.
+// The memory is sram_wrap: behavioural in simulation, the OpenRAM macro with -DOPENRAM, or any other memory with the same ports.
 `timescale 1ns/1ps
-module l_tile #(parameter X = 0, Y = 0, DEPTH = 1 << 18, FW = 72) (
+module l_tile #(parameter X = 0, Y = 0, AW = 12, FW = 72) (
     input clk, rst,
     input  cl_req_valid, input [FW-1:0] cl_req_flit, output cl_req_ready,
     output cl_rsp_valid, output [FW-1:0] cl_rsp_flit, input cl_rsp_ready,
@@ -18,25 +18,34 @@ module l_tile #(parameter X = 0, Y = 0, DEPTH = 1 << 18, FW = 72) (
     assign cl_req_ready = q_ir[0]; assign rq_in_ready = q_ir[4:1];
     assign rq_out_flit = q_of[5*FW-1:FW]; assign rq_out_valid = q_ov[4:1];
     l_router #(X, Y, FW) rq (.clk(clk), .rst(rst), .in_flit(q_if), .in_valid(q_iv), .in_ready(q_ir), .out_flit(q_of), .out_valid(q_ov), .out_ready(q_or));
-    // ---- bank controller: the local output of the request network
+    // ---- bank controller: the local output of the request network; one request at a time (read, then respond or write back)
     wire mv = q_ov[0]; wire [FW-1:0] mf = q_of[FW-1:0];
-    wire [FW-1:0] rsp_f_w; reg [FW-1:0] rsp_f; reg rsp_v; wire [4:0] p_ir, p_ov, p_or, p_iv; wire [5*FW-1:0] p_of, p_if;
+    reg [FW-1:0] rsp_f; reg rsp_v; wire [4:0] p_ir, p_ov, p_or, p_iv; wire [5*FW-1:0] p_of, p_if;
     wire rsp_free = !rsp_v || p_ir[0];
-    assign q_or = {rq_out_ready, (mf[71:70] == 2'd2) ? 1'b1 : rsp_free};
-    reg [15:0] mem [0:DEPTH-1]; integer ii; initial for (ii = 0; ii < DEPTH; ii = ii + 1) mem[ii] = ii * 40503 + (ii >> 3);
-    reg [15:0] w; reg [8:0] s0, s1; wire [17:0] ad = mf[49:32];
+    reg busy; reg [FW-1:0] held;                                   // request being served
+    wire is_upd = (mf[71:70] == 2'd2);
+`ifdef OPENRAM
+    // the SRAM macros power up with unknown contents: after reset every word is written with zero (2^AW cycles); requests wait for it
+    reg [AW:0] icnt; wire init = !icnt[AW];
+    always @(posedge clk) if (rst) icnt <= 0; else if (init) icnt <= icnt + 1'b1;
+`else
+    wire init = 1'b0; wire [AW:0] icnt = {(AW + 1){1'b0}};
+`endif
+    wire accept = mv && !busy && !init && (is_upd || rsp_free);
+    assign q_or = {rq_out_ready, accept};
+    wire [AW-1:0] rd_addr = mf[AW+31:32];
+    wire [15:0] rdata; wire we_req = busy && (held[71:70] == 2'd2); wire [15:0] w = rdata;
+    wire [8:0] s0 = {1'b0, w[7:0]} + {1'b0, held[7:0]}, s1 = {1'b0, w[15:8]} + {1'b0, held[15:8]};
+    wire [15:0] nw = {s1[8] ? 8'd255 : s1[7:0], s0[8] ? 8'd255 : s0[7:0]};
+    sram_wrap #(AW) bank (.clk(clk), .re(accept), .ra(rd_addr), .rdata(rdata), .we(we_req | init), .wa(init ? icnt[AW-1:0] : held[AW+31:32]), .wd(init ? 16'h0000 : nw));
     always @(posedge clk) begin
-        if (rst) rsp_v <= 1'b0;
+        if (rst) begin busy <= 1'b0; rsp_v <= 1'b0; end
         else begin
             if (rsp_v && p_ir[0]) rsp_v <= 1'b0;
-            if (mv && q_or[0]) begin
-                if (mf[71:70] == 2'd0) begin
-                    w = mem[ad % DEPTH];
-                    rsp_f <= {2'd1, mf[63:58], ME, mf[57:50], mf[49:32], 16'd0, w}; rsp_v <= 1'b1;
-                end else begin
-                    w = mem[ad % DEPTH]; s0 = w[7:0] + mf[7:0]; s1 = w[15:8] + mf[15:8];
-                    mem[ad % DEPTH] <= {(s1 > 255) ? 8'd255 : s1[7:0], (s0 > 255) ? 8'd255 : s0[7:0]};
-                end
+            if (accept) begin busy <= 1'b1; held <= mf; end
+            else if (busy) begin
+                busy <= 1'b0;
+                if (held[71:70] == 2'd0) begin rsp_f <= {2'd1, held[63:58], ME, held[57:50], held[49:32], 16'd0, w}; rsp_v <= 1'b1; end
             end
         end
     end

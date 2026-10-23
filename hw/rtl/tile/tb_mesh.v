@@ -31,7 +31,7 @@ module tb_mesh;
         assign rp_iv[id][2] = (y < NY - 1) ? rp_ov[id + NX][0] : 1'b0; assign rp_or[id][2] = (y < NY - 1) ? rp_ir[id + NX][0] : 1'b1;
         assign rp_i[id][3*FW +: FW] = (x > 0) ? rp_o[id - 1][1*FW +: FW] : {FW{1'b0}};
         assign rp_iv[id][3] = (x > 0) ? rp_ov[id - 1][1] : 1'b0;       assign rp_or[id][3] = (x > 0) ? rp_ir[id - 1][1] : 1'b1;
-        l_tile #(x, y, 1 << 18, FW) tile (.clk(clk), .rst(rst),
+        l_tile #(x, y, 18, FW) tile (.clk(clk), .rst(rst),
             .cl_req_valid(c_req_v[id]), .cl_req_flit(c_req_f[id]), .cl_req_ready(c_req_r[id]),
             .cl_rsp_valid(c_rsp_v[id]), .cl_rsp_flit(c_rsp_f[id]), .cl_rsp_ready(c_rsp_r[id]),
             .rq_in_flit(rq_i[id]), .rq_in_valid(rq_iv[id]), .rq_in_ready(rq_ir[id]), .rq_out_flit(rq_o[id]), .rq_out_valid(rq_ov[id]), .rq_out_ready(rq_or[id]),
