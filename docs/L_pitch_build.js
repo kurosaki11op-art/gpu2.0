@@ -87,6 +87,16 @@ lab(s, "One pass with a second look on a finer code (digits, clothing: 60,000 im
 lab(s, "A trained CNN is still ahead on clothing by 2 points.", 6.9, 4.3, 2.4, C.accent4, 12, true, { h: 0.6 });
 notes(s, "With everything available at once, the chip with its second look is within half a point of a trained CNN on digits, two points behind on clothing, level on twenty classes, and level on thirty-five spoken words even though the chip learned the words in stages. The second look costs about 2.8 times the table memory. Say it plainly: a CNN is still ahead on clothing.");
 
+// 5b how we tested it
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Results" });
+s.addText("How we tested it", { placeholder: "title" });
+threeCards(s, [
+  ["What we ran", "Standard tasks: handwritten digits, clothing images, spoken digits and words. Protocols: all at once, in stages (two classes at a time), with noise, with two senses, a new class from one example, two chips merged. 3 to 5 seeds, a held-out speaker.", "SIMULATED (integer model of the chip)", C.accent2],
+  ["What we compared with", "A CNN and a small network trained on the same data. The CNN was run on my RTX 3050 laptop GPU, with energy read from the GPU: that is the ruler for accuracy, time and energy.", "CNN MEASURED; chip SIMULATED", C.accent3],
+  ["How we checked the design", "The Verilog design matches the Python model bit for bit in 41 of 41 checks. The real-cell netlist, a formal equivalence check, and a Tang Nano place and route came next. Cycles per decision come from the RTL simulation.", "SIMULATED; no board yet", C.accent1]],
+  "Not tested: a language model or any large model on the chip, a real board run, real-world noise, big vocabularies. The models we ran are classifiers; the CNN is only our comparison ruler.");
+notes(s, "How did we test it? Three ways. One: we ran standard tasks on an integer model of the chip, which is exactly the arithmetic the chip does: handwritten digits, clothing images, spoken digits and words. We tried all at once, in stages with two classes at a time, with noise, with two senses, a new class from one example, and merging two chips, with three to five random seeds and a held-out speaker. Two: we compared against a CNN and a small network trained on the same data, and the CNN ran on my own RTX 3050 laptop GPU so the accuracy, time and energy are real measurements. Three: we checked the design. The Verilog matches the Python model bit for bit in 41 of 41 checks; the real-cell netlist matches; a formal equivalence check passed; and the cycles per decision come from the RTL simulation. What we did not test: a language model or any large model on the chip, a board run, real-world noise or large vocabularies. The models we ran are classifiers; the CNN is only the ruler.");
+
 // 6 scale
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Results" });
 s.addText("It scales: more data does not break it", { placeholder: "title" });
