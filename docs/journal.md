@@ -1440,4 +1440,8 @@ Float and 4-bit MLP both end near 20% on all classes after five 2-class stages (
 
 Tiny neural char model (6-character context) beats the counting model at equal memory up to ~0.5 MB (48 KB: 2.43 bpc against 3.83 at 32 KB; 457 KB: 2.09 against 2.24 at 512 KB). Counting reaches 1.81 / 1.67 bpc only at 2 / 8 MB. The memory-efficiency claim is not supported; the counting model's value is on-the-fly learning and a lookup-only path. Note `hw/results/neural_vs_counting_lm.md`.
 
+## 23 Oct 2026 - Tang Nano 20K preparation of the tile (SIMULATED + synthesis)
+
+`tile_board_top.v` (UART to one tile) passes `tb_tile_board.v`; yosys synth_gowin: 1,014 cells, 32 block RAMs for 64 KB. No place and route tool here, nothing run on a board. Note `hw/results/tile_board_prep.md`, host script `hw/board/tile_host.py`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

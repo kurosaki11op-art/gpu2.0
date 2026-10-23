@@ -1,0 +1,32 @@
+
+10. Printing statistics.
+
+=== tile_board_top ===
+
+   Number of wires:                716
+   Number of wire bits:           8945
+   Number of public wires:         716
+   Number of public wire bits:    8945
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1014
+     $scopeinfo                      6
+     ALU                           115
+     DFF                            28
+     DFFE                          470
+     DFFR                            8
+     DFFRE                          51
+     DFFS                            3
+     DFFSE                           9
+     DPB                            32
+     GND                             1
+     IBUF                            4
+     LUT1                           11
+     LUT2                          100
+     LUT3                           94
+     LUT4                           60
+     MUX2_LUT5                      13
+     OBUF                            8
+     VCC                             1
+

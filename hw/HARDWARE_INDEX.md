@@ -17,6 +17,7 @@ tags: [spark, index, hardware]
 - Two senses (20 Oct 2026): `rtl/cortex/cortex_sense_top.v` (retina + cochlea into one core), `rtl/cortex/cortex_neighbours.v` (sleep neighbours), core `rd_scores` port; checks `run_check_sense_top.py`, `run_check_neighbours.py`, `run_check_sleep_clean.py`, `run_check_cortex_twosense.py`; see [sensory node](results/sensory_node.md).
 - [Training experiments](train/experiments/README.md): accuracy and brain-like learning experiments (Phase A).
 - [L tile and mesh RTL](rtl/tile/README.md): router, tile with memory bank, 4 x 4 mesh testbench replaying real lookups; 260 cycles per token, 0 wrong replies (SIMULATED).
+- [Tang Nano 20K tile build](results/tile_board_prep.md): UART board top for one tile, simulated and synthesised (not run on a board).
 - [Gate-level checks](synth/gate_level/sky130/README.md): core netlists (generic gates, SKY130 cells with macro models) against the integer model.
 - [Layout checks 22 Oct](asic/cortex/signoff/README.md): routing, GDSII, timing, DRC of the L Cortex layout (DRC and hold fail).
 - [Results index](results/INDEX.md): every result.
