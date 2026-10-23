@@ -45,5 +45,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Counting language model, first test](counting_lm.md): online one-pass character model from hashed counters; 4.8 to 1.8 bits per character as memory grows 8 KB to 8 MB (SIMULATED algorithm test).
 - [End to end power, encoder included](end_to_end_power.md): picture-to-answer energy and power, chip layout estimate against the measured GPU (about 40 uJ against 0.3 to 69 mJ).
 - [Lossless table storage](table_storage_lossless.md): trained tables are 54 to 71% non-zero and use their full widths; ideal lossless coding saves at most 1.7 times (SIMULATED).
+- [Counter width against accuracy](bits_vs_accuracy.md): fewer bits cost accuracy, more on clothing than digits; the shipped widths sit near the knee (SIMULATED).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

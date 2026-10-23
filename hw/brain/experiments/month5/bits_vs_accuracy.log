@@ -1,0 +1,13 @@
+codes ready 15s
+| what changes | bits | staged % | all at once % |
+|---|---|---|---|
+| fast table | 2 | 9.73 | 9.73 |  (20s)
+| fast table | 3 | 91.52 | 93.97 |  (25s)
+| fast table | 4 | 95.13 | 96.75 |  (30s)
+| fast table (shipped) | 5 | 93.65 | 96.93 |  (37s)
+| fast table | 6 | 94.68 | 96.90 |  (44s)
+| fast table | 7 | 94.72 | 96.85 |  (51s)
+| fast table | 8 | 94.72 | 96.85 |  (58s)
+| dream counts | 6 | 94.18 | 96.88 |  (66s)
+| dream counts | 8 | 95.08 | 96.85 |  (74s)
+| dream counts | 12 | 94.88 | 96.93 |  (81s)
