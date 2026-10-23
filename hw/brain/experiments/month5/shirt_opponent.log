@@ -1,0 +1,7 @@
+images 2294 [984 372 661 277]
+
+== split: random | 5 folds, 1,356 images, T-Shirt 984 / Shirt 372
+  fold 0 train 1084 test 272 test shirts 73 senders in test 91
+  fold 1 train 1085 test 271 test shirts 67 senders in test 92
+  fold 2 train 1085 test 271 test shirts 79 senders in test 98
+  fold 3 train 1085 test 271 test shirts 84 senders in test 89
