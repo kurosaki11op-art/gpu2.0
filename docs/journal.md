@@ -1452,4 +1452,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **ESP32 test prepared (24 Oct, SIMULATED on PC):** `hw/board/esp32_l_test/`: lookup-and-add decision (10 x 4,608 signed 8-bit table, ~570 active bits per image, 46 KB flash, no multiply) as an Arduino sketch with logic check, microseconds per decision and a power trigger pin. The same C code compiled with gcc matches the Python integer model on 200 images (0 differ, 178/200 correct). No ESP32 in the cloud, so no board timing or power yet; user runs it.
 
+**ESP32 end-to-end kit (24 Oct, prepared, nothing measured on a board):** `hw/board/esp32_l_test/esp32_l_selftest/` (dual-core self-measuring sketch with INA219, idle against run phases, 5 repetitions) and `check_esp32_run.py` (parses the serial log, mean and std, reliability verdict). Sketch compiled and run against a PC mock (LOGIC PASS); script tested on invented numbers only. Shirt specialist: first two variants no gain (80.8 to 80.9% within the group); finer-feature variants were killed by the memory limit and are rerun with smaller chunks.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

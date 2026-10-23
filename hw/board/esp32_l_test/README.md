@@ -11,4 +11,17 @@
 
 **Honest scope:** the ESP32 is a general-purpose processor running the lookup-and-add rule in software, so its energy per decision says nothing about the L chip; it only proves the logic runs on another machine and gives a real measured baseline for "lookup-and-add on a cheap MCU" to compare with a GPU doing the same task. Regenerate the table with `hw/brain/experiments/month5/export_esp32.py`.
 
+## End-to-end procedure (one ESP32 + one INA219, ready to run)
+
+Everything below is prepared and checked on a PC (sketch compiles and runs against a mock board, LOGIC PASS; the analysis script was tested on made-up numbers, not data). Nothing has been measured on a board yet.
+
+1. **Wire** (5 minutes): USB 5V -> INA219 VIN+; INA219 VIN- -> ESP32 VIN (5V) pin; grounds common; INA219 VCC -> ESP32 3V3, SDA -> GPIO21, SCL -> GPIO22. Power the ESP32 from a USB power bank or a clean USB port. Do not connect anything else to the ESP32 (no Wi-Fi, no Bluetooth: the sketch never starts them).
+2. **Flash** `esp32_l_selftest/esp32_l_selftest.ino` (Arduino IDE, board ESP32 Dev Module, library "Adafruit INA219"). The folder already holds `l_decide.h` and `l_table.h`.
+3. **Run:** open the serial monitor at 115200 and let it finish (about 70 s: 5 repetitions of 6 s idle + 6 s decisions). Save the text to `run1.txt`. Expect `LOGIC PASS 0 of 200`, five `REP` lines and `DONE`.
+4. **Check:** `python3 check_esp32_run.py run1.txt --ambient-c 25` prints speed (us per decision), idle and run current, delta power, and energy per decision (delta and total) as mean +- std, plus a verdict (UNRELIABLE if idle drifts more than 3% or the signal is under 3x its spread).
+5. **Do it three times**: once after 5 minutes warm-up, again after changing the clock (`setCpuFrequencyMhz(80)` and `(160)` at the top of `setup()`), so we also see energy per decision against clock speed. Send me the three log files.
+6. **Record:** I add them to `hw/results/` as MEASURED with the script output.
+
+How the measurement works and why it is trustworthy: core 0 samples the INA219 all the time in both phases (its own load cancels in the difference); core 1 sleeps (idle phase) or does L decisions (run phase). Energy per decision (delta) = (run power - idle power) / decisions per second. Limits: INA219 resolution about 0.1 mA, 12-bit conversions of about 0.5 ms each, power of the INA219 and USB cable losses fixed in both phases; temperature drift is why the board is warmed up first. The result is the energy of a cheap microcontroller running the lookup-and-add rule in software; it is a real baseline, not the energy of the L chip.
+
 Related: [Board README](../README.md), [Hardware index](../../HARDWARE_INDEX.md)

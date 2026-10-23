@@ -22,7 +22,7 @@ if DS == "speech":
     xtr = cochlea_int.align_word(P0[~te], 6)
     CH = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8))
     fes = [Features(64, thr=c).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH]
-    enc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 5000]) for g in fes], 1) for i in range(0, len(x), 5000)])
+    enc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 400]) for g in fes], 1) for i in range(0, len(x), 400)])
     ctr = enc(xtr); views = {L: enc(cochlea_int.align_word(P0[te], L)).astype(np.int32) for L in (5, 6, 7)}
     centre, extra = views[6], [views[5], views[6], views[7]]          # views 5, 6, 6, 7 = centre + [5, 6, 7]
 else:
@@ -33,7 +33,7 @@ else:
     if S1:
         import feature_layer; feature_layer.PS, feature_layer.ST = 5, 1
     fes = [Features(32, thr=c, pool=4 if S1 else 2).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH]
-    enc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 5000]) for g in fes], 1) for i in range(0, len(x), 5000)])
+    enc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 400]) for g in fes], 1) for i in range(0, len(x), 400)])
     X = xte.reshape(len(xte), 28, 28)
 
     def shifted(dy, dx):
@@ -61,7 +61,7 @@ within(np.array(GRP)[tot[:, GRP].argmax(1)], "main model restricted to group")
 gtr = np.isin(ytr, GRP); xg = xtr[gtr]
 def spec(name, fesg, pool_ps_st):
     feature_layer.PS, feature_layer.ST = pool_ps_st
-    e = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 5000]) for g in fesg], 1) for i in range(0, len(x), 5000)])
+    e = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 400]) for g in fesg], 1) for i in range(0, len(x), 400)])
     c = e(xtr[gtr]).astype(np.int32); yg = ytr[gtr]
     t = e(xte); views = [t.astype(np.int32)]
     X = xte.reshape(len(xte), 28, 28)
