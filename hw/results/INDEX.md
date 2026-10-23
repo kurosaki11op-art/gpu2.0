@@ -49,5 +49,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Multi-chip counting language model](multichip_lm.md): the 8 MB table split over 1 to 64 chips; traffic, load balance, latency and energy per token (SIMULATED, assumptions stated).
 - [Hot-row copies](hot_rows.md): copying 0.02% of the table to every chip removes the load imbalance (2.12 to 1.06 at 64 chips) and cuts remote lookups to 56% (SIMULATED).
 - [Shrinking a standard network](compress_mlp.md): a 917 KB MLP shrinks to 115 KB (4-bit) with no measurable loss; at equal memory it beats L Cortex on clothing accuracy (SIMULATED).
+- [Staged learning of a standard network](staged_mlp.md): the 4-bit and float MLP both end near 20% after five stages; L Cortex keeps 81.5 to 94.2% (SIMULATED).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
