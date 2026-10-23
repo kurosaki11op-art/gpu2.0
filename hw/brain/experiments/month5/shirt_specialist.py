@@ -78,5 +78,4 @@ def spec(name, fesg, pool_ps_st):
 CH = (50, 150, ("on", 8), ("off", 8))
 if not os.environ.get("FINE"): spec("same code, group-only training", [Features(32, thr=c, pool=4).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH], (5, 1))
 if not os.environ.get("FINE"): spec("detectors fitted on group, pool 4", [Features(32, thr=c, pool=4).fit(xg[:12000]) for c in CH], (5, 1))
-spec("detectors on group, F64 pool 2", [Features(64, thr=c, pool=2).fit(xg[:12000]) for c in CH], (5, 1))
-spec("detectors on group, F64 pool 2 PS7", [Features(64, thr=c, pool=2).fit(xg[:12000]) for c in CH], (7, 1))
+spec("detectors on group, F32 pool 2 (finer)", [Features(32, thr=c, pool=2).fit(xg[:6000], n_patches=60000) for c in CH], (5, 1))
