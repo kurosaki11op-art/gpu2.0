@@ -1,3 +1,8 @@
+---
+title: Research notes - baselines and pitch
+tags: [l, research, notes]
+---
+
 # Efficiency baselines a new inference chip must beat, and what a credible pitch needs
 
 Method note: direct page fetches were blocked in this session (egress proxy refused arxiv.org, iea.org, mlcommons.org, gwern.net etc.). Every figure below comes from WebSearch result summaries that quoted the cited pages; none was read from the full primary document. Items marked UNVERIFIED are not confirmed by any source read. The report writer should re-check key numbers against the primary links before publishing.
@@ -100,3 +105,5 @@ Reviewers expect a stated measurement boundary, a named benchmark with a quality
 
 ### Gaps
 - No explicit reviewer checklist found (ISSCC/NeurIPS guidelines were not located); the above is inferred from papers' own practices. Split-Fashion and Split-CIFAR typical numbers: not retrieved. Accuracy-at-iso-energy conventions: no source found.
+
+Related: [Notes index](INDEX.md), [Report](../matrix_free_vs_cnn_report.md)

@@ -1,3 +1,8 @@
+---
+title: Research notes - weightless lut networks
+tags: [l, research, notes]
+---
+
 # Weightless / LUT neural networks as multiplier-free classifiers
 
 SOURCE-ACCESS WARNING (read first): in this session the proxy blocked arxiv.org, ar5iv, utexas.edu (WebFetch: ENOTFOUND; curl: 403). I could NOT open any paper PDF or table directly. Only github.com pages were fetchable. All paper numbers below come from the web-search tool's summaries/snippets of those papers (secondary extraction, column labels sometimes unclear). Treat every paper number as "reported via search snippet, not verified against the table". Anything marked UNVERIFIED-MEMORY is from my background knowledge and not from a source this session. Nothing below is a first-hand read of a results table except the DWN GitHub README/example.
@@ -73,3 +78,5 @@ Input encoding (thermometer) and wide inputs are the main costs, and CIFAR-10 ac
 
 ## Suggested follow-up
 Re-run with arxiv access (or HuggingFace papers) to read Table 1/2 of 2410.11112, ULEEN 2304.10618 tables, and the H-WNN FPL 2025 paper, which is the most relevant lead for CNN-level CIFAR accuracy.
+
+Related: [Notes index](INDEX.md), [Report](../matrix_free_vs_cnn_report.md)

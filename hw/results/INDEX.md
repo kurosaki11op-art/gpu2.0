@@ -57,5 +57,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Second sense for Shirt against T-shirt](shirt_second_sense.md): oracle-label experiment, NOT a recognition gain (a spoken name is the label); kept as a record with a correction at the top.
 - [Shirt against T-shirt on real colour photos](shirt_real_photos.md): colour lifts L's Shirt recall 61.0 to 79.6 on the pair (level with a CNN), not on the 4-way task; no label at test time (SIMULATED, small real data set).
 - [L deployed table size against accuracy](l_deployed_memory.md): 11 KB at 2 bits per entry still gives 88.65% on clothing, about 10x smaller than the 4-bit MLP for 0.9 points less (SIMULATED).
+- [Fair continual-learning baselines](staged_replay_baselines.md): replay with 200 images per class (1.5 MB) matches L's staged accuracy; EWC stays at 20%; L's edge is about 10x less memory (MEASURED, 3 seeds).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

@@ -1,3 +1,8 @@
+---
+title: Research notes - shirt tshirt difficulty
+tags: [l, research, notes]
+---
+
 # Why Shirt vs T-shirt (and Pullover/Coat) is hard in Fashion-MNIST, and what reduces it
 
 Access note: arxiv.org, ar5iv, cleanlab.ai and mdpi.com were unreachable from the fetch tool (DNS failure). Only github.com/zalandoresearch/fashion-mnist was fetched in full. Every other figure below comes from web-search result summaries (page text not read in full), so treat them as "search-snippet level" and re-verify against the linked page before quoting. Nothing here is from memory unless marked UNVERIFIED.
@@ -77,3 +82,5 @@ Dataset facts found, but no per-class Shirt vs T-shirt accuracy on any of them.
 
 ### Gaps
 - DeepFashion, Fashion Product Images, Fashionpedia: not searched or no data obtained within the tool budget (fetch tool could not reach most hosts).
+
+Related: [Notes index](INDEX.md), [Report](../matrix_free_vs_cnn_report.md)
