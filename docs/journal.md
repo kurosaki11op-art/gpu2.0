@@ -1456,4 +1456,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Shirt specialist result (24 Oct, SIMULATED, one seed):** same-code specialist 80.77 to 80.90 within the group (no gain); finer detectors (32, pooled by 2, 18,432 bits) 82.50 within group, overall 88.92 to 89.64. Small gain at 4x code; Shirt/T-shirt still not separated reliably. Note `hw/results/shirt_specialist.md`. Background jobs die when the container restarts, so long runs are done in the foreground.
 
+**Shirt round 2 (24 Oct, SIMULATED + MEASURED ruler):** hand-made shape cues (silhouette profile, inside-dark, neck rows, edges) add at most +0.6 within the group: no real gain. A small CNN with backprop and all data gets Shirt recall 79.4% (T-shirt 84.2%, 122 of 1,000 T-shirts called Shirt): the confusion is largely in the 28 x 28 data. L's Shirt recall 63-74%. Goal 'never confused' not reachable on this data set; next lever is extra evidence (second sense, colour or resolution). Note `hw/results/shirt_specialist.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,0 +1,9 @@
+main model: overall 0.8892, within group (restricted) 0.8077
+control                    extra bits     0 | within group 0.8113 | Shirt recall 0.687 T-shirt recall 0.856 | overall 0.8905
+profile                    extra bits   784 | within group 0.8100 | Shirt recall 0.681 T-shirt recall 0.865 | overall 0.8903
+inside                     extra bits   168 | within group 0.8120 | Shirt recall 0.704 T-shirt recall 0.853 | overall 0.8907
+top                        extra bits   560 | within group 0.8093 | Shirt recall 0.703 T-shirt recall 0.873 | overall 0.8892
+edges                      extra bits   392 | within group 0.8073 | Shirt recall 0.674 T-shirt recall 0.860 | overall 0.8893
+profile+inside             extra bits   952 | within group 0.8175 | Shirt recall 0.709 T-shirt recall 0.864 | overall 0.8932
+profile+inside+top         extra bits  1512 | within group 0.8150 | Shirt recall 0.743 T-shirt recall 0.854 | overall 0.8918
+profile+inside+top+edges   extra bits  1904 | within group 0.8155 | Shirt recall 0.705 T-shirt recall 0.872 | overall 0.8919

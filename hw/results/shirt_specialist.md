@@ -21,6 +21,27 @@ tags: [l, clothing, limits, results]
 
 **Not tried.** Pooling by 1 (full resolution), larger patches (the run with 7 x 7 patches and 64 detectors ran out of memory), shoulder and neck region only, edge/shape cells, and a multi-seed repeat. A different kind of evidence (outline, sleeve length) is the likely next step.
 
+## Round 2: hand-made shape cues, and a CNN ruler (24 Oct 2026)
+
+`shirt_shape.py` (log `shirt_shape.log`): bits that look like what a person uses to tell the garments apart, all compare/count only, appended to the group specialist's code (silhouette width per row, left and right edge per row, column height, dark pixels inside the silhouette = placket/collar, the neck and shoulder rows at full resolution, edges).
+
+| Extra cues | Extra bits | Within group | Shirt recall | T-shirt recall | Overall |
+|---|---|---|---|---|---|
+| none (control) | 0 | 81.13 | 68.7 | 85.6 | 89.05 |
+| silhouette profile | 784 | 81.00 | 68.1 | 86.5 | 89.03 |
+| dark pixels inside | 168 | 81.20 | 70.4 | 85.3 | 89.07 |
+| neck and shoulder rows, full resolution | 560 | 80.93 | 70.3 | 87.3 | 88.92 |
+| edges | 392 | 80.73 | 67.4 | 86.0 | 88.93 |
+| profile + inside | 952 | 81.75 | 70.9 | 86.4 | 89.32 |
+| profile + inside + top | 1,512 | 81.50 | 74.3 | 85.4 | 89.18 |
+| all four | 1,904 | 81.55 | 70.5 | 87.2 | 89.19 |
+
+**Failure recorded:** none of the hand-made cues helps beyond about +0.6 within the group (+0.3 overall), which is inside seed noise. The best Shirt recall (74.3%) came with a lower T-shirt recall.
+
+**The ruler.** `shirt_cnn_ruler.py` / `shirt_cnn_ruler.log` (MEASURED, torch on CPU, a small CNN trained with backprop on all 60,000 images, 6 epochs, one seed): overall 91.1%, **Shirt recall 79.4%**, T-shirt 84.2%, 83 of 1,000 shirts called T-shirt, 122 of 1,000 T-shirts called Shirt. So even a CNN with backprop and all data does not separate these two cleanly at 28 x 28 pixels: **a large part of this confusion is in the data (tiny pictures, ambiguous labels), not only in L.** L's Shirt recall is 63 to 74% (about 5 to 15 points below the CNN); L's T-shirt recall 85 to 87% is level with it.
+
+**What this means for the goal "never confused":** that is not reachable on this data set by any model tried here. The honest target is to close the gap to the CNN on Shirt (about 10 points), not to reach 100%. A cleaner answer needs more evidence than a 28 x 28 grey picture (colour, higher resolution, or the second sense: a name from sound or text, already studied as the simulated ear in the memory file).
+
 **Limits.** One seed, one data set; 0.7 points overall is within what seeds can move; the specialist is not yet in the RTL.
 
 Related: [Results index](INDEX.md), [Where L loses on clothing](clothing_confusion.md), [Journal](../../docs/journal.md)

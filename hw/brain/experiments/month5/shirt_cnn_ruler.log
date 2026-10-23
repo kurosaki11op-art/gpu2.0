@@ -1,0 +1,12 @@
+overall 0.9113 (96s)
+  T-shirt   recall 0.842
+  Trouser   recall 0.984
+  Pullover  recall 0.850
+  Dress     recall 0.948
+  Coat      recall 0.818
+  Sandal    recall 0.974
+  Shirt     recall 0.794
+  Sneaker   recall 0.937
+  Bag       recall 0.982
+  Boot      recall 0.984
+Shirt predicted as T-shirt: 83 of 1000, T-shirt predicted as Shirt: 122 of 1000
