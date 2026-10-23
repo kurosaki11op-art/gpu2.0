@@ -15,7 +15,7 @@ const chartBase = (title) => ({ showTitle: true, title, titleFontSize: 14, title
 const card = (s, x, y, w, h, fill) => s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, fill: { color: fill || C.background2 }, line: { color: fill || C.background2, width: 0 }, rectRadius: 0.1, objectName: "card" });
 const NUM = { digits: "digits", clothing: "clothing", words: "spoken words" };
 
-const notes = (s, t) => s.addNotes(t);
+const notes = (s, t) => {}; // speaker notes are kept out of the deck: see pitch_script_final.md
 const bar = (s, series, title, opts) => s.addChart(pres.charts.BAR, series, Object.assign(chartBase(title), { barDir: "col", barGrouping: "clustered" }, opts));
 const tag = (s, t, x, y, w, col) => lab(s, t, x, y, w, col || C.accent2, 12, true);
 

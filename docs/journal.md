@@ -1388,4 +1388,6 @@ Deck now 28 slides (`L_pitch_final.pptx`): new slide 3 (what today's model and G
 
 **Deck 31 slides:** new slide 16 "Where the GPU uses more energy, and L less": one decision alone (GPU 69.3 mJ MEASURED vs L 0.18-0.26 uJ layout estimate / 9.4 nJ op count), in a crowd (1.95 mJ), learning from 59,063 images (CNN 4 epochs 1,148 J MEASURED vs L about 3 J ESTIMATED from 45-62 uJ per example), learning a new class later (GPU retrains and forgets; L learns in place). Labelled as orders of magnitude (chip core-only estimates vs whole GPU). Script Q6, slide-by-slide text and Q&A item 24 added.
 
+**Deck:** speaker notes removed from `L_pitch_final.pptx` (the generator's `notes()` is now a no-op); the spoken text lives only in `docs/pitch_script_final.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
