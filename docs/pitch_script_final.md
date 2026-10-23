@@ -22,7 +22,7 @@ Memorise these. They are slides 3, 17, 22 and 23. How you tested it is slide 7. 
 "Nothing is wrong with them for what they were built for: training and big batches in a data centre. Three things hurt on a device.
 1. **The model is frozen.** It is trained once, then fixed. New data means retraining in a data centre, and a network trained on new things forgets old ones.
 2. **Every token reads everything.** Making each word reads every weight, and attention keeps a memory that grows with the text. At one input at a time the chip waits for memory, not for maths.
-3. **A GPU needs a crowd.** I measured it on my RTX 3050: one decision costs 69 millijoules alone and 1.95 in a batch of a thousand: 35 times worse when alone. A phone or a sensor decides one at a time.
+3. **A GPU needs a crowd.** I measured it on my RTX 3050, twice: one decision costs 12.6 to 69 millijoules alone and 0.29 to 1.95 in a batch of a thousand, 35 to 43 times worse when alone. A phone or a sensor decides one at a time.
 The heat, cooling water and hardware turnover follow from that power. That is our motivation; I have not measured it."
 
 **Q2. "Why should we agree with you and use your chip and model?"** (slide 17)
@@ -44,7 +44,7 @@ If they push: "Is it proven at billions of parameters on your chip?" → "No. It
 "Three ways. Standard tasks on an integer model of the chip, which is exactly its arithmetic: digits, clothing images, spoken digits and words, all at once, in stages, with noise, with two senses, with a new class from one example, with two chips merged; 3 to 5 seeds, a held-out speaker. A real CNN and a small network on the same data, the CNN on my own RTX 3050 so time and energy are measured. And the design itself: the Verilog matches the model bit for bit in 41 of 41 checks, the real-cell netlist matches, a formal equivalence check passed. **I did not run a language model or any large model on the chip. The models I ran are classifiers; the CNN is only the ruler. A board run is the next step.**"
 
 **Q6. "For which process does the GPU use more power and L less?"** (slide 16)
-"Four processes, with labels. One decision alone: GPU 69 mJ (measured) against 0.18 to 0.26 microjoule from the layout, 9.4 nanojoules by operation count (estimated). One decision in a crowd of 1,024: GPU 1.95 mJ (measured); a device decides one at a time. Learning from 59,063 digit images: the CNN's four-pass training used 1,148 joules (measured), the chip learns once, in place, about 3 joules (estimated, 45 to 62 microjoules per example). Learning a new class later: the GPU must retrain, and in stages it forgets; L learns in place. **Orders of magnitude, not a final ratio: the chip numbers are estimates for the core only, the GPU numbers are the whole GPU; the board run will measure L. The GPU still wins at training big models and batched throughput.**"
+"Four processes, with labels. One image alone, picture to answer: GPU 12.6 to 69 mJ in my two runs (measured) against about 14 microjoules for the chip (layout estimate with switching measured in simulation; the encoder is 13 of the 14). One image in a crowd of 1,024: GPU 0.29 to 1.95 mJ (measured); a device decides one at a time. Learning from 59,063 digit images: the CNN's four-pass training used 1,148 joules (measured), the chip learns once, in place, about 4 joules (estimated, older gating assumptions with the encoder added). Learning a new class later: the GPU must retrain, and in stages it forgets; L learns in place. **Orders of magnitude, not a final ratio: the chip numbers are estimates, the GPU numbers are the whole GPU and changed between my two runs; the board run will measure L. The GPU still wins at training big models and batched throughput, and end to end the FPGA build is not faster than this GPU.**"
 
 ## 3. How to pitch, and how not to
 
@@ -53,14 +53,14 @@ If they push: "Is it proven at billions of parameters on your chip?" → "No. It
 - Say the label with every number. Judges trust the label more than the number.
 - Say what is weaker before they find it (slide 25).
 - Frame it as an **embedded system**: 84 KB, no multiplier, a small cheap FPGA, a UART interface, learning in the field.
-- Slow down on: **95.5 against 19.6**, **84 KB**, **35 times worse at batch 1**, **41 of 41**.
+- Slow down on: **95.5 against 19.6**, **84 KB**, **35 to 43 times worse at batch 1**, **41 of 41**.
 - Not sure? "I have not measured that. Here is what I did measure."
 
 **Do not**
 - Do not say "replaces the GPU", "faster than a GPU" or "runs ChatGPT-size models". It does not, today.
 - Do not say "never forgets". Say "keeps old classes far better than a normal network when learning in stages".
 - Do not say "fabricated", "taped out", "tested on silicon", "runs on the Tang Nano".
-- Do not call the energy number measured. The 74 times is an operation count; only the RTX 3050 numbers are measured.
+- Do not call the energy number measured. The 74 times is an operation count (a lower bound) and the 14 µJ is a layout estimate; only the RTX 3050 numbers are measured. Do not say the chip is faster than the GPU: end to end at 27 MHz it is not (0.83 ms against 0.42 ms at batch 1); say its advantage is energy and learning on the device.
 - Do not say "we solved catastrophic forgetting". Say "greatly reduced, in our tests".
 - Do not claim heat, water or e-waste savings as results. They are motivation.
 - Do not read slides. One idea per slide.
@@ -71,10 +71,12 @@ If they push: "Is it proven at billions of parameters on your chip?" → "No. It
 |---|---|
 | Learning digits in 5 stages: chip about **95%**, a normal network about **19.5%** | SIMULATED chip |
 | 59,063 digit images in stages: chip 95.5%, CNN 19.6%; all at once: CNN 99.09%, chip 97.91% | chip SIMULATED, CNN **MEASURED** on my RTX 3050 laptop GPU |
-| One decision costs 69 mJ at batch 1 and 1.95 mJ at batch 1024 on my GPU (35 times) | **MEASURED** (NVML) |
+| One image costs 12.6 to 69 mJ at batch 1 and 0.29 to 1.95 mJ at batch 1024 on my GPU (two runs; 35 to 43 times worse alone) | **MEASURED** (NVML) |
 | Memory for images **84 KB**, no multiplier; fits a Tang Nano 20K in place and route (89% logic, 0 multipliers) | design fact / SIMULATED place and route |
 | RTL bit-exact with the model in **41 of 41** checks; core netlist in SKY130 cells matches the model; post-layout netlist proved equivalent to the synthesised one | SIMULATED |
-| One digit decision: about 1,500 cycles, 55.7 µs at 27 MHz (FPGA build); about 320 cycles, 11.7 µs (pipelined option); GPU batch 1 about 1.8 ms | chip ESTIMATED from simulated cycles; GPU **MEASURED** |
+| Picture to answer: the encoder takes 21,378 cycles and the decision about 1,500 (FPGA build) or 320 (pipelined), so about 0.83 ms at the 27 MHz FPGA clock and 0.45 ms at 50 MHz; the decision alone is 55.7 µs or 11.7 µs. GPU batch 1: 0.42 to 1.8 ms | chip cycles SIMULATED, times ESTIMATED; GPU **MEASURED** |
+| Picture to answer energy: about 14 µJ, about 30 mW while encoding (layout power analysis with switching measured in simulation on real MNIST images); GPU 12.6 to 69 mJ, about 30 to 40 W while running | chip ESTIMATED; GPU **MEASURED** |
+| Picture to answer, chip against GPU: about 20 to 5,000 times less energy depending on the GPU's power state and batch | ESTIMATED against MEASURED |
 | About 74 times less energy per decision than an 8-bit network, counting operations | ESTIMATED |
 | Ternary language models of billions of parameters are published | published research; verify before quoting |
 | A counting classifier works with counts only | SIMULATED |
@@ -116,9 +118,9 @@ Times are for the 9-minute talk. Say the bold sentence even if you skip the rest
 
 **14. Small, cheap, no multiplier (0:35).** "84 KB. It fits a 25-dollar Tang Nano 20K with zero multipliers (simulated place and route). About 74 times less energy than an 8-bit network, counting operations. **That 74 times is an estimate; I will measure it on the board.**"
 
-**15. Chip design against a real GPU (0:55).** "Same decision on my RTX 3050. Measured: about 1.8 milliseconds and 69 millijoules at batch one; 22,000 decisions a second at batch 1024. The chip design needs about 1,500 cycles per decision: 56 microseconds at 27 megahertz, 12 in the pipelined option. **Chip times are estimates from simulated cycles, not a board run. The GPU wins when it can batch.**"
+**15. Picture to answer: chip against a real GPU (0:55).** "Same job on my RTX 3050, picture to answer. Measured, in two runs: about 0.4 to 1.8 milliseconds and 12 to 69 millijoules at batch one; up to 98,000 images a second at batch 1024. The chip design: the encoder takes 21,378 cycles and the decision about 1,500, so about 0.83 milliseconds at the 27 megahertz FPGA clock and about 14 microjoules, about 30 milliwatts while encoding, from the layout with switching measured in simulation. **So end to end the FPGA build is not faster than this GPU; its advantage is energy, about 20 to 5,000 times lower depending on the GPU's power state, and learning on the device. Chip numbers are estimates, not a board run.**"
 
-**16. Where the GPU uses more energy, and L less (0:60).** "Four processes. One decision alone: my laptop GPU used 69 millijoules, measured; the chip design is estimated at about 0.2 microjoule from the layout and 9 nanojoules by counting operations. In a crowd of a thousand the GPU improves to 2 millijoules, but a device decides one input at a time. Learning from 59 thousand digit images: the CNN trained for four passes and used 1,148 joules, measured; the chip learns each example once, in place, about 45 to 62 microjoules each, so about 3 joules, estimated. Learning a new class later: the GPU retrains in a data centre and in stages it forgets, the chip learns in place. **Read these as orders of magnitude: the chip numbers are estimates for the core only, the GPU numbers are the whole GPU. The GPU still wins at training big models and at batched throughput. The board run will measure L.**"
+**16. Where the GPU uses more energy, and L less (0:60).** Say the four processes from the table on the slide. "One image alone: GPU 12.6 to 69 millijoules, measured; the chip about 14 microjoules, estimated. In a crowd of 1,024 the GPU improves to 0.29 to 1.95 millijoules, but a device decides one at a time. Learning from 59 thousand images: the CNN used 1,148 joules over four passes, the chip learns each example once, in place, about 4 joules, estimated. A new class later: the GPU retrains and in stages forgets, the chip learns in place. **Orders of magnitude, not a final ratio. The GPU still wins at training big models and batched throughput. The board run will measure L.**"
 
 **17. Why use L instead, for this job (0:50).** Answer Q2 above. End on the green box: "**Use L when the job is learning on the device, with a small memory, one input at a time. Keep the GPU for training and big models.**"
 
@@ -167,7 +169,7 @@ Slides 1, 2, 3, 4, 5, 6, 7, 13, 15, 16, 17, 22, 23, 25, 30, 31. Say the bold sen
 ## 8. Before you go on stage
 
 - Open the deck at slide 1; check slides 3, 7, 15, 16, 17, 22, 23 and 30 render.
-- Know the numbers cold: **95.5 against 19.6**, **35 times worse at batch 1**, **84 KB**, **41 of 41**.
+- Know the numbers cold: **95.5 against 19.6**, **35 to 43 times worse at batch 1**, **84 KB**, **41 of 41**, **about 14 µJ against 12.6 to 69 mJ**.
 - If a slide runs long, drop slides 8 to 12 first.
 
 Related: [Pitch Q&A sheet](pitch_qa_sheet.md), [Cortex pitch script (earlier)](pitch_script_cortex.md), [Results at a glance](results_at_a_glance.md), [L hypothesis](L_hypothesis.md), [Index](INDEX.md)
