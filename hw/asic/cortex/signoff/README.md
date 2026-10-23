@@ -33,4 +33,11 @@ Two things to know:
 - **Environment note:** the container's disk allowance ran out once (about 30 GB); jobs writing at that moment crashed or wrote empty files. Large intermediate files are now deleted as soon as they are used.
 - **Logical equivalence (SIMULATED, formal):** post-layout netlist (with hold and clock-tree buffers) vs the synthesised netlist, yosys `equiv_make`/`equiv_simple`/`equiv_induct` (`equiv_postpnr.ys`, `equiv_result.txt`): 77,330 equivalence points proven, 0 unproven. SRAM macros replaced by the same stand-in on both sides, tap/decap cells removed, clock-gate cell modelled by behaviour. Netlist-to-netlist, not a physical LVS.
 
+## 23 Oct, 07:45 IST status (SIMULATED unless stated)
+
+- **DRC of the filler layout, tiles 0_0, 0_1, 2_0 finished (3 of 6):** 2,668 errors in all, **every one within 3 um of an SRAM macro, none in the logic or routing** (met3 width 948, met3 spacing 947, met4 width 529, met4 spacing 242, 2 more). These come from my thin stand-in for the macro (LEF pins/obstructions), not from the macro itself or my routing: four 60 um windows cut around real macro edges with the real macro layout show only 2 met3 and 1 met4 width errors in total (the windows also show cut-edge artefacts of the clipping, so this is a weak comparison). Tiles 1_0, 1_1 and 2_1 (the biggest) were still running.
+- **Hold:** repair before routing with a 0.1 ns margin: -0.31 -> +0.10 ns; routing of the rebuilt layout (taps at 13 um) running. An earlier try with a 0.35 ns margin failed in the router ("No access point" for 3 hold buffers).
+- **Antenna:** still 2,279 nets (2%) on the old layout; the repair tool segfaults in this OpenROAD build, a newer build cannot be installed (missing library version). Open.
+- **LVS (physical):** not run; the formal netlist-to-netlist equivalence (77,330 points) stands in for it. Open.
+
 Related: [Hardware index](../../../HARDWARE_INDEX.md), [ASIC estimate](../../../results/cortex_asic_estimate.md), [Journal](../../../../docs/journal.md)
