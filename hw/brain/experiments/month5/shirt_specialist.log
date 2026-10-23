@@ -1,0 +1,6 @@
+main model: overall 0.8892
+  main model restricted to group     4-way within group 0.8077
+  same code, group-only training     4-way within group 0.8090
+     overall if group decided by this specialist: 0.8895 (main 0.8892), code bits 4608
+  detectors fitted on group, pool 4  4-way within group 0.8090
+     overall if group decided by this specialist: 0.8899 (main 0.8892), code bits 4608

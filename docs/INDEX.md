@@ -7,6 +7,7 @@ tags: [spark, index]
 
 ## Now (L Cortex)
 
+- [GPU limits against L](gpu_limits_and_L.md): power, heat, water, e-waste, memory wall; what L shows and does not (ESTIMATED).
 - [Project memory](PROJECT_MEMORY.md): everything in one place; read first.
 - [Journal](journal.md): the step-by-step record.
 - [Month 4 board plan](month4_board_plan.md): the steps that turn simulated results into MEASURED ones on the Tang Nano.
