@@ -1416,4 +1416,8 @@ User decision: no DRAM or HBM; run bigger models by using several chips, each wi
 
 **Wafer design study (23 Oct, ESTIMATED):** founder asked for a Cerebras-class competitor design. Written as a paper design (`docs/L_wafer_design.md`, sizing script `wafer_sizing.py`): tile = lookup core + 0.5 MB banks + mesh router; area split 62% SRAM / 10% cores / 20% mesh+power+test / 8% spares; table memory on a 46,000 mm2 wafer about 0.2 GB at open 130 nm, 17 GB at 28 nm, 98 GB at 7 nm; per-token latency 0.6-15 us (8 sequential steps across the mesh). Not built, not fabricable here; near-term: tile and mesh simulator, FPGA tile prototype. Unproven: quality of an L-style model at large size.
 
+## 23 Oct 2026 - First RTL of the tiled machine (L tile, mesh router, 4 x 4 testbench)
+
+Founder asked what could be done with days and weeks of work toward a Cerebras-class chip ready to receive SRAM. Started: `hw/rtl/tile/` (router, tile with bank controller, 4 x 4 mesh testbench replaying 3,200 tokens of real counting-language-model lookups). Result (RTL simulation, cycle accurate): one stream 260 cycles per token, 4,800 lookups, 0 wrong replies; 16 streams in parallel 262 cycles per token each, 76,800 lookups, 0 wrong. Replaces the 200 ns link assumption of the first multi-chip estimate. Next: SRAM wrapper for the OpenRAM macro, synthesis and placement of one tile, hot-row copies, token sequencer in hardware.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
