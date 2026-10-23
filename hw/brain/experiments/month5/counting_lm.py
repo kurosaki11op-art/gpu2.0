@@ -12,7 +12,7 @@ import numpy as np
 from numba import njit
 import pydoc_data.topics as T
 
-text = "".join(T.topics.values()).encode("utf8", "ignore")
+text = open(os.environ["TEXTFILE"], "rb").read() if os.environ.get("TEXTFILE") else "".join(T.topics.values()).encode("utf8", "ignore")
 data = np.frombuffer(text, dtype=np.uint8).copy()
 if os.environ.get("QUICK"): data = data[:120000]
 N = len(data)

@@ -1,0 +1,5 @@
+# Tang Nano 20K (GW2A-18) synthesis of the single-tile board build, AW=15 (32,768 words x 16 bit = 64 KB in block RAM)
+read_verilog -sv /home/user/gpu2.0/hw/rtl/tile/tile_board_top.v /home/user/gpu2.0/hw/rtl/tile/l_tile.v /home/user/gpu2.0/hw/rtl/tile/l_router.v /home/user/gpu2.0/hw/rtl/tile/sram_wrap.v /home/user/gpu2.0/hw/board/uart_rx.v /home/user/gpu2.0/hw/board/uart_tx.v
+hierarchy -top tile_board_top -chparam AW 15
+synth_gowin -top tile_board_top -json tile_board_gowin.json
+tee -o synth_gowin_stat.txt stat

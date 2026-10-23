@@ -1436,4 +1436,8 @@ Standard MLP (917 KB float, 88.9%) shrinks to 115 KB at 4 bits with -0.08 points
 
 Float and 4-bit MLP both end near 20% on all classes after five 2-class stages (clothing 19.9/19.9, digits 18.4/18.7); L Cortex 81.5 / 94.2%. Compression does not cure forgetting. Note `hw/results/staged_mlp.md`; script and logs in `hw/brain/experiments/month5/`.
 
+## 23 Oct 2026 - Neural baseline for the counting language model (SIMULATED)
+
+Tiny neural char model (6-character context) beats the counting model at equal memory up to ~0.5 MB (48 KB: 2.43 bpc against 3.83 at 32 KB; 457 KB: 2.09 against 2.24 at 512 KB). Counting reaches 1.81 / 1.67 bpc only at 2 / 8 MB. The memory-efficiency claim is not supported; the counting model's value is on-the-fly learning and a lookup-only path. Note `hw/results/neural_vs_counting_lm.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

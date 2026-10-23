@@ -1,0 +1,20 @@
+characters: 1115394 | reference compressors on the whole text (bits per character, not online): zlib-9 3.112 bz2 2.356 xz 2.611
+unigram entropy 4.779 bits per character
+best k=0.25 a=0.20 (bits per char 2.268), 24s
+
+| context orders 0..n | table slots | memory (8+8 bit counters) | bits per char (all) | bits per char (second half) |
+|---|---|---|---|---|
+| 0..1 | 2^24 | 32 MB | 4.287 | 4.288 |
+| 0..2 | 2^24 | 32 MB | 3.237 | 3.233 |
+| 0..3 | 2^24 | 32 MB | 2.628 | 2.610 |
+| 0..4 | 2^24 | 32 MB | 2.331 | 2.295 |
+| 0..5 | 2^24 | 32 MB | 2.229 | 2.184 |
+| 0..6 | 2^24 | 32 MB | 2.227 | 2.180 |
+| 0..5 | 2^12 | 8 KB | 5.227 | 5.226 |
+| 0..5 | 2^14 | 32 KB | 4.342 | 4.355 |
+| 0..5 | 2^16 | 128 KB | 3.488 | 3.516 |
+| 0..5 | 2^18 | 512 KB | 2.814 | 2.837 |
+| 0..5 | 2^20 | 2.0 MB | 2.413 | 2.397 |
+| 0..5 | 2^22 | 8.0 MB | 2.268 | 2.229 |
+| 0..5 | 2^24 | 32.0 MB | 2.229 | 2.184 |
+done 46s
