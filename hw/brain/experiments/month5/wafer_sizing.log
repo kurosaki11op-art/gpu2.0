@@ -1,0 +1,8 @@
+| Node | Table memory on the wafer | Banks (0.5 MB) | Peak lookups per second (every bank busy) | Memory-port power at that peak | Per-token latency across the wafer |
+|---|---|---|---|---|---|
+| 130 nm (our open macros, measured 0.007 MB/mm2) | 201 MB | 401 | 2.0e+10 | 0.00 kW | 0.6 us |
+| 28 nm commercial | 16.8 GB | 34,391 | 1.7e+13 | 0.07 kW | 5.9 us |
+| 7 nm | 98.0 GB | 200,616 | 2.0e+14 | 0.30 kW | 14.3 us |
+| 5 nm | 112.0 GB | 229,276 | 2.3e+14 | 0.28 kW | 15.3 us |
+
+WSE-3 for scale (public, verify): 44 GB, about 23 kW. A 7 nm L wafer at the same area would hold about 2 times that memory in this model (more of the area is memory).
