@@ -1422,4 +1422,6 @@ Founder asked what could be done with days and weeks of work toward a Cerebras-c
 
 **Tile, SRAM wrapper and first synthesis (23 Oct):** memory-agnostic `sram_wrap.v` (behavioural / OpenRAM / replaceable), controller with zero-fill after reset; checks pass (mesh 38,400 lookups 0 wrong, 268 cycles per token; OpenRAM tile 24 lookups 0 mismatches). One tile (8 KB, 4 macros) synthesises to 5,753 cells and 1.20 mm2, 95% of it the macros. Next: place, clock-tree, route and power the tile.
 
+**Hot-row copies (23 Oct, SIMULATED):** copying the 1,024 most used slots (0.02% of the table) to every chip brings the busiest chip from 2.12x to 1.06x the average at 64 chips and cuts remote lookups from 98% to 56%; 16,384 slots (0.4%) gives 34%. Update consistency of the copies not modelled. Tile place-and-route still converging (329 violations at pass 17).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

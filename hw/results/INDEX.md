@@ -47,5 +47,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Lossless table storage](table_storage_lossless.md): trained tables are 54 to 71% non-zero and use their full widths; ideal lossless coding saves at most 1.7 times (SIMULATED).
 - [Counter width against accuracy](bits_vs_accuracy.md): fewer bits cost accuracy, more on clothing than digits; the shipped widths sit near the knee (SIMULATED).
 - [Multi-chip counting language model](multichip_lm.md): the 8 MB table split over 1 to 64 chips; traffic, load balance, latency and energy per token (SIMULATED, assumptions stated).
+- [Hot-row copies](hot_rows.md): copying 0.02% of the table to every chip removes the load imbalance (2.12 to 1.06 at 64 chips) and cuts remote lookups to 56% (SIMULATED).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
