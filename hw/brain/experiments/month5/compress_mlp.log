@@ -1,0 +1,18 @@
+float32 MLP: 234752 weights, 917.0 KB, test accuracy 88.92 %  (111s)
+float32 + the same 2 extra epochs: 89.60 % (the fair baseline for the fine-tuned rows)
+
+| shrink | storage KB | accuracy after shrinking | after a 2-epoch fine-tune | fine-tuned change vs float + 2 epochs |
+|---|---|---|---|---|
+| 8-bit weights | 229.2 (entropy limit 203.6) | 88.88 | 89.51 | -0.09 |
+| 6-bit weights | 171.9 (entropy limit 145.4) | 88.78 | 89.51 | -0.09 |
+| 5-bit weights | 143.3 (entropy limit 115.5) | 88.80 | 89.61 | +0.01 |
+| 4-bit weights | 114.6 (entropy limit 84.5) | 88.07 | 89.52 | -0.08 |
+| 3-bit weights | 86.0 (entropy limit 51.5) | 86.49 | 89.17 | -0.43 |
+| 2-bit weights | 57.3 (entropy limit 11.8) | 31.53 | 85.34 | -4.26 |
+| prune 50 % (8-bit values + index) | 272.2 | 87.14 | - | -1.78 |
+| prune 70 % (8-bit values + index) | 163.3 | 78.44 | - | -10.48 |
+| prune 80 % (8-bit values + index) | 108.9 | 65.56 | - | -23.36 |
+| prune 90 % (8-bit values + index) | 54.4 | 41.94 | - | -46.98 |
+| prune 95 % (8-bit values + index) | 27.2 | 19.75 | - | -69.17 |
+
+L Cortex on the same data (integer model, tables 129 KB): 85.7 % all at once, 81.5 % in stages; a float MLP reaches 88.9 % (this run).

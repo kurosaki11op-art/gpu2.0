@@ -1424,4 +1424,8 @@ Founder asked what could be done with days and weeks of work toward a Cerebras-c
 
 **Hot-row copies (23 Oct, SIMULATED):** copying the 1,024 most used slots (0.02% of the table) to every chip brings the busiest chip from 2.12x to 1.06x the average at 64 chips and cuts remote lookups from 98% to 56%; 16,384 slots (0.4%) gives 34%. Update consistency of the copies not modelled. Tile place-and-route still converging (329 violations at pass 17).
 
+## 23 Oct 2026 - Compression study: existing networks shrink 8x with no loss, and beat L Cortex at equal memory on clothing (SIMULATED)
+
+Standard MLP (917 KB float, 88.9%) shrinks to 115 KB at 4 bits with -0.08 points after a 2-epoch fine-tune (fair baseline float + 2 epochs 89.6%); 3 bits -0.43; 2 bits -4.3. At equal memory the compressed MLP is MORE accurate than L Cortex on clothing (115 KB, 89.5% against 129 KB, 85.7%). L's case is therefore forgetting-free learning in place, no multiplier and energy, not accuracy per kilobyte; staged protocol for the compressed network is the fair next test. Recorded in `hw/results/compress_mlp.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
