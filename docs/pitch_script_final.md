@@ -6,7 +6,7 @@ tags: [pitch, script, qa]
 
 # L: speaker script for the PALS innoWAH! pitch (embedded-systems club, 23 Oct 2026)
 
-Deck: `L_pitch_final.pptx` (29 slides). Speaker: Navin (team L Lawliet, CKCET). Core talk about 9 minutes; a 5-minute cut is in section 6. Every number is said with its label: **measured**, **simulated** or **estimated**.
+Deck: `L_pitch_final.pptx` (30 slides). Speaker: Navin (team L Lawliet, CKCET). Core talk about 9 minutes; a 5-minute cut is in section 6. Every number is said with its label: **measured**, **simulated** or **estimated**.
 
 ## 1. The one sentence
 
@@ -16,7 +16,7 @@ If you only get 20 seconds, say that, then: "Everything I show is simulation, on
 
 ## 2. The three questions every judge will ask, and your answers
 
-Memorise these. They are slides 3, 16 and 21. How you tested it is slide 7.
+Memorise these. They are slides 3, 16, 21 and 22. How you tested it is slide 7.
 
 **Q1. "What is wrong with the transformer and the GPU? Why change anything?"** (slide 3)
 "Nothing is wrong with them for what they were built for: training and big batches in a data centre. Three things hurt on a device.
@@ -28,7 +28,10 @@ The heat, cooling water and hardware turnover follow from that power. That is ou
 **Q2. "Why should we agree with you and use your chip and model?"** (slide 16)
 "For one specific job, I can show it is better: learning on the device, with a small memory, one input at a time. In staged learning on 59 thousand images the chip ends at 95.5% and a real CNN, which I ran on my own GPU, ends at 19.6% (chip simulated, CNN measured). It needs 84 KB and no multiplier, and about 74 times less energy per decision by operation count (estimated; the board run will measure it). The design matches the model bit for bit in 41 of 41 checks. **When everything is learned at once the CNN is still ahead, 99.1 to 97.9, and I say that. We do not replace the GPU: keep it for training and big models.**"
 
-**Q3. "Can real AI models run on your chip?"** (slide 21)
+**Q3. "Why do you need to alter AI models, or make your own? What is wrong with the current architecture?"** (slide 21)
+"The transformer is not wrong; it is built for a data centre. For a device its structure hurts in four ways: every word does dense maths on every weight; attention keeps a memory that grows with the text; the weights are frozen after training; and learning needs backpropagation, which needs gradients and a lot of memory. **A faster chip for that same model is a GPU or a TPU, and those already exist with far more money behind them.** So the waste is in the model, and the model must change with the chip: a constant-size state, sparse activity so only a few rows are touched, low-bit or counting weights, and local learning by counting. We either alter an existing model to those rules or design a new one, and build the chip for exactly that. Model and chip designed together is the L bet. The small version works, as classifiers; the language-model version is untested, with tests that can prove it wrong."
+
+**Q4. "Can real AI models run on your chip?"** (slide 22)
 "Three routes, and I will be exact about the status.
 1. **Alter an existing model.** Ternary models, with weights of minus one, zero and plus one, turn multiplications into additions; published work runs language models of billions of parameters this way. That still has a matrix of additions, so it breaks our no-matrix rule, but it shows the multiplier is not needed.
 2. **Design our own model.** A counting language model: hash the recent words into a sparse code, a table of counters predicts the next word one bit at a time. The counting classifier works in simulation; the language model is the next experiment.
@@ -37,15 +40,15 @@ The heat, cooling water and hardware turnover follow from that power. That is ou
 
 If they push: "Is it proven at billions of parameters on your chip?" → "No. It is a hypothesis with falsification tests: it fails if quality drops at larger sizes without the matrix, if a fused GPU implementation gets within about 3 times, or if a transformer chip with the same memory matches it."
 
-**Q4. "How did you test it? Did you run real AI models?"** (slide 7)
+**Q5. "How did you test it? Did you run real AI models?"** (slide 7)
 "Three ways. Standard tasks on an integer model of the chip, which is exactly its arithmetic: digits, clothing images, spoken digits and words, all at once, in stages, with noise, with two senses, with a new class from one example, with two chips merged; 3 to 5 seeds, a held-out speaker. A real CNN and a small network on the same data, the CNN on my own RTX 3050 so time and energy are measured. And the design itself: the Verilog matches the model bit for bit in 41 of 41 checks, the real-cell netlist matches, a formal equivalence check passed. **I did not run a language model or any large model on the chip. The models I ran are classifiers; the CNN is only the ruler. A board run is the next step.**"
 
 ## 3. How to pitch, and how not to
 
 **Do**
-- Order: problem (devices cannot learn), what is wrong with today's models, the idea, the proof and how it was tested, why use us, how bigger models can run, limits, ask.
+- Order: problem (devices cannot learn), what is wrong with today's models, the idea, the proof and how it was tested, why use us, why the model must change, how bigger models can run, limits, ask.
 - Say the label with every number. Judges trust the label more than the number.
-- Say what is weaker before they find it (slide 23).
+- Say what is weaker before they find it (slide 24).
 - Frame it as an **embedded system**: 84 KB, no multiplier, a small cheap FPGA, a UART interface, learning in the field.
 - Slow down on: **95.5 against 19.6**, **84 KB**, **35 times worse at batch 1**, **41 of 41**.
 - Not sure? "I have not measured that. Here is what I did measure."
@@ -85,7 +88,7 @@ If they push: "Is it proven at billions of parameters on your chip?" → "No. It
 | Heat, water, e-waste savings | Motivation, not measured |
 | Large vocabularies, real audio-visual data, real noise | Small tests only |
 
-## 5. The script, slide by slide (29 slides)
+## 5. The script, slide by slide (30 slides)
 
 Times are for the 9-minute talk. Say the bold sentence even if you skip the rest.
 
@@ -121,23 +124,25 @@ Times are for the 9-minute talk. Say the bold sentence even if you skip the rest
 
 **20. What L solves, and what it does not (0:30).** "It solves a small continual learner for sensors. It does not run existing models as they are, and it is not a GPU."
 
-**21. How real AI models can run on L (0:70).** Answer Q3 above, three routes. End on: "**We claim the route and the tests that can prove it wrong, not a billion-parameter result.**"
+**21. Why the model must change, not just the chip (0:60).** Answer Q3 above. "A transformer is not wrong; it is built for a data centre. For a device its structure hurts: dense maths on every weight, attention memory that grows, frozen weights, learning that needs backpropagation. A faster chip for it is just a GPU or a TPU. **So the model has to change with the chip: that is the L bet.**"
 
-**22. The hypothesis we will test (0:30).** "A brain-style model with constant-size state and sparse activity, on a chip built for it, needs less memory traffic and energy per token than a transformer on a GPU at the same quality. It is a hypothesis. It fails if quality drops at larger sizes, if a fused GPU implementation gets within about 3 times, or if a transformer chip with the same memory matches it."
+**22. How real AI models can run on L (0:70).** Answer Q4 above, three routes. End on: "**We claim the route and the tests that can prove it wrong, not a billion-parameter result.**"
 
-**23. Where it is level, and where it is weaker (0:50, do not skip).** "Level: digits and short spoken-word tests against a CNN. Weaker: clothing in stages is about 82%, five points under its one-pass number; a trained CNN is about two points ahead on clothing. Tests are small, noise is simulated, the two-sense data is paired by class. **A few steps still run on the host.**"
+**23. The hypothesis we will test (0:30).** "A brain-style model with constant-size state and sparse activity, on a chip built for it, needs less memory traffic and energy per token than a transformer on a GPU at the same quality. It is a hypothesis. It fails if quality drops at larger sizes, if a fused GPU implementation gets within about 3 times, or if a transformer chip with the same memory matches it."
 
-**24. Not the first (0:25).** "Hyperdimensional-computing accelerators and Intel Loihi 2 exist. What is new is the combination: dreams drawn from small counters, no multiplier, merging by adding counts."
+**24. Where it is level, and where it is weaker (0:50, do not skip).** "Level: digits and short spoken-word tests against a CNN. Weaker: clothing in stages is about 82%, five points under its one-pass number; a trained CNN is about two points ahead on clothing. Tests are small, noise is simulated, the two-sense data is paired by class. **A few steps still run on the host.**"
 
-**25 to 27. What comes next, two tracks, silicon plan (0:40 total).** "Next is the board run. The second track is the model-running chip for the bigger problem. We write the design independent of the node. A 5-nanometre-class chip costs tens of millions of dollars and we do not claim it."
+**25. Not the first (0:25).** "Hyperdimensional-computing accelerators and Intel Loihi 2 exist. What is new is the combination: dreams drawn from small counters, no multiplier, merging by adding counts."
 
-**28. What we need to go further (0:50).** "Step 1: a Tang Nano 20K, about 4,200 rupees, for the first measured numbers. Pass: bit-exact with simulation, accuracy and power measured. Step 2: a micro-chip on a shared shuttle, about 100 to 300 dollars a tile. Step 3: a mature-node chip through a university or programme partner. **Today I ask for step 1, and for a mentor or partner for step 2.**"
+**26 to 28. What comes next, two tracks, silicon plan (0:40 total).** "Next is the board run. The second track is the model-running chip for the bigger problem. We write the design independent of the node. A 5-nanometre-class chip costs tens of millions of dollars and we do not claim it."
 
-**29. Close (0:15).** "AI that keeps learning, on the device, with counting, and a clear route to bigger models, with tests that can prove us wrong. Thank you."
+**29. What we need to go further (0:50).** "Step 1: a Tang Nano 20K, about 4,200 rupees, for the first measured numbers. Pass: bit-exact with simulation, accuracy and power measured. Step 2: a micro-chip on a shared shuttle, about 100 to 300 dollars a tile. Step 3: a mature-node chip through a university or programme partner. **Today I ask for step 1, and for a mentor or partner for step 2.**"
+
+**30. Close (0:15).** "AI that keeps learning, on the device, with counting, and a clear route to bigger models, with tests that can prove us wrong. Thank you."
 
 
 ## 6. The 5-minute cut
-Slides 1, 2, 3, 4, 5, 6, 7, 13, 15, 16, 21, 23, 28, 29. Say the bold sentences only. Skip 8 to 12, 14, 17 to 20, 22, 24 to 27.
+Slides 1, 2, 3, 4, 5, 6, 7, 13, 15, 16, 21, 22, 24, 29, 30. Say the bold sentences only. Skip 8 to 12, 14, 17 to 20, 23, 25 to 28.
 
 ## 7. More hard questions, short answers
 
@@ -155,7 +160,7 @@ Slides 1, 2, 3, 4, 5, 6, 7, 13, 15, 16, 21, 23, 28, 29. Say the bold sentences o
 
 ## 8. Before you go on stage
 
-- Open the deck at slide 1; check slides 3, 7, 15, 16, 21 and 28 render.
+- Open the deck at slide 1; check slides 3, 7, 15, 16, 21, 22 and 29 render.
 - Know the numbers cold: **95.5 against 19.6**, **35 times worse at batch 1**, **84 KB**, **41 of 41**.
 - If a slide runs long, drop slides 8 to 12 first.
 

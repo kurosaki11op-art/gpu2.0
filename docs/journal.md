@@ -1384,4 +1384,6 @@ Deck now 28 slides (`L_pitch_final.pptx`): new slide 3 (what today's model and G
 
 **Deck 29 slides:** new slide 7 "How we tested it" (what we ran: integer model of the chip on standard tasks and protocols; what we compared with: CNN measured on the RTX 3050; how the design was checked: 41/41 bit-exact, real-cell netlist, formal equivalence; not tested: a language model or any large model, a board run). Script and Q&A sheet updated and renumbered.
 
+**Deck 30 slides:** new slide 21 "Why the model must change, not just the chip" (a chip alone is a GPU/TPU; the waste is in the model; the L design rules; model and chip designed together; status: small version works, language-model version untested). Script gets Q3 on the same question and is renumbered; Q&A sheet item 23.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
