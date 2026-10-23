@@ -1454,4 +1454,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **ESP32 end-to-end kit (24 Oct, prepared, nothing measured on a board):** `hw/board/esp32_l_test/esp32_l_selftest/` (dual-core self-measuring sketch with INA219, idle against run phases, 5 repetitions) and `check_esp32_run.py` (parses the serial log, mean and std, reliability verdict). Sketch compiled and run against a PC mock (LOGIC PASS); script tested on invented numbers only. Shirt specialist: first two variants no gain (80.8 to 80.9% within the group); finer-feature variants were killed by the memory limit and are rerun with smaller chunks.
 
+**Shirt specialist result (24 Oct, SIMULATED, one seed):** same-code specialist 80.77 to 80.90 within the group (no gain); finer detectors (32, pooled by 2, 18,432 bits) 82.50 within group, overall 88.92 to 89.64. Small gain at 4x code; Shirt/T-shirt still not separated reliably. Note `hw/results/shirt_specialist.md`. Background jobs die when the container restarts, so long runs are done in the foreground.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

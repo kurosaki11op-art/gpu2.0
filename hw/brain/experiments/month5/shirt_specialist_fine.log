@@ -1,2 +1,4 @@
 main model: overall 0.8892
   main model restricted to group     4-way within group 0.8077
+  detectors on group, F32 pool 2 (finer) 4-way within group 0.8250
+     overall if group decided by this specialist: 0.8964 (main 0.8892), code bits 18432
