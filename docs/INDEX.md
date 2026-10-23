@@ -50,6 +50,7 @@ tags: [spark, index]
 - [L v0 model format](spark_v0_model_format.md): trained model format and integer semantics.
 - [Hardware claims sheet](hardware_claims_sheet.md): labelled claims for the old pitch.
 - [Pitch script](pitch_script.md): speaking and video script for the old deck (superseded by the Cortex script below).
+- [Final pitch speaker script (23 Oct, 25-slide deck)](pitch_script_final.md): how to pitch, what to claim and not, slide-by-slide script, 5-minute cut, short answers.
 - [Cortex pitch script](pitch_script_cortex.md): speaking script for the 23 Oct event, slide by slide, with a short cut list (deck: `SPARK_Cortex_pitch.pptx`).
 - [Event checklist](event_checklist.md): what to do before the 23 Oct event and what to say / not say.
 - [Pitch Q&A sheet](pitch_qa_sheet.md): the questions judges are likely to ask, with honest labelled answers.

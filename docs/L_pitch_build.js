@@ -144,7 +144,7 @@ const gpuRows = [[ghd("One digit image"), ghd("Time"), ghd("Decisions/s"), ghd("
 s.addTable(gpuRows, { x: 0.5, y: 1.3, w: 9, colW: [2.9, 1.0, 1.2, 1.0, 2.9], rowH: 0.45, border: { type: "solid", pt: 0.5, color: "DDE0F0" }, fill: { color: "EEF0FA" }, valign: "middle" });
 card(s, 0.5, 3.75, 9, 1.05, "FFF4DD");
 lab(s, "Read it honestly: chip times are cycle counts from the RTL simulation divided by 27 MHz, not a board run, and the chip energy is an operation count, not a power reading. The GPU rows were measured on a laptop GPU. One chip serves one stream; the GPU wins on throughput when it can batch. A trained CNN is still ahead on accuracy when all classes are learned at once (99.1% vs 97.9% at 59k images); the chip's case is learning classes in stages without forgetting (CNN fell to 19.6%).", 0.65, 3.82, 8.7, C.text1, 11, false, { h: 0.95 });
-notes(s, "We ran the same decision on a real laptop GPU, an RTX 3050, and on our chip design in simulation. The GPU numbers are measured. At batch one it takes about 1.8 milliseconds and 69 millijoules per decision; at batch 1024 it reaches 22 thousand decisions a second. The chip design needs 2,900 clock cycles for the FPGA build, which is about 56 microseconds at 27 megahertz, and about 12 microseconds for the pipelined option. Those times and the 9.4 nanojoule energy are estimates from simulation, not board measurements. A trained network is still more accurate when everything is learned at once; our case is learning in stages without forgetting.");
+notes(s, "We ran the same decision on a real laptop GPU, an RTX 3050, and on our chip design in simulation. The GPU numbers are measured. At batch one it takes about 1.8 milliseconds and 69 millijoules per decision; at batch 1024 it reaches 22 thousand decisions a second. The chip design needs about 1,500 clock cycles per decision in the FPGA build, which is about 56 microseconds at 27 megahertz, and about 320 cycles, 12 microseconds, for the pipelined option. Those times and the 9.4 nanojoule energy are estimates from simulation, not board measurements. A trained network is still more accurate when everything is learned at once; our case is learning in stages without forgetting.");
 
 // 11b embedded
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
@@ -163,10 +163,10 @@ lab(s, "41 / 41", 0.7, 1.55, 4.0, C.accent3, 54, true, { fontFace: "Cambria", h:
 lab(s, "RTL checks in one full run, 0 mismatches against the integer model: core, tail memory, IMPRINT, slow table, encoders, cochlea, sound chain, two-sense chip, cue weighting, second look, threshold and novelty units, clustering, stage and night sequencer, raw senses to a whole stage, board top, host schedule.", 0.7, 2.75, 4.0, C.text1, 12, false, { h: 1.9 });
 lab(s, "SIMULATED (RTL simulation)", 0.7, 4.5, 4.0, C.accent6, 11, true);
 card(s, 5.1, 1.4, 4.4, 3.5);
-lab(s, "1", 5.3, 1.55, 4.0, C.accent1, 54, true, { fontFace: "Cambria", h: 1.0 });
-lab(s, "violation left in detailed routing of the SKY130 layout (from 174,309 on the first pass), a power-versus-signal short at a memory macro edge.", 5.3, 2.75, 4.0, C.text1, 13, false, { h: 1.8 });
+lab(s, "0", 5.3, 1.55, 4.0, C.accent1, 54, true, { fontFace: "Cambria", h: 1.0 });
+lab(s, "violations left in detailed routing of the SKY130 layout (router count; 145,000 on the first pass), re-run from scratch. A layout in the open flow, not a signed-off or fabricated chip.", 5.3, 2.75, 4.0, C.text1, 13, false, { h: 1.8 });
 lab(s, "ESTIMATED (open-source flow, no sign-off)", 5.3, 4.5, 4.0, C.accent6, 11, true);
-notes(s, "The design is not just a simulator result. Every check passes bit for bit between the integer model and the RTL, covering the learning core, the sense layers, the whole sound chain, the two-sense chip, the new units that moved host steps onto the chip, and the board top. We also took it through an open-source SKY130 layout flow; routing ended at one remaining violation. This is verification in simulation, not a chip.");
+notes(s, "The design is not just a simulator result. Every check passes bit for bit between the integer model and the RTL, covering the learning core, the sense layers, the whole sound chain, the two-sense chip, the new units that moved host steps onto the chip, and the board top. We also took it through an open-source SKY130 layout flow; routing ends at zero violations by the router's own count. This is verification in simulation, not a chip.");
 
 // 12b design
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
