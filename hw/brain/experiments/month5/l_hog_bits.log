@@ -1,0 +1,7 @@
+L detector code (baseline, single view)        bits  4608 | accuracy 0.8885 | Shirt recall 0.638 | T-shirt recall 0.878 | Pullover 0.827 | Coat 0.818 | 5s
+HOG-bits 4x4 cells alone                       bits  1568 | accuracy 0.8770 | Shirt recall 0.598 | T-shirt recall 0.852 | Pullover 0.792 | Coat 0.829 | 25s
+HOG-bits 4x4 cells + detector code             bits  6176 | accuracy 0.8941 | Shirt recall 0.632 | T-shirt recall 0.875 | Pullover 0.872 | Coat 0.834 | 40s
+HOG-bits 2x2 cells alone                       bits  4704 | accuracy 0.8876 | Shirt recall 0.617 | T-shirt recall 0.880 | Pullover 0.829 | Coat 0.842 | 66s
+HOG-bits 2x2 cells + detector code             bits  9312 | accuracy 0.8976 | Shirt recall 0.662 | T-shirt recall 0.875 | Pullover 0.868 | Coat 0.820 | 87s
+HOG-bits 7x7 cells alone                       bits   384 | accuracy 0.8036 | Shirt recall 0.470 | T-shirt recall 0.809 | Pullover 0.658 | Coat 0.598 | 94s
+HOG-bits 7x7 cells + detector code             bits  4992 | accuracy 0.8921 | Shirt recall 0.612 | T-shirt recall 0.875 | Pullover 0.849 | Coat 0.857 | 101s
