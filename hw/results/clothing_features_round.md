@@ -26,4 +26,15 @@ Scripts in `hw/brain/experiments/month5/`: `l_passes.py`, `l_hog_bits.py`, `l_re
 
 **What would be needed to match the CNN with lookups only:** a trained hidden layer of conjunctions or lookup tables, learned with gradients on a GPU and deployed as tables (the DWN / convolutional Tsetlin / logic-gate-network family, reported at 89 to 94% on Fashion-MNIST in the research report, second-hand). That is the accelerator path, not L Cortex. Not started.
 
+## Gradient-trained lookup layer (accelerator path, first try)
+
+`lut_net.py`, `lut_net.log`: one layer of weightless lookup tables on the same 9,312 input bits: L = 10 x N LUTs, each reading 6 fixed random input bits as a table index and returning one bit; class score = number of 1-bits in its group; table entries trained with Adam through a sigmoid relaxation (training on a GPU or CPU), deployed as 1-bit tables (inference: index, lookup, popcount; no multiply, no matrix).
+
+| LUTs per class | Tables | Accuracy (hard tables) | Shirt recall |
+|---|---|---|---|
+| 200 | 15.6 KB | 85.96 | 59.6 |
+| 1,000 | 78.1 KB | 88.86 | 61.8 |
+
+**Result: no gain over L** (88.85% at 11 to 45 KB): a single trained lookup layer is as limited as a single binary layer with a readout. The 8-input variant was stopped. The literature figures for the stacked version (DWN about 89% on Fashion-MNIST, convolutional Tsetlin 90 to 94%) are second-hand and also do not clearly exceed the tiny-CNN 92.5%. A multi-layer or convolutional trained lookup network is the remaining open route and has not been built.
+
 Related: [Results index](INDEX.md), [Where L loses on clothing](clothing_confusion.md), [Specialist for Shirt/T-shirt](shirt_specialist.md), [Real colour photos](shirt_real_photos.md), [Research report](../../docs/research/matrix_free_vs_cnn_report.md), [Journal](../../docs/journal.md)

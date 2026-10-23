@@ -1,0 +1,6 @@
+LUT layer 200 per class, n=6 epoch 3: hard-table accuracy 0.8511 | Shirt recall 0.499 T-shirt 0.894 | tables 15.6 KB (1 bit per entry) | 11s
+LUT layer 200 per class, n=6 epoch 6: hard-table accuracy 0.8537 | Shirt recall 0.441 T-shirt 0.898 | tables 15.6 KB (1 bit per entry) | 22s
+LUT layer 200 per class, n=6 epoch 9: hard-table accuracy 0.8596 | Shirt recall 0.596 T-shirt 0.847 | tables 15.6 KB (1 bit per entry) | 34s
+LUT layer 1000 per class, n=6 epoch 3: hard-table accuracy 0.8902 | Shirt recall 0.599 T-shirt 0.884 | tables 78.1 KB (1 bit per entry) | 91s
+LUT layer 1000 per class, n=6 epoch 6: hard-table accuracy 0.8881 | Shirt recall 0.607 T-shirt 0.874 | tables 78.1 KB (1 bit per entry) | 177s
+LUT layer 1000 per class, n=6 epoch 9: hard-table accuracy 0.8886 | Shirt recall 0.618 T-shirt 0.845 | tables 78.1 KB (1 bit per entry) | 260s

@@ -7,6 +7,7 @@ tags: [spark, index]
 
 ## Now (L Cortex)
 
+- [Status report 24 Oct 2026](status_report_24oct.md): plain summary of what is done, failed and needed.
 - [Matrix-free models against CNN accuracy (research report)](research/matrix_free_vs_cnn_report.md): what Tsetlin, LUT and logic networks reach on MNIST/Fashion/CIFAR, shirt difficulty, pitch baselines; most numbers second-hand.
 - [GPU limits against L](gpu_limits_and_L.md): power, heat, water, e-waste, memory wall; what L shows and does not (ESTIMATED).
 - [Project memory](PROJECT_MEMORY.md): everything in one place; read first.
