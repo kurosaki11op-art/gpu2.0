@@ -18,6 +18,7 @@ tags: [spark, index, hardware]
 - [Training experiments](train/experiments/README.md): accuracy and brain-like learning experiments (Phase A).
 - [L tile and mesh RTL](rtl/tile/README.md): router, tile with memory bank, 4 x 4 mesh testbench replaying real lookups; 260 cycles per token, 0 wrong replies (SIMULATED).
 - [Tang Nano 20K tile build](results/tile_board_prep.md): UART board top for one tile, simulated and synthesised (not run on a board).
+- [ESP32 test of the L decision](board/esp32_l_test/README.md): firmware for logic, speed and power test; logic verified on a PC build (0 of 200 differ); board run still to be done by the user.
 - [Gate-level checks](synth/gate_level/sky130/README.md): core netlists (generic gates, SKY130 cells with macro models) against the integer model.
 - [Layout checks 22 Oct](asic/cortex/signoff/README.md): routing, GDSII, timing, DRC of the L Cortex layout (DRC and hold fail).
 - [Results index](results/INDEX.md): every result.

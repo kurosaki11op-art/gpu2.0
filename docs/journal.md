@@ -1450,4 +1450,6 @@ All at once 88.9 / staged 81.4. Shirt is weakest (63%, confused with T-shirt); s
 
 User direction (24 Oct): order of work is design first (weak spots of the L chip, other GPU limitations, SRAM placement on chip), fabrication last. User also asked for an ESP32 logic and power test.
 
+**ESP32 test prepared (24 Oct, SIMULATED on PC):** `hw/board/esp32_l_test/`: lookup-and-add decision (10 x 4,608 signed 8-bit table, ~570 active bits per image, 46 KB flash, no multiply) as an Arduino sketch with logic check, microseconds per decision and a power trigger pin. The same C code compiled with gcc matches the Python integer model on 200 images (0 differ, 178/200 correct). No ESP32 in the cloud, so no board timing or power yet; user runs it.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

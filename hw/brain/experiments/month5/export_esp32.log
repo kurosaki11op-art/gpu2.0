@@ -1,0 +1,3 @@
+table (10, 4608) -104 105
+single-view accuracy on all test images 0.8885
+active bits per image 570.355 values >1 in centre: 0
