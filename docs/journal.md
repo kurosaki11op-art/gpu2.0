@@ -1460,4 +1460,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Second sense on Shirt vs T-shirt (24 Oct, SIMULATED, one seed):** picture-only Shirt recall 63.8 (147 shirts called T-shirt); with a simulated ear right 60/74/90%: 78.8/86.8/93.8 and overall 92.5/94.5/97.2 (picture only 88.85). Ear is a model with errors independent of the picture, not real audio; needs the name at test time. Next: real clothing-name speech through the cochlea, and an ask-only-when-unsure rule. Note `hw/results/shirt_second_sense.md`.
 
+**Correction (24 Oct, user):** the 'second sense' test on Shirt vs T-shirt used the spoken name of the garment at test time, which is the label, so it is an oracle-label experiment and NOT evidence of better recognition. Picture-only Shirt recall (63-74%, CNN ruler 79.4%) stands. A valid second sense must be independent non-label evidence (colour, resolution, touch, weight, context), none of which exists in the 28 x 28 grey data. Earlier two-sense gains that used a spoken label carry the same caveat. Notes corrected: `hw/results/shirt_second_sense.md`, results index.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
