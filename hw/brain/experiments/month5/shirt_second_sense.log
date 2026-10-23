@@ -1,0 +1,7 @@
+picture only (single view)         overall 0.8885 | Shirt recall 0.638 | T-shirt recall 0.878 | Shirt->T-shirt 147 | T-shirt->Shirt 59
+picture + ear, ear right 60%       overall 0.9252 | Shirt recall 0.788 | T-shirt recall 0.892 | Shirt->T-shirt 66 | T-shirt->Shirt 48
+   ear alone (table of sound part) overall 0.5923 | Shirt recall 0.629 | T-shirt recall 0.567 | Shirt->T-shirt 40 | T-shirt->Shirt 50
+picture + ear, ear right 74%       overall 0.9449 | Shirt recall 0.868 | T-shirt recall 0.922 | Shirt->T-shirt 37 | T-shirt->Shirt 35
+   ear alone (table of sound part) overall 0.7318 | Shirt recall 0.764 | T-shirt recall 0.726 | Shirt->T-shirt 24 | T-shirt->Shirt 34
+picture + ear, ear right 90%       overall 0.9724 | Shirt recall 0.938 | T-shirt recall 0.957 | Shirt->T-shirt 15 | T-shirt->Shirt 15
+   ear alone (table of sound part) overall 0.8987 | Shirt recall 0.908 | T-shirt recall 0.907 | Shirt->T-shirt 14 | T-shirt->Shirt 11

@@ -54,5 +54,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Tang Nano 20K preparation of the tile](tile_board_prep.md): single-tile board top passes a UART simulation and synthesises into 1,014 cells + 32 block RAMs (64 KB); not run on a board yet.
 - [Where L Cortex loses on clothing](clothing_confusion.md): Shirt/T-shirt/Pullover/Coat limit all-at-once; staged loss falls on similar pairs (SIMULATED, one seed).
 - [Specialist for Shirt/T-shirt/Pullover/Coat](shirt_specialist.md): second decision with the same code gains nothing; finer detectors give +1.7 within the group, +0.7 overall at 4x the code (SIMULATED, one seed).
+- [Second sense for Shirt against T-shirt](shirt_second_sense.md): a simulated ear right 74% of the time lifts Shirt recall 63.8 to 86.8 (SIMULATED, ear errors independent of the picture, no real audio yet).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

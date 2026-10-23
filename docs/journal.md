@@ -1458,4 +1458,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Shirt round 2 (24 Oct, SIMULATED + MEASURED ruler):** hand-made shape cues (silhouette profile, inside-dark, neck rows, edges) add at most +0.6 within the group: no real gain. A small CNN with backprop and all data gets Shirt recall 79.4% (T-shirt 84.2%, 122 of 1,000 T-shirts called Shirt): the confusion is largely in the 28 x 28 data. L's Shirt recall 63-74%. Goal 'never confused' not reachable on this data set; next lever is extra evidence (second sense, colour or resolution). Note `hw/results/shirt_specialist.md`.
 
+**Second sense on Shirt vs T-shirt (24 Oct, SIMULATED, one seed):** picture-only Shirt recall 63.8 (147 shirts called T-shirt); with a simulated ear right 60/74/90%: 78.8/86.8/93.8 and overall 92.5/94.5/97.2 (picture only 88.85). Ear is a model with errors independent of the picture, not real audio; needs the name at test time. Next: real clothing-name speech through the cochlea, and an ask-only-when-unsure rule. Note `hw/results/shirt_second_sense.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
