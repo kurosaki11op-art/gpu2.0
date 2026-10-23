@@ -43,5 +43,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [RTL simulation results](sim_results.md) and [with trained weights](sim_results_trained.md).
 - [Sensory node](sensory_node.md): two senses (picture + sound) in one chip, sleep cleaning with the chip's own scores and a neighbour unit, bit-exact; a heard word names pictures with no labels (SIMULATED; CNN reference MEASURED).
 - [Counting language model, first test](counting_lm.md): online one-pass character model from hashed counters; 4.8 to 1.8 bits per character as memory grows 8 KB to 8 MB (SIMULATED algorithm test).
+- [End to end power, encoder included](end_to_end_power.md): picture-to-answer energy and power, chip layout estimate against the measured GPU (about 40 uJ against 0.3 to 69 mJ).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
