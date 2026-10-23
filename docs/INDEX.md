@@ -52,6 +52,7 @@ tags: [spark, index]
 - [Pitch script](pitch_script.md): speaking and video script for the old deck (superseded by the Cortex script below).
 - [Final pitch speaker script (23 Oct, 25-slide deck)](pitch_script_final.md): how to pitch, what to claim and not, slide-by-slide script, 5-minute cut, short answers.
 - Printable copies of the final script: `L_pitch_speaker_script.pdf` and `L_pitch_speaker_script.docx` (same text as the file above).
+- [Live demo cheat sheet](live_demo_cheatsheet.md): commands and talking points for the chip-vs-CNN test on the laptop GPU.
 - [Cortex pitch script](pitch_script_cortex.md): speaking script for the 23 Oct event, slide by slide, with a short cut list (deck: `SPARK_Cortex_pitch.pptx`).
 - [Event checklist](event_checklist.md): what to do before the 23 Oct event and what to say / not say.
 - [Pitch Q&A sheet](pitch_qa_sheet.md): the questions judges are likely to ask, with honest labelled answers.
