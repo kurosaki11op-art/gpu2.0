@@ -1430,4 +1430,6 @@ Standard MLP (917 KB float, 88.9%) shrinks to 115 KB at 4 bits with -0.08 points
 
 **Multiplier-free hash (23 Oct, SIMULATED):** a xorshift hash (shifts, rotates, XOR only) gives the same bits per character as the multiplying hash (1.802 at 2^22 slots for both), so the hardware token sequencer needs no multiplier for the slot index. Note in `hw/results/counting_lm.md`.
 
+**Hardware token sequencer (23 Oct, SIMULATED):** `hw/rtl/tile/l_seq.v` with the multiplier-free hash and a log-odds ROM, driven through the 4 x 4 mesh: 480 steps bit-exact against a Python model of the same fixed-point arithmetic, 277 cycles per token. Still to do in hardware: sigmoid/cost table, learning updates from the sequencer, overlap of hashing and replies. Tile routing still converging.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

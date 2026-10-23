@@ -4,3 +4,5 @@ cd "$(dirname "$0")"
 MAC=/opt/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.v
 iverilog -g2012 -o /tmp/t_mesh.vvp -Ptb_mesh.ACTIVE=16 -Ptb_mesh.NTOK=50 l_router.v l_tile.v sram_wrap.v tb_mesh.v 2>/dev/null && vvp -n /tmp/t_mesh.vvp | grep MESH
 iverilog -g2012 -DOPENRAM -o /tmp/t_open.vvp l_router.v l_tile.v sram_wrap.v tb_tile_openram.v ../cortex/cortex_cg.v $MAC && vvp -n /tmp/t_open.vvp | grep -E "OPENRAM|MISMATCH"
+# (3) hardware token sequencer through the 4x4 mesh, bit-exact against the Python fixed-point model (multiplier-free hash, log-odds ROM)
+iverilog -g2012 -o /tmp/t_seq.vvp -Ptb_seq.NTOK=60 l_router.v l_tile.v sram_wrap.v l_seq.v tb_seq.v 2>/dev/null && vvp -n /tmp/t_seq.vvp | grep SEQ && python3 check_seq.py 60
