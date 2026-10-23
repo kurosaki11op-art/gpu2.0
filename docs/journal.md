@@ -1428,4 +1428,6 @@ Founder asked what could be done with days and weeks of work toward a Cerebras-c
 
 Standard MLP (917 KB float, 88.9%) shrinks to 115 KB at 4 bits with -0.08 points after a 2-epoch fine-tune (fair baseline float + 2 epochs 89.6%); 3 bits -0.43; 2 bits -4.3. At equal memory the compressed MLP is MORE accurate than L Cortex on clothing (115 KB, 89.5% against 129 KB, 85.7%). L's case is therefore forgetting-free learning in place, no multiplier and energy, not accuracy per kilobyte; staged protocol for the compressed network is the fair next test. Recorded in `hw/results/compress_mlp.md`.
 
+**Multiplier-free hash (23 Oct, SIMULATED):** a xorshift hash (shifts, rotates, XOR only) gives the same bits per character as the multiplying hash (1.802 at 2^22 slots for both), so the hardware token sequencer needs no multiplier for the slot index. Note in `hw/results/counting_lm.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

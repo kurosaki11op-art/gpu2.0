@@ -35,4 +35,17 @@ Reference points: unigram entropy 4.70 bits per character; offline compressors o
 
 **Next tests.** (1) A small neural character model trained on the same text (and a ternary version) at matched memory; (2) a word-level version with a larger vocabulary; (3) the forgetting test: learn text A, then text B, then measure A again; (4) map the log-odds and sigmoid to lookup tables and count memory reads per token.
 
+## Multiplier-free hash (23 Oct, SIMULATED)
+
+The first test used a multiplying hash. `hw/brain/experiments/month5/counting_lm_mf.py` (log `counting_lm_mf.log`) replaces it with a hash built only from shifts, rotates and XOR (a xorshift mix), so the table index needs no multiplier in hardware:
+
+| Table slots | Multiplier-free hash (all / second half) | Multiplying hash (all / second half) |
+|---|---|---|
+| 2^16 | 3.042 / 2.962 | 3.041 / 2.965 |
+| 2^20 | 1.923 / 1.810 | 1.926 / 1.812 |
+| 2^22 | 1.802 / 1.670 | 1.802 / 1.670 |
+| 2^24 | 1.771 / 1.634 | 1.770 / 1.632 |
+
+The quality is the same to the third decimal, so the hardware token sequencer can compute the slot index with shifts and XOR only (the log-odds and sigmoid still need lookup tables; not yet mapped).
+
 Related: [Results index](INDEX.md), [L hypothesis](../../docs/L_hypothesis.md), [L accelerator design](../../docs/L_accelerator_design.md), [Journal](../../docs/journal.md)
