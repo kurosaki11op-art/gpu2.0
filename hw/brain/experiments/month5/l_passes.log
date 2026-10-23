@@ -1,0 +1,4 @@
+L after 1 pass(es)         single view 0.8885 | look-again 0.8866 | Shirt recall 0.606 T-shirt recall 0.852 | 6s
+L after 2 pass(es)         single view 0.8887 | look-again 0.8901 | Shirt recall 0.647 T-shirt recall 0.844 | 13s
+L after 3 pass(es)         single view 0.8886 | look-again 0.8880 | Shirt recall 0.588 T-shirt recall 0.853 | 19s
+L after 4 pass(es)         single view 0.8905 | look-again 0.8895 | Shirt recall 0.628 T-shirt recall 0.841 | 25s

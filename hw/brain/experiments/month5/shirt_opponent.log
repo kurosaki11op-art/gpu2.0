@@ -5,3 +5,17 @@ images 2294 [984 372 661 277]
   fold 1 train 1085 test 271 test shirts 67 senders in test 92
   fold 2 train 1085 test 271 test shirts 79 senders in test 98
   fold 3 train 1085 test 271 test shirts 84 senders in test 89
+  fold 4 train 1085 test 271 test shirts 69 senders in test 100
+| model | T-Shirt recall | Shirt recall | balanced accuracy |
+|---|---|---|---|
+| L grey (1 plane, 4,608 bits) | 0.915 | 0.757 | 0.836 |
+| L RGB planes (13,824) | 0.935 | 0.799 | 0.867 |
+| L grey + opponent planes (13,824) | 0.942 | 0.830 | 0.886 |
+| L grey + coarse opponent bits (+392) | 0.911 | 0.764 | 0.838 |
+| CNN grey 28 (ruler) | 0.929 | 0.789 | 0.859 |
+| CNN colour 28 (ruler) | 0.941 | 0.743 | 0.842 |
+
+== split: held-out volunteers | 5 folds, 1,356 images, T-Shirt 984 / Shirt 372
+  fold 0 train 1084 test 272 test shirts 99 senders in test 39
+  fold 1 train 1085 test 271 test shirts 54 senders in test 39
+  fold 2 train 1085 test 271 test shirts 50 senders in test 42
