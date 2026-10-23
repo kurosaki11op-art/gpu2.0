@@ -1390,4 +1390,8 @@ Deck now 28 slides (`L_pitch_final.pptx`): new slide 3 (what today's model and G
 
 **Deck:** speaker notes removed from `L_pitch_final.pptx` (the generator's `notes()` is now a no-op); the spoken text lives only in `docs/pitch_script_final.md`.
 
+## 23 Oct 2026 - Counting language model, first test (SIMULATED algorithm test)
+
+**Asked:** work further on failures and developments in the cloud. **Done:** the first test of the "design our own model" route: a hashed-count language model, online, one pass, on 561 KB of English text (`hw/brain/experiments/month5/counting_lm.py`, note `hw/results/counting_lm.md`). Quality grows with memory: 4.83 bits per character at 8 KB, 3.04 at 128 KB, 1.93 at 2 MB, 1.80 at 8 MB, 1.77 at 32 MB (order 0..5); order 0..6 gives 1.70. Offline compressors on the same text: xz 1.54, bz2 1.60. **Limits:** float log/sigmoid in the prototype (not mapped to lookup tables), no neural baseline at matched memory yet, one small corpus. **Also:** the container restarted again at about 10 am IST and killed the background routing run; the rebuilt layout (floor2h) is being routed again.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
