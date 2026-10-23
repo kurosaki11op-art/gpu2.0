@@ -24,4 +24,6 @@ Everything below is prepared and checked on a PC (sketch compiles and runs again
 
 How the measurement works and why it is trustworthy: core 0 samples the INA219 all the time in both phases (its own load cancels in the difference); core 1 sleeps (idle phase) or does L decisions (run phase). Energy per decision (delta) = (run power - idle power) / decisions per second. Limits: INA219 resolution about 0.1 mA, 12-bit conversions of about 0.5 ms each, power of the INA219 and USB cable losses fixed in both phases; temperature drift is why the board is warmed up first. The result is the energy of a cheap microcontroller running the lookup-and-add rule in software; it is a real baseline, not the energy of the L chip.
 
+Prompt for another assistant to guide the run: [CHATGPT_PROMPT.md](CHATGPT_PROMPT.md).
+
 Related: [Board README](../README.md), [Hardware index](../../HARDWARE_INDEX.md)
