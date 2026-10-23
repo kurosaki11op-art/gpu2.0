@@ -1,0 +1,5 @@
+float32 MLP: 234752 weights, 917.0 KB, test accuracy 88.92 %  (110s)
+
+| shrink | storage KB | accuracy after shrinking | after a 2-epoch fine-tune | change vs float |
+|---|---|---|---|---|
+| 8-bit weights | 229.2 (entropy limit 203.6) | 88.88 | 89.51 | +0.59 |
