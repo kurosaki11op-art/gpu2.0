@@ -1464,4 +1464,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Real photos, colour (24 Oct, SIMULATED, 5 splits):** Grigorev clothing photos. Shirt vs T-shirt: L grey Shirt recall 61.0, L colour 79.6 (accuracy 83.7 to 89.8), CNN grey 79.8; 4-way: Shirt 61.3 to 58.0 (no gain), accuracy 67.8 to 70.2. CNN at 56 px no better than 28 px. Colour is legitimate independent evidence for the pair; small noisy data, possible colour bias. Note `hw/results/shirt_real_photos.md`.
 
+**L deployed memory (24 Oct, SIMULATED):** the deployed slow table can be requantised to 2 bits with no real loss: 45 KB 88.85 / 22.5 KB 88.78 / 11.2 KB 88.65 on clothing (full 60k). The earlier '129 KB for 85.7%' counted learning state and another protocol; not like for like. Extra passes over the data change nothing (88.9), so the gap to a CNN (91.1 ruler) is features and readout. Notes `hw/results/l_deployed_memory.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
