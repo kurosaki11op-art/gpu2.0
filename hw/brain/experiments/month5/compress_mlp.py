@@ -62,14 +62,16 @@ def prune(w, frac):
 
 t0 = time.time(); W, B = train(W, B, 12); nparam = sum(w.size for w in W)
 base = acc(W, B); print("float32 MLP: %d weights, %.1f KB, test accuracy %.2f %%  (%.0fs)" % (nparam, nparam * 4 / 1024, base, time.time() - t0), flush=True)
-print("\n| shrink | storage KB | accuracy after shrinking | after a 2-epoch fine-tune | change vs float |"); print("|---|---|---|---|---|")
+W3, B3 = train([w.copy() for w in W], [b.copy() for b in B], 2, lr=2e-4); base_ft = acc(W3, B3)
+print("float32 + the same 2 extra epochs: %.2f %% (the fair baseline for the fine-tuned rows)" % base_ft, flush=True)
+print("\n| shrink | storage KB | accuracy after shrinking | after a 2-epoch fine-tune | fine-tuned change vs float + 2 epochs |"); print("|---|---|---|---|---|")
 for bits in (8, 6, 5, 4, 3, 2):
     a0 = acc([quant(w, bits) for w in W], B)
     W2, B2 = train([w.copy() for w in W], [b.copy() for b in B], 2, qfun=lambda w, b=bits: quant(w, b), lr=2e-4); a1 = acc([quant(w, bits) for w in W2], B2)
     kb = nparam * bits / 8 / 1024; ekb = sum(w.size * ent_bits(w, bits) for w in W) / 8 / 1024
-    print("| %d-bit weights | %.1f (entropy limit %.1f) | %.2f | %.2f | %+.2f |" % (bits, kb, ekb, a0, a1, a1 - base), flush=True)
+    print("| %d-bit weights | %.1f (entropy limit %.1f) | %.2f | %.2f | %+.2f |" % (bits, kb, ekb, a0, a1, a1 - base_ft), flush=True)
 for frac in (0.5, 0.7, 0.8, 0.9, 0.95):
     Wp = [prune(w, frac) for w in W]; a0 = acc(Wp, B)
     nz = sum(int((w != 0).sum()) for w in Wp); kb = nz * (8 + 11) / 8 / 1024                    # 8-bit value + about 11-bit index per kept weight
     print("| prune %d %% (8-bit values + index) | %.1f | %.2f | - | %+.2f |" % (100 * frac, kb, a0, a0 - base), flush=True)
-print("\nL Cortex on the same data (integer model, tables 129 KB): 85.7 % all at once, 81.5 % in stages; a float MLP reaches %.1f %% (this run)." % base)
+print("\nL Cortex on the same data (integer model, tables 129 KB): 85.7 %% all at once, 81.5 %% in stages; a float MLP reaches %.1f %% (this run)." % base)
