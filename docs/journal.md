@@ -1360,5 +1360,22 @@ One command runs the integer model of the chip (software, CPU: stages with no st
 
 **Night 22-23 Oct update (layout checks):** root cause of the ~325,000 well and latch-up DRC errors found: **no filler cells in the flow**. With 3.17 M fill cells added, tile 0_1 falls from about 12,500 errors to 1,036, all within 3 um of an SRAM macro (my thin pin stand-in shapes), 0 elsewhere. Hold repair works (-0.21 -> +0.10 ns on the old layout; -0.31 -> +0.35 ns pre-route on the rebuilt one). New open items: **antenna violations** (2,279 nets of 115,506, ESTIMATED; `repair_antennas` segfaults in this OpenROAD build) and **LVS not run**. Incidents: the disk allowance filled once and crashed a routing run and a DRC batch (re-run). Rebuilt layout (taps at 13 um, hold repaired before routing) is routing now. Details: `hw/asic/cortex/signoff/README.md`.
 
+## 23 Oct 2026, 07:50 IST - Morning report: L Cortex layout checks (SIMULATED / ESTIMATED; nothing taped out, nothing on a board)
+
+| Check | State |
+|---|---|
+| Detailed routing (old layout floor2e, rebuilt in a fresh container) | **0 violations** (router count) |
+| Foundry-rule DRC (magic), first attempts | 124k and 325k errors: both **artefacts of my own steps** (a tile cut that dropped the vias; no filler cells in the flow) |
+| DRC after adding 3.17 M filler cells, **4 of 6 tiles done** (0_0, 0_1, 1_0, 2_0) | **3,624 errors, all within 3 um of an SRAM macro (met3/met4 width and spacing from my thin LEF stand-in for the macro), 0 in the logic or routing.** Tiles 1_1 and 2_1 still running. A weak window test with the real macro layout shows only 3 such errors. |
+| Hold timing | repair works: -0.21 -> +0.10 ns (old layout), -0.31 -> +0.10 ns before routing (rebuilt layout). The rebuilt layout (taps at 13 um) failed twice in the router ("No access point" for the hold buffers) until the hold buffers were legalised with `detailed_placement`; **it is routing now** (started 07:52 IST, about 75 min). |
+| Setup timing | -6.19 ns at 20 ns, about 26 ns / 38 MHz (ESTIMATED, placement parasitics) |
+| Power | about 55 mW, gated clocks, 10% activity (ESTIMATED) |
+| Gate-level simulation of the core, NB=64, 24 commands | SKY130 cells + macro models: **0 mismatches, flops power-up 0 and 1**; generic gates: 0 mismatches; Gowin-primitive netlist hangs (my cell models) |
+| Formal equivalence, post-layout vs synthesis | **77,330 points proven, 0 unproven** (macros stood in on both sides) |
+| **Antenna** | **OPEN**: 2,279 nets (2%) violate; `repair_antennas` segfaults in this OpenROAD build; a newer build cannot be installed |
+| **LVS (physical)** | **OPEN**: not run; the equivalence check stands in for it |
+| Incidents | the container restarted once and the disk allowance ran out once (a routing run and a DRC batch crashed and were re-run) |
+
+**Not claimed:** fabrication-ready. Still to do: finish routing and re-run the DRC on the rebuilt layout, fix antennas, attempt LVS block by block.
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
