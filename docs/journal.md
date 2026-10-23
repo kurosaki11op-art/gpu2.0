@@ -1378,4 +1378,9 @@ One command runs the integer model of the chip (software, CPU: stages with no st
 
 **Not claimed:** fabrication-ready. Still to do: finish routing and re-run the DRC on the rebuilt layout, fix antennas, attempt LVS block by block.
 
+## 23 Oct 2026 - Pitch deck and script: why not transformer/GPU, why L, how models run on L
+
+Deck now 28 slides (`L_pitch_final.pptx`): new slide 3 (what today's model and GPU get wrong: frozen model, every token reads everything, GPU needs a crowd: 69 mJ vs 1.95 mJ on the user's RTX 3050, 35 times, MEASURED), slide 15 (why use L: 95.5 vs 19.6 staged, 84 KB, 41/41; use L for on-device learning, keep the GPU for training), slide 20 (how real AI models can run on L: alter an existing model (ternary, published), design our own counting language model (next experiment), grow the memory (DRAM, sparse lookups); status stated as hypothesis with falsification tests). Script rewritten (`pitch_script_final.md`): the three judge questions with scripted answers, do/do-not lists, claims table with labels, 9-minute slide-by-slide script, 5-minute cut. Corrections made on the way: slide 15/17 routing line now 0 violations by the router's own count; the chip decision is about 1,500 cycles (the 2,900 was the learning cost). No fabrication detail in the pitch; no claim of fabrication readiness.
+
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

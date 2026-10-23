@@ -19,6 +19,16 @@ const notes = (s, t) => s.addNotes(t);
 const bar = (s, series, title, opts) => s.addChart(pres.charts.BAR, series, Object.assign(chartBase(title), { barDir: "col", barGrouping: "clustered" }, opts));
 const tag = (s, t, x, y, w, col) => lab(s, t, x, y, w, col || C.accent2, 12, true);
 
+// three-card slide helper (new slides: why not the transformer/GPU, why use L, how models run on L)
+const threeCards = (s, cards, foot, footFill) => {
+  cards.forEach((c, i) => { const x = 0.5 + i * 3.05; card(s, x, 1.3, 2.9, 3.0);
+    lab(s, c[0], x + 0.15, 1.4, 2.6, c[3] || C.accent2, 14, true, { fontFace: "Cambria", h: 0.55 });
+    lab(s, c[1], x + 0.15, 2.0, 2.6, C.text1, 13, false, { h: 1.85 });
+    lab(s, c[2], x + 0.15, 3.9, 2.6, C.accent6, 10, true, { h: 0.35 }); });
+  card(s, 0.5, 4.45, 9, 0.62, footFill || "FFF4DD");
+  lab(s, foot, 0.65, 4.53, 8.7, C.text1, 11, true, { h: 0.5 });
+};
+
 // 1 cover
 pres.addSection({ title: "Open" });
 let s = pres.addSlide({ masterName: "DARK", sectionTitle: "Open" });
@@ -38,6 +48,16 @@ stat(3.6, "20.0%", "clothing: same test, 60,000 images, same forgetting", C.acce
 stat(6.7, "5.0%", "20 classes in 10 stages: almost everything is forgotten", C.accent4);
 lab(s, "MEASURED: a CNN we trained on the same images, one seed. Fixing forgetting today means retraining from scratch: more energy, more heat, hardware thrown away when it can no longer be updated.", 0.5, 4.1, 9, C.text1, 15, false, { h: 1.0 });
 notes(s, "A normal neural network learns once. Teach it in stages and it keeps only the last stage: about 20 percent on digits and clothing, and 5 percent on twenty classes. Those are measured numbers from a small CNN we trained on the same images, one seed. The usual fix is to retrain from scratch, which costs energy and means hardware cannot be updated in the field. A chip that learns in the field avoids that.");
+
+// 2b what is wrong with the transformer and the GPU
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Why" });
+s.addText("What today's model and GPU get wrong", { placeholder: "title" });
+threeCards(s, [
+  ["The model is frozen", "A transformer is trained once in a data centre, then fixed. New data means retraining, and a network trained on new things forgets old ones. A device cannot learn on its own.", "Public fact; forgetting measured on my GPU run", C.accent4],
+  ["Every token reads everything", "Making each word reads every weight, and attention keeps a memory that grows with the text. When one input arrives at a time, the chip waits for memory, not for maths.", "Public fact; our own profile of a language model", C.accent1],
+  ["A GPU needs a crowd", "On my RTX 3050 one decision costs 69 mJ alone (batch 1) and 1.95 mJ in a batch of 1,024: 35 times worse when alone. A phone or a sensor decides one at a time.", "MEASURED, RTX 3050 6GB laptop GPU", C.accent3]],
+  "Heat, cooling water and hardware turnover follow from that power: this is our motivation, not something we have measured. Public figures are recalled from memory and need checking before quoting.");
+notes(s, "The question a judge will ask: what is wrong with the transformer and the GPU? Nothing, for what they were built for. They are excellent at training and at big batches in a data centre. But three things hurt on a device. First, the model is frozen after training; teaching it something new means retraining in a data centre, and a network trained on new things forgets old ones. Second, generating each word reads every weight and keeps a memory that grows with the text, so at one input at a time the chip waits for memory. Third, I measured it: on my laptop GPU one decision costs 69 millijoules when it is alone and 1.95 when batched with a thousand others, 35 times worse. A phone or a sensor decides one at a time. Heat, cooling water and electronic waste follow from the power; they are our motivation, and we have not measured them.");
 
 // 3 idea
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Why" });
@@ -146,6 +166,16 @@ card(s, 0.5, 3.75, 9, 1.05, "FFF4DD");
 lab(s, "Read it honestly: chip times are cycle counts from the RTL simulation divided by 27 MHz, not a board run, and the chip energy is an operation count, not a power reading. The GPU rows were measured on a laptop GPU. One chip serves one stream; the GPU wins on throughput when it can batch. A trained CNN is still ahead on accuracy when all classes are learned at once (99.1% vs 97.9% at 59k images); the chip's case is learning classes in stages without forgetting (CNN fell to 19.6%).", 0.65, 3.82, 8.7, C.text1, 11, false, { h: 0.95 });
 notes(s, "We ran the same decision on a real laptop GPU, an RTX 3050, and on our chip design in simulation. The GPU numbers are measured. At batch one it takes about 1.8 milliseconds and 69 millijoules per decision; at batch 1024 it reaches 22 thousand decisions a second. The chip design needs about 1,500 clock cycles per decision in the FPGA build, which is about 56 microseconds at 27 megahertz, and about 320 cycles, 12 microseconds, for the pipelined option. Those times and the 9.4 nanojoule energy are estimates from simulation, not board measurements. A trained network is still more accurate when everything is learned at once; our case is learning in stages without forgetting.");
 
+// 11a2 why use L
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
+s.addText("Why use L instead, for this job", { placeholder: "title" });
+threeCards(s, [
+  ["It keeps learning", "Learning digits in five stages: chip 95.5%, a CNN 19.6% (59,063 images). The chip adds new things without erasing the old, using dreams drawn from its own counters.", "Chip SIMULATED; CNN MEASURED on my GPU", C.accent3],
+  ["Small and cheap", "84 KB of memory, no multiplier, fits a 25-dollar board. About 74 times less energy per decision than an 8-bit network, counting the operations needed.", "ESTIMATED; board run will measure it", C.accent2],
+  ["Checked, and honest", "RTL matches the model bit for bit in 41 of 41 checks; the real-cell netlist matches too. Close to a CNN when all is learned at once: 97.9 against 99.1.", "SIMULATED", C.accent1]],
+  "Use L when the job is: learn on the device, small memory, one input at a time. Keep the GPU for training and big models. We do not replace it today.", "E6F4EC");
+notes(s, "Why should you agree with us? Because for one specific job we are better, and I can show it. The job is learning on the device, with a small memory, one input at a time. For that job: in staged learning on 59 thousand images the chip ends at 95.5 percent and a real CNN, which I ran on my own GPU, ends at 19.6. The chip needs 84 kilobytes and no multiplier, and by operation count uses about 74 times less energy per decision, which is an estimate I will measure on the board. The design is checked bit for bit. And when everything is learned at once the CNN is still ahead, 99.1 to 97.9, and I say that. We do not replace the GPU: keep it for training and for big models.");
+
 // 11b embedded
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Build" });
 s.addText("Why this is an embedded system", { placeholder: "title" });
@@ -195,6 +225,16 @@ s.addText([{ text: "Small AI on devices that must keep learning: no retraining o
 lab(s, "What L does not solve", 5.3, 1.55, 4.0, C.accent4, 20, true, { fontFace: "Cambria" });
 s.addText([{ text: "The cost of large language models and image generators: GPU and memory prices, data-centre heat and water", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } }, { text: "It cannot run existing models (CNNs, transformers, LLMs): it is a dedicated chip for its own brain-style model", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } }, { text: "Nothing is measured on hardware yet", options: { bullet: true } }], { x: 5.3, y: 2.05, w: 4.0, h: 2.8, fontSize: 13, color: C.text1, valign: "top", isTextBox: true, margin: 0, fontFace: "Calibri" });
 notes(s, "Be clear about scope. L solves a small part of the AI problem: devices that must keep learning in the field without retraining on a server and without being thrown away. That is simulated, and the energy figure is an estimate. L does not solve what is driving GPU and memory prices today, which is large language models and image generators in data centres. It also cannot run existing models: it is a dedicated chip for its own model. And nothing is measured on hardware yet.");
+
+// 13b0 how models run on L
+s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Honest" });
+s.addText("How real AI models can run on L", { placeholder: "title" });
+threeCards(s, [
+  ["Alter an existing model", "Ternary weights (-1, 0, +1) turn multiplies into adds; published work runs language models of billions of parameters this way. Table and event-driven forms drop the multiplier too. Cost: some accuracy.", "Published research, verify; ternary is still a matrix of adds", C.accent2],
+  ["Design our own model", "A counting language model: hash the recent words into a sparse code, a table of counters predicts the next word one bit at a time. No multiplier, no matrix, and it learns on the device.", "Counting classifier SIMULATED; language model is the next test", C.accent3],
+  ["Grow the memory", "Big tables live in outside DRAM. Sparse lookups touch only a few rows per word, so bandwidth stays small. First test: quality against table size in simulation, then a board with DRAM.", "ESTIMATED; a hypothesis with tests", C.accent1]],
+  "Status: we claim the route and the tests that can prove it wrong, not a billion-parameter result. The chip today is the small version of this idea.");
+notes(s, "Can real AI models run on L? Three routes, and I want to be exact about the status. One: alter an existing model. Ternary models, with weights of minus one, zero and plus one, replace multiplications with additions; published work runs language models of billions of parameters this way. That still has a matrix of additions, so it breaks our no-matrix rule, but it shows the multiplier is not needed. Two: design our own model. A counting language model hashes the recent words into a sparse code and a table of counters predicts the next word one bit at a time. The counting classifier works in simulation; the language model is the next experiment. Three: grow the memory. Big tables go in outside DRAM, and because only a few rows are touched per word the bandwidth stays small. First we test, in simulation, whether quality grows with table size. So we claim the route and the tests that can prove it wrong, not a billion-parameter result.");
 
 // 13b hypothesis
 s = pres.addSlide({ masterName: "LIGHT", sectionTitle: "Honest" });
