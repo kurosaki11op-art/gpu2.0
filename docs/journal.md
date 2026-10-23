@@ -1386,4 +1386,6 @@ Deck now 28 slides (`L_pitch_final.pptx`): new slide 3 (what today's model and G
 
 **Deck 30 slides:** new slide 21 "Why the model must change, not just the chip" (a chip alone is a GPU/TPU; the waste is in the model; the L design rules; model and chip designed together; status: small version works, language-model version untested). Script gets Q3 on the same question and is renumbered; Q&A sheet item 23.
 
+**Deck 31 slides:** new slide 16 "Where the GPU uses more energy, and L less": one decision alone (GPU 69.3 mJ MEASURED vs L 0.18-0.26 uJ layout estimate / 9.4 nJ op count), in a crowd (1.95 mJ), learning from 59,063 images (CNN 4 epochs 1,148 J MEASURED vs L about 3 J ESTIMATED from 45-62 uJ per example), learning a new class later (GPU retrains and forgets; L learns in place). Labelled as orders of magnitude (chip core-only estimates vs whole GPU). Script Q6, slide-by-slide text and Q&A item 24 added.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
