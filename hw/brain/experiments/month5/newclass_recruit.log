@@ -1,0 +1,9 @@
+detectors fitted on 12,000 unlabeled images of all classes, F=32, code bits 4608
+new class 6, n=20, recruited detectors per channel R=0 (+0 bits): new-class recall 20.3, old-class accuracy (10-way) 91.4
+new class 6, n=20, recruited detectors per channel R=8 (+1152 bits): new-class recall 31.3, old-class accuracy (10-way) 87.9
+new class 6, n=20, recruited detectors per channel R=16 (+2304 bits): new-class recall 26.0, old-class accuracy (10-way) 89.4
+new class 6, n=100, recruited detectors per channel R=0 (+0 bits): new-class recall 46.6, old-class accuracy (10-way) 88.8
+new class 6, n=100, recruited detectors per channel R=8 (+1152 bits): new-class recall 68.4, old-class accuracy (10-way) 84.0
+new class 6, n=100, recruited detectors per channel R=16 (+2304 bits): new-class recall 67.7, old-class accuracy (10-way) 81.5
+new class 9, n=20, recruited detectors per channel R=0 (+0 bits): new-class recall 89.5, old-class accuracy (10-way) 85.3
+new class 9, n=20, recruited detectors per channel R=8 (+1152 bits): new-class recall 88.7, old-class accuracy (10-way) 84.2
