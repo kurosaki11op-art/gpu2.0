@@ -1,0 +1,6 @@
+baseline (unsupervised detectors)
+  start: validation accuracy 0.8894 cluster 0.8226
+  TEST: accuracy 0.8783 | cluster accuracy 0.7970 | Shirt recall 0.637 | Shirt AP 0.721 | 51s
+blame-routed detector learning
+  start: validation accuracy 0.8894 cluster 0.8226
+  round 1: 1544 mistakes used, 73792 detector updates, validation accuracy 0.8768 cluster 0.8070 -> REVERT

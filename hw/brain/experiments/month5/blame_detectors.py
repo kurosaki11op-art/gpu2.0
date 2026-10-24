@@ -53,6 +53,7 @@ Rounds: (1) encode a 20,000-image training subset with the current detectors and
 (3) the detector that won at each position is moved AWAY from the patch if its bit helped the wrong class (d > 0) and TOWARD it if it helped the true class (d < 0), sign-only +-1 counter steps, only the K most blamed bits per image per sign;
 (4) GUARD: re-encode a 5,000-image validation split, retrain, and keep the change only if validation accuracy and four-class cluster accuracy do not fall; else revert. Baseline = the same procedure with no blame updates (unsupervised detectors only)."""
 NTRN, NVAL, K, STEP, ROUNDS, MAXMIS = 20000, 5000, 6, 1, int(os.environ.get("ROUNDS", 4)), 3000
+PUPD = float(os.environ.get("PUPD", 0.03)); RNG = np.random.RandomState(11)          # each blamed update is applied with this probability: a small dose per detector per round
 itr, iva = np.arange(NTRN), np.arange(NTRN, NTRN + NVAL); CL = np.array([0, 2, 4, 6])
 fes = [Features(32, thr=c, pool=4).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH]
 def enc(fl, x): return np.concatenate([np.concatenate([g.encode(x[i:i + 200]) for g in fl], 1) for i in range(0, len(x), 200)])
@@ -72,7 +73,9 @@ def blame_update(fl, S, x, ytrue, ypred):
             bit = off + ((ii // f.pool) * m + (jj // f.pool)) * f.F + w; d = np.where(ok, S[ypred[idx], np.minimum(bit, S.shape[1] - 1)] - S[ytrue[idx], np.minimum(bit, S.shape[1] - 1)], 0)
             harm = np.argsort(-d)[:K]; harm = harm[d[harm] > 0]; help_ = np.argsort(d)[:K]; help_ = help_[d[help_] < 0]
             for sel, sgn in ((harm, -1), (help_, 1)):
-                if len(sel): np.add.at(f.cnt, w[sel], sgn * STEP * np.where(flat[sel], 1, -1)); changed += len(sel)
+                if len(sel):
+                    keep = RNG.rand(len(sel)) < PUPD; sel = sel[keep]
+                    if len(sel): np.add.at(f.cnt, w[sel], sgn * STEP * np.where(flat[sel], 1, -1)); changed += len(sel)
             np.clip(f.cnt, -31, 31, out=f.cnt)
     return changed
 def run(use_blame):
