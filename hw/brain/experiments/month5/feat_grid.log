@@ -1,1 +1,2 @@
 F= 32 k=1 pool=4 | code bits   4608 | active bits/image 589 | accuracy 0.8885 | Shirt recall 0.638 | T-shirt 0.878 | 112s
+F= 32 k=3 pool=4 | code bits   4608 | active bits/image 1338 | accuracy 0.8865 | Shirt recall 0.598 | T-shirt 0.860 | 167s
