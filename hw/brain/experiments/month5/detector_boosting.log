@@ -1,0 +1,7 @@
+base (32 per channel, 4608 bits): validation acc 0.8912 cluster 0.8105 AP 0.757 | TEST acc 0.8802 cluster 0.7955 Shirt AP 0.716 recall 0.578 | 89s
+boosting (patches of mistakes)       round 1 (+1152 bits, total 5760): validation acc 0.8955 cluster 0.8174 AP 0.766 | TEST acc 0.8813 cluster 0.8003 Shirt AP 0.719 recall 0.587 | 147s
+boosting (patches of mistakes)       round 2 (+1152 bits, total 6912): validation acc 0.8919 cluster 0.8110 AP 0.760 | TEST acc 0.8819 cluster 0.7985 Shirt AP 0.709 recall 0.610 | 208s
+boosting (patches of mistakes)       round 3 (+1152 bits, total 8064): validation acc 0.8918 cluster 0.8080 AP 0.752 | TEST acc 0.8792 cluster 0.7950 Shirt AP 0.705 recall 0.569 | 270s
+control (patches of random images)   round 1 (+1152 bits, total 5760): validation acc 0.8905 cluster 0.8055 AP 0.758 | TEST acc 0.8810 cluster 0.8000 Shirt AP 0.722 recall 0.547 | 320s
+control (patches of random images)   round 2 (+1152 bits, total 6912): validation acc 0.8914 cluster 0.8100 AP 0.755 | TEST acc 0.8784 cluster 0.7920 Shirt AP 0.705 recall 0.572 | 373s
+control (patches of random images)   round 3 (+1152 bits, total 8064): validation acc 0.8897 cluster 0.8050 AP 0.756 | TEST acc 0.8790 cluster 0.7930 Shirt AP 0.717 recall 0.523 | 427s

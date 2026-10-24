@@ -30,6 +30,7 @@ tags: [l, claims, rules, evidence]
 | Recruiting new detectors for a new class: plain is win-lose (+19.4 recall, -9.5 old); gating by beating the old detectors cuts the cost to -1.8 at 100 examples but loses recall at 20 | TENTATIVE (not adopted) | one draw, 2 classes; tolerance sweep running |
 | Blame-routed detector learning (error passed to the detectors through table rows) improves accuracy or Shirt | **FAILED** | four configurations, no test gain; validation gains were selection noise; [design note](error_transport_design.md) |
 | Class-specific detector dictionary improves clothing accuracy | **FAILED** | 88.29 against 88.81 for an unsupervised dictionary of equal size |
+| Error-targeted detector boosting improves accuracy or Shirt AP beyond adding unsupervised detectors | **FAILED** | four-round test; differences within noise |
 | L beats a CNN on accuracy | **FALSE** (not claimed) | Fashion-MNIST: 88.9 to 90.4 against 91.1 to 91.7 for small CNNs |
 | 'Second sense' from the spoken name improves recognition | **WITHDRAWN** | the name is the label (oracle test) |
 | First cascade: Shirt recall +10.7 | **WITHDRAWN** | gate chosen on test data; validated version +0.9 overall, no Shirt gain |

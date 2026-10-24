@@ -45,4 +45,22 @@ L's detector layer is learned without labels and then frozen; only the counting 
 
 **Lesson:** at 28 x 28 the evidence that separates Shirt from its neighbours is not in a handful of shared template bits that a sign-only update can find; moving templates one event at a time is noise, moving them many at once is harm, and class-wise detectors add redundancy. Not adopted. The guard (accept only if held-out metrics hold) did protect the codes, but a 5,000-image check is too small to select among rounds (needs a larger or a fresh check set per round).
 
+
+## Fourth attempt: error-targeted detector boosting (24 Oct 2026, `detector_boosting.py`, `detector_boosting.log`; SIMULATED, one seed) - FAILED, recorded
+
+Each round fits 8 new detectors per channel on patches of the training images the table gets WRONG and appends their bits (old detectors untouched); control arm: 8 new detectors on patches of random images, equal code size. Table trained on 30,000 images, check set 10,000 other training images, test 10,000.
+
+| Round (total bits) | Boosting: test accuracy / cluster / Shirt AP | Control: test accuracy / cluster / Shirt AP |
+|---|---|---|
+| base (4,608) | 88.02 / 79.55 / 0.716 | |
+| 1 (5,760) | 88.13 / 80.03 / 0.719 | 88.10 / 80.00 / 0.722 |
+| 2 (6,912) | 88.19 / 79.85 / 0.709 | 87.84 / 79.20 / 0.705 |
+| 3 (8,064) | 87.92 / 79.50 / 0.705 | 87.90 / 79.30 / 0.717 |
+
+**No gain beyond adding unsupervised detectors (differences within +-0.4).**
+
+## What the four failures say together (the real finding)
+
+Moving shared templates (blame routing), choosing detectors by class (class dictionary), choosing detectors by error (boosting), and simply adding detectors (64 and 128 per channel, teams of codes) all land at about 88 to 90.4%, with Shirt average precision 0.70 to 0.75. **The limit is the architecture, not how the detectors are chosen:** one layer of local 5 x 5 binary matches, OR-pooled, read by a linear table. The CNN's advantage is composition across layers (edges to parts to shapes), and "passing the error to the next detectors" only makes sense when there IS a next layer. L has none; an earlier unsupervised second layer also failed (memory file). Conclusion: error transport needs a deeper matrix-free model trained with a signal that reaches every layer, which on our rules means the accelerator track (training on a GPU is allowed, inference deploys as pure gates and lookups): differentiable logic-gate networks with convolutional gate trees (published 99.2 to 99.35% MNIST, 86.3% CIFAR-10).
+
 Related: [Docs index](INDEX.md), [Failure analysis](failure_analysis_clothing.md), [Claims ledger](claims_ledger.md), [Error transport paper notes](research/papers_notes/INDEX.md), [Journal](journal.md)
