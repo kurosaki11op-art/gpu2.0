@@ -7,7 +7,7 @@ env: ARM, EPOCHS, N1, N2, BATCH, LR, MARGIN, CMAX. usage: python3 bool_backprop.
 import os, sys, time
 import numpy as np
 ARM = os.environ.get("ARM", "integer"); EPOCHS = int(os.environ.get("EPOCHS", 3)); N1 = int(os.environ.get("N1", 2000)); N2 = int(os.environ.get("N2", 2000)); BATCH = int(os.environ.get("BATCH", 64))
-LR = float(os.environ.get("LR", 0.05)); MARGIN = int(os.environ.get("MARGIN", 10)); CMAX = int(os.environ.get("CMAX", 1000000)); G = 100; SEED = 0
+LR = float(os.environ.get("LR", 0.05)); MARGIN = int(os.environ.get("MARGIN", 10)); CMAX = int(os.environ.get("CMAX", 1000000)); G = 100; SEED = int(os.environ.get("SEED", 0))
 rs = np.random.RandomState(SEED)
 z = np.load(os.environ.get("MNIST", "/tmp/mnistdata/mnist.npz")); xtr = z["x_train"].reshape(-1, 784); ytr = z["y_train"].astype(np.int64); xte = z["x_test"].reshape(-1, 784); yte = z["y_test"].astype(np.int64)
 bits = lambda x: np.concatenate([x > 85, x > 170], 1).astype(np.uint8); Xtr, Xte = bits(xtr), bits(xte)
@@ -66,6 +66,12 @@ else:
         def backward(ctx, g):
             th = float(os.environ.get("TERN", 0)) * g.abs().mean(1, keepdim=True)                         # ternary: errors below TERN x the mean magnitude of the example become 0
             return torch.sign(g) * (g.abs() >= th)
+    class QGrad(torch.autograd.Function):                                                                   # error handed back as a small integer in [-levels, levels]; errors under tern x the example's mean magnitude become 0
+        @staticmethod
+        def forward(ctx, x, levels, tern): ctx.lv, ctx.tn = levels, tern; return x.view_as(x)
+        @staticmethod
+        def backward(ctx, g):
+            m = (g.abs().max() if os.environ.get("PB", "0") == "1" else g.abs().amax(1, keepdim=True)) + 1e-12; q = torch.round(g / m * ctx.lv); q = q * (g.abs() >= ctx.tn * g.abs().mean(1, keepdim=True)); return q, None, None
     L = [nn.Parameter(torch.zeros(sizes[i + 1], 16)) for i in range(3)]
     for l in L: l.data[:, 12] = 5.0
     W = [(torch.tensor(a), torch.tensor(b)) for a, b in wiring]
@@ -76,6 +82,7 @@ else:
                 g = L[i].argmax(1); x = BT[g][:, :].gather(1, (2 * a.long() + b.long()).T).T if False else torch.stack([BT[g[j]][(2 * a[:, j].long() + b[:, j].long())] for j in range(0)], 1) if False else (BT[g][None, :, :].expand(len(x), -1, -1).gather(2, (2 * a.long() + b.long())[:, :, None]))[:, :, 0]
             else:
                 P = torch.stack([(1 - a) * (1 - b), (1 - a) * b, a * (1 - b), a * b], 2); pg = torch.softmax(L[i], 1); x = (P * (pg @ BT)[None]).sum(2)
+                if ARM == "qgrad": x = QGrad.apply(x, int(os.environ.get("OL", 7)) if i == 2 else int(os.environ.get("HL", 1)), float(os.environ.get("TERN", 1)) if i < 2 else 0.0)
                 if ARM == "signgrad" and (i < 2 or os.environ.get("SIGNOUT", "1") == "1"): x = SignGrad.apply(x)
         return x
     opt = torch.optim.Adam(L, LR); TAU = 10.0; Xt = torch.tensor(Xtr, dtype=torch.float32); Yt = torch.tensor(ytr); Xe = torch.tensor(Xte, dtype=torch.float32)
@@ -84,5 +91,9 @@ else:
     for ep in range(EPOCHS):
         pm = torch.randperm(len(Xt))
         for k in range(0, len(pm) - BATCH + 1, BATCH):
-            b = pm[k:k + BATCH]; s = fwd(Xt[b], False).reshape(BATCH, 10, G).sum(2) / TAU; loss = nn.functional.cross_entropy(s, Yt[b]); opt.zero_grad(); loss.backward(); opt.step()
+            b = pm[k:k + BATCH]; s = fwd(Xt[b], False).reshape(BATCH, 10, G).sum(2) / TAU; loss = nn.functional.cross_entropy(s, Yt[b]); opt.zero_grad(); loss.backward()
+            if os.environ.get("UPD", "adam") == "sign":                                                         # integer counters: every step adds or subtracts STEP to a gate's 16 counters (no real-valued optimiser state)
+                with torch.no_grad():
+                    for l in L: l -= float(os.environ.get("STEP", 1)) * torch.sign(l.grad); l.clamp_(-float(os.environ.get("LCLAMP", 30)), float(os.environ.get("LCLAMP", 30))); l.round_()
+            else: opt.step()
         print("%s arm epoch %d: test acc (hard gates) %.4f | %.0fs" % (ARM, ep + 1, evaluate(), time.time() - t0), flush=True)

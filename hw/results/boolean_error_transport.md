@@ -23,4 +23,21 @@ Direction (founder, 24 Oct): the chip must learn on its own, so the learning rul
 - **The fully integer rule (hard gates plus counters) does not learn.** Diagnosis: with random wiring and pass-through start, even the best possible choice of output-layer gates from full-data counts reaches only 23%, so the output layer cannot work without useful hidden features, while the hidden layers receive errors through gates that are still random. Float training avoids this chicken-and-egg problem with soft gates that move smoothly; hard gates with big counter jumps do not. Two attempted fixes (balanced one-vs-rest output targets, counters with no saturation) did not help.
 - Not tested yet: graded integer output error, soft integer gates (counters mapped to probabilities by lookup), learned wiring, more gates.
 
+## Round 2: graded integer error and integer counter updates (24 Oct 2026, same network, 4 epochs, MEASURED/SIMULATED)
+
+Log: [bool_backprop_graded.log](../brain/experiments/month5/bool_backprop_graded.log). The error handed back through each layer is rounded to a small integer, and each gate's 16 counters change by one step (add or subtract 1) per batch, with no real-valued optimiser state.
+
+| Setting | Test accuracy |
+|---|---|
+| float backprop, Adam (yardstick) | 81.0 to 82.1 (seeds 0 to 2) |
+| error in 3 levels (-3..3) on hidden layers, per-example scale | 64.3 |
+| 4-bit error (-15..15), per-example scale | 73.4 |
+| 4-bit error, one scale for the whole batch | 78.6 |
+| **4-bit error, one batch scale, integer counter updates** | **82.2 / 81.1 / 81.4 (seeds 0 / 1 / 2)** |
+
+Reading:
+- Level with float backprop on three seeds: error transport through gate layers does not need real numbers, multiplies or a real-valued optimiser. What it needs: a **graded small integer** error (about 5 bits), a **single scale per batch** (a power of two on a chip), and **counters moved by sign steps**.
+- Earlier collapses (sign-only, 3 levels) came from throwing away how wrong an example is; per-example max scaling did the same by treating confident and wrong examples alike (-5 points).
+- **Limit of this test:** the forward pass during learning is still the real-valued soft mixture of 16 gates (it needs multiplies); only the error path and the update are integer. The hard-gate integer forward (earlier arm) still fails. The chip-legal learning forward is the open piece. Also open: Fashion-MNIST and Shirt, larger networks, forgetting.
+
 Related: [Results index](INDEX.md), [Error transport design](../../docs/error_transport_design.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

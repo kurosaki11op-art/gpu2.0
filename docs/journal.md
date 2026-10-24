@@ -1520,4 +1520,7 @@ Founder: a chip meant to replace a GPU cannot depend on a GPU for training; back
 ## 24 Oct 2026: first test of multiply-free error transport
 Three-arm test on a gate network (MNIST, CPU, one seed): float 81.6; ternary error on hidden layers best 68; sign-only 20 to 47; fully integer hard-gate counter rule failed (10 to 11). Sign-only at the output and no zero state both hurt. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
 
+## 24 Oct 2026: graded integer error + integer counters match float backprop (small gate network)
+MEASURED/SIMULATED, MNIST, 3 seeds: error as 4-bit integer, one scale per batch, gate counters moved by sign steps: 82.2 / 81.1 / 81.4 against float 81.0 to 82.1. Limit: learning forward still real-valued soft gates. Next: chip-legal forward, Fashion-MNIST/Shirt, larger net. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

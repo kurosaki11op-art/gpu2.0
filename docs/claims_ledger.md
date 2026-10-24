@@ -36,7 +36,8 @@ tags: [l, claims, rules, evidence]
 | A pruned binary second layer gains accuracy and Shirt at 3 to 4 times L's bytes read | **FAILED** | needs 14 to 55 times L's adds for +0.5 to +1.3 accuracy; [prune_retrain_second_layer](../hw/results/prune_retrain_second_layer.md) |
 | Flip augmentation, exemplar second opinion, sub-class tables raise Shirt detection | **FAILED** | flip worse; exemplar vote +0.018 AP at about 1,000 times the memory with weight chosen on test; sub-class tables +0.004; [round 1](../hw/results/shirt_new_methods_round1.md) |
 | Detectors learned from the confusable pair, or thin-structure cue bits, close the Shirt gap | **FAILED** | AP +0.009 / +0.018 at 2.0 / 2.5 times the active rows; cues -0.007; [round 2](../hw/results/shirt_new_methods_round2.md) |
-| A multiply-free error signal (ternary, hidden layers) trains a gate network almost like float backprop | TENTATIVE (gap of 13 points) | 68% against 81% on MNIST, one seed, noisy thresholds; [boolean_error_transport](../hw/results/boolean_error_transport.md) |
+| A multiply-free error signal (ternary, hidden layers) trains a gate network almost like float backprop | SUPERSEDED by next row | 68% against 81% on MNIST |
+| 4-bit integer error with one batch scale and integer counter updates trains a gate network as well as float backprop (82.2 / 81.1 / 81.4 against 81.0 to 82.1) | TENTATIVE (three seeds, MNIST, small net) | learning forward is still real-valued; [boolean_error_transport](../hw/results/boolean_error_transport.md) |
 | A fully integer counter rule with hard gates learns | **FAILED** | 10 to 11%; output layer cannot work on random hidden features |
 | L beats a CNN on accuracy | **FALSE** (not claimed) | Fashion-MNIST: 88.9 to 90.4 against 91.1 to 91.7 for small CNNs |
 | 'Second sense' from the spoken name improves recognition | **WITHDRAWN** | the name is the label (oracle test) |
