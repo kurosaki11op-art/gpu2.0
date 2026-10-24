@@ -1,0 +1,2 @@
+L counting table on the code (reference)             accuracy 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753 | 0s
+hidden 512, BINARY units (sign, STE) (deployable)    accuracy 0.9047 | cluster 0.8385 | Shirt recall 0.686 | Shirt AP 0.803 | 20s

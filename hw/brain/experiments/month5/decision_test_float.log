@@ -1,0 +1,2 @@
+L counting table on the code (reference)             accuracy 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753 | 0s
+hidden 512, float ReLU, backprop (upper bound)       accuracy 0.9023 | cluster 0.8330 | Shirt recall 0.683 | Shirt AP 0.796 | 22s

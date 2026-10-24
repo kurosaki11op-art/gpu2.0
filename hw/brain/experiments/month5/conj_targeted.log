@@ -1,0 +1,4 @@
+base                                     +    0 bits: validation acc 0.8912 cluster 0.8105 AP 0.757 | TEST acc 0.8802 cluster 0.7955 Shirt AP 0.716 recall 0.578 | 88s
+most frequent confusions (class pair: count): {(0, 6): 470, (2, 6): 358, (4, 6): 358, (2, 4): 312, (7, 9): 128, (3, 4): 126}
+error-targeted conjunctions              + 6000 bits: validation acc 0.8875 cluster 0.8027 AP 0.737 | TEST acc 0.8757 cluster 0.7890 Shirt AP 0.700 recall 0.618 | 186s
+control: global-contrast conjunctions    + 6000 bits: validation acc 0.8859 cluster 0.8065 AP 0.728 | TEST acc 0.8753 cluster 0.7897 Shirt AP 0.698 recall 0.585 | 525s

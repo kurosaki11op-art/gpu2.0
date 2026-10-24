@@ -1,0 +1,10 @@
+H=512 seed 1  float weights                          accuracy 0.9019 | cluster 0.8317 | Shirt recall 0.709 | Shirt AP 0.792 | 20s
+H=512 seed 1  hidden weights 8-bit, output 8-bit     accuracy 0.9018 | cluster 0.8313 | Shirt recall 0.710 | Shirt AP 0.792 | 20s
+H=512 seed 1  hidden weights 4-bit, output 8-bit     accuracy 0.9014 | cluster 0.8290 | Shirt recall 0.707 | Shirt AP 0.792 | 21s
+H=512 seed 1  hidden weights 2-bit, output 8-bit     accuracy 0.7320 | cluster 0.5433 | Shirt recall 0.931 | Shirt AP 0.630 | 21s
+H=512 seed 1  hidden weights TERNARY, output 8-bit   accuracy 0.8950 | cluster 0.8145 | Shirt recall 0.599 | Shirt AP 0.758 | 21s
+H=1024 seed 0  float weights                         accuracy 0.9043 | cluster 0.8335 | Shirt recall 0.734 | Shirt AP 0.812 | 55s
+H=1024 seed 0  hidden weights 8-bit, output 8-bit    accuracy 0.9047 | cluster 0.8343 | Shirt recall 0.735 | Shirt AP 0.812 | 55s
+H=1024 seed 0  hidden weights 4-bit, output 8-bit    accuracy 0.9052 | cluster 0.8355 | Shirt recall 0.741 | Shirt AP 0.812 | 55s
+H=1024 seed 0  hidden weights 2-bit, output 8-bit    accuracy 0.7553 | cluster 0.5713 | Shirt recall 0.913 | Shirt AP 0.670 | 55s
+H=1024 seed 0  hidden weights TERNARY, output 8-bit  accuracy 0.8988 | cluster 0.8225 | Shirt recall 0.621 | Shirt AP 0.790 | 56s

@@ -1,0 +1,3 @@
+H=1024 fan-in  64, 4-bit hidden, 8-bit output | memory 42 KB, adds per image 8372 accuracy 0.8887 | cluster 0.8070 | Shirt recall 0.670 | Shirt AP 0.757 | 72s
+H=1024 fan-in 128, 4-bit hidden, 8-bit output | memory 74 KB, adds per image 16745 accuracy 0.8883 | cluster 0.8097 | Shirt recall 0.648 | Shirt AP 0.753 | 45s
+H=1024 fan-in 256, 4-bit hidden, 8-bit output | memory 138 KB, adds per image 33490 accuracy 0.8918 | cluster 0.8110 | Shirt recall 0.609 | Shirt AP 0.766 | 47s
