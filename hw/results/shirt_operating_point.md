@@ -5,6 +5,8 @@ tags: [l, clothing, shirt, analysis, results]
 
 # Where the Shirt errors go, and why L's Shirt recall looks 15 points behind a CNN's (MEASURED/SIMULATED, Fashion-MNIST, single view, one seed)
 
+> **PARTIAL CORRECTION (24 Oct, `shirt_pr.py`, `shirt_pr.log`):** a stronger, better-trained CNN ranks Shirt better than L, so the gap is NOT only an operating-point effect. Shirt-versus-rest average precision: L 0.753, CNN (3 epochs, wider) 0.822, CNN (10 epochs + augmentation) 0.840; precision at 80% Shirt recall: L 0.56, CNN 0.65 / 0.70; four-class cluster accuracy: L 80.6, CNN 83.2 / 85.1; 2-way T-shirt vs Shirt: L 87.0, CNN 87.4 / 89.2. The "equal inside the cluster" statement below (79.0 against 79.2) used a smaller, 3-epoch CNN; the operating point explains part of the Shirt-recall difference, a real ranking gap of about 5 points of cluster accuracy and 0.09 of average precision remains.
+
 `hw/brain/experiments/month5/shirt_row.py` (log `shirt_row.log`), `bias_calib2.py` (`bias_calib2.log`), `receptive_fields.py` (`receptive_fields.log`). Small CNN trained 3 epochs (ruler only, never in the chip) and the shipped L code; both at nearly equal overall accuracy (L 88.85%, CNN 89.09%).
 
 **1. The 1,000 test Shirts are called:**
