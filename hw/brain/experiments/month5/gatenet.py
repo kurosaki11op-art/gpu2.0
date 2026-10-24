@@ -58,4 +58,4 @@ while time.time() - t_start < BUDGET:
     if step % 100 == 0:
         a = (evaluate(2000) == yte[:2000]).mean(); hist.append((step, float(np.mean(losses)), float(a))); print("step %d | loss %.3f | hard-gate accuracy on 2,000 test images %.4f | %.0fs" % (step, np.mean(losses), a, time.time() - t_start), flush=True); losses = []
         torch.save({"m": net.state_dict(), "o": opt.state_dict(), "step": step, "hist": hist}, CK)
-torch.save({"m": net.state_dict(), "o": opt.state_dict(), "step": step, "hist": hist}, CK); print("saved at step %d; " % step + full_report(), flush=True)
+torch.save({"m": net.state_dict(), "o": opt.state_dict(), "step": step, "hist": hist}, CK); print("saved at step %d" % step + ("; " + full_report() if os.environ.get("REPORT") else ""), flush=True)

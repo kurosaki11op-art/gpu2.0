@@ -1,0 +1,10 @@
+resumed at step 737
+gates: conv1 24 x 7, conv2 48 x 7 (shared over positions), fc 3000 + 2000; budget 520s
+step 800 | loss 0.529 | hard-gate accuracy on 2,000 test images 0.8045 | 57s
+step 900 | loss 0.507 | hard-gate accuracy on 2,000 test images 0.8110 | 122s
+step 1000 | loss 0.489 | hard-gate accuracy on 2,000 test images 0.8170 | 191s
+step 1100 | loss 0.481 | hard-gate accuracy on 2,000 test images 0.8210 | 264s
+step 1200 | loss 0.487 | hard-gate accuracy on 2,000 test images 0.8085 | 339s
+step 1300 | loss 0.469 | hard-gate accuracy on 2,000 test images 0.8175 | 412s
+step 1400 | loss 0.469 | hard-gate accuracy on 2,000 test images 0.8130 | 481s
+saved at step 1468
