@@ -7,6 +7,7 @@ tags: [spark, index]
 
 ## Now (L Cortex)
 
+- [Error transport design](error_transport_design.md): blame-routed detector learning, designed from our failures; success criteria are win-win only.
 - [Claims ledger](claims_ledger.md): every claim about L with a status (tentative, verified, withdrawn, failed) and the rules for stating one.
 - [Failure analysis: why L stays behind on clothing](failure_analysis_clothing.md): past failures, causes, literature, ideas in order.
 - [Status report 24 Oct 2026](status_report_24oct.md): plain summary of what is done, failed and needed.
