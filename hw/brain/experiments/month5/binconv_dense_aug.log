@@ -17,3 +17,5 @@ epoch 16 | loss 0.314 | accuracy 0.8839 | Shirt 0.624 T-shirt 0.845 Pullover 0.8
 epoch 17 | loss 0.306 | accuracy 0.8833 | Shirt 0.666 T-shirt 0.820 Pullover 0.821 Coat 0.803 | 720s
 epoch 18 | loss 0.303 | accuracy 0.8859 | Shirt 0.624 T-shirt 0.855 Pullover 0.851 Coat 0.789 | 763s
 epoch 19 | loss 0.302 | accuracy 0.8879 | Shirt 0.625 T-shirt 0.858 Pullover 0.853 Coat 0.806 | 805s
+epoch 20 | loss 0.301 | accuracy 0.8851 | Shirt 0.607 T-shirt 0.869 Pullover 0.843 Coat 0.817 | 849s
+readout 10 x 6272; lookup tables: 0.0 KB; readout int8 61.2 KB, 2-bit 15.3 KB

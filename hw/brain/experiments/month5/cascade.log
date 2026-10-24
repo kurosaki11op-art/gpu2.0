@@ -1,0 +1,10 @@
+main (look-again): accuracy 0.8892 | Shirt recall 0.631
+stage-2 table: 4 classes x 19312 bits = 75 KB at 8 bit, 19 KB at 2 bit | active rows per image: main 589 (centre view), stage 2 1481
+| gate (margin below percentile of group-predicted images) | images sent to stage 2 | accuracy | Shirt recall | T-shirt recall | extra active rows per image (average) |
+|---|---|---|---|---|---|
+|   0 % | 0.0 % | 0.8892 | 0.631 | 0.882 | 0 |
+|  10 % | 4.0 % | 0.8940 | 0.659 | 0.874 | 59 |
+|  25 % | 10.0 % | 0.8978 | 0.705 | 0.860 | 148 |
+|  50 % | 20.0 % | 0.9000 | 0.738 | 0.845 | 296 |
+|  75 % | 29.9 % | 0.8996 | 0.740 | 0.840 | 443 |
+| 100 % | 39.9 % | 0.8996 | 0.740 | 0.840 | 591 |

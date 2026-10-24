@@ -1470,4 +1470,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Clothing accuracy round (24 Oct, SIMULATED, one seed):** extra passes no gain; HOG-style compare-only edge bits equal the learned detectors (88.76) and add +0.9 together (89.76); a float linear readout on the same bits gives the same accuracy, so the counting readout is not the bottleneck; random pairwise ANDs lift the float ceiling to 91.3; count-selected ANDs give the counting readout 90.5 to 90.7 (Shirt 66 to 70) at 2 to 5x the table. Shirt never above 74. Matching a CNN needs a gradient-trained hidden lookup layer (accelerator path). Note `hw/results/clothing_features_round.md`.
 
+**Gated cascade (24 Oct, SIMULATED, one seed):** stage 2 (4 classes, HOG bits + counted ANDs) on the least-sure 20% of group-predicted images: accuracy 88.92 to 90.00, Shirt recall 63.1 to 73.8, about +300 active rows on average. First Shirt gain that keeps the sparse character. Gate swept on test images; needs a validation threshold. Binary conv nets (accelerator path): sparse 88.4, dense 89.7 (about 200x more operations, dropped as default), augmentation no help. Note `hw/results/cascade_gate.md`. User asked whether all research was covered: no (paper sites blocked); list of untried ideas recorded in the answer.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

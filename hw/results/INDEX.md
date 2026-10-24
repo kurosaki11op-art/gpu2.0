@@ -59,5 +59,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [L deployed table size against accuracy](l_deployed_memory.md): 11 KB at 2 bits per entry still gives 88.65% on clothing, about 10x smaller than the 4-bit MLP for 0.9 points less (SIMULATED).
 - [Fair continual-learning baselines](staged_replay_baselines.md): replay with 200 images per class (1.5 MB) matches L's staged accuracy; EWC stays at 20%; L's edge is about 10x less memory (MEASURED, 3 seeds).
 - [Clothing accuracy round: features and readout](clothing_features_round.md): limit is the single binary layer with a linear readout (~90%); conjunctions chosen by counting add +0.8 to +0.9 at 2 to 5x memory; Shirt stays 66 to 74% (SIMULATED).
+- [Gated cascade for confusable clothing](cascade_gate.md): second look on the least-sure 20% of images: +1.1 overall, Shirt recall 63.1 to 73.8, about 300 extra active rows on average (SIMULATED, one seed).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
