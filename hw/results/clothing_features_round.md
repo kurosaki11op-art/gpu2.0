@@ -37,4 +37,16 @@ Scripts in `hw/brain/experiments/month5/`: `l_passes.py`, `l_hog_bits.py`, `l_re
 
 **Result: no gain over L** (88.85% at 11 to 45 KB): a single trained lookup layer is as limited as a single binary layer with a readout. The 8-input variant was stopped. The literature figures for the stacked version (DWN about 89% on Fashion-MNIST, convolutional Tsetlin 90 to 94%) are second-hand and also do not clearly exceed the tiny-CNN 92.5%. A multi-layer or convolutional trained lookup network is the remaining open route and has not been built.
 
+## FPTM-style rich code with L's counting readout (24 Oct, `fptm_code.py`, `fptm_code.log`; SIMULATED, one seed, 30,000 training images, test on all 10,000)
+
+Code copied from the Fuzzy-Pattern Tsetlin Machine (raw pixels in 4 quantile levels + 8 fixed edge maps in 9 sign-split quantile bits = 59,584 bits per image), read by L's counting table:
+
+| Code | Bits | Active bits per image | Accuracy | Shirt recall |
+|---|---|---|---|---|
+| raw 4-level thermometer only | 3,136 | 974 | 82.52 | 53.3 |
+| edge maps only | 56,448 | 11,882 | 89.47 | 62.5 |
+| raw + edge maps | 59,584 | 12,857 | 89.45 | 66.4 |
+
+**Result:** the rich code alone gives only about +1 point over L's own 4,608-bit code and costs 22 times more active rows per image. The Tsetlin machine's 92 to 94.7% therefore comes largely from its **learner** (learned conjunction clauses trained by feedback for up to 1,000 epochs), not from the code alone; the paper itself does not isolate the two (UNVERIFIED split), this is our measurement with a counting readout. Also the 20-clause FPTM model is at most about 80 KB deployed but its code touches about 13,000 bits per image.
+
 Related: [Results index](INDEX.md), [Where L loses on clothing](clothing_confusion.md), [Specialist for Shirt/T-shirt](shirt_specialist.md), [Real colour photos](shirt_real_photos.md), [Research report](../../docs/research/matrix_free_vs_cnn_report.md), [Journal](../../docs/journal.md)
