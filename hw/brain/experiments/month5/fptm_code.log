@@ -1,2 +1,4 @@
 encoding done 17s
 raw 4-level thermometer only       bits   3136 | active/image 974 | accuracy 0.8252 | Shirt 0.533 T-shirt 0.843 Pullover 0.697 Coat 0.714 | table 31 KB (8 bit), 8 KB (2 bit) | 3s
+edge maps only (72 bits/pixel)     bits  56448 | active/image 11882 | accuracy 0.8947 | Shirt 0.625 T-shirt 0.858 Pullover 0.867 Coat 0.860 | table 551 KB (8 bit), 138 KB (2 bit) | 39s
+FPTM code (raw + edges, 76 maps)   bits  59584 | active/image 12857 | accuracy 0.8945 | Shirt 0.664 T-shirt 0.865 Pullover 0.832 Coat 0.870 | table 582 KB (8 bit), 145 KB (2 bit) | 39s

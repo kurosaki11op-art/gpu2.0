@@ -9,6 +9,7 @@ tags: [spark, index]
 
 - [Failure analysis: why L stays behind on clothing](failure_analysis_clothing.md): past failures, causes, literature, ideas in order.
 - [Status report 24 Oct 2026](status_report_24oct.md): plain summary of what is done, failed and needed.
+- [Who scores 96 to 99 percent and how](research/who_beats_cnn.md): which winners are matrix- and multiply-free, how they win, where we fail.
 - [Synthesis of the full-paper reading](research/papers_synthesis.md): what the primary papers say about the clothing gap, in order of work.
 - [Matrix-free models against CNN accuracy (research report)](research/matrix_free_vs_cnn_report.md): what Tsetlin, LUT and logic networks reach on MNIST/Fashion/CIFAR, shirt difficulty, pitch baselines; most numbers second-hand.
 - [GPU limits against L](gpu_limits_and_L.md): power, heat, water, e-waste, memory wall; what L shows and does not (ESTIMATED).

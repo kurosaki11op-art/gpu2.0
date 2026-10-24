@@ -1,3 +1,5 @@
 F= 32 k=1 pool=4 | code bits   4608 | active bits/image 589 | accuracy 0.8885 | Shirt recall 0.638 | T-shirt 0.878 | 112s
 F= 32 k=3 pool=4 | code bits   4608 | active bits/image 1338 | accuracy 0.8865 | Shirt recall 0.598 | T-shirt 0.860 | 167s
 F= 64 k=1 pool=4 | code bits   9216 | active bits/image 711 | accuracy 0.8989 | Shirt recall 0.663 | T-shirt 0.867 | 219s
+F= 64 k=3 pool=4 | code bits   9216 | active bits/image 1689 | accuracy 0.8949 | Shirt recall 0.660 | T-shirt 0.864 | 322s
+F=128 k=1 pool=4 | code bits  18432 | active bits/image 829 | accuracy 0.8982 | Shirt recall 0.637 | T-shirt 0.870 | 373s
