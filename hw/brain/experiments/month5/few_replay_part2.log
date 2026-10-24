@@ -4,3 +4,4 @@ Part 2: a new class added to a 9-class table; new-class recall % / old-class acc
 | new examples | E=1 | E=5 | E=20 |
 |---|---|---|---|---|
 | 5 | 45.8 / 85.8 | 31.6 / 87.7 | 39.2 / 86.9 |
+| 20 | 49.8 / 86.9 | 54.6 / 86.5 | 53.1 / 86.0 |
