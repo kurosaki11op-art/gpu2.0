@@ -2,3 +2,23 @@ detectors fitted on 12,000 unlabeled images of all classes, F=32, code bits 4608
 new class 3 (Dress): training base models on 54000 images
 new class 6 (Shirt): training base models on 54000 images
 new class 9 (Boot): training base models on 54000 images
+
+CNN accuracy on the 9 old classes before the new class (9-way reference, mean of 3 new classes): 90.7
+| new examples | method | new-class recall % | old-class accuracy % (10-way) |
+|---|---|---|---|
+| 1 | L fast brain (class means) | 8.0 | 78.2 |
+| 1 | L slow table, staged + imprint | 17.9 | 86.5 |
+| 1 | CNN fine-tune, new images only | 86.9 | 51.7 |
+| 1 | CNN fine-tune + replay 20 per old class | 0.0 | 88.9 |
+| 5 | L fast brain (class means) | 39.7 | 78.0 |
+| 5 | L slow table, staged + imprint | 47.2 | 85.7 |
+| 5 | CNN fine-tune, new images only | 100.0 | 21.9 |
+| 5 | CNN fine-tune + replay 20 per old class | 30.7 | 88.4 |
+| 20 | L fast brain (class means) | 59.2 | 77.4 |
+| 20 | L slow table, staged + imprint | 51.9 | 86.4 |
+| 20 | CNN fine-tune, new images only | 100.0 | 10.6 |
+| 20 | CNN fine-tune + replay 20 per old class | 66.0 | 87.3 |
+| 100 | L fast brain (class means) | 69.2 | 76.5 |
+| 100 | L slow table, staged + imprint | 72.8 | 85.2 |
+| 100 | CNN fine-tune, new images only | 100.0 | 3.2 |
+| 100 | CNN fine-tune + replay 20 per old class | 91.1 | 80.6 |
