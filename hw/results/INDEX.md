@@ -60,5 +60,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Fair continual-learning baselines](staged_replay_baselines.md): replay with 200 images per class (1.5 MB) matches L's staged accuracy; EWC stays at 20%; L's edge is about 10x less memory (MEASURED, 3 seeds).
 - [Clothing accuracy round: features and readout](clothing_features_round.md): limit is the single binary layer with a linear readout (~90%); conjunctions chosen by counting add +0.8 to +0.9 at 2 to 5x memory; Shirt stays 66 to 74% (SIMULATED).
 - [Gated cascade for confusable clothing](cascade_gate.md): second look on the least-sure images: validated +0.9 overall, Shirt recall does not improve (62.5 against 65.8); the first, test-swept numbers were optimistic (SIMULATED, one seed).
+- [Few examples: two-brain design](few_shot_two_brains.md): L's counting table is weak below 50 examples per class; class means on L's code give 52% from one example (CNN 42%); a two-brain sum reaches 84.0 at 300 per class (CNN 77.5) (SIMULATED, 3 draws).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
