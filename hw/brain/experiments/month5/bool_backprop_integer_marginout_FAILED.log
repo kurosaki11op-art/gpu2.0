@@ -1,0 +1,4 @@
+integer arm epoch 1: train-batch need 0.91 | test acc 0.1068 | 33s
+integer arm epoch 2: train-batch need 1.00 | test acc 0.0980 | 66s
+integer arm epoch 3: train-batch need 1.00 | test acc 0.1010 | 98s
+integer arm epoch 4: train-batch need 0.98 | test acc 0.0892 | 130s

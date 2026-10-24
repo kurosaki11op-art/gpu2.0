@@ -1517,4 +1517,7 @@ Run by the user on their PC (MEASURED/SIMULATED, one seed): pair-trained detecto
 ## 24 Oct 2026: direction decision, learning must happen on the chip
 Founder: a chip meant to replace a GPU cannot depend on a GPU for training; backprop or an imitation of it is needed without matrices or multiplies. Recorded in [project memory](PROJECT_MEMORY.md). Next research target: integer / Boolean error transport through gate layers (see reply in session; plan not yet tested).
 
+## 24 Oct 2026: first test of multiply-free error transport
+Three-arm test on a gate network (MNIST, CPU, one seed): float 81.6; ternary error on hidden layers best 68; sign-only 20 to 47; fully integer hard-gate counter rule failed (10 to 11). Sign-only at the output and no zero state both hurt. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
