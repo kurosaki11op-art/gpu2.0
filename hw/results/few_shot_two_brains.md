@@ -169,4 +169,16 @@ A model trained on the other 9 classes (54,000 images) meets the tenth class wit
 **Result:** replay lifts the table by 8 to 10 points from 5 to 100 examples per class, removes the erratic dip at 100, and makes the table alone as good as the fast brain from 10 examples and level with a CNN that uses a self-supervised encoder from 10 examples up (82.1 against 82.1 at 100). At 1 to 5 examples the fast brain and IMPRINT remain better. Also fixed the earlier "table unusable below 50": it is now usable from 10.
 **Limits:** one data set, 3 draws, E up to 20 (gain saturates between E=5 and E=20); the part about adding one new class (replay of the new examples) is still computing and will be added.
 
+## Round 7: replay for a new class (24 Oct, `few_replay_part2.py`, `few_replay_part2.log`; SIMULATED, 2 new classes (Shirt, Boot), one draw)
+
+New-class recall % / old-class accuracy % (10-way) when the new class's examples are replayed E times by the staged table:
+
+| New examples | E=1 | E=5 | E=20 |
+|---|---|---|---|
+| 5 | 45.8 / 85.8 | 31.6 / 87.7 | 39.2 / 86.9 |
+| 20 | 49.8 / 86.9 | 54.6 / 86.5 | 53.1 / 86.0 |
+| 100 | 66.3 / 86.2 | 66.0 / 85.0 | 61.7 / 84.9 |
+
+**Replay does not fix adding a new class** (the CNN with a 20-per-class replay buffer reaches 66.0 at 20 and 91.1 at 100). Failure pattern: the CNN adapts its features to the new class, L's detector code is fixed, so a new class must be written in detectors made for the old ones. Next design: recruit new detectors from the new class's own images (`newclass_recruit.py`).
+
 Related: [Results index](INDEX.md), [Few-shot imprint (month 4)](../brain/experiments/month4/fewshot_imprint.md), [Failure analysis](../../docs/failure_analysis_clothing.md), [Journal](../../docs/journal.md)
