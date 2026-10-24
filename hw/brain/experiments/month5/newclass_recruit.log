@@ -7,3 +7,5 @@ new class 6, n=100, recruited detectors per channel R=8 (+1152 bits): new-class 
 new class 6, n=100, recruited detectors per channel R=16 (+2304 bits): new-class recall 67.7, old-class accuracy (10-way) 81.5
 new class 9, n=20, recruited detectors per channel R=0 (+0 bits): new-class recall 89.5, old-class accuracy (10-way) 85.3
 new class 9, n=20, recruited detectors per channel R=8 (+1152 bits): new-class recall 88.7, old-class accuracy (10-way) 84.2
+new class 9, n=20, recruited detectors per channel R=16 (+2304 bits): new-class recall 88.4, old-class accuracy (10-way) 83.3
+new class 9, n=100, recruited detectors per channel R=0 (+0 bits): new-class recall 97.7, old-class accuracy (10-way) 83.9
