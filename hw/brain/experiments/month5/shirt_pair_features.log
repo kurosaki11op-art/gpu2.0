@@ -1,0 +1,5 @@
+(run on the user's PC, 24 Oct 2026, full data, one seed)
+baseline L                                   bits   4608, active   586 | acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753 | 144s
++ pair detectors A (pool 4, 32/ch)           bits   9216, active  1192 | acc 0.8924 | cluster 0.8175 | Shirt recall 0.621 | Shirt AP 0.762 | 260s
++ pair detectors B (pool 2, 16/ch)           bits  13824, active  1451 | acc 0.8923 | cluster 0.8137 | Shirt recall 0.611 | Shirt AP 0.771 | 345s
++ thin-structure cues                        bits   5203, active   845 | acc 0.8876 | cluster 0.8065 | Shirt recall 0.606 | Shirt AP 0.746 | 354s

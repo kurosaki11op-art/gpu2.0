@@ -1511,4 +1511,7 @@ Ran decision_test4.py (MEASURED/SIMULATED, one seed). Pruned 1,024-unit binary l
 ## 24 Oct 2026: Shirt new methods, round 1
 User asked for new methods after the failures. Tested flip augmentation (worse, Shirt AP 0.735 vs 0.753), test-time flip (accuracy 81.1), nearest-exemplar second opinion (+0.018 AP, huge memory, weight chosen on test) and sub-class tables (+0.004). None adopted. See [shirt_new_methods_round1](../hw/results/shirt_new_methods_round1.md).
 
+## 24 Oct 2026: Shirt new methods, round 2
+Run by the user on their PC (MEASURED/SIMULATED, one seed): pair-trained detectors (+0.009 and +0.018 AP at 2.0 and 2.5 times active rows) and thin-structure cues (-0.007 AP) fail the set criteria. See [shirt_new_methods_round2](../hw/results/shirt_new_methods_round2.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

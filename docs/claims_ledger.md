@@ -35,6 +35,7 @@ tags: [l, claims, rules, evidence]
 | About 25% of detectors (4,608 to 3,456 bits) can be dropped with no loss (88.02 to 87.95, Shirt AP 0.716 both) | TENTATIVE | one seed; win-win memory saving |
 | A pruned binary second layer gains accuracy and Shirt at 3 to 4 times L's bytes read | **FAILED** | needs 14 to 55 times L's adds for +0.5 to +1.3 accuracy; [prune_retrain_second_layer](../hw/results/prune_retrain_second_layer.md) |
 | Flip augmentation, exemplar second opinion, sub-class tables raise Shirt detection | **FAILED** | flip worse; exemplar vote +0.018 AP at about 1,000 times the memory with weight chosen on test; sub-class tables +0.004; [round 1](../hw/results/shirt_new_methods_round1.md) |
+| Detectors learned from the confusable pair, or thin-structure cue bits, close the Shirt gap | **FAILED** | AP +0.009 / +0.018 at 2.0 / 2.5 times the active rows; cues -0.007; [round 2](../hw/results/shirt_new_methods_round2.md) |
 | L beats a CNN on accuracy | **FALSE** (not claimed) | Fashion-MNIST: 88.9 to 90.4 against 91.1 to 91.7 for small CNNs |
 | 'Second sense' from the spoken name improves recognition | **WITHDRAWN** | the name is the label (oracle test) |
 | First cascade: Shirt recall +10.7 | **WITHDRAWN** | gate chosen on test data; validated version +0.9 overall, no Shirt gain |

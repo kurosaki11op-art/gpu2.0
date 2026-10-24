@@ -65,5 +65,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Knockout screen](knockout_screen.md): gene-editing test on detectors; few are reliably faulty, 25% can be dropped at no loss
 - [Prune-then-retrain second layer](prune_retrain_second_layer.md): fails the bytes-read criterion; win-lose
 - [Shirt new methods round 1](shirt_new_methods_round1.md): flip augmentation, exemplar vote, sub-class tables; none helps within budget
+- [Shirt new methods round 2](shirt_new_methods_round2.md): pair detectors and thin-structure cues; fail the criteria
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
