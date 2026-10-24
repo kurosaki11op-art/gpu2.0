@@ -1488,4 +1488,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **New-class test (24 Oct, SIMULATED):** adding a tenth class to a 9-class model: L slow table (staged + imprint) learns the new class 17.9% from 1 example and 47.2% from 5 while keeping old classes 85 to 86%; a CNN with 20-per-class replay gets 0.0 / 30.7 at 1 / 5 but 66.0 at 20 and 91.1 at 100 (old accuracy 80.6 at 100); CNN fine-tuned on the new images only forgets (old 52% to 3%). L's edge is 1 to 5 examples; beyond that replay wins. Clause learner flat at 66.8% (epoch 6). Note `hw/results/few_shot_two_brains.md`.
 
+**Episodic replay fix (24 Oct, SIMULATED):** re-presenting the stored real examples to the slow table 20 times lifts it from 29.7/51.8/61.9/63.5/74.7/72.5 to 29.7 (49.2 with IMPRINT)/60.0 (62.0)/70.6/73.7/80.0/82.1 at 1/5/10/20/50/100 examples per class: level with a self-supervised CNN from 10 examples up. Cause of the old weakness: mistake-driven one-pass learning has nothing to learn from with few examples. New-class part still running. Awareness test died after four unseen classes (L ahead of the CNN on all four); to be re-run for Bag and Boot. Note `hw/results/few_shot_two_brains.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

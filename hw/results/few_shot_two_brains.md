@@ -151,4 +151,22 @@ A model trained on the other 9 classes (54,000 images) meets the tenth class wit
 
 **Reading.** Fine-tuning a CNN on the new class alone forgets the old ones (old accuracy 52% at 1 example, 3% at 100). A CNN with a small replay buffer is the fair competitor: it learns nothing from 1 example, is behind L at 5 (30.7 against 47.2), and overtakes L from about 20 (66.0 against 51.9), reaching 91.1 against 72.8 at 100 at the cost of old-class accuracy (80.6). **L's advantage is one to five new examples without forgetting; beyond that replay wins.** L's old-class accuracy (85 to 86%) is 3 to 4 points below the replay CNN's (87 to 89%). One architecture, small samples; not compared with prototype-based or meta-learned class-incremental methods.
 
+## Round 6: fixing the weak counting table with episodic replay (24 Oct, `few_replay.py`, `few_replay.log`; SIMULATED, Fashion-MNIST, 3 draws)
+
+**Why the table was weak (failure analysis):** it learns by correcting its own mistakes, one pass over the data. With 1 to 20 examples there are almost no mistakes to learn from, so the counters stay near their start; the earlier "more passes" test used 60,000 images, where one pass already suffices, so it never tested this regime. Bernoulli "dreams" from class means (round 2) swamped the real examples at 1 to 10 per class.
+**Fix:** re-present the stored REAL examples E times (shuffled each pass), as hippocampal replay does in sleep. Rule-compatible: the fast memory stores the codes, the slow table is trained by its usual counting update, no new operation.
+
+| Examples per class | E=1 | E=5 | E=20 | E=20 + IMPRINT (up to 4) | Fast brain (class means) | CNN, self-supervised (round 2) |
+|---|---|---|---|---|---|---|
+| 1 | 29.7 | 29.7 | 29.7 | **49.2** | 52.2 | 46.1 |
+| 2 | 41.0 | 47.4 | 47.4 | **55.1** | 59.3 | 55.4 |
+| 5 | 51.8 | 60.0 | 60.0 | **62.0** | 65.7 | 64.7 |
+| 10 | 61.9 | 70.6 | 70.6 | 70.6 | 68.7 | 70.2 |
+| 20 | 63.5 | 72.3 | 73.7 | 73.7 | 71.6 | 74.2 |
+| 50 | 74.7 | 79.0 | 80.0 | 80.0 | 74.8 | 79.7 |
+| 100 | 72.5 | 82.0 | 82.1 | 82.1 | 75.4 | 82.1 |
+
+**Result:** replay lifts the table by 8 to 10 points from 5 to 100 examples per class, removes the erratic dip at 100, and makes the table alone as good as the fast brain from 10 examples and level with a CNN that uses a self-supervised encoder from 10 examples up (82.1 against 82.1 at 100). At 1 to 5 examples the fast brain and IMPRINT remain better. Also fixed the earlier "table unusable below 50": it is now usable from 10.
+**Limits:** one data set, 3 draws, E up to 20 (gain saturates between E=5 and E=20); the part about adding one new class (replay of the new examples) is still computing and will be added.
+
 Related: [Results index](INDEX.md), [Few-shot imprint (month 4)](../brain/experiments/month4/fewshot_imprint.md), [Failure analysis](../../docs/failure_analysis_clothing.md), [Journal](../../docs/journal.md)
