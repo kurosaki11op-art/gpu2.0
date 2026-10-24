@@ -29,7 +29,10 @@ def ev():
 for ep in range(EPOCHS):
     perm = torch.randperm(len(Etr)); tl = 0; st = 0
     for i in range(0, len(Etr), 128):
-        b = perm[i:i + 128]; loss = nn.functional.cross_entropy(net(Etr[b]), Ytr[b]); opt.zero_grad(); loss.backward(); opt.step(); sched.step(); tl += loss.item(); st += 1
+        b = perm[i:i + 128]; xb = Etr[b]
+        if os.environ.get('AUG'):
+            xb = torch.where(torch.rand(len(b), 1, 1, 1) < 0.5, xb.flip(3), xb); dy, dx = np.random.randint(-2, 3, 2); xb = torch.roll(xb, (int(dy), int(dx)), (2, 3))
+        loss = nn.functional.cross_entropy(net(xb), Ytr[b]); opt.zero_grad(); loss.backward(); opt.step(); sched.step(); tl += loss.item(); st += 1
     p = ev(); print("epoch %d | loss %.3f | accuracy %.4f | Shirt %.3f T-shirt %.3f Pullover %.3f Coat %.3f | %.0fs" % (ep + 1, tl / st, (p == yte).mean(), (p[yte == 6] == 6).mean(), (p[yte == 0] == 0).mean(), (p[yte == 2] == 2).mean(), (p[yte == 4] == 4).mean(), time.time() - t0), flush=True)
 W = net[-1].weight.detach().numpy(); print("readout %d x %d; lookup tables: %.1f KB; readout int8 %.1f KB, 2-bit %.1f KB" % (W.shape[0], W.shape[1], (F1 + F2) * 2 ** max(n, 0) / 8 / 1024, W.size / 1024, W.size / 4 / 1024))
-torch.save(net.state_dict(), "binconv.pt")
+torch.save(net.state_dict(), os.environ.get("OUT", "binconv.pt"))
