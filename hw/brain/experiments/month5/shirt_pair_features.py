@@ -3,7 +3,7 @@ Idea 1: detectors learned from the confusable classes only (T-shirt, Pullover, C
 Idea 2: thin-structure cue bits counted directly (thin vertical lines = placket, thin horizontal lines, silhouette width per row = sleeve and collar), appended to L's code.
 Everything is read by L's counting table (CortexSlow). Matrix-free: patch matching, compares, counts."""
 import sys, time
-sys.path.insert(0, "/home/user/gpu2.0/hw/brain")
+import os; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 import numpy as np
 from cortex_core import load
 from cortex_slow import CortexSlow
