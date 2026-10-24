@@ -1,0 +1,11 @@
+epoch 1 | loss 0.627 | accuracy 0.7991 | Shirt 0.823 T-shirt 0.536 Pullover 0.789 Coat 0.390 | 51s
+epoch 2 | loss 0.440 | accuracy 0.7727 | Shirt 0.059 T-shirt 0.945 Pullover 0.906 Coat 0.753 | 102s
+epoch 3 | loss 0.392 | accuracy 0.8641 | Shirt 0.489 T-shirt 0.900 Pullover 0.705 Coat 0.880 | 154s
+epoch 4 | loss 0.346 | accuracy 0.8628 | Shirt 0.715 T-shirt 0.770 Pullover 0.637 Coat 0.850 | 205s
+epoch 5 | loss 0.310 | accuracy 0.8619 | Shirt 0.656 T-shirt 0.810 Pullover 0.895 Coat 0.598 | 255s
+epoch 6 | loss 0.281 | accuracy 0.8643 | Shirt 0.653 T-shirt 0.576 Pullover 0.807 Coat 0.877 | 304s
+epoch 7 | loss 0.264 | accuracy 0.8836 | Shirt 0.699 T-shirt 0.819 Pullover 0.792 Coat 0.801 | 354s
+epoch 8 | loss 0.233 | accuracy 0.8804 | Shirt 0.705 T-shirt 0.821 Pullover 0.763 Coat 0.803 | 404s
+epoch 9 | loss 0.220 | accuracy 0.8866 | Shirt 0.674 T-shirt 0.843 Pullover 0.801 Coat 0.788 | 454s
+epoch 10 | loss 0.210 | accuracy 0.8841 | Shirt 0.650 T-shirt 0.810 Pullover 0.804 Coat 0.834 | 504s
+readout 10 x 6272; lookup tables: 6.0 KB; readout int8 61.2 KB, 2-bit 15.3 KB

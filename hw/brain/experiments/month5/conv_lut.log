@@ -1,2 +1,4 @@
 deployed tables: 24.2 KB (1 bit per entry)
 epoch 1 | train loss 1.085 | test accuracy 0.7223 | Shirt 0.304 T-shirt 0.766 Pullover 0.557 Coat 0.587 | 263s
+epoch 2 | train loss 0.895 | test accuracy 0.7247 | Shirt 0.420 T-shirt 0.756 Pullover 0.562 Coat 0.313 | 514s
+epoch 3 | train loss 0.851 | test accuracy 0.7496 | Shirt 0.431 T-shirt 0.688 Pullover 0.666 Coat 0.640 | 770s
