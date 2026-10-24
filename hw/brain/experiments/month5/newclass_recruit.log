@@ -9,3 +9,14 @@ new class 9, n=20, recruited detectors per channel R=0 (+0 bits): new-class reca
 new class 9, n=20, recruited detectors per channel R=8 (+1152 bits): new-class recall 88.7, old-class accuracy (10-way) 84.2
 new class 9, n=20, recruited detectors per channel R=16 (+2304 bits): new-class recall 88.4, old-class accuracy (10-way) 83.3
 new class 9, n=100, recruited detectors per channel R=0 (+0 bits): new-class recall 97.7, old-class accuracy (10-way) 83.9
+new class 9, n=100, recruited detectors per channel R=8 (+1152 bits): new-class recall 96.1, old-class accuracy (10-way) 81.0
+new class 9, n=100, recruited detectors per channel R=16 (+2304 bits): new-class recall 93.5, old-class accuracy (10-way) 82.2
+
+| new examples | R | extra bits | new-class recall % | old-class accuracy % |
+|---|---|---|---|---|
+| 20 | 0 | 0 | 54.9 | 88.4 |
+| 20 | 8 | 1152 | 60.0 | 86.0 |
+| 20 | 16 | 2304 | 57.2 | 86.3 |
+| 100 | 0 | 0 | 72.2 | 86.3 |
+| 100 | 8 | 1152 | 82.2 | 82.5 |
+| 100 | 16 | 2304 | 80.6 | 81.9 |

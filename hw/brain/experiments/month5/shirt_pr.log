@@ -1,0 +1,5 @@
+| model | overall | Shirt recall (argmax) | Shirt AP | precision @ recall 50 / 60 / 70 / 80 % | 2-way T-shirt vs Shirt | 4-way cluster accuracy |
+|---|---|---|---|---|---|---|
+| L (shipped code) | 0.8885 | 0.638 | 0.753 | 0.82 / 0.74 / 0.65 / 0.56 | 0.870 | 0.806 |
+| CNN 3 epochs | 0.9043 | 0.706 | 0.822 | 0.89 / 0.83 / 0.76 / 0.65 | 0.874 | 0.832 |
+| CNN 10 epochs + augmentation | 0.9166 | 0.715 | 0.840 | 0.92 / 0.86 / 0.81 / 0.70 | 0.892 | 0.851 |
