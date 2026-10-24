@@ -1486,4 +1486,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Pretrained few-shot baseline (24 Oct, MEASURED):** ImageNet ResNet-18 features (64 px) on MNIST: 45.8 / 66.7 / 74.5 / 86.9 / 89.9 at 1 / 5 / 10 / 50 / 100 examples per class against L two-brain 54.2 / 77.0 / 85.6 / 94.3 / 95.5; Fashion-MNIST 48.9 / 64.7 / 69.7 / 77.5 / 79.7 against L 52.2 / 65.7 / 69.0 / 78.5 / 81.9. L's label-free code is ahead or level; no meta-learned comparator. Clause learner after fixing a numba-cache bug that invalidated earlier runs: 100 clauses per class 67% at epoch 4 (still running). Detector grid: 128 detectors 89.82, no gain over 64. Note `hw/results/few_shot_two_brains.md`.
 
+**New-class test (24 Oct, SIMULATED):** adding a tenth class to a 9-class model: L slow table (staged + imprint) learns the new class 17.9% from 1 example and 47.2% from 5 while keeping old classes 85 to 86%; a CNN with 20-per-class replay gets 0.0 / 30.7 at 1 / 5 but 66.0 at 20 and 91.1 at 100 (old accuracy 80.6 at 100); CNN fine-tuned on the new images only forgets (old 52% to 3%). L's edge is 1 to 5 examples; beyond that replay wins. Clause learner flat at 66.8% (epoch 6). Note `hw/results/few_shot_two_brains.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

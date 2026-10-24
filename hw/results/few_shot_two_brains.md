@@ -128,4 +128,27 @@ ImageNet-pretrained ResNet-18 (timm `resnet18.a1_in1k`, 1.28 M labelled images o
 
 **Detector grid:** 128 detectors per channel give 89.82 against 89.89 for 64: the one-layer detector code saturates near 89.9%.
 
+## Round 5: adding one NEW class to a trained model (24 Oct, `newclass.py`, `newclass.log`; SIMULATED, Fashion-MNIST, 3 new classes (Dress, Shirt, Boot) x 2 draws)
+
+A model trained on the other 9 classes (54,000 images) meets the tenth class with n labelled examples. L: slow table (staged stage with imprint + sleep) and fast brain (class means). CNN (small, trained on the 9 classes, accuracy on those 9 classes in its own 9-way decision 90.7%): fine-tuned on the new images only; fine-tuned with a replay buffer of 20 old images per class.
+
+| New examples | Method | New-class recall % | Old-class accuracy % (10-way) |
+|---|---|---|---|
+| 1 | L slow table (staged + imprint) | **17.9** | 86.5 |
+| 1 | L fast brain | 8.0 | 78.2 |
+| 1 | CNN, new images only | 86.9 | 51.7 |
+| 1 | CNN + replay | 0.0 | 88.9 |
+| 5 | L slow table | **47.2** | 85.7 |
+| 5 | L fast brain | 39.7 | 78.0 |
+| 5 | CNN + replay | 30.7 | 88.4 |
+| 20 | L slow table | 51.9 | 86.4 |
+| 20 | L fast brain | 59.2 | 77.4 |
+| 20 | CNN + replay | **66.0** | 87.3 |
+| 100 | L slow table | 72.8 | 85.2 |
+| 100 | L fast brain | 69.2 | 76.5 |
+| 100 | CNN + replay | **91.1** | 80.6 |
+| 100 | CNN, new images only | 100 (new class predicted for everything) | 3.2 |
+
+**Reading.** Fine-tuning a CNN on the new class alone forgets the old ones (old accuracy 52% at 1 example, 3% at 100). A CNN with a small replay buffer is the fair competitor: it learns nothing from 1 example, is behind L at 5 (30.7 against 47.2), and overtakes L from about 20 (66.0 against 51.9), reaching 91.1 against 72.8 at 100 at the cost of old-class accuracy (80.6). **L's advantage is one to five new examples without forgetting; beyond that replay wins.** L's old-class accuracy (85 to 86%) is 3 to 4 points below the replay CNN's (87 to 89%). One architecture, small samples; not compared with prototype-based or meta-learned class-incremental methods.
+
 Related: [Results index](INDEX.md), [Few-shot imprint (month 4)](../brain/experiments/month4/fewshot_imprint.md), [Failure analysis](../../docs/failure_analysis_clothing.md), [Journal](../../docs/journal.md)
