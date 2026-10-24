@@ -26,4 +26,15 @@ How the measurement works and why it is trustworthy: core 0 samples the INA219 a
 
 Prompt for another assistant to guide the run: [CHATGPT_PROMPT.md](CHATGPT_PROMPT.md).
 
+## Minimum parts and the no-adapter procedure (updated 24 Oct)
+
+Electronic parts: **one ESP32 Dev Module and one INA219 module.** Also needed, but ordinary: about 8 jumper wires (or thin wire), a USB phone charger or power bank, and one old USB cable you can cut (to bring the 5V red wire to the INA219). No USB-to-serial adapter: the updated `esp32_l_selftest` saves its results in the ESP32's flash.
+
+1. Flash `esp32_l_selftest.ino` over the normal USB cable.
+2. Unplug it. Wire USB charger 5V (cut cable, red wire) to INA219 VIN+, INA219 VIN- to the ESP32 VIN pin, grounds together, INA219 VCC to 3V3, SDA to GPIO21, SCL to GPIO22.
+3. Power the charger. After 8 s the test starts by itself (about 70 s); the blue LED (GPIO2) blinks when it is done.
+4. Power off. Plug the normal USB cable into the laptop, open the Serial Monitor at 115200, press EN (reset) and type `s` within 8 s: the saved lines (`LOGIC`, `REP`..., `DONE`) are printed. Copy them to `run1.txt` and run `python3 check_esp32_run.py run1.txt`.
+
+Checked on a PC against a mock board (compiles; LOGIC PASS; the current readings are stubs there, so nothing measured yet).
+
 Related: [Board README](../README.md), [Hardware index](../../HARDWARE_INDEX.md)
