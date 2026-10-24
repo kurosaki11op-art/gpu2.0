@@ -1,0 +1,7 @@
+blame-routed detector learning
+  start: validation accuracy 0.8894 cluster 0.8226
+  round 1: 991 mistakes used, 7157 detector updates, validation accuracy 0.8932 cluster 0.8241 -> ACCEPT
+  round 2: 990 mistakes used, 7180 detector updates, validation accuracy 0.8918 cluster 0.8197 -> REVERT
+  round 3: 990 mistakes used, 7187 detector updates, validation accuracy 0.8904 cluster 0.8251 -> REVERT
+  round 4: 990 mistakes used, 7052 detector updates, validation accuracy 0.8954 cluster 0.8275 -> ACCEPT
+  TEST: accuracy 0.8769 | cluster accuracy 0.7930 | Shirt recall 0.655 | Shirt AP 0.719 | 221s

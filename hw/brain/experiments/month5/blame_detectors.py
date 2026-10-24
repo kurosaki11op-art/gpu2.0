@@ -1,58 +1,19 @@
-"""(env SLOW=1: CortexSlow, slow table, 18 Oct 2026; env STRIDE1=1: images with detectors at stride 1 and pool 4, 19 Oct 2026.) Final numbers with every adopted option together (16 Oct 2026): margin 32 (default now), word alignment lead 6 for
-sound, LOOK AGAIN at test time (images: the picture + 4 one-pixel shifts with the centre counted twice; sound: the word
-aligned at start frames 5, 6, 6, 7), IMPRINT + short sleep irrelevant here (no few-shot). Exact integer chip model, 5
-seeds, all at once and 5 stages, plus the single-view (no LOOK AGAIN) numbers. usage: DATA_DIR DS"""
-import json, os, sys
+"""Blame-routed detector learning: see the docstring below. Lean version: loads data only (no 60,000-image encode), saves detector state and round log after every round, resumable."""
+import sys, os, time, copy, pickle, numpy as np
 sys.path.insert(0, "/home/user/gpu2.0/hw/brain")
-import numpy as np
+import feature_layer; feature_layer.PS, feature_layer.ST = 5, 1
+from feature_layer import Features
 from cortex_core import load
-from cortex_int import CortexInt
 from cortex_slow import CortexSlow
-SLOW = True
-S1 = True      # images: detectors at stride 1, pool 4 (same 4,608-bit code, finer winner grid)
-D, DS = sys.argv[1], sys.argv[2]
-if DS == "speech":
-    import cochlea_int
-    from feature_layer import Features
-    f = np.load(os.path.join(D, "speech_framesums_int.npz")); S, y, te = f["S"], f["y"], f["te"]
-    ytr, yte = y[~te].astype(np.int64), y[te].astype(np.int64)
-    v = cochlea_int.noise_floor(S); e = np.floor(np.log2(v)).astype(np.int64)
-    lg = 4 * e + ((v >> np.maximum(e - 2, 0)) & 3); top = lg.reshape(len(v), -1).max(1)[:, None, None]
-    P0 = np.clip(255 - (top - lg) * 8, 0, 255).reshape(len(v), -1).astype(np.uint8)
-    xtr = cochlea_int.align_word(P0[~te], 6)
-    CH = (20, 50, 80, 110, 140, 170, 200, 230, ("on", 8), ("off", 8))
-    fes = [Features(64, thr=c).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH]
-    enc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 5000]) for g in fes], 1) for i in range(0, len(x), 5000)])
-    ctr = enc(xtr); views = {L: enc(cochlea_int.align_word(P0[te], L)).astype(np.int32) for L in (5, 6, 7)}
-    centre, extra = views[6], [views[5], views[6], views[7]]          # views 5, 6, 6, 7 = centre + [5, 6, 7]
-else:
-    from feature_layer import Features
-    xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
-    
-    CH = (50, 150, ("on", 8), ("off", 8))
-    if S1:
-        import feature_layer; feature_layer.PS, feature_layer.ST = 5, 1
-    fes = [Features(32, thr=c, pool=4 if S1 else 2).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH]
-    enc = lambda x: np.concatenate([np.concatenate([g.encode(x[i:i + 5000]) for g in fes], 1) for i in range(0, len(x), 5000)])
-    X = xte.reshape(len(xte), 28, 28)
-
-    def shifted(dy, dx):
-        out = np.zeros_like(X); ys, yd = (slice(0, 28 - dy), slice(dy, 28)) if dy >= 0 else (slice(-dy, 28), slice(0, 28 + dy))
-        xs, xd = (slice(0, 28 - dx), slice(dx, 28)) if dx >= 0 else (slice(-dx, 28), slice(0, 28 + dx))
-        out[:, yd, xd] = X[:, ys, xs]; return enc(out.reshape(len(X), -1)).astype(np.int32)
-
-    if S1:
-        ctr = enc(xtr)
-    centre = enc(xte).astype(np.int32); extra = [shifted(-1, 0), shifted(1, 0), shifted(0, -1), shifted(0, 1)]
-
-
+D, DS = sys.argv[1], sys.argv[2]; xtr, ytr, xte, yte = load(D, DS); ytr = ytr.astype(np.int64); yte = yte.astype(np.int64)
+CH = (50, 150, ("on", 8), ("off", 8))
 import copy, time
 from feature_layer import patches, binarize, support_filter
 """Blame-routed detector learning (24 Oct 2026, SIMULATED, Fashion-MNIST, single view, one seed). New technique designed from our failures (see docs/error_transport_design.md).
 Rounds: (1) encode a 20,000-image training subset with the current detectors and train the counting table; (2) on the table's mistakes, each ACTIVE bit gets a blame d = S[wrong, bit] - S[true, bit] (two table rows, adds only);
 (3) the detector that won at each position is moved AWAY from the patch if its bit helped the wrong class (d > 0) and TOWARD it if it helped the true class (d < 0), sign-only +-1 counter steps, only the K most blamed bits per image per sign;
 (4) GUARD: re-encode a 5,000-image validation split, retrain, and keep the change only if validation accuracy and four-class cluster accuracy do not fall; else revert. Baseline = the same procedure with no blame updates (unsupervised detectors only)."""
-NTRN, NVAL, K, STEP, ROUNDS, MAXMIS = 20000, 5000, 6, 1, int(os.environ.get("ROUNDS", 4)), 3000
+NTRN, NVAL, K, STEP, ROUNDS, MAXMIS = 20000, 5000, 6, int(os.environ.get("STEPSIZE", 1)), int(os.environ.get("ROUNDS", 4)), 3000
 PUPD = float(os.environ.get("PUPD", 0.03)); RNG = np.random.RandomState(11)          # each blamed update is applied with this probability: a small dose per detector per round
 itr, iva = np.arange(NTRN), np.arange(NTRN, NTRN + NVAL); CL = np.array([0, 2, 4, 6])
 fes = [Features(32, thr=c, pool=4).fit(xtr[np.isin(ytr, (0, 1))][:12000]) for c in CH]
@@ -64,26 +25,27 @@ def metrics(S, code, y):
 def ap_shirt(S, code, y):
     sc = (code.astype(np.int32) @ S.T).astype(np.float64); s = sc[:, 6] - np.delete(sc, 6, 1).max(1); yy = (y == 6); o = np.argsort(-s); tp = np.cumsum(yy[o]); return ((tp / np.arange(1, len(o) + 1)) * yy[o]).sum() / yy.sum()
 def blame_update(fl, S, x, ytrue, ypred):
-    nch = len(fl); m = None; changed = 0
+    """Consensus-gated blame routing: the blame signs of ALL mistakes in the round are summed per detector template bit (votes); only the template bits whose |votes| are in the top TOP percent are changed, by one step in the direction of the votes."""
+    changed = 0; TOP = float(os.environ.get("TOP", 3.0))
     for ci_ch, f in enumerate(fl):
-        n = int(round((f.__class__ and (len(patches(binarize(x[:1], f.thr))[0][0])) ) ** 0.5)); m = n // f.pool; off = ci_ch * m * m * f.F
+        p0, n = patches(support_filter(binarize(x[:1], f.thr), f.support)); m = n // f.pool; off = ci_ch * m * m * f.F; votes = np.zeros(f.cnt.shape, np.int64)
         for idx in range(len(x)):
             p, n = patches(support_filter(binarize(x[idx:idx + 1], f.thr), f.support)); flat = p.reshape(-1, p.shape[-1]); on = flat.sum(1) >= f.min_on; w = f.winners(flat)
             ii, jj = np.divmod(np.arange(n * n), n); ok = on & (ii // f.pool < m) & (jj // f.pool < m)
-            bit = off + ((ii // f.pool) * m + (jj // f.pool)) * f.F + w; d = np.where(ok, S[ypred[idx], np.minimum(bit, S.shape[1] - 1)] - S[ytrue[idx], np.minimum(bit, S.shape[1] - 1)], 0)
+            bit = np.minimum(off + ((ii // f.pool) * m + (jj // f.pool)) * f.F + w, S.shape[1] - 1); d = np.where(ok, S[ypred[idx], bit] - S[ytrue[idx], bit], 0)
             harm = np.argsort(-d)[:K]; harm = harm[d[harm] > 0]; help_ = np.argsort(d)[:K]; help_ = help_[d[help_] < 0]
             for sel, sgn in ((harm, -1), (help_, 1)):
-                if len(sel):
-                    keep = RNG.rand(len(sel)) < PUPD; sel = sel[keep]
-                    if len(sel): np.add.at(f.cnt, w[sel], sgn * STEP * np.where(flat[sel], 1, -1)); changed += len(sel)
-            np.clip(f.cnt, -31, 31, out=f.cnt)
+                if len(sel): np.add.at(votes, w[sel], sgn * np.where(flat[sel], 1, -1))
+        a_ = np.abs(votes); thr = np.percentile(a_, 100 - TOP); ch = (a_ >= max(thr, 1)); f.cnt += STEP * np.sign(votes) * ch; np.clip(f.cnt, -31, 31, out=f.cnt); changed += int(ch.sum())
     return changed
 def run(use_blame):
     fl = copy.deepcopy(fes); Xtr, ytr_, Xva, yva = xtr[itr], ytr[itr], xtr[iva], ytr[iva]
     ctr_, cva = enc(fl, Xtr), enc(fl, Xva); S = train_table(ctr_, ytr_); best = metrics(S, cva, yva); print("  start: validation accuracy %.4f cluster %.4f" % best[:2], flush=True)
     if not use_blame: return fl, S
     for r in range(ROUNDS):
-        sc = ctr_.astype(np.int32) @ S.T; p = sc.argmax(1); top2 = np.sort(sc, 1)[:, -2:]; mar = top2[:, 1] - top2[:, 0]; mis = np.where((p != ytr_) | (mar < np.percentile(mar, 15)))[0]; mis = mis[p[mis] != ytr_[mis]][:MAXMIS]
+        sc = ctr_.astype(np.int32) @ S.T; p = sc.argmax(1); top2 = np.sort(sc, 1)[:, -2:]; mar = top2[:, 1] - top2[:, 0]; mis = np.where((p != ytr_) | (mar < np.percentile(mar, 15)))[0]; mis = mis[p[mis] != ytr_[mis]]
+        if os.environ.get('CLUSTER_ONLY'): mis = mis[np.isin(ytr_[mis], CL) & np.isin(p[mis], CL)]       # blame only the mistakes inside the upper-body cluster
+        mis = mis[:MAXMIS]
         snap = [copy.deepcopy(f.cnt) for f in fl]; ch = blame_update(fl, S, Xtr[mis], ytr_[mis], p[mis])
         c2, cv2 = enc(fl, Xtr), enc(fl, Xva); S2 = train_table(c2, ytr_); new = metrics(S2, cv2, yva)
         ok = (new[0] >= best[0]) and (new[1] >= best[1]); print("  round %d: %d mistakes used, %d detector updates, validation accuracy %.4f cluster %.4f -> %s" % (r + 1, len(mis), ch, new[0], new[1], "ACCEPT" if ok else "REVERT"), flush=True)
@@ -91,6 +53,6 @@ def run(use_blame):
         else:
             for f, s0 in zip(fl, snap): f.cnt = s0
     return fl, S
-t0 = time.time(); res = {}
-for name, ub in (("baseline (unsupervised detectors)", False), ("blame-routed detector learning", True)):
+STATE = 'blame_state.pkl'; t0 = time.time(); res = {}
+for name, ub in ((("baseline (unsupervised detectors)", False),) if not os.environ.get("SKIP_BASE") else ()) + (("blame-routed detector learning", True),):
     print(name, flush=True); fl, S = run(ub); cte = enc(fl, xte); a, c4, sh = metrics(S, cte, yte); res[name] = (a, c4, sh, ap_shirt(S, cte, yte)); print("  TEST: accuracy %.4f | cluster accuracy %.4f | Shirt recall %.3f | Shirt AP %.3f | %.0fs" % (a, c4, sh, res[name][3], time.time() - t0), flush=True)

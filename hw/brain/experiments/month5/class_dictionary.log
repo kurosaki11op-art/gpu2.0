@@ -1,0 +1,2 @@
+unsupervised dictionary, 80 per channel        bits  11520 | accuracy 0.8881 | cluster 0.8060 | Shirt recall 0.579 T-shirt 0.878 Pullover 0.854 Coat 0.845 | Shirt AP 0.747 | 148s
+class-specific dictionary, 8 x 10 classes      bits  11520 | accuracy 0.8829 | cluster 0.8005 | Shirt recall 0.606 T-shirt 0.854 Pullover 0.850 Coat 0.808 | Shirt AP 0.716 | 333s

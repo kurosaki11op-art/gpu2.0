@@ -32,4 +32,17 @@ L's detector layer is learned without labels and then frozen; only the counting 
 
 `hw/brain/experiments/month5/blame_detectors.py`: rounds of blame updates on a 20,000-image subset with the acceptance test on 5,000 held-out images; baseline = same table with unsupervised detectors. **Success (win-win): test accuracy, four-class cluster accuracy and Shirt average precision all up, nothing else down.** Anything else is recorded as a failure and the failure analysed for the next design.
 
+
+## Outcome of the first tests (24 Oct 2026, SIMULATED, Fashion-MNIST, one seed; logs `blame_detectors*.log`, `class_dictionary.log`) - FAILED, recorded
+
+| Variant | Result | Why it failed |
+|---|---|---|
+| Blame update, every blamed event moves a template by one step (74,000 updates a round) | round REVERTED by the guard (validation 88.94 to 87.68, cluster 82.26 to 80.70) | dose far too large: about 580 steps on counters that range only +-31 flips whole templates |
+| same, each event applied with probability 0.03 (2,200 updates) | no effect (validation identical), test = baseline (87.83 / cluster 79.70 / Shirt AP 0.721) | one step rarely flips the sign of a counter, so the template (the sign) does not change |
+| same, probability 0.15, mistakes inside the cluster only | validation +0.6 (88.94 to 89.54), TEST -0.14 (87.69), cluster -0.4 (79.30), Shirt AP 0.719 | the guard chose from 4 rounds the ones that happened to look best on 5,000 images: selection noise (about +-0.4), not a gain |
+| Consensus-gated (votes summed over all mistakes, top 3 percent of template bits changed, step 1 and step 8) | no effect or the same validation-only gain; test 87.60 to 87.83, Shirt AP 0.718 | the consistent directions are too few and too weak to change which detector wins |
+| Class-specific dictionary (8 detectors per class per channel, all compete), equal size to an unsupervised one (80 per channel, 30,000 training images) | 88.29 against 88.81; cluster 80.05 against 80.60; Shirt AP 0.716 against 0.747 | detectors fitted per class compete and duplicate each other; labels used to choose detectors did not add discriminating bits |
+
+**Lesson:** at 28 x 28 the evidence that separates Shirt from its neighbours is not in a handful of shared template bits that a sign-only update can find; moving templates one event at a time is noise, moving them many at once is harm, and class-wise detectors add redundancy. Not adopted. The guard (accept only if held-out metrics hold) did protect the codes, but a 5,000-image check is too small to select among rounds (needs a larger or a fresh check set per round).
+
 Related: [Docs index](INDEX.md), [Failure analysis](failure_analysis_clothing.md), [Claims ledger](claims_ledger.md), [Error transport paper notes](research/papers_notes/INDEX.md), [Journal](journal.md)
