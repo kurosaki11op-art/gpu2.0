@@ -1505,4 +1505,7 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 ## 24 Oct 2026: knockout screen (gene-editing idea)
 Asked: test whether faulty detectors can be found and repaired. Done: masked each of 128 detectors, measured on two check sets, retrained after dropping. Result (MEASURED, one seed): removal effects barely repeat across check sets (corr 0.42 / 0.65); only 5 of 32 "faulty" confirmed; dropping the 32 keeps TEST 0.8795 vs 0.8802 and Shirt AP 0.716 with 25% fewer bits; dropping 1,440 more costs 1.4 points. Conclusion: code is redundant, not faulty; repair not worthwhile; pruning is a memory win. See [knockout_screen](../hw/results/knockout_screen.md). Files: hw/brain/experiments/month5/knockout.{py,log}.
 
+## 24 Oct 2026: prune-then-retrain second layer
+Ran decision_test4.py (MEASURED/SIMULATED, one seed). Pruned 1,024-unit binary layer: fan-in 64 gives 87.8%, 128 gives 88.5%, 256 gives 89.4% (Shirt AP 0.73, 0.77, 0.78) at 8,400 to 33,500 adds, 14 to 55 times L. Fails the bytes-read criterion; dense float bound AP 0.811 still under the CNN 0.84. Gate network needs the user's GPU (none in this container). See [prune_retrain_second_layer](../hw/results/prune_retrain_second_layer.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

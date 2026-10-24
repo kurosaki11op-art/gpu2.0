@@ -1,0 +1,4 @@
+H=1024 DENSE reference (float)                       accuracy 0.9040 | cluster 0.8347 | Shirt recall 0.704 | Shirt AP 0.811 | 35s
+H=1024 pruned to fan-in  64, 4-bit | memory 42 KB, adds ~8372 accuracy 0.8779 | cluster 0.7977 | Shirt recall 0.692 | Shirt AP 0.728 | 62s
+H=1024 pruned to fan-in 128, 4-bit | memory 74 KB, adds ~16745 accuracy 0.8851 | cluster 0.8163 | Shirt recall 0.681 | Shirt AP 0.765 | 86s
+H=1024 pruned to fan-in 256, 4-bit | memory 138 KB, adds ~33490 accuracy 0.8938 | cluster 0.8225 | Shirt recall 0.687 | Shirt AP 0.782 | 111s

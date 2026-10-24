@@ -63,5 +63,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Few examples: two-brain design](few_shot_two_brains.md): L's counting table is weak below 50 examples per class; class means on L's code give 52% from one example (CNN 42%); a two-brain sum reaches 84.0 at 300 per class (CNN 77.5) (SIMULATED, 3 draws).
 - [Shirt recall is an operating-point effect](shirt_operating_point.md): at equal overall accuracy a CNN gets higher Shirt recall only by calling Shirt more often; inside the upper-body cluster L and the CNN are equal (79.0 against 79.2) (MEASURED/SIMULATED).
 - [Knockout screen](knockout_screen.md): gene-editing test on detectors; few are reliably faulty, 25% can be dropped at no loss
+- [Prune-then-retrain second layer](prune_retrain_second_layer.md): fails the bytes-read criterion; win-lose
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
