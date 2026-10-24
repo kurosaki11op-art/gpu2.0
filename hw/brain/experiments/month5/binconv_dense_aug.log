@@ -1,0 +1,10 @@
+epoch 1 | loss 0.983 | accuracy 0.7888 | Shirt 0.008 T-shirt 0.839 Pullover 0.796 Coat 0.830 | 44s
+epoch 2 | loss 0.717 | accuracy 0.8139 | Shirt 0.693 T-shirt 0.716 Pullover 0.626 Coat 0.575 | 87s
+epoch 3 | loss 0.591 | accuracy 0.8492 | Shirt 0.468 T-shirt 0.814 Pullover 0.757 Coat 0.840 | 130s
+epoch 4 | loss 0.512 | accuracy 0.8377 | Shirt 0.741 T-shirt 0.656 Pullover 0.699 Coat 0.710 | 172s
+epoch 5 | loss 0.458 | accuracy 0.8593 | Shirt 0.649 T-shirt 0.826 Pullover 0.704 Coat 0.831 | 214s
+epoch 6 | loss 0.434 | accuracy 0.8157 | Shirt 0.621 T-shirt 0.815 Pullover 0.323 Coat 0.919 | 257s
+epoch 7 | loss 0.415 | accuracy 0.8631 | Shirt 0.643 T-shirt 0.840 Pullover 0.669 Coat 0.830 | 299s
+epoch 8 | loss 0.396 | accuracy 0.8517 | Shirt 0.539 T-shirt 0.889 Pullover 0.881 Coat 0.630 | 341s
+epoch 9 | loss 0.388 | accuracy 0.8664 | Shirt 0.625 T-shirt 0.771 Pullover 0.807 Coat 0.775 | 382s
+epoch 10 | loss 0.371 | accuracy 0.8645 | Shirt 0.534 T-shirt 0.853 Pullover 0.733 Coat 0.886 | 424s
