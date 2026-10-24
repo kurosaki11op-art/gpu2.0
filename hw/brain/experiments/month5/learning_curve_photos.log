@@ -1,0 +1,10 @@
+photos: train 1720 test 574, code bits 13824, classes [757 268 487 208]
+balanced accuracy (mean recall over the 4 classes) and Shirt recall; chance 25%
+| labelled photos per class | fast: class means | slow table | sum of 2 | CNN, self-supervised encoder |
+|---|---|---|---|---|
+| 1 | 35.2 (Shirt 43) | 30.5 (Shirt 44) | 33.3 (Shirt 43) | 28.5 (Shirt 38) |
+| 2 | 35.6 (Shirt 39) | 26.8 (Shirt 0) | 31.8 (Shirt 23) | 29.4 (Shirt 25) |
+| 5 | 41.2 (Shirt 47) | 32.8 (Shirt 8) | 39.1 (Shirt 22) | 33.4 (Shirt 35) |
+| 10 | 43.7 (Shirt 55) | 35.6 (Shirt 20) | 46.6 (Shirt 50) | 39.7 (Shirt 49) |
+| 20 | 49.0 (Shirt 54) | 30.2 (Shirt 16) | 43.3 (Shirt 38) | 43.3 (Shirt 47) |
+| 50 | 51.3 (Shirt 50) | 50.8 (Shirt 34) | 55.0 (Shirt 48) | 52.1 (Shirt 50) |

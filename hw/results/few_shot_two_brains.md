@@ -70,4 +70,41 @@ Consolidation from the fast brain to the slow table by replay (sleep), IMPRINT b
 
 **Honest summary:** on a fair baseline L's two-brain design is better only at 1 to 5 examples per class (by 1 to 6 points) and level beyond; its distinguishing properties are no gradient training, a cheap one-write fast brain and the sparse table, not a higher few-shot accuracy.
 
+## Round 3: MNIST against both CNN baselines, and real colour photos (24 Oct)
+
+Logs `learning_curve4_mnist.log`, `learning_curve_mnist.log`, `learning_curve_photos.log`.
+
+**MNIST (accuracy %, 3 draws), the two-brain AUTO rule against two CNN baselines:**
+
+| Examples per class | Two brains (AUTO) | Float logistic regression on L's code | CNN from scratch (flip/shift augmentation) | CNN with self-supervised encoder |
+|---|---|---|---|---|
+| 1 | **54.2** | 45.5 | 42.2 | 26.2 |
+| 2 | **66.0** | 56.9 | 55.8 | 38.8 |
+| 5 | **77.0** | 75.9 | 75.5 | 60.7 |
+| 10 | 85.6 | **86.5** | 80.0 | 68.9 |
+| 20 | 89.8 | **91.8** | 84.1 | 77.3 |
+| 50 | 94.3 | **94.7** | 87.0 | 83.9 |
+| 100 | 95.5 | **95.9** | 88.9 | 86.6 |
+| 300 | **96.7** | (not run) | (not run) | 88.3 |
+
+- On MNIST the two-brain design is **10 to 12 points above the best CNN baseline at 1 to 2 examples per class and 5 to 7 points above it from 10 to 100**. The frozen-autoencoder CNN is a weak baseline on MNIST; the from-scratch CNN is the stronger of the two here.
+- A plain float logistic regression on L's code is as good as or slightly better than the counting-based two-brain rule from 10 examples up: **the asset is L's sparse detector code, not the counting rule.**
+- Not compared: pretrained deep features or meta-learned few-shot methods (prototypical networks and similar), which would likely be stronger at 1 to 5 examples; those need external data.
+
+**Real colour photos (4 classes: T-Shirt, Shirt, Longsleeve, Outwear, 1,720 train / 574 test photos, fixed split; balanced accuracy %, chance 25; 3 draws):**
+
+| Labelled photos per class | Fast brain (class means) | Counting table | Sum of 2 | CNN, self-supervised encoder |
+|---|---|---|---|---|
+| 1 | **35.2** | 30.5 | 33.3 | 28.5 |
+| 5 | **41.2** | 32.8 | 39.1 | 33.4 |
+| 10 | 43.7 | 35.6 | **46.6** | 39.7 |
+| 20 | **49.0** | 30.2 | 43.3 | 43.3 |
+| 50 | 51.3 | 50.8 | **55.0** | 52.1 |
+
+- On real photos with backgrounds all methods are weak (35 to 55% on four garments from 1 to 50 photos per class). The fast brain leads the self-supervised CNN by 3 to 7 points up to 20 photos per class and is level at 50. The counting table is unusable below 50 photos (Shirt recall 0 to 34%). Small test set (574 photos); the photos have backgrounds (not removed).
+
+**Updated honest summary.** Few-shot learning is where L's code (not its counting rule) is genuinely strong on MNIST (54% from one example, 85.6% from 10, against 42% and 80% for a CNN from scratch). On Fashion-MNIST the advantage is small and only at 1 to 5 examples, on real photos moderate and absolute accuracy low. All baselines are simple CNNs; no pretrained or meta-learned comparators.
+
+Related: [Results index](INDEX.md)
+
 Related: [Results index](INDEX.md), [Few-shot imprint (month 4)](../brain/experiments/month4/fewshot_imprint.md), [Failure analysis](../../docs/failure_analysis_clothing.md), [Journal](../../docs/journal.md)
