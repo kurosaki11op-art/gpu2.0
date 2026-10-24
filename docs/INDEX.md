@@ -7,6 +7,7 @@ tags: [spark, index]
 
 ## Now (L Cortex)
 
+- [Claims ledger](claims_ledger.md): every claim about L with a status (tentative, verified, withdrawn, failed) and the rules for stating one.
 - [Failure analysis: why L stays behind on clothing](failure_analysis_clothing.md): past failures, causes, literature, ideas in order.
 - [Status report 24 Oct 2026](status_report_24oct.md): plain summary of what is done, failed and needed.
 - [Who scores 96 to 99 percent and how](research/who_beats_cnn.md): which winners are matrix- and multiply-free, how they win, where we fail.
