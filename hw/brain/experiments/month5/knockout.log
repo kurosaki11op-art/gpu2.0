@@ -1,0 +1,9 @@
+codes 4608 bits, encoded in 93s
+base: check A acc 0.8912 AP 0.757 | check B acc 0.8907 AP 0.758
+correlation of the removal effect on accuracy between check A and check B: 0.42; on Shirt AP: 0.65 (1 = the screen is stable)
+verdict on check A: essential 2, neutral 94, faulty 32 (of 128)
+confirmed on check B: faulty detectors with removal effect > 0 on B too: 5 of 32; essential with effect < 0 on B: 2 of 2
+mean removal effect on B: faulty -0.0004, neutral -0.0005, essential -0.0049
+keep all (retrained)                         bits  4608 | check B acc 0.8907 AP 0.758 | TEST acc 0.8802 Shirt AP 0.716
+drop faulty (retrained)                      bits  3456 | check B acc 0.8887 AP 0.757 | TEST acc 0.8795 Shirt AP 0.716
+drop faulty + near-neutral (retrained)       bits  1440 | check B acc 0.8765 AP 0.729 | TEST acc 0.8667 Shirt AP 0.684

@@ -31,6 +31,8 @@ tags: [l, claims, rules, evidence]
 | Blame-routed detector learning (error passed to the detectors through table rows) improves accuracy or Shirt | **FAILED** | four configurations, no test gain; validation gains were selection noise; [design note](error_transport_design.md) |
 | Class-specific detector dictionary improves clothing accuracy | **FAILED** | 88.29 against 88.81 for an unsupervised dictionary of equal size |
 | Error-targeted detector boosting improves accuracy or Shirt AP beyond adding unsupervised detectors | **FAILED** | four-round test; differences within noise |
+| Detector knockout: faulty detectors can be found and repaired | **FAILED** (but see next row) | only 5 of 32 flagged detectors confirmed on a second check set; [knockout_screen](../hw/results/knockout_screen.md) |
+| About 25% of detectors (4,608 to 3,456 bits) can be dropped with no loss (88.02 to 87.95, Shirt AP 0.716 both) | TENTATIVE | one seed; win-win memory saving |
 | L beats a CNN on accuracy | **FALSE** (not claimed) | Fashion-MNIST: 88.9 to 90.4 against 91.1 to 91.7 for small CNNs |
 | 'Second sense' from the spoken name improves recognition | **WITHDRAWN** | the name is the label (oracle test) |
 | First cascade: Shirt recall +10.7 | **WITHDRAWN** | gate chosen on test data; validated version +0.9 overall, no Shirt gain |

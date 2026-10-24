@@ -1502,4 +1502,7 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Gate network, accelerator track (24 Oct, SIMULATED on CPU, one seed):** `hw/brain/experiments/month5/gatenet.py`: two convolutional gate-tree layers (24 and 48 trees of 7 two-input gates, shared across positions, OR pooling) + two fully connected gate layers (3,000 and 2,000) + group-sum; softmax-over-16-gates relaxation, residual start, hard gates at test time (the deployed network is pure gates). CPU: hard-gate accuracy 80.4% at 700 steps, 83.6% at 2,200 (about 3.7 epochs, 0.9 s per step), still rising slowly; below L's 88.9% so far and small compared to the published networks. The script now uses a GPU when present so the larger configuration can be trained on the user's RTX 3050 (commands given in the session).
 
+## 24 Oct 2026: knockout screen (gene-editing idea)
+Asked: test whether faulty detectors can be found and repaired. Done: masked each of 128 detectors, measured on two check sets, retrained after dropping. Result (MEASURED, one seed): removal effects barely repeat across check sets (corr 0.42 / 0.65); only 5 of 32 "faulty" confirmed; dropping the 32 keeps TEST 0.8795 vs 0.8802 and Shirt AP 0.716 with 25% fewer bits; dropping 1,440 more costs 1.4 points. Conclusion: code is redundant, not faulty; repair not worthwhile; pruning is a memory win. See [knockout_screen](../hw/results/knockout_screen.md). Files: hw/brain/experiments/month5/knockout.{py,log}.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
