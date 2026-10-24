@@ -1,0 +1,16 @@
+(a) selective classification, accuracy % when answering only the most confident share of test images
+| model | 100 %% | 90 %% | 70 %% | 50 %% |
+|---|---|---|---|---|
+| L (margin of the two best table scores) | 88.8 | 93.1 | 97.8 | 99.2 |
+| CNN (max softmax probability) | 88.9 | 93.2 | 98.2 | 99.6 |
+
+(b) novel-class detection, AUROC; trained on 9 classes, one class never seen
+| unseen class | L | CNN |
+|---|---|---|
+ver seen
+| unseen class | L | CNN |
+|---|---|---|
+| Trouser | 0.779 | 0.655 |
+| Dress | 0.843 | 0.813 |
+| Sandal | 0.763 | 0.476 |
+| Sneaker | 0.712 | 0.581 |
