@@ -37,4 +37,8 @@ Electronic parts: **one ESP32 Dev Module and one INA219 module.** Also needed, b
 
 Checked on a PC against a mock board (compiles; LOGIC PASS; the current readings are stubs there, so nothing measured yet).
 
+## If the only current sensor is an ACS712 (analog Hall module with pins GND, OUT, VCC) - LOW CONFIDENCE
+
+Sketch `esp32_l_selftest_acs712/`, same save-to-flash procedure. Wiring: 5V source -> terminal IP+; terminal IP- -> ESP32 VIN; module VCC from the same 5V source before the terminal; all GND joined; module OUT -> GPIO34. Analyse with `python3 check_esp32_run.py run1.txt --sens 185` (185 mV/A for the 5A chip, 100 for 20A, 66 for 30A; read the chip marking first; the 30A version is too insensitive for this test). Only the idle-to-run difference is used. A 15 mA change is about 2.8 mV at 185 mV/A, so the script flags the run UNRELIABLE unless the delta is at least three times its spread over the 6 repetitions; expect about +-5 mA at best. Checked on a PC against a mock board and invented numbers only.
+
 Related: [Board README](../README.md), [Hardware index](../../HARDWARE_INDEX.md)
