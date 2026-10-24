@@ -17,8 +17,8 @@ Written before proposing further fixes, as asked. Numbers are SIMULATED unless m
 | Finer detectors on the four classes | +1.7 within group, 4x code | features carry the information; more bits help slowly |
 | Hand-made shape cues (profile, inside, neck, edges) | at most +0.6 | the cues I chose were not the discriminating ones, or the information is not in 28 x 28 pixels |
 | HOG-style bits, conjunction features chosen by counting | +0.9 and +0.9 (90.7 best) at 2 to 5x memory | nonlinear features help (float ceiling 91.3), at a memory price |
-| Pair-only model T-shirt vs Shirt | 88.25 at best (2-way) | **a floor of about 88% even for a model that sees only these two classes**: label overlap at this resolution |
-| CNN ruler | Shirt recall only 79.4 | even backprop with all data does not separate them: part of the confusion is in the labels (Cleanlab: over 100 Shirt images look like T-shirt/top, since T-shirt/top covers general tops; company source) |
+| Pair-only model T-shirt vs Shirt | 88.25 at best (2-way) | a floor of about 88% even for a model that sees only these two classes. **Earlier reading 'label overlap' is NOT supported by the papers:** the only measured ambiguity study (Ishida et al., 2202.00395) puts the whole test set's irreducible error near 3 to 4%; the gap is mostly features |
+| CNN ruler | Shirt recall only 79.4 | Shirt is the hardest class for every model; the share due to label overlap is not measured anywhere (the Cleanlab claim of over 100 Shirt images that look like T-shirt/top is UNVERIFIED, from a search summary only) |
 | Real colour photos | Shirt recall 61 to 80 on the pair, no gain on the 4-way task | colour is real independent evidence for the pair; small noisy data, possible colour bias |
 | Gradient-trained lookup layer, conv lookup net | 88.9 at 78 KB; about 75 at 3 epochs | one layer is limited like the rest; free table entries with straight-through gradients trained badly (unstable, slow) |
 | Sparse / dense binary conv nets | 88.4 / 89.7 | binary activations plus overfitting and noisy training; dense variant about 200x the operations of L, against the design principle |
@@ -44,7 +44,7 @@ Written before proposing further fixes, as asked. Numbers are SIMULATED unless m
 
 1. Everything we tried is a single layer of binary features with a linear or counting readout. The literature puts that family at 88 to 90.5% and says so in independent work: **we are at the ceiling of the architecture, not failing at tuning it.**
 2. The models above 91% change the **input encoding** (richer booleanisation, convolutional patches, soft coding) or add depth with gradients.
-3. About 12% of the T-shirt/Shirt pair appears unrecoverable at 28 x 28 by any model tried; a fair target is closing the gap to the CNN (about 79% Shirt recall), not 100%.
+3. Corrected after reading the papers: label noise explains only a few percent of the whole test set (Ishida et al., arXiv 2202.00395: Bayes error about 3.5% for a coarse regrouping), so most of the 89 to 92+ gap is a **feature gap**. The README table shows HOG + SVM at 92.6% against 89.7% for the same SVM on raw pixels: spatially pooled oriented-edge features with a nonlinear readout is what separates 89 from 92. Our HOG bits with a counting readout reach 89.8; the missing piece is likely the nonlinear readout and richer, block-normalised gradient features.
 
 ## 5. Ideas that fit the evidence (in order), and status
 

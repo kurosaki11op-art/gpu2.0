@@ -55,6 +55,6 @@ tags: [l, clothing, limits, results]
 | + HOG-style bits | 88.25 | 87.7 | 88.8 |
 | + 20,000 counted pairwise ANDs | 88.05 | 88.4 | 87.7 |
 
-Even with only the two classes in play and all the extra features, the best 2-way accuracy is about 88%, a floor that suggests the labels overlap at 28 x 28 resolution. Real colour photos separate the pair better ([shirt_real_photos.md](shirt_real_photos.md)).
+Even with only the two classes in play and all the extra features, the best 2-way accuracy is about 88%, a floor for these features. (An earlier version of this note blamed label overlap; the papers do not support that: whole-test-set irreducible error is about 3 to 4%, so the gap is mostly features. How much of the Shirt/T-shirt error is label overlap is not measured.) Real colour photos separate the pair better ([shirt_real_photos.md](shirt_real_photos.md)).
 
 Related: [Results index](INDEX.md), [Where L loses on clothing](clothing_confusion.md), [Journal](../../docs/journal.md)
