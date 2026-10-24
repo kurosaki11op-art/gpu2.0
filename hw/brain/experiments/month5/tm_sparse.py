@@ -58,21 +58,21 @@ def csr(code):
     for i in range(len(code)): w = np.nonzero(code[i])[0].astype(np.int32); idx.append(w); ptr[i + 1] = ptr[i] + len(w)
     return ptr, np.concatenate(idx)
 ptr_tr, idx_tr = csr(ctr); ptr_te, idx_te = csr(centre)
-@njit(cache=True)
+@njit
 def clause_out(state, ninc, cl_idx, act, train):
     cnt = 0
     for a in act:
         if state[cl_idx, a] > NST: cnt += 1
     if ninc[cl_idx] == 0: return 1 if train else 0
     return 1 if cnt == ninc[cl_idx] else 0
-@njit(cache=True)
+@njit
 def class_sum(state, ninc, c, act, train, outs):
     v = 0
     for j in range(C):
         o = clause_out(state, ninc, c * C + j, act, train); outs[j] = o
         if o: v += 1 if j % 2 == 0 else -1
     return max(-T, min(T, v))
-@njit(cache=True)
+@njit
 def feedback(state, ninc, c, act, outs, v, positive, mark, rs):
     p = (T - v) / (2.0 * T) if positive else (T + v) / (2.0 * T)
     for j in range(C):
@@ -102,7 +102,7 @@ def feedback(state, ninc, c, act, outs, v, positive, mark, rs):
                         state[cl, a] += 1
                         if state[cl, a] == NST + 1: ninc[cl] += 1
         for a in act: mark[a] = 0
-@njit(cache=True)
+@njit
 def train_epoch(state, ninc, ptr, idx, y, order, seed):
     np.random.seed(seed); outs = np.zeros(C, np.int8); mark = np.zeros(state.shape[1], np.int8)
     for i in order:
@@ -110,7 +110,7 @@ def train_epoch(state, ninc, ptr, idx, y, order, seed):
         v = class_sum(state, ninc, c, act, True, outs); feedback(state, ninc, c, act, outs, v, True, mark, 0)
         q = (c + 1 + np.random.randint(0, 9)) % 10
         v = class_sum(state, ninc, q, act, True, outs); feedback(state, ninc, q, act, outs, v, False, mark, 0)
-@njit(cache=True)
+@njit
 def predict(state, ninc, ptr, idx):
     n = len(ptr) - 1; out = np.zeros(n, np.int64); outs = np.zeros(C, np.int8)
     for i in range(n):
