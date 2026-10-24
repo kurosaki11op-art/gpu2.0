@@ -1514,4 +1514,7 @@ User asked for new methods after the failures. Tested flip augmentation (worse, 
 ## 24 Oct 2026: Shirt new methods, round 2
 Run by the user on their PC (MEASURED/SIMULATED, one seed): pair-trained detectors (+0.009 and +0.018 AP at 2.0 and 2.5 times active rows) and thin-structure cues (-0.007 AP) fail the set criteria. See [shirt_new_methods_round2](../hw/results/shirt_new_methods_round2.md).
 
+## 24 Oct 2026: direction decision, learning must happen on the chip
+Founder: a chip meant to replace a GPU cannot depend on a GPU for training; backprop or an imitation of it is needed without matrices or multiplies. Recorded in [project memory](PROJECT_MEMORY.md). Next research target: integer / Boolean error transport through gate layers (see reply in session; plan not yet tested).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
