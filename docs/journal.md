@@ -1472,4 +1472,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Gated cascade (24 Oct, SIMULATED, one seed):** stage 2 (4 classes, HOG bits + counted ANDs) on the least-sure 20% of group-predicted images: accuracy 88.92 to 90.00, Shirt recall 63.1 to 73.8, about +300 active rows on average. First Shirt gain that keeps the sparse character. Gate swept on test images; needs a validation threshold. Binary conv nets (accelerator path): sparse 88.4, dense 89.7 (about 200x more operations, dropped as default), augmentation no help. Note `hw/results/cascade_gate.md`. User asked whether all research was covered: no (paper sites blocked); list of untried ideas recorded in the answer.
 
+**Cascade corrected (24 Oct, SIMULATED):** with the gate chosen on a held-out validation set (both stages on 50k, single view) the cascade gives test accuracy 88.61 to 89.50 (+0.9) but Shirt recall 65.8 to 62.5, so the earlier Shirt +10.7 was an artifact of choosing the gate on the test images and training on all data. Shirt still unsolved. Note `hw/results/cascade_gate.md` corrected at the top.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
