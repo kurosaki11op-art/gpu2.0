@@ -8,7 +8,8 @@ K1, K2, W1, W2, LR, BS = int(os.environ.get("K1", 24)), int(os.environ.get("K2",
 CK = os.environ.get("CKPT", "gatenet_ckpt.pt")
 rd = lambda f, o: np.frombuffer(gzip.open(os.path.join(D, "fashion-" + f)).read(), np.uint8, offset=o)
 Xtr = rd("train-images-idx3-ubyte.gz", 16).reshape(-1, 28, 28); ytr = rd("train-labels-idx1-ubyte.gz", 8).astype(np.int64); Xte = rd("t10k-images-idx3-ubyte.gz", 16).reshape(-1, 28, 28); yte = rd("t10k-labels-idx1-ubyte.gz", 8).astype(np.int64)
-TH = (32, 96, 160, 224); enc = lambda x: torch.tensor(np.stack([(x > t) for t in TH], 1).astype(np.float32)); Etr, Ete = enc(Xtr), enc(Xte); Ytr = torch.tensor(ytr)
+DEV = torch.device(os.environ.get('DEVICE', 'cuda' if torch.cuda.is_available() else 'cpu')); print('device', DEV, flush=True)
+TH = (32, 96, 160, 224); enc = lambda x: torch.tensor(np.stack([(x > t) for t in TH], 1).astype(np.float32)); Etr, Ete = enc(Xtr).to(DEV), enc(Xte).to(DEV); Ytr = torch.tensor(ytr).to(DEV)
 def formulas(a, b):
     ab = a * b
     return [torch.zeros_like(a), ab, a - ab, a, b - ab, b, a + b - 2 * ab, a + b - ab, 1 - (a + b - ab), 1 - (a + b - 2 * ab), 1 - b, 1 - b + ab, 1 - a, 1 - a + ab, 1 - ab, torch.ones_like(a)]
@@ -40,21 +41,21 @@ class Net(nn.Module):
     def forward(self, x):
         h = Fn.max_pool2d(self.c1(x), 2); h = Fn.max_pool2d(self.c2(h), 2); h = self.f2(self.f1(h.flatten(1)))
         return (h.view(len(x), 10, -1).sum(2) - W2 / 20) / self.tau
-net = Net(); opt = torch.optim.Adam(net.parameters(), LR); step = 0; hist = []
-if os.path.exists(CK) and not os.environ.get("FRESH"): s = torch.load(CK); net.load_state_dict(s["m"]); opt.load_state_dict(s["o"]); step = s["step"]; hist = s["hist"]; print("resumed at step", step, flush=True)
+net = Net().to(DEV); opt = torch.optim.Adam(net.parameters(), LR); step = 0; hist = []
+if os.path.exists(CK) and not os.environ.get("FRESH"): s = torch.load(CK, map_location=DEV); net.load_state_dict(s["m"]); opt.load_state_dict(s["o"]); step = s["step"]; hist = s["hist"]; print("resumed at step", step, flush=True)
 def evaluate(n):
     net.eval()
-    with torch.no_grad(): p = torch.cat([net(Ete[i:min(i + 500, n)]).argmax(1) for i in range(0, n, 500)]).numpy()
+    with torch.no_grad(): p = torch.cat([net(Ete[i:min(i + 500, n)]).argmax(1) for i in range(0, n, 500)]).cpu().numpy()
     net.train(); return p
 def full_report():
     net.eval()
-    with torch.no_grad(): sc = torch.cat([net(Ete[i:i + 500]) for i in range(0, 10000, 500)]).numpy()
+    with torch.no_grad(): sc = torch.cat([net(Ete[i:i + 500]) for i in range(0, 10000, 500)]).cpu().numpy()
     net.train(); p = sc.argmax(1); mk = np.isin(yte, (0, 2, 4, 6)); CL = np.array([0, 2, 4, 6]); s = sc[:, 6] - np.delete(sc, 6, 1).max(1); yy = yte == 6; o = np.argsort(-s); tp = np.cumsum(yy[o])
     return "HARD-GATE test accuracy %.4f | cluster %.4f | Shirt recall %.3f | Shirt AP %.3f" % ((p == yte).mean(), (CL[sc[mk][:, CL].argmax(1)] == yte[mk]).mean(), (p[yte == 6] == 6).mean(), ((tp / np.arange(1, len(o) + 1)) * yy[o]).sum() / yy.sum())
 print("gates: conv1 %d x 7, conv2 %d x 7 (shared over positions), fc %d + %d; budget %.0fs" % (K1, K2, W1, W2, BUDGET), flush=True)
 net.train(); losses = []
 while time.time() - t_start < BUDGET:
-    r = np.random.RandomState(step); b = torch.tensor(r.choice(len(Etr), BS, replace=False)); loss = Fn.cross_entropy(net(Etr[b]), Ytr[b]); opt.zero_grad(); loss.backward(); opt.step(); step += 1; losses.append(loss.item())
+    r = np.random.RandomState(step); b = torch.tensor(r.choice(len(Etr), BS, replace=False)).to(DEV); loss = Fn.cross_entropy(net(Etr[b]), Ytr[b]); opt.zero_grad(); loss.backward(); opt.step(); step += 1; losses.append(loss.item())
     if step % 100 == 0:
         a = (evaluate(2000) == yte[:2000]).mean(); hist.append((step, float(np.mean(losses)), float(a))); print("step %d | loss %.3f | hard-gate accuracy on 2,000 test images %.4f | %.0fs" % (step, np.mean(losses), a, time.time() - t_start), flush=True); losses = []
         torch.save({"m": net.state_dict(), "o": opt.state_dict(), "step": step, "hist": hist}, CK)
