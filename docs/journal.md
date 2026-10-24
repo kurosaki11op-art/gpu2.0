@@ -1474,4 +1474,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Cascade corrected (24 Oct, SIMULATED):** with the gate chosen on a held-out validation set (both stages on 50k, single view) the cascade gives test accuracy 88.61 to 89.50 (+0.9) but Shirt recall 65.8 to 62.5, so the earlier Shirt +10.7 was an artifact of choosing the gate on the test images and training on all data. Shirt still unsolved. Note `hw/results/cascade_gate.md` corrected at the top.
 
+**Pair specialist and paper access (24 Oct):** pair-only T-shirt/Shirt model reaches at best 88.25% 2-way (main restricted 86.95), so the pair floor is about 88% at 28 x 28. User asked to study all primary papers: arxiv.org, openreview, neurips, huggingface and similar are blocked by the cloud environment's network policy; user must add them under Allowed domains (environment settings) or place PDFs in `docs/research/papers/`; no bypass attempted. Notes `hw/results/shirt_specialist.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

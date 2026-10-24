@@ -1,0 +1,5 @@
+pair test: T-shirt (0) against Shirt (6); accuracy among test images whose true class is one of the two; always answering T-shirt = 50 %
+main model restricted to the pair                    2-way accuracy 0.8695 | Shirt recall 0.831 | T-shirt recall 0.908
+pair specialist, detector code                       2-way accuracy 0.8750 | Shirt recall 0.880 | T-shirt recall 0.870
+pair specialist, detector code + HOG bits            2-way accuracy 0.8825 | Shirt recall 0.877 | T-shirt recall 0.888
+pair specialist, + 20,000 pair-selected ANDs (counted) 2-way accuracy 0.8805 | Shirt recall 0.884 | T-shirt recall 0.877

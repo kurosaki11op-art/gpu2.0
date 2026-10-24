@@ -44,4 +44,17 @@ tags: [l, clothing, limits, results]
 
 **Limits.** One seed, one data set; 0.7 points overall is within what seeds can move; the specialist is not yet in the RTL.
 
+## Round 3: a pair-only specialist (24 Oct, SIMULATED, one seed)
+
+`pair_test.py`, `pair_test.log`: a model that sees only T-shirt and Shirt (6,000 images each), accuracy among test images of those two classes (50% by always answering T-shirt):
+
+| Model | 2-way accuracy | Shirt recall | T-shirt recall |
+|---|---|---|---|
+| Main model restricted to the pair | 86.95 | 83.1 | 90.8 |
+| Pair specialist, detector code | 87.50 | 88.0 | 87.0 |
+| + HOG-style bits | 88.25 | 87.7 | 88.8 |
+| + 20,000 counted pairwise ANDs | 88.05 | 88.4 | 87.7 |
+
+Even with only the two classes in play and all the extra features, the best 2-way accuracy is about 88%, a floor that suggests the labels overlap at 28 x 28 resolution. Real colour photos separate the pair better ([shirt_real_photos.md](shirt_real_photos.md)).
+
 Related: [Results index](INDEX.md), [Where L loses on clothing](clothing_confusion.md), [Journal](../../docs/journal.md)
