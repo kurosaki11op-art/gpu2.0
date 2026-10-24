@@ -1,4 +1,5 @@
-"""ACS712 mode (log lines with idle_mV / run_mV): add --sens MV_PER_A (default 185 for the 5A module, 100 for 20A, 66 for 30A) and optionally --vbus 5.0. Low-confidence: see README.
+"""METER mode (multimeter readings typed by hand): add --idle-mA 45.1,45.3,... and --run-mA 62.0,61.8,... (one value per repetition, in the order of the REP lines) and optionally --vbus 5.0.
+ACS712 mode (log lines with idle_mV / run_mV): add --sens MV_PER_A (default 185 for the 5A module, 100 for 20A, 66 for 30A) and optionally --vbus 5.0. Low-confidence: see README.
 End-to-end check of an ESP32 run. usage: python check_esp32_run.py LOGFILE [--ambient-c 24] [--note TEXT]   (LOGFILE = serial monitor text saved to a file)
 Verifies LOGIC PASS, parses REP lines, and prints speed, power and energy per decision as mean +- std over repetitions.
 Energy per decision (delta) = (run_mA - idle_mA) * bus_V / decisions_per_second; total energy per decision = run_mA * bus_V / rate.
@@ -10,6 +11,20 @@ ok = re.search(r"LOGIC PASS", log) is not None; print("logic test:", "PASS" if o
 reps = [dict(re.findall(r"(\w+) ([-\d.]+)", l)) for l in log.splitlines() if l.startswith("REP")]
 if not reps: sys.exit("no REP lines found (sensor missing or run incomplete)")
 f = lambda k: [float(r[k]) for r in reps]
+if "--idle-mA" in args:                                              # multimeter mode: speed from the log, currents typed by the user
+    rd = lambda k: [float(x) for x in args[args.index(k) + 1].split(",")]
+    idle, run = rd("--idle-mA"), rd("--run-mA"); vbus = float(args[args.index("--vbus") + 1]) if "--vbus" in args else 5.0
+    k = min(len(idle), len(run), len(reps)); idle, run = idle[:k], run[:k]; n, s, us = f("decisions")[:k], f("run_s")[:k], f("us_per_decision")[:k]
+    rate = [a / b for a, b in zip(n, s)]; dI = [r - i for r, i in zip(run, idle)]; dP = [d * vbus for d in dI]
+    e_delta = [d / rt * 1e3 for d, rt in zip(dP, rate)]; e_tot = [r * vbus / rt * 1e3 for r, rt in zip(run, rate)]
+    m = lambda x: (st.mean(x), st.stdev(x) if len(x) > 1 else 0.0)
+    print("METER mode: %d repetitions, bus %.1f V, ambient %s C" % (k, vbus, amb))
+    for name, x, u in (("speed", us, "us per decision"), ("idle current", idle, "mA"), ("run current", run, "mA"), ("delta current", dI, "mA"), ("delta power", dP, "mW"), ("energy per decision, delta", e_delta, "uJ"), ("energy per decision, total", e_tot, "uJ")):
+        a_, b_ = m(x); print("  %-28s %.3f +- %.3f %s" % (name, a_, b_, u))
+    drift = (max(idle) - min(idle)) / st.mean(idle) * 100; spread = m(dI)[1]; mean = m(dI)[0]
+    bad = drift > 3 or mean < 3 * spread
+    print("idle drift %.1f %% | verdict: %s" % (drift, "UNRELIABLE (warm the board up, steadier supply, read at the end of each phase)" if bad else "usable (MEASURED with a multimeter, ESP32 software baseline, not the L chip)"))
+    sys.exit(0)
 if "idle_mV" in reps[0]:                                            # ACS712 analog mode: only the idle-to-run difference is meaningful
     sens = float(args[args.index("--sens") + 1]) if "--sens" in args else 185.0; vbus = float(args[args.index("--vbus") + 1]) if "--vbus" in args else 5.0
     idle, run, n, s, us = f("idle_mV"), f("run_mV"), f("decisions"), f("run_s"), f("us_per_decision")

@@ -41,4 +41,12 @@ Checked on a PC against a mock board (compiles; LOGIC PASS; the current readings
 
 Sketch `esp32_l_selftest_acs712/`, same save-to-flash procedure. Wiring: 5V source -> terminal IP+; terminal IP- -> ESP32 VIN; module VCC from the same 5V source before the terminal; all GND joined; module OUT -> GPIO34. Analyse with `python3 check_esp32_run.py run1.txt --sens 185` (185 mV/A for the 5A chip, 100 for 20A, 66 for 30A; read the chip marking first; the 30A version is too insensitive for this test). Only the idle-to-run difference is used. A 15 mA change is about 2.8 mV at 185 mV/A, so the script flags the run UNRELIABLE unless the delta is at least three times its spread over the 6 repetitions; expect about +-5 mA at best. Checked on a PC against a mock board and invented numbers only.
 
+## Multimeter mode (no current sensor needed) - recommended if you have a multimeter
+
+Sketch `esp32_l_meter/`. Wiring: 5V source red wire -> multimeter (mA range, red probe in the mA socket, start on the 200 mA range) -> ESP32 VIN pin; source GND -> ESP32 GND. After 8 s the test starts: each repetition = 3 quick blinks, then **30 s LED off (idle)**, then **30 s LED on (running)**; 5 repetitions (about 5 minutes). Write down the stable reading at the end of each phase (idle_mA, run_mA). Afterwards plug USB, open the monitor at 115200, press EN, type `s` within 8 s, save the printed lines as `run1.txt`, then:
+
+`python3 check_esp32_run.py run1.txt --idle-mA 45.1,45.3,45.0,45.2,45.1 --run-mA 61.0,61.4,60.9,61.1,61.2 --ambient-c 25`
+
+(the numbers shown are placeholders, use your readings). The script gives the speed from the board, delta power and energy per decision, with a reliability verdict. Checked on a PC against a mock board and invented numbers only.
+
 Related: [Board README](../README.md), [Hardware index](../../HARDWARE_INDEX.md)
