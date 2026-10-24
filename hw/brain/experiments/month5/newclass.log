@@ -1,0 +1,4 @@
+detectors fitted on 12,000 unlabeled images of all classes, F=32, code bits 4608
+new class 3 (Dress): training base models on 54000 images
+new class 6 (Shirt): training base models on 54000 images
+new class 9 (Boot): training base models on 54000 images

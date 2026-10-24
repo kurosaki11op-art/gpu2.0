@@ -1,0 +1,3 @@
+clauses per class 100, T 40, s 10.0, code bits 4608
+epoch  2 | test accuracy 0.6782 | Shirt 0.565 T-shirt 0.733 Pullover 0.477 Coat 0.473 | included bits per clause 20.4 | 177s
+epoch  4 | test accuracy 0.6673 | Shirt 0.557 T-shirt 0.743 Pullover 0.487 Coat 0.450 | included bits per clause 23.3 | 304s

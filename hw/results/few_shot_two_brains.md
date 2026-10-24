@@ -107,4 +107,25 @@ Logs `learning_curve4_mnist.log`, `learning_curve_mnist.log`, `learning_curve_ph
 
 Related: [Results index](INDEX.md)
 
+## Round 4: pretrained-feature baseline (24 Oct, `pretrained_fewshot.py`; logs `pretrained_fewshot_mnist.log`, `pretrained_fewshot_fashion.log`; MEASURED on CPU, 3 draws)
+
+ImageNet-pretrained ResNet-18 (timm `resnet18.a1_in1k`, 1.28 M labelled images of outside data), images upsampled to 64 x 64, 512 features, labelled examples drawn from the first 20,000 training images:
+
+| Examples per class | MNIST: class means / logistic regression / 1-NN | Fashion-MNIST: class means / logistic regression / 1-NN |
+|---|---|---|
+| 1 | 45.8 / 43.0 / 45.8 | 48.9 / 48.5 / 48.9 |
+| 2 | 52.9 / 54.2 / 52.7 | 53.3 / 53.9 / 53.4 |
+| 5 | 63.3 / 66.7 / 59.2 | 62.7 / 64.7 / 60.2 |
+| 10 | 67.4 / 74.5 / 64.5 | 66.3 / 69.7 / 64.1 |
+| 20 | 71.7 / 82.2 / 70.5 | 70.6 / 74.0 / 67.6 |
+| 50 | 75.6 / 86.9 / 74.6 | 72.6 / 77.5 / 71.6 |
+| 100 | 77.5 / 89.9 / 77.8 | 73.6 / 79.7 / 73.5 |
+| 300 | (not run) | 74.7 / 82.8 / 76.7 |
+
+**Reading.** L's label-free sparse code with its two-brain rule is **ahead of ImageNet-pretrained features on MNIST at every n (54.2 against 45.8 at 1 example, 85.6 against 74.5 at 10, 95.5 against 89.9 at 100)** and ahead or level on Fashion-MNIST (52.2 against 48.9 at 1, 65.7 against 64.7 at 5, level at 10, ahead by 2 to 4 points from 50). Limits: a 28 x 28 grey picture is far from ImageNet, and a stronger backbone or meta-learned few-shot method (prototypical or matching networks trained on a source data set) may be better; neither was tried. The pretrained network is trained with 1.28 M labels, L's detectors with none.
+
+**Clause learner (Tsetlin-style, positive literals, `tm_sparse.py`), valid run only after the numba-cache bug fix (100 clauses per class):** 67.8% at epoch 2 and 66.7% at epoch 4 on Fashion-MNIST; still training. The earlier 40-clause and 100-clause results were invalid (cached constants) and are marked as such.
+
+**Detector grid:** 128 detectors per channel give 89.82 against 89.89 for 64: the one-layer detector code saturates near 89.9%.
+
 Related: [Results index](INDEX.md), [Few-shot imprint (month 4)](../brain/experiments/month4/fewshot_imprint.md), [Failure analysis](../../docs/failure_analysis_clothing.md), [Journal](../../docs/journal.md)
