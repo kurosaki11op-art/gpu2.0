@@ -40,4 +40,23 @@ Reading:
 - Earlier collapses (sign-only, 3 levels) came from throwing away how wrong an example is; per-example max scaling did the same by treating confident and wrong examples alike (-5 points).
 - **Limit of this test:** the forward pass during learning is still the real-valued soft mixture of 16 gates (it needs multiplies); only the error path and the update are integer. The hard-gate integer forward (earlier arm) still fails. The chip-legal learning forward is the open piece. Also open: Fashion-MNIST and Shirt, larger networks, forgetting.
 
+## Round 3: hard-gate forward in the learning pass (chip-legal) (24 Oct 2026, MEASURED/SIMULATED)
+
+Script: [bool_hardint.py](../brain/experiments/month5/bool_hardint.py), log: [bool_hardint.log](../brain/experiments/month5/bool_hardint.log). The learning pass now uses hard gates only (outputs are bits); every step is a truth-table lookup, integer add, compare or shift. The one non-integer step is the output softmax (a lookup table on a chip).
+
+| Setting | Test accuracy |
+|---|---|
+| batch 64, counter range 60 | 45 to 55%, unstable |
+| batch 256, range 60 / 300 | 38 / 69% |
+| batch 256, range 300, integer noise 20 | 62% (unstable) |
+| batch 1,000, range 300 | 78.7% |
+| batch 1,000, range 1,000 (8 epochs) | 78.8% (seed 0) |
+| batch 1,000, range 1,000, 5 epochs, seeds 1 / 2 | 80.2 / 79.8% |
+| float backprop (yardstick) | 81.0 to 82.1% |
+
+Reading:
+- The hard-gate integer learner reaches 79 to 80%, within about 2 points of float backprop, on three seeds (TENTATIVE, MNIST, small network). The earlier hard-gate failure (10%) came from three things now changed: a graded error, a sign step on counters instead of big count jumps, and **large batches with a wide counter range** (a counter must integrate evidence from many examples before a gate switches).
+- Added exploration noise made it unstable; it is not needed.
+- Not yet shown: Fashion-MNIST and Shirt, larger networks, staged learning (forgetting), the same on the weight-shared convolutional gate network.
+
 Related: [Results index](INDEX.md), [Error transport design](../../docs/error_transport_design.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

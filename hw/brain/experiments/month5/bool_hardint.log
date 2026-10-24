@@ -1,0 +1,32 @@
+hard-forward integer learner epoch 1: test acc 0.4883 | 14s
+hard-forward integer learner epoch 2: test acc 0.5495 | 27s
+hard-forward integer learner epoch 3: test acc 0.4552 | 40s
+hard-forward integer learner epoch 4: test acc 0.4550 | 54s
+BATCH=256 CLAMP=60
+hard-forward integer learner epoch 3: test acc 0.5015 | 39s
+hard-forward integer learner epoch 4: test acc 0.3794 | 53s
+BATCH=256 CLAMP=300
+hard-forward integer learner epoch 3: test acc 0.6925 | 40s
+hard-forward integer learner epoch 4: test acc 0.6924 | 52s
+BATCH=256 CLAMP=300 NZ=20
+hard-forward integer learner epoch 3: test acc 0.7348 | 40s
+hard-forward integer learner epoch 4: test acc 0.6168 | 54s
+BATCH=1000 CLAMP=300
+hard-forward integer learner epoch 3: test acc 0.7827 | 46s
+hard-forward integer learner epoch 4: test acc 0.7868 | 61s
+BATCH=1000 CLAMP=1000 8 epochs
+hard-forward integer learner epoch 6: test acc 0.7885 | 95s
+hard-forward integer learner epoch 7: test acc 0.7899 | 110s
+hard-forward integer learner epoch 8: test acc 0.7879 | 125s
+BATCH=2000 CLAMP=1000 8 epochs
+hard-forward integer learner epoch 6: test acc 0.7832 | 105s
+hard-forward integer learner epoch 7: test acc 0.7897 | 122s
+hard-forward integer learner epoch 8: test acc 0.7881 | 140s
+BATCH=1000 CLAMP=300 NZ=5 8 epochs
+hard-forward integer learner epoch 6: test acc 0.7617 | 90s
+hard-forward integer learner epoch 7: test acc 0.7083 | 106s
+hard-forward integer learner epoch 8: test acc 0.6658 | 121s
+seed 1
+hard-forward integer learner epoch 5: test acc 0.8017 | 78s
+seed 2
+hard-forward integer learner epoch 5: test acc 0.7984 | 75s

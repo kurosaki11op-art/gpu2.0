@@ -38,7 +38,7 @@ tags: [l, claims, rules, evidence]
 | Detectors learned from the confusable pair, or thin-structure cue bits, close the Shirt gap | **FAILED** | AP +0.009 / +0.018 at 2.0 / 2.5 times the active rows; cues -0.007; [round 2](../hw/results/shirt_new_methods_round2.md) |
 | A multiply-free error signal (ternary, hidden layers) trains a gate network almost like float backprop | SUPERSEDED by next row | 68% against 81% on MNIST |
 | 4-bit integer error with one batch scale and integer counter updates trains a gate network as well as float backprop (82.2 / 81.1 / 81.4 against 81.0 to 82.1) | TENTATIVE (three seeds, MNIST, small net) | learning forward is still real-valued; [boolean_error_transport](../hw/results/boolean_error_transport.md) |
-| A fully integer counter rule with hard gates learns | **FAILED** | 10 to 11%; output layer cannot work on random hidden features |
+| A fully integer counter rule with hard gates learns | first version **FAILED** (10 to 11%); revised version TENTATIVE: 78.9 / 80.2 / 79.8 on three seeds against float 81 to 82 | graded error, sign steps, batch 1,000, counter range 1,000; MNIST, small net; [boolean_error_transport](../hw/results/boolean_error_transport.md) |
 | L beats a CNN on accuracy | **FALSE** (not claimed) | Fashion-MNIST: 88.9 to 90.4 against 91.1 to 91.7 for small CNNs |
 | 'Second sense' from the spoken name improves recognition | **WITHDRAWN** | the name is the label (oracle test) |
 | First cascade: Shirt recall +10.7 | **WITHDRAWN** | gate chosen on test data; validated version +0.9 overall, no Shirt gain |

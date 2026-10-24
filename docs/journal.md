@@ -1523,4 +1523,7 @@ Three-arm test on a gate network (MNIST, CPU, one seed): float 81.6; ternary err
 ## 24 Oct 2026: graded integer error + integer counters match float backprop (small gate network)
 MEASURED/SIMULATED, MNIST, 3 seeds: error as 4-bit integer, one scale per batch, gate counters moved by sign steps: 82.2 / 81.1 / 81.4 against float 81.0 to 82.1. Limit: learning forward still real-valued soft gates. Next: chip-legal forward, Fashion-MNIST/Shirt, larger net. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
 
+## 24 Oct 2026: hard-gate integer learner (chip-legal learning pass)
+MEASURED/SIMULATED, MNIST, 3 seeds: learning with hard gates only, graded integer error, counters moved by sign steps, batch 1,000 and counter range 1,000: 78.9 / 80.2 / 79.8 against float 81 to 82. Earlier version (10%) failed from small batches and a narrow counter range. Next: Fashion-MNIST/Shirt, larger net, forgetting. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
