@@ -49,4 +49,22 @@ Code copied from the Fuzzy-Pattern Tsetlin Machine (raw pixels in 4 quantile lev
 
 **Result:** the rich code alone gives only about +1 point over L's own 4,608-bit code and costs 22 times more active rows per image. The Tsetlin machine's 92 to 94.7% therefore comes largely from its **learner** (learned conjunction clauses trained by feedback for up to 1,000 epochs), not from the code alone; the paper itself does not isolate the two (UNVERIFIED split), this is our measurement with a counting readout. Also the 20-clause FPTM model is at most about 80 KB deployed but its code touches about 13,000 bits per image.
 
+## Team of codes (24 Oct, `team_codes.py`, `team_codes.log`; SIMULATED, one seed, single view)
+
+Idea from the Tsetlin "Composites" result (arXiv 2309.04801, team of four booleanisations +2 points): separate L tables on different codes, integer scores summed (adds only). Codes: A shipped learned detectors (32 per channel), B learned detectors (64, other seed), C HOG-style edge bits 2x2 cells, D edge bits 4x4 cells, E detectors pooled by 3.
+
+| Team | Bits | Active rows per image | Accuracy | Shirt recall | T-shirt | Pullover | Coat |
+|---|---|---|---|---|---|---|---|
+| A | 4,608 | 589 | 88.85 | 63.8 | 87.8 | 82.7 | 81.8 |
+| C | 4,704 | 321 | 88.76 | 61.7 | 88.0 | 82.9 | 84.2 |
+| D | 1,568 | 184 | 87.70 | 59.8 | 85.2 | 79.2 | 82.9 |
+| E | 8,192 | 722 | 89.08 | 65.9 | 86.7 | 82.2 | 83.1 |
+| A + C | 9,312 | 910 | 89.90 | 64.4 | 89.2 | 84.4 | 85.8 |
+| A + C + D | 10,880 | 1,094 | 90.18 | 65.0 | 89.1 | 85.1 | 86.6 |
+| A + B + C | 18,528 | 1,613 | 90.32 | 64.7 | 89.4 | 85.9 | 86.1 |
+| **A + B + C + D** | 20,096 | 1,797 | **90.43** | 64.7 | 89.5 | 85.3 | 86.9 |
+| A + B + C + D + E | 28,288 | 2,519 | 90.41 | 65.1 | 89.4 | 84.8 | 86.9 |
+
+**Result:** the team adds about +1.6 points overall (88.85 to 90.43), within 0.7 of the CNN ruler (91.1), at about 3 times the active rows; it saturates after four members. **It gains on Pullover and Coat (+2.6 and +5) and T-shirt (+1.7) but Shirt stays at about 65% (CNN 79.4%)**, so the Shirt gap is a limit of this family of binary detector and edge codes, not of how many we use. Tables of the team are 4 x about 46 KB at 8 bits (about 45 KB at 2 bits for A + B + C + D).
+
 Related: [Results index](INDEX.md), [Where L loses on clothing](clothing_confusion.md), [Specialist for Shirt/T-shirt](shirt_specialist.md), [Real colour photos](shirt_real_photos.md), [Research report](../../docs/research/matrix_free_vs_cnn_report.md), [Journal](../../docs/journal.md)

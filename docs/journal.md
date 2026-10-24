@@ -1490,4 +1490,6 @@ User direction (24 Oct): order of work is design first (weak spots of the L chip
 
 **Episodic replay fix (24 Oct, SIMULATED):** re-presenting the stored real examples to the slow table 20 times lifts it from 29.7/51.8/61.9/63.5/74.7/72.5 to 29.7 (49.2 with IMPRINT)/60.0 (62.0)/70.6/73.7/80.0/82.1 at 1/5/10/20/50/100 examples per class: level with a self-supervised CNN from 10 examples up. Cause of the old weakness: mistake-driven one-pass learning has nothing to learn from with few examples. New-class part still running. Awareness test died after four unseen classes (L ahead of the CNN on all four); to be re-run for Bag and Boot. Note `hw/results/few_shot_two_brains.md`.
 
+**Team of codes (24 Oct, SIMULATED):** four L tables over different codes (detectors F32, F64, edge bits 2x2 and 4x4) with summed integer scores: 90.43% (single view, 1,797 active rows per image) against 88.85% for the shipped code; Pullover +2.6, Coat +5, T-shirt +1.7, Shirt unchanged at 64.7% (CNN 79.4%). Saturates after four members. Container restarted during the day and killed the background runs; they were rerun. New-class replay at 5 new examples: no gain (45.8 / 31.6 / 39.2 new-class recall for E = 1 / 5 / 20). Note `hw/results/clothing_features_round.md`.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

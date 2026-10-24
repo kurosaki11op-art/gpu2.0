@@ -1,0 +1,6 @@
+detectors fitted on 12,000 unlabeled images of all classes, F=32, code bits 4608
+
+Part 2: a new class added to a 9-class table; new-class recall % / old-class accuracy % (10-way), mean of 2 new classes x 2 draws
+| new examples | E=1 | E=5 | E=20 |
+|---|---|---|---|---|
+| 5 | 45.8 / 85.8 | 31.6 / 87.7 | 39.2 / 86.9 |

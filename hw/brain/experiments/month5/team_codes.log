@@ -1,0 +1,11 @@
+A learned detectors F32                      bits   4608 | active/image   589 | accuracy 0.8885 | Shirt 0.638 T-shirt 0.878 Pullover 0.827 Coat 0.818
+C HOG-style bits, 2x2 cells                  bits   4704 | active/image   321 | accuracy 0.8876 | Shirt 0.617 T-shirt 0.880 Pullover 0.829 Coat 0.842
+D HOG-style bits, 4x4 cells                  bits   1568 | active/image   184 | accuracy 0.8770 | Shirt 0.598 T-shirt 0.852 Pullover 0.792 Coat 0.829
+B learned detectors F64 pool 4 seed 1        bits   9216 | active/image   703 | accuracy 0.8937 | Shirt 0.621 T-shirt 0.873 Pullover 0.850 Coat 0.840
+E learned detectors F32 pool 3 seed 2        bits   8192 | active/image   722 | accuracy 0.8908 | Shirt 0.659 T-shirt 0.867 Pullover 0.822 Coat 0.831
+TEAM AC (sum of integer scores)              bits   9312 | active/image   910 | accuracy 0.8990 | Shirt 0.644 T-shirt 0.892 Pullover 0.844 Coat 0.858
+TEAM AD (sum of integer scores)              bits   6176 | active/image   773 | accuracy 0.8963 | Shirt 0.644 T-shirt 0.883 Pullover 0.841 Coat 0.850
+TEAM ACD (sum of integer scores)             bits  10880 | active/image  1094 | accuracy 0.9018 | Shirt 0.650 T-shirt 0.891 Pullover 0.851 Coat 0.866
+TEAM ABC (sum of integer scores)             bits  18528 | active/image  1613 | accuracy 0.9032 | Shirt 0.647 T-shirt 0.894 Pullover 0.859 Coat 0.861
+TEAM ABCD (sum of integer scores)            bits  20096 | active/image  1797 | accuracy 0.9043 | Shirt 0.647 T-shirt 0.895 Pullover 0.853 Coat 0.869
+TEAM ABCDE (sum of integer scores)           bits  28288 | active/image  2519 | accuracy 0.9041 | Shirt 0.651 T-shirt 0.894 Pullover 0.848 Coat 0.869
