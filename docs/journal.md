@@ -1508,4 +1508,7 @@ Asked: test whether faulty detectors can be found and repaired. Done: masked eac
 ## 24 Oct 2026: prune-then-retrain second layer
 Ran decision_test4.py (MEASURED/SIMULATED, one seed). Pruned 1,024-unit binary layer: fan-in 64 gives 87.8%, 128 gives 88.5%, 256 gives 89.4% (Shirt AP 0.73, 0.77, 0.78) at 8,400 to 33,500 adds, 14 to 55 times L. Fails the bytes-read criterion; dense float bound AP 0.811 still under the CNN 0.84. Gate network needs the user's GPU (none in this container). See [prune_retrain_second_layer](../hw/results/prune_retrain_second_layer.md).
 
+## 24 Oct 2026: Shirt new methods, round 1
+User asked for new methods after the failures. Tested flip augmentation (worse, Shirt AP 0.735 vs 0.753), test-time flip (accuracy 81.1), nearest-exemplar second opinion (+0.018 AP, huge memory, weight chosen on test) and sub-class tables (+0.004). None adopted. See [shirt_new_methods_round1](../hw/results/shirt_new_methods_round1.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

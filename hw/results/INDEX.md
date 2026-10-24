@@ -64,5 +64,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Shirt recall is an operating-point effect](shirt_operating_point.md): at equal overall accuracy a CNN gets higher Shirt recall only by calling Shirt more often; inside the upper-body cluster L and the CNN are equal (79.0 against 79.2) (MEASURED/SIMULATED).
 - [Knockout screen](knockout_screen.md): gene-editing test on detectors; few are reliably faulty, 25% can be dropped at no loss
 - [Prune-then-retrain second layer](prune_retrain_second_layer.md): fails the bytes-read criterion; win-lose
+- [Shirt new methods round 1](shirt_new_methods_round1.md): flip augmentation, exemplar vote, sub-class tables; none helps within budget
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

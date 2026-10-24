@@ -1,0 +1,12 @@
+baseline L (single view)                           acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753
+kNN done
+M3 table + kNN second opinion weight 0             acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753
+M3 table + kNN second opinion weight 1             acc 0.8908 | cluster 0.8205 | Shirt recall 0.654 | Shirt AP 0.771
+M3 table + kNN second opinion weight 3             acc 0.8777 | cluster 0.8257 | Shirt recall 0.659 | Shirt AP 0.769
+M3 table + kNN second opinion weight 10            acc 0.7126 | cluster 0.8293 | Shirt recall 0.663 | Shirt AP 0.690
+M3 kNN alone on cluster: 0.8063
+class T-shirt sub-class sizes [4608 1221  171]
+class Pullover sub-class sizes [4760  543  697]
+class Coat sub-class sizes [2656  819 2525]
+class Shirt sub-class sizes [ 977 2018 3005]
+M5 sub-class tables K=3 (18 rows)                  acc 0.8907 | cluster 0.8097 | Shirt recall 0.665 | Shirt AP 0.757

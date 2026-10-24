@@ -1,0 +1,5 @@
+encoded 286s
+baseline L (single view)                           acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753
+M1 table trained with flipped copies               acc 0.8814 | cluster 0.8015 | Shirt recall 0.597 | Shirt AP 0.735
+M2 baseline + test-time flip                       acc 0.8110 | cluster 0.8117 | Shirt recall 0.638 | Shirt AP 0.734
+M1+M2 both                                         acc 0.8884 | cluster 0.8153 | Shirt recall 0.615 | Shirt AP 0.746
