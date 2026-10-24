@@ -3,3 +3,5 @@ epoch  2 | test accuracy 0.6782 | Shirt 0.565 T-shirt 0.733 Pullover 0.477 Coat 
 epoch  4 | test accuracy 0.6673 | Shirt 0.557 T-shirt 0.743 Pullover 0.487 Coat 0.450 | included bits per clause 23.3 | 304s
 epoch  6 | test accuracy 0.6675 | Shirt 0.550 T-shirt 0.778 Pullover 0.490 Coat 0.404 | included bits per clause 25.1 | 428s
 epoch  8 | test accuracy 0.6639 | Shirt 0.570 T-shirt 0.775 Pullover 0.474 Coat 0.411 | included bits per clause 26.1 | 556s
+epoch 10 | test accuracy 0.6621 | Shirt 0.569 T-shirt 0.771 Pullover 0.470 Coat 0.413 | included bits per clause 26.7 | 680s
+epoch 12 | test accuracy 0.6635 | Shirt 0.558 T-shirt 0.769 Pullover 0.492 Coat 0.413 | included bits per clause 27.3 | 806s
