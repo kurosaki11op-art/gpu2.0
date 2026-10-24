@@ -181,4 +181,21 @@ New-class recall % / old-class accuracy % (10-way) when the new class's examples
 
 **Replay does not fix adding a new class** (the CNN with a 20-per-class replay buffer reaches 66.0 at 20 and 91.1 at 100). Failure pattern: the CNN adapts its features to the new class, L's detector code is fixed, so a new class must be written in detectors made for the old ones. Next design: recruit new detectors from the new class's own images (`newclass_recruit.py`).
 
+## Round 8: detector recruitment for a new class, and the cause of its cost (24 Oct, `newclass_recruit.py`, `newclass_gated.py`; logs beside them; SIMULATED, 2 new classes (Shirt, Boot), one draw; both arms use the same stored images (20 per old class + the new examples) and 10 replay passes)
+
+| New examples | Variant | New-class recall % | Old-class accuracy % (10-way) | New bits active per image |
+|---|---|---|---|---|
+| 20 | no recruitment | 54.9 | 88.4 | 0 |
+| 20 | plain recruitment (8 new detectors per channel) | 64.5 | 85.7 | 397 |
+| 20 | fit on novel patches only | 45.0 | 85.4 | 439 |
+| 20 | gate only | 49.2 | 88.5 | 53 |
+| 20 | fit on novel patches + gate | 52.0 | 87.2 | 59 |
+| 100 | no recruitment | 72.2 | 86.3 | 0 |
+| 100 | plain recruitment | 91.6 | 76.8 | 397 |
+| 100 | fit on novel patches only | 94.0 | 78.3 | 411 |
+| 100 | gate only | 83.5 | 84.7 | 37 |
+| 100 | fit on novel patches + gate | 84.1 | 84.5 | 66 |
+
+**Reading (under the win-win rule).** Plain recruitment is win-lose (+19.4 new-class recall, -9.5 old-class accuracy at 100 examples). **The cause of the old-class loss is that new detectors also fire on old-class images**: gating a new bit to fire only where it beats the best old detector cuts the loss to -1.6 to -1.8 while keeping +11.3 to +11.9 of recall at 100 examples. Still not win-win: -1.8 remains, and at 20 examples the gate is too strict (about 50 to 60 new bits per image) so new-class recall FALLS (49.2 and 52.0 against 54.9): lose-lose there. Fitting only on novel patches did not help. Next: a tolerance on the gate (`newclass_gated2.py`, margins 0, -2, -4, -6 match counts). Not adopted yet.
+
 Related: [Results index](INDEX.md), [Few-shot imprint (month 4)](../brain/experiments/month4/fewshot_imprint.md), [Failure analysis](../../docs/failure_analysis_clothing.md), [Journal](../../docs/journal.md)

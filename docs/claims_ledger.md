@@ -27,7 +27,7 @@ tags: [l, claims, rules, evidence]
 | L's margin confidence is as good as a CNN's at spotting its own errors; better at noticing an unseen class | TENTATIVE | four of six classes done, died twice; CNN uses plain softmax (a better novelty detector would do better) |
 | A team of four codes gives 90.43% on Fashion-MNIST (single view) | TENTATIVE | one seed; Shirt unchanged |
 | A stronger CNN ranks Shirt better than L (AP 0.84 against 0.75; cluster accuracy 85.1 against 80.6) | TENTATIVE | one seed; supersedes the 'equal in the cluster' reading |
-| Recruiting new detectors from the new class's images raises new-class recall but costs old-class accuracy | TENTATIVE | one draw, 2 classes; the gated fix is under test |
+| Recruiting new detectors for a new class: plain is win-lose (+19.4 recall, -9.5 old); gating by beating the old detectors cuts the cost to -1.8 at 100 examples but loses recall at 20 | TENTATIVE (not adopted) | one draw, 2 classes; tolerance sweep running |
 | L beats a CNN on accuracy | **FALSE** (not claimed) | Fashion-MNIST: 88.9 to 90.4 against 91.1 to 91.7 for small CNNs |
 | 'Second sense' from the spoken name improves recognition | **WITHDRAWN** | the name is the label (oracle test) |
 | First cascade: Shirt recall +10.7 | **WITHDRAWN** | gate chosen on test data; validated version +0.9 overall, no Shirt gain |
