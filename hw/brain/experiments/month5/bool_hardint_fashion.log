@@ -1,0 +1,10 @@
+   cluster 0.6360 | Shirt recall 0.166 | Shirt AP 0.385
+hard-forward integer learner epoch 1: test acc 0.7511 | 26s
+   cluster 0.6552 | Shirt recall 0.293 | Shirt AP 0.408
+hard-forward integer learner epoch 2: test acc 0.7634 | 51s
+   cluster 0.6560 | Shirt recall 0.245 | Shirt AP 0.440
+hard-forward integer learner epoch 3: test acc 0.7675 | 77s
+   cluster 0.6593 | Shirt recall 0.298 | Shirt AP 0.434
+hard-forward integer learner epoch 4: test acc 0.7683 | 103s
+   cluster 0.6637 | Shirt recall 0.416 | Shirt AP 0.434
+hard-forward integer learner epoch 5: test acc 0.7701 | 129s

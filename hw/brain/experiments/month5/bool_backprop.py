@@ -9,8 +9,13 @@ import numpy as np
 ARM = os.environ.get("ARM", "integer"); EPOCHS = int(os.environ.get("EPOCHS", 3)); N1 = int(os.environ.get("N1", 2000)); N2 = int(os.environ.get("N2", 2000)); BATCH = int(os.environ.get("BATCH", 64))
 LR = float(os.environ.get("LR", 0.05)); MARGIN = int(os.environ.get("MARGIN", 10)); CMAX = int(os.environ.get("CMAX", 1000000)); G = 100; SEED = int(os.environ.get("SEED", 0))
 rs = np.random.RandomState(SEED)
-z = np.load(os.environ.get("MNIST", "/tmp/mnistdata/mnist.npz")); xtr = z["x_train"].reshape(-1, 784); ytr = z["y_train"].astype(np.int64); xte = z["x_test"].reshape(-1, 784); yte = z["y_test"].astype(np.int64)
-bits = lambda x: np.concatenate([x > 85, x > 170], 1).astype(np.uint8); Xtr, Xte = bits(xtr), bits(xte)
+if os.environ.get("DATA", "mnist") == "fashion":
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); sys.argv = ["x"]
+    from shirt_new_methods_setup import ctr, cte, ytr, yte
+    Xtr, Xte = ctr, cte
+else:
+    z = np.load(os.environ.get("MNIST", "/tmp/mnistdata/mnist.npz")); xtr = z["x_train"].reshape(-1, 784); ytr = z["y_train"].astype(np.int64); xte = z["x_test"].reshape(-1, 784); yte = z["y_test"].astype(np.int64)
+    bits = lambda x: np.concatenate([x > 85, x > 170], 1).astype(np.uint8); Xtr, Xte = bits(xtr), bits(xte)
 sizes = [Xtr.shape[1], N1, N2, 10 * G]
 wiring = [(rs.randint(0, sizes[i], sizes[i + 1]), rs.randint(0, sizes[i], sizes[i + 1])) for i in range(3)]
 BIT = np.array([[(g >> (2 * a + b)) & 1 for b in (0, 1) for a in (0, 1)] for g in range(16)])        # unused ordering helper (kept simple below)

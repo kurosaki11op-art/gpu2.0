@@ -1,0 +1,5 @@
+float arm epoch 1: test acc (hard gates) 0.7734 | 10s
+float arm epoch 2: test acc (hard gates) 0.7801 | 16s
+float arm epoch 3: test acc (hard gates) 0.7820 | 21s
+float arm epoch 4: test acc (hard gates) 0.7837 | 27s
+float arm epoch 5: test acc (hard gates) 0.7833 | 33s

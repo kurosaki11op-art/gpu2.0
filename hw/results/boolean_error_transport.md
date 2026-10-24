@@ -59,4 +59,19 @@ Reading:
 - Added exploration noise made it unstable; it is not needed.
 - Not yet shown: Fashion-MNIST and Shirt, larger networks, staged learning (forgetting), the same on the weight-shared convolutional gate network.
 
+## Round 4: the hard-gate integer learner on L's code, Fashion-MNIST (24 Oct 2026, MEASURED/SIMULATED, one seed)
+
+Input is L's own 4,608-bit code; three gate layers with fixed random wiring (N, N, 1,000 gates); logs: [integer, 1,000 gates](../brain/experiments/month5/bool_hardint_fashion.log), [integer, 4,000 gates](../brain/experiments/month5/bool_hardint_fashion_n4000.log), [float yardstick](../brain/experiments/month5/bool_backprop_fashion_float.log).
+
+| Learner | Gates per hidden layer | Accuracy | Cluster | Shirt AP |
+|---|---|---|---|---|
+| float backprop | 1,000 | 78.3 | n/a | n/a |
+| hard-gate integer | 1,000 | 77.0 | 66.4 | 0.43 |
+| hard-gate integer | 4,000 | 78.8 | 68.6 | 0.49 |
+| L (counting table on the same code, for reference) | n/a | 88.9 | 80.6 | 0.753 |
+
+- The integer learner stays within 1 to 2 points of float backprop on this input too (the learning rule is not the limit).
+- **A random-wired fully connected gate network is far below L on this code** (78.8 against 88.9, Shirt AP 0.49 against 0.75): each gate sees only two bits, so a few thousand gates cannot read a 4,608-bit code the way a full counting row does, and scaling gates from 1,000 to 4,000 gave +1.8. This does not help Shirt as built.
+- The published gate networks that reach CNN accuracy use weight-shared convolutional gate trees and fixed edge detectors; that architecture is not built here. Not tested: a hybrid where gate outputs are appended to L's code and read by the counting table.
+
 Related: [Results index](INDEX.md), [Error transport design](../../docs/error_transport_design.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

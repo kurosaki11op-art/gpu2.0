@@ -1526,4 +1526,7 @@ MEASURED/SIMULATED, MNIST, 3 seeds: error as 4-bit integer, one scale per batch,
 ## 24 Oct 2026: hard-gate integer learner (chip-legal learning pass)
 MEASURED/SIMULATED, MNIST, 3 seeds: learning with hard gates only, graded integer error, counters moved by sign steps, batch 1,000 and counter range 1,000: 78.9 / 80.2 / 79.8 against float 81 to 82. Earlier version (10%) failed from small batches and a narrow counter range. Next: Fashion-MNIST/Shirt, larger net, forgetting. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
 
+## 24 Oct 2026: integer gate learner on L's code (Fashion-MNIST)
+MEASURED/SIMULATED, one seed: integer learner 77.0 (1,000 gates) and 78.8 (4,000 gates) against float 78.3 at 1,000; L's table 88.9. Learning rule is level with float; random-wired fully connected gate network is far below L and does not help Shirt (AP 0.49). Next: hybrid (gate outputs appended to L's code, read by the table) and weight-shared convolutional gate trees with the integer learner. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
