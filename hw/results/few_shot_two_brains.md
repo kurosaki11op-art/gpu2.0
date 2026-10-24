@@ -48,4 +48,26 @@ The code is good (class means on it beat the CNN at 1 to 5 examples); the counti
 
 Consolidation from the fast brain to the slow table by replay (sleep), IMPRINT beyond 4 examples, a validation-chosen arbitration, other data sets (MNIST, real photos), unlabelled-pretrained CNN baseline.
 
+## Round 2 (24 Oct, `learning_curve3.py` on MNIST, `learning_curve4.py`; logs `learning_curve3_mnist.log`, `learning_curve4_fashion.log`)
+
+**A fairer CNN baseline changes the comparison (correction to section 3).** A convolutional autoencoder pretrained on the same 12,000 unlabelled images, encoder frozen, linear head on the few labels:
+
+| Examples per class (Fashion-MNIST) | Fast brain (class means) | Slow table | Slow table + sleep | Sum of 3 (table with sleep) | AUTO (rule chosen by 2-fold CV on the labelled examples) | CNN, self-supervised encoder |
+|---|---|---|---|---|---|---|
+| 1 | **52.2** | 29.7 | 10.0 | 43.8 | **52.2** | 46.1 |
+| 2 | **59.3** | 41.0 | 31.1 | 51.5 | **59.3** | 55.4 |
+| 5 | **65.7** | 51.8 | 38.2 | 60.7 | **65.7** | 64.7 |
+| 10 | 68.7 | 61.9 | 54.5 | 67.9 | 69.0 | **70.2** |
+| 20 | 71.6 | 63.5 | 73.0 | **75.7** | 71.6 | 74.2 |
+| 50 | 74.8 | 74.7 | 79.3 | **80.1** | 78.5 | 79.7 |
+| 100 | 75.4 | 72.5 | 80.7 | **81.9** | **81.9** | 82.1 |
+| 300 | 75.6 | 83.7 | 84.4 | 84.8 | 84.8 | **85.0** |
+
+- **With a self-supervised CNN the advantage shrinks to 1 to 2 examples per class** (52.2 against 46.1 and 59.3 against 55.4, 5 against 64.7: +6, +4, +1); from 10 examples per class the CNN is level (differences 0.2 to 1.5 points, within noise). The earlier claim of +3 to +6.5 points over a CNN at 50 to 300 examples came from a CNN trained from scratch on a handful of images, which was a weak baseline. **Do not quote it.**
+- **Sleep consolidation** (the slow table learns from dreams drawn from the fast brain's class means) **fails with very few examples** (10.0% at 1 example: the dreams swamp the real example) **but helps from 20 per class on** (63.5 to 73.0 at 20, 72.5 to 80.7 at 100). So it must be gated by example count.
+- **The validated rule (AUTO) works as intended:** it picks the fast brain at small n, and matches the best rule at 100 to 300 (81.9, 84.8); at 50 it is 1.6 points below the best (variance).
+- **MNIST** (class means / exemplars / table / sum of 3): 1 example 54.2 / 54.2 / 20.6 / 50.7; 5 examples 79.2 / 77.2 / 44.9 / 76.3; 10 examples 84.6 / 84.4 / 67.1 / 84.1; 50: 91.0 / 92.7 / 84.0 / 93.0; 300: 91.8 / 96.1 / 95.9 / 96.7. No self-supervised CNN run on MNIST yet.
+
+**Honest summary:** on a fair baseline L's two-brain design is better only at 1 to 5 examples per class (by 1 to 6 points) and level beyond; its distinguishing properties are no gradient training, a cheap one-write fast brain and the sparse table, not a higher few-shot accuracy.
+
 Related: [Results index](INDEX.md), [Few-shot imprint (month 4)](../brain/experiments/month4/fewshot_imprint.md), [Failure analysis](../../docs/failure_analysis_clothing.md), [Journal](../../docs/journal.md)
