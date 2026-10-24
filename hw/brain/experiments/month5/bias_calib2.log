@@ -1,0 +1,7 @@
+no offsets                                           accuracy 0.8861 | Shirt 0.658 T-shirt 0.832 Pullover 0.835 Coat 0.829
+offsets maximising accuracy (validation)             accuracy 0.8859 | Shirt 0.660 T-shirt 0.827 Pullover 0.832 Coat 0.843
+   offsets: [-0.05 -0.15  0.   -0.05  0.05  0.05  0.   -0.15 -0.15 -0.05]
+offsets maximising mean class recall                 accuracy 0.8865 | Shirt 0.655 T-shirt 0.823 Pullover 0.831 Coat 0.840
+   offsets: [-0.05  0.    0.    0.05  0.05  0.1   0.   -0.1   0.    0.05]
+offsets favouring Shirt + T-shirt recall             accuracy 0.8502 | Shirt 0.840 T-shirt 0.842 Pullover 0.632 Coat 0.547
+   offsets: [ 0.35  0.15 -0.5  -0.05 -0.6   0.1   0.45  0.   -0.2   0.2 ]

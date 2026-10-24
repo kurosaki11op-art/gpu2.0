@@ -1,0 +1,11 @@
+overall: L 0.8885, CNN 0.8909
+Shirt images (1000) are called, by L: Shirt 638, T-shirt 147, Coat 93, Pullover 86, Dress 22, Bag 12, Trouser 2
+Shirt images (1000) are called, by CNN: Shirt 773, T-shirt 76, Pullover 64, Coat 45, Dress 30, Bag 11, Trouser 1
+L: T-shirt images called Shirt: 59 of 1000
+L: Pullover images called Shirt: 68 of 1000
+L: Coat images called Shirt: 86 of 1000
+CNN: T-shirt images called Shirt: 147 of 1000
+CNN: Pullover images called Shirt: 72 of 1000
+CNN: Coat images called Shirt: 136 of 1000
+L: 4-way accuracy inside {T-shirt, Pullover, Coat, Shirt} (images called inside the cluster only): 0.790; Shirt recall 0.638
+CNN: 4-way accuracy inside {T-shirt, Pullover, Coat, Shirt} (images called inside the cluster only): 0.792; Shirt recall 0.773

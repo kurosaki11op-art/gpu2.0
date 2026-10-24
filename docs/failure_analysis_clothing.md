@@ -5,6 +5,8 @@ tags: [l, clothing, failures, analysis, research]
 
 # Why L stays behind a CNN on clothing: past failures, causes, what the literature says, what to try
 
+> **Update 24 Oct (later):** the Shirt-recall gap to the CNN turned out to be mostly an operating-point effect, not weaker discrimination: inside the upper-body cluster L and the CNN are equal (79.0 against 79.2) and the CNN's higher Shirt recall comes from calling Shirt more often (see [shirt_operating_point](../hw/results/shirt_operating_point.md)). Read the Shirt rows below in that light.
+
 Written before proposing further fixes, as asked. Numbers are SIMULATED unless marked; literature numbers come from web-search summaries only (paper sites are blocked from the cloud container, so no paper has been read in full yet) and must be checked against the papers.
 
 ## 1. What failed, and the most likely cause
