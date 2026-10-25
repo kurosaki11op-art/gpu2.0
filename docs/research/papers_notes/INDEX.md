@@ -16,6 +16,7 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Synthesis: what the papers mean for L](../papers_synthesis.md)
 - [Exemplar-free class-incremental A](exemplar_free_papers_a.md): FeTrIL (feature translation), SDC (drift compensation)
 - [Exemplar-free class-incremental B](exemplar_free_papers_b.md): SSRE, EFC (cold start)
-- [Exemplar-free class-incremental C](exemplar_free_papers_c.md): FeCAM, ADC (in progress)
+- [Exemplar-free class-incremental C](exemplar_free_papers_c.md): FeCAM, ADC
+- [Exemplar-free class-incremental D](exemplar_free_papers_d.md): C-FSCIL (hyperdimensional prototypes), AdaGauss (why exemplar-free fails), exemplar-free survey
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
