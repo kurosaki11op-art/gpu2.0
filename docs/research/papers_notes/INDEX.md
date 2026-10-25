@@ -31,5 +31,6 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Stanford memory b](stanford_memory_b.md): IO-aware algorithms and memory hierarchy at scale (FlashAttention, Monarch, SN40L)
 - [Stanford memory d](stanford_memory_d.md): memory-centric and in-memory accelerators (Stanford hardware groups)
 - [Stanford memory c](stanford_memory_c.md): state size, recall and throughput in efficient sequence models (H3, Zoology, Based, Mamba)
+- [Onchip memory chips a](onchip_memory_chips_a.md): on-chip memory designs of Cerebras, Groq and Graphcore (some sources blocked)
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
