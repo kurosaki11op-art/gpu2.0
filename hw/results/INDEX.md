@@ -74,5 +74,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Connected structure (the DNA idea)](connected_structure.md): counted neighbour-conditioned class models; connection adds real information and is continual by construction
 - [Tsetlin-style clause learner](tsetlin_clause_learner.md): local feedback, no error passing; 86% with tiny clauses, Shirt AP 0.65, still rising
 - [L-Deep attempts](ldeep_attempts.md): shared gate trees by error passing collapse; trees chosen by counted information reach 84%, no gain on L's code
+- [MEM-C1 table compression](table_compression_mem_c1.md): difference-only pruned table; only 10 to 25% saving at 10 classes, pays at scale
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

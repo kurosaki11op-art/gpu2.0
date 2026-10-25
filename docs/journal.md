@@ -1603,4 +1603,7 @@ Six full-text notes and a synthesis ([memory_at_scale_synthesis](research/memory
 ## 25 Oct 2026: studies of NVIDIA Blackwell, Cerebras and memory technology
 Three full-text studies (about 45 arXiv papers; vendor pages blocked) and a synthesis ([hardware_landscape_synthesis](research/hardware_landscape_synthesis.md)). Key: B200 per-SM SRAM about 112 MB is 0.06% of 192 GB HBM; decode is bandwidth-bound; Cerebras tile is about half idle logic on lookups (lookup run at 1.97% of ASIC efficiency); one package hop costs about one local lookup. Hypotheses recorded for a counter-and-lookup tile; none tested.
 
+## 25 Oct 2026: MEM-C1, difference-only pruned table
+Centring rows is lossless; at 10 classes pruning and 2 to 4 bit codes save only 10 to 25% of bits read (3 bits, 20% kept: 88.25% accuracy, 13.8 kbit against 17.6 kbit dense). Earlier estimate of 15 to 30 times corrected: it applies to tables with many classes. See [table_compression_mem_c1](../hw/results/table_compression_mem_c1.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
