@@ -26,5 +26,6 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Exemplar-free class-incremental I](exemplar_free_papers_i.md): local learning rules and forgetting
 - [Exemplar-free class-incremental K](exemplar_free_papers_k.md): sparse associative memories and weightless incremental learning
 - [Exemplar-free class-incremental J](exemplar_free_papers_j.md): minimal memory baselines and the theory of forgetting
+- [Synthesis: exemplar-free class-incremental learning](../exemplar_free_synthesis.md): what 25 papers say and the tests they suggest
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)

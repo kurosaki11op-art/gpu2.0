@@ -1541,4 +1541,7 @@ Base classes 0-5 train a gate network (integer learner, error passed), frozen; t
 ## 25 Oct 2026: better dreams for staged growth
 Mixture and neighbour-context dream generators (counted statistics only): all-class accuracy 71.2 and 71.1 against 70.3 for independent bits (grow), within noise; 32% of old images still go to new classes. Dream realism is not the bottleneck. See [local_growth_staged](../hw/results/local_growth_staged.md).
 
+## 25 Oct 2026: full-text reading of 25 papers on exemplar-free class-incremental learning
+Twelve notes (A to L) read in full by parallel readers; synthesis in [exemplar_free_synthesis](research/exemplar_free_synthesis.md). Findings: feature-level replay beats pixel-level; old-versus-new detection is good with a strong closed-set classifier (our 0.73 to 0.81 was a weak-classifier number); no method learns features without stored samples or a frozen diverse encoder; local rules do not forget less alone. Not read: GDumb, brain-inspired replay journal version, MEMO.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
