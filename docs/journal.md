@@ -1612,4 +1612,7 @@ Hypothesis (pruning pays more with more classes) failed: the centred table stays
 ## 25 Oct 2026: option B, sparse-by-construction table (slots and counter sketch)
 EMNIST-balanced, own margin learner. 10 classes: 4 slots or 4 to 8 counters per bit lose 0.1 to 0.6 points. 47 classes: 8 slots 76.9 against 80.2 full (2.9 times fewer bits read), sketch R=8 72.2 against 78.7 (5.9 times fewer). Loss at fixed row size grows with the number of classes; savings do not grow with K. Next: two-stage routing. See [sparse_table_option_b](../hw/results/sparse_table_option_b.md).
 
+## 25 Oct 2026: two methods of our own from the failures
+Retrieve-then-rerank: counted in 64-bit words it is worse than the full table at 47 classes, and pays modestly at 1,623 (3.6 times fewer words for -0.7 points on Omniglot). Routed clauses: images L is unsure about (30%) evaluate the clause layer; accuracy 89.59, cluster 82.0, Shirt AP 0.775 against 89.55 / 82.0 / 0.779 always-on; energy about 2.3 times L instead of 5.0 to 8.5 (ESTIMATED). See [own_methods_routing](../hw/results/own_methods_routing.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

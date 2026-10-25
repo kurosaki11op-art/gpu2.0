@@ -76,5 +76,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [L-Deep attempts](ldeep_attempts.md): shared gate trees by error passing collapse; trees chosen by counted information reach 84%, no gain on L's code
 - [MEM-C1 table compression](table_compression_mem_c1.md): difference-only pruned table; only 10 to 25% saving at 10 classes, pays at scale
 - [Sparse-by-construction table (option B)](sparse_table_option_b.md): slots and sketch; free at 10 classes, 3 times fewer reads costs 2 to 3 points at 47
+- [Our own methods: retrieve-then-rerank and routed clauses](own_methods_routing.md): reads only where they pay; routed clauses keep the whole gain at 30% of the clause cost
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

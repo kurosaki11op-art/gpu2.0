@@ -1,0 +1,7 @@
+clauses 8000; 1535 fire per image
+L alone (every image)                          acc 0.8885 | cluster 0.8063 | Shirt AP 0.753
+L + clauses on every image                     acc 0.8955 | cluster 0.8200 | Shirt AP 0.779
+cluster only (top class in T-shirt/Pullover/Coat/Shirt) acc 0.8939 | cluster 0.8173 | Shirt AP 0.778 | images that evaluate clauses 40%
+cluster, plus margin below its 20th percentile acc 0.8956 | cluster 0.8193 | Shirt AP 0.778 | images that evaluate clauses 46%
+margin below the 30th percentile only          acc 0.8959 | cluster 0.8203 | Shirt AP 0.775 | images that evaluate clauses 30%
+margin below the 50th percentile only          acc 0.8955 | cluster 0.8200 | Shirt AP 0.780 | images that evaluate clauses 50%
