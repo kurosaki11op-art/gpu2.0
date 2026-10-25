@@ -1570,4 +1570,7 @@ Literal cap raised to 256. Specificity s=8: 71.4% accuracy (Shirt AP 0.476); s=4
 ## 25 Oct 2026: the softmax is not needed in the integer gate learner
 Integer margin error (balanced, shift and clip only): 78.3 against 79.0 at 4 epochs, 81.3 / 80.5 / 81.9 against 79.4 / 80.2 / 80.4 at 8 epochs (3 seeds). Unbalanced version stayed at chance; passing error through post-update counters cost 33 points. Learner now has no exponential, division or multiply in the error path. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
 
+## 25 Oct 2026: integer margin error on Fashion-MNIST
+Random-wired 500+500 gates on L's code: softmax 73.4 (Shirt AP 0.397), integer margin 72.3 (0.417); L's table 88.6 (0.741). The error signal holds; the structure is the missing piece. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

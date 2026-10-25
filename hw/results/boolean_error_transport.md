@@ -88,4 +88,16 @@ Script [bool_local_heads.py](../brain/experiments/month5/bool_local_heads.py) (M
 - **Two failures on the way, both informative**: (1) an unbalanced margin error (true class pushed up by the largest violation only) left the output nodes mostly off and stayed at chance (11 to 14%): the error sum across classes must be about zero; (2) passing the error through the counters after they were updated, instead of the gates the forward pass used, dropped accuracy from 79 to 46: the backward step must use the same gates as the forward step.
 - Remaining non-integer or buffering items in the learner: none in the error path; a transient buffer of the batch's activations is still needed.
 
+## Round 6: the same learner on Fashion-MNIST, L's code as input (25 Oct 2026, MEASURED/SIMULATED, one seed, 500 + 500 + 1,000 random-wired gates, 8 epochs)
+
+Log: [bool_margin_fashion.log](../brain/experiments/month5/bool_margin_fashion.log).
+
+| Output error | Accuracy | Cluster | Shirt recall | Shirt AP |
+|---|---|---|---|---|
+| softmax | 73.4 | 62.9 | 0.363 | 0.397 |
+| integer margin (MARG 20, SH 2) | 72.3 | 60.8 | 0.590 | 0.417 |
+| (reference) L's counting table | 88.6 | 80.8 | 0.658 | 0.741 |
+
+The integer error behaves like softmax here too (72.3 against 73.4), so the learning rule holds on a second dataset; but a fully connected random-wired gate network is far below L's table on this input and does not help Shirt. The missing piece is structure (weight sharing, locality), not the error signal.
+
 Related: [Results index](INDEX.md), [Error transport design](../../docs/error_transport_design.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

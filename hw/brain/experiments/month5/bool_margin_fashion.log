@@ -1,0 +1,5 @@
+Fashion-MNIST on L's code, 500+500 gates, 8 epochs
+MODE=0 epoch 8: test acc 0.7342 | 140s
+FASHION: acc 0.7342 | cluster 0.6295 | Shirt recall 0.363 | Shirt AP 0.397
+MODE=0 epoch 8: test acc 0.7231 | 146s
+FASHION: acc 0.7231 | cluster 0.6082 | Shirt recall 0.590 | Shirt AP 0.417

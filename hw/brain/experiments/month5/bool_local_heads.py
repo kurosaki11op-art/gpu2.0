@@ -8,8 +8,14 @@ import numpy as np
 E = lambda k, d: type(d)(os.environ.get(k, d))
 MODE, EPOCHS, N1, N2, HEADN, BATCH, CLAMP, LV, SEED = E("MODE", 0), E("EPOCHS", 4), E("N1", 500), E("N2", 500), E("HEADN", 500), E("BATCH", 1000), E("CLAMP", 1000), 15, E("SEED", 0)
 rs = np.random.RandomState(SEED); G = 100
-z = np.load("/tmp/mnistdata/mnist.npz"); xtr = z["x_train"].reshape(-1, 784); ytr = z["y_train"].astype(np.int64); xte = z["x_test"].reshape(-1, 784); yte = z["y_test"].astype(np.int64)
-bits = lambda x: np.concatenate([x > 85, x > 170], 1).astype(np.int8); Xtr, Xte = bits(xtr), bits(xte)
+DATA = os.environ.get("DATA", "mnist")
+if DATA == "fashion":                                                                                       # L's own 4,608-bit code on Fashion-MNIST (cached by shirt_new_methods_setup.py)
+    import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); sys.argv = ["x"]
+    from shirt_new_methods_setup import ctr, cte, ytr, yte
+    Xtr, Xte = ctr.astype(np.int8), cte.astype(np.int8)
+else:
+    z = np.load("/tmp/mnistdata/mnist.npz"); xtr = z["x_train"].reshape(-1, 784); ytr = z["y_train"].astype(np.int64); xte = z["x_test"].reshape(-1, 784); yte = z["y_test"].astype(np.int64)
+    bits = lambda x: np.concatenate([x > 85, x > 170], 1).astype(np.int8); Xtr, Xte = bits(xtr), bits(xte)
 sizes = [Xtr.shape[1], N1, N2, 10 * G]; W = [(rs.randint(0, sizes[i], sizes[i + 1]), rs.randint(0, sizes[i], sizes[i + 1])) for i in range(3)]
 TT = np.array([[[(g >> (2 * a + b)) & 1 for b in (0, 1)] for a in (0, 1)] for g in range(16)], np.int32); AR = np.arange(16)[None, None, :]
 def init(n): c = np.zeros((n, 16), np.int32); c[:, 12] = 5; return c
@@ -52,3 +58,8 @@ for ep in range(EPOCHS):
             Cold = C[i]; C[i] = upd(C[i], e, a, b)
             if MODE == 0 and i > 0: e = down(e, Cold, ia, ib, a, b, sizes[i])
     print("MODE=%d epoch %d: test acc %.4f | %.0fs" % (MODE, ep + 1, evaluate(), time.time() - t0), flush=True)
+
+if DATA == "fashion":
+    sc = np.concatenate([fwd(Xte[i:i + 5000].astype(np.int8))[3].reshape(-1, 10, G).sum(2) for i in range(0, len(Xte), 5000)]).astype(np.float32); CLs = np.array([0, 2, 4, 6]); mk = np.isin(yte, CLs)
+    s6 = sc[:, 6] - np.delete(sc, 6, 1).max(1); yy = yte == 6; o = np.argsort(-s6, kind="stable"); tp = np.cumsum(yy[o]); ap = ((tp / np.arange(1, len(o) + 1)) * yy[o]).sum() / yy.sum()
+    print("FASHION: acc %.4f | cluster %.4f | Shirt recall %.3f | Shirt AP %.3f" % ((sc.argmax(1) == yte).mean(), (CLs[sc[mk][:, CLs].argmax(1)] == yte[mk]).mean(), (sc.argmax(1)[yte == 6] == 6).mean(), ap))
