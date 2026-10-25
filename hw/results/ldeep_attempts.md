@@ -59,4 +59,16 @@ Logs: [training](../brain/experiments/month5/tm_faithful_c800_t60.log), [feature
 - **Closest result to the L-Deep criterion so far**: accuracy 89.55 (+0.70), Shirt AP 0.779 (+0.026, the line was 0.78), cluster +1.4, Shirt recall +0.03 to +0.04 with clause bits alone. More clauses help (AP 0.769 at 400, 0.779 at 800).
 - **Cost is the catch (ESTIMATED)**: 2.7 times L's active rows with clause bits alone, 3.7 times with both: a win-lose trade against L's own table, though far below a CNN's operation count. One seed. Untested: pruning clauses that add little, to cut the cost.
 
+### Energy and memory of the clause layer (ESTIMATED, 25 Oct 2026)
+Script [clause_energy.py](../brain/experiments/month5/clause_energy.py), log [clause_energy.log](../brain/experiments/month5/clause_energy.log); per-operation costs of [energy_cortex.py](../brain/energy_cortex.py) (45 nm, Horowitz 2014), counts from the saved 800-clause state. Approximation: the clause subset for each size is the first N clauses, not the ranked ones. Not measured on any chip.
+| Variant | Clause store | Energy per decision, every clause read (scan) | Energy, clauses read only when their rarest positive literal is active (keyed) |
+|---|---|---|---|
+| L alone (stride-1 code: front end 17 nJ + table 12 nJ) | table 11.5 KB | 29 nJ | 29 nJ |
+| 2,000 clauses (88.74 / AP 0.753) | 16 KB (+ 5 KB table) | 71 nJ (2.4 times L) | 47 nJ (1.6 times) |
+| 4,000 clauses (89.45 / AP 0.773) | 33 KB | 126 nJ (4.3 times) | 78 nJ (2.6 times) |
+| 8,000 clauses (89.38 / AP 0.770) | 66 KB | 250 nJ (8.5 times) | 146 nJ (5.0 times) |
+- **The clause layer is not a win-win yet**: it costs more memory (16 to 66 KB of clauses against an 11.5 KB table) and 1.6 to 8.5 times L's energy for equal or slightly better accuracy. The earlier "28% fewer rows read" counted table rows only and left out the clause reads.
+- **Event-driven evaluation helps but is limited by clauses with no positive literal**: 36% of the clauses use only "bit is off" literals, so they cannot be filed under an active bit and must be evaluated for every image (739 of 960 reads at 2,000 clauses). If clauses were required to hold at least one positive literal, the keyed cost for 2,000 clauses would fall to about 31 nJ (1.06 times L, ESTIMATED from the same counts: 221 reads) and for 4,000 clauses to about 46 nJ (1.6 times). Not trained or tested.
+- Context (same model): an int8 784-256-10 network costs about 700 nJ per decision, so even the 8,000-clause scan variant stays below it.
+
 Related: [Results index](INDEX.md), [Boolean error transport](boolean_error_transport.md), [L-Genome design](../../docs/L_genome_design.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

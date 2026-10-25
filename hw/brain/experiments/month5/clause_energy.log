@@ -1,0 +1,5 @@
+clauses 8000, average included literals 4.8, share with at least one positive literal 0.64
+L alone: front end 17.0 nJ + table 12.4 nJ = 29.3 nJ per decision (ESTIMATED; stride-1 code as in these tests)
+top 2,000 clauses (88.74 / AP 0.753)     clause store 16 KB | scan: clause reads 45 nJ -> total 71 nJ (x2.4 of L) | keyed: 960 clauses read per image (739 always-on) -> clause reads 21.8 nJ, total 47 nJ (x1.6 of L)
+top 4,000 clauses (89.45 / AP 0.773)     clause store 33 KB | scan: clause reads 90 nJ -> total 126 nJ (x4.3 of L) | keyed: 1852 clauses read per image (1400 always-on) -> clause reads 41.9 nJ, total 78 nJ (x2.6 of L)
+all 8,000 clauses (89.38 / AP 0.770)     clause store 66 KB | scan: clause reads 201 nJ -> total 250 nJ (x8.5 of L) | keyed: 3841 clauses read per image (2908 always-on) -> clause reads 96.8 nJ, total 146 nJ (x5.0 of L)

@@ -1594,4 +1594,7 @@ T had to be doubled with the clauses (T 60). Clause bits read by L's table: 89.3
 - Top-k most specific firing clauses per class: 80 rows alone give 85.4 / AP 0.645; with L's code only +0.04 accuracy, +0.010 AP at 1.16 rows. Log: clause_topk.log.
 - Clauses on raw two-threshold pixel bits (no detector front end), 400 clauses, T 60, s 3, 7.5 epochs: 80.9% / AP 0.55 against 86.1% / 0.648 on L's code: the Hebbian front end is needed; clauses alone do not replace it. Log: tm_raw_c400.log.
 
+## 25 Oct 2026: energy of the clause layer (ESTIMATED)
+Founder's point: clauses cost memory and energy. Estimate with the project's energy model: L alone 29 nJ per decision; clause layer 2.4 / 4.3 / 8.5 times (2,000 / 4,000 / 8,000 clauses, scan) or 1.6 / 2.6 / 5.0 times (keyed); clause store 16 to 66 KB against an 11.5 KB table. Not a win-win yet. Possible fix: require at least one positive literal per clause (keyed evaluation then about 1.06 times at 2,000 clauses, untested). See [ldeep_attempts](../hw/results/ldeep_attempts.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
