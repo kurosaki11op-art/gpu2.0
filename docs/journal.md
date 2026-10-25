@@ -1597,4 +1597,7 @@ T had to be doubled with the clauses (T 60). Clause bits read by L's table: 89.3
 ## 25 Oct 2026: energy of the clause layer (ESTIMATED)
 Founder's point: clauses cost memory and energy. Estimate with the project's energy model: L alone 29 nJ per decision; clause layer 2.4 / 4.3 / 8.5 times (2,000 / 4,000 / 8,000 clauses, scan) or 1.6 / 2.6 / 5.0 times (keyed); clause store 16 to 66 KB against an 11.5 KB table. Not a win-win yet. Possible fix: require at least one positive literal per clause (keyed evaluation then about 1.06 times at 2,000 clauses, untested). See [ldeep_attempts](../hw/results/ldeep_attempts.md).
 
+## 25 Oct 2026: memory-at-scale reading (Stanford, Cerebras, Groq, Graphcore, Dojo, in-memory macros)
+Six full-text notes and a synthesis ([memory_at_scale_synthesis](research/memory_at_scale_synthesis.md)). Data movement dominates energy; compression and zero-skipping keep tables on chip; memory must grow with what is remembered (about N bits for N pairs); tile SRAM with atomic counters matches L's update; analog compute not recommended; xAI designs no chip. Design rules set; next tests: MEM-C1 table compression, keyed clauses, tile cost model.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -68,5 +68,6 @@ tags: [spark, index]
 - [Short paper](paper_spark_cortex.md): abstract, design, results, cost, limits and related work in two pages, for the paper-style presentation.
 - [What the failures taught us](lessons_from_failures_25oct.md): nine lessons and the design they point to (25 Oct 2026)
 - [L-Genome design](L_genome_design.md): connected, append-only, growing structure; failure-to-rule map and kill tests (25 Oct 2026)
+- [Managing memory as L scales](research/memory_at_scale_synthesis.md): synthesis of the Stanford, Cerebras, Groq, Graphcore, Dojo and in-memory-compute reading; design rules for L's tiles
 
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)

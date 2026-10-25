@@ -32,5 +32,6 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Stanford memory d](stanford_memory_d.md): memory-centric and in-memory accelerators (Stanford hardware groups)
 - [Stanford memory c](stanford_memory_c.md): state size, recall and throughput in efficient sequence models (H3, Zoology, Based, Mamba)
 - [Onchip memory chips a](onchip_memory_chips_a.md): on-chip memory designs of Cerebras, Groq and Graphcore (some sources blocked)
+- [On-chip and in-memory compute designs (Dojo, Tenstorrent, d-Matrix, macros, xAI check)](onchip_memory_chips_b.md): sources partly blocked; Tenstorrent atomic counters, in-memory macros, xAI finding
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
