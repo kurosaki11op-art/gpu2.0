@@ -68,5 +68,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Shirt new methods round 2](shirt_new_methods_round2.md): pair detectors and thin-structure cues; fail the criteria
 - [Boolean error transport](boolean_error_transport.md): multiply-free error signals through a gate network; best 68 against 81 for float; integer rule failed
 - [Local layers and neurogenesis in staged learning](local_growth_staged.md): growth removes overwriting but not competition; local-only error worse
+- [Frozen deep gate features in staged learning](frozen_deep_features_staged.md): frozen gate features under the table do not help; L's code alone is best
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

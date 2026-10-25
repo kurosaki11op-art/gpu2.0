@@ -1,0 +1,5 @@
+stage A epoch 1: accuracy on base classes (6-way) 0.8015 | 30s
+stage A epoch 2: accuracy on base classes (6-way) 0.8438 | 59s
+stage A epoch 3: accuracy on base classes (6-way) 0.8490 | 86s
+stage A epoch 4: accuracy on base classes (6-way) 0.8610 | 115s
+saved frozen gate features

@@ -1535,4 +1535,7 @@ MNIST classes 0-4 then 5-9, hard-gate integer learner, one seed: overwriting for
 ## 25 Oct 2026: diagnosis of staged growth; novelty gate too weak
 Old images go to new classes (89% without dreams, 33% with); old-versus-unseen AUC only 0.73 to 0.81 for gate groups and density measures, so a novelty gate cannot carry the decision. Conclusion recorded in [local_growth_staged](../hw/results/local_growth_staged.md): deep discriminative features need negatives; no-rehearsal staged learning needs a symmetric associative (counting) readout; proposed split is frozen deep features plus L's table, untested.
 
+## 25 Oct 2026: frozen deep gate features under L's table
+Base classes 0-5 train a gate network (integer learner, error passed), frozen; table learns Shirt, Sneaker, Bag, Boot in stage 2. L's code alone 85.8 (Shirt AP 0.640); frozen gate features alone 83.9 (0.580); combined 83.2 (0.611). Failed. Staged learning costs Shirt about 0.11 AP against joint training. See [frozen_deep_features_staged](../hw/results/frozen_deep_features_staged.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
