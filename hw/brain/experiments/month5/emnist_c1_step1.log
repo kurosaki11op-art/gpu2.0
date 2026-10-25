@@ -1,0 +1,3 @@
+EMNIST balanced: 40000 train, 10000 test, 47 classes
+[ 118s] train encoded, 634 active bits per image
+[ 145s] saved

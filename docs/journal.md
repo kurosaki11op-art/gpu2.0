@@ -1606,4 +1606,7 @@ Three full-text studies (about 45 arXiv papers; vendor pages blocked) and a synt
 ## 25 Oct 2026: MEM-C1, difference-only pruned table
 Centring rows is lossless; at 10 classes pruning and 2 to 4 bit codes save only 10 to 25% of bits read (3 bits, 20% kept: 88.25% accuracy, 13.8 kbit against 17.6 kbit dense). Earlier estimate of 15 to 30 times corrected: it applies to tables with many classes. See [table_compression_mem_c1](../hw/results/table_compression_mem_c1.md).
 
+## 25 Oct 2026: MEM-C1 on 47 classes (EMNIST-balanced)
+Hypothesis (pruning pays more with more classes) failed: the centred table stays dense (68%, 81%, 83% non-zero at 10, 24, 47 classes); post-hoc pruning loses accuracy faster than it saves bits (10% kept: 2.3 times fewer bits read, 9 points lower). Retraining after pruning untested. L's unchanged table: 97.3 / 88.7 / 82.9 at 10 / 24 / 47 classes. See [table_compression_mem_c1](../hw/results/table_compression_mem_c1.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
