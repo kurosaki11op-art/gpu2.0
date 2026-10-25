@@ -22,5 +22,8 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Exemplar-free class-incremental G](exemplar_free_papers_g.md): few-shot class-incremental and growing prototypes
 - [Exemplar-free class-incremental H](exemplar_free_papers_h.md): neurogenesis, expert gates and expandable representations
 - [Exemplar-free class-incremental L](exemplar_free_papers_l.md): novelty and out-of-distribution detection for old-versus-new decisions
+- [Exemplar-free class-incremental F](exemplar_free_papers_f.md): frozen features with prototypes and random projections
+- [Exemplar-free class-incremental I](exemplar_free_papers_i.md): local learning rules and forgetting
+- [Exemplar-free class-incremental K](exemplar_free_papers_k.md): sparse associative memories and weightless incremental learning
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
