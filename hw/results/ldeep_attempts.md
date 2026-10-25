@@ -33,4 +33,19 @@ Random trees (random wiring and gates) are applied, each scored by the mutual in
 - **L-Deep has not met its criteria** (accuracy at least 88.6, Shirt AP at least 0.78). Failures recorded: error-passing trees (unstable), random-selected trees (84%).
 - Not tried: a second tree layer over the pooled maps (depth), AND-type pooling, information-per-active-bit with redundancy removal, trees seeded from L's Hebbian detectors.
 
+## v3: the clause layer as the deeper layer (first positive result)
+Script [clause_features.py](../brain/experiments/month5/clause_features.py), logs [after 3.5 epochs](../brain/experiments/month5/clause_features.log), [after 7 epochs](../brain/experiments/month5/clause_features_epoch7.log). The 4,000 Tsetlin-style clauses of [tsetlin_clause_learner](tsetlin_clause_learner.md) (400 per class, each an AND of about 4 literals of L's code, learned by local feedback only: no error passing, no multiplies) are evaluated on every image; which clauses fire is a sparse code (about 770 of 4,000 per image) read by L's margin-trained counting table. One seed.
+
+| What the counting table reads | Accuracy (3.5 / 7 epochs of clause training) | Shirt AP (3.5 / 7 epochs) | Active rows |
+|---|---|---|---|
+| clause firing bits alone | 88.89 / 89.01 | 0.744 / 0.758 | about 770 |
+| L's code + clause bits | 89.36 / 89.20 | 0.768 / 0.769 | about 1,350 |
+| L's code alone (reference) | 88.85 | 0.753 | 578 |
+| clause learner's own vote | 86.15 / 86.63 | 0.665 / 0.683 | |
+
+- **First addition that helps on top of L's code**: +0.35 to +0.5 accuracy and +0.015 Shirt AP, and the clause bits alone already equal L's own detectors, learned by local feedback (TENTATIVE: one seed, small gain).
+- Criterion (accuracy at least 88.6, Shirt AP at least 0.78): accuracy met, AP 0.769 just short; cost about 2.3 times L's active rows (ESTIMATED).
+- Reading the clauses with the margin-trained table beats their own vote by 2.4 to 8 points of accuracy: the two layers (clauses learned by local feedback, table by margin updates) complement each other.
+- Not tried: 800 or more clauses, richer input code, a second clause layer over clause bits, per-image clause budget to cut the cost.
+
 Related: [Results index](INDEX.md), [Boolean error transport](boolean_error_transport.md), [L-Genome design](../../docs/L_genome_design.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

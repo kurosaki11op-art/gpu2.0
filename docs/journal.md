@@ -1583,4 +1583,7 @@ Lower specificity was the lever: s 8 gives 74%, s 3 gives 86% (200 clauses, 7 ep
 ## 25 Oct 2026: L-Deep attempts v1 to v4 and counted-information selection
 Error-passing shared trees collapsed in four variants (collapse starts the moment trees learn; frozen trees learn fine). Trees chosen by counted information: 128 sparse trees alone 84.3% / AP 0.598 with 446 active rows; with L's code 88.2 / 0.723 against 88.5 / 0.733: no gain. L-Deep criteria not met. See [ldeep_attempts](../hw/results/ldeep_attempts.md).
 
+## 25 Oct 2026: L-Deep v3, the clause layer read by L's table
+Clause bits alone 88.89 / 89.01 (Shirt AP 0.744 / 0.758) at 3.5 / 7 epochs of clause training; with L's code 89.36 / 89.20 (0.768 / 0.769); L alone 88.85 (0.753). First addition that helps on top of L's code; AP criterion 0.78 not yet met; about 2.3 times the active rows. See [ldeep_attempts](../hw/results/ldeep_attempts.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
