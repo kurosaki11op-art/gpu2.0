@@ -1,0 +1,6 @@
+[   7s] bits   4608 active   586 | baseline L                                         acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753
+prototype residual sizes: r+ 271 bits, r- 162 bits on average (image has 586)
+[  26s] bits   9280 active   434 | 1a residual only (r+, r-, prototype id)            acc 0.8857 | cluster 0.8083 | Shirt recall 0.658 | Shirt AP 0.748
+[  30s] bits   4672 active   587 | 1b L code + prototype id only                      acc 0.8882 | cluster 0.8073 | Shirt recall 0.624 | Shirt AP 0.749
+[  43s] bits   4692 active   621 | 2a L code + split features (ambiguous region)      acc 0.8889 | cluster 0.8085 | Shirt recall 0.630 | Shirt AP 0.739
+[  57s] bits   4692 active   623 | 2b control: split features, random region          acc 0.8888 | cluster 0.8100 | Shirt recall 0.640 | Shirt AP 0.749

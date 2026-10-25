@@ -1,0 +1,7 @@
+[  51s] epoch 1: bit disagreement between views 0.159 | bit disagreement between different images 0.260 | mean bit activity 0.468
+[ 102s] epoch 2: bit disagreement between views 0.142 | bit disagreement between different images 0.251 | mean bit activity 0.480
+[ 154s] epoch 3: bit disagreement between views 0.145 | bit disagreement between different images 0.244 | mean bit activity 0.481
+[ 205s] epoch 4: bit disagreement between views 0.143 | bit disagreement between different images 0.241 | mean bit activity 0.483
+[ 255s] epoch 5: bit disagreement between views 0.139 | bit disagreement between different images 0.239 | mean bit activity 0.483
+[ 268s] bits   3000 active   960 | label-free gate features alone (all layers)        acc 0.7885 | cluster 0.6867 | Shirt recall 0.449 | Shirt AP 0.505
+[ 282s] bits   7608 active  1546 | L code + label-free gate features                  acc 0.8808 | cluster 0.8027 | Shirt recall 0.593 | Shirt AP 0.717

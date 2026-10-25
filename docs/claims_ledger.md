@@ -42,6 +42,7 @@ tags: [l, claims, rules, evidence]
 | Neurogenesis (freeze old nodes, add new) stops forgetting in the gate learner | PARTIAL (TENTATIVE) | old 11% without dreams, 64.5% with dreams (overwrite 56.4%); new nodes fire on old images; [local_growth_staged](../hw/results/local_growth_staged.md) |
 | Each layer fixing only its own error (no error passed) matches end-to-end | **FAILED** | 8 to 15 points worse in the staged test |
 | Frozen deep gate features (trained once by integer error passing) under L's table help staged learning or Shirt | **FAILED** | 83.9 alone and 83.2 combined against 85.8 for L's code; Shirt AP 0.58 / 0.61 against 0.64; [frozen_deep_features_staged](../hw/results/frozen_deep_features_staged.md) |
+| Label-free difference learning (residual layer, split where confused, contrastive gates v1) improves Shirt | **FAILED** | AP 0.748 / 0.739 / 0.717 against 0.753; control matched the split features; [shirt_difference_layers](../hw/results/shirt_difference_layers.md) |
 | L beats a CNN on accuracy | **FALSE** (not claimed) | Fashion-MNIST: 88.9 to 90.4 against 91.1 to 91.7 for small CNNs |
 | 'Second sense' from the spoken name improves recognition | **WITHDRAWN** | the name is the label (oracle test) |
 | First cascade: Shirt recall +10.7 | **WITHDRAWN** | gate chosen on test data; validated version +0.9 overall, no Shirt gain |

@@ -1547,4 +1547,7 @@ Twelve notes (A to L) read in full by parallel readers; synthesis in [exemplar_f
 ## 25 Oct 2026: feature-level dreams and an explicit old-versus-new gate
 MNIST staged, hard-gate integer learner, one seed (SIMULATED). Feature-level dreams (first gate layer frozen, upper layers grow): old classes 72.9 (independent bits) and 66.1 (mixture) against about 65 for pixel dreams, but new classes only 54 and 64 against 77, all-class 63.6 and 65.3 against 70 to 71: a frozen layer protects old classes and blocks new ones. Explicit gate from the raw maximum old-class score: AUROC 0.780 at 89.3% closed-set accuracy and 0.819 at 92.3%; new-class accuracy 24 to 29 because most new images pass as old. The local-head test (k=1 against k=2) is written (bool_local_heads.py) but not yet run: the shell safety check failed several times in a row. See [frozen_encoder_tests](../hw/results/frozen_encoder_tests.md).
 
+## 25 Oct 2026: three difference-learning ideas for Shirt
+Residual layer (AP 0.748, same information re-coded), split where confused (0.739 against a control 0.749), label-free contrastive integer gates v1 (0.505 alone, 0.717 combined; codes of different images disagree in only 24% of bits). All failed the criterion (0.80). Cause: unsupervised structure follows the largest variation; the relevance signal (labels or invariances) is missing or too weak. See [shirt_difference_layers](../hw/results/shirt_difference_layers.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
