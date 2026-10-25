@@ -1564,4 +1564,7 @@ Founder's plan: layers and detectors as a connected, append-only structure with 
 - Two brains (cascade_slowbrain.py): escalating the lowest-margin 5% / 10% / 20% of images from L's table to a pruned hidden layer (fan-in 256) gives accuracy 89.20 / 89.34 / 89.53 and Shirt AP 0.749 / 0.753 / 0.766 against 88.61 and 0.741, at 3.7 / 6.6 / 12.4 times L's reads; slow brain alone 88.94 and 0.778 at 57 times. Criterion (AP 0.80 at 3 to 4 times) not met.
 - Faithful Tsetlin-style clause learner on L's code (tm_faithful.py, negated literals included, 100 clauses per class, T 30, s 8): half an epoch already 73.8%, then flat at 73.5 to 74.6% over 6 epochs (Shirt AP about 0.48). Far above the earlier 66% (which lacked negated literals) but below L's table; plateau not yet diagnosed (clause count, T, s, literal cap of 64 untested).
 
+## 25 Oct 2026: Tsetlin-style learner settings sweep (SIMULATED, one seed, about half an epoch each)
+Literal cap raised to 256. Specificity s=8: 71.4% accuracy (Shirt AP 0.476); s=4: 79.8% (0.494); s=15: 62.3% (0.364). Lower s is better; next s=2 to 3 and more clauses. Log: tm_faithful_sweep.log. Answered the founder's question on backprop and error passing for Shirt: second layer by backprop +0.03 to +0.07 AP at 57 times the reads; random-wired gates with integer error passing 0.49; CNN ruler 0.84.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
