@@ -1532,4 +1532,7 @@ MEASURED/SIMULATED, one seed: integer learner 77.0 (1,000 gates) and 78.8 (4,000
 ## 25 Oct 2026: local error and neurogenesis in staged learning
 MNIST classes 0-4 then 5-9, hard-gate integer learner, one seed: overwriting forgets all old classes without rehearsal; growing new nodes keeps old nodes intact but old accuracy is only 11% (64.5% with dreams vs 56.4% overwrite) because new nodes fire on old images; local-only error 8 to 15 points worse. User direction: write new, do not overwrite; literature notes say class-incremental success needs associative writes (FlyModel). See [local_growth_staged](../hw/results/local_growth_staged.md).
 
+## 25 Oct 2026: diagnosis of staged growth; novelty gate too weak
+Old images go to new classes (89% without dreams, 33% with); old-versus-unseen AUC only 0.73 to 0.81 for gate groups and density measures, so a novelty gate cannot carry the decision. Conclusion recorded in [local_growth_staged](../hw/results/local_growth_staged.md): deep discriminative features need negatives; no-rehearsal staged learning needs a symmetric associative (counting) readout; proposed split is frozen deep features plus L's table, untested.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
