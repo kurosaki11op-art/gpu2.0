@@ -1553,4 +1553,7 @@ Residual layer (AP 0.748, same information re-coded), split where confused (0.73
 ## 25 Oct 2026: connected structure (the DNA idea) as a counted generative classifier
 Founder clarified: DNA is a connected structure of parts. Each bit scored given its neighbours by counted per-class tables (no backprop, no stored images): accuracy 67.5 independent, 79.0 / 82.2 / 83.1 / 83.6 with 3 / 5 / 7 / 9 neighbour bits; Shirt AP 0.26 to 0.60; with L's table +0.5 accuracy, +0.006 AP. Continual by construction. Next: connect L's detector bits and scales. See [connected_structure](../hw/results/connected_structure.md).
 
+## 25 Oct 2026: connected structure over L's detector bits
+Spatial neighbours plus data-chosen partner detectors: accuracy 78.3 (1 context bit), 84.5 (3+3), 85.2 (4+5); Shirt AP 0.42, 0.585, 0.617; no gain on top of L's table. Curve flattens near 85%. Continual by construction. See [connected_structure](../hw/results/connected_structure.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

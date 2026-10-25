@@ -24,4 +24,20 @@ Founder's idea: DNA is a connected structure of parts, not a bag. Test: for each
 - **Cost**: table size grows as 2 to the power of the neighbour count (0.8 million entries per class at 9 bits, about 8 million for ten classes), against L's 11 KB table; it needs hashing or pruning to be practical.
 - Not tested: the same connected structure over L's learned detector bits and across scales (rather than raw pixels), which should carry more per connection.
 
+## Over L's learned detector bits (25 Oct 2026, same protocol, one seed)
+
+Script [connected_detectors.py](../brain/experiments/month5/connected_detectors.py), log [connected_detectors.log](../brain/experiments/month5/connected_detectors.log). Each of the 4,608 detector bits is judged by spatial neighbours (the same detector in the cells to the left, above, above-left, above-right) plus partners chosen from the data (the detectors of the same cell and channel that co-fire most, counted correlation).
+
+| Context bits (spatial + learned partners) | Table entries per class | Accuracy | Cluster | Shirt recall | Shirt AP |
+|---|---|---|---|---|---|
+| 1 + 0 | 9 thousand | 0.7827 | 0.676 | 0.371 | 0.416 |
+| 3 + 3 | 0.3 million | 0.8450 | 0.741 | 0.548 | 0.585 |
+| 4 + 5 | 2.4 million | 0.8516 | 0.747 | 0.565 | 0.617 |
+| (pixels, 9 bits, for comparison) | 0.8 million | 0.8361 | 0.727 | 0.559 | 0.599 |
+| L counting table | n/a | 0.8861 | 0.808 | 0.658 | 0.741 |
+
+- Connections between learned detectors help in the same way (78.3 to 85.2 accuracy, AP 0.42 to 0.62) and are a little better than pixel connections at equal table size (84.5 against 83.1 at about 0.3 million entries against 0.2 million), but the curve flattens near 85%, below L's table (88.6); Shirt AP 0.62 against 0.74.
+- Added to L's table (weight chosen on validation) the gain disappears (accuracy 0.8879 / 0.8884, AP 0.737 against 0.741): L's table already holds what these connections add.
+- Conclusion: connected counted class models are a sound continual-learning memory (no overwriting, no competition) at about 85% on this task, not a better discriminator. Tables grow as two to the power of the context bits.
+
 Related: [Results index](INDEX.md), [Lessons from the failures](../../docs/lessons_from_failures_25oct.md), [Frozen-encoder tests](frozen_encoder_tests.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

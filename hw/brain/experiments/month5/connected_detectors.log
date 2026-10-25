@@ -1,0 +1,14 @@
+[  36s] NSP=3 NCELL=3: 6 context bits, 64 contexts per bit, 0.3 M table entries per class fitted
+[  75s] scored
+connected generative over L's detector bits (3 + 3) acc 0.8450 | cluster 0.7408 | Shirt recall 0.548 | Shirt AP 0.585
+validation: mixing weight 0.75 gives 0.8939 (table alone 0.8917); generative alone 0.8486
+L table alone (trained on 50,000)                  acc 0.8861 | cluster 0.8080 | Shirt recall 0.658 | Shirt AP 0.741
+L table + connected detector model, weight 0.75    acc 0.8879 | cluster 0.8107 | Shirt recall 0.657 | Shirt AP 0.737
+[  10s] NSP=1 NCELL=0: 1 context bits, 2 contexts per bit, 0.0 M table entries per class fitted
+connected generative over L's detector bits (1 + 0) acc 0.7827 | cluster 0.6760 | Shirt recall 0.371 | Shirt AP 0.416
+validation: mixing weight 0.20 gives 0.8928 (table alone 0.8917); generative alone 0.7850
+L table + connected detector model, weight 0.20    acc 0.8855 | cluster 0.8067 | Shirt recall 0.653 | Shirt AP 0.735
+[  51s] NSP=4 NCELL=5: 9 context bits, 512 contexts per bit, 2.4 M table entries per class fitted
+connected generative over L's detector bits (4 + 5) acc 0.8516 | cluster 0.7472 | Shirt recall 0.565 | Shirt AP 0.617
+validation: mixing weight 1.50 gives 0.8944 (table alone 0.8917); generative alone 0.8602
+L table + connected detector model, weight 1.50    acc 0.8884 | cluster 0.8105 | Shirt recall 0.655 | Shirt AP 0.737
