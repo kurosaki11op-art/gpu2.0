@@ -28,5 +28,7 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Exemplar-free class-incremental J](exemplar_free_papers_j.md): minimal memory baselines and the theory of forgetting
 - [Synthesis: exemplar-free class-incremental learning](../exemplar_free_synthesis.md): what 25 papers say and the tests they suggest
 - [Stanford memory A](stanford_memory_a.md): compressed and sparse inference hardware (EIE, Deep Compression, pruning, survey)
+- [Stanford memory b](stanford_memory_b.md): IO-aware algorithms and memory hierarchy at scale (FlashAttention, Monarch, SN40L)
+- [Stanford memory d](stanford_memory_d.md): memory-centric and in-memory accelerators (Stanford hardware groups)
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
