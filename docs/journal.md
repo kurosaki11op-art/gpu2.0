@@ -1589,4 +1589,9 @@ Clause bits alone 88.89 / 89.01 (Shirt AP 0.744 / 0.758) at 3.5 / 7 epochs of cl
 ## 25 Oct 2026: L-Deep v3 with 800 clauses per class
 T had to be doubled with the clauses (T 60). Clause bits read by L's table: 89.38 / AP 0.770 alone, 89.55 / 0.779 with L's code (L alone 88.85 / 0.753), at 2.7 to 3.7 times L's active rows; one seed. See [ldeep_attempts](../hw/results/ldeep_attempts.md).
 
+## 25 Oct 2026: clause pruning, top-k clause code, and clauses on raw pixels (SIMULATED, one seed)
+- Clause pruning by table use (800-clause state), table retrained on the kept clauses alone: top 2,000 clauses 88.74 / Shirt AP 0.753 at 416 rows read (0.72 of L's 578; L alone 88.85 / 0.753); top 4,000 by use per read 88.65 / 0.749 at 346 rows (0.60); top 4,000 by use 89.45 / 0.773 at 893 rows (1.55); top 500 clauses 85.9 at 84 rows. Log: clause_prune.log. Caveat: clauses read L's code, so their tests add to the total; hardware accounting not done.
+- Top-k most specific firing clauses per class: 80 rows alone give 85.4 / AP 0.645; with L's code only +0.04 accuracy, +0.010 AP at 1.16 rows. Log: clause_topk.log.
+- Clauses on raw two-threshold pixel bits (no detector front end), 400 clauses, T 60, s 3, 7.5 epochs: 80.9% / AP 0.55 against 86.1% / 0.648 on L's code: the Hebbian front end is needed; clauses alone do not replace it. Log: tm_raw_c400.log.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

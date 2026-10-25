@@ -8,8 +8,13 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); sys.argv = ["x"]
 from shirt_new_methods_setup import ctr, cte, ytr, yte, CL
 from numba import njit, prange
+INPUT = os.environ.get('INPUT', 'code')
+if INPUT == 'raw':                                                                                   # clauses read the raw two-threshold pixel bits (1,568 bits) with no detector front end
+    from shirt_new_methods_setup import xtr, xte
+    def _bits(x): im = x.reshape(-1, 28, 28); return np.concatenate([(im > 85).reshape(len(im), -1), (im > 170).reshape(len(im), -1)], 1).astype(np.uint8)
+    ctr, cte = _bits(xtr), _bits(xte)
 NB = ctr.shape[1]; NL = 2 * NB; C = int(os.environ.get("C", 100)); T = int(os.environ.get("TT", 30)); S = float(os.environ.get("SS", 8.0)); NST = 100; LMAX = int(os.environ.get("LMAX", 64)); BUDGET = float(os.environ.get("BUDGET", 480))
-CK = "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/tm_faithful_state.npz"
+CK = "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/tm_faithful_state%s.npz" % ("_raw" if os.environ.get("INPUT", "code") == "raw" else "")
 @njit
 def fires(cl, x, inc_list, inc_n, train):
     n = inc_n[cl]

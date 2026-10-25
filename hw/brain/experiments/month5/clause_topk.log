@@ -1,0 +1,7 @@
+[ 13s] 8000 clauses (800 per class), 1535 fire per image
+[ 33s] top 2 most specific firing clauses per class         rows read    20 (x0.03 of L) | acc 0.7903 | cluster 0.6797 | Shirt recall 0.463 | Shirt AP 0.509
+[ 50s]   same + L's code                                    rows read   609 (x1.05 of L) | acc 0.8882 | cluster 0.8067 | Shirt recall 0.645 | Shirt AP 0.754
+[ 61s] top 4 most specific firing clauses per class         rows read    40 (x0.07 of L) | acc 0.8321 | cluster 0.7242 | Shirt recall 0.547 | Shirt AP 0.588
+[ 75s]   same + L's code                                    rows read   629 (x1.09 of L) | acc 0.8908 | cluster 0.8140 | Shirt recall 0.633 | Shirt AP 0.751
+[ 91s] top 8 most specific firing clauses per class         rows read    80 (x0.14 of L) | acc 0.8539 | cluster 0.7552 | Shirt recall 0.612 | Shirt AP 0.645
+[105s]   same + L's code                                    rows read   669 (x1.16 of L) | acc 0.8889 | cluster 0.8100 | Shirt recall 0.641 | Shirt AP 0.763

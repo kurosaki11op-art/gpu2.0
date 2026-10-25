@@ -1,0 +1,9 @@
+[  6s] 8000 clauses (800 per class), 1535 fire per image
+[ 20s] top 500 clauses by table use                         rows read    84 (x0.14 of L) | acc 0.8593 | cluster 0.7530 | Shirt recall 0.539 | Shirt AP 0.649
+[ 21s] top 500 clauses by table use per read                rows read     8 (x0.01 of L) | acc 0.6404 | cluster 0.5573 | Shirt recall 0.264 | Shirt AP 0.299
+[ 23s] top 1000 clauses by table use                        rows read   189 (x0.33 of L) | acc 0.8764 | cluster 0.7845 | Shirt recall 0.606 | Shirt AP 0.714
+[ 26s] top 1000 clauses by table use per read               rows read    28 (x0.05 of L) | acc 0.8116 | cluster 0.6673 | Shirt recall 0.444 | Shirt AP 0.505
+[ 33s] top 2000 clauses by table use                        rows read   416 (x0.72 of L) | acc 0.8874 | cluster 0.8065 | Shirt recall 0.681 | Shirt AP 0.753
+[ 38s] top 2000 clauses by table use per read               rows read   100 (x0.17 of L) | acc 0.8733 | cluster 0.7762 | Shirt recall 0.621 | Shirt AP 0.690
+[ 55s] top 4000 clauses by table use                        rows read   893 (x1.55 of L) | acc 0.8945 | cluster 0.8157 | Shirt recall 0.712 | Shirt AP 0.773
+[ 69s] top 4000 clauses by table use per read               rows read   346 (x0.60 of L) | acc 0.8865 | cluster 0.8075 | Shirt recall 0.662 | Shirt AP 0.749
