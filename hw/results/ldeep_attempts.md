@@ -48,4 +48,15 @@ Script [clause_features.py](../brain/experiments/month5/clause_features.py), log
 - Reading the clauses with the margin-trained table beats their own vote by 2.4 to 8 points of accuracy: the two layers (clauses learned by local feedback, table by margin updates) complement each other.
 - Not tried: 800 or more clauses, richer input code, a second clause layer over clause bits, per-image clause budget to cut the cost.
 
+### v3 with 800 clauses per class (T 60, s 3), 25 Oct 2026
+Logs: [training](../brain/experiments/month5/tm_faithful_c800_t60.log), [features at 3.7 epochs](../brain/experiments/month5/clause_features_c800.log), [features at 5.5 epochs](../brain/experiments/month5/clause_features_c800_epoch5.log). With 800 clauses the vote threshold T had to double (T 30: 83.5% and Shirt AP 0.50 after epoch 1; T 60: 85.0% and 0.58).
+| What L's counting table reads | Accuracy | Cluster | Shirt recall | Shirt AP | Active rows per image |
+|---|---|---|---|---|---|
+| L's code alone (reference) | 88.85 | 80.6 | 0.638 | 0.753 | 578 |
+| 8,000 clause bits alone (5.5 epochs) | 89.38 | 81.4 | 0.682 | 0.770 | 1,535 |
+| L's code + clause bits (5.5 epochs) | 89.55 | 82.0 | 0.666 | 0.779 | about 2,110 |
+| clause learner's own vote | 86.77 | 76.7 | 0.402 | 0.686 | |
+- **Closest result to the L-Deep criterion so far**: accuracy 89.55 (+0.70), Shirt AP 0.779 (+0.026, the line was 0.78), cluster +1.4, Shirt recall +0.03 to +0.04 with clause bits alone. More clauses help (AP 0.769 at 400, 0.779 at 800).
+- **Cost is the catch (ESTIMATED)**: 2.7 times L's active rows with clause bits alone, 3.7 times with both: a win-lose trade against L's own table, though far below a CNN's operation count. One seed. Untested: pruning clauses that add little, to cut the cost.
+
 Related: [Results index](INDEX.md), [Boolean error transport](boolean_error_transport.md), [L-Genome design](../../docs/L_genome_design.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

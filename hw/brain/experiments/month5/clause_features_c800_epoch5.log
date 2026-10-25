@@ -1,0 +1,6 @@
+clauses per class 800, total 8000, mean included literals 4.8, epochs of training 5
+[  6s] clause outputs: active clauses per image 1535 of 8000 (L's code: 578 active bits of 4608)
+clause learner's own vote                          acc 0.8677 | cluster 0.7665 | Shirt recall 0.402 | Shirt AP 0.686
+L's counting table on clause firing bits (4,000 bits) acc 0.8938 | cluster 0.8137 | Shirt recall 0.682 | Shirt AP 0.770
+L's counting table on L's code + clause bits       acc 0.8955 | cluster 0.8200 | Shirt recall 0.666 | Shirt AP 0.779
+reference: L's counting table on L's code alone    acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753

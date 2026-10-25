@@ -1586,4 +1586,7 @@ Error-passing shared trees collapsed in four variants (collapse starts the momen
 ## 25 Oct 2026: L-Deep v3, the clause layer read by L's table
 Clause bits alone 88.89 / 89.01 (Shirt AP 0.744 / 0.758) at 3.5 / 7 epochs of clause training; with L's code 89.36 / 89.20 (0.768 / 0.769); L alone 88.85 (0.753). First addition that helps on top of L's code; AP criterion 0.78 not yet met; about 2.3 times the active rows. See [ldeep_attempts](../hw/results/ldeep_attempts.md).
 
+## 25 Oct 2026: L-Deep v3 with 800 clauses per class
+T had to be doubled with the clauses (T 60). Clause bits read by L's table: 89.38 / AP 0.770 alone, 89.55 / 0.779 with L's code (L alone 88.85 / 0.753), at 2.7 to 3.7 times L's active rows; one seed. See [ldeep_attempts](../hw/results/ldeep_attempts.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
