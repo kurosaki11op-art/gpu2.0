@@ -67,5 +67,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Shirt new methods round 1](shirt_new_methods_round1.md): flip augmentation, exemplar vote, sub-class tables; none helps within budget
 - [Shirt new methods round 2](shirt_new_methods_round2.md): pair detectors and thin-structure cues; fail the criteria
 - [Boolean error transport](boolean_error_transport.md): multiply-free error signals through a gate network; best 68 against 81 for float; integer rule failed
+- [Local layers and neurogenesis in staged learning](local_growth_staged.md): growth removes overwriting but not competition; local-only error worse
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

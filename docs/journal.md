@@ -1529,4 +1529,7 @@ MEASURED/SIMULATED, MNIST, 3 seeds: learning with hard gates only, graded intege
 ## 24 Oct 2026: integer gate learner on L's code (Fashion-MNIST)
 MEASURED/SIMULATED, one seed: integer learner 77.0 (1,000 gates) and 78.8 (4,000 gates) against float 78.3 at 1,000; L's table 88.9. Learning rule is level with float; random-wired fully connected gate network is far below L and does not help Shirt (AP 0.49). Next: hybrid (gate outputs appended to L's code, read by the table) and weight-shared convolutional gate trees with the integer learner. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
 
+## 25 Oct 2026: local error and neurogenesis in staged learning
+MNIST classes 0-4 then 5-9, hard-gate integer learner, one seed: overwriting forgets all old classes without rehearsal; growing new nodes keeps old nodes intact but old accuracy is only 11% (64.5% with dreams vs 56.4% overwrite) because new nodes fire on old images; local-only error 8 to 15 points worse. User direction: write new, do not overwrite; literature notes say class-incremental success needs associative writes (FlyModel). See [local_growth_staged](../hw/results/local_growth_staged.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

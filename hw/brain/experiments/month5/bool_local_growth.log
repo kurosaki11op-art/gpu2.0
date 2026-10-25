@@ -1,0 +1,8 @@
+LOCAL=0 GROW=0 DREAM=0 | after stage 2 among all 10 classes: old 0.0000 | new 0.8486 | all 0.4125 | 51s
+LOCAL=1 GROW=0 DREAM=0 | after stage 2 among all 10 classes: old 0.0000 | new 0.7630 | all 0.3709 | 41s
+LOCAL=0 GROW=1 DREAM=0 | after stage 2 among all 10 classes: old 0.1099 | new 0.8237 | all 0.4569 | 44s
+LOCAL=1 GROW=1 DREAM=0 | after stage 2 among all 10 classes: old 0.0354 | new 0.8050 | all 0.4095 | 37s
+LOCAL=0 GROW=0 DREAM=1 | after stage 2 among all 10 classes: old 0.5639 | new 0.7920 | all 0.6748 | 53s
+LOCAL=1 GROW=0 DREAM=1 | after stage 2 among all 10 classes: old 0.3444 | new 0.7640 | all 0.5484 | 40s
+LOCAL=0 GROW=1 DREAM=1 | after stage 2 among all 10 classes: old 0.6453 | new 0.7834 | all 0.7124 | 46s
+LOCAL=1 GROW=1 DREAM=1 | after stage 2 among all 10 classes: old 0.4987 | new 0.7817 | all 0.6363 | 37s
