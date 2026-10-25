@@ -1609,4 +1609,7 @@ Centring rows is lossless; at 10 classes pruning and 2 to 4 bit codes save only 
 ## 25 Oct 2026: MEM-C1 on 47 classes (EMNIST-balanced)
 Hypothesis (pruning pays more with more classes) failed: the centred table stays dense (68%, 81%, 83% non-zero at 10, 24, 47 classes); post-hoc pruning loses accuracy faster than it saves bits (10% kept: 2.3 times fewer bits read, 9 points lower). Retraining after pruning untested. L's unchanged table: 97.3 / 88.7 / 82.9 at 10 / 24 / 47 classes. See [table_compression_mem_c1](../hw/results/table_compression_mem_c1.md).
 
+## 25 Oct 2026: option B, sparse-by-construction table (slots and counter sketch)
+EMNIST-balanced, own margin learner. 10 classes: 4 slots or 4 to 8 counters per bit lose 0.1 to 0.6 points. 47 classes: 8 slots 76.9 against 80.2 full (2.9 times fewer bits read), sketch R=8 72.2 against 78.7 (5.9 times fewer). Loss at fixed row size grows with the number of classes; savings do not grow with K. Next: two-stage routing. See [sparse_table_option_b](../hw/results/sparse_table_option_b.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

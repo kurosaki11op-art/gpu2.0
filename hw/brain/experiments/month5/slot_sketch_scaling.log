@@ -1,0 +1,20 @@
+== sketch, K=10
+R=4 acc=0.9645 tableKB=13.5 bitsread=15190 ratio=37975
+R=8 acc=0.9687 tableKB=27.0 bitsread=30380 ratio=37975
+R=10 acc=0.9705 tableKB=33.8 bitsread=37975 ratio=37975
+R=10 acc=0.9705 tableKB=33.8 bitsread=37975 ratio=37975
+== slots, K=10
+M=4 acc=0.9714 tableKB=21.8 bitsread=25317
+M=8 acc=0.9724 tableKB=41.1 bitsread=50634
+M=10 acc=0.9719 tableKB=48.1 bitsread=63292
+M=10 acc=0.9719 tableKB=48.1 bitsread=63292
+== sketch, K=24
+R=4 acc=0.8198 tableKB=13.5 bitsread=15250 ratio=91502
+R=8 acc=0.8479 tableKB=27.0 bitsread=30501 ratio=91502
+R=16 acc=0.8670 tableKB=54.0 bitsread=61001 ratio=91502
+R=24 acc=0.8787 tableKB=81.0 bitsread=91502 ratio=91502
+== slots, K=24
+M=4 acc=0.8388 tableKB=24.7 bitsread=27959
+M=8 acc=0.8653 tableKB=49.2 bitsread=55918
+M=16 acc=0.8678 tableKB=96.3 bitsread=111836
+M=24 acc=0.8831 tableKB=135.0 bitsread=167754

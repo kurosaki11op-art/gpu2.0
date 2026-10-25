@@ -1,0 +1,7 @@
+emnist: K=47 classes, 40000 train, 10000 test images, 4608 code bits, 638 active bits per image
+slots  acc      updates  | table KB   bits read   | full-table KB full bits read ratio read
+2      0.1079   34581    | 13.5       15307       | 158.6         179856        11.75       [  6s]
+4      0.7016   10607    | 27.0       30614       | 158.6         179856        5.88        [  8s]
+8      0.7530   6160     | 53.9       61227       | 158.6         179856        2.94        [ 11s]
+16     0.7810   4260     | 107.4      122455      | 158.6         179856        1.47        [ 16s]
+47     0.7936   2290     | 293.1      359711      | 158.6         179856        0.50        [ 27s]
