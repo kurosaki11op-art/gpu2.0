@@ -1,0 +1,6 @@
+[  27s] pooled statistics
+share of chosen parents that come from a coarser layer (pooled): 0.356
+[  50s] class-specific hierarchical wiring chosen
+[  78s] H0 flat parents, pooled                            acc 0.8332 | cluster 0.7268 | Shirt recall 0.491 | Shirt AP 0.536
+[ 106s] H1 hierarchical parents, pooled                    acc 0.8337 | cluster 0.7255 | Shirt recall 0.494 | Shirt AP 0.542
+[ 146s] H2 hierarchical parents, per class                 acc 0.8409 | cluster 0.7325 | Shirt recall 0.490 | Shirt AP 0.564

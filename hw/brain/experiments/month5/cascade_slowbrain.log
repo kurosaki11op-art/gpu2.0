@@ -1,0 +1,9 @@
+[  7s] fast brain trained: validation 0.8917 test 0.8861
+[ 51s] slow brain dense trained
+[ 77s] slow brain pruned to fan-in 256: validation 0.8949 test 0.8894; adds per image if always used: 32885 (fast brain: 578 row reads)
+fast brain alone                   acc 0.8861 | cluster 0.8080 | Shirt recall 0.658 | Shirt AP 0.741 | mean adds   578 (x1.0 of L)
+slow brain alone                   acc 0.8894 | cluster 0.8187 | Shirt recall 0.681 | Shirt AP 0.778 | mean adds 32885 (x56.9 of L)
+escalate lowest-margin 5%          acc 0.8920 | cluster 0.8167 | Shirt recall 0.668 | Shirt AP 0.749 | mean adds  2137 (x3.7 of L) | escalated 4.7%
+escalate lowest-margin 10%         acc 0.8934 | cluster 0.8197 | Shirt recall 0.675 | Shirt AP 0.753 | mean adds  3844 (x6.6 of L) | escalated 9.9%
+escalate lowest-margin 20%         acc 0.8953 | cluster 0.8260 | Shirt recall 0.684 | Shirt AP 0.766 | mean adds  7181 (x12.4 of L) | escalated 20.1%
+escalate lowest-margin 40%         acc 0.8898 | cluster 0.8185 | Shirt recall 0.680 | Shirt AP 0.775 | mean adds 13811 (x23.9 of L) | escalated 40.2%
