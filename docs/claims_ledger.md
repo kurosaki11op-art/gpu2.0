@@ -51,7 +51,8 @@ tags: [l, claims, rules, evidence]
 | '+3 to +6.5 points over a CNN at 50 to 300 examples per class' | **WITHDRAWN** | weak from-scratch CNN; with a self-supervised CNN the two are level |
 | 'L is 15 points behind on Shirt, mostly label overlap' | **WITHDRAWN / partly** | irreducible error is about 3 to 4% (Ishida et al.); operating point explains part; a ranking gap remains |
 | '74 times less energy than a CNN' | **CORRECTED** | it was against an int8 MLP 784-256-10 by operation count (ESTIMATED), not a CNN |
-| Clause learner (positive-literal Tsetlin-style) works | **FAILED** | 66% on Fashion-MNIST |
+| Clause learner (positive-literal Tsetlin-style) works | **FAILED** (superseded) | 66%: it had no negated literals; the faithful version below works |
+| A faithful Tsetlin-style clause learner (local feedback, no error passing, no multiplies) learns Fashion-MNIST from L's code | TENTATIVE | 86.0% (200 clauses, 7 epochs), 86.1% with Shirt AP 0.648 (400 clauses, 3.5 epochs), one seed, still rising; below L's table (88.6, 0.741); [tsetlin_clause_learner](../hw/results/tsetlin_clause_learner.md) |
 | Tile layout routed, ESP32 power measured | **NOT DONE** | routing stuck at about 300 violations; no board result yet |
 
 Related: [Docs index](INDEX.md), [Failure analysis](failure_analysis_clothing.md), [Status report](status_report_24oct.md), [Journal](journal.md)

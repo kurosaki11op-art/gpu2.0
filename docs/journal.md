@@ -1573,4 +1573,7 @@ Integer margin error (balanced, shift and clip only): 78.3 against 79.0 at 4 epo
 ## 25 Oct 2026: integer margin error on Fashion-MNIST
 Random-wired 500+500 gates on L's code: softmax 73.4 (Shirt AP 0.397), integer margin 72.3 (0.417); L's table 88.6 (0.741). The error signal holds; the structure is the missing piece. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
 
+## 25 Oct 2026: Tsetlin-style clause learner tuned
+Lower specificity was the lever: s 8 gives 74%, s 3 gives 86% (200 clauses, 7 epochs, Shirt AP 0.613) and 86.1% with Shirt AP 0.648 at 400 clauses (3.5 epochs), clauses of 4 to 9 literals; local feedback only. See [tsetlin_clause_learner](../hw/results/tsetlin_clause_learner.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
