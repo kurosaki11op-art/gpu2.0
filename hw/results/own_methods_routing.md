@@ -28,4 +28,21 @@ L's own table decides first (cheap); only images that need it (top class in T-sh
 - **Energy (ESTIMATED, 45 nm constants of the project's model, keyed clause reads, second stage reusing L's partial sums)**: L alone 29 nJ; clauses on every image 146 nJ keyed or 250 nJ scan; routed at 30% about 68 nJ keyed (2.3 times L) or 99 nJ scan (3.4 times L). Still above L's own energy, so a win in accuracy and a loss in energy, but far smaller than the 5.0 to 8.5 times of the always-on layer.
 - Not yet combined: pruned clause sets (top 4,000 by use gave AP 0.773), clauses required to hold a positive literal (keyed evaluation of all of them), a second seed.
 
+## Best-accuracy version so far (25 Oct 2026, SIMULATED, one seed)
+Per the founder's direction (build the strongest version first, tune cost later). Scripts [clause_routed2.py](../brain/experiments/month5/clause_routed2.py), [tm_faithful.py](../brain/experiments/month5/tm_faithful.py); logs [1,600 clauses](../brain/experiments/month5/clause_routed2_c1600.log), [clauses over both codes](../brain/experiments/month5/clause_routed2_both_c800.log), [training](../brain/experiments/month5/tm_both_c800.log). Clauses are ranked by how much a table trained on 20,000 images uses them; the best N are kept; L's table then reads L's code plus the N clause bits (trained on all 60,000 images).
+
+| Clause layer (per class) | Clauses kept | Every image: accuracy / cluster / Shirt recall / Shirt AP | Routed (30% of images): accuracy / cluster / Shirt AP |
+|---|---|---|---|
+| L alone (reference) | 0 | 88.85 / 80.6 / 0.638 / 0.753 | n/a |
+| 800, read L's code, 5.5 epochs | 8,000 | 89.55 / 82.0 / 0.666 / 0.779 | 89.59 / 82.0 / 0.775 |
+| 1,600, read L's code, 4 epochs | best 8,000 of 16,000 | 89.60 / 82.0 / 0.668 / 0.783 | 89.61 / 82.0 / 0.773 |
+| 1,600, read L's code, 4 epochs | all 16,000 | 89.65 / 82.1 / 0.656 / 0.779 | 89.67 / 82.1 / 0.773 |
+| **800, read L's code and the raw pixel bits, 4 epochs** | best 4,000 of 8,000 | **89.73** / 82.1 / 0.649 / **0.780** | 89.73 / 82.1 / 0.774 |
+| **800, read L's code and the raw pixel bits, 4 epochs** | all 8,000 | 89.68 / 82.2 / 0.658 / **0.789** | 89.71 / 82.2 / 0.781 |
+
+- **The strongest version reaches the Shirt AP criterion (0.78) with half the clauses**: L's code plus the best 4,000 clauses over detector and raw-pixel literals gives 89.73% accuracy (+0.88) and Shirt AP 0.780 (+0.027); all 8,000 give AP 0.789 (+0.036).
+- **Doubling the clauses on the same input saturates** (800 to 1,600 per class: AP 0.779 to 0.783, accuracy +0.05); a **richer input** (adding the raw pixel bits as literals) helped more at equal clause count (AP 0.779 to 0.789), in line with the papers (input code matters most).
+- **A positive-literal rule (every clause holds at least one positive literal, for keyed evaluation) cost accuracy while learning** (75.9% and Shirt AP 0.36 after 0.9 epochs against about 84% and 0.55 for unconstrained clauses at the same point) and was dropped; the energy of the clause layer therefore keeps the scan or keyed estimates of [L-Deep attempts](ldeep_attempts.md) for now.
+- Not yet: a second seed, the energy of the routed 4,000-clause version, richer input codes (edge maps, team of codes), a second clause layer.
+
 Related: [Results index](INDEX.md), [L-Deep attempts](ldeep_attempts.md), [Sparse table option B](sparse_table_option_b.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

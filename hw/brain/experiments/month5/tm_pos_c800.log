@@ -1,0 +1,3 @@
+[ 198s]   epoch 0, 15000 images: test acc 0.7440 | cluster 0.6135 | Shirt recall 0.301 | Shirt AP 0.349 | mean included literals per clause 3.8
+[ 368s]   epoch 0, 30000 images: test acc 0.7661 | cluster 0.6380 | Shirt recall 0.303 | Shirt AP 0.390 | mean included literals per clause 4.5
+[ 503s] saved (epoch 0, position 42000): test acc 0.7591 | cluster 0.6258 | Shirt recall 0.287 | Shirt AP 0.364 | mean included literals per clause 4.6

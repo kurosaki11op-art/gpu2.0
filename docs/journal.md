@@ -1615,4 +1615,7 @@ EMNIST-balanced, own margin learner. 10 classes: 4 slots or 4 to 8 counters per 
 ## 25 Oct 2026: two methods of our own from the failures
 Retrieve-then-rerank: counted in 64-bit words it is worse than the full table at 47 classes, and pays modestly at 1,623 (3.6 times fewer words for -0.7 points on Omniglot). Routed clauses: images L is unsure about (30%) evaluate the clause layer; accuracy 89.59, cluster 82.0, Shirt AP 0.775 against 89.55 / 82.0 / 0.779 always-on; energy about 2.3 times L instead of 5.0 to 8.5 (ESTIMATED). See [own_methods_routing](../hw/results/own_methods_routing.md).
 
+## 25 Oct 2026: best-accuracy version of L plus clauses
+Founder: build the strongest version first, tune cost later. 1,600 clauses per class on L's code saturate (AP 0.783 with the best 8,000). Clauses over L's code plus raw pixel bits: best 4,000 give 89.73 / Shirt AP 0.780, all 8,000 give 89.68 / 0.789 (L alone 88.85 / 0.753). Positive-literal rule dropped (accuracy cost). Second seed and energy of the best version pending. See [own_methods_routing](../hw/results/own_methods_routing.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
