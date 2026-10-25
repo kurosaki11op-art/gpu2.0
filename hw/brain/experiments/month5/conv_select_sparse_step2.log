@@ -1,0 +1,5 @@
+[ 141s] encoded 30000 training images: 4608 bits, 446 on
+[ 188s] encoded test
+L-Deep v2 features alone (128 selected trees) -> counting table acc 0.8427 | cluster 0.7418 | Shirt recall 0.499 | Shirt AP 0.598
+L's code + L-Deep v2 features -> counting table    acc 0.8820 | cluster 0.8010 | Shirt recall 0.594 | Shirt AP 0.723
+reference: L's code alone (same 30000 training images) acc 0.8848 | cluster 0.8087 | Shirt recall 0.638 | Shirt AP 0.733

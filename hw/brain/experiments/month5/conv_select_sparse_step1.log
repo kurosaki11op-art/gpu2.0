@@ -1,0 +1,4 @@
+[ 106s] 1024 random trees applied to 3000 images
+trees under the density limit 0.30: 239 of 1024
+tree information (nats summed over 36 pooled positions): best 5.223, median -inf, selected worst 0.000; bits on: selected 0.095, all 0.623
+saved 128 selected trees

@@ -1,0 +1,3 @@
+[  22s] 256 random trees applied to 3000 images
+tree information (nats summed over 36 pooled positions): best 8.212, median 0.481, selected worst 5.413; bits on: selected 0.603, all 0.649
+saved 64 selected trees

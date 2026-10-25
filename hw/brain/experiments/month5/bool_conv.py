@@ -7,7 +7,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); sys.argv = ["x"]
 from shirt_new_methods_setup import xtr, xte, ytr, yte
 E = lambda k, d: type(d)(os.environ.get(k, d))
-FREEZE = E("FREEZE", 0)
+FREEZE = E("FREEZE", 0); PHASEA = E("PHASEA", 0); TREE_EVERY = E("TREE_EVERY", 1); DZ = E("DZ", 0); STOCH = E("STOCH", 0); STEPNO = 0; TREE_ON = True
 F, N2, EPOCHS, BATCH, NIMG, MARG, SH, CLAMP, SEED, LV = E("F", 16), E("N2", 1000), E("EPOCHS", 4), E("BATCH", 200), E("NIMG", 20000), E("MARG", 20), E("SH", 2), E("CLAMP", 1000), E("SEED", 0), 15
 rs = np.random.RandomState(SEED); G = 100; NP = 24 * 24; PB = 6 * 6 * F
 TT = np.array([[[(g >> (2 * a + b)) & 1 for b in (0, 1)] for a in (0, 1)] for g in range(16)], np.int32); AR = np.arange(16)[None, None, :]
@@ -48,11 +48,11 @@ def down_flat(e, Cold, ia, ib, a, b, n_prev):
     return np.clip(np.round(r), -LV, LV).reshape(len(e), n_prev).astype(np.int32)
 def tree_update(node, e, a, b):                                                                                          # e, a, b: (B, P, F) for gate `node`; counters shared over batch and positions
     global C1
-    if FREEZE: return
+    if FREEZE or not TREE_ON: return
     Q = np.zeros((F, 2, 2), np.int64)
     for ia in (0, 1):
         for ib in (0, 1): Q[:, ia, ib] = ((e * ((a == ia) & (b == ib))).sum(axis=(0, 1)))
-    S = np.einsum("fab,gab->fg", Q, TT.astype(np.int64)); S = S - S.sum(1, keepdims=True) // 16; C1[:, node, :] = np.clip(C1[:, node, :] - np.sign(S), -CLAMP, CLAMP)
+    S = np.einsum("fab,gab->fg", Q, TT.astype(np.int64)); S = S - S.sum(1, keepdims=True) // 16; mass = np.abs(e).sum(axis=(0, 1))[:, None]; step = np.sign(S) * ((np.abs(S) > (rs.random_sample(S.shape) * mass)) if STOCH else ((np.abs(S) > (mass >> DZ)) if DZ else 1)); C1[:, node, :] = np.clip(C1[:, node, :] - step, -CLAMP, CLAMP)                                  # dead zone: a gate counter moves only when the net evidence exceeds 1/2^DZ of the error mass
 def deriv(g, a, b): return TT[g, 1, b] - TT[g, 0, b], TT[g, a, 1] - TT[g, a, 0]
 Ptr, Pte = bits(xtr), bits(xte); t0 = time.time()
 def evaluate(n=10000):
@@ -64,14 +64,19 @@ def evaluate(n=10000):
 for ep in range(EPOCHS):
     perm = rs.permutation(len(xtr))[:NIMG]
     for k in range(0, len(perm) - BATCH + 1, BATCH):
+        STEPNO += 1; TREE_ON = (ep >= PHASEA) and (STEPNO % TREE_EVERY == 0)
         idx = perm[k:k + BATCH]; y = ytr[idx]; win = windows(Ptr[idx])
         g, wa, wb, leaf, m, root, pooled = conv_forward(win); acts = flat_forward(pooled); e = margin_error(acts[2], y)
         Cold = [c.copy() for c in C2]
         for i in (1, 0):
             ia, ib = W2[i]; a = acts[i][:, ia]; b = acts[i][:, ib]; C2[i] = upd_flat(C2[i], e, a, b)
             e = down_flat(e, Cold[i], ia, ib, a, b, sizes[i])                                                          # (B, 36F) error at the pooled bits
-        ep_ = e.reshape(-1, 6, 6, F); er = np.repeat(np.repeat(ep_, 4, axis=1), 4, axis=2).reshape(-1, NP, F)            # to every position of the block
-        er = np.where(((er > 0) & (root == 1)) | ((er < 0) & (root == 0)), er, 0)                                         # only positions that can move the OR in the wanted direction
+        ep_ = e.reshape(-1, 6, 6, F); Bn = len(ep_)
+        r5 = root.reshape(Bn, 6, 4, 6, 4, F).transpose(0, 1, 3, 5, 2, 4).reshape(Bn, 6, 6, F, 16)                       # block positions in the last axis
+        er5 = np.where((ep_ > 0)[..., None] & (r5 == 1), ep_[..., None], 0)                                              # pooled bit should turn OFF: every firing position is responsible
+        key = rs.random_sample(r5.shape) * (r5 == 0); one = (key == key.max(-1, keepdims=True)) & (r5 == 0)               # pooled bit should turn ON: ONE random non-firing position is asked to fire (as max-pooling routes to one winner)
+        er5 = er5 + np.where((ep_ < 0)[..., None] & one, ep_[..., None], 0)
+        er = er5.reshape(Bn, 6, 6, F, 4, 4).transpose(0, 1, 4, 2, 5, 3).reshape(Bn, NP, F)
         m0, m1 = m[..., 0], m[..., 1]; dA, dB = deriv(g[None, None, :, 6], m0, m1); e_m0 = np.clip(er * dA, -LV, LV); e_m1 = np.clip(er * dB, -LV, LV)
         tree_update(6, er, m0, m1)
         for q, (mn, cn0, cn1, em) in enumerate(((4, 0, 1, e_m0), (5, 2, 3, e_m1))):

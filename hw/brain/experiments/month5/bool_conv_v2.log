@@ -1,0 +1,14 @@
+   diag: root bits on 0.228 | pooled bits on 0.330 | tree gate histogram of node 6 [5 0 1 1 0 1 0 0 1 0 0 1 6 0 0 0] | distinct gates used per node [7, 7, 6, 7, 5, 7, 7]
+[  43s] epoch 1: test acc 0.3163 | cluster 0.4240 | Shirt recall 0.001 | Shirt AP 0.221
+   diag: root bits on 0.228 | pooled bits on 0.330 | tree gate histogram of node 6 [5 0 1 1 0 1 0 0 1 0 0 1 6 0 0 0] | distinct gates used per node [7, 7, 6, 7, 5, 7, 7]
+[  85s] epoch 2: test acc 0.3047 | cluster 0.3653 | Shirt recall 0.000 | Shirt AP 0.239
+   diag: root bits on 0.228 | pooled bits on 0.330 | tree gate histogram of node 6 [5 0 1 1 0 1 0 0 1 0 0 1 6 0 0 0] | distinct gates used per node [7, 7, 6, 7, 5, 7, 7]
+[ 128s] epoch 3: test acc 0.6430 | cluster 0.4660 | Shirt recall 0.730 | Shirt AP 0.329
+   diag: root bits on 0.228 | pooled bits on 0.330 | tree gate histogram of node 6 [5 0 1 1 0 1 0 0 1 0 0 1 6 0 0 0] | distinct gates used per node [7, 7, 6, 7, 5, 7, 7]
+[ 168s] epoch 4: test acc 0.6430 | cluster 0.5188 | Shirt recall 0.298 | Shirt AP 0.308
+   diag: root bits on 0.515 | pooled bits on 0.643 | tree gate histogram of node 6 [3 0 0 0 0 0 0 2 0 1 0 4 1 2 1 2] | distinct gates used per node [9, 10, 11, 10, 9, 9, 8]
+[ 215s] epoch 5: test acc 0.1314 | cluster 0.2955 | Shirt recall 0.835 | Shirt AP 0.134
+   diag: root bits on 0.612 | pooled bits on 0.701 | tree gate histogram of node 6 [1 1 2 0 1 0 0 2 0 0 1 2 2 1 1 2] | distinct gates used per node [8, 10, 9, 10, 8, 7, 11]
+[ 265s] epoch 6: test acc 0.1009 | cluster 0.2522 | Shirt recall 0.000 | Shirt AP 0.084
+   diag: root bits on 0.631 | pooled bits on 0.698 | tree gate histogram of node 6 [3 1 0 1 0 1 1 1 0 0 1 2 2 0 1 2] | distinct gates used per node [8, 10, 11, 9, 9, 11, 11]
+[ 310s] epoch 7: test acc 0.1000 | cluster 0.2500 | Shirt recall 0.000 | Shirt AP 0.074
