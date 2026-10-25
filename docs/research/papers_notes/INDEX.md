@@ -35,5 +35,6 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [On-chip and in-memory compute designs (Dojo, Tenstorrent, d-Matrix, macros, xAI check)](onchip_memory_chips_b.md): sources partly blocked; Tenstorrent atomic counters, in-memory macros, xAI finding
 - [Study: memory technology study](memory_technology_study.md): memory technologies, scaling limits and energy per bit (14 arXiv papers)
 - [Study: nvidia blackwell study](nvidia_blackwell_study.md): NVIDIA data-centre GPU architecture up to Blackwell (vendor pages blocked; specs second-hand)
+- [Study: Cerebras wafer-scale engine in depth](cerebras_study.md): about 22 arXiv papers read; vendor whitepapers blocked
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)

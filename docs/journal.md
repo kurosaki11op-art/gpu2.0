@@ -1600,4 +1600,7 @@ Founder's point: clauses cost memory and energy. Estimate with the project's ene
 ## 25 Oct 2026: memory-at-scale reading (Stanford, Cerebras, Groq, Graphcore, Dojo, in-memory macros)
 Six full-text notes and a synthesis ([memory_at_scale_synthesis](research/memory_at_scale_synthesis.md)). Data movement dominates energy; compression and zero-skipping keep tables on chip; memory must grow with what is remembered (about N bits for N pairs); tile SRAM with atomic counters matches L's update; analog compute not recommended; xAI designs no chip. Design rules set; next tests: MEM-C1 table compression, keyed clauses, tile cost model.
 
+## 25 Oct 2026: studies of NVIDIA Blackwell, Cerebras and memory technology
+Three full-text studies (about 45 arXiv papers; vendor pages blocked) and a synthesis ([hardware_landscape_synthesis](research/hardware_landscape_synthesis.md)). Key: B200 per-SM SRAM about 112 MB is 0.06% of 192 GB HBM; decode is bandwidth-bound; Cerebras tile is about half idle logic on lookups (lookup run at 1.97% of ASIC efficiency); one package hop costs about one local lookup. Hypotheses recorded for a counter-and-lookup tile; none tested.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
