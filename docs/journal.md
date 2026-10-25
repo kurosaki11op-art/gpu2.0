@@ -1544,4 +1544,7 @@ Mixture and neighbour-context dream generators (counted statistics only): all-cl
 ## 25 Oct 2026: full-text reading of 25 papers on exemplar-free class-incremental learning
 Twelve notes (A to L) read in full by parallel readers; synthesis in [exemplar_free_synthesis](research/exemplar_free_synthesis.md). Findings: feature-level replay beats pixel-level; old-versus-new detection is good with a strong closed-set classifier (our 0.73 to 0.81 was a weak-classifier number); no method learns features without stored samples or a frozen diverse encoder; local rules do not forget less alone. Not read: GDumb, brain-inspired replay journal version, MEMO.
 
+## 25 Oct 2026: feature-level dreams and an explicit old-versus-new gate
+MNIST staged, hard-gate integer learner, one seed (SIMULATED). Feature-level dreams (first gate layer frozen, upper layers grow): old classes 72.9 (independent bits) and 66.1 (mixture) against about 65 for pixel dreams, but new classes only 54 and 64 against 77, all-class 63.6 and 65.3 against 70 to 71: a frozen layer protects old classes and blocks new ones. Explicit gate from the raw maximum old-class score: AUROC 0.780 at 89.3% closed-set accuracy and 0.819 at 92.3%; new-class accuracy 24 to 29 because most new images pass as old. The local-head test (k=1 against k=2) is written (bool_local_heads.py) but not yet run: the shell safety check failed several times in a row. See [frozen_encoder_tests](../hw/results/frozen_encoder_tests.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

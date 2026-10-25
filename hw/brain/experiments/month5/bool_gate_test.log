@@ -1,0 +1,7 @@
+== explicit old-vs-new gate (max raw score), new nodes trained on new data only ==
+HID=250 EPOCHS=4
+after stage 1: accuracy on classes 0-4 (among 0-4) 0.8934 | 13s
+GATE (max raw old-class group score, threshold = 10th percentile of stage-1 training images): AUROC old-vs-new 0.780 | old acc 0.8451 | new acc 0.2366 | all 0.5493
+HID=1000 EPOCHS=8
+after stage 1: accuracy on classes 0-4 (among 0-4) 0.9227 | 86s
+GATE (max raw old-class group score, threshold = 10th percentile of stage-1 training images): AUROC old-vs-new 0.819 | old acc 0.8762 | new acc 0.2890 | all 0.5908

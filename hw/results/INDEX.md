@@ -69,5 +69,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Boolean error transport](boolean_error_transport.md): multiply-free error signals through a gate network; best 68 against 81 for float; integer rule failed
 - [Local layers and neurogenesis in staged learning](local_growth_staged.md): growth removes overwriting but not competition; local-only error worse
 - [Frozen deep gate features in staged learning](frozen_deep_features_staged.md): frozen gate features under the table do not help; L's code alone is best
+- [Feature-level dreams and an explicit old-versus-new gate](frozen_encoder_tests.md): feature dreams keep old classes but weaken new ones; the gate is limited by closed-set accuracy
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

@@ -1,0 +1,10 @@
+== feature-level dreams (layer 0 frozen, grow upper layers) ==
+DREAM=0
+DIAG old images: predicted old-and-right 0.119, old-but-wrong-old 0.000, predicted NEW 0.881 | new images: predicted new-right 0.827, new-but-wrong-new 0.172, predicted OLD 0.001
+LOCAL=0 GROW=1 DREAM=0 TYPE=indep | after stage 2 among all 10 classes: old 0.1185 | new 0.8266 | all 0.4627 | 39s
+DREAM=1 DREAMTYPE=indep
+DIAG old images: predicted old-and-right 0.729, old-but-wrong-old 0.045, predicted NEW 0.226 | new images: predicted new-right 0.539, new-but-wrong-new 0.213, predicted OLD 0.249
+LOCAL=0 GROW=1 DREAM=1 TYPE=indep | after stage 2 among all 10 classes: old 0.7287 | new 0.5386 | all 0.6363 | 38s
+DREAM=1 DREAMTYPE=mix
+DIAG old images: predicted old-and-right 0.661, old-but-wrong-old 0.034, predicted NEW 0.305 | new images: predicted new-right 0.644, new-but-wrong-new 0.216, predicted OLD 0.140
+LOCAL=0 GROW=1 DREAM=1 TYPE=mix | after stage 2 among all 10 classes: old 0.6612 | new 0.6437 | all 0.6527 | 39s
