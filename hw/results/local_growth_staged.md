@@ -33,4 +33,17 @@ Accuracy after stage 2 among all 10 classes (old = classes 0-4, new = 5-9):
 - Could the frozen old classes simply say "this is not mine"? Old-versus-unseen separation (AUC): frozen gate-group scores 0.78; margin 0.78; naive-Bayes class-density margin 0.81, log-likelihood 0.73; overlap with class bit-rate profile 0.79 (MNIST, 5 old classes against 5 unseen). A novelty gate at this level would mislabel about one image in five, so it cannot carry the decision.
 - Reading: a new class cannot be written safely without something that says what old images look like; one-vs-rest nodes need negatives, and negatives of old classes are exactly what a no-rehearsal learner lacks. The method that works class-incrementally in the literature (FlyModel) scores each class by a template match learned from its own data only, so every class competes on equal terms without negatives: that is a generative, counting readout like L's table, not discriminative gate features. **Deep discriminative features and no-rehearsal staged learning pull in opposite directions**; a workable split is frozen deep features trained once on a base set, with L's counting table as the stage-by-stage memory (untested here).
 
+## Better dreams (25 Oct 2026, MEASURED, one seed, end-to-end error, DREAM share 30%)
+
+Log: [bool_dream_types.log](../brain/experiments/month5/bool_dream_types.log). Dream generators built only from counted statistics: independent bit rates; a mixture of 10 prototypes per class; a neighbour-context model (each bit given the bit to its left, above and on the lower threshold plane).
+
+| Dreams | Grow: old / new / all | Overwrite: old / new / all |
+|---|---|---|
+| independent bits | 64.6 / 76.3 / 70.3 | 58.7 / 76.7 / 67.5 |
+| 10-prototype mixture | 65.8 / 76.9 / 71.2 | 56.4 / 81.0 / 68.4 |
+| neighbour context | 65.0 / 77.5 / 71.1 | 62.5 / 77.5 / 69.8 |
+
+- **More realistic dreams do not help**: all differences are within run-to-run noise (about 1 point); about 32% of old images still go to a new class in every case. Dream realism is not the bottleneck.
+- Growth keeps its small edge over overwriting (+1.3 to +2.8) but stays about 10 points under a joint-trained network.
+
 Related: [Results index](INDEX.md), [Boolean error transport](boolean_error_transport.md), [Forgetting-free adaptation papers](../../docs/research/papers_notes/forgetting_free_adaptation_papers.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

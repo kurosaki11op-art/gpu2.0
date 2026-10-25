@@ -1538,4 +1538,7 @@ Old images go to new classes (89% without dreams, 33% with); old-versus-unseen A
 ## 25 Oct 2026: frozen deep gate features under L's table
 Base classes 0-5 train a gate network (integer learner, error passed), frozen; table learns Shirt, Sneaker, Bag, Boot in stage 2. L's code alone 85.8 (Shirt AP 0.640); frozen gate features alone 83.9 (0.580); combined 83.2 (0.611). Failed. Staged learning costs Shirt about 0.11 AP against joint training. See [frozen_deep_features_staged](../hw/results/frozen_deep_features_staged.md).
 
+## 25 Oct 2026: better dreams for staged growth
+Mixture and neighbour-context dream generators (counted statistics only): all-class accuracy 71.2 and 71.1 against 70.3 for independent bits (grow), within noise; 32% of old images still go to new classes. Dream realism is not the bottleneck. See [local_growth_staged](../hw/results/local_growth_staged.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

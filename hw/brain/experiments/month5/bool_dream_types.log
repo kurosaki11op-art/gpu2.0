@@ -1,0 +1,12 @@
+DIAG old images: predicted old-and-right 0.646, old-but-wrong-old 0.029, predicted NEW 0.325 | new images: predicted new-right 0.763, new-but-wrong-new 0.158, predicted OLD 0.080
+LOCAL=0 GROW=1 DREAM=1 TYPE=indep | after stage 2 among all 10 classes: old 0.6464 | new 0.7626 | all 0.7029 | 43s
+DIAG old images: predicted old-and-right 0.658, old-but-wrong-old 0.026, predicted NEW 0.315 | new images: predicted new-right 0.769, new-but-wrong-new 0.151, predicted OLD 0.080
+LOCAL=0 GROW=1 DREAM=1 TYPE=mix | after stage 2 among all 10 classes: old 0.6583 | new 0.7688 | all 0.7120 | 47s
+DIAG old images: predicted old-and-right 0.650, old-but-wrong-old 0.028, predicted NEW 0.321 | new images: predicted new-right 0.775, new-but-wrong-new 0.152, predicted OLD 0.073
+LOCAL=0 GROW=1 DREAM=1 TYPE=ctx | after stage 2 among all 10 classes: old 0.6503 | new 0.7751 | all 0.7110 | 47s
+DIAG old images: predicted old-and-right 0.587, old-but-wrong-old 0.048, predicted NEW 0.364 | new images: predicted new-right 0.767, new-but-wrong-new 0.160, predicted OLD 0.073
+LOCAL=0 GROW=0 DREAM=1 TYPE=indep | after stage 2 among all 10 classes: old 0.5873 | new 0.7669 | all 0.6746 | 48s
+DIAG old images: predicted old-and-right 0.564, old-but-wrong-old 0.028, predicted NEW 0.408 | new images: predicted new-right 0.810, new-but-wrong-new 0.147, predicted OLD 0.043
+LOCAL=0 GROW=0 DREAM=1 TYPE=mix | after stage 2 among all 10 classes: old 0.5643 | new 0.8101 | all 0.6838 | 48s
+DIAG old images: predicted old-and-right 0.625, old-but-wrong-old 0.047, predicted NEW 0.328 | new images: predicted new-right 0.775, new-but-wrong-new 0.142, predicted OLD 0.084
+LOCAL=0 GROW=0 DREAM=1 TYPE=ctx | after stage 2 among all 10 classes: old 0.6250 | new 0.7747 | all 0.6978 | 50s

@@ -41,6 +41,36 @@ def err_from(out, tag, y, seen):
 def update(i, e, a, b):
     L = layers[i]; S = np.einsum("nj,njg->jg", e, TT[np.arange(16)[None, None, :], a[:, :, None], b[:, :, None]]); S = S - S.sum(1, keepdims=True) // 16
     step = -STEP * np.sign(S); step[L.frozen] = 0; L.C = np.clip(L.C + step, -CLAMP, CLAMP).astype(np.int32)
+
+DTYPE = os.environ.get("DREAMTYPE", "indep"); NPOOL = 3000
+def make_pool(classes):
+    """class-conditional dreams from counted statistics only (no stored images): indep = per-bit rates; mix = 10 prototypes per class (rates + weights); ctx = bit given left, up and lower-threshold-plane bits (8 contexts per bit)"""
+    pool = {}
+    for c in classes:
+        D = Xtr[ytr == c].astype(np.float32)
+        if DTYPE == "indep":
+            r = (D.sum(0) + 1) / (len(D) + 2); pool[c] = (rs.rand(NPOOL, NIN) < r).astype(np.int8)
+        elif DTYPE == "mix":
+            K = 10; cen = D[rs.choice(len(D), K, replace=False)]
+            for _ in range(8):
+                a = (D @ cen.T - 0.5 * (cen ** 2).sum(1)[None]).argmax(1); cen = np.stack([D[a == k].mean(0) if (a == k).any() else cen[k] for k in range(K)])
+            a = (D @ cen.T - 0.5 * (cen ** 2).sum(1)[None]).argmax(1); R = np.stack([(D[a == k].sum(0) + 1) / ((a == k).sum() + 2) for k in range(K)]); w = np.bincount(a, minlength=K) / len(a)
+            kk = rs.choice(K, NPOOL, p=w); pool[c] = (rs.rand(NPOOL, NIN) < R[kk]).astype(np.int8)
+        else:
+            Dp = D.reshape(-1, 2, 28, 28).astype(np.int8); cnt = np.zeros((2, 28, 28, 8)); tot = np.zeros((2, 28, 28, 8))
+            def ctxs(P, pl, y, x):
+                l = P[:, pl, y, x - 1] if x > 0 else 0; u = P[:, pl, y - 1, x] if y > 0 else 0; lo = P[:, 0, y, x] if pl == 1 else 0; return l + 2 * u + 4 * lo
+            for pl in (0, 1):
+                for y in range(28):
+                    for x in range(28):
+                        cx = np.asarray(ctxs(Dp, pl, y, x)) * np.ones(len(Dp), np.int64); cx = cx.astype(np.int64); cnt[pl, y, x] = np.bincount(cx, weights=Dp[:, pl, y, x], minlength=8); tot[pl, y, x] = np.bincount(cx, minlength=8)
+            T = (cnt + 0.5) / (tot + 1.0); out = np.zeros((NPOOL, 2, 28, 28), np.int8)
+            for pl in (0, 1):
+                for y in range(28):
+                    for x in range(28):
+                        cx = (np.asarray(ctxs(out, pl, y, x)) * np.ones(NPOOL, np.int64)).astype(np.int64); out[:, pl, y, x] = (rs.rand(NPOOL) < T[pl, y, x][cx])
+            pool[c] = out.reshape(NPOOL, NIN)
+    return pool
 def train_stage(Xs, ys, seen, rates=None, old=()):
     n_batches = len(Xs) // BATCH
     for ep in range(EPOCHS):
@@ -48,7 +78,7 @@ def train_stage(Xs, ys, seen, rates=None, old=()):
         for k in range(n_batches):
             idx = perm[k * BATCH:(k + 1) * BATCH]; X = Xs[idx]; y = ys[idx]
             if DREAM and len(old):                                                                           # dreams of old classes replace 30% of the batch
-                nd = int(0.3 * BATCH); yd = rs.choice(old, nd); Xd = (rs.rand(nd, NIN) < rates[yd]).astype(np.int8); X = np.concatenate([X[:BATCH - nd], Xd]); y = np.concatenate([y[:BATCH - nd], yd])
+                nd = int(0.3 * BATCH); yd = rs.choice(old, nd); Xd = np.stack([rates[c][rs.randint(NPOOL)] for c in yd]); X = np.concatenate([X[:BATCH - nd], Xd]); y = np.concatenate([y[:BATCH - nd], yd])
             acts, gates = forward(X)
             e = err_from(acts[3], layers[2].tag, y, seen)
             for i in (2, 1, 0):
@@ -62,18 +92,17 @@ def train_stage(Xs, ys, seen, rates=None, old=()):
 t0 = time.time(); S1, S2 = [0, 1, 2, 3, 4], [5, 6, 7, 8, 9]
 if GROW: build(S1)
 else: build(list(range(10)))
-m1 = np.isin(ytr, S1); rates = np.zeros((10, NIN))
-for c in S1: rates[c] = Xtr[ytr == c].mean(0)
+m1 = np.isin(ytr, S1)
 train_stage(Xtr[m1], ytr[m1], S1)
 r1 = evaluate(S1, {"stage1 classes": S1}); print("after stage 1: accuracy on classes 0-4 (among 0-4) %.4f | %.0fs" % (r1["stage1 classes"], time.time() - t0), flush=True)
 if GROW:
     for L in layers: L.frozen[:] = True
     add(0, HID, S2); add(1, HID, S2); add(2, GO * 5, S2, True)
 m2 = np.isin(ytr, S2)
-for c in S2: rates[c] = Xtr[ytr == c].mean(0)
+rates = make_pool(S1) if DREAM else None
 train_stage(Xtr[m2], ytr[m2], list(range(10)), rates, S1)
 r2 = evaluate(list(range(10)), {"old 0-4": S1, "new 5-9": S2, "all": list(range(10))})
 _a = np.concatenate([forward(Xte[i:i + 5000])[0][3] for i in range(0, len(Xte), 5000)]); _p = class_scores(_a, layers[2].tag, list(range(10))).argmax(1); _o = np.isin(yte, S1); _n = np.isin(yte, S2)
 print("DIAG old images: predicted old-and-right %.3f, old-but-wrong-old %.3f, predicted NEW %.3f | new images: predicted new-right %.3f, new-but-wrong-new %.3f, predicted OLD %.3f" % ((_p[_o] == yte[_o]).mean(), (np.isin(_p[_o], S1) & (_p[_o] != yte[_o])).mean(), np.isin(_p[_o], S2).mean(), (_p[_n] == yte[_n]).mean(), (np.isin(_p[_n], S2) & (_p[_n] != yte[_n])).mean(), np.isin(_p[_n], S1).mean()))
 print("mean group score (of 100) on old / new images: old groups %.1f / %.1f, new groups %.1f / %.1f" % (_a[_o][:, np.isin(layers[2].tag, S1)].mean() * 100, _a[_n][:, np.isin(layers[2].tag, S1)].mean() * 100, _a[_o][:, np.isin(layers[2].tag, S2)].mean() * 100, _a[_n][:, np.isin(layers[2].tag, S2)].mean() * 100))
-print("LOCAL=%d GROW=%d DREAM=%d | after stage 2 among all 10 classes: old %.4f | new %.4f | all %.4f | %.0fs" % (LOCAL, GROW, DREAM, r2["old 0-4"], r2["new 5-9"], r2["all"], time.time() - t0), flush=True)
+print("LOCAL=%d GROW=%d DREAM=%d TYPE=%s | after stage 2 among all 10 classes: old %.4f | new %.4f | all %.4f | %.0fs" % (LOCAL, GROW, DREAM, DTYPE, r2["old 0-4"], r2["new 5-9"], r2["all"], time.time() - t0), flush=True)
