@@ -66,5 +66,6 @@ tags: [spark, index]
 - [Event checklist](event_checklist.md): what to do before the 23 Oct event and what to say / not say.
 - [Pitch Q&A sheet](pitch_qa_sheet.md): the questions judges are likely to ask, with honest labelled answers.
 - [Short paper](paper_spark_cortex.md): abstract, design, results, cost, limits and related work in two pages, for the paper-style presentation.
+- [What the failures taught us](lessons_from_failures_25oct.md): nine lessons and the design they point to (25 Oct 2026)
 
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)
