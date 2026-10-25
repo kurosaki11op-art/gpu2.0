@@ -1,0 +1,6 @@
+[  21s] pooled wiring chosen
+[  39s] class-specific wiring chosen
+[  65s] A fixed spatial parents                            acc 0.8098 | cluster 0.6953 | Shirt recall 0.422 | Shirt AP 0.473
+[  91s] B information-chosen parents, pooled data          acc 0.8332 | cluster 0.7268 | Shirt recall 0.491 | Shirt AP 0.536
+[ 130s] C information-chosen parents, per class            acc 0.8384 | cluster 0.7302 | Shirt recall 0.487 | Shirt AP 0.556
+share of bits whose parents differ between Shirt (6) and T-shirt (0): 0.869

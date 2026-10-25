@@ -1556,4 +1556,7 @@ Founder clarified: DNA is a connected structure of parts. Each bit scored given 
 ## 25 Oct 2026: connected structure over L's detector bits
 Spatial neighbours plus data-chosen partner detectors: accuracy 78.3 (1 context bit), 84.5 (3+3), 85.2 (4+5); Shirt AP 0.42, 0.585, 0.617; no gain on top of L's table. Curve flattens near 85%. Continual by construction. See [connected_structure](../hw/results/connected_structure.md).
 
+## 25 Oct 2026: L-Genome design and kill test 1 (learned wiring)
+Founder's plan: layers and detectors as a connected, append-only structure with neurogenesis. Design written as failure-to-rule map with six kill tests ([L_genome_design](L_genome_design.md)). Test 1 (SIMULATED, one seed, equal table budget): fixed spatial parents 81.0 / AP 0.473; parents chosen by counted information 83.3 / 0.536; per-class information-chosen parents 83.8 / 0.556. Learned wiring pays (+2.3, +0.063); class-specific wiring adds little (+0.5, +0.020; criterion not met).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
