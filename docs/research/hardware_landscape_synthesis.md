@@ -40,4 +40,4 @@ Founder's rule: learn from them, do not copy. Sources are the three full studies
 3. Tile cost model from RTL counts with sourced constants (pJ per bit by level, hop energy 0.25 to 0.5 pJ per bit).
 4. Scaling test: memory and accuracy against number of classes and tasks.
 
-Related: [Docs index](INDEX.md), [Memory at scale synthesis](memory_at_scale_synthesis.md), [Wafer design study](L_wafer_design.md), [Paper notes index](papers_notes/INDEX.md), [Journal](journal.md)
+Related: [Docs index](../INDEX.md), [Memory at scale synthesis](memory_at_scale_synthesis.md), [Wafer design study](../L_wafer_design.md), [Paper notes index](papers_notes/INDEX.md), [Journal](../journal.md)
