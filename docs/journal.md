@@ -1576,4 +1576,8 @@ Random-wired 500+500 gates on L's code: softmax 73.4 (Shirt AP 0.397), integer m
 ## 25 Oct 2026: Tsetlin-style clause learner tuned
 Lower specificity was the lever: s 8 gives 74%, s 3 gives 86% (200 clauses, 7 epochs, Shirt AP 0.613) and 86.1% with Shirt AP 0.648 at 400 clauses (3.5 epochs), clauses of 4 to 9 literals; local feedback only. See [tsetlin_clause_learner](../hw/results/tsetlin_clause_learner.md).
 
+## 25 Oct 2026: connected clause seeding, and L-Deep v1 (weight-shared gate trees)
+- tm_genome.py: clauses born connected (seed bit plus three information-chosen parents) against plain empty clauses, 200 clauses per class, s 3, same epochs: seeded 84.25 / 85.34 / 85.65 (Shirt AP 0.541 / 0.577 / 0.604) at epochs 1 / 2 / 3, plain 84.19 (AP 0.589) at epoch 1 and about 85.8 (0.580) at epoch 3 in tm_faithful: no clear benefit; growth variant not run. Logs: tm_genome_seed.log.
+- bool_conv.py (L-Deep v1): 16 shared gate trees over 5x5 windows, OR pooling, flat gate layers, integer margin error. With trees frozen at random the pipeline learns (64% at epoch 3 of 300 steps); with tree learning on it collapses to one class (chance). Hypothesis: tree counters sum errors over all positions and the sign step flips whole filters at once; fix to try: dead-zone threshold or slower tree updates. Not yet confirmed. Log: bool_conv_v1.log.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

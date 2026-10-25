@@ -1,0 +1,4 @@
+[  58s] epoch 1: test acc 0.1481 | cluster 0.2500 | Shirt recall 0.000 | Shirt AP 0.087
+[ 118s] epoch 2: test acc 0.1805 | cluster 0.2500 | Shirt recall 0.820 | Shirt AP 0.168
+[ 175s] epoch 3: test acc 0.1503 | cluster 0.2500 | Shirt recall 0.903 | Shirt AP 0.156
+[ 234s] epoch 4: test acc 0.1180 | cluster 0.2500 | Shirt recall 0.000 | Shirt AP 0.138

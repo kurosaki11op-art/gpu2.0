@@ -1,0 +1,4 @@
+[  11s] MODE=seed: 200 clauses per class at start (capacity 200)
+[ 115s] after epoch 1: test acc 0.8425 | cluster 0.7412 | Shirt recall 0.555 | Shirt AP 0.541 | active clauses 2000 | mean included literals 6.3
+[ 193s] after epoch 2: test acc 0.8534 | cluster 0.7595 | Shirt recall 0.597 | Shirt AP 0.577 | active clauses 2000 | mean included literals 7.3
+[ 269s] after epoch 3: test acc 0.8565 | cluster 0.7590 | Shirt recall 0.558 | Shirt AP 0.604 | active clauses 2000 | mean included literals 8.0
