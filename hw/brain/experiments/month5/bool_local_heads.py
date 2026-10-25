@@ -21,7 +21,13 @@ def fwd(X):
     for i in range(3):
         g = C[i].argmax(1); acts.append(TT[g[None, :], acts[-1][:, W[i][0]], acts[-1][:, W[i][1]]].astype(np.int8))
     return acts
+ERRMODE, MARG, SH = os.environ.get("ERRMODE", "softmax"), E("MARG", 20), E("SH", 1)
 def err(out, tg, y):
+    if ERRMODE == "margin":                                       # integer only: group sums, subtract, compare, shift, clip (no exponential, no division, no multiply)
+        s = np.stack([out[:, tg == c].sum(1) for c in range(10)], 1).astype(np.int32); st = s[np.arange(len(y)), y][:, None]
+        need = s - st + MARG; need[np.arange(len(y)), y] = 0; need = np.where(need > 0, need, 0); ek = np.minimum(need >> SH, LV)         # every class scoring within MARG of the true class is pushed down by how much it violates
+        et = -np.minimum(ek.sum(1), 127); ek[np.arange(len(y)), y] = et                                                                  # the true class is pushed up by the SUM of the violations, so the errors balance as softmax's do
+        return ek.astype(np.int32)[:, tg]
     s = np.stack([out[:, tg == c].sum(1) for c in range(10)], 1) / max(1.0, len(tg) / 10 / 10); p = np.exp(s - s.max(1, keepdims=True)); p /= p.sum(1, keepdims=True); d = p - np.eye(10)[y]
     return np.round(d / (np.abs(d).max() + 1e-12) * LV).astype(np.int32)[:, tg]
 def upd(Cm, e, a, b):
@@ -42,7 +48,7 @@ for ep in range(EPOCHS):
             if i < 2 and MODE == 1: e = err(acts[i + 1], tag[i], y)
             if i < 2 and MODE == 2:
                 ha, hb = HW[i]; ha_a = acts[i + 1][:, ha]; ha_b = acts[i + 1][:, hb]; hg = HC[i].argmax(1); hout = TT[hg[None, :], ha_a, ha_b].astype(np.int8)
-                eh = err(hout, htag, y); HC[i] = upd(HC[i], eh, ha_a, ha_b); e = down(eh, HC[i], ha, hb, ha_a, ha_b, sizes[i + 1])               # through the head into this layer only
-            C[i] = upd(C[i], e, a, b)
-            if MODE == 0 and i > 0: e = down(e, C[i], ia, ib, a, b, sizes[i])
+                eh = err(hout, htag, y); Hold = HC[i]; HC[i] = upd(HC[i], eh, ha_a, ha_b); e = down(eh, Hold, ha, hb, ha_a, ha_b, sizes[i + 1])               # through the head into this layer only
+            Cold = C[i]; C[i] = upd(C[i], e, a, b)
+            if MODE == 0 and i > 0: e = down(e, Cold, ia, ib, a, b, sizes[i])
     print("MODE=%d epoch %d: test acc %.4f | %.0fs" % (MODE, ep + 1, evaluate(), time.time() - t0), flush=True)

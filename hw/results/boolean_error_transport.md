@@ -74,4 +74,18 @@ Input is L's own 4,608-bit code; three gate layers with fixed random wiring (N, 
 - **A random-wired fully connected gate network is far below L on this code** (78.8 against 88.9, Shirt AP 0.49 against 0.75): each gate sees only two bits, so a few thousand gates cannot read a 4,608-bit code the way a full counting row does, and scaling gates from 1,000 to 4,000 gave +1.8. This does not help Shirt as built.
 - The published gate networks that reach CNN accuracy use weight-shared convolutional gate trees and fixed edge detectors; that architecture is not built here. Not tested: a hybrid where gate outputs are appended to L's code and read by the counting table.
 
+## Round 5: the softmax is not needed (25 Oct 2026, MEASURED/SIMULATED, MNIST, hard-gate integer learner, 500 + 500 + 1,000 gates)
+
+Script [bool_local_heads.py](../brain/experiments/month5/bool_local_heads.py) (MODE=0, end-to-end), log [bool_margin_error.log](../brain/experiments/month5/bool_margin_error.log). The output error is computed with integer operations only: group popcounts, subtract, compare, shift, clip. Every class whose group score is within MARG of the true class's is pushed down by (violation >> SH, at most 15); the true class is pushed up by the sum of the violations (at most 127), so the errors balance as softmax's do. No exponential, no division, no multiply.
+
+| Output error | 4 epochs | 8 epochs, seeds 0 / 1 / 2 | mean of 3 |
+|---|---|---|---|
+| softmax (reference) | 79.0 | 79.4 / 80.2 / 80.4 | 80.0 |
+| integer margin, MARG 20, SH 2 | 78.3 | 81.3 / 80.5 / 81.9 | 81.2 |
+
+- **Softmax can be removed.** The integer margin error is level at 4 epochs (78.3 against 79.0) and ahead at 8 epochs on all three seeds (+1.8, +0.3, +1.4). The learner now has no non-integer step in the error path.
+- **Sensitivity**: MARG 15 to 20 with SH 2 works (78.3 at 4 epochs); SH 1 gave 67, MARG 40 with SH 3 gave 73, MARG 30 gave 71: the shift and margin need setting (TENTATIVE: one dataset).
+- **Two failures on the way, both informative**: (1) an unbalanced margin error (true class pushed up by the largest violation only) left the output nodes mostly off and stayed at chance (11 to 14%): the error sum across classes must be about zero; (2) passing the error through the counters after they were updated, instead of the gates the forward pass used, dropped accuracy from 79 to 46: the backward step must use the same gates as the forward step.
+- Remaining non-integer or buffering items in the learner: none in the error path; a transient buffer of the batch's activations is still needed.
+
 Related: [Results index](INDEX.md), [Error transport design](../../docs/error_transport_design.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

@@ -1,0 +1,32 @@
+softmax (reference): 0.7902
+margin MARG=20 SH=1
+MODE=0 epoch 4: test acc 0.1382 | 67s
+margin MARG=10 SH=0
+MODE=0 epoch 4: test acc 0.1429 | 65s
+margin MARG=40 SH=2
+MODE=0 epoch 4: test acc 0.1253 | 64s
+margin MARG=30 SH=1
+MODE=0 epoch 4: test acc 0.1130 | 65s
+margin balanced MARG=20 SH=1
+MODE=0 epoch 4: test acc 0.6735 | 63s
+margin balanced MARG=20 SH=2
+MODE=0 epoch 4: test acc 0.7831 | 64s
+margin balanced MARG=10 SH=1
+MODE=0 epoch 4: test acc 0.7478 | 65s
+margin balanced MARG=30 SH=2
+MODE=0 epoch 4: test acc 0.7122 | 68s
+margin balanced MARG=20 SH=3
+MODE=0 epoch 4: test acc 0.7696 | 70s
+margin balanced MARG=40 SH=3
+MODE=0 epoch 4: test acc 0.7252 | 66s
+margin balanced MARG=15 SH=2
+MODE=0 epoch 4: test acc 0.7828 | 66s
+8 epochs, 500+500 gates
+MODE=0 epoch 8: test acc 0.7944 | 131s
+MODE=0 epoch 8: test acc 0.8126 | 135s
+seed 1, 8 epochs
+MODE=0 epoch 8: test acc 0.8020 | 137s
+MODE=0 epoch 8: test acc 0.8045 | 134s
+seed 2, 8 epochs
+MODE=0 epoch 8: test acc 0.8042 | 141s
+MODE=0 epoch 8: test acc 0.8185 | 131s

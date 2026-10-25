@@ -1567,4 +1567,7 @@ Founder's plan: layers and detectors as a connected, append-only structure with 
 ## 25 Oct 2026: Tsetlin-style learner settings sweep (SIMULATED, one seed, about half an epoch each)
 Literal cap raised to 256. Specificity s=8: 71.4% accuracy (Shirt AP 0.476); s=4: 79.8% (0.494); s=15: 62.3% (0.364). Lower s is better; next s=2 to 3 and more clauses. Log: tm_faithful_sweep.log. Answered the founder's question on backprop and error passing for Shirt: second layer by backprop +0.03 to +0.07 AP at 57 times the reads; random-wired gates with integer error passing 0.49; CNN ruler 0.84.
 
+## 25 Oct 2026: the softmax is not needed in the integer gate learner
+Integer margin error (balanced, shift and clip only): 78.3 against 79.0 at 4 epochs, 81.3 / 80.5 / 81.9 against 79.4 / 80.2 / 80.4 at 8 epochs (3 seeds). Unbalanced version stayed at chance; passing error through post-update counters cost 33 points. Learner now has no exponential, division or multiply in the error path. See [boolean_error_transport](../hw/results/boolean_error_transport.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
