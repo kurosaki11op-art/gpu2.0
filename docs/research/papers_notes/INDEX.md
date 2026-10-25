@@ -21,5 +21,6 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Exemplar-free class-incremental E](exemplar_free_papers_e.md): generative and feature replay
 - [Exemplar-free class-incremental G](exemplar_free_papers_g.md): few-shot class-incremental and growing prototypes
 - [Exemplar-free class-incremental H](exemplar_free_papers_h.md): neurogenesis, expert gates and expandable representations
+- [Exemplar-free class-incremental L](exemplar_free_papers_l.md): novelty and out-of-distribution detection for old-versus-new decisions
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
