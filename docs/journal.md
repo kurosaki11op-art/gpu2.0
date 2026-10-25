@@ -1550,4 +1550,7 @@ MNIST staged, hard-gate integer learner, one seed (SIMULATED). Feature-level dre
 ## 25 Oct 2026: three difference-learning ideas for Shirt
 Residual layer (AP 0.748, same information re-coded), split where confused (0.739 against a control 0.749), label-free contrastive integer gates v1 (0.505 alone, 0.717 combined; codes of different images disagree in only 24% of bits). All failed the criterion (0.80). Cause: unsupervised structure follows the largest variation; the relevance signal (labels or invariances) is missing or too weak. See [shirt_difference_layers](../hw/results/shirt_difference_layers.md).
 
+## 25 Oct 2026: connected structure (the DNA idea) as a counted generative classifier
+Founder clarified: DNA is a connected structure of parts. Each bit scored given its neighbours by counted per-class tables (no backprop, no stored images): accuracy 67.5 independent, 79.0 / 82.2 / 83.1 / 83.6 with 3 / 5 / 7 / 9 neighbour bits; Shirt AP 0.26 to 0.60; with L's table +0.5 accuracy, +0.006 AP. Continual by construction. Next: connect L's detector bits and scales. See [connected_structure](../hw/results/connected_structure.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

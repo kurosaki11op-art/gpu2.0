@@ -43,6 +43,7 @@ tags: [l, claims, rules, evidence]
 | Each layer fixing only its own error (no error passed) matches end-to-end | **FAILED** | 8 to 15 points worse in the staged test |
 | Frozen deep gate features (trained once by integer error passing) under L's table help staged learning or Shirt | **FAILED** | 83.9 alone and 83.2 combined against 85.8 for L's code; Shirt AP 0.58 / 0.61 against 0.64; [frozen_deep_features_staged](../hw/results/frozen_deep_features_staged.md) |
 | Label-free difference learning (residual layer, split where confused, contrastive gates v1) improves Shirt | **FAILED** | AP 0.748 / 0.739 / 0.717 against 0.753; control matched the split features; [shirt_difference_layers](../hw/results/shirt_difference_layers.md) |
+| A counted connected generative model (each bit given its neighbours) classifies from raw bits and learns classes without forgetting | TENTATIVE | 67.5 independent, 79.0 / 82.2 / 83.1 / 83.6 with 3 / 5 / 7 / 9 neighbour bits, one seed; below L's table (88.6); tables grow as 2 to the power of the neighbours; [connected_structure](../hw/results/connected_structure.md) |
 | L beats a CNN on accuracy | **FALSE** (not claimed) | Fashion-MNIST: 88.9 to 90.4 against 91.1 to 91.7 for small CNNs |
 | 'Second sense' from the spoken name improves recognition | **WITHDRAWN** | the name is the label (oracle test) |
 | First cascade: Shirt recall +10.7 | **WITHDRAWN** | gate chosen on test data; validated version +0.9 overall, no Shirt gain |

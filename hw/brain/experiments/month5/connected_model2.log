@@ -1,0 +1,12 @@
+[  7s] NB=5 contexts per bit 32, table entries per class 50176 fitted
+connected generative model alone, 5 neighbour bits acc 0.8222 | cluster 0.7125 | Shirt recall 0.526 | Shirt AP 0.552
+validation: mixing weight 0.75 gives 0.8946 (table alone 0.8917); generative alone on validation 0.8249
+L table + connected generative (5 bits), weight 0.75 acc 0.8878 | cluster 0.8100 | Shirt recall 0.666 | Shirt AP 0.743
+[  8s] NB=7 contexts per bit 128, table entries per class 200704 fitted
+connected generative model alone, 7 neighbour bits acc 0.8311 | cluster 0.7212 | Shirt recall 0.550 | Shirt AP 0.578
+validation: mixing weight 1.50 gives 0.8957 (table alone 0.8917); generative alone on validation 0.8349
+L table + connected generative (7 bits), weight 1.50 acc 0.8888 | cluster 0.8097 | Shirt recall 0.669 | Shirt AP 0.744
+[ 14s] NB=9 contexts per bit 512, table entries per class 802816 fitted
+connected generative model alone, 9 neighbour bits acc 0.8361 | cluster 0.7270 | Shirt recall 0.559 | Shirt AP 0.599
+validation: mixing weight 1.50 gives 0.8971 (table alone 0.8917); generative alone on validation 0.8415
+L table + connected generative (9 bits), weight 1.50 acc 0.8908 | cluster 0.8130 | Shirt recall 0.671 | Shirt AP 0.747

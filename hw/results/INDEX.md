@@ -71,5 +71,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Frozen deep gate features in staged learning](frozen_deep_features_staged.md): frozen gate features under the table do not help; L's code alone is best
 - [Feature-level dreams and an explicit old-versus-new gate](frozen_encoder_tests.md): feature dreams keep old classes but weaken new ones; the gate is limited by closed-set accuracy
 - [Difference-learning ideas for Shirt](shirt_difference_layers.md): residual layer, split where confused, label-free contrastive gates; all failed, with reasons
+- [Connected structure (the DNA idea)](connected_structure.md): counted neighbour-conditioned class models; connection adds real information and is continual by construction
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

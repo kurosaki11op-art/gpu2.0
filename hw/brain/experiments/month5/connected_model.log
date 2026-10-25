@@ -1,0 +1,9 @@
+[ 12s] independent bits fitted
+generative model alone: independent bits           acc 0.6747 | cluster 0.5423 | Shirt recall 0.241 | Shirt AP 0.260
+[ 25s] connected (3 neighbour bits) fitted
+generative model alone: connected (3 neighbour bits) acc 0.7902 | cluster 0.6910 | Shirt recall 0.487 | Shirt AP 0.519
+L counting table (trained on 50,000)               acc 0.8861 | cluster 0.8080 | Shirt recall 0.658 | Shirt AP 0.741
+validation: mixing weight 0.20 gives 0.8927 (table alone 0.8917)
+L table + generative (independent bits), weight 0.20 acc 0.8855 | cluster 0.8065 | Shirt recall 0.649 | Shirt AP 0.736
+validation: mixing weight 1.00 gives 0.8939 (table alone 0.8917)
+L table + generative (connected (3 neighbour bits)), weight 1.00 acc 0.8860 | cluster 0.8105 | Shirt recall 0.655 | Shirt AP 0.738
