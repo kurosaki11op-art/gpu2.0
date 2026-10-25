@@ -188,7 +188,7 @@ shared-memory traffic but raise register use, and past a point register spilling
 |--------|-------|
 | Headline | about 2x over FlashAttention; 1.7-3.0x over FlashAttention, 1.3-2.5x over Triton FlashAttention, 3-10x over PyTorch |
 | Peak | up to 230 TFLOPs/s (73% of 312) forward; up to 63% backward |
-| Fwd+bwd, head dim 64, no causal, N=512 .. 16k | FlashAttention-2 about 102 -> 175 TFLOPs/s range in Fig. 4(a) (read off the figure; exact per-length values are **UNVERIFIED**, partly garbled in text extraction) |
+| Fwd+bwd, head dim 64, no causal, N=512 .. 16k | per-length TFLOPs/s are in Fig. 4 bar charts only; exact values are **UNVERIFIED** (garbled in text extraction) |
 | H100, same code, no TMA or new tensor-core instructions | up to 335 TFLOPs/s (Fig. 7); authors expect another 1.5-2x with new instructions |
 | End-to-end (Table 1, 8xA100) GPT3-1.3B 2k ctx | 142 TFLOPs/s without FlashAttention, 189 with, 196 with FlashAttention-2 |
 | GPT3-1.3B 8k ctx | 72 / 170 / 220 |
@@ -272,8 +272,8 @@ wall-clock time" because entrywise sparsity has irregular memory access that doe
 structured matrices that "are efficient in theory" fail on GPUs because dense matmul is so well optimised (the "hardware
 lottery", cited from the FlashAttention appendix). Monarch is parameterised as two block-diagonal factors precisely so that
 each factor is a *batch of small dense blocks* that load into fast memory and run on the existing batch-matmul path. The
-FLOP reduction (about 2.1-2.4x in Tables 1 and 2) and the speedup (1.7-2.0x) are of similar size, so here the saving is
-in parameters read (60-65% fewer weights for ViT/Mixer, 42-53% for GPT-2) as much as arithmetic. The paper does not
+FLOP reduction (about 2.1-2.5x in Tables 1 and 2, DERIVED) and the speedup (1.7-2.0x) are of similar size, so here the saving is
+in parameters read (60-65% fewer weights for ViT/Mixer, 42-54% for GPT-2) as much as arithmetic. The paper does not
 break time into memory vs compute (UNVERIFIED).
 
 ### 3d. Fit with L
@@ -314,7 +314,7 @@ autoregressive decoding - "model-level temporal locality" - so one swap amortise
 | Co-packaged HBM | 64 GiB | 1.8 TB/s (Table II); "about 2 TB/s" in the text | router weights (always), the "current" expert(s), KV cache, activations; a software-managed cache tier between DDR and SRAM |
 | DDR DRAM (pluggable DIMMs) | up to 1.5 TiB | over 200 GB/s | weights of all 150 experts (cold set) |
 
-Chip: TSMC 5 nm, 2.5D CoWoS, two dies per socket, under 650 mm^2 each (as printed), under 2 GHz, 638 BF16 TFLOPs, 1040 PCUs
+Chip: TSMC 5 nm, 2.5D CoWoS, two dies per socket, die size under 650 mm^2 (Table II), under 2 GHz, 638 BF16 TFLOPs, 1040 PCUs
 (Pattern Compute Units: systolic or SIMD) and 1040 PMUs; PCU supports FP32, BF16, INT32 in SIMD. Both HBM and DDR are
 software-managed address spaces (not caches). Eight sockets form a node; a node loads DDR to HBM at over 1 TB/s in
 aggregate. Peer-to-peer links stream between sockets without touching DDR or HBM.
