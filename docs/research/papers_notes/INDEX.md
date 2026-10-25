@@ -18,5 +18,8 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Exemplar-free class-incremental B](exemplar_free_papers_b.md): SSRE, EFC (cold start)
 - [Exemplar-free class-incremental C](exemplar_free_papers_c.md): FeCAM, ADC
 - [Exemplar-free class-incremental D](exemplar_free_papers_d.md): C-FSCIL (hyperdimensional prototypes), AdaGauss (why exemplar-free fails), exemplar-free survey
+- [Exemplar-free class-incremental E](exemplar_free_papers_e.md): generative and feature replay
+- [Exemplar-free class-incremental G](exemplar_free_papers_g.md): few-shot class-incremental and growing prototypes
+- [Exemplar-free class-incremental H](exemplar_free_papers_h.md): neurogenesis, expert gates and expandable representations
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
