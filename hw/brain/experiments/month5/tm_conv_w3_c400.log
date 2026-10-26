@@ -1,0 +1,32 @@
+[  32s]   epoch 0, 10000 images: test acc 0.7300 | cluster 0.5790 | Shirt recall 0.638 | Shirt AP 0.317 | mean included literals per clause 8.4
+[  52s]   epoch 0, 20000 images: test acc 0.7788 | cluster 0.6633 | Shirt recall 0.409 | Shirt AP 0.401 | mean included literals per clause 8.8
+[  71s]   epoch 0, 30000 images: test acc 0.7778 | cluster 0.6388 | Shirt recall 0.514 | Shirt AP 0.413 | mean included literals per clause 9.2
+[  89s]   epoch 0, 40000 images: test acc 0.7972 | cluster 0.6837 | Shirt recall 0.233 | Shirt AP 0.501 | mean included literals per clause 9.3
+[ 106s]   epoch 0, 50000 images: test acc 0.7919 | cluster 0.6532 | Shirt recall 0.169 | Shirt AP 0.451 | mean included literals per clause 9.4
+[ 124s] after epoch 1: test acc 0.7963 | cluster 0.6767 | Shirt recall 0.273 | Shirt AP 0.460 | mean included literals per clause 9.7
+[ 141s]   epoch 1, 10000 images: test acc 0.8167 | cluster 0.7097 | Shirt recall 0.392 | Shirt AP 0.500 | mean included literals per clause 10.0
+[ 157s]   epoch 1, 20000 images: test acc 0.8138 | cluster 0.6907 | Shirt recall 0.481 | Shirt AP 0.478 | mean included literals per clause 10.0
+[ 174s]   epoch 1, 30000 images: test acc 0.8169 | cluster 0.6935 | Shirt recall 0.398 | Shirt AP 0.484 | mean included literals per clause 10.5
+[ 190s]   epoch 1, 40000 images: test acc 0.8259 | cluster 0.7155 | Shirt recall 0.403 | Shirt AP 0.504 | mean included literals per clause 10.4
+[ 207s]   epoch 1, 50000 images: test acc 0.8157 | cluster 0.6965 | Shirt recall 0.261 | Shirt AP 0.511 | mean included literals per clause 10.6
+[ 222s] after epoch 2: test acc 0.8157 | cluster 0.6880 | Shirt recall 0.131 | Shirt AP 0.489 | mean included literals per clause 10.7
+[ 239s]   epoch 2, 10000 images: test acc 0.8271 | cluster 0.7173 | Shirt recall 0.399 | Shirt AP 0.504 | mean included literals per clause 10.9
+[ 256s]   epoch 2, 20000 images: test acc 0.8203 | cluster 0.7070 | Shirt recall 0.287 | Shirt AP 0.480 | mean included literals per clause 11.1
+[ 272s]   epoch 2, 30000 images: test acc 0.8263 | cluster 0.7160 | Shirt recall 0.300 | Shirt AP 0.500 | mean included literals per clause 11.2
+[ 288s]   epoch 2, 40000 images: test acc 0.8195 | cluster 0.7077 | Shirt recall 0.437 | Shirt AP 0.460 | mean included literals per clause 11.1
+[ 304s]   epoch 2, 50000 images: test acc 0.8258 | cluster 0.7153 | Shirt recall 0.354 | Shirt AP 0.520 | mean included literals per clause 11.5
+[ 321s] after epoch 3: test acc 0.8281 | cluster 0.7160 | Shirt recall 0.346 | Shirt AP 0.515 | mean included literals per clause 11.6
+[ 338s]   epoch 3, 10000 images: test acc 0.8365 | cluster 0.7362 | Shirt recall 0.475 | Shirt AP 0.509 | mean included literals per clause 11.9
+[ 355s]   epoch 3, 20000 images: test acc 0.8280 | cluster 0.7222 | Shirt recall 0.509 | Shirt AP 0.496 | mean included literals per clause 11.9
+[ 371s]   epoch 3, 30000 images: test acc 0.8340 | cluster 0.7295 | Shirt recall 0.468 | Shirt AP 0.525 | mean included literals per clause 12.1
+[ 388s]   epoch 3, 40000 images: test acc 0.8363 | cluster 0.7350 | Shirt recall 0.534 | Shirt AP 0.517 | mean included literals per clause 12.0
+[ 404s]   epoch 3, 50000 images: test acc 0.8278 | cluster 0.7190 | Shirt recall 0.336 | Shirt AP 0.498 | mean included literals per clause 12.3
+[ 420s] after epoch 4: test acc 0.8365 | cluster 0.7328 | Shirt recall 0.400 | Shirt AP 0.522 | mean included literals per clause 12.4
+[ 436s]   epoch 4, 10000 images: test acc 0.8356 | cluster 0.7330 | Shirt recall 0.480 | Shirt AP 0.514 | mean included literals per clause 12.4
+[ 453s]   epoch 4, 20000 images: test acc 0.8315 | cluster 0.7208 | Shirt recall 0.436 | Shirt AP 0.532 | mean included literals per clause 12.5
+[ 469s]   epoch 4, 30000 images: test acc 0.8350 | cluster 0.7322 | Shirt recall 0.405 | Shirt AP 0.532 | mean included literals per clause 12.6
+[ 484s]   epoch 4, 40000 images: test acc 0.8326 | cluster 0.7292 | Shirt recall 0.450 | Shirt AP 0.506 | mean included literals per clause 12.8
+[ 500s]   epoch 4, 50000 images: test acc 0.8374 | cluster 0.7368 | Shirt recall 0.447 | Shirt AP 0.523 | mean included literals per clause 12.9
+[ 515s] after epoch 5: test acc 0.8353 | cluster 0.7310 | Shirt recall 0.438 | Shirt AP 0.508 | mean included literals per clause 12.8
+[ 530s]   epoch 5, 10000 images: test acc 0.8356 | cluster 0.7310 | Shirt recall 0.466 | Shirt AP 0.503 | mean included literals per clause 12.9
+[ 543s] saved (epoch 5, position 18000): test acc 0.8391 | cluster 0.7372 | Shirt recall 0.439 | Shirt AP 0.553 | mean included literals per clause 13.1

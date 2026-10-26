@@ -1662,4 +1662,8 @@ Asked: do all the necessary fixes for 2 hours. Done: dream banks (freq and tree-
 
 Asked: piece 4. Done: layer-2 clause learner over L's code, raw bits and the 8,000 layer-1 firing bits (400 clauses per class, 6 epochs). Result: alone 87.9 against 87.0 for layer 1; with L's table 89.90 against 89.73 to 89.80, inside the seed spread; adding all layer-1 bits 89.81. Depth works as a mechanism but not in the system. Note: hw/results/clause_depth_layer2.md.
 
+## 26 Oct 2026: weight sharing across positions (SIMULATED)
+
+Asked: piece 5. Done: tm_conv.py, convolutional clauses (window, OR over positions, random matching position gets feedback), on L's detector map and on raw pixel bits. Result: shared clauses on L's code 83.9 alone, +0.2 to +0.4 with L's table (flat: +0.9); on raw pixels 68 to 75 and unstable. No gain on centred clothing; untested on shifted data. All five pieces now done. Note: hw/results/clause_weight_sharing.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

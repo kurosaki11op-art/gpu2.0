@@ -261,5 +261,9 @@ Weak-spot round (20 Oct night, SIMULATED unless marked): A the two-sense result 
 
 Old clause banks never change; new classes get new banks; old classes get appended veto banks that learn "not mine" from new images and "mine" from dreams. Ten Fashion-MNIST classes in two stages reach 82 to 83 overall against 85.8 for joint training with the same code (gap on the new classes: they never see real images of their look-alikes). Stored real images (20 per class, 241 KB) reach the same level but cost three times the table; hard dreams and tree-structured dreams did not help; counted vetoes are bounded but weak. Details: hw/results/append_only_clause_staged.md.
 
+## Depth and weight sharing with the clause learner (26 Oct 2026, SIMULATED)
+
+A second clause layer works alone (87.9 against 87.0) but adds only 0.1 to 0.2 in the system; weight-shared (convolutional) clauses add +0.2 to +0.4 on L's code and fail on raw pixels (68 to 75%). On aligned clothing neither is worth its cost; best system stays L + about 4,000 flat clauses (89.7 to 89.8). Details: hw/results/clause_depth_layer2.md, hw/results/clause_weight_sharing.md.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
