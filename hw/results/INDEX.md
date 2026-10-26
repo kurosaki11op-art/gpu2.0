@@ -83,5 +83,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Weight sharing (convolutional clauses)](clause_weight_sharing.md): local rule works but no gain on aligned clothing (+0.2 to +0.4; raw pixels 68 to 75%)
 - [Hypothesis loop (propose, test, keep)](hypothesis_loop.md): works as a loop, no gain on Shirt in three proposal variants; missed Shirts are not separable by short conjunctions
 - [Composition, first test (relations)](composition_relation_test.md): relation code generalises to unseen classes (70 to 73%) but a plain overlap threshold gets 79%
+- [Sequence memory: burst allocation](sequence_burst_allocation.md): matched-order state, allocate longer contexts only on error; 4 to 5 times fewer contexts than full backoff for 1.7 to 2 points
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

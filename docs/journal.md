@@ -1698,4 +1698,8 @@ Version 3 proposed clauses from L's own missed Shirts: 0 pass (they fire on the 
 
 relation_pairs.py: same/different on unseen classes. Relation code 70 to 73% on unseen classes, side-by-side code 50.5%, but an unlearned overlap threshold 79.1%: the relation generalises but adds nothing over similarity; weak test. Next: held-out attribute combinations (design 1). Note: hw/results/composition_relation_test.md.
 
+## 26 Oct 2026 (night): part 2 first test, burst allocation (SIMULATED)
+
+seq_order_test.py: counting sequence model with matched-order state and allocate-on-error. At max order 8: 60.9% with 238 thousand contexts against full backoff 62.9% with 1.2 million, and fixed window best 57.0% with 74 thousand. Positive on memory efficiency; one repetitive corpus; no carried-hypothesis test yet. Note: hw/results/sequence_burst_allocation.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

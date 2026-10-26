@@ -1,0 +1,17 @@
+corpus: 700000 bytes of notes
+RESULT fixed window order 1 (+order 0): accuracy 0.2220, stored contexts      127
+RESULT fixed window order 2 (+order 0): accuracy 0.3750, stored contexts     3635
+RESULT fixed window order 3 (+order 0): accuracy 0.5142, stored contexts    23369
+RESULT fixed window order 4 (+order 0): accuracy 0.5700, stored contexts    74489
+RESULT fixed window order 6 (+order 0): accuracy 0.5212, stored contexts   240266
+RESULT fixed window order 8 (+order 0): accuracy 0.4361, stored contexts   389044
+RESULT full backoff up to order 2:        accuracy 0.3751, stored contexts     3760
+RESULT full backoff up to order 3:        accuracy 0.5168, stored contexts    27126
+RESULT full backoff up to order 4:        accuracy 0.5868, stored contexts   101611
+RESULT full backoff up to order 6:        accuracy 0.6192, stored contexts   495064
+RESULT full backoff up to order 8:        accuracy 0.6287, stored contexts  1203710
+RESULT burst allocation, max order  3:     accuracy 0.5150, stored contexts    20801 (matched order histogram [38, 3398, 21209, 325355])
+RESULT burst allocation, max order  4:     accuracy 0.5800, stored contexts    62411 (matched order histogram [38, 3398, 21209, 60690, 264665])
+RESULT burst allocation, max order  6:     accuracy 0.6043, stored contexts   170564 (matched order histogram [38, 3398, 21209, 60690, 73181, 62618, 128866])
+RESULT burst allocation, max order  8:     accuracy 0.6094, stored contexts   237738 (matched order histogram [38, 3398, 21209, 60690, 73181, 62618, 44025, 31260, 53581])
+RESULT burst allocation, max order 12:     accuracy 0.6119, stored contexts   281407 (matched order histogram [38, 3398, 21209, 60690, 73181, 62618, 44025, 31260, 20678, 12899, 7669, 5098, 7237])
