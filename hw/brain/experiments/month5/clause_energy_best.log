@@ -1,0 +1,10 @@
+state tm_faithful_state_both.npz | N=4000 clauses | 5.6 included literals/clause | 63% have a positive literal (1485 always-on)
+clauses read per image 2164 (of 4000) | clauses firing 1046 | table rows read 1634 (589 detector + 1046 clause)
+stores: clauses 38 KB + table 84 KB (8-bit entries) = 122 KB = 1.9 tiles of 64 KB
+tile mapping (16 clause tiles by key literal): distinct tiles touched per decision 16.0 of 16 (min 16); clause-read messages (one per clause read, to its tile) 2164; partial-score messages 160
+ESTIMATED energy per decision: L alone 29.3 nJ | L + clauses 110.7 nJ (front end 17.0, clause reads 55.2, table 38.5) = x3.77 of L | routed 30%: 53.7 nJ (x1.83)
+state tm_faithful_state_both_s1.npz | N=4000 clauses | 6.3 included literals/clause | 61% have a positive literal (1547 always-on)
+clauses read per image 2219 (of 4000) | clauses firing 1035 | table rows read 1624 (589 detector + 1035 clause)
+stores: clauses 43 KB + table 84 KB (8-bit entries) = 127 KB = 2.0 tiles of 64 KB
+tile mapping (16 clause tiles by key literal): distinct tiles touched per decision 16.0 of 16 (min 16); clause-read messages (one per clause read, to its tile) 2219; partial-score messages 160
+ESTIMATED energy per decision: L alone 29.3 nJ | L + clauses 112.6 nJ (front end 17.0, clause reads 57.4, table 38.3) = x3.84 of L | routed 30%: 54.3 nJ (x1.85)

@@ -1622,4 +1622,8 @@ Founder: build the strongest version first, tune cost later. 1,600 clauses per c
 
 Asked: finish the five pieces; first, a second seed. Done: trained a second clause layer (seed 1, 800 clauses per class over detector + raw-pixel literals, T 60, s 3, 5.5 epochs) and evaluated it with the same protocol (clause_routed2.py). Result (one dataset split, two seeds): L alone 88.85; L + best 4,000 clauses 89.76 (seed 0: 89.73), cluster 82.4 (82.1), Shirt recall 0.667 (0.649), AP 0.786 (0.780); 8,000 clauses 89.80 (89.68); routed 30%: 89.80 (4,000), 89.84 (8,000). The gain of about +0.9 points is reproduced, so it is not one lucky seed. Files: hw/brain/experiments/month5/tm_both_c800_seed1.log, clause_routed2_both_s1.log.
 
+## 26 Oct 2026: energy and tile mapping of the best version (ESTIMATED)
+
+Asked: piece 2. Done: clause_energy_best.py measures keyed clause reads on 5,000 test images for both seeds. Result: 2,164 to 2,219 of 4,000 clauses read per image (about 1,500 are always-on pure-negation clauses), about 1,040 fire; energy 111 to 113 nJ per decision, x3.8 of L (29.3 nJ), x1.85 when routed to 30% of images; about 6x (13x routed) below the int8 MLP. Store 122 to 127 KB fits 2 tiles; 16-way spreading is pointless. Not mapped in RTL. Note: hw/results/best_version_energy_tiles.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
