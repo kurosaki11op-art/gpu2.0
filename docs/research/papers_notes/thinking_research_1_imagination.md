@@ -10,32 +10,39 @@ using only counting, clauses, sparse codes and local rules (matrix-free, multipl
 Rule for this note: for each paper we say what the mechanism is, what transfers to our rules, what does not, and then invent our own method.
 All numbers in sections (a) and (b) are **as reported by the authors** (not re-measured by us). Numbers in (d) are ESTIMATED by us.
 
-Honesty about reading: the papers were downloaded from arXiv and converted to text. "Fully" below means I read the whole main text;
-"partly" means I read the abstract, the method and selected result sections (found by search inside the text) but not every section or appendix.
-Classic papers that are not on arXiv (wake-sleep, RBM/DBN, Olshausen-Field, sum-product networks original, complementary learning systems,
-hippocampal replay) were NOT read; I only use what the arXiv papers say about them, and I say so.
+Honesty about reading (revised 26 Oct 2026 after the founder asked for full-text reads): PDFs were downloaded from arXiv. "Yes" in the
+table means I read every page of the main text and appendix text of that paper (page images through the PDF reader, or the extracted
+full text where the image reader hit a request limit; in that case figures were not inspected, only captions and text). "Main text" means the main
+paper read fully and the long appendix only partly. "Partly" means selected sections only. Numbers marked "read off a figure" are approximate.
+Classics not reachable from this sandbox (the proxy returned 403 or DNS failure for toronto.edu, nature.com, biorxiv.org, ncbi.nlm.nih.gov,
+export.arxiv.org): Hinton wake-sleep and RBM/DBN papers, Olshausen-Field sparse coding, Tadros et al. Nature Commun. 2022, Golden et al.
+2022, McClelland complementary learning systems. They were NOT read. Substitutes that were reachable and read: the Poon-Domingos sum-product
+network paper (arXiv 1202.3732, it compares against DBN/DBM and describes them), the 2019 arXiv preprint of the Bazhenov-group sleep algorithm
+(arXiv 1908.02240) and a 2026 follow-up from the same group (arXiv 2606.08447).
 
 ## (a) Papers read
 
 | # | Citation | Year | Read fully? |
 |---|---|---|---|
-| 1 | Shin, Lee, Kim, Kim. Continual Learning with Deep Generative Replay (arXiv 1705.08690) | 2017 | Yes (main text) |
-| 2 | van de Ven, Tolias. Generative replay with feedback connections as a general strategy for continual learning (arXiv 1809.10635; this is the preprint of "Brain-inspired replay", Nat. Commun. 2020, which I did not read) | 2018/2019 | Partly (method, Tables 3-4, discussion) |
-| 3 | Liu et al. Generative Feature Replay for Class-Incremental Learning (arXiv 2004.09199) | 2020 | Partly (abstract, method, bias discussion) |
-| 4 | Krotov, Hopfield. Dense Associative Memory for Pattern Recognition (arXiv 1606.01164) | 2016 | Partly (sections 1-4, feature-to-prototype start) |
-| 5 | Ramsauer et al. Hopfield Networks is All You Need (arXiv 2008.02217) | 2020/2021 | Partly (abstract, intro, capacity statements) |
-| 6 | Santos, Niculae, McNamee, Martins. Sparse and Structured Hopfield Networks (arXiv 2402.13725) | 2024 | Partly (sections 1-3) |
-| 7 | Bricken, Pehlevan. Attention Approximates Sparse Distributed Memory (arXiv 2111.05498) | 2021 | Partly (SDM review, circle-intersection) |
-| 8 | Hinton. The Forward-Forward Algorithm: Some Preliminary Investigations (arXiv 2212.13345) | 2022 | Partly (sections 1-3, 5 "Sleep", 6) |
-| 9 | Millidge, Salvatori, Song, Bogacz, Lukasiewicz. Predictive Coding: Towards a Future of Deep Learning beyond Backpropagation? (arXiv 2202.09467) | 2022 | Partly (abstract, introduction) |
-| 10 | Peharz et al. Einsum Networks: Fast and Scalable Learning of Tractable Probabilistic Circuits (arXiv 2004.06231) | 2020 | Partly (definitions, sampling, EM, image samples) |
-| 11 | Bhattarai, Granmo et al. Tsetlin Machine Embedding: Representing Words Using Logical Expressions (arXiv 2301.00709) | 2023 | Mostly (architecture, inference, learning rules; not the benchmark tables) |
-| 12 | Hawkins, Ahmad. Why Neurons Have Thousands of Synapses (arXiv 1511.00083) | 2015 | Partly (section 2.1, segment/false-match theory) |
-| 13 | Kleyko et al. A Survey on Hyperdimensional Computing aka Vector Symbolic Architectures, Part I (arXiv 2111.06077) | 2021 | Partly (binding, bundling, permutation sections only) |
-| 14 | van de Ven, Tolias. Three scenarios for continual learning (arXiv 1904.07734) | 2019 | Downloaded, only used through paper 2 (same protocols and tables) - not counted as read |
+| 1 | Shin, Lee, Kim, Kim. Continual Learning with Deep Generative Replay (arXiv 1705.08690) | 2017 | Yes |
+| 2 | van de Ven, Tolias. Generative replay with feedback connections (arXiv 1809.10635; preprint of "Brain-inspired replay", Nat. Commun. 2020, journal version not read) | 2018/2019 | Yes (extracted text incl. appendix text; figures not inspected) |
+| 3 | Liu et al. Generative Feature Replay for Class-Incremental Learning (arXiv 2004.09199) | 2020 | No (partly) |
+| 4 | Krotov, Hopfield. Dense Associative Memory for Pattern Recognition (arXiv 1606.01164) | 2016 | Yes (all 12 pages) |
+| 5 | Ramsauer et al. Hopfield Networks is All You Need (arXiv 2008.02217) | 2020/2021 | No (abstract, introduction; 94 pages, mostly appendix) |
+| 6 | Santos, Niculae, McNamee, Martins. Sparse and Structured Hopfield Networks (arXiv 2402.13725) | 2024 | Yes (all 21 pages incl. proofs skimmed) |
+| 7 | Bricken, Pehlevan. Attention Approximates Sparse Distributed Memory (arXiv 2111.05498) | 2021 | Main text yes; 57-page appendix partly |
+| 8 | Hinton. The Forward-Forward Algorithm (arXiv 2212.13345) | 2022 | Yes (extracted text, all sections; figures not inspected) |
+| 9 | Millidge et al. Predictive Coding: Towards a Future of Deep Learning beyond Backpropagation? (arXiv 2202.09467) | 2022 | Yes (all 10 pages) |
+| 10 | Peharz et al. Einsum Networks (arXiv 2004.06231) | 2020 | Yes (all 12 pages) |
+| 11 | Bhattarai, Granmo et al. Tsetlin Machine Embedding (arXiv 2301.00709) | 2023 | Yes (extracted text incl. result tables; figures not inspected) |
+| 12 | Hawkins, Ahmad. Why Neurons Have Thousands of Synapses (arXiv 1511.00083) | 2015 | Mostly (theory, learning rules, capacity, discussion, methods; figures and tables only by text) |
+| 13 | Kleyko et al. Survey on Hyperdimensional Computing / VSA, Part I (arXiv 2111.06077) | 2021 | No (partly) |
+| 14 | Poon, Domingos. Sum-Product Networks: A New Deep Architecture (arXiv 1202.3732) | 2011 | Yes (all 10 pages) |
+| 15 | Krishnan, Tadros, Ramyaa, Bazhenov. Biologically inspired sleep algorithm for artificial neural networks (arXiv 1908.02240) | 2019 | Mostly (methods, results 3.1-3.4; later sections and supplement not read) |
+| 16 | Bazhenov, Delanois, Krishnan. Not Just After One: Sleep-Inspired Replay Prevents Catastrophic Forgetting After Sequential Tasks (arXiv 2606.08447) | 2026 | Yes (all 4 pages) |
+| 17 | van de Ven, Tolias. Three scenarios for continual learning (arXiv 1904.07734) | 2019 | No (downloaded; used only through paper 2) |
 
-Not read, only mentioned: Tadros et al., sleep-like unsupervised replay (Nat. Commun. 2022; only a search summary: local Hebbian rule, noisy input, no stored data),
-Golden et al. sleep in spiking nets (same: summary only), Hinton wake-sleep and Boltzmann machines (via Hinton's own account in paper 8), Olshausen-Field sparse coding (cited by paper 12).
+Not read (unreachable): Hinton wake-sleep and RBM/DBN originals (only Hinton's own account in paper 8 and the DBN/DBM comparison in paper 14), Olshausen-Field sparse coding (only cited by paper 12), Tadros et al. 2022, Golden et al. 2022, complementary learning systems (only as described in paper 1).
 
 ## (b) Paper by paper
 
