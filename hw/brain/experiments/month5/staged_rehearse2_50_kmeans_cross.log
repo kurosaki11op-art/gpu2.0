@@ -1,0 +1,12 @@
+RESULT rehearse kmeans cross E=50 steps 50000 offset -5: all 0.7602 | old 0.6482 | new 0.9283 | Shirt recall 0.856
+RESULT rehearse kmeans cross E=50 steps 50000 offset +0: all 0.7802 | old 0.6912 | new 0.9137 | Shirt recall 0.803
+RESULT rehearse kmeans cross E=50 steps 50000 offset +5: all 0.7935 | old 0.7283 | new 0.8912 | Shirt recall 0.726
+RESULT rehearse kmeans cross E=50 steps 50000 offset +10: all 0.8062 | old 0.7627 | new 0.8715 | Shirt recall 0.659
+RESULT rehearse kmeans cross E=50 steps 100000 offset -5: all 0.8085 | old 0.7690 | new 0.8678 | Shirt recall 0.587
+RESULT rehearse kmeans cross E=50 steps 100000 offset +0: all 0.8185 | old 0.8002 | new 0.8460 | Shirt recall 0.511
+RESULT rehearse kmeans cross E=50 steps 100000 offset +5: all 0.8219 | old 0.8225 | new 0.8210 | Shirt recall 0.420
+RESULT rehearse kmeans cross E=50 steps 100000 offset +10: all 0.8244 | old 0.8420 | new 0.7980 | Shirt recall 0.338
+RESULT rehearse kmeans cross E=50 steps 150000 offset -5: all 0.8168 | old 0.7615 | new 0.8998 | Shirt recall 0.702
+RESULT rehearse kmeans cross E=50 steps 150000 offset +0: all 0.8306 | old 0.7938 | new 0.8858 | Shirt recall 0.649
+RESULT rehearse kmeans cross E=50 steps 150000 offset +5: all 0.8374 | old 0.8212 | new 0.8618 | Shirt recall 0.562
+RESULT rehearse kmeans cross E=50 steps 150000 offset +10: all 0.8425 | old 0.8440 | new 0.8403 | Shirt recall 0.485

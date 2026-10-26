@@ -1,0 +1,15 @@
+RESULT rehearse random cross PL=1.00 E=20 steps 50000 offset +0: all 0.7672 | old 0.6602 | new 0.9277 | Shirt recall 0.851
+RESULT rehearse random cross PL=1.00 E=20 steps 50000 offset +10: all 0.8081 | old 0.7527 | new 0.8912 | Shirt recall 0.719
+RESULT rehearse random cross PL=1.00 E=20 steps 50000 offset +20: all 0.8293 | old 0.8222 | new 0.8400 | Shirt recall 0.540
+RESULT rehearse random cross PL=1.00 E=20 steps 50000 offset +30: all 0.8276 | old 0.8632 | new 0.7742 | Shirt recall 0.339
+RESULT rehearse random cross PL=1.00 E=20 steps 50000 offset +40: all 0.8100 | old 0.8837 | new 0.6995 | Shirt recall 0.125
+RESULT rehearse random cross PL=1.00 E=20 steps 100000 offset +0: all 0.7285 | old 0.5887 | new 0.9383 | Shirt recall 0.878
+RESULT rehearse random cross PL=1.00 E=20 steps 100000 offset +10: all 0.7789 | old 0.6877 | new 0.9157 | Shirt recall 0.789
+RESULT rehearse random cross PL=1.00 E=20 steps 100000 offset +20: all 0.8165 | old 0.7720 | new 0.8832 | Shirt recall 0.670
+RESULT rehearse random cross PL=1.00 E=20 steps 100000 offset +30: all 0.8308 | old 0.8287 | new 0.8340 | Shirt recall 0.501
+RESULT rehearse random cross PL=1.00 E=20 steps 100000 offset +40: all 0.8289 | old 0.8643 | new 0.7758 | Shirt recall 0.306
+RESULT rehearse random cross PL=1.00 E=20 steps 150000 offset +0: all 0.7691 | old 0.6588 | new 0.9345 | Shirt recall 0.847
+RESULT rehearse random cross PL=1.00 E=20 steps 150000 offset +10: all 0.8109 | old 0.7477 | new 0.9058 | Shirt recall 0.740
+RESULT rehearse random cross PL=1.00 E=20 steps 150000 offset +20: all 0.8385 | old 0.8170 | new 0.8708 | Shirt recall 0.620
+RESULT rehearse random cross PL=1.00 E=20 steps 150000 offset +30: all 0.8398 | old 0.8600 | new 0.8095 | Shirt recall 0.416
+RESULT rehearse random cross PL=1.00 E=20 steps 150000 offset +40: all 0.8257 | old 0.8837 | new 0.7388 | Shirt recall 0.205

@@ -1670,4 +1670,8 @@ Asked: piece 5. Done: tm_conv.py, convolutional clauses (window, OR over positio
 
 Asked: continual learning is the biggest claim and must not be given up; memory and power stay primary but 10 to 20 times better than a GPU is the goal. Done: staged_replay (4 epochs; 20, 50, 100 per class) and staged_rehearse.py (all banks keep learning on a balanced stream, old classes from stored images). Result: frozen + vetoes stalls at 82 to 83; unfrozen rehearsal with 100 stored per old class reaches 84.8 against joint 85.8; with 20 stored it overfits and collapses. Cost about 50 KB per old class (ESTIMATED), about 300 KB against an 84 KB table: accuracy is reachable, memory price not yet a 10 to 20 times win. Next: cheaper exemplars (coverage-based choice, compression), regularised rehearsal with few images. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: cheaper exemplars, recombination, label-free offset (SIMULATED)
+
+Asked: items 1 (coverage-chosen exemplars) and 3 (regularised rehearsal with few images). Result: k-means picks are worse than random at 20 per class; recombining two stored images of a class (plus 2% noise) is the fix: 20 per class reaches 83 to 84 (joint 85.8), as good as 100 per class without it; the earlier collapse was mostly the operating point (best offset +30, not +10). A label-free rule (match the predicted old-class share to the known stream share) picks that offset. Memory about 10 KB per old class (ESTIMATED). Spread between identical runs about 1 point; one seed. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

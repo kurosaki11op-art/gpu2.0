@@ -147,4 +147,25 @@ User direction: memory and power stay primary but the goal is 10 to 20 times bet
 - **Too few stored images overfit.** With 20 per class the clauses learn the stored images as exceptions: accuracy peaks early and then collapses (old 34 to 52%). The stream needs enough distinct images (about 100 per class here) or a regulariser.
 - **Memory price (ESTIMATED).** 100 images per old class, stored as the detector code (about 580 active bits, about 0.5 KB delta-coded) is about 50 KB per old class, 300 KB for six, against an 84 KB table. At 1,000 classes that is about 50 MB. Plain replay baselines needed 200 per class; this is about half that, not the 40 times less I earlier hoped for. So the replay route reaches accuracy at a memory cost that is not yet a 10 to 20 times win; it needs cheaper exemplars (shared, compressed, or chosen to cover the class with fewer images).
 
+### Cheaper exemplars: recombination, k-means picks, plasticity limit, and a label-free offset (26 Oct, SIMULATED; `staged_rehearse2.py`, logs `staged_rehearse2_*.log`)
+
+Unfrozen rehearsal as above (150,000 steps, 6 old classes, joint reference 85.8). Changes: (1) PICK=kmeans chooses the stored images nearest to cluster centres instead of random ones; (3) AUG=cross draws each rehearsal image as a recombination of two stored images of the same class (each bit where they differ taken from either parent) with 2% bit noise, so a handful of images cannot be memorised; PL slows the old banks' learning.
+
+| stored per old class | picked | augmentation | best offset: all / old / new | note |
+|---|---|---|---|---|
+| 20 | k-means | none | 67.9 (+10) | collapses, as with random |
+| 20 | k-means | recombine | 81.3 early, 77.9 late (+10) | centres are atypical; worse than random |
+| 20 | random | recombine | 84.0 (+30): 86.0 / 81.0, and 82.9 (+30) on a rerun | stable between 50k and 150k steps |
+| 20 | random | recombine, plasticity 0.3 | 79.6 (+10) late | slowing the old banks does not help |
+| 50 | k-means | recombine | 84.3: 84.4 / 84.0 | |
+| 50 | random | recombine | 83.8 to 83.6 (+10 to +20) | |
+| 100 | random | none | 84.8 (+10) | earlier run, no augmentation |
+| joint | | | 85.8 | |
+
+- **The earlier "collapse" was mostly an operating point.** With a wide offset sweep (0 to +40) 20 stored images per class hold 83 to 84 at 50k and 150k steps; the old and new classes just balance at a larger offset (+30) than the +10 first tried.
+- **Recombination is what makes few images enough**: 20 per class with recombination (about 83 to 84) matches 100 per class without it (84.8). Memory for 20 per old class is about 10 KB per class, about 60 KB for six, below the 84 KB table (ESTIMATED).
+- k-means centres are worse than random images at 20 (typical images matter, not just spread); lowering plasticity does not help.
+- **Label-free offset rule works in this run**: the chip picks the offset at which the share of test images it assigns to old classes equals the old classes' share of its own training stream (0.600, known from counters). On the rerun it picks +30 (predicted share 0.609), which is also the best offset (82.9). One run; the earlier run's best offset was +30 as well.
+- Run-to-run spread is about 1 point (84.0 against 82.9 for the same setting; the parallel update order is not fixed). Gap to joint training: about 2 points.
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)

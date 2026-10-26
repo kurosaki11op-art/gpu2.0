@@ -265,5 +265,9 @@ Old clause banks never change; new classes get new banks; old classes get append
 
 A second clause layer works alone (87.9 against 87.0) but adds only 0.1 to 0.2 in the system; weight-shared (convolutional) clauses add +0.2 to +0.4 on L's code and fail on raw pixels (68 to 75%). On aligned clothing neither is worth its cost; best system stays L + about 4,000 flat clauses (89.7 to 89.8). Details: hw/results/clause_depth_layer2.md, hw/results/clause_weight_sharing.md.
 
+## Continual learning with a small rehearsal store (26 Oct 2026, SIMULATED)
+
+Best staged design so far: all banks keep learning (nothing frozen) on a class-balanced stream; old classes are rehearsed from about 20 stored images each, drawn as recombinations of two stored images plus noise. Fashion-MNIST, 6 + 4 classes: 83 to 84 against 85.8 for joint training, memory about 10 KB per old class (ESTIMATED), old/new offset set label-free by matching the predicted old share to the known stream share. Open: second dataset, second seed, cheaper per-image storage, energy cost of rehearsal. Details: hw/results/append_only_clause_staged.md.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
