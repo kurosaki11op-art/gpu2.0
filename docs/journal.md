@@ -1646,4 +1646,8 @@ Asked: first fix the old-class accuracy. Done: error destinations and decision-r
 
 Asked: build hard dreams and the label-free offset rule. Done: staged_hard.py (imagine mixtures, keep unsure ones, learn the difference). Result: old classes recover (to 88) but new classes fall (84 to 68) and Shirt recall to 0.016; overall 81.9 to 79.4; label-free offset rule picked the wrong direction. Cause: per-bit frequency dreams carry no real boundary structure. Next: dreams with correlations (from clauses/code), or accept a few stored hard examples. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: think loop by counting (SIMULATED)
+
+Asked: give the chip the full ability to think. Done: staged_think.py, compare stored counts of an old and a new class, install one-literal vetoes with a guaranteed damage bound (f_c <= RHO), no dreams and no training. Result: best +3.2 (75.8 to 79.0) with the bound verified; below learned vetoes (81 to 82); still a trade-off axis. Next: conjunction vetoes and a damage-budget rule for the operating point. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

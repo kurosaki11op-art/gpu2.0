@@ -1,0 +1,17 @@
+new banks only (no veto)                             all 0.7582 | old 0.8608 | new 0.6042 | Shirt recall 0.346
+counted vetoes rho 0.01, 20 per new class (461 total) all 0.7629 | old 0.8555 | new 0.6240 | Shirt recall 0.371
+    vetoes firing on an old image's OWN class: 0.54 of 80
+counted vetoes rho 0.01, 75 per new class (1634 total) all 0.7654 | old 0.8477 | new 0.6420 | Shirt recall 0.407
+    vetoes firing on an old image's OWN class: 1.63 of 300
+counted vetoes rho 0.03, 20 per new class (479 total) all 0.7736 | old 0.8450 | new 0.6665 | Shirt recall 0.407
+    vetoes firing on an old image's OWN class: 1.54 of 80
+counted vetoes rho 0.03, 75 per new class (1744 total) all 0.7736 | old 0.8197 | new 0.7045 | Shirt recall 0.454
+    vetoes firing on an old image's OWN class: 4.85 of 300
+counted vetoes rho 0.10, 20 per new class (480 total) all 0.7896 | old 0.8063 | new 0.7645 | Shirt recall 0.494
+    vetoes firing on an old image's OWN class: 5.83 of 80
+counted vetoes rho 0.10, 75 per new class (1800 total) all 0.7710 | old 0.7172 | new 0.8518 | Shirt recall 0.591
+    vetoes firing on an old image's OWN class: 18.53 of 300
+counted vetoes rho 0.30, 20 per new class (480 total) all 0.7707 | old 0.6953 | new 0.8838 | Shirt recall 0.691
+    vetoes firing on an old image's OWN class: 17.72 of 80
+counted vetoes rho 0.30, 75 per new class (1800 total) all 0.6390 | old 0.4380 | new 0.9405 | Shirt recall 0.871
+    vetoes firing on an old image's OWN class: 58.37 of 300

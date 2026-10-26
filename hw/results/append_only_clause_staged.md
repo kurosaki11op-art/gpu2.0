@@ -76,4 +76,20 @@ The chip imagines a mixture of an old and a new class (bit by bit from their sto
 - The label-free offset rule picked -6 and -10, the wrong direction (fixed offsets of +5 to +10 were better before and after). Equalising dream accuracy tells nothing about real accuracy, because independent bit frequencies do not reproduce the structure of the real boundary.
 - Conclusion: dreams built from per-bit frequencies cannot carry the Shirt versus T-shirt/Coat boundary. Better imagination needs structure (dreams drawn from the clauses and the code, with correlations), or a few real stored hard examples (not exemplar-free). Not solved.
 
+### Think loop by counting, no dreams (26 Oct, SIMULATED; `staged_think.py`, `staged_think.log`)
+
+Compare stored per-class bit frequencies of an old class c and a new class n (real counts, no sampling): bits common in n and rare in c become one-literal vetoes under c. A veto that fires only if its literal holds can fire on at most f_c(literal) of c's own images, so the damage to the old class is bounded before the veto is installed (admit only if f_c <= RHO). No training, no dreams, one counting pass. Same saved new banks as above (new banks only: 75.8 overall, old 86.1, new 60.4, Shirt recall 0.346).
+
+| RHO, vetoes per old/new pair | all ten | old | new | Shirt recall | vetoes firing on own class |
+|---|---|---|---|---|---|
+| 0.01, 20 | 76.3 | 85.6 | 62.4 | 0.371 | 0.54 |
+| 0.03, 75 | 77.4 | 82.0 | 70.5 | 0.454 | 4.9 |
+| 0.10, 20 | 79.0 | 80.6 | 76.5 | 0.494 | 5.8 |
+| 0.10, 75 | 77.1 | 71.7 | 85.2 | 0.591 | 18.5 |
+| 0.30, 20 | 77.1 | 69.5 | 88.4 | 0.691 | 17.7 |
+
+- The bound holds (own-class firing stays under vetoes x RHO), so the damage to old classes is predictable, which the dream-trained vetoes could not offer. Best +3.2 over no vetoes, below the learned vetoes (81 to 82): single literals are too weak.
+- It is again a trade-off along one axis (old falls as new rises); the chip can read the cost of each veto in advance, which is the first step to a label-free operating-point rule (admit vetoes until the guaranteed expected damage reaches a budget). Not built.
+- Next: conjunctions of literals chosen against the real new images (specific, same bound with the rarest literal), and the damage budget rule.
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)
