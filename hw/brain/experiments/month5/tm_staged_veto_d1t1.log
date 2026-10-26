@@ -1,0 +1,9 @@
+[   8s] stage 1 (loaded)                   over 6 classes: acc 0.9083 | old classes 0.9083 | new classes - | Shirt recall nan
+[  86s] stage 2 (veto) epoch 1             over 4 classes: acc 0.9347 | old classes 0.0000 | new classes - | Shirt recall 0.985
+[ 135s] stage 2 (veto) epoch 2             over 4 classes: acc 0.9657 | old classes 0.0000 | new classes - | Shirt recall 0.958
+[ 180s] stage 2 (veto) epoch 3             over 4 classes: acc 0.9665 | old classes 0.0000 | new classes - | Shirt recall 0.971
+[ 271s] veto epoch 1: acc 0.8085 | old 0.7720 | new 0.8632 | Shirt recall 0.630 | mean veto literals 2.3, vetoes firing on old test images 0.0
+[ 348s] veto epoch 2: acc 0.8106 | old 0.7717 | new 0.8690 | Shirt recall 0.635 | mean veto literals 2.4, vetoes firing on old test images 0.0
+[ 424s] veto epoch 3: acc 0.8110 | old 0.7763 | new 0.8630 | Shirt recall 0.626 | mean veto literals 2.5, vetoes firing on old test images 0.0
+old banks untouched: True
+[ 424s] final, all ten classes             over 10 classes: acc 0.7413 | old classes 0.8268 | new classes 0.6130 | Shirt recall 0.486

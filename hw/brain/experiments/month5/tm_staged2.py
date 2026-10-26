@@ -82,17 +82,35 @@ def vscores(Xs, vinc_list, vinc_n):
         for c in range(6): out[i, c] = class_sum(c, Xs[i], vinc_list, vinc_n, outs, False, 1)
     return out
 @njit
-def train_veto(Xs, order, rates, state, inc_list, inc_n, vstate, vinc_list, vinc_n, seed, per):
+def dream(c, rates, inc_list, inc_n, outs, use_clause):
+    d = np.zeros(NB, np.uint8)
+    for tries in range(8):
+        for k in range(NB):
+            d[k] = 1 if np.random.random() < rates[c, k] else 0
+        if use_clause:                                                                       # imagine something the class itself claims: force a random positive clause's literals
+            j = 2 * np.random.randint(C // 2); cl = c * C + j
+            for t in range(inc_n[cl]):
+                lit = inc_list[cl, t]
+                if lit < NB: d[lit] = 1
+                else: d[lit - NB] = 0
+            if class_sum(c, d, inc_list, inc_n, outs, False) >= 3: return d
+        else: return d
+    return d
+@njit
+def train_veto(Xs, order, rates, state, inc_list, inc_n, vstate, vinc_list, vinc_n, seed, per, use_clause, target):
     np.random.seed(seed); outs = np.zeros(C, np.int8); outs2 = np.zeros(C, np.int8); vouts = np.zeros(C, np.int8)
     for ii in range(len(order)):
         x = Xs[order[ii]]
         for r in range(per):
             c = np.random.randint(6)
+            if target and np.random.random() < 0.7:                                          # compare with the nearest known class (the one that claims this image most)
+                best = -10 ** 6
+                for k in range(6):
+                    sk = class_sum(k, x, inc_list, inc_n, outs2, False)
+                    if sk > best: best = sk; c = k
             vo = class_sum(c, x, inc_list, inc_n, outs, True); vv = class_sum(c, x, vinc_list, vinc_n, vouts, False, 2); v = max(-T, min(T, vo + vv))
             feedback(c, x, vstate, vinc_list, vinc_n, vouts, v, False, 1)                    # a new-class image is NOT this old class
-            d = np.zeros(NB, np.uint8)
-            for k in range(NB):
-                if np.random.random() < rates[c, k]: d[k] = 1
+            c = np.random.randint(6); d = dream(c, rates, inc_list, inc_n, outs2, use_clause)
             vo = class_sum(c, d, inc_list, inc_n, outs2, True); vv = class_sum(c, d, vinc_list, vinc_n, vouts, False, 2); v = max(-T, min(T, vo + vv))
             feedback(c, d, vstate, vinc_list, vinc_n, vouts, v, True, 1)                      # a dream of this old class IS this old class
 state = np.full((10 * C, NL), NST, np.uint8); inc_list = np.zeros((10 * C, LMAX), np.int32); inc_n = np.zeros(10 * C, np.int32); t0 = time.time()
@@ -115,7 +133,7 @@ else:
     if MODE == "veto":
         vstate = np.full((6 * C, NL), NST, np.uint8); vinc_list = np.zeros((6 * C, LMAX), np.int32); vinc_n = np.zeros(6 * C, np.int32); idx = np.where(np.isin(y, NEW))[0]; PER = int(os.environ.get("PER", 1))
         for e in range(EP):
-            train_veto(X, np.random.RandomState(7 + e).permutation(idx), rates, state, inc_list, inc_n, vstate, vinc_list, vinc_n, 500 + e, PER)
+            train_veto(X, np.random.RandomState(7 + e).permutation(idx), rates, state, inc_list, inc_n, vstate, vinc_list, vinc_n, 500 + e, PER, int(os.environ.get('DREAM2', 0)), int(os.environ.get('TARGET', 0)))
             sc = scores(Xt, inc_list, inc_n).astype(np.float32) + np.pad(vscores(Xt, vinc_list, vinc_n).astype(np.float32)[:, :6], ((0, 0), (0, 4))) ; p = sc.argmax(1)
             print("[%4.0fs] veto epoch %d: acc %.4f | old %.4f | new %.4f | Shirt recall %.3f | mean veto literals %.1f, vetoes firing on old test images %.1f" % (time.time() - t0, e + 1, (p == yte).mean(), (p[np.isin(yte, OLD)] == yte[np.isin(yte, OLD)]).mean(), (p[np.isin(yte, NEW)] == yte[np.isin(yte, NEW)]).mean(), (p[yte == 6] == 6).mean(), vinc_n.mean(), 0), flush=True)
     print("old banks untouched: %s" % (bool((state[:6 * C] == old_state).all() and (inc_n[:6 * C] == old_inc).all())))

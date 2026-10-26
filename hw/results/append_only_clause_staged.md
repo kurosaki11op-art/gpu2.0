@@ -36,4 +36,15 @@ After the stage above, each old class gets an appended bank of 300 veto clauses 
 - The gap to joint training falls from about 8 to about 3 points, with no old clause rewritten and no image kept. New classes recover (60 to 86); the old classes now lose some (87 to 76) because vetoes learned against crude dreams sometimes reject real old images. The dream is the weak part: independent bit frequencies are not what real images look like.
 - Not yet done: choose which old classes to compare by confusion (vetoes are spread at random over old classes now), better dreams (dreams from the old clauses themselves), more veto epochs. Memory grows by the veto bank (here as large as the original bank; pruning not tried).
 
+### Clause-based dreams and confusion-targeted vetoes (26 Oct, SIMULATED)
+
+Dreams now start from the class bit frequencies and force the literals of a random positive clause of that class, kept only if the class's own clauses score it at 3 or more; 70% of veto updates compare against the nearest known class (the one that claims the new image most). Log `tm_staged_veto_d1t1.log`.
+
+| | all ten | old | new | Shirt recall |
+|---|---|---|---|---|
+| veto, frequency dreams, random class | 80.3 | 76.5 | 86.0 | 0.673 |
+| veto, clause dreams, targeted | 81.1 | 77.6 | 86.3 | 0.626 |
+
+Only +0.8. Old classes stay at 77.6 against 90.8 before the new classes came. The overall gap to joint training is now about 1 to 2 points, but it is bought by the new classes (86) while the old classes pay (about 13 points). Cause not yet isolated: whether old test images are lost to the new banks (new clauses firing on them) or to the vetoes. Next: log where the old-class errors go, and train the new banks with clause-based dreams of the old classes as well.
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)

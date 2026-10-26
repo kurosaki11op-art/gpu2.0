@@ -1634,4 +1634,8 @@ Asked: piece 3. Done: tm_staged.py, six classes then four, old banks frozen and 
 
 Asked: give the chip the ability to compare and decide old versus new itself, nothing frozen-and-blind. Done: appended veto banks per old class (learn from new images and from the old class's own dreams). Result: 80.3 over ten classes (old 76.5, new 86.0) against 75.9 with dreams only and about 82 to 83.5 joint; first run had a bug (empty clauses did not fire in training) and learned nothing, kept as a log. Weak part: crude frequency dreams. Next: confusion-targeted vetoes, clause-based dreams. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: clause dreams and targeted vetoes (SIMULATED)
+
+Asked: would better dreams fix the old-class gap. Result: 81.1 over ten classes (old 77.6, new 86.3) against 80.3; the old-class gap (90.8 to 77.6) is NOT fixed, the gain went to the new classes. Next: find where old-class errors go (new banks or vetoes). Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
