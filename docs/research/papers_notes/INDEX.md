@@ -36,5 +36,6 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Study: memory technology study](memory_technology_study.md): memory technologies, scaling limits and energy per bit (14 arXiv papers)
 - [Study: nvidia blackwell study](nvidia_blackwell_study.md): NVIDIA data-centre GPU architecture up to Blackwell (vendor pages blocked; specs second-hand)
 - [Study: Cerebras wafer-scale engine in depth](cerebras_study.md): about 22 arXiv papers read; vendor whitepapers blocked
+- [Thinking research 2: working memory and steps over time](thinking_research_2_working_memory.md): matrix-free state carried between steps (in progress, full reads being completed)
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
