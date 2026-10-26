@@ -17,8 +17,8 @@ def fire(M, lit_ids):
     out = np.ones(len(M), bool)
     for l in lit_ids: out &= (M[:, l] == 1) if l < NB else (M[:, l - NB] == 0)
     return out
-def propose(c, n, rng, maxlen=4, count=None):                                                                    # contrast counting on set A: grow a conjunction that fires on class c and not on class n
-    Ac, An = Z[ia][ytr[ia] == c], Z[ia][ytr[ia] == n]; out = []
+def propose(c, n, rng, maxlen=4, count=None, pmask=None):                                                                    # contrast counting on set A: grow a conjunction that fires on class c and not on class n
+    Ac = Z[ia][(ytr[ia] == c) & (pmask if pmask is not None else True)]; An = np.concatenate([Z[ia][ytr[ia] == n]] * 3 + [Z[ia][(ytr[ia] != c) & (ytr[ia] != n)]]); out = []                    # negatives: the paired class (3x weight) and every other class, so a clause that fires on the wrong class is made more specific
     for _ in range(count or NCAND):
         pc, pn = lits(Ac).mean(0), lits(An).mean(0); score = pc - pn; ok = pc >= 0.3; cand = np.where(ok)[0]
         if len(cand) == 0: break
@@ -37,11 +37,13 @@ def table_eval(extra_tr, extra_te, idx_tr, idx_ev, Zev=None, y_ev=None, test=Fal
     Xe = (cte if test else ctr[idx_ev]); Xe = np.concatenate([Xe] + ([extra_te if test else extra_tr[idx_ev]] if extra_tr is not None else []), 1); sc = Xe.astype(np.int32) @ W; ye = yte if test else ytr[idx_ev]; p = sc.argmax(1)
     s6 = sc[:, 6] - np.delete(sc, 6, 1).max(1); yy = ye == 6; o = np.argsort(-s6, kind="stable"); tp = np.cumsum(yy[o]); ap = ((tp / np.arange(1, len(o) + 1)) * yy[o]).sum() / yy.sum(); mk = np.isin(ye, CL)
     return (p == ye).mean(), (p[ye == 6] == 6).mean(), (CL[sc[mk][:, CL].argmax(1)] == ye[mk]).mean(), ap
+WA = train_table(ctr[ia], ytr[ia]); PRED = (ctr[ia].astype(np.int32) @ WA).argmax(1)
 base_B = table_eval(None, None, ia, ib); print("[%4.0fs] L alone, trained on A, scored on held B: acc %.4f | Shirt recall %.3f | cluster %.4f | AP %.3f" % ((time.time() - t0,) + base_B), flush=True)
 def run(kind):
-    rng = np.random.RandomState(11 if kind == "hypothesis" else 12); cands = []
+    rng = np.random.RandomState({"hypothesis": 11, "error": 13}.get(kind, 12)); cands = []
     for n in (0, 2, 4):
         if kind == "hypothesis": props = propose(6, n, rng)
+        elif kind == "error": props = propose(6, n, rng, pmask=(PRED == n)) if ((ytr[ia] == 6) & (PRED == n)).sum() > 50 else []                       # only Shirts that L assigns to class n (its own mistakes)
         else:                                                                                            # random control: same lengths, same coverage on Shirt, literals chosen at random among bits that are common in Shirt
             A6 = Z[ia][ytr[ia] == 6]; common = np.where(lits(A6).mean(0) >= 0.3)[0]; props = []
             for _ in range(NCAND):
@@ -50,6 +52,11 @@ def run(kind):
                     if fire(A6, cl).mean() >= MINCOV: props.append(cl); break
         for cl in props: cands.append((cl, n))
     print("  %s: %d candidates proposed" % (kind, len(cands)), flush=True)
+    st = []
+    for cl, n in cands:
+        B = Z[ib]; yb = ytr[ib]; f = fire(B, cl); fc = f[yb == 6]; fn = f[yb == n]; lo_c, _ = wilson(fc.sum(), len(fc)); _, hi_n = wilson(fn.sum(), len(fn)); st.append((fc.mean(), fn.mean(), f[(yb != 6) & (yb != n)].mean(), lo_c - hi_n, len(cl)))
+    st = np.array(st)
+    if len(st): print("  %s diagnostics over %d candidates: coverage of Shirt median %.3f (max %.3f); firing on the paired class median %.3f; firing on other classes median %.3f (min %.3f); lower-bound margin median %.3f (max %.3f); passing alone: coverage>=%.2f %d, damage<=%.2f %d, margin>%.2f %d" % (kind, len(st), np.median(st[:, 0]), st[:, 0].max(), np.median(st[:, 1]), np.median(st[:, 2]), st[:, 2].min(), np.median(st[:, 3]), st[:, 3].max(), MINCOV, (st[:, 0] >= MINCOV).sum(), DAMAGE, (st[:, 2] <= DAMAGE).sum(), MARGIN, (st[:, 3] > MARGIN).sum()), flush=True)
     acc = []
     for cl, n in cands:
         ok, sc = accept(cl, 6, n)
@@ -63,7 +70,7 @@ def run(kind):
         keep = keep[:len(keep) // 2]; print("    batch undone, halved", flush=True)
     return keep
 res = {}
-for kind in ("hypothesis", "random"):
+for kind in ("hypothesis", "error", "random"):
     keep = run(kind)
     if keep:
         FA = np.stack([fire(Z, cl) for cl in keep], 1).astype(np.uint8); FT = np.stack([fire(Zt, cl) for cl in keep], 1).astype(np.uint8); res[kind] = (len(keep),) + table_eval(FA, FT, np.arange(60000), None, test=True)

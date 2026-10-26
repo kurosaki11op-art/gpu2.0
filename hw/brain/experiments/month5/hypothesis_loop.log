@@ -7,3 +7,5 @@ FINAL hypothesis kept   0 clauses | test acc 0.8885 | Shirt recall 0.638 | clust
   random: batch of 6 clauses -> held-set acc 0.8885 (-0.0016) | Shirt recall 0.597 (+0.001)
     batch undone, halved
   random: batch of 3 clauses -> held-set acc 0.8912 (+0.0011) | Shirt recall 0.609 (+0.013)
+FINAL random     kept   3 clauses | test acc 0.8874 | Shirt recall 0.618 | cluster 0.8107 | Shirt AP 0.747
+FINAL L alone (no clauses)      | test acc 0.8885 | Shirt recall 0.638 | cluster 0.8063 | Shirt AP 0.753
