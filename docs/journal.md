@@ -1674,4 +1674,8 @@ Asked: continual learning is the biggest claim and must not be given up; memory 
 
 Asked: items 1 (coverage-chosen exemplars) and 3 (regularised rehearsal with few images). Result: k-means picks are worse than random at 20 per class; recombining two stored images of a class (plus 2% noise) is the fix: 20 per class reaches 83 to 84 (joint 85.8), as good as 100 per class without it; the earlier collapse was mostly the operating point (best offset +30, not +10). A label-free rule (match the predicted old-class share to the known stream share) picks that offset. Memory about 10 KB per old class (ESTIMATED). Spread between identical runs about 1 point; one seed. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: EMNIST staged test (SIMULATED)
+
+Asked: run the EMNIST test. Done: emnist_staged.py, 24 classes then 23 more with unfrozen rehearsal from 20 stored images per old class; clause layer only (120 per class). Result: staged 67.4 against joint 68.2 (4 epochs) and 71.2 (8 epochs, still rising); the label-free offset rule picks the best offset (+4). Design carries to 47 classes with a gap of about 4 points. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

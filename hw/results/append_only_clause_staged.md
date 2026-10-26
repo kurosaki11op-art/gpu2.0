@@ -168,4 +168,20 @@ Unfrozen rehearsal as above (150,000 steps, 6 old classes, joint reference 85.8)
 - **Label-free offset rule works in this run**: the chip picks the offset at which the share of test images it assigns to old classes equals the old classes' share of its own training stream (0.600, known from counters). On the rerun it picks +30 (predicted share 0.609), which is also the best offset (82.9). One run; the earlier run's best offset was +30 as well.
 - Run-to-run spread is about 1 point (84.0 against 82.9 for the same setting; the parallel update order is not fixed). Gap to joint training: about 2 points.
 
+### EMNIST-balanced, 24 then 23 classes (26 Oct, SIMULATED, one seed; `emnist_staged.py`, logs `emnist_staged_*.log`)
+
+Second dataset with many classes, to test whether the rehearsal design is a clothing quirk. Clause learner only (120 clauses per class, literals = L's detector code + raw pixel bits; weaker than L's counting table, which gets 88.7 at 24 and 82.9 at 47 classes). Stage 1: classes 0 to 23, 3 epochs (78.5 on those 24 classes). Stage 2: classes 24 to 46 added with unfrozen rehearsal, 200,000 steps, old classes from 20 stored images each (480 images; recombined pairs + 2% noise).
+
+| | all 47 classes | old (24) | new (23) | share predicted old |
+|---|---|---|---|---|
+| joint training, 4 epochs / 8 epochs (still rising) | 68.2 / 71.2 | 63.0 / 70.3 | 73.7 / 72.2 | 0.46 / 0.52 |
+| staged, offset +0 | 66.0 | 58.8 | 73.7 | 0.40 |
+| staged, offset +4 (label-free rule's pick) | **67.4** | 66.3 | 68.6 | 0.490 |
+| staged, offset +6 | 67.4 | 69.3 | 65.3 | 0.537 |
+| staged, offset +10 | 65.0 | 73.8 | 55.6 | 0.638 |
+
+- **The design carries over**: staged learning with 20 stored images per old class reaches 67.4 against 71.2 for joint training with 8 epochs, a gap of about 4 points (about 3.5 against the 4-epoch reference with the same wall-clock), on 47 classes instead of 10. Old classes were not frozen and were never trained on their full data after stage 1.
+- **The label-free offset rule again picks the best offset**: matching the predicted old share (0.511 in the stream) selects +4 (share 0.490) or +6 (0.537); both give 67.4, the best of the sweep. The useful offset is small here (+4, against +30 on clothing): the offset scale depends on the clause count and T, which is why a label-free rule is needed rather than a fixed constant.
+- Caveats: clause layer alone, not the full L system; joint training is still rising; one seed; stored images are random, not tuned; memory 480 images (about 10 KB per class, ESTIMATED).
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)
