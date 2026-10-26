@@ -1,2 +1,9 @@
 [   6s] L alone, trained on A, scored on held B: acc 0.8901 | Shirt recall 0.596 | cluster 0.8102 | AP 0.775
   hypothesis: 180 candidates proposed
+  hypothesis: 0 pass the held-set test (damage <= 0.12, lower-bound margin > 0.05)
+FINAL hypothesis kept   0 clauses | test acc 0.8885 | Shirt recall 0.638 | cluster 0.8063 | Shirt AP 0.753
+  random: 180 candidates proposed
+  random: 6 pass the held-set test (damage <= 0.12, lower-bound margin > 0.05)
+  random: batch of 6 clauses -> held-set acc 0.8885 (-0.0016) | Shirt recall 0.597 (+0.001)
+    batch undone, halved
+  random: batch of 3 clauses -> held-set acc 0.8912 (+0.0011) | Shirt recall 0.609 (+0.013)
