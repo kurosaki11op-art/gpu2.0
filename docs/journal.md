@@ -1630,4 +1630,8 @@ Asked: piece 2. Done: clause_energy_best.py measures keyed clause reads on 5,000
 
 Asked: piece 3. Done: tm_staged.py, six classes then four, old banks frozen and verified unchanged. Result: no dreams 58.3 over ten classes (old 64.3, new 49.2); frequency dreams 72.6 (old 83.5, new 56.1); joint reference about 82 to 83.5 (unstable). Storage never forgets, but competition costs accuracy, and the old banks cannot learn to reject new classes without being modified. Not solved; next idea: appended veto clauses per old class. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: veto clauses so old classes learn the difference (SIMULATED)
+
+Asked: give the chip the ability to compare and decide old versus new itself, nothing frozen-and-blind. Done: appended veto banks per old class (learn from new images and from the old class's own dreams). Result: 80.3 over ten classes (old 76.5, new 86.0) against 75.9 with dreams only and about 82 to 83.5 joint; first run had a bug (empty clauses did not fire in training) and learned nothing, kept as a log. Weak part: crude frequency dreams. Next: confusion-targeted vetoes, clause-based dreams. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
