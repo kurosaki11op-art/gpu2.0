@@ -1,0 +1,18 @@
+start: offset +0, share distance 0.785
+EVAL start (stage 1 + nothing)          offset +0: all 0.5434 | old 0.9092 | new 0.0015 | Shirt recall 0.006
+chunk 1 (25000 steps, flip 0.02): share distance 0.076, offset +14 -> ok; most confused pairs [(4, 6), (2, 6)] get 3x weight
+EVAL after chunk 1                      offset +14: all 0.8254 | old 0.8372 | new 0.8079 | Shirt recall 0.431
+chunk 2 (25000 steps, flip 0.02): share distance 0.085, offset +22 -> ok; most confused pairs [(2, 6), (0, 6)] get 3x weight
+EVAL after chunk 2                      offset +22: all 0.8282 | old 0.8352 | new 0.8179 | Shirt recall 0.581
+chunk 3 (25000 steps, flip 0.02): share distance 0.061, offset +24 -> ok; most confused pairs [(4, 6), (2, 6)] get 3x weight
+EVAL after chunk 3                      offset +24: all 0.8358 | old 0.8389 | new 0.8313 | Shirt recall 0.502
+chunk 4 (25000 steps, flip 0.02): share distance 0.053, offset +34 -> ok; most confused pairs [(2, 6), (4, 6)] get 3x weight
+EVAL after chunk 4                      offset +34: all 0.8352 | old 0.8332 | new 0.8382 | Shirt recall 0.587
+chunk 5 (25000 steps, flip 0.02): share distance 0.048, offset +32 -> ok; most confused pairs [(4, 6), (2, 6)] get 3x weight
+EVAL after chunk 5                      offset +32: all 0.8378 | old 0.8348 | new 0.8422 | Shirt recall 0.542
+chunk 6 (25000 steps, flip 0.02): share distance 0.091, offset +36 -> ok; most confused pairs [(2, 6), (4, 6)] get 3x weight
+EVAL after chunk 6                      offset +36: all 0.8284 | old 0.8235 | new 0.8357 | Shirt recall 0.542
+chunk 7 (25000 steps, flip 0.02): share distance 0.086, offset +42 -> ok; most confused pairs [(2, 6), (4, 6)] get 3x weight
+EVAL after chunk 7                      offset +42: all 0.8228 | old 0.8204 | new 0.8263 | Shirt recall 0.564
+STOP: no improvement for 2 chunks (chip decides it is done)
+EVAL FINAL                              offset +42: all 0.8228 | old 0.8204 | new 0.8263 | Shirt recall 0.564

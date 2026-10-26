@@ -184,4 +184,20 @@ Second dataset with many classes, to test whether the rehearsal design is a clot
 - **The label-free offset rule again picks the best offset**: matching the predicted old share (0.511 in the stream) selects +4 (share 0.490) or +6 (0.537); both give 67.4, the best of the sweep. The useful offset is small here (+4, against +30 on clothing): the offset scale depends on the clause count and T, which is why a label-free rule is needed rather than a fixed constant.
 - Caveats: clause layer alone, not the full L system; joint training is still rising; one seed; stored images are random, not tuned; memory 480 images (about 10 KB per class, ESTIMATED).
 
+### A controller so the chip runs its own loop (26 Oct, SIMULATED; `staged_controller.py`, logs `staged_controller_{sab,clean}_{on,off}.log`)
+
+Built the three missing parts, using only unlabeled signals (an unlabeled probe of 5,000 test images; labels only for scoring on the other 5,000): (4) NOTICE: after every 25,000-step chunk the chip compares the share of images it assigns to each class with the share its own stream implies (1/10 each); if the share distance rises by more than 0.05 over the best so far it undoes the chunk (restores a checkpoint) and halves its step size. (1) DECIDE: it sets the old/new offset by the share rule every chunk, picks the pairs of classes that are most often the top two with a small margin and gives them 3 times the rehearsal and negative-feedback weight, and stops when the share distance has not improved for 2 chunks. (2) COMPARE: the weight on the confused pair makes the clauses of both classes learn from both classes' images (conjunctions through the ordinary clause rule), instead of counting single bits.
+
+| run | what happened | final all ten (old / new) |
+|---|---|---|
+| sabotage (chunk 3 rehearsal images 45% corrupted), controller on | share distance jumped 0.12 to 0.42, ALARM, chunk undone, step size halved, recovered, stopped itself after 7 chunks | **83.0** (82.6 / 83.5) |
+| sabotage, controller off | accuracy fell to 78.1 after the bad chunk and recovered only partly | 81.4 (80.3 / 82.9) |
+| clean, controller on | stopped itself after 5 chunks (best 83.6 after chunk 3) | 82.3 (82.0 / 82.6) |
+| clean, controller off (8 chunks) | | 83.0 (82.5 / 83.7) |
+
+- **The chip now notices that it went wrong by itself**: the corrupted chunk was caught by the share signal alone (no labels), undone, and the run ended 1.6 points above the run without a controller. This is the first part of the loop that exists inside the chip rather than in my logs.
+- **On a clean run the controller does not raise accuracy** (82.3 against 83.0, inside the 1-point run-to-run spread); what it saves is work: it stops after 5 chunks instead of 8.
+- Weak spots: the share-matching offset rule is noisy because the share-versus-offset curve is flat near the target (picked +20 to +42 across chunks, the final choice moved accuracy by about 1 point); the effect of the 3x pair weighting alone was not isolated; one seed; the probe is half of the test set (unlabeled), not a separate stream.
+- "Think" status: it can now notice, undo, pick what to rehearse and decide when to stop, from its own signals. It does not yet form a hypothesis about why two classes differ.
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)
