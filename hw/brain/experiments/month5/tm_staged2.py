@@ -136,5 +136,11 @@ else:
             train_veto(X, np.random.RandomState(7 + e).permutation(idx), rates, state, inc_list, inc_n, vstate, vinc_list, vinc_n, 500 + e, PER, int(os.environ.get('DREAM2', 0)), int(os.environ.get('TARGET', 0)))
             sc = scores(Xt, inc_list, inc_n).astype(np.float32) + np.pad(vscores(Xt, vinc_list, vinc_n).astype(np.float32)[:, :6], ((0, 0), (0, 4))) ; p = sc.argmax(1)
             print("[%4.0fs] veto epoch %d: acc %.4f | old %.4f | new %.4f | Shirt recall %.3f | mean veto literals %.1f, vetoes firing on old test images %.1f" % (time.time() - t0, e + 1, (p == yte).mean(), (p[np.isin(yte, OLD)] == yte[np.isin(yte, OLD)]).mean(), (p[np.isin(yte, NEW)] == yte[np.isin(yte, NEW)]).mean(), (p[yte == 6] == 6).mean(), vinc_n.mean(), 0), flush=True)
+    if MODE == "veto":
+        so = scores(Xt, inc_list, inc_n).astype(np.float32); sv = np.pad(vscores(Xt, vinc_list, vinc_n).astype(np.float32)[:, :6], ((0, 0), (0, 4))); om = np.isin(yte, OLD)
+        for nm, sc in (("without vetoes", so), ("with vetoes", so + sv)):
+            p = sc.argmax(1)[om]; yo = yte[om]; err = p != yo
+            print("DIAG %-15s old-image errors %.1f%%: to a new class %.1f%%, to another old class %.1f%% | new-image errors to an old class %.1f%%" % (nm, 100 * err.mean(), 100 * (err & (p >= 6)).mean(), 100 * (err & (p < 6)).mean(), 100 * (sc.argmax(1)[~om] < 6).mean()), flush=True)
+        np.savez(os.environ.get("S2", "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/staged_s2.npz"), state=state, inc_list=inc_list, inc_n=inc_n, vstate=vstate, vinc_list=vinc_list, vinc_n=vinc_n)
     print("old banks untouched: %s" % (bool((state[:6 * C] == old_state).all() and (inc_n[:6 * C] == old_inc).all())))
     report("final, all ten classes", OLD + NEW)

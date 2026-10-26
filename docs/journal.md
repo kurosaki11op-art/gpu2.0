@@ -1638,4 +1638,8 @@ Asked: give the chip the ability to compare and decide old versus new itself, no
 
 Asked: would better dreams fix the old-class gap. Result: 81.1 over ten classes (old 77.6, new 86.3) against 80.3; the old-class gap (90.8 to 77.6) is NOT fixed, the gain went to the new classes. Next: find where old-class errors go (new banks or vetoes). Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: where the old-class errors go (SIMULATED)
+
+Asked: first fix the old-class accuracy. Done: error destinations and decision-rule variants on the saved staged state. Result: vetoes move old-image errors to the new classes (7.4 to 14.6%) while saving the new images (39 to 13% lost); a fixed old-class offset reaches 82.9 overall (old 85.9 at +10), level with joint training, so much of the gap is the operating point; self-calibration from dreams failed (dreams classified as old 99.9%, too easy). Not fixed: needs hard dreams and a label-free operating-point rule. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

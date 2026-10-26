@@ -47,4 +47,19 @@ Dreams now start from the class bit frequencies and force the literals of a rand
 
 Only +0.8. Old classes stay at 77.6 against 90.8 before the new classes came. The overall gap to joint training is now about 1 to 2 points, but it is bought by the new classes (86) while the old classes pay (about 13 points). Cause not yet isolated: whether old test images are lost to the new banks (new clauses firing on them) or to the vetoes. Next: log where the old-class errors go, and train the new banks with clause-based dreams of the old classes as well.
 
+### Where the old-class errors go (26 Oct, SIMULATED; logs `tm_staged_veto_diag.log`, script `staged_decide.py`)
+
+Same recipe, another stage-2 draw (81.9 overall, old 80.6, new 84.0). Old-image errors:
+
+| | old-image errors | to a new class | to another old class | new images lost to an old class |
+|---|---|---|---|---|
+| without vetoes | 13.9% | 7.4% | 6.5% | 39.4% |
+| with vetoes | 19.4% | 14.6% | 4.8% | 13.4% |
+
+- The vetoes buy the new classes (39% to 13% of their images lost) and pay with old images: they fire on real old images and let the new banks win (7.4% to 14.6%).
+- Decision rule only (no retraining): clipping each class sum to +-T gives old 81.6 / new 81.8; adding a fixed offset to the old-class sums gives a clean trade-off: +5: all 82.8, old 83.7, new 81.4; +10: all 82.9, old 85.9, new 78.4; +20: old 88.8, new 71.9. The best balanced point (about 82.9 overall) is at the level of joint training (about 82 to 83.5, unstable), so the gap is mostly an operating-point choice, not missing information.
+- Self-calibration failed: the chip tried to pick the offset from new-class training images and dreams of the old classes. Dreams were classified as old 99.9% of the time (offset -5 to +30), so they carry no information about the hard old/new boundary; it picked -5 (old 77.1). The dreams are too easy: clause-forced dreams score far above any real image.
+- Not measured: how much of the old-class drop is inherent (Shirt joins T-shirt, Pullover and Coat in the same cluster, so old accuracy must fall in any 10-class model); a stable joint reference with the same clipped scoring.
+- Still open: dreams that sit near the boundary (hard dreams), and a label-free rule for the old/new operating point.
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)
