@@ -1,0 +1,3 @@
+RESULT E=20 K=8 PD=0.0 MQ=0.50 seed 1 steps 50000 | share-rule offset +30: all 0.8388 (old 0.8463, new 0.8275, Shirt 0.481) | best offset +30: all 0.8388
+RESULT E=20 K=8 PD=0.0 MQ=0.50 seed 1 steps 100000 | share-rule offset +30: all 0.8411 (old 0.8513, new 0.8257, Shirt 0.532) | best offset +25: all 0.8418
+RESULT E=20 K=8 PD=0.0 MQ=0.50 seed 1 steps 150000 | share-rule offset +30: all 0.8381 (old 0.8468, new 0.8250, Shirt 0.485) | best offset +30: all 0.8381

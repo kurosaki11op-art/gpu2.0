@@ -1702,4 +1702,8 @@ relation_pairs.py: same/different on unseen classes. Relation code 70 to 73% on 
 
 seq_order_test.py: counting sequence model with matched-order state and allocate-on-error. At max order 8: 60.9% with 238 thousand contexts against full backoff 62.9% with 1.2 million, and fixed window best 57.0% with 74 thousand. Positive on memory efficiency; one repetitive corpus; no carried-hypothesis test yet. Note: hw/results/sequence_burst_allocation.md.
 
+## 26 Oct 2026 (night): part 1, counted-mixture dreams with teacher labels (SIMULATED)
+
+staged_mixture.py: dreams from K counted sub-prototypes per old class, labelled by the frozen stage-1 banks, kept near the teacher's boundary. 20 stored + dreams: +0.7 (seed 0) and +0.5 (seed 1) over stored-only (84.2, 83.8); dreams only with 1 stored image: 85.5 (seed 0), joint 85.8; offset needed falls from +30 to about +0 to +10. First imagination that helps. Memory about 25 to 49 KB per class (ESTIMATED), more than 20 stored images. Next: dreams-only second seed, EMNIST, smaller K. Note: hw/results/counted_mixture_dreams.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
