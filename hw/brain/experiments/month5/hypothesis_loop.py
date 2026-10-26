@@ -17,9 +17,9 @@ def fire(M, lit_ids):
     out = np.ones(len(M), bool)
     for l in lit_ids: out &= (M[:, l] == 1) if l < NB else (M[:, l - NB] == 0)
     return out
-def propose(c, n, rng, maxlen=4):                                                                    # contrast counting on set A: grow a conjunction that fires on class c and not on class n
+def propose(c, n, rng, maxlen=4, count=None):                                                                    # contrast counting on set A: grow a conjunction that fires on class c and not on class n
     Ac, An = Z[ia][ytr[ia] == c], Z[ia][ytr[ia] == n]; out = []
-    for _ in range(n):
+    for _ in range(count or NCAND):
         pc, pn = lits(Ac).mean(0), lits(An).mean(0); score = pc - pn; ok = pc >= 0.3; cand = np.where(ok)[0]
         if len(cand) == 0: break
         top = cand[np.argsort(-score[cand])[:40]]; first = rng.choice(top); chosen = [first]; mc = fire(Ac, chosen); mn = fire(An, chosen)

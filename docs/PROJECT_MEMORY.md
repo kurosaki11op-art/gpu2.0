@@ -269,5 +269,9 @@ A second clause layer works alone (87.9 against 87.0) but adds only 0.1 to 0.2 i
 
 Best staged design so far: all banks keep learning (nothing frozen) on a class-balanced stream; old classes are rehearsed from about 20 stored images each, drawn as recombinations of two stored images plus noise. Fashion-MNIST, 6 + 4 classes: 83 to 84 against 85.8 for joint training, memory about 10 KB per old class (ESTIMATED), old/new offset set label-free by matching the predicted old share to the known stream share. Open: second dataset, second seed, cheaper per-image storage, energy cost of rehearsal. Details: hw/results/append_only_clause_staged.md.
 
+## Standing rule: how to read papers (founder, 26 Oct 2026)
+
+To save usage, read the abstract and conclusion first, summarise the contribution and limitations in about 300 words, and read other sections only if needed, saying which ones. This replaces the earlier instruction to read every paper in full. Papers are references to learn from; a failure reported in a paper is never taken as a prediction for our own method, our own experiments decide.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
