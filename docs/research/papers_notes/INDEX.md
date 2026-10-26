@@ -40,5 +40,6 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Thinking research 1: imagination without backprop](thinking_research_1_imagination.md): generators that keep how features combine (in progress, full reads being completed)
 - [Thinking research 3: hypothesis, test and keep](thinking_research_3_hypothesis_loop.md): propose-test-keep loop on counted contrasts (in progress, full reads being completed)
 - [Thinking research 4: goals and intrinsic motivation](thinking_research_4_goals.md): bounded drives for the controller (in progress)
+- [Thinking research 5: symbols and composition](thinking_research_5_composition.md): binding and composition with matrix-free operations (in progress, full reads being completed)
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
