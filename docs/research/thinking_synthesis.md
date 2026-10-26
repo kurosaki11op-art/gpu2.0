@@ -5,6 +5,8 @@ tags: [spark, research, plan]
 
 # Thinking research synthesis and build order (26 Oct 2026)
 
+> How to read this note (founder's rule, 26 Oct 2026): the papers are references to learn from, not evidence about our own result. A method failing in a paper does not mean it fails here; their conditions, data and rules differ from ours. Every item below is an open question that our own experiments decide, and we record the outcome whichever way it goes.
+
 Five research agents each read papers for one of the five missing parts of "thinking" and proposed methods under our rules (matrix-free, multiply-free, no backprop in the chip design). Notes: [1 imagination](papers_notes/thinking_research_1_imagination.md), [2 working memory](papers_notes/thinking_research_2_working_memory.md), [3 hypothesis loop](papers_notes/thinking_research_3_hypothesis_loop.md), [4 goals](papers_notes/thinking_research_4_goals.md), [5 composition](papers_notes/thinking_research_5_composition.md).
 
 ## How much was really read
@@ -29,6 +31,6 @@ Each note has a table of what was read in full. After a second pass (the first p
 4. **XNOR relation clauses, then attribute tables (part 5).** Cheap first test; tells us early whether composition is reachable at all under our rules.
 5. **Multi-order counting core with a carried state (part 2).** Largest build; must beat the window-only control or it is dropped.
 
-Parts 1, 3 and 4 raise accuracy or autonomy of what already runs; parts 2 and 5 add capabilities we do not have (sequence state, composition) and carry the most risk. None of this is tested; each step gets a success criterion before it is run and its failure will be recorded as clearly as a win.
+Parts 1, 3 and 4 raise accuracy or autonomy of what already runs; parts 2 and 5 add capabilities we do not have (sequence state, composition) and are the least explored. None of this is tested; each step gets a success criterion before it is run and its failure will be recorded as clearly as a win.
 
 Related: [Research papers notes](papers_notes/INDEX.md), [Project memory](../PROJECT_MEMORY.md), [Docs index](../INDEX.md), [Lessons from failures](../lessons_from_failures_25oct.md)
