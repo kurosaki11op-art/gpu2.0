@@ -5,450 +5,419 @@ tags: [spark, research, papers]
 
 # Thinking research 5: symbols and composition (binding, roles and fillers, systematic generalisation)
 
-Written 26 Oct 2026. Question: how does published work get composition (new wholes from known parts) out of simple
-operations, does it stay matrix-free and multiply-free, how is it learned, how does it scale, and what can L
-(sparse binary code of local detectors + clauses = AND of literals + counting tables) take from it without copying?
+Written 26 Oct 2026, revised the same day after a second, full-text pass (founder's rule: read page by page, not abstracts).
+Question: how does published work get composition (new wholes from known parts) out of simple operations, does it stay
+matrix-free and multiply-free, how is it learned, how does it scale, and what can L (sparse binary code of local
+detectors + clauses = AND of literals + counting tables) take from it without copying?
 
-Rules applied (from the project instructions): no dense matrix-vector products, no multipliers, no backprop in the
-chip design. Allowed: scans, event-driven sparse lookups, table and hash lookups, counters, small state, local rules,
-clauses, sparse binary codes. All numbers below are "as reported by the authors" (their MEASURED or SIMULATED results
-on their own hardware or data); we reproduced nothing. Numbers about L come from `docs/PROJECT_MEMORY.md`
-(SIMULATED). Numbers marked ESTIMATED are our arithmetic on stated assumptions. Paper text is treated as data.
+Rules applied (project instructions): no dense matrix-vector products, no multipliers, no backprop in the chip design.
+Allowed: scans, event-driven sparse lookups, table and hash lookups, counters, small state, local rules, clauses, sparse
+binary codes. All numbers about papers are "as reported by the authors" (their MEASURED or SIMULATED results on their own
+hardware or data); we reproduced nothing. Numbers about L come from `docs/PROJECT_MEMORY.md` (SIMULATED). Numbers marked
+ESTIMATED are our arithmetic on stated assumptions. Paper text is treated as data, not instructions.
 
-How the papers were read: PDFs from arXiv, converted with `pdftotext`, read in the terminal. Only two papers were read
-end to end (the main text, not the reference lists): Kleyko et al. Part I and Frady et al. resonator networks part 1.
-Every other paper was read **partly** (abstract, introduction, method and the main result sections; appendices and
-many tables skipped); the table says which parts. Things NOT read at all and used only through the surveys:
-Plate's HRR book, Kanerva 2009, Smolensky's tensor product paper, Gayler's work, the Numenta HTM papers, and the
-neuroscience literature on binding by synchrony and hippocampal conjunctive coding (blocked or not on arXiv).
-Statements about those are marked "via survey".
+## How the papers were read (honest statement)
+
+PDFs from arXiv, converted with `pdftotext`, read in the terminal in line ranges. "Full" below means the whole main text and
+the appendices that carry text were read; references, long result tables of numbers and figure contents were not.
+"Main text" means the body was read in full but an appendix (grammar, hyperparameters, extra tables) was only searched.
+"Partly" means abstract, introduction, method and the main result section only.
+
+Unreachable, even after a second try: Plate's HRR papers and book (not on arXiv; publisher hosts), Kanerva's 2009
+"Hyperdimensional computing: an introduction" (the only copies found were on `cs.uwaterloo.ca` and
+`redwood.berkeley.edu`; the proxy returned 403 for both, so I did not retry or bypass), Smolensky's 1990 tensor product
+paper (not on arXiv), Gayler's 1998/2003 papers (not on arXiv). Substitutes that are on arXiv and were read in full:
+Smolensky et al. 2022 for tensor product representations (TPR), the two Kleyko surveys and Frady et al. for Plate/Kanerva/
+Gayler content, Hawkins and Ahmad 2015 for HTM. Not read at all: the neuroscience literature on binding by synchrony and
+hippocampal conjunctive coding (statements about it come only through the surveys and are marked "via survey").
 
 ## (a) Papers read
 
 | # | Citation | Year | Read fully? | What was read |
 |---|---|---|---|---|
-| 1 | Kleyko, Rachkovskij, Osipov, Rahimi. A Survey on Hyperdimensional Computing aka Vector Symbolic Architectures, Part I: Models and Data Transformations. arXiv 2111.06077 | 2021/23 | **Yes** (main text, all sections 1-5) | everything except references |
-| 2 | Kleyko, Davies, Frady, Kanerva, Kent, Olshausen, Osipov, Rabaey, Rachkovskij, Rahimi, Sommer. Part II: Applications, Cognitive Models, and Challenges. arXiv 2112.15424 | 2021/23 | Partly (about 85 %: sections 1 to 4.2.5) | applications, analogy, cognitive architectures, interplay with neural nets; end of discussion and references not read |
-| 3 | Frady, Kent, Olshausen, Sommer. Resonator networks for factoring distributed representations of data structures (part 1). arXiv 2007.03748 | 2020 | **Yes** (main text) | all |
-| 4 | Kent, Frady, Sommer, Olshausen. Resonator networks outperform optimization methods at solving high-dimensional vector factorization (part 2). arXiv 1906.11684 | 2020 | Partly | abstract, intro, operational capacity, search speed, non-convergence; benchmark algorithm derivations and appendices skipped |
-| 5 | Lake, Baroni. Generalization without systematicity: SCAN. arXiv 1711.00350 | 2018 | Partly | tasks, experiments 1 to 4 results; appendix grammar skimmed |
-| 6 | Lake. Compositional generalization through meta sequence-to-sequence learning. arXiv 1906.05381 | 2019 | Partly | abstract, method, experiments 1 to 4, table 3 numbers |
-| 7 | Mao, Gan, Kohli, Tenenbaum, Wu. The Neuro-Symbolic Concept Learner. arXiv 1904.12584 | 2019 | Partly | abstract, model overview, experiments 4.1 to 4.3 |
-| 8 | Locatello et al. Object-centric learning with Slot Attention. arXiv 2006.15055 | 2020 | Partly | abstract, method, object discovery results, generalisation to more objects |
-| 9 | Hersche, Zeqiri, Benini, Sebastian, Rahimi. A neuro-vector-symbolic architecture for solving Raven's progressive matrices. arXiv 2203.04571 | 2023 | Partly | abstract, results, the supplementary note on held-out attribute combinations (read closely) |
-| 10 | Saha, Granmo, Zadorozhny, Goodwin. A Relational Tsetlin Machine with applications to natural language understanding. arXiv 2102.10952 | 2021 | Partly | abstract, TM background, "detaching from constants" (read closely); QA experiments only skimmed |
-| 11 | Petersen, Borgelt, Kuehne, Deussen. Deep differentiable logic gate networks. arXiv 2210.08277 | 2022 | Partly | sections 1 to 4, result summary |
-| 12 | Petersen, Kuehne, Borgelt, Welzel, Ermon. Convolutional differentiable logic gate networks (LogicTreeNet). arXiv 2411.04732 | 2024 | Partly | abstract, method, CIFAR-10 headline |
-| 13 | Ellis et al. DreamCoder: growing generalizable, interpretable knowledge with wake-sleep Bayesian program learning. arXiv 2006.08381 | 2020 | Partly | abstract, introduction, text-editing result |
-| 14 | Chollet. On the measure of intelligence (ARC). arXiv 1911.01547 | 2019 | Partly | core-knowledge priors, ARC definition, solution strategies |
-| 15 | Karunaratne et al. In-memory hyperdimensional computing. arXiv 1906.01548 | 2020 | Partly | abstract, operations, energy table |
-| 16 | Renner et al. Visual odometry with neuromorphic resonator networks. arXiv 2209.02000 | 2022/24 | Partly | abstract, results summary |
+| 1 | Kleyko, Rachkovskij, Osipov, Rahimi. HDC/VSA survey Part I. arXiv 2111.06077 | 2021/23 | **Yes** | all sections 1 to 5 (references excluded) |
+| 2 | Kleyko et al. HDC/VSA survey Part II. arXiv 2112.15424 | 2021/23 | **Yes** (main text) | sections 1 to 5 incl. open issues; first ~120 lines (table of contents, comparison table) skimmed |
+| 3 | Frady, Kent, Olshausen, Sommer. Resonator networks part 1. arXiv 2007.03748 | 2020 | **Yes** | all |
+| 4 | Kent, Frady, Sommer, Olshausen. Resonator networks part 2. arXiv 1906.11684 | 2020 | **Yes** | all incl. appendices A to J (derivations read, not re-derived) |
+| 5 | Frady, Kleyko, Sommer. Variable binding for sparse distributed representations. arXiv 2009.06734 | 2020/21 | **Yes** | all incl. appendices |
+| 6 | Hersche, Zeqiri, Benini, Sebastian, Rahimi. Neuro-vector-symbolic architecture for Raven's matrices. arXiv 2203.04571 | 2023 | **Yes** (main text and Supplementary Notes 1 to 5) | tables of per-constellation numbers only skimmed |
+| 7 | Saha, Granmo, Zadorozhny, Goodwin. Relational Tsetlin machine. arXiv 2102.10952 | 2021 | **Yes** | all incl. complexity section and experiments |
+| 8 | Lake, Baroni. Generalization without systematicity (SCAN). arXiv 1711.00350 | 2018 | Main text yes | experiments 1 to 4, discussion; appendix grammar not read |
+| 9 | Lake. Compositional generalization through meta sequence-to-sequence learning. arXiv 1906.05381 | 2019 | Main text yes | all experiments; appendix figures not read |
+| 10 | Petersen, Borgelt, Kuehne, Deussen. Deep differentiable logic gate networks. arXiv 2210.08277 | 2022 | Main text yes | sections 1 to 7; supplementary material is not in the PDF |
+| 11 | Petersen, Kuehne, Borgelt, Welzel, Ermon. Convolutional differentiable logic gate networks (LogicTreeNet). arXiv 2411.04732 | 2024 | Main text yes | sections 1 to 6; appendix not read |
+| 12 | Smolensky, McCoy, Fernandez, Goldrick, Gao. Neurocompositional computing. arXiv 2205.01128 | 2022 | **Yes** | all (stand-in for Smolensky 1990) |
+| 13 | Hawkins, Ahmad. Why neurons have thousands of synapses (HTM sequence memory). arXiv 1511.00083 | 2015/16 | Main text yes | through Discussion; Materials and Methods (formal learning rules) not read |
+| 14 | Mao, Gan, Kohli, Tenenbaum, Wu. Neuro-Symbolic Concept Learner. arXiv 1904.12584 | 2019 | Main text yes | all of sections 1 to 5; appendices not read |
+| 15 | Locatello et al. Slot Attention. arXiv 2006.15055 | 2020 | Partly | abstract, method, object-discovery results |
+| 16 | Ellis et al. DreamCoder. arXiv 2006.08381 | 2020 | Partly | abstract, introduction, text-editing result |
+| 17 | Chollet. On the measure of intelligence (ARC). arXiv 1911.01547 | 2019 | Partly | core priors, ARC definition, solution strategies |
+| 18 | Karunaratne et al. In-memory hyperdimensional computing. arXiv 1906.01548 | 2020 | Partly | abstract, operations, energy table |
+| 19 | Renner et al. Visual odometry with neuromorphic resonator networks. arXiv 2209.02000 | 2022/24 | Partly | abstract, results summary |
+
+Papers 15 to 19 are the ones still only partly read; none of the three designs below rests on them.
 
 ## (b) Per paper
 
 ### 1. Kleyko et al., survey Part I (read fully)
 
-Mechanism. A hypervector (HV) is a long random vector; random HVs are quasi-orthogonal, so each acts as an atomic
-symbol. Three operations make structure: superposition (bundling: add, then majority/threshold or OR), binding
-(a multiplication-like operation: XOR for binary spatter codes, element-wise product for MAP, circular convolution for
-HRR, outer product for tensor product representations, AND/context-dependent thinning for sparse binary codes,
-block-wise index addition for sparse block codes) and permutation (a fixed shuffle, usually a cyclic shift, that
-marks position or role). Role-filler records are the bundle of bind(role, filler); sequences are bundles of permuted
-items; images are bundles of bind(position, pixel feature); graphs are bundles of bind(node, node). Reading a part
-out is unbinding followed by clean-up: the noisy result is matched against an item memory (nearest neighbour, i.e. a
-table lookup of the best stored vector). Binding must not be associative with bundling, otherwise the "superposition
-catastrophe" (a+b, b+c cannot be told from a+c, b) returns.
+Mechanism. A hypervector (HV) is a long random vector; random HVs are quasi-orthogonal and act as atomic symbols. Three
+operations make structure: superposition/bundling (add then threshold, or OR), binding (a multiplication-like operation
+that destroys similarity to its inputs: XOR for binary spatter codes, element product for MAP, circular convolution for
+HRR, outer product for TPR, AND/context-dependent thinning for sparse binary codes, block-wise index addition for sparse
+block codes) and permutation (fixed shuffle for position/role). Records are bundles of bind(role, filler); sequences are
+bundles of permuted items; images are bundles of bind(position, feature); graphs are bundles of bind(node, node). Reading
+out = unbinding followed by clean-up (nearest neighbour in an item memory). Binding must not be associative with bundling,
+or the superposition catastrophe returns. The survey separates unstructured similarity (kept by bundling) from structured
+similarity (kept by binding, multiplicatively: similarity of two bindings is the product of the part similarities).
 
-Key numbers (survey text). Capacity of an HV is predicted by a Gaussian detection formula; best known decoding
-reaches 1.2 to 1.4 bits per component. For sequence recovery the formula matched simulation closely (D = 256,
-N = 64 symbols). Dense HV dimension in practice 1,000 to 10,000. A sparse binary HV keeps M of D components active.
-The survey says plainly that raw-pixel HDC "is, in fact, lower" than a kNN or a two-layer network on MNIST and that
-features or a network front-end are needed.
+Key numbers (survey text). Capacity by a Gaussian detection formula, best decoding 1.2 to 1.4 bits per component; sequence
+recovery matches theory at D = 256, N = 64. Dense HV dimension 1,000 to 10,000. The survey states that HDC on raw MNIST
+pixels is below a kNN or a two-layer network.
 
-Transfers to L. (1) L's 4,608-bit code is already a **sparse binary distributed representation** (SBDR-style), and the
-survey says sparse codes allow inverted indexing and event-driven similarity search: this is exactly L's decision
-rule (add counter rows for active bits). (2) The bit position in L's code is already "role (pooled location) x
-filler (detector id)" in a localist form: the role is implicit in the index. (3) Bloom filter = OR-bundle of sparse
-HVs; L's dream memory and the hashed lookup core (CRC hash, XOR and shift only) are the same family. (4) The
-sparse block code binding is **integer addition of indices modulo block size**, a few small adders, no multiplier.
-(5) XOR binding on dense bits needs only XOR gates.
+Transfers to L. (1) L's 4,608-bit code already is a sparse binary distributed representation (SBDR); the survey says
+sparse codes allow inverted indexing, which is L's event-driven decision. (2) The bit position is already role (pooled
+location) x filler (detector id) in localist form. (3) Bloom filter = OR-bundle; hash binding of L's lookup core is the same
+family. (4) Sparse block code binding is integer index addition modulo the block size. (5) XOR binding needs only gates.
+(6) Fractional power / correlated "level" codes (thermometer-like flips) give similarity-preserving scalars.
 
-Does not transfer. Dense bipolar or real HVs (HRR, FHRR, MAP with integer sums) need multiplies or FFT for binding
-or dot-product clean-up over thousands of components: a dense matrix-vector product against the item memory, which
-our rule excludes. Tensor product representations (outer product) grow as D^k: they are matrices by definition.
-Matrix binding (MBAT) is excluded outright. Clean-up against N prototypes of a dense 10,000-bit vector costs N x 10,000
-XNOR-and-count operations per query; only with a sparse code and event-driven row addition does it fit our rule.
-Also: binding "does not need training" but the encoder from pixels to HVs does, and the survey admits there is no
-principled way to build it.
+Does not transfer. HRR convolution, FHRR complex product, tensor products, matrix binding (MBAT): multiplies or matrices.
+Dense clean-up is an N x D dense matrix-vector product; only event-driven row addition over a sparse code fits our rules.
+The encoder from pixels to HVs is outside HDC and is the weak point.
 
-### 2. Kleyko et al., survey Part II (partly read)
+### 2. Kleyko et al., survey Part II (read fully)
 
-Mechanism. Reviews uses: finite-state machines as bundles of bind(input, state, permute(next state)), robot
-controllers as bundles of sensor-set bound to action-set, string matching, language identification by bundled n-gram
-vectors (permute-and-bind per letter), classification by class centroids (bundle of training HVs, refined by
-perceptron-like updates), analogical retrieval and mapping (Plate's HRR episodes, sparse-code versions), "holistic
-transformations" (a transformation HV learned from a few example pairs, then applied to new structures without
-decomposing them), Raven's matrices, visual question answering, and cognitive architectures (Spaun, associative-
-projective networks on sparse codes, HTM shown to support binding and bundling of sparse HVs).
+Mechanism. Reviews uses. Finite-state machines as bundles of bind(input, state, permute(next)); controllers as bundles of
+bind(sensor set, action set); n-gram language identification (permute-bind per letter, class centroids); database records
+and "holistic transformations" (one transformation HV from a few example pairs, applied to new records without decomposing
+them, "Dollar of Mexico"); analogical retrieval and mapping; Raven's matrices; visual question answering; Spaun, associative-
+projective networks (SBDR, cores and fringes), HTM, LIDA. The closing section lists open problems.
 
-Key numbers (as reported in the cited works). HRR transformation HVs learned by gradient descent from a few pairs
-generalised to new elements and to structures more complex than in training (Plate/Neumann line). A visual-analogy
-demo on binary HVs from a CNN: 98 % correct on unseen automobile images. A trainable visual question answering model:
-100 % on five trained questions, 60 to 72 % on unseen questions. Classification tables show centroid classifiers with
-binary HVs on MNIST/Fashion-MNIST, always with weak baselines or feature extractors.
+Key numbers (as cited). Visual analogy on CNN-derived binary HVs: 98 % correct on unseen automobile images. Trainable VQA
+model: 100 % on five trained questions, 60 to 72 % on unseen ones. Text and sensor classification tables: centroid classifiers,
+mostly small gains over weak baselines, always with a feature front end.
 
-Transfers to L. (a) The classification recipe (centroid = bundle, then perceptron-like refinement) is what L's
-counting table with surprise-gated writes already is; no gain. (b) Role-filler **database query by unbinding**
-(slide on "what is the age of Lee who is female"): answers composed from parts without having seen the whole record.
-(c) "Holistic transformation": learn a single mapping A->B from examples by XOR/bind; for self-inverse XOR binding the
-mapping is a single bit pattern T = bind(a,a') bundled over examples: counting in the XOR domain, matrix-free. (d) The
-analogy hierarchy (literal similarity > surface features > true analogy > relations only) gives a ready measuring stick.
-(e) The associative-projective-network text lists "cores and fringes" (bits that co-occur in many members = category
-prototype core; rare bits = instance): this is what L's dream counts already store.
+Statements that matter for us (all from the open-issues section). (i) "Similarity: in many models the result of binding
+is not similar as soon as a single input is dissimilar ... the price is weak or no similarity in the resultant HV that
+includes the same HVs in slightly different combinations." This is the mechanism behind the 0 % held-out result of paper 6.
+(ii) "List memories provide reliable retrieval, but are problematic for generalization." (iii) "Parsing: how to parse raw
+sensory input into a part-whole hierarchy" and "Learning the transformation of input data into HVs" are open; the survey
+says that when HDC transforms data to HVs "machine learning is used rarely, if at all". (iv) HDC and neuro-symbolic AI are
+"rather separate fields".
 
-Does not transfer. Learning the transformation HV by gradient descent is backprop. Most results assume that a front
-end hands over symbols. The survey itself says analogical mapping has "not been shown to scale". Spaun is a
-large spiking network built on HRR convolution.
+Transfers to L. (a) Centroid + refinement classification = L's counting table with surprise-gated writes; no gain. (b)
+Record query by unbinding, holistic transformation as a single XOR pattern bundled over examples: counting in the XOR domain.
+(c) Cores and fringes of associative-projective networks = bits common to many instances (prototype) versus rare bits:
+what L's dream counts store. (d) The analogy hierarchy gives an evaluation ladder.
+
+Does not transfer. The transformation HV in the cited HRR work is learned by gradient descent; most demos assume symbols are
+given; no demonstration scales to large analogical episodes.
 
 ### 3. Frady et al., resonator networks part 1 (read fully)
 
-Mechanism. Composite vector s = x_i * y_j * z_k (Hadamard product of codewords from three codebooks). Decoding by
-trying all D^3 combinations is the "combinatorial search problem" that blocked VSAs from deep structures. The
-resonator keeps one estimate per factor, initialised to the **superposition of all codewords**; each step it unbinds
-the other estimates from s, cleans up with the codebook (x_hat = sign(X X^T (s * y_hat * z_hat))) and repeats. Search in
-superposition tests many combinations at once; the clean-up removes cross-talk; the correct factors "resonate" and the
-state settles. Scenes: several objects (colour x digit x vertical x horizontal) are bundled; the net decodes one
-object, subtracts it ("explaining away", like tensor deflation), resets and decodes the next.
-
-Key numbers (authors). 23 atomic symbols describe 630 object types and 250,444,530 possible 1 to 3 object scenes;
-N = 500 suffices (fewer than 630). A two-hidden-layer network trained with backprop on 100,000 images produced the scene
-vector; test on 10,000 images; the resonator corrects encoder errors, accuracy as a function of cosine similarity
-shown as logistic curves (exact values not in the text). Tree search with five factors worked.
-
-Transfers to L. The idea of **peeling**: find one part, remove the evidence it explains, look again at what is left.
-In L this is AND-NOT of the explained bits against the dream memory of the winning class and a second sparse scoring pass.
-Also: "unbinding is the real problem of perception" (Feldman, quoted): sensors give mixtures, the task is to separate.
-Also: the expected value of a clean-up memory is to project noisy estimates onto known items: L's class table plays that part.
-
-Does not transfer. The update uses X X^T (a dense D x D product, as outer-product Hopfield weights) and bipolar
-element-wise products; a feed-forward network trained by backprop produced the input vector. A sparse-code resonator
-(authors' reference to a sparse variable-binding paper, not read) would be needed to stay in our rules. Convergence is
-not guaranteed (see paper 4).
-
-### 4. Kent et al., resonator networks part 2 (partly read)
-
-Mechanism. Same dynamics, analysed. "Operational capacity" = largest search space M = D^F that is solved with p >= 99 %
-success within k = 0.001 M iterations. Compared with alternating least squares, gradient methods and soft thresholding.
-
-Key numbers (authors). Capacity is about two orders of magnitude higher than all the benchmark algorithms for F = 3 and
-F = 4; it scales as a **quadratic function of vector dimension N**, for F = 2 to 7; iterations to convergence are a tiny
-fraction of M below capacity; in a speed test (N = 1500, F = 3, D_f = 40, 5,000 trials) the resonator always found the
-answer while the benchmarks solved about 70 %; per-iteration cost about 5x lower than benchmarks. Not guaranteed to
-converge (no Lyapunov function), non-convergent regimes appear above capacity.
-
-Transfers to L. Planning number: the search space we can untangle grows with N^2, not N, so a code of a few thousand
-bits suffices for the few-hundred-combination attribute spaces we care about (clothing: well under 1,000 combinations).
-Failure above capacity is a hard cliff: we must measure it, not assume graceful decay.
-
-Does not transfer. All experiments are dense bipolar; capacity numbers do not carry over to sparse codes without
-re-measurement.
-
-### 5. Lake and Baroni, SCAN (partly read)
-
-Mechanism. Navigation commands ("jump twice and walk left") mapped to action sequences. Tests zero-shot generalisation
-of recurrent seq2seq networks to systematically new combinations. Splits: random, longer outputs, new primitive.
-
-Key numbers (authors, MEASURED). Random split 99.8 % (best overall net), but as the fraction of commands in training
-falls to 2 % it drops to about 54 % and 1 % gives about 5 %. Length split: best net 13.8 % overall, up to about 20 %
-with oracle length. "Add jump" (new primitive seen only alone): best top-performing hyper-parameter setting 1.2 %,
-overall-best 0.08 %, while the equivalent "turn left" split reaches 90.3 % because "turn left" appears composed in
-training. With 32 distinct composed training commands containing "jump" the net reaches 88.4 % (8 commands: 38.3 %).
-
-Lessons for L. (i) Recognition-style statistics do not give systematicity: generalisation appears only when the
-primitive was seen **in compositions** during training (turn-left versus jump contrast). (ii) The benchmark gives a
-template for our own test: hold out combinations, keep primitives seen elsewhere. (iii) Quantitative target: any
-method must beat about 1 % on the add-jump type of split.
-
-Does not transfer. The networks are LSTMs trained by backprop; the test is language-like and not directly usable for
-images. We should reuse the split design, not the data.
-
-### 6. Lake, meta seq2seq (partly read)
-
-Mechanism. A memory-augmented network gets, in every episode, a **support set** of input-output examples with a freshly
-random mapping of primitives (e.g. "dax" means JUMP in this episode) and a query; the decoder attends to the support
-set. Training over many random episodes forces it to learn the composition rules and to look primitives up in memory.
-
-Key numbers (authors). Mutual-exclusivity task 100 % (SD 0). SCAN add-jump 99.95 % (SD 0.08) versus plain seq2seq 0.03 %
-and syntactic attention 78.4 %; length split 16.64 % versus 7.71 % for the base net and 15.2 % for syntactic
-attention; ablations (no support loss, no decoder attention) collapse to 5 to 12 %.
-
-Transfers to L. The **training distribution does the work**: the same machinery that fails on one fixed mapping succeeds
-when primitives are randomly re-assigned across episodes, so the model is forced to separate "which symbol" from "how
-combined". A counting-table analogue: during the day, randomise the bit-to-detector identity or re-label parts
-across episodes so tables must store relations, not identities (see design 3). And the support set is a lookup memory.
-
-Does not transfer. Encoder-decoder LSTM with attention, backprop through episodes. The 16 % length result shows the
-method does not solve productivity either.
-
-### 7. Neuro-Symbolic Concept Learner (partly read)
-
-Mechanism. A perception module gives per-object feature vectors; each concept (red, cube, left-of) is an operator that
-maps an object vector into an attribute-specific embedding space and compares it with the concept embedding; a parser
-turns the question into a program of fixed operators (filter, count, relate, exist) executed softly over the objects.
-Curriculum learning starts with simple questions.
-
-Key numbers (authors). 5K images (less than 10 % of CLEVR's 70K) and no program annotations; concept classification about
-99 % for all object properties; on CLEVR-CoGenT (cubes and cylinders with swapped colour sets) 98.8 % on split A and
-98.9 % on split B after treating attributes as separate operators; CLEVR VQA state of the art among models with zero
-program labels, within a few points of a model that used 700K programs.
-
-Transfers to L. **Attributes are separate spaces.** When colour and shape live in separate attribute spaces the
-network no longer uses colour to decide shape, and the held-out combination works (98.9 %). The mirrored failure for
-joint classes is the CoGenT overfit. This directly motivates design 1 (separate tables per attribute, fixed small
-program on top). The executor (filter/count/relate) is a lookup-and-count program: matrix-free in principle.
-
-Does not transfer. Perception is a pretrained CNN with object proposals from Mask R-CNN; concept embeddings and
-parser are trained by gradient descent; operators use cosine/dot products.
-
-### 8. Slot Attention (partly read)
-
-Mechanism. K interchangeable slot vectors compete (softmax over slots) for the input features through T = 3 rounds of
-attention with a recurrent update; each slot ends up binding one object. Slots share one format, so any slot can hold
-any object.
-
-Key numbers (authors). Unsupervised object discovery on CLEVR6: ARI near 98.8 +/- 0.3 % in the results table (the exact
-row for each variant was not checked); a greyscale CLEVR6 variant gives 98.5 %; generalises to CLEVR10 and to more slots at test time with only a mild drop; trains in about 24 h on
-8 GPUs versus about 7 days for the earlier IODINE; supervised set prediction generalises to unseen object counts.
-
-Transfers to L. Exchangeable, competing slots = "winner-take-all with inhibition between detectors", which L's
-competitive detectors already do at the pixel-patch level. The idea of **explaining away by competition** parallels the
-resonator's subtract-and-reset. Slots bind by competition, not by a separate binding operator: a different route to
-the same goal.
-
-Does not transfer. Attention is dot product plus softmax plus a GRU plus an MLP, trained end-to-end by backprop and
-with a CNN encoder; none of these are available. The scores are for synthetic scenes only.
-
-### 9. Hersche et al., neuro-vector-symbolic architecture (partly read; supplement read closely)
-
-Mechanism. A CNN front end is trained to output, for each panel, a **superposition of bound attribute vectors**
-(bipolar). A backend turns attribute distributions into sparse block codes (binary vectors with one 1 per block;
-binding = block-wise circular convolution = index addition) and applies rule detectors (progression, arithmetic,
-distribute-three, logic) in the vector domain by unbinding; probabilistic abduction without exhaustive symbolic search.
-
-Key numbers (authors). RAVEN 87.7 %, I-RAVEN 88.1 % (a new record when published); reasoning back end about 244 times faster
-on CPU than the earlier symbolic PrAE back end; PGM 68.3 %. **The supplement's held-out-combination test is the most
-important result for us:** with purely multiplicative binding of quasi-orthogonal attribute vectors the front end gets
-**0 %** on every held-out attribute-value combination (all six attribute pairs). The authors explain why: each entry of
-the output corresponds to one memorised combination, and training and test combinations are mutually exclusive. With
-a **multiplicative-additive** encoding (bundle of role x value pairs, so each attribute can be unbound on its own) plus
-hyperspherical regression for ordinal values, held-out pairs reach 34.8 % (position, colour), 15.1 % (position, size),
-29.3 % (colour, size), 72 % (colour, type); position-type and size-type stay at 0 %, which the authors suspect comes from
-the spatial structure of CNN filters. Training on panels with 2 objects then testing on 3 or 4 objects gives 97.1 to 97.3 %.
-
-Transfers to L. This is the cleanest published evidence for the central design rule: **a conjunction-only code
-(clause, hash binding, product of vectors) memorises combinations and cannot generalise to unseen ones; an additive
-bundle of role-bound single-attribute parts can.** It also shows the limit: the gain was 0 to 72 %, not 100 %, and two attribute pairs
-stayed at zero.
-
-Does not transfer. Front end is a trained CNN; the rule search is run on GPU in float; hyperspherical regression uses
-cosine. We keep the **encoding principle** and the sparse-block-code arithmetic (index addition, a small adder per block).
-
-### 10. Relational Tsetlin Machine (partly read)
-
-Mechanism. A Tsetlin machine learns conjunctive clauses with one Tsetlin automaton per literal (include/exclude) using
-local reinforcement; clauses vote with polarity. The relational version treats ground atoms such as parent(Bob, Mary)
-as propositional inputs, and **replaces constants by variables in order of appearance** ("Mary becomes Z1, Bob
-becomes Z2") before learning, so clauses like child(Z1,Z2) <- parent(Z2,Z1) never see names and apply to any constants. Several
-possible variable assignments are handled by a convolution over assignment permutations. The number of inputs is
-bounded by O(z^w) (z variables, relation arity w), independent of the number of constants.
-
-Key numbers (authors). In closed-domain question answering the first-order representation gives knowledge bases about
-10x more compact and raises answering accuracy from 94.83 % to 99.48 %; robust to erroneous, missing and superfluous
-facts.
-
-Transfers to L. This is the clause-system way to composition: **rename the parts into role slots before the clause
-sees them.** The literal "parent(Z2, Z1)" is a relation between two slots, and the clause is true for any pair that
-stands in that relation. In our setting, the matrix-free version is a relation literal such as XNOR(bit_i of part A,
-bit_i of part B): it says "A and B agree here" without naming the content. All TM operations are local counters and
-bit logic (the paper's Type I/II feedback is automaton state counting), within our rules.
-
-Does not transfer. It needs symbolic atoms from a parser; the convolution over variable permutations multiplies the
-cost by the number of assignments; it handles non-recursive Horn clauses only; no pixel-level experiments; the paper
-reports no systematic held-out-combination test beyond the QA gain.
-
-### 11. Differentiable logic gate networks (partly read)
-
-Mechanism. Network of 2-input gates with fixed pseudo-random wiring; each gate chooses one of the 16 Boolean functions of its
-two inputs. Training relaxes the choice to a softmax over 16 real numbers and the logic to real-valued (product) form,
-by gradient descent; after training each gate is hard-coded to its most probable function. Output class score = bit
-count over several neurons per class.
-
-Key numbers (authors). More than one million MNIST images per second on one CPU core at above 97.5 % accuracy; about
-12x faster than the best binary networks at 98.4 %; scaled to about 5 million parameters (gate choices); the MONK's
-problems (logical structure) are among the benchmarks (exact score not checked); the paper also builds adders from gates. The related work they quote, Chatterjee's
-"memorization" with binary lookup tables built by counting conditional frequencies, reached 90 % on MNIST 0-4 versus 5-9.
-
-Transfers to L. Inference is only AND, OR, XOR, NOT, popcount, fixed sparse wiring: perfect fit with our rules. A
-gate layer that can pick XNOR is a **relation detector** between two code bits (design 3). The 16-function view says a
-learned clause literal could be a 2-input function of two code bits, not just a bit or its negation.
-
-Does not transfer. Training is backprop through real-valued relaxations with multiplications (GPU only; for our
-long-term on-chip goal this is the part we must replace). No paper in this family tests systematic generalisation to
-held-out combinations; "logical structure" there means Boolean functions on given inputs.
-
-### 12. Convolutional logic gate networks, LogicTreeNet (partly read)
-
-Mechanism. Same training as paper 11 but with convolution as **shared logic-gate trees** (a depth-2 tree of three
-learnable gates per kernel, applied at every position), OR pooling and residual initialisation.
-
-Key numbers (authors). CIFAR-10 86.29 % with 61 million gates, 29x smaller than the previous best at its accuracy; the earlier plain
-gate network stopped at 62 %.
-
-Transfers to L. Weight sharing across positions with a boolean tree kernel plus OR pooling is the same idea as our
-earlier "convolutional clauses" (+0.2 to +0.4 on L's code, fail on raw pixels, `hw/results/clause_weight_sharing.md`).
-It confirms that without sharing, depth and shared parts are what scale. Gate count (not parameter count) is the
-hardware cost measure.
-
-Does not transfer. Same GPU backprop training; still no composition benchmark.
-
-### 13. DreamCoder (partly read)
-
-Mechanism. Wake: search programs (in a typed lambda calculus) that solve tasks. Sleep (abstraction): find recurring
-sub-programs in the solutions and add them as library functions, shrinking future programs. Sleep (dreaming): sample
-programs from the library, run them to make fantasy tasks, and train a neural recogniser that guides search.
-
-Key numbers (authors). Text editing, 108 SyGuS problems: before learning 3.7 % solved within 10 min; after learning 79.6 %
-(average 40 s instead of 235 s); the best synthesiser in the competition solved 82.4 % with 1 h and 8 CPUs, and
-DreamCoder reached 84.3 % under that budget; list processing and graphics domains reach near 100 % of held-out tasks while
-other models stay below 60 %.
-
-Transfers to L. **Library learning = counting repeated sub-structures and promoting them.** L already counts: a frequent
-conjunction of literals can be promoted to a new literal (a "chunk") exactly as a repeated sub-program becomes a library entry. The
-wake-sleep rhythm matches L's day/night, and "dreams" that are generated from the learned library and used to train
-the guide mirror L's dream replay. Compression as the criterion (shorter description = higher prior).
-
-Does not transfer. Programs are lambda terms searched with a neural recogniser trained by gradient descent; search is
-combinatorial and slow (minutes per task on CPUs).
-
-### 14. Chollet, On the measure of intelligence / ARC (partly read)
-
-Mechanism / content. ARC tasks are small coloured grids (400 training and 400 evaluation tasks in the public set) where a
-few input-output pairs define a transformation; the solver must apply it to a new grid. The paper lists the innate
-priors it assumes: objectness (cohesion, persistence, contact), goal-directedness, numbers and counting, and elementary
-geometry and topology. Suggested route: a domain-specific language of small primitives plus program search, with
-library growth.
-
-Transfers to L. A precise list of **what must be built into the sensing layer** for composition: object segmentation,
-counting, symmetry, simple geometry. ARC-style grids are small enough (up to 30x30, 10 colours) to be a bit-plane code and a
-test of rule induction by counting, but such a goal is far from our six-month horizon (see section d, "out of reach").
-
-Does not transfer. Evaluation is of program-synthesis systems; no matrix-free method is known to us that reaches meaningful ARC scores.
-
-### 15. In-memory hyperdimensional computing (partly read)
-
-Mechanism. Binary HDC (XOR bind, majority bundle, one-bit shift permutation) mapped to phase-change memory crossbars: encoder
-and associative memory computed in the array.
-
-Key numbers (authors). 760,000 PCM devices; three tasks (language, news, EMG gesture) at accuracy comparable to software;
-over 6x end-to-end energy and 3.7x area improvement against a dedicated digital CMOS design.
-
-Transfers to L. Confirms the **hardware cost model** of HDC: XOR, shift, majority counters, associative lookup, nothing else. The
-associative memory is a content-addressable lookup. Analogue crossbars are out of scope for us; the digital
-blocks are not.
-
-Does not transfer. The associative-memory search is a (binary) matrix-vector product in the array, which is
-the "dense matrix" our rule forbids unless read as a sparse event-driven table.
-
-### 16. Neuromorphic resonator networks for visual odometry (partly read)
-
-Mechanism. A VSA scene representation as working memory; a resonator network factorises position and rotation; designed for Loihi.
-
-Key numbers (authors). 0.53 % relative position error on the event-camera set, similar to the best event-only
-visual-inertial methods, and no training of the network itself (only calibration).
-
-Transfers to L. Proof that a resonator-style factoriser can be hardware-light and event driven; "no training" parallels our
-no-backprop rule. Does not transfer: analogue/complex phasors, a Loihi implementation we cannot reproduce.
+Mechanism. A composite s = x * y * z (element products of codewords from codebooks) is factored by keeping one estimate per
+factor, initialised to the superposition of its whole codebook; each step unbinds the other estimates from s, cleans up
+against the codebook and re-thresholds: x_hat = sign(X X^T (s * y_hat * z_hat)). Search in superposition tests all
+combinations at once; the right ones "resonate". Scenes bundle objects (colour x digit x vertical x horizontal); decoded one
+at a time with explaining away (subtract the found object, reset).
+
+Key numbers (authors). 23 atomic symbols give 630 object types and 250,444,530 possible 1-3 object scenes; N = 500 is
+enough; a two-hidden-layer network trained with backprop on 100,000 images produced scene vectors, tested on 10,000. Tree
+search with five factors works.
+
+Transfers. Peeling: find a part, remove its evidence, look again. The paper's own point: sensing is unbinding (Feldman).
+Does not transfer. X X^T is a dense product; bipolar element products; backprop front end; no convergence guarantee.
+
+### 4. Kent et al., resonator networks part 2 (read fully)
+
+Mechanism. Same dynamics analysed. Each iteration is a "bipolarised alternating least squares" step; the sign non-linearity
+keeps the state at hypercube corners and avoids spurious fixed points, which is argued (section 6.6) to be why six
+optimisation baselines fail. Outer-product (OP) weights give an integer matrix, "no floating point", but still a matrix
+product per iteration.
+
+Key numbers (authors). Operational capacity (99 % total accuracy within 0.001 M iterations): about two to three orders of
+magnitude above all benchmarks for F = 3 and 4; scales as a quadratic in N for F = 2 to 7; fit M_max about 8.078 N^2 / F^1.268
+for F >= 3 (the authors flag this fit as noisy); highest with balanced codebooks, lower if one codebook is 10 to 20 times
+larger. Speed test (N = 1500, F = 3, D_f = 40): resonator always solved, benchmarks about 70 %; per-iteration cost about 5x
+lower. Brute force for F = 4, D_f = 100, N = 10,000 would need about 125 GB. With M well below capacity the network
+still factors a composite with up to 30 % of bits flipped. Hopfield-like stability: OP resonators match Hopfield stability for
+D_f / N <= 0.056, are less stable above (percolated noise). Three regimes: converges to the right answer; wanders (no
+convergence); saturates with spurious fixed points. Not guaranteed to converge.
+
+Transfers. Planning numbers: a code of N bits supports search spaces of order N^2 / F^1.27; for clothing (hundreds of
+combinations) a few thousand bits are plenty. Capacity ends at a cliff.
+Does not transfer. Dense bipolar; sparse-code capacity must be re-measured; iteration is a matrix product (cost per
+iteration about F x D_f x N additions, ESTIMATED, if the two codebook matrices are kept separate as the paper advises).
+
+### 5. Frady, Kleyko, Sommer, variable binding for sparse distributed representations (read fully)
+
+Mechanism. Compressed sensing shows that the Hadamard product of two dense vectors equals the tensor product of the
+corresponding sparse vectors (needs N > about 140 in their test), and that a "protected sum" is the concatenation of sparse
+vectors; so dimension-preserving binding must reduce the tensor to a vector. Two sparsity-preserving binders: SPTP (random or
+diagonal sub-sampling of the outer product with a threshold, fan-in N/K, lossy, needs coincidence detectors, i.e. AND of pairs)
+and local circular convolution (LCC) on sparse block-codes: per block, add the two active indices modulo the block size.
+LCC unbinding is lossless and keeps sparsity exactly; its cost is order N.
+
+Key numbers (authors). LCC beat circular convolution, Hadamard and SPTP in unbinding correlation at all sparsities. The
+"dollar of Mexico" analogy works with sparse block-codes; accuracy follows the dense-VSA capacity theory with signal-to-
+noise s^2 = N/R^2 for R key-value pairs (the transformation vector contains R^2 cross terms). Classification with a block-code
+VSA (random hidden layer + ridge regression readout, similarity-preserving block shifts for scalars) on 121 UCI datasets: mean
+accuracy 0.80 for both dense and sparse versions, about 500 neurons sparse versus 750 dense, versus 0.82 for random forest.
+Block-code entropy is K log(N/K) bits, much smaller than for unconstrained K-sparse codes; Hebbian block-code associative
+memory capacity is nearly as high.
+
+Transfers to L. This is the matrix-free binder we want: index addition modulo a block, or AND of two bits (coincidence).
+Block structure is what competitive detectors already produce (one winner per group of detectors, "winner by XNOR + bit
+count"); L's code could be read as a block code with one winner per detector group. The note "concatenation is not binding"
+warns that stacking two part codes side by side does not bind them. Similarity-preserving scalar code = shift of the hot
+index per block, no multiplier.
+Does not transfer. The classifier uses ridge regression readout (matrix solve) and the unbinding in the implementation uses
+FFT; the classification result is on tabular features, not images.
+
+### 6. Hersche et al., neuro-vector-symbolic architecture (read fully)
+
+Mechanism. A ResNet-18 is trained (backprop) so that its 512-d output equals the bundle of per-object vectors, where each
+object vector is the Hadamard product of its attribute vectors (type x size x colour x position; a dictionary of up to 6,600
+combinations, frozen). Decoding takes cosine similarities with the dictionary (a dense 6,600 x 512 matrix-vector product) and
+marginalises to per-attribute probability mass functions. The backend maps PMFs to sparse block codes (d = 1024, kappa = 4
+blocks), uses fractional power encoding for ordered attributes and binding/unbinding to test rules (constant, progression,
+arithmetic, distribute-three) "in superposition", with an associative memory search over n codewords (O(n) instead of
+O(n^3)).
+
+Key numbers (authors). RAVEN 87.7 %, I-RAVEN 88.1 % end to end; with ground-truth attribute labels for perception 98.5 % and
+99.0 %; reasoning backend 244x faster than the unrestricted symbolic one on the 3x3 grid (63.2 min against 15,408 min for
+2,000 tests) and memory below 10 GB; PGM 68.3 %. Perception panel accuracy 99.76 % with the additive cross-entropy loss, 97.16
+% with only 6,000 training samples. Unseen attribute-rule pairs (rule never seen on that attribute, I-RAVEN left-right): 81.7 to 100 % for NVSA
+against about 22 to 39 % for LEN and CoPINet in most columns (a few baseline entries are higher; the table text was garbled by extraction). Visual analogies A:B::alpha:beta solved at 100 % by binding the
+network outputs (relation = q_A * q_B, apply = * q_alpha), including one-to-many analogies.
+**Held-out combination tests (Supplementary Note 1b and 1c), the key result for us:**
+ - Unseen attribute-value combinations inside one object (train: objects having value in set V_i OR set V_j; test: neither):
+   multiplicative binding of quasi-orthogonal vectors 0.0 % on all six attribute pairs. The authors explain it: each output
+   entry encodes one memorised combination, and train and test combinations are mutually exclusive.
+ - Multiplicative-additive encoding (object = bundle of key * value pairs) with hyperspherical regression for ordinal values:
+   position-colour 34.8 %, position-size 15.1 %, colour-size 29.3 %, colour-type 72.0 %, position-type 0.0 %, size-type 0.0 %.
+   The authors suspect the spatial structure of CNN filters for the two zeros.
+ - Unseen combinations of several objects (multiplicative binding is fine here): 2x2 grid, training with single objects only
+   gives 92.4 % (2 objects), 68.1 % (3), 19.3 % (4); training with 1-2 objects gives 97.1 % on all test settings (OOD average
+   97.3 %). 3x3 grid, training on 1-4 objects reaches 86.3 % average, 67.8 % at 9 objects.
+
+Transfers to L. Two compositions must be kept apart. (A) Composition of whole objects into sets (bundle of bound tuples):
+generalises over object count with a little data. (B) Composition of attributes inside one object: a one-readout-per-
+combination code fails completely (0 %), an additive key-value code fails partly (0 to 72 %). So a design that must recognise
+new attribute combinations has to read each attribute separately (design 1). The backend shows sparse block codes at 1,024 bits
+with 4 blocks are enough for rule detection.
+Does not transfer. ResNet-18 + backprop + REINFORCE; softmax and cosine; a dense dictionary matrix-vector product; PMFs are
+real-valued weighted superpositions (weights = multiplies). The 0 % result is for a CNN readout; whether a counting table behaves
+the same is exactly what design 1 tests.
+
+### 7. Relational Tsetlin machine (read fully)
+
+Mechanism. A Tsetlin machine learns conjunctive clauses (AND of literals and their negations) with one Tsetlin automaton per
+literal (include/exclude, local state counting); clauses vote with polarity, the sum is clipped to a target T; Type I feedback
+(frequent patterns, reinforce include when clause fired and literal true, probability (s-1)/s) and Type II feedback (add
+discriminating literals when the clause fires on the wrong class). The relational version maps every ground atom (for example
+MoveTo(William, Office)) to a Boolean input, then **replaces constants by variables in order of appearance** (the entities
+in the question are renamed first: Per1, Loc1 ...), so a clause such as Q(Per1) AND MoveTo(Per1, Loc3) never sees names.
+A convolution over all permutations of the free variables handles the existential quantifier ("there exists a patch that makes
+the clause true"). Atoms are bounded by O(z^w) (variables z, arity w) instead of growing with the number of constants; features
+scale as r^(e+1) per sample.
+
+Key numbers (authors). One bAbI-style task (single supporting fact, at most 3 statements, 5 locations): 94.83 % with constants,
+99.48 % with entity generalisation (reported F-score 92.53 for the generalised model, which the paper does not explain); knowledge
+base about 10x more compact. Noise in training data: 99.48 / 98.79 / 98.24 / 97.02 / 95.08 % at 0 / 1 / 2 / 5 / 10 % error.
+Convolution over variable permutations needed up to 1.5x fewer clauses. Cost model with alpha (AND), beta (add), gamma (automaton
+update): per sample (2o+1) m gamma + 2o m alpha + (m-1) beta, times v! for v free variables.
+
+Transfers to L. The mechanism is exactly the abstraction we lack: identity-free clauses over slots. Clause logic, include/exclude
+counters and voting are all within our rules. The "existential" clause evaluation is a patch scan, as in L's earlier weight-shared
+clauses. The method works because the symbols were already given as atoms.
+Does not transfer. Relations and entities come from a hand-built extraction pipeline; the permutation loop multiplies the cost by v!;
+no experiment holds out entity combinations to separate memorising from abstracting (the paper claims unseen names work, but does not
+measure it separately); toy data only; no pixels.
+
+### 8. Lake and Baroni, SCAN (main text read)
+
+Mechanism. Navigation commands to action sequences; 20,910 commands from a small grammar; tests zero-shot generalisation of seq2seq
+RNNs. 180 architectures x 5 runs each.
+
+Key numbers (authors). Random 80 % split 99.8 % (best), but only 5 % with 1 % of commands, 54 % with 2 %, 93 % with 4 %. Length
+split: best net 20.8 %, overall-best 13.8 %, 23.6 % with an oracle for output length. "Turn left" held out as primitive: 90.3 %
+(because the action LTURN appears in training in other commands); "jump" held out: best 1.2 %, overall-best 0.08 %; adding composed
+"jump" commands in training: 8 gives 38.3 %, 16 gives 77.8 %, 32 gives 88.4 %. Translation: after "I am daxy" repeated 1,000 times,
+1 of 8 new constructions right (22 predicates seen on average in these constructions), while "tired" (80 contexts) is 8 of 8; with
+1 or 10 repetitions 0 of 8. The nearest-neighbour table shows that "jump" never became similar to "run/walk/look".
+The authors' recommended routes: learning-to-learn over many environments, modular functions for modifiers, differentiable memory.
+
+Lessons. Generalisation appears only where the part has been seen **in compositions** (turn left versus jump); sample efficiency
+of systematicity is bad. The splits are a template for held-out tests.
+Does not transfer. LSTMs and backprop; language not images.
+
+### 9. Lake, meta seq2seq (main text read)
+
+Mechanism. Training episodes each give a support set (input-output pairs, primitives randomly re-assigned to meanings) and queries;
+the network stores support pairs in a key-value memory (attention) and answers queries with an LSTM decoder. After meta-training
+no weight update occurs at test time. A "support loss" (also reconstruct the support items) is needed to force memory use.
+
+Key numbers (authors). Mutual exclusivity 100 %. SCAN add-jump 99.95 % (SD 0.08) with 23 random primitive permutations in
+meta-training against 0.03 % plain, 78.4 % syntactic attention; without support loss 5.43 %, without decoder attention 10.32 %;
+augmented with 20 extra primitives 98.71 % (plain 12.26 %); "around right" 99.96 % (plain 0.0 %); length 16.64 % (plain 7.71 %,
+syntactic attention 15.2 %). Training under 1 hour on one GPU. The author states "variables" here need familiarity with all
+symbols during meta-training; genuinely new symbols and longer outputs remain unsolved.
+
+Transfers to L. The training distribution does the work: a fixed identity mapping lets the model memorise; randomly changing
+which symbol means what forces it to use relations and a lookup of the support set. The support set is a lookup memory.
+Does not transfer. LSTM encoder/decoder, soft attention, backprop through episodes.
+
+### 10. Differentiable logic gate networks (main text read)
+
+Mechanism. Layers of 2-input gates with fixed pseudo-random wiring; each gate picks one of 16 Boolean functions. Training relaxes
+each gate to a softmax over 16 real numbers and each function to a real polynomial (AND = a*b, XOR = a+b-2ab), trained with Adam;
+after training the most likely function is hard-coded. Class score = bit count over a group of output gates; connections are
+reproducible from one seed so only 4 bits per gate are stored.
+
+Key numbers (authors). MNIST 97.69 % (48K gates, 625 ns CPU) and 98.47 % (384K gates); more than 1 M images/s on one CPU core above
+97.5 %; more than 10x fewer binary operations than the fastest binarised net at 98.4 %. CIFAR-10 (2- to 5-bit inputs) 51.27 % to
+62.14 % (48K to 5.12M gates). MONK's problems 100 / 90.9 / 97.7 % (neural network 100 / 100 / 93.5). Adult 84.8 %, Breast Cancer 76.1 %.
+Training of a 5M-gate net took about 90 hours on one GPU (from paper 11). In the last layer the most frequent gates are XOR and XNOR;
+implications are rare; the first layer favours AND/NAND/OR/NOR; middle layers use "pass A/B/not A/not B". The related work cites a
+counting-based lookup network ("memorization") reaching 90 % on MNIST 0-4 versus 5-9.
+
+Transfers. Inference is only bit logic: fits our rules, and XNOR/XOR as the most common learned late gate supports **relation
+literals** (design 3): the net itself prefers comparing two earlier features. Bit-sliced batching (64 samples in an integer) and
+"250 gates per core per cycle" are implementation facts.
+Does not transfer. Training is gradient descent through real-valued multiplications; no systematic-generalisation test.
+
+### 11. Convolutional logic gate networks, LogicTreeNet (main text read)
+
+Mechanism. Convolution with shared logic-gate trees of depth 2-3 (each tree sees two input channels), logical OR pooling, residual
+initialisation (gate "pass A" starts at 90 %). Hardware cost measured in gates.
+
+Key numbers (authors). CIFAR-10 86.29 % with 61 M gates (29x fewer than the SOTA at equal accuracy), 84.99 % with 28.9 M, 80.17 % with
+16.0 M gates at 24 ns per image on an FPGA, 71.01 % with 3.08 M. MNIST 99.35 % (1.27 M gates). Ablations (L model): no OR pooling
+81.45 %, Gaussian instead of residual init 76.18 %, 8 input channels per tree 83.53 %, shallower trees 80.98 to 84.13 % (against
+84.99 %). A 5M-gate plain net needed 90 h; their kernels are about 200x faster per gate.
+
+Transfers. Position-shared boolean trees + OR pooling is the weight-sharing idea we tested (+0.2 to +0.4 on L's code). "Gates" is the right cost unit.
+Does not transfer. GPU backprop; CIFAR scale; no composition test.
+
+### 12. Smolensky et al., neurocompositional computing (read fully; stand-in for Smolensky 1990)
+
+Mechanism. A structure is a set of filler:role bindings; in a tensor product representation each filler and each role is a vector,
+binding is the outer product, aggregation is the sum, so one filler vector (for example "lock") keeps its identity in different
+roles ("un-lock", "lock-able"): "TPRs disentangle what and where". Compressed TPRs give HRR, MAP and others. Second-generation models
+(NECSTransformer, StoryNet, CaptionNet, ProgNet) learn role and filler vectors by backprop.
+
+Key numbers (authors). Copy five digits with all n-in-n sequences (digit n in position n) withheld from training: of 100 trained models,
+none of the LSTM variant learned the task perfectly, about one third of the Transformer variant, over two thirds of the TPR variant; the
+LSTM errs by shifting neighbouring digits. StoryNet (bAbI) beat the previous state of the art more the fewer subtasks each character name
+was seen in. ProgNet produced Lisp programs up to 55 commands perfectly. A GRU trained on SCAN that generalises well has an internal
+encoding that is well approximated by a TPR; editing it (subtract "twice", add "thrice") changes outputs accordingly.
+
+Transfers. (1) The held-out n-in-n copy test is a clean template: a filler never seen in a given role. (2) Evidence that networks that
+generalise compositionally use additive role-bound parts. (3) "Same filler vector in different roles" is what position sharing gives.
+Does not transfer. Outer products and learned continuous role vectors; backprop; compression via linear maps; the paper's own list of
+limits (no embedding of structures inside structures yet).
+
+### 13. HTM sequence memory (main text read)
+
+Mechanism. A neuron has many dendritic segments; each segment is a coincidence detector: it fires when at least theta of its s synapses
+(typically 15 to 40 synapses, theta 8 to 20) see active cells. Each segment stores one learned pattern, so a neuron with ~6,000 synapses
+recognises ~300 patterns. Mini-columns (2% active, 40 of 2048) share a feedforward response; the cell chosen within the column depends on the
+learned temporal context, so the same input has a different sparse code in different contexts (ABCD versus XBCY). Learning is local Hebbian
+growth of "permanence" scalars that turn binary synapses on above a threshold; the model uses binary activations and binary synapse weights.
+The false-match probability is the hypergeometric formula (example 9.8e-21 for 10 synapses over a 2,000-of-200,000 pattern).
+
+Key numbers (authors). 2048 columns x 32 cells x 128 segments x up to 40 synapses; on a designed stream where 50 % is the best possible
+accuracy, the high-order network reaches 50 % and a first-order one 33 %; minimal loss up to about 40 % cell death; capacity example about
+320,000 transitions ((32/0.02) x 200 patterns); doubling the synapses per pattern gives 50 % noise tolerance at error 1.6e-18.
+
+Transfers. A clause with a threshold ("at least theta of s literals true") instead of strict AND is noise tolerant and keeps false matches
+negligible when the code is sparse: a drop-in variant of our clauses. Context-dependent codes through selecting a cell per column are a binding of (input, context) with no vector algebra, and a template for
+role-dependent codes. Local rules, binary weights, no multiplies.
+Does not transfer. It models sequences, not role-filler composition; no composition benchmark; the survey (paper 2) claims HTM can implement
+HDC binding and bundling, but I did not read that source.
+
+### 14. Neuro-Symbolic Concept Learner (main text read)
+
+Mechanism. Detected objects get ResNet features; each attribute (shape, colour) is a separate neural operator into its own embedding space,
+concepts are vectors compared by cosine; a parser (GRU, REINFORCE) turns questions into programs (filter, relate, count, exist, query)
+executed softly as attention masks over objects. Four-stage curriculum: object concepts first, then relations, then complex questions.
+
+Key numbers (authors). Trained on 5K images (<10 % of CLEVR) with no program labels; concept accuracy about 99 %; count-based concept test mean 98.7
+against 90.6 to 96.5; data efficiency (10 % data): NS-CL 98.9 against 51 to 68 for baselines, which need the full data (about 99) (Table 3, row order
+partly garbled by text extraction); CLEVR-CoGenT 98.8 % (A) / 98.9 % (B) once attributes are separate operators (a joint model overfits shape to
+colour); learning a new colour from 100 images 93.9 %; scenes and programs larger than in training "almost perfect"; image-caption retrieval 97.0 %.
+
+Transfers. Separate attribute spaces remove the colour-shape shortcut and make a held-out combination work. A small fixed program over parts (filter/count) is lookup
+and counting. Curriculum (simple parts first) matches L's staged day.
+Does not transfer. CNN features, Mask R-CNN proposals, cosine and sigmoid with learned scalars, REINFORCE.
+
+### 15 to 19. Partly read (not load-bearing)
+
+Slot attention (competing exchangeable slots by softmax attention + GRU; ARI about 98.8 % on CLEVR6, generalises to more objects; dot product, softmax,
+backprop: out). DreamCoder (wake-sleep library learning; text editing 3.7 % to 79.6 % solved on 108 problems, best competition system 82.4 %; the idea of
+promoting a frequent sub-structure to a new library entry transfers, the lambda-calculus search and neural recogniser do not). ARC (400 training tasks; priors:
+objectness, goal-directedness, counting, geometry/topology; no matrix-free method with meaningful scores is known to me). In-memory HDC (760,000 phase-change
+devices, over 6x energy and 3.7x area gain over digital CMOS; operations are XOR, shift, majority, associative search; the associative search is a binary
+matrix-vector product in the array). Neuromorphic resonator odometry (0.53 % position error, no network training; analog/complex phasors).
 
 ## (c) Synthesis
 
-### c1. What the minimal set of operations is
+### c1. The minimal operations and their cost
 
 | Operation | Role | Cheapest digital form | Cost | Matrix? Multiply? |
 |---|---|---|---|---|
-| **Bind (conjunction)** | glue part to role/other part so the pair differs from the parts | binary XOR (dense), AND (sparse, loses nothing but density), index addition mod B (sparse block code), hash(a,b) into a table (L's CRC hash) | D XOR gates; K small adders; one hash | no / no |
-| **Permute** | mark position or order, protect against interference | wiring (fixed shuffle) or cyclic shift | free or a barrel shifter | no / no |
-| **Bundle (superpose)** | hold several bound items in one vector | OR (sparse; Bloom filter), per-bit up-down counter plus threshold (majority) | one counter per bit | no / no |
-| **Unbind** | recover a part from a bundle | XOR again (self-inverse), inverse index subtraction, inverse permutation | same as bind | no / no |
-| **Clean-up** (item memory) | snap a noisy vector to a stored symbol | nearest-neighbour over N stored vectors; in a sparse code: for each active bit add the row of N counters, take the maximum | active bits x N additions | dense matvec if the code is dense; **event-driven lookup if sparse** |
-| **Peel / factorise** | split a product of several parts | resonator loop: unbind, clean up, repeat; or serial peeling: pick best, mask, re-score | a few passes of clean-up | dense in the paper; sparse-lookup version is ours to test |
+| Bind | glue parts so the pair differs from the parts | XOR (dense bits); AND (sparse); index addition mod block size (sparse block code, lossless, paper 5); hash(a,b) into a table (L's CRC hash) | D XORs; K small adders; one hash | no / no |
+| Permute | mark position or role | wiring or cyclic shift | free or barrel shifter | no / no |
+| Bundle | hold several bound items in one vector | OR (sparse; Bloom filter); per-bit counter + threshold (majority) | one counter per bit | no / no |
+| Unbind | recover a part | XOR again; index subtraction; inverse permutation | same as bind | no / no |
+| Clean-up | snap a noisy vector to a stored symbol | nearest neighbour; in a sparse code, add the row of N counters for each active bit and take the maximum | active bits x N additions | dense matvec if code is dense; event-driven lookup if sparse |
+| Peel / factor | split a product of several parts | resonator loop (dense in papers 3, 4); serial "pick best, mask, re-score" | a few clean-up passes | dense in papers; sparse version ours to test |
+| Threshold coincidence | detect a pattern among many inputs | at least theta of s literals true (HTM segment, paper 13); AND of two bits (SPTP, paper 5) | popcount + compare | no / no |
 
-In every VSA model the binding is a non-linear, cheap, **similarity-destroying** step (bound vectors are not similar
-to their inputs, except in sparse AND/CDT), the bundle is **similarity-preserving**, and the clean-up restores
-discreteness. Multiplications appear only in HRR (convolution), FHRR (complex product), MAP/bipolar (which is XOR in
-bits), tensor products and matrix binding; the binary and sparse block variants avoid them.
+Binding is similarity-destroying and cheap; bundling is similarity-preserving; clean-up restores discreteness. Multiplies appear only in HRR, FHRR, tensor
+product, matrix binding and in every learned front end (papers 3, 6, 12, 14).
 
-### c2. Where composition breaks (as found in the papers)
+### c2. What gives composition, and where it breaks (from the full texts)
 
-1. **Conjunction-only codes memorise combinations** (paper 9: 0 % on held-out attribute pairs; paper 5: 1 % on the
-   new primitive). Generalisation requires the parts to be separately readable: bundle of role-bound parts, or one
-   table per attribute.
-2. **Capacity.** Bundling more than a few bound pairs makes cross-talk exceed the signal; with N-dimensional dense
-   bipolar vectors the resonator solves search spaces of order N^2 (paper 4); beyond, a cliff, not graceful decay.
-   1.2 to 1.4 bits per component is the best decoding rate known to the survey authors. Sparse codes have lower
-   capacity per bit but allow cheaper lookup.
-3. **Noise.** Clean-up fixes moderate noise (resonator corrected encoder errors, paper 3); HDC is robust to hardware
-   faults (paper 15). But the front end that turns pixels into HVs is the weak point in every paper: trained by backprop,
-   imperfect, and the survey says raw-pixel HDC is below a kNN.
-4. **Depth.** Nested binding cuts similarity multiplicatively (similarity of bound pairs is the product of the part
-   similarities); the sparse AND/CDT density shrinks with depth ("thinning depth"). Practical depth is 2 to 3 levels;
-   deeper structures need factoring or explicit storage.
-5. **Position and sharing.** Bound-to-position codes do not generalise over shifts unless partial permutations or
-   correlated position codes are used (survey sections 3.3, 3.4); weight sharing is the alternative (paper 12).
-6. **Search and productivity.** Length/productivity generalisation stays hard even with meta-learning (paper 6: 16.6 %).
-7. **Symbol grounding.** Nobody learns the symbols (attributes, objects) without labels or a supervised front end; the
-   papers hand them over.
+1. **Two different compositions.** Sets of whole objects (bundle of bound tuples): generalises over count with little data (paper 6: 97 % on 3-4 objects after training on 1-2). Attribute combinations inside one object: needs separately readable attributes (paper 6: 0 % for a one-readout-per-combination code; paper 14: 98.9 % on swapped colour/shape sets once attributes are separate; paper 8: only where the primitive was seen in compositions).
+2. **Conjunction memorises, bundling generalises, but only partly.** Additive key-value bundles lifted held-out combination accuracy from 0 to 15-72 %, and two pairs stayed 0 % (paper 6). Nobody gets 100 % on held-out attribute combinations without hand-built structure.
+3. **The training distribution can do it (meta-learning)**: random re-assignment of primitives across episodes gave 99.95 % on add-jump (paper 9); but longer outputs stay at 16 %.
+4. **Capacity.** Bundles of R key-value pairs have signal-to-noise N/R^2 for analogy transformations (paper 5); resonator search spaces grow about N^2/F^1.27 (paper 4) and fall off a cliff above that; 1.2-1.4 bits per component (paper 1).
+5. **Noise.** Clean-up plus sparse codes tolerate 30 % flipped bits (paper 4) or 50 % missing cells (paper 13); the weak point is the pixel-to-symbol front end, which every paper trains with backprop or supplies by hand.
+6. **Depth.** Nested bindings multiply similarities; sparse AND thins; practical depth 2-3 (paper 1). Embedding structures in structures is open even for TPR (paper 12).
+7. **Abstraction by renaming** (paper 7) turns parts into slots; the cost is hand-built symbol extraction and the v! permutation loop.
+8. **Symbols are never learned unsupervised** in these papers; length/productivity and genuinely new symbols are unsolved (papers 8, 9).
 
-### c3. Matrix-free and multiply-free verdict, short
+### c3. Matrix-free and multiply-free verdict
 
-Inside our rules: XOR/AND/OR binding, index-addition binding, hash binding, permutation, OR or counter bundling,
-event-driven clean-up in a sparse code, serial peeling, clause literals that are XNOR relations, Tsetlin-style
-automaton counters, library promotion by counting. Outside: HRR/FHRR convolution and phasor products, tensor and
-matrix binding, dense Hopfield or resonator weights X X^T, slot attention, softmax-based concept operators, all
-gradient training (logic gate networks included, until a local rule replaces it).
+Inside our rules: XOR/AND/OR binding, index-addition binding, hash binding, permutation, OR or counter bundling, event-driven clean-up in a sparse code, serial peeling,
+XNOR relation literals, threshold clauses, Tsetlin automaton counters, library promotion by counting. Outside: HRR/FHRR convolution and phasor products, tensor and
+matrix binding, dense X X^T resonators, slot attention, softmax concept operators, cosine dictionaries of thousands of vectors, and all gradient training (logic
+gate networks included, until a local rule replaces it).
 
-### c4. How learning works in these systems
+### c4. How learning works
 
-Only the VSA operations are training-free. Everything that maps raw input to symbols (CNN front ends in papers 3, 7, 8,
-9) is trained by backprop. The Tsetlin route (paper 10) and counting tables are the only learners in this set that are
-local, but they use symbolic input. L's advantage: its front end is already label-free, local and sparse; its gap:
-no attribute structure.
+Binding and bundling need no training; everything that turns raw input into symbols is trained by backprop (3, 6, 12, 14) or given (7). Logic gate networks learn gate choice
+by backprop (10, 11). Tsetlin and HTM learn by local counters. L's front end is label-free and local; its gap is attribute structure and relations.
 
 ## (d) Our own method sketch
 
-Starting facts about L (PROJECT_MEMORY, SIMULATED): 4,608-bit sparse code from 32 label-free detectors per channel,
-2x2 pooling; counting table of 5-bit signed counters per (class, bit) = 10 classes x 4,608 x 5 bit = 28.8 KB
-(ESTIMATED from those sizes); clothing 83 to 86.5 depending on staged or one-pass; best system L + about 4,000 flat
-clauses 89.7 to 89.8; depth and weight sharing add little. The code is already position-specific, so "bound to
-position" is free; what is missing is (i) separate readable attributes, (ii) reading several parts from one mixed
-code, (iii) relations between parts that do not name the parts.
+Starting facts about L (PROJECT_MEMORY, SIMULATED): 4,608-bit sparse code from 32 label-free detectors per channel, 2x2 pooling; counting table of 5-bit signed
+counters per (class, bit) = 10 x 4,608 x 5 bit = 28.8 KB (ESTIMATED from those sizes); clothing 83 to 86.5 % depending on staged or one-pass; best system L +
+about 4,000 flat clauses 89.7 to 89.8; depth and weight sharing add little. Position is already implicit in the bit index. Missing: separately readable attributes,
+reading several parts from a mixed code, relations that do not name the parts.
 
-Design principle taken from papers 5, 7, 9 and 10: **parts must be separately readable and must be able to refer to each
-other by role, not by identity.** Conjunction (a clause, a hash, a class row) memorises; additive role-tagged votes
-and relation literals generalise.
+Design rule from papers 6, 7, 8, 14: **parts must be readable separately, and clauses must be able to refer to parts by role, not identity.** Avoid one output per combination.
 
-### Design 1: role-tagged attribute tables with a block-code signature clean-up (held-out attribute combinations)
+### Design 1: role-tagged attribute tables with a small signature clean-up (held-out attribute combinations)
 
-Idea. Replace "one table row per class" by "one table per attribute", trained with the same surprise-gated rule on the
-same code. A class is not learned as a row but described by a **signature**: one chosen value in each attribute (a
-short list of small integers, or a K-block sparse code where block k holds the index of attribute k's value; binding
-two attribute values = adding indices modulo the block size, one small adder per block). Recognition = read each attribute table
-(sum counter rows over active bits, take the best value per attribute), form the predicted signature, snap it to the
-nearest known signature in a tiny item memory (an 8-row lookup, XOR and popcount of a few dozen bits). Unseen classes
-are recognised if their signature is in the item memory, even though no image of them was seen: composition from parts.
-Why this is ours: it uses L's own table rule, no vector algebra over thousands of components; the item memory is the
-only "clean-up" and it is tiny.
+Idea. Replace "one table row per class" by "one table per attribute", trained with L's surprise-gated rule on the same code. A class is a signature: one value per
+attribute (a short list, or a K-block code where block k holds attribute k's value and binding two values is index addition mod block size). Recognition = for each
+attribute, sum the counter rows of the active bits and pick the best value; snap the predicted signature to the nearest known signature in a tiny item memory (8 rows).
+Unseen classes are recognised if their signature is in the item memory although no image was seen. It uses only counters, comparisons and a few XOR/popcounts.
 
-Attributes for Fashion-MNIST (hand-assigned from the class names, DERIVED; to be checked and frozen before running so we do not tune on test results):
+Attributes for Fashion-MNIST (hand-assigned from the class names, DERIVED; freeze before running; they are our own judgement):
 
 | Class | sleeve | length | front |
 |---|---|---|---|
@@ -458,104 +427,62 @@ Attributes for Fashion-MNIST (hand-assigned from the class names, DERIVED; to be
 | Coat | long | long | open |
 | Shirt | long | hip | open |
 
-Every value of every attribute occurs in at least two classes, so each class can be held out while all its attribute
-values stay present in training (leave-one-class-out, five runs). Footwear and bags can be added later as a separate
-"type" attribute; trousers need a "legs" value.
+Every value occurs in at least two classes, so each class can be held out while all its attribute values remain in training (five leave-one-class-out runs). Footwear and bags
+can be a separate "type" attribute later.
 
-Minimal experiment (SIMULATED, host Python on the existing encoder and table code, 3 seeds):
-1. For each of the five held-out classes: train three attribute tables on the other four classes' images with their
-   attribute labels (same one-pass surprise-gated rule).
-2. Test on the held-out class's test images plus the four trained classes. Predict the three attributes, snap the
-   signature to the 5-row item memory.
-3. Baselines: (a) flat 4-class table (cannot name the held-out class, 0 % by construction; measures what it does
-   with it); (b) conjunction-only: one table over the signature as a single symbol (expect about 0 % like paper 9);
-   (c) attribute tables without the item memory (attribute accuracy only).
-Success criterion. Held-out-class images correctly named in the 5-way zero-shot test: mean over the five runs >= 50 %
-(chance 20 %; target to beat: 0 % for the flat and conjunction baselines), and the four trained classes lose at most
-3 points against a flat 4-class table. Also report per-attribute accuracy on held-out images (chance 50 %) to see which attribute (sleeve length is the likely
-weak one) fails. A result below 30 % is a negative result to be recorded as such.
-Expected memory/op cost (ESTIMATED): 7 attribute-value rows (2+2+2 values plus one spare) x 4,608 bits x 5 bit =
-about 20 KB, less than the 10-class flat table of 28.8 KB; inference = 3 reads of the active-bit rows (the same
-active bits, 2 rows per attribute) plus an 8-row match: about 6/10 of the current decision's counter additions plus
-a few XORs; no multiplier. Learning: same writes as today.
-Uncertainty, stated plainly: the attribute labels are perfectly correlated with the class in the training set, so an attribute table can learn
-"this is a coat" instead of "this has long sleeves"; held-out classes decide it. Sleeve length and collar are
-not pixel-local in a 28x28 grey image; paper 9 shows that even with the additive encoding two pairs stayed at 0 %.
-Standing caution applies: the labels (attribute values) are used in training only, never at test time.
-Second dataset to test the same code: EMNIST letters with hand-assigned stroke attributes (closed loop, ascender, descender, vertical bar),
-leave-one-letter-out; same criterion.
+Minimal experiment (SIMULATED, host Python on existing encoder and table code, 3 seeds):
+1. For each held-out class, train three attribute tables on the other four classes with attribute labels.
+2. Test on the held-out class plus the four trained classes; predict three attributes; snap the signature.
+3. Baselines: (a) flat 4-class table (cannot name the held-out class: 0 % by construction); (b) one table over the whole signature as a single symbol (the paper-6 failure,
+expected about 0 %); (c) attribute tables with no item memory (attribute accuracy only).
+Success criterion (revised after paper 6). Primary: mean held-out-class accuracy over the five runs >= 40 % in the 5-way test (chance 20 %); stretch >= 60 %. Secondary: the four trained classes
+lose at most 3 points against a flat 4-class table; per-attribute accuracy on held-out images reported (chance 50 %), expecting the sleeve attribute to be weakest. Below 30 % is a negative result to be
+recorded as such (paper 6's best additive result averaged 30 % over four pairs, two pairs at 0 %).
+Cost (ESTIMATED): 6 to 7 attribute-value rows x 4,608 bits x 5 bit = about 20 KB (less than the 28.8 KB flat table); inference = reads of the same active bits for 3 tables plus an 8-row match; learning = same writes as today.
+Uncertainty. Attribute labels are perfectly correlated with the class in training, so a table can learn "coat" instead of "long sleeve"; held-out classes decide it. Sleeves and collar are not pixel-local in 28x28 grey images.
+Standing caution: attribute labels are used in training only, never at test time. Second test set: EMNIST letters with hand-assigned stroke attributes, leave-one-letter-out, same criterion.
 
-### Design 2: serial peeling for superposed parts (the binding problem, matrix-free)
+### Design 2: serial peeling for superposed parts
 
-Idea. Make the code answer "what are the parts?" when two objects share the picture, using the mechanism of the
-resonator (find one factor, explain it away, look again) in the form of L's own memories. Procedure: (1) score the
-mixed code against the class table with the usual sparse lookup, take the best class c1; (2) from c1's dream counts
-build the mask of bits that c1 explains (bit count above half the class count: a comparator, no division); (3) clear
-those bits (AND-NOT on a 576-byte register) and score again to get c2; (4) optionally re-score c1 with c2's explained bits cleared and repeat once or twice
-(resonator-lite). The dream memory (10-bit per-class on-counts) already exists on chip, so no new storage.
-Minimal experiment (SIMULATED): build two-item scenes by overlaying two different Fashion-MNIST items (pixelwise maximum
-with a horizontal offset of 0, 4, 8 pixels to vary overlap), encode with the existing encoder. Methods: top-2 of
-the plain table (baseline); peel; peel with re-score; and a "pair-trained" conjunction table trained on 30 of the 45
-class pairs and tested on the 15 held-out pairs (expected to fail on held-out pairs). Success criterion: both classes
-named correctly (unordered) at offset 8: peel >= 20 points above top-2 and held-out-pair accuracy of peel not worse than
-seen-pair accuracy by more than 5 points; at offset 0 (heavy overlap) we only record the cliff. Single-item accuracy must not fall (no-regression rule).
-Cost (ESTIMATED): two to four sparse scoring passes instead of one (2 to 4 times the energy per decision for mixed
-scenes only; single items unaffected if a "surprise" signal triggers the second pass), plus a 4,608-bit AND-NOT.
-Uncertainty: overlapping garments erase each other's evidence (the paper's occlusion remark); the hash-free
-code may not separate classes sharing most bits (shirt/T-shirt/pullover). A negative result gives us the capacity
-cliff for our code, which is useful in itself.
+Idea. Resonator-lite on L's own memories: score the mixed code against the class table (sparse lookup), take the best class c1, build the mask of bits that c1 explains from its dream counts (count above half the class count:
+a comparator), clear those bits (AND-NOT on a 576-byte register), score again to get c2, optionally re-score c1 with c2's bits cleared (one or two rounds). The dream memory already exists on chip.
+Experiment (SIMULATED): overlay two different Fashion-MNIST items (pixelwise maximum, horizontal offset 0, 4, 8 pixels), encode, test. Methods: top-2 of the plain table; peel; peel with re-score; pair-trained table (30 of 45 pairs
+trained, 15 held out). Also, inspired by paper 6's multi-object result, train on single items only versus single items + pairs and test on triples at offset 8. Success: both classes named (unordered) at offset 8: peel at least 20 points above top-2, and held-out-pair
+accuracy not more than 5 points below seen-pair accuracy; offset 0 only records the cliff; single-item accuracy must not fall (no-regression rule).
+Cost (ESTIMATED): two to four sparse scoring passes only when a surprise signal fires, plus a 4,608-bit AND-NOT. Uncertainty: overlapping garments erase each other's evidence; look-alike classes share most bits.
 
-### Design 3: relation literals for abstract "same/different" (variable detachment without symbols)
+### Design 3: relation literals and threshold clauses for abstract "same/different"
 
-Idea (from the relational Tsetlin machine and the logic gate view). Give clauses a new literal type: the agreement of a
-code bit between two parts, XNOR(bit_i of part A, bit_i of part B), possibly also with shifts of one cell to tolerate
-misalignment. A clause made of such literals fires when A and B agree on many positions, **regardless of what they are**.
-It is the pixel-level counterpart of child(Z1,Z2) <- parent(Z2,Z1): the clause never names the content.
-Minimal experiment (SIMULATED): pairs (left, right) of Fashion-MNIST items; target same class or different. Train on pairs from classes 0-5 only;
-test on pairs from the unseen classes 6-9 (and on mixed pairs). Baselines: clause learner on the concatenated 2 x 4,608 literals
-(learns the seen classes, expected near chance on unseen); popcount of XNOR with a single threshold (no learning).
-Compact form: split the 4,608 bits into 36 regions, quantise each region's match count into 4 levels, and learn clauses over
-these 72 relation literals plus their negations.
-Success criterion: unseen-class same/different accuracy >= 85 % (flat expected below 65 %) with seen-class accuracy >= 90 %.
-Also try the "episode randomisation" borrowed from meta seq2seq: during training randomly permute class identities so no class-specific bit is
-useful beyond the relation.
-Cost (ESTIMATED): 4,608 XNOR gates plus a region popcount; literal state about 72 x 2 bits per clause; 100 clauses is
-under 2 KB; no multiplier.
-Uncertainty: same-class pictures differ in shape; strict bit agreement on a shifted garment may be low (so the region quantisation
-and tolerance shifts matter); the task is easy in the sense that a similarity threshold already may reach 80 %, so the
-claim to test is only that learned relation clauses beat both baselines and that the same relation literals can be reused for a third task
-(odd-one-out in a triple). If the plain threshold already hits the target, the design shows only that matching is
-cheap, not that clauses compose.
+Idea (relational Tsetlin machine + logic gate view + HTM). Add a literal type XNOR(bit i of part A, bit i of part B) (optionally with one-cell shifts): a clause on these literals fires when A and B agree, regardless of content.
+Allow clauses to be threshold clauses ("at least theta of s literals true", HTM segment) for noise tolerance.
+Experiment (SIMULATED): pairs (left, right) of Fashion-MNIST items; target same class or different. Train on pairs from classes 0-5, test on pairs from unseen classes 6-9 and on mixed pairs. Baselines: clause learner on the concatenated 2 x 4,608 literals; popcount of XNOR with one threshold.
+Compact form: 36 regions, each region's match count quantised to 4 levels, 72 relation literals plus negations. Optional episode randomisation (borrowed from paper 9): permute class identities during training.
+Success: unseen-class same/different accuracy >= 85 % (flat expected below 65 %) with seen-class accuracy >= 90 %; if the plain threshold already hits 85 %, the result shows only that matching is cheap, so also report the odd-one-out-in-three task as the test that needs learned relations.
+Cost (ESTIMATED): 4,608 XNORs + region popcounts; about 144 bits of literal state per clause; 100 clauses under 2 KB; no multiplier.
+
+### Design 4 (cheap control, from paper 12): held-out (class, position) combinations
+
+Two-slot images (two items side by side); train with some (class, slot) pairs never shown (for example class d never in slot d, as the n-in-n copy test), read out each slot separately. Tests whether position-shared tables (same filler table for both slots, or shifted code) generalise while per-slot tables cannot. One afternoon, no new hardware; success: held-out (class, slot) accuracy within 5 points of seen ones for shared tables.
 
 ### Run order and ranking
 
-1. Design 3 first: cheapest, one afternoon, tests whether clause literals can be relations.
-2. Design 1 next: the core capability (held-out attribute combinations), uses the existing table rule.
-3. Design 2 if Design 1 shows that attributes are separable; it is the route to scenes with several parts.
-Proposed top method: **Design 1** (additive, role-tagged attribute tables plus a small signature clean-up), because
-paper 9 gives direct evidence for exactly this contrast, it costs less memory than today's flat table, and a pass would be the first
-composition result for L.
+1. Design 3 first (cheapest, tests relation literals).
+2. Design 1 next (core capability: held-out attribute combinations).
+3. Design 4 as a control; Design 2 if Design 1 shows separable attributes.
+Proposed top method: **Design 1** (additive, role-tagged attribute tables + small signature clean-up), because paper 6 gives the cleanest published evidence for exactly this contrast, paper 14 shows the same effect (separate attribute spaces fix CoGenT), it costs less memory than today's flat table, and a pass would be the first composition result for L.
 
 ### What is out of reach under our rules (and why)
 
-- Dense-vector VSA with circular convolution, phasors or tensor products (HRR, FHRR, TPR, MBAT): multiplies or matrices.
-- A resonator network in its published dense form; a sparse-block-code resonator exists in the literature (not read) and is the next thing to read before Design 2 is extended.
-- Systematic generalisation on language-like tasks (SCAN) with a sequence model: needs recurrent state and attention; a counting system has no
-  published result there.
-- Learning the symbols themselves (object parts, attributes) from pixels without labels: no matrix-free method known to us.
-- ARC-level rule induction and DreamCoder-style program search: combinatorial search with a learned guide; only the
-  "promote a frequent conjunction to a new literal" step (library learning by counting) is a candidate, and it is a
-  longer project than the six to eight month horizon allows.
-- Anything that depends on binding by synchrony, or on hippocampal conjunctive coding, as a mechanism: not read here; the survey's own
-  judgement is that synchrony needs many time steps and cannot be stored in long-term memory directly, which fits
-  our need for a static, countable code.
+- Dense-vector VSA with convolution, phasors, tensor products or matrix binding (HRR, FHRR, TPR, MBAT).
+- The resonator network in its published dense form; a sparse-block-code resonator is plausible (paper 5 supplies the binder) but unmeasured.
+- Systematic generalisation on language-like tasks (SCAN) with a sequence model, and productivity (longer outputs): unsolved even with meta-learning (16 %).
+- Learning the symbols themselves (parts, attributes) from pixels without labels: no matrix-free method known; every paper supplies or backprop-trains them.
+- ARC-level rule induction and DreamCoder-style search: only "promote a frequent conjunction to a new literal" is a candidate, a longer project than the six-to-eight-month horizon.
+- Binding by synchrony or hippocampal conjunctive coding as mechanisms: not read; the survey judges synchrony to need many time steps and not be storable directly.
 
 ### Honest summary of uncertainty
 
-The strongest evidence is negative and cautionary: conjunction-only codes do not generalise to unseen combinations (0 % in
-paper 9, 1 % in paper 5), and even the additive repair reached only partial scores (up to 72 %, two pairs at 0 %). No paper in
-the logic-gate or Tsetlin families measures held-out-combination generalisation, so any success of Designs 1 to 3 would be
-new evidence, and a failure is likely enough that each design must report negative results. All design numbers above are
-targets and ESTIMATED costs, not results. Fashion-MNIST attribute labels are our own assignment from class names.
+The strongest evidence is cautionary: a one-readout-per-combination code gets 0 % on held-out attribute combinations (paper 6) and SCAN's novel primitive about 1 % (paper 8); the additive repair reached only 0 to 72 %. No paper in the logic-gate, Tsetlin or HTM
+families measures held-out-combination generalisation, so any success of Designs 1 to 4 would be new evidence and a failure is quite possible. All design numbers are targets and ESTIMATED costs, not results. The Fashion-MNIST attribute table is our own assignment.
 
 Related: [Project memory](../../PROJECT_MEMORY.md), [Papers notes index](INDEX.md), [Lessons from failures](../../lessons_from_failures_25oct.md)

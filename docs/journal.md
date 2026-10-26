@@ -1682,4 +1682,8 @@ Asked: run the EMNIST test. Done: emnist_staged.py, 24 classes then 23 more with
 
 Asked: build the missing parts (when/what/how much, compare, notice). Done: staged_controller.py, share-based tripwire with undo, offset by share rule each chunk, pair-focused rehearsal, self-stopping. Result: with sabotage the chip noticed (share distance 0.12 to 0.42), undid the chunk and finished at 83.0 against 81.4 without the controller; on a clean run 82.3 against 83.0 (no accuracy gain, 5 chunks instead of 8). Offset rule noisy. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: research on the five missing parts of thinking
+
+Asked: do not build yet; learn from papers how each of the five parts (imagination, working memory, a guess about why, goals, composition) is done, then build our own method. Done: five research agents, each reading papers fully (first pass too shallow, sent back; about 9 to 14 papers per topic read through the main text), five notes in docs/research/papers_notes/ and a synthesis with a build order (docs/research/thinking_synthesis.md). Nothing built or run. Key points: dreams need a mixture level and soft labels; a recurrent Tsetlin paper did not beat a window-only control; Popper-style failure logic fits clauses; set-points must be read-only; composition of held-out attribute combinations is hard (0% with multiplicative binding). Proposed order: counted-mixture dreams with soft labels, hypothesis loop, progress-ranked rehearsal, XNOR relation clauses, multi-order counting core.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
