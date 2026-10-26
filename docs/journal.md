@@ -1658,4 +1658,8 @@ Asked: run the stored-example test at 2, 5, 20. Done: staged_replay.py, doubt-pi
 
 Asked: do all the necessary fixes for 2 hours. Done: dream banks (freq and tree-structured), pipeline with veto banks, offset sweeps, stable joint reference (staged_replay.py, staged_joint_ref.py). Result: tree dreams = frequency dreams (81.1 against 81.3, 4 epochs); joint 85.8; staged best 82 to 83. The gap (3 to 4 points) sits entirely on the new classes (Shirt recall 0.38 to 0.53 against 0.62), because a new class never sees real images of its look-alike old classes. Dreams cannot supply that boundary. Not closed. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: real depth, a second clause layer (SIMULATED)
+
+Asked: piece 4. Done: layer-2 clause learner over L's code, raw bits and the 8,000 layer-1 firing bits (400 clauses per class, 6 epochs). Result: alone 87.9 against 87.0 for layer 1; with L's table 89.90 against 89.73 to 89.80, inside the seed spread; adding all layer-1 bits 89.81. Depth works as a mechanism but not in the system. Note: hw/results/clause_depth_layer2.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -17,6 +17,26 @@ if INPUT == 'raw':                                                              
     from shirt_new_methods_setup import xtr, xte
     def _bits(x): im = x.reshape(-1, 28, 28); return np.concatenate([(im > 85).reshape(len(im), -1), (im > 170).reshape(len(im), -1)], 1).astype(np.uint8)
     ctr, cte = _bits(xtr), _bits(xte)
+if INPUT == 'deep':                                                                                  # piece 4, real depth: layer 2 clauses read L's code + raw pixel bits + the 8,000 firing bits of a frozen layer-1 clause bank (STATE1)
+    from shirt_new_methods_setup import xtr, xte
+    def _bits(x): im = x.reshape(-1, 28, 28); return np.concatenate([(im > 85).reshape(len(im), -1), (im > 170).reshape(len(im), -1)], 1).astype(np.uint8)
+    _b1, _b2 = np.concatenate([ctr, _bits(xtr)], 1).astype(np.uint8), np.concatenate([cte, _bits(xte)], 1).astype(np.uint8)
+    _z = np.load(os.environ.get("STATE1", "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/tm_faithful_state_both.npz")); _il, _in = _z["inc_list"], _z["inc_n"]
+    @njit(parallel=True)
+    def _fire_all(X, il, inn, nb):
+        out = np.zeros((len(X), len(inn)), np.uint8)
+        for i in prange(len(X)):
+            for cl in range(len(inn)):
+                n = inn[cl]; ok = 1 if n > 0 else 0
+                for t in range(n):
+                    lit = il[cl, t]
+                    if lit < nb:
+                        if X[i, lit] == 0: ok = 0; break
+                    elif X[i, lit - nb] == 1: ok = 0; break
+                out[i, cl] = ok
+        return out
+    _f = lambda B: np.concatenate([_fire_all(B[i:i + 5000], _il, _in, B.shape[1]) for i in range(0, len(B), 5000)])
+    ctr, cte = np.concatenate([_b1, _f(_b1)], 1), np.concatenate([_b2, _f(_b2)], 1); del _b1, _b2
 NB = ctr.shape[1]; NL = 2 * NB; C = int(os.environ.get("C", 100)); T = int(os.environ.get("TT", 30)); S = float(os.environ.get("SS", 8.0)); POS = int(os.environ.get('POSLIT', 0)); SEEDADD = int(os.environ.get('SEEDADD', 0)); NST = 100; LMAX = int(os.environ.get("LMAX", 64)); BUDGET = float(os.environ.get("BUDGET", 480))
 CK = "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/tm_faithful_state%s.npz" % (("_" + os.environ["INPUT"] if os.environ.get("INPUT", "code") != "code" else "") + ("_pos" if os.environ.get("POSLIT", "0") == "1" else "") + ("_s%s" % os.environ["SEEDADD"] if os.environ.get("SEEDADD") else ""))
 @njit
