@@ -1666,4 +1666,8 @@ Asked: piece 4. Done: layer-2 clause learner over L's code, raw bits and the 8,0
 
 Asked: piece 5. Done: tm_conv.py, convolutional clauses (window, OR over positions, random matching position gets feedback), on L's detector map and on raw pixel bits. Result: shared clauses on L's code 83.9 alone, +0.2 to +0.4 with L's table (flat: +0.9); on raw pixels 68 to 75 and unstable. No gain on centred clothing; untested on shifted data. All five pieces now done. Note: hw/results/clause_weight_sharing.md.
 
+## 26 Oct 2026: unfrozen rehearsal and stored-image scaling (SIMULATED)
+
+Asked: continual learning is the biggest claim and must not be given up; memory and power stay primary but 10 to 20 times better than a GPU is the goal. Done: staged_replay (4 epochs; 20, 50, 100 per class) and staged_rehearse.py (all banks keep learning on a balanced stream, old classes from stored images). Result: frozen + vetoes stalls at 82 to 83; unfrozen rehearsal with 100 stored per old class reaches 84.8 against joint 85.8; with 20 stored it overfits and collapses. Cost about 50 KB per old class (ESTIMATED), about 300 KB against an 84 KB table: accuracy is reachable, memory price not yet a 10 to 20 times win. Next: cheaper exemplars (coverage-based choice, compression), regularised rehearsal with few images. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

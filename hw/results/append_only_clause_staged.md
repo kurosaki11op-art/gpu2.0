@@ -132,4 +132,19 @@ Dream banks of 3,000 imagined images per old class, either from independent bit 
 - Staged and joint land on the same frontier shape, so the choice of operating point (offset) is a free trade, and the label-free rule for it is still open.
 - Honest summary of the fix attempts: frequency dreams, hard dreams (failed), stored images (work only at 241 KB), counted vetoes (bounded, weak), tree dreams (no gain). Best staged result 82 to 83 against 85.8 joint.
 
+### Stored-image scaling with more training, and unfrozen rehearsal (26 Oct, SIMULATED; `staged_replay.py` EPS=4, `staged_rehearse.py`, logs `staged_replay4_*.log`, `staged_rehearse_*.log`)
+
+User direction: memory and power stay primary but the goal is 10 to 20 times better than a GPU, not 100 times, so the cost of the continual-learning fix has to be measured, not avoided. Two designs with real stored images per old class (random pick), 4 epochs: (A) frozen old banks + veto banks (as above); (B) unfrozen rehearsal: all ten banks keep learning with the ordinary local clause rule on a class-balanced stream (new classes from full data, old classes from the stored images only). Joint reference (same code, 4 epochs): 85.8.
+
+| stored per old class (6 old classes) | (A) frozen + vetoes, best offset | (B) unfrozen rehearsal, +10 offset |
+|---|---|---|
+| 20 | 81.1 (2-epoch run: 82.4) | peaks 82.0 at 50k steps, then collapses to 69 (old 52) |
+| 50 | 81.8 | - |
+| 100 | 82.7 | 84.8 (old 84.7, new 85.0) at 150k steps; 83.4 at offset 0 |
+| joint training | 85.8 | |
+
+- **Unfrozen rehearsal with 100 stored images per class gets within one point of joint training (84.8 against 85.8)**; the frozen veto design stalls at 82 to 83 however many images it gets. So "frozen" is part of the loss, as the user argued: letting the old banks keep learning under rehearsal recovers about 2 points that no veto design did.
+- **Too few stored images overfit.** With 20 per class the clauses learn the stored images as exceptions: accuracy peaks early and then collapses (old 34 to 52%). The stream needs enough distinct images (about 100 per class here) or a regulariser.
+- **Memory price (ESTIMATED).** 100 images per old class, stored as the detector code (about 580 active bits, about 0.5 KB delta-coded) is about 50 KB per old class, 300 KB for six, against an 84 KB table. At 1,000 classes that is about 50 MB. Plain replay baselines needed 200 per class; this is about half that, not the 40 times less I earlier hoped for. So the replay route reaches accuracy at a memory cost that is not yet a 10 to 20 times win; it needs cheaper exemplars (shared, compressed, or chosen to cover the class with fewer images).
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)

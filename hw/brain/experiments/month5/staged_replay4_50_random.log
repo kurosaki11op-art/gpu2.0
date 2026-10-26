@@ -1,0 +1,11 @@
+stored/imagined 300 images (random)
+RESULT E=50 random | no vetoes    offset -10: all 0.7280 | old 0.7690 | new 0.6665 | Shirt recall 0.689
+RESULT E=50 random | no vetoes    offset -5: all 0.7197 | old 0.8037 | new 0.5938 | Shirt recall 0.606
+RESULT E=50 random | no vetoes    offset +0: all 0.7079 | old 0.8377 | new 0.5132 | Shirt recall 0.507
+RESULT E=50 random | no vetoes    offset +5: all 0.6940 | old 0.8650 | new 0.4375 | Shirt recall 0.416
+RESULT E=50 random | no vetoes    offset +10: all 0.6758 | old 0.8835 | new 0.3643 | Shirt recall 0.320
+RESULT E=50 random | with vetoes  offset -10: all 0.7850 | old 0.7090 | new 0.8990 | Shirt recall 0.799
+RESULT E=50 random | with vetoes  offset -5: all 0.8011 | old 0.7507 | new 0.8768 | Shirt recall 0.746
+RESULT E=50 random | with vetoes  offset +0: all 0.8098 | old 0.7850 | new 0.8470 | Shirt recall 0.675
+RESULT E=50 random | with vetoes  offset +5: all 0.8137 | old 0.8152 | new 0.8115 | Shirt recall 0.595
+RESULT E=50 random | with vetoes  offset +10: all 0.8178 | old 0.8458 | new 0.7758 | Shirt recall 0.532

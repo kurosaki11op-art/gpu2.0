@@ -1,0 +1,12 @@
+RESULT rehearse E=20 steps 50000 offset -5: all 0.7911 | old 0.7343 | new 0.8762 | Shirt recall 0.613
+RESULT rehearse E=20 steps 50000 offset +0: all 0.8073 | old 0.7752 | new 0.8555 | Shirt recall 0.532
+RESULT rehearse E=20 steps 50000 offset +5: all 0.8169 | old 0.8093 | new 0.8283 | Shirt recall 0.430
+RESULT rehearse E=20 steps 50000 offset +10: all 0.8196 | old 0.8352 | new 0.7963 | Shirt recall 0.305
+RESULT rehearse E=20 steps 100000 offset -5: all 0.5857 | old 0.3390 | new 0.9557 | Shirt recall 0.991
+RESULT rehearse E=20 steps 100000 offset +0: all 0.6183 | old 0.3940 | new 0.9547 | Shirt recall 0.987
+RESULT rehearse E=20 steps 100000 offset +5: all 0.6515 | old 0.4502 | new 0.9535 | Shirt recall 0.982
+RESULT rehearse E=20 steps 100000 offset +10: all 0.6848 | old 0.5075 | new 0.9507 | Shirt recall 0.971
+RESULT rehearse E=20 steps 150000 offset -5: all 0.5942 | old 0.3510 | new 0.9590 | Shirt recall 0.977
+RESULT rehearse E=20 steps 150000 offset +0: all 0.6232 | old 0.4003 | new 0.9575 | Shirt recall 0.972
+RESULT rehearse E=20 steps 150000 offset +5: all 0.6551 | old 0.4555 | new 0.9545 | Shirt recall 0.961
+RESULT rehearse E=20 steps 150000 offset +10: all 0.6899 | old 0.5162 | new 0.9505 | Shirt recall 0.946
