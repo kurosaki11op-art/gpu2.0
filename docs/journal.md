@@ -1694,4 +1694,8 @@ Built hypothesis_loop.py (contrast-counted 2 to 4 literal clauses, held-set test
 
 Version 3 proposed clauses from L's own missed Shirts: 0 pass (they fire on the paired class 79% against 51% on Shirt). Three versions, no test-set gain; random control similar. Missed Shirts look like the confused class in this code; short conjunctions cannot separate them. Note: hw/results/hypothesis_loop.md. Part 3 closed as no gain unless a finer feature level is tried later.
 
+## 26 Oct 2026 (night): part 5 first test, relation between two images (SIMULATED)
+
+relation_pairs.py: same/different on unseen classes. Relation code 70 to 73% on unseen classes, side-by-side code 50.5%, but an unlearned overlap threshold 79.1%: the relation generalises but adds nothing over similarity; weak test. Next: held-out attribute combinations (design 1). Note: hw/results/composition_relation_test.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

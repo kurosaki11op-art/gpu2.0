@@ -82,5 +82,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Real depth: second clause layer](clause_depth_layer2.md): works alone (+0.9) but adds only +0.1 to +0.2 in the system; not worth its cost
 - [Weight sharing (convolutional clauses)](clause_weight_sharing.md): local rule works but no gain on aligned clothing (+0.2 to +0.4; raw pixels 68 to 75%)
 - [Hypothesis loop (propose, test, keep)](hypothesis_loop.md): works as a loop, no gain on Shirt in three proposal variants; missed Shirts are not separable by short conjunctions
+- [Composition, first test (relations)](composition_relation_test.md): relation code generalises to unseen classes (70 to 73%) but a plain overlap threshold gets 79%
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
