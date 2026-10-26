@@ -1,0 +1,14 @@
+before hard dreams                                 all 0.8194 | old 0.8060 | new 0.8395 | Shirt recall 0.506
+  label-free offset rule: offset -6 (hard-old dream acc 0.830, hard-new dream acc 0.825)
+before, with label-free offset                     all 0.8057 | old 0.7645 | new 0.8675 | Shirt recall 0.599
+round 1: 20000 unsure dreams (45% old-labelled)
+  after round 1                                    all 0.7911 | old 0.7835 | new 0.8025 | Shirt recall 0.394
+round 2: 20000 unsure dreams (50% old-labelled)
+  after round 2                                    all 0.8035 | old 0.8840 | new 0.6827 | Shirt recall 0.229
+round 3: 20000 unsure dreams (25% old-labelled)
+  after round 3                                    all 0.7935 | old 0.8688 | new 0.6805 | Shirt recall 0.016
+  label-free offset rule: offset -10 (hard-old dream acc 0.828, hard-new dream acc 0.822)
+after, with label-free offset -10                  all 0.7911 | old 0.8452 | new 0.7100 | Shirt recall 0.088
+  after, fixed offset +0 (for reference)           all 0.7935 | old 0.8688 | new 0.6805 | Shirt recall 0.016
+  after, fixed offset +5 (for reference)           all 0.7956 | old 0.8780 | new 0.6720 | Shirt recall 0.008
+  after, fixed offset +10 (for reference)          all 0.7953 | old 0.8843 | new 0.6617 | Shirt recall 0.004

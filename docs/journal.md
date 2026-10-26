@@ -1642,4 +1642,8 @@ Asked: would better dreams fix the old-class gap. Result: 81.1 over ten classes 
 
 Asked: first fix the old-class accuracy. Done: error destinations and decision-rule variants on the saved staged state. Result: vetoes move old-image errors to the new classes (7.4 to 14.6%) while saving the new images (39 to 13% lost); a fixed old-class offset reaches 82.9 overall (old 85.9 at +10), level with joint training, so much of the gap is the operating point; self-calibration from dreams failed (dreams classified as old 99.9%, too easy). Not fixed: needs hard dreams and a label-free operating-point rule. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: hard dreams and label-free offset (FAILED)
+
+Asked: build hard dreams and the label-free offset rule. Done: staged_hard.py (imagine mixtures, keep unsure ones, learn the difference). Result: old classes recover (to 88) but new classes fall (84 to 68) and Shirt recall to 0.016; overall 81.9 to 79.4; label-free offset rule picked the wrong direction. Cause: per-bit frequency dreams carry no real boundary structure. Next: dreams with correlations (from clauses/code), or accept a few stored hard examples. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

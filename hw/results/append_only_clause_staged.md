@@ -62,4 +62,18 @@ Same recipe, another stage-2 draw (81.9 overall, old 80.6, new 84.0). Old-image 
 - Not measured: how much of the old-class drop is inherent (Shirt joins T-shirt, Pullover and Coat in the same cluster, so old accuracy must fall in any 10-class model); a stable joint reference with the same clipped scoring.
 - Still open: dreams that sit near the boundary (hard dreams), and a label-free rule for the old/new operating point.
 
+### Hard dreams and a label-free offset rule: FAILED (26 Oct, SIMULATED; `staged_hard.py`, `staged_hard.log`)
+
+The chip imagines a mixture of an old and a new class (bit by bit from their stored frequencies), keeps it only if it is unsure (scores within 10), and learns the difference (label class told "mine", other class told "not mine"; only the veto banks and new banks learn). Three rounds of 20,000 unsure dreams, then an offset chosen so that hard-old and hard-new dreams are classified equally well, with no labels and no real images.
+
+| | all ten | old | new | Shirt recall |
+|---|---|---|---|---|
+| before | 81.9 | 80.6 | 84.0 | 0.506 |
+| after 1 / 2 / 3 rounds | 79.1 / 80.4 / 79.4 | 78.4 / 88.4 / 86.9 | 80.3 / 68.3 / 68.1 | 0.394 / 0.229 / 0.016 |
+| after 3 rounds + label-free offset (-10) | 79.1 | 84.5 | 71.0 | 0.088 |
+
+- Old classes recover (to 88 at best) but the new classes pay more, and Shirt collapses (0.506 to 0.016). Overall accuracy falls from 81.9 to 79.4. The mixture dreams of T-shirt, Coat and Pullover teach the Shirt bank "not mine" on images that look like real Shirts, which they are not.
+- The label-free offset rule picked -6 and -10, the wrong direction (fixed offsets of +5 to +10 were better before and after). Equalising dream accuracy tells nothing about real accuracy, because independent bit frequencies do not reproduce the structure of the real boundary.
+- Conclusion: dreams built from per-bit frequencies cannot carry the Shirt versus T-shirt/Coat boundary. Better imagination needs structure (dreams drawn from the clauses and the code, with correlations), or a few real stored hard examples (not exemplar-free). Not solved.
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)
