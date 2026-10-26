@@ -1,0 +1,8 @@
+[ 108s] stage 1 epoch 1                    over 6 classes: acc 0.9052 | old classes 0.9052 | new classes - | Shirt recall nan
+[ 183s] stage 1 epoch 2                    over 6 classes: acc 0.8728 | old classes 0.8728 | new classes - | Shirt recall nan
+[ 254s] stage 1 epoch 3                    over 6 classes: acc 0.8993 | old classes 0.8993 | new classes - | Shirt recall nan
+[ 298s] stage 2 (none) epoch 1             over 4 classes: acc 0.9635 | old classes 0.0000 | new classes - | Shirt recall 0.975
+[ 325s] stage 2 (none) epoch 2             over 4 classes: acc 0.9633 | old classes 0.0000 | new classes - | Shirt recall 0.969
+[ 349s] stage 2 (none) epoch 3             over 4 classes: acc 0.9583 | old classes 0.0000 | new classes - | Shirt recall 0.980
+old banks untouched: True
+[ 349s] final, all ten classes             over 10 classes: acc 0.5826 | old classes 0.6432 | new classes 0.4918 | Shirt recall 0.667

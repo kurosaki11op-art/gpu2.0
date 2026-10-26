@@ -1626,4 +1626,8 @@ Asked: finish the five pieces; first, a second seed. Done: trained a second clau
 
 Asked: piece 2. Done: clause_energy_best.py measures keyed clause reads on 5,000 test images for both seeds. Result: 2,164 to 2,219 of 4,000 clauses read per image (about 1,500 are always-on pure-negation clauses), about 1,040 fire; energy 111 to 113 nJ per decision, x3.8 of L (29.3 nJ), x1.85 when routed to 30% of images; about 6x (13x routed) below the int8 MLP. Store 122 to 127 KB fits 2 tiles; 16-way spreading is pointless. Not mapped in RTL. Note: hw/results/best_version_energy_tiles.md.
 
+## 26 Oct 2026: never forgetting with append-only clause banks (SIMULATED, partial)
+
+Asked: piece 3. Done: tm_staged.py, six classes then four, old banks frozen and verified unchanged. Result: no dreams 58.3 over ten classes (old 64.3, new 49.2); frequency dreams 72.6 (old 83.5, new 56.1); joint reference about 82 to 83.5 (unstable). Storage never forgets, but competition costs accuracy, and the old banks cannot learn to reject new classes without being modified. Not solved; next idea: appended veto clauses per old class. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

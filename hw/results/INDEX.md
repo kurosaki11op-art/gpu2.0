@@ -78,5 +78,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Sparse-by-construction table (option B)](sparse_table_option_b.md): slots and sketch; free at 10 classes, 3 times fewer reads costs 2 to 3 points at 47
 - [Our own methods: retrieve-then-rerank and routed clauses](own_methods_routing.md): reads only where they pay; routed clauses keep the whole gain at 30% of the clause cost
 - [Energy and tile mapping of the best version](best_version_energy_tiles.md): x3.8 of L on every image, x1.85 routed (ESTIMATED); fits 2 tiles
+- [Append-only clause banks in stages](append_only_clause_staged.md): old banks intact but old accuracy 90 to 64 (83.5 with frequency dreams); competition remains, not solved
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
