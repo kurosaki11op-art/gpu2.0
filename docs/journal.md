@@ -1618,4 +1618,8 @@ Retrieve-then-rerank: counted in 64-bit words it is worse than the full table at
 ## 25 Oct 2026: best-accuracy version of L plus clauses
 Founder: build the strongest version first, tune cost later. 1,600 clauses per class on L's code saturate (AP 0.783 with the best 8,000). Clauses over L's code plus raw pixel bits: best 4,000 give 89.73 / Shirt AP 0.780, all 8,000 give 89.68 / 0.789 (L alone 88.85 / 0.753). Positive-literal rule dropped (accuracy cost). Second seed and energy of the best version pending. See [own_methods_routing](../hw/results/own_methods_routing.md).
 
+## 26 Oct 2026: second seed of the best clause version (SIMULATED)
+
+Asked: finish the five pieces; first, a second seed. Done: trained a second clause layer (seed 1, 800 clauses per class over detector + raw-pixel literals, T 60, s 3, 5.5 epochs) and evaluated it with the same protocol (clause_routed2.py). Result (one dataset split, two seeds): L alone 88.85; L + best 4,000 clauses 89.76 (seed 0: 89.73), cluster 82.4 (82.1), Shirt recall 0.667 (0.649), AP 0.786 (0.780); 8,000 clauses 89.80 (89.68); routed 30%: 89.80 (4,000), 89.84 (8,000). The gain of about +0.9 points is reproduced, so it is not one lucky seed. Files: hw/brain/experiments/month5/tm_both_c800_seed1.log, clause_routed2_both_s1.log.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

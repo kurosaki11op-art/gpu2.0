@@ -45,4 +45,8 @@ Per the founder's direction (build the strongest version first, tune cost later)
 - **A positive-literal rule (every clause holds at least one positive literal, for keyed evaluation) cost accuracy while learning** (75.9% and Shirt AP 0.36 after 0.9 epochs against about 84% and 0.55 for unconstrained clauses at the same point) and was dropped; the energy of the clause layer therefore keeps the scan or keyed estimates of [L-Deep attempts](ldeep_attempts.md) for now.
 - Not yet: a second seed, the energy of the routed 4,000-clause version, richer input codes (edge maps, team of codes), a second clause layer.
 
+## Second seed (26 Oct, SIMULATED)
+
+Seed 1 of the clause layer (same recipe): L + 4,000 clauses 89.76 / cluster 82.4 / Shirt recall 0.667 / AP 0.786; 8,000: 89.80; routed 30%: 89.80 to 89.84. Seed 0 gave 89.73 / 89.68; the +0.9 gain over L (88.85) holds on both seeds. Logs: tm_both_c800_seed1.log, clause_routed2_both_s1.log.
+
 Related: [Results index](INDEX.md), [L-Deep attempts](ldeep_attempts.md), [Sparse table option B](sparse_table_option_b.md), [Claims ledger](../../docs/claims_ledger.md), [Journal](../../docs/journal.md)

@@ -1,0 +1,5 @@
+[  10s] 8000 clauses, 1597 fire per image (epochs trained 5)
+[  14s] clauses ranked by table use
+L alone                                  acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753
+[  40s] N=4000   every image: acc 0.8976 | cluster 0.8243 | recall 0.667 | Shirt AP 0.786  ||  routed (30% of images): acc 0.8980 | cluster 0.8247 | recall 0.669 | Shirt AP 0.780  | 1035 clauses fire per image
+[  70s] N=8000   every image: acc 0.8980 | cluster 0.8235 | recall 0.656 | Shirt AP 0.787  ||  routed (30% of images): acc 0.8984 | cluster 0.8243 | recall 0.658 | Shirt AP 0.779  | 1596 clauses fire per image
