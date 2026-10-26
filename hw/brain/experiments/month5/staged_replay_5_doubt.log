@@ -1,0 +1,7 @@
+stored 30 images (doubt), 62.0 KB as bit lists
+RESULT E=5 doubt | no vetoes    offset +0: all 0.6660 | old 0.7083 | new 0.6025 | Shirt recall 0.639
+RESULT E=5 doubt | no vetoes    offset +5: all 0.6594 | old 0.7547 | new 0.5165 | Shirt recall 0.541
+RESULT E=5 doubt | no vetoes    offset +10: all 0.6552 | old 0.7973 | new 0.4420 | Shirt recall 0.458
+RESULT E=5 doubt | with vetoes  offset +0: all 0.5524 | old 0.2737 | new 0.9705 | Shirt recall 0.982
+RESULT E=5 doubt | with vetoes  offset +5: all 0.5720 | old 0.3068 | new 0.9698 | Shirt recall 0.982
+RESULT E=5 doubt | with vetoes  offset +10: all 0.5913 | old 0.3405 | new 0.9675 | Shirt recall 0.977

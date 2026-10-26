@@ -1,0 +1,7 @@
+stored 120 images (random), 241.2 KB as bit lists
+RESULT E=20 random | no vetoes    offset +0: all 0.7375 | old 0.8560 | new 0.5597 | Shirt recall 0.414
+RESULT E=20 random | no vetoes    offset +5: all 0.7173 | old 0.8772 | new 0.4775 | Shirt recall 0.307
+RESULT E=20 random | no vetoes    offset +10: all 0.6942 | old 0.8917 | new 0.3980 | Shirt recall 0.224
+RESULT E=20 random | with vetoes  offset +0: all 0.8035 | old 0.7493 | new 0.8848 | Shirt recall 0.723
+RESULT E=20 random | with vetoes  offset +5: all 0.8168 | old 0.7862 | new 0.8628 | Shirt recall 0.672
+RESULT E=20 random | with vetoes  offset +10: all 0.8241 | old 0.8167 | new 0.8353 | Shirt recall 0.604

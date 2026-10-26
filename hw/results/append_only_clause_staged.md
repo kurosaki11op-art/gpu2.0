@@ -92,4 +92,24 @@ Compare stored per-class bit frequencies of an old class c and a new class n (re
 - It is again a trade-off along one axis (old falls as new rises); the chip can read the cost of each veto in advance, which is the first step to a label-free operating-point rule (admit vetoes until the guaranteed expected damage reaches a budget). Not built.
 - Next: conjunctions of literals chosen against the real new images (specific, same bound with the rarest literal), and the damage budget rule.
 
+### Boundary memory: a few stored real images per old class (26 Oct, SIMULATED; `staged_replay.py`, logs `staged_replay_<E>_<pick>.log`)
+
+After stage 1 the chip keeps E real images per old class: the E it was most unsure about ("doubt": smallest margin) or E random ones (control). In stage 2 they replace the dreams (negatives for the new banks; "still mine" for the old veto banks). 2 epochs per stage, one seed, offset 0 / +10 added to the old-class sums.
+
+| stored per old class | picked by | vetoes | all ten (offset 0 / +10) | old (+10) | new (+10) | memory |
+|---|---|---|---|---|---|---|
+| 2 | doubt | yes | 51.0 / 53.5 | 24.5 | 96.9 | 25 KB |
+| 5 | doubt | yes | 55.2 / 59.1 | 34.1 | 96.8 | 62 KB |
+| 5 | random | yes | 60.4 / 65.1 | 44.7 | 95.8 | 62 KB |
+| 20 | doubt | yes | 71.0 / 76.5 | 68.1 | 89.2 | 251 KB |
+| 20 | random | yes | 80.4 / 82.4 | 81.7 | 83.5 | 241 KB |
+| 20 | random | no (new banks only) | 73.8 / 69.4 | 89.2 | 39.8 | 241 KB |
+| reference: frequency dreams + veto | 81.9 / | 80.6 | 84.0 | about 0 |
+| reference: joint training | about 82 to 83.5 | | | |
+
+- **2 to 5 stored images fail badly**: the vetoes learn the few stored images as exceptions and then reject almost every other real old image (old accuracy 25 to 45%). The test of "a handful of boundary images" is NEGATIVE.
+- **Doubt-picked images are worse than random ones** (76.5 against 82.4 at 20): the most unsure images are outliers and ambiguous cases and teach the wrong boundary.
+- **20 random per class reaches the dream and joint level (82.4) but costs 241 KB** as bit lists (about 2 KB per image), nearly three times the 84 KB table, so the memory advantage over replay disappears at this size.
+- Result: stored examples are not a cheap proper fix. They work only at a size that removes the memory advantage; the dreams reach the same accuracy for about no memory. The remaining old-class gap is therefore not an information problem that a few examples solve.
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)

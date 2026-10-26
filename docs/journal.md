@@ -1650,4 +1650,8 @@ Asked: build hard dreams and the label-free offset rule. Done: staged_hard.py (i
 
 Asked: give the chip the full ability to think. Done: staged_think.py, compare stored counts of an old and a new class, install one-literal vetoes with a guaranteed damage bound (f_c <= RHO), no dreams and no training. Result: best +3.2 (75.8 to 79.0) with the bound verified; below learned vetoes (81 to 82); still a trade-off axis. Next: conjunction vetoes and a damage-budget rule for the operating point. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: boundary memory at 2, 5 and 20 stored images per class (NEGATIVE)
+
+Asked: run the stored-example test at 2, 5, 20. Done: staged_replay.py, doubt-picked and random, with veto banks. Result: 2 and 5 per class fail (old accuracy 25 to 45%, vetoes overfit the stored images); 20 doubt 76.5; 20 random 82.4, level with dream vetoes and joint training but 241 KB (about 3 times the table). Doubt-picked images are worse than random. Conclusion: stored examples are not the cheap fix; the memory advantage over replay is gone at the size that works. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

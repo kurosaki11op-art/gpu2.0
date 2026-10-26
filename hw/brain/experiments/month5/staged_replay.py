@@ -1,57 +1,46 @@
-"""Fair continual-learning baselines for the staged test (24 Oct 2026) SIMULATED/MEASURED on CPU, torch.
-Same protocol as L Cortex: 5 stages of 2 classes, 2,000 images per stage (random), accuracy on ALL classes after the last stage (and after each stage).
-Methods for the 784-256-128-10 MLP: fine-tuning (no protection), replay of N stored examples per old class (N = 10, 50, 200, 1000), EWC (lambda sweep), joint training (upper bound, all five stages at once).
-Replay memory = stored pixels (8 bits each), reported in KB so it can be set against L's deployed table (11 to 45 KB) and L's learning state.
-usage: python staged_replay.py DATA_DIR [fashion|mnist]"""
-import sys, os, gzip, numpy as np, torch, torch.nn as nn
-torch.set_num_threads(4); D = sys.argv[1]; DS = sys.argv[2] if len(sys.argv) > 2 else "fashion"; P = "fashion-" if DS == "fashion" else ""
-if DS == "mnist":
-    z = np.load(os.path.join(D, "mnist.npz")); Xtr, ytr, Xte, yte = z["x_train"].reshape(-1, 784), z["y_train"], z["x_test"].reshape(-1, 784), z["y_test"]
-else:
-    rd = lambda f, o: np.frombuffer(gzip.open(os.path.join(D, P + f)).read(), np.uint8, offset=o)
-    Xtr = rd("train-images-idx3-ubyte.gz", 16).reshape(-1, 784); ytr = rd("train-labels-idx1-ubyte.gz", 8); Xte = rd("t10k-images-idx3-ubyte.gz", 16).reshape(-1, 784); yte = rd("t10k-labels-idx1-ubyte.gz", 8)
-f = lambda x: torch.tensor(x / 255.0, dtype=torch.float32)
-Xtr_t, Xte_t = f(Xtr), f(Xte); ytr_t, yte_t = torch.tensor(ytr.astype(np.int64)), torch.tensor(yte.astype(np.int64))
-STAGES = [(0, 1), (2, 3), (4, 5), (6, 7), (8, 9)]; NPS = 2000; EP = 10
-def net(): return nn.Sequential(nn.Linear(784, 256), nn.ReLU(), nn.Linear(256, 128), nn.ReLU(), nn.Linear(128, 10))
-def acc(m):
-    with torch.no_grad(): return float((m(Xte_t).argmax(1) == yte_t).float().mean()) * 100
-def fit(m, X, y, ep, ewc=None, lam=0.0, seed=0):
-    opt = torch.optim.Adam(m.parameters(), 1e-3); g = torch.Generator().manual_seed(seed)
-    for _ in range(ep):
-        perm = torch.randperm(len(X), generator=g)
-        for i in range(0, len(X), 128):
-            b = perm[i:i + 128]; loss = nn.functional.cross_entropy(m(X[b]), y[b])
-            if ewc and lam: loss = loss + lam * sum((F * (p - p0) ** 2).sum() for (F, p0), p in zip(ewc, m.parameters())) / 2
-            opt.zero_grad(); loss.backward(); opt.step()
-def fisher(m, X, y):
-    F = [torch.zeros_like(p) for p in m.parameters()]
-    for i in range(min(len(X), 500)):
-        m.zero_grad(); nn.functional.cross_entropy(m(X[i:i + 1]), y[i:i + 1]).backward()
-        for Fi, p in zip(F, m.parameters()): Fi += p.grad.detach() ** 2 / min(len(X), 500)
-    return F
-def stage_idx(seed, s): r = np.random.RandomState(seed * 10 + s); idx = np.where(np.isin(ytr, STAGES[s]))[0]; return torch.tensor(r.permutation(idx)[:NPS])
-res = {}
-for seed in (1, 2, 3):
-    torch.manual_seed(seed)
-    def run(method, N=0, lam=0.0):
-        m = net(); buf_x, buf_y = [], []; ewc = None; curve = []
-        for s in range(5):
-            ix = stage_idx(seed, s); X, y = Xtr_t[ix], ytr_t[ix]
-            if method == "replay" and buf_x: X, y = torch.cat([X] + buf_x), torch.cat([y] + buf_y)
-            fit(m, X, y, EP, ewc=ewc, lam=lam, seed=seed); curve.append(acc(m))
-            if method == "replay":
-                for c in STAGES[s]: sel = (ytr_t[ix] == c).nonzero().flatten()[:N]; buf_x.append(Xtr_t[ix][sel]); buf_y.append(ytr_t[ix][sel])
-            if method == "ewc":
-                F = fisher(m, Xtr_t[ix], ytr_t[ix]); p0 = [p.detach().clone() for p in m.parameters()]
-                ewc = [(F[i] + (ewc[i][0] if ewc else 0), p0[i]) for i in range(len(F))]
-        return curve
-    for name, kw in (("fine-tuning", dict(method="ft")), ("replay 10/class (%.0f KB)" % (10 * 10 * 784 / 1024), dict(method="replay", N=10)), ("replay 50/class (%.0f KB)" % (50 * 10 * 784 / 1024), dict(method="replay", N=50)),
-                     ("replay 200/class (%.0f KB)" % (200 * 10 * 784 / 1024), dict(method="replay", N=200)), ("replay 1000/class (%.0f KB)" % (1000 * 10 * 784 / 1024), dict(method="replay", N=1000)),
-                     ("EWC lambda 100", dict(method="ewc", lam=100.0)), ("EWC lambda 10000", dict(method="ewc", lam=1e4))):
-        res.setdefault(name, []).append(run(**kw)); print(seed, name, ["%.1f" % v for v in res[name][-1]], flush=True)
-    m = net(); ix = torch.cat([stage_idx(seed, s) for s in range(5)]); fit(m, Xtr_t[ix], ytr_t[ix], EP, seed=seed); res.setdefault("joint (upper bound)", []).append([acc(m)]); print(seed, "joint", res["joint (upper bound)"][-1], flush=True)
-print("\n%s, MLP, 5 stages x 2 classes, %d images per stage, %d epochs per stage, mean of 3 seeds, accuracy on ALL classes after the last stage:" % (DS, NPS, EP))
-print("| method | final accuracy % | std |\n|---|---|---|")
-for k, v in res.items(): a = np.array([x[-1] for x in v]); print("| %s | %.1f | %.1f |" % (k, a.mean(), a.std()))
-print("L Cortex, same protocol: digits 94.2, clothing 81.5 (earlier runs; stores no examples; deployed table 11 to 45 KB)")
+"""26 Oct 2026, SIMULATED. Boundary memory: after stage 1 the chip keeps E real images per old class, the ones it was MOST UNSURE about (smallest margin between its own class sum and the best other old class sum) or, as a control, E random ones. In stage 2 these stored images replace the dreams: new banks use them as negatives, the old classes' veto banks use them as 'still mine', new-class images as 'not mine'. Old clauses never rewritten.
+env: E (examples per old class), PICK (doubt|random), EP (epochs, default 2). Stage 1 state is loaded from staged_s1.npz (made by tm_staged2.py)."""
+import os, sys
+os.environ["MODE"] = "none"; os.environ["EP"] = "0"
+sys.argv = ["x"]
+src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "tm_staged2.py")).read().split("if MODE == \"joint\": run")[0]
+exec(src)
+E_ = lambda k, d: type(d)(os.environ.get(k, d)); NE = E_("E", 5); PICK = E_("PICK", "doubt"); EPS = E_("EPS", 2)
+z = np.load("/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/staged_s1.npz"); state[:] = z["state"]; inc_list[:] = z["inc_list"]; inc_n[:] = z["inc_n"]
+oi = np.where(np.isin(y, OLD))[0]; s1 = scores(X[oi], inc_list, inc_n).astype(np.float32)[:, :6]; yo = y[oi]
+own = s1[np.arange(len(oi)), yo]; oth = s1.copy(); oth[np.arange(len(oi)), yo] = -1e9; marg = own - oth.max(1)
+EX = []; EY = []; rs = np.random.RandomState(3)
+for c in OLD:
+    ids = np.where(yo == c)[0]; pick = ids[np.argsort(marg[ids])[:NE]] if PICK == "doubt" else rs.choice(ids, NE, replace=False)
+    EX.append(X[oi[pick]]); EY += [c] * NE
+EX = np.concatenate(EX); EY = np.array(EY); print("stored %d images (%s), %.1f KB as bit lists" % (len(EX), PICK, len(EX) * (EX.sum(1).mean() * 2 / 1024)), flush=True)
+@njit
+def train_rep(Xs, ys, order, classes, EX, EY, state, inc_list, inc_n, seed):
+    np.random.seed(seed); outs = np.zeros(C, np.int8); outs2 = np.zeros(C, np.int8); nc = len(classes)
+    for ii in range(len(order)):
+        i = order[ii]; x = Xs[i]; a = ys[i]
+        v = class_sum(a, x, inc_list, inc_n, outs, True); feedback(a, x, state, inc_list, inc_n, outs, v, True)
+        o = classes[np.random.randint(nc)]
+        while o == a: o = classes[np.random.randint(nc)]
+        v2 = class_sum(o, x, inc_list, inc_n, outs2, True); feedback(o, x, state, inc_list, inc_n, outs2, v2, False)
+        if np.random.random() < 0.5:                                                                # a stored real old image is NOT a new class; and a stored image is the right answer for its own class? (old banks frozen, so only negatives)
+            d = EX[np.random.randint(len(EX))]; n = classes[np.random.randint(nc)]
+            v3 = class_sum(n, d, inc_list, inc_n, outs2, True); feedback(n, d, state, inc_list, inc_n, outs2, v3, False)
+@njit
+def veto_rep(Xs, order, EX, EY, state, inc_list, inc_n, vstate, vinc_list, vinc_n, seed):
+    np.random.seed(seed); outs = np.zeros(C, np.int8); outs2 = np.zeros(C, np.int8); vouts = np.zeros(C, np.int8)
+    for ii in range(len(order)):
+        x = Xs[order[ii]]; c = np.random.randint(6)
+        vo = class_sum(c, x, inc_list, inc_n, outs, True); vv = class_sum(c, x, vinc_list, vinc_n, vouts, False, 2); v = max(-T, min(T, vo + vv))
+        feedback(c, x, vstate, vinc_list, vinc_n, vouts, v, False, 1)                                # new image: not this old class
+        j = np.random.randint(len(EX)); d = EX[j]; c = EY[j]
+        vo = class_sum(c, d, inc_list, inc_n, outs2, True); vv = class_sum(c, d, vinc_list, vinc_n, vouts, False, 2); v = max(-T, min(T, vo + vv))
+        feedback(c, d, vstate, vinc_list, vinc_n, vouts, v, True, 1)                                 # stored real image of this old class: still mine
+idx = np.where(np.isin(y, NEW))[0]; om = np.isin(yte, OLD)
+for e in range(EPS): train_rep(X, y, np.random.RandomState(100 + e).permutation(idx), np.array(NEW), EX, EY, state, inc_list, inc_n, 1000 + e)
+vstate = np.full((6 * C, NL), NST, np.uint8); vinc_list = np.zeros((6 * C, LMAX), np.int32); vinc_n = np.zeros(6 * C, np.int32)
+for e in range(EPS): veto_rep(X, np.random.RandomState(7 + e).permutation(idx), EX, EY, state, inc_list, inc_n, vstate, vinc_list, vinc_n, 500 + e)
+so = scores(Xt, inc_list, inc_n).astype(np.float32); sv = np.pad(vscores(Xt, vinc_list, vinc_n).astype(np.float32)[:, :6], ((0, 0), (0, 4)))
+for nm, sc in (("no vetoes", so), ("with vetoes", so + sv)):
+    for off in (0, 5, 10):
+        s_ = sc.copy(); s_[:, :6] += off; p = s_.argmax(1); print("RESULT E=%d %s | %-12s offset %+d: all %.4f | old %.4f | new %.4f | Shirt recall %.3f" % (NE, PICK, nm, off, (p == yte).mean(), (p[om] == yte[om]).mean(), (p[~om] == yte[~om]).mean(), (p[yte == 6] == 6).mean()), flush=True)
