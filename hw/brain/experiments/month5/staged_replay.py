@@ -5,15 +5,49 @@ os.environ["MODE"] = "none"; os.environ["EP"] = "0"
 sys.argv = ["x"]
 src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "tm_staged2.py")).read().split("if MODE == \"joint\": run")[0]
 exec(src)
-E_ = lambda k, d: type(d)(os.environ.get(k, d)); NE = E_("E", 5); PICK = E_("PICK", "doubt"); EPS = E_("EPS", 2)
+E_ = lambda k, d: type(d)(os.environ.get(k, d)); NE = E_("E", 5); ND = E_("ND", 3000); PICK = E_("PICK", "doubt"); EPS = E_("EPS", 2)
 z = np.load("/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/staged_s1.npz"); state[:] = z["state"]; inc_list[:] = z["inc_list"]; inc_n[:] = z["inc_n"]
 oi = np.where(np.isin(y, OLD))[0]; s1 = scores(X[oi], inc_list, inc_n).astype(np.float32)[:, :6]; yo = y[oi]
 own = s1[np.arange(len(oi)), yo]; oth = s1.copy(); oth[np.arange(len(oi)), yo] = -1e9; marg = own - oth.max(1)
 EX = []; EY = []; rs = np.random.RandomState(3)
+@njit
+def sample_tree(par, p0, p1, p, order_seed, n):
+    np.random.seed(order_seed); out = np.zeros((n, len(par)), np.uint8)
+    for i in range(n):
+        for k in range(len(par)):
+            q = p[k] if par[k] < 0 else (p1[k] if out[i, par[k]] == 1 else p0[k])
+            out[i, k] = 1 if np.random.random() < q else 0
+    return out
+@njit
+def sample_freq(p, seed, n):
+    np.random.seed(seed); out = np.zeros((n, len(p)), np.uint8)
+    for i in range(n):
+        for k in range(len(p)): out[i, k] = 1 if np.random.random() < p[k] else 0
+    return out
+def tree_model(Xc):                                                                              # each bit gets as parent the earlier bit it shares the most information with (counts only)
+    Xf = Xc.astype(np.float32); n = len(Xf); n1 = Xf.sum(0); n11 = Xf.T @ Xf; P = 0.5 / n
+    MI = np.zeros_like(n11)
+    for a_ in (0, 1):
+        for b_ in (0, 1):
+            pab = ((n11 if a_ and b_ else (n1[:, None] - n11) if a_ else (n1[None, :] - n11) if b_ else (n - n1[:, None] - n1[None, :] + n11)) + P) / (n + 4 * P)
+            pa = ((n1 if a_ else n - n1) + 2 * P) / (n + 4 * P); MI += pab * np.log(pab / (pa[:, None] * pa[None, :]))
+    MI = np.tril(MI, -1)                                                                           # row = later bit k, column = earlier bit j
+    par = np.where(MI.max(1) > 0.02, MI.argmax(1), -1).astype(np.int64); par[0] = -1; del MI
+    p0 = np.zeros(len(par)); p1 = np.zeros(len(par)); pm = (n1 + 1) / (n + 2)
+    for k in range(len(par)):
+        if par[k] >= 0:
+            j = par[k]; m1 = Xf[:, j] == 1; p1[k] = (Xf[m1, k].sum() + 1) / (m1.sum() + 2); p0[k] = (Xf[~m1, k].sum() + 1) / ((~m1).sum() + 2)
+    return par, p0, p1, pm
 for c in OLD:
+    ids = np.where(y == c)[0]
+    if PICK in ("tree", "freq"):
+        Xc = X[ids]
+        if PICK == "tree": par, p0, p1, pm = tree_model(Xc); print("class %d: %.0f%% of bits have a parent" % (c, 100 * (par >= 0).mean()), flush=True); EX.append(sample_tree(par, p0, p1, pm, 9 + c, ND))
+        else: EX.append(sample_freq((Xc.sum(0) + 1) / (len(Xc) + 2), 9 + c, ND))
+        EY += [c] * ND; continue
     ids = np.where(yo == c)[0]; pick = ids[np.argsort(marg[ids])[:NE]] if PICK == "doubt" else rs.choice(ids, NE, replace=False)
     EX.append(X[oi[pick]]); EY += [c] * NE
-EX = np.concatenate(EX); EY = np.array(EY); print("stored %d images (%s), %.1f KB as bit lists" % (len(EX), PICK, len(EX) * (EX.sum(1).mean() * 2 / 1024)), flush=True)
+EX = np.concatenate(EX); EY = np.array(EY); print("stored/imagined %d images (%s)" % (len(EX), PICK), flush=True)
 @njit
 def train_rep(Xs, ys, order, classes, EX, EY, state, inc_list, inc_n, seed):
     np.random.seed(seed); outs = np.zeros(C, np.int8); outs2 = np.zeros(C, np.int8); nc = len(classes)
@@ -42,5 +76,5 @@ vstate = np.full((6 * C, NL), NST, np.uint8); vinc_list = np.zeros((6 * C, LMAX)
 for e in range(EPS): veto_rep(X, np.random.RandomState(7 + e).permutation(idx), EX, EY, state, inc_list, inc_n, vstate, vinc_list, vinc_n, 500 + e)
 so = scores(Xt, inc_list, inc_n).astype(np.float32); sv = np.pad(vscores(Xt, vinc_list, vinc_n).astype(np.float32)[:, :6], ((0, 0), (0, 4)))
 for nm, sc in (("no vetoes", so), ("with vetoes", so + sv)):
-    for off in (0, 5, 10):
-        s_ = sc.copy(); s_[:, :6] += off; p = s_.argmax(1); print("RESULT E=%d %s | %-12s offset %+d: all %.4f | old %.4f | new %.4f | Shirt recall %.3f" % (NE, PICK, nm, off, (p == yte).mean(), (p[om] == yte[om]).mean(), (p[~om] == yte[~om]).mean(), (p[yte == 6] == 6).mean()), flush=True)
+    for off in (-10, -5, 0, 5, 10):
+        s_ = sc.copy(); s_[:, :6] += off; p = s_.argmax(1); print("RESULT E=%d %s | %-12s offset %+d: all %.4f | old %.4f | new %.4f | Shirt recall %.3f" % (NE if PICK not in ("tree","freq") else ND, PICK, nm, off, (p == yte).mean(), (p[om] == yte[om]).mean(), (p[~om] == yte[~om]).mean(), (p[yte == 6] == 6).mean()), flush=True)

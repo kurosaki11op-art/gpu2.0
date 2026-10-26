@@ -257,5 +257,9 @@ Weak-spot round (20 Oct night, SIMULATED unless marked): A the two-sense result 
 
 **Standing caution (24 Oct 2026, user):** a model must not use the label at test time. Any two-sense result where the second sense is the spoken name of the object (digits spoken, clothing names) shows cross-sense learning and repair, not recognition without the label; quote it that way. Shirt/T-shirt picture-only limit: Shirt recall 63-74% (CNN ruler 79.4%); more evidence than a 28 x 28 grey picture is needed (`hw/results/shirt_specialist.md`, `shirt_second_sense.md`).
 
+## Staged learning with append-only clause banks (26 Oct 2026, SIMULATED)
+
+Old clause banks never change; new classes get new banks; old classes get appended veto banks that learn "not mine" from new images and "mine" from dreams. Ten Fashion-MNIST classes in two stages reach 82 to 83 overall against 85.8 for joint training with the same code (gap on the new classes: they never see real images of their look-alikes). Stored real images (20 per class, 241 KB) reach the same level but cost three times the table; hard dreams and tree-structured dreams did not help; counted vetoes are bounded but weak. Details: hw/results/append_only_clause_staged.md.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

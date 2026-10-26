@@ -1654,4 +1654,8 @@ Asked: give the chip the full ability to think. Done: staged_think.py, compare s
 
 Asked: run the stored-example test at 2, 5, 20. Done: staged_replay.py, doubt-picked and random, with veto banks. Result: 2 and 5 per class fail (old accuracy 25 to 45%, vetoes overfit the stored images); 20 doubt 76.5; 20 random 82.4, level with dream vetoes and joint training but 241 KB (about 3 times the table). Doubt-picked images are worse than random. Conclusion: stored examples are not the cheap fix; the memory advantage over replay is gone at the size that works. Note: hw/results/append_only_clause_staged.md.
 
+## 26 Oct 2026: tree dreams and a stable joint reference (SIMULATED)
+
+Asked: do all the necessary fixes for 2 hours. Done: dream banks (freq and tree-structured), pipeline with veto banks, offset sweeps, stable joint reference (staged_replay.py, staged_joint_ref.py). Result: tree dreams = frequency dreams (81.1 against 81.3, 4 epochs); joint 85.8; staged best 82 to 83. The gap (3 to 4 points) sits entirely on the new classes (Shirt recall 0.38 to 0.53 against 0.62), because a new class never sees real images of its look-alike old classes. Dreams cannot supply that boundary. Not closed. Note: hw/results/append_only_clause_staged.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

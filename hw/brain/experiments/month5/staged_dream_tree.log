@@ -1,0 +1,13 @@
+class 0: 100% of bits have a parent
+class 1: 100% of bits have a parent
+class 2: 100% of bits have a parent
+class 3: 100% of bits have a parent
+class 4: 100% of bits have a parent
+class 5: 98% of bits have a parent
+stored/imagined 18000 images (tree)
+RESULT E=3000 tree | no vetoes    offset +0: all 0.7490 | old 0.8853 | new 0.5445 | Shirt recall 0.234
+RESULT E=3000 tree | no vetoes    offset +5: all 0.7212 | old 0.8947 | new 0.4610 | Shirt recall 0.146
+RESULT E=3000 tree | no vetoes    offset +10: all 0.6920 | old 0.9020 | new 0.3770 | Shirt recall 0.083
+RESULT E=3000 tree | with vetoes  offset +0: all 0.8296 | old 0.8583 | new 0.7865 | Shirt recall 0.371
+RESULT E=3000 tree | with vetoes  offset +5: all 0.8266 | old 0.8752 | new 0.7538 | Shirt recall 0.289
+RESULT E=3000 tree | with vetoes  offset +10: all 0.8208 | old 0.8885 | new 0.7192 | Shirt recall 0.213

@@ -1,0 +1,7 @@
+stored/imagined 18000 images (freq)
+RESULT E=3000 freq | no vetoes    offset +0: all 0.7531 | old 0.8835 | new 0.5575 | Shirt recall 0.227
+RESULT E=3000 freq | no vetoes    offset +5: all 0.7265 | old 0.8952 | new 0.4735 | Shirt recall 0.129
+RESULT E=3000 freq | no vetoes    offset +10: all 0.6965 | old 0.9023 | new 0.3877 | Shirt recall 0.068
+RESULT E=3000 freq | with vetoes  offset +0: all 0.8272 | old 0.8528 | new 0.7887 | Shirt recall 0.376
+RESULT E=3000 freq | with vetoes  offset +5: all 0.8267 | old 0.8728 | new 0.7575 | Shirt recall 0.296
+RESULT E=3000 freq | with vetoes  offset +10: all 0.8202 | old 0.8858 | new 0.7218 | Shirt recall 0.214

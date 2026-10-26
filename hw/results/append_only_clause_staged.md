@@ -112,4 +112,24 @@ After stage 1 the chip keeps E real images per old class: the E it was most unsu
 - **20 random per class reaches the dream and joint level (82.4) but costs 241 KB** as bit lists (about 2 KB per image), nearly three times the 84 KB table, so the memory advantage over replay disappears at this size.
 - Result: stored examples are not a cheap proper fix. They work only at a size that removes the memory advantage; the dreams reach the same accuracy for about no memory. The remaining old-class gap is therefore not an information problem that a few examples solve.
 
+### Tree-structured dreams and the stable joint reference (26 Oct, SIMULATED; `staged_replay.py` PICK=tree|freq, `staged_joint_ref.py`)
+
+Dream banks of 3,000 imagined images per old class, either from independent bit frequencies (freq) or from a model where each bit depends on the earlier bit it shares the most information with (tree; about 6,000 conditional counters per class), used in place of stored images in the same pipeline (new banks learn old dreams as negatives, old veto banks learn new images as "not mine" and dreams as "mine"). Joint = all ten classes together, same code and scoring, 4 epochs. Old-class offset sweep shows the whole old/new frontier.
+
+| 4 epochs per stage | offset | all ten | old | new | Shirt recall |
+|---|---|---|---|---|---|
+| frequency dreams + vetoes | 0 | 81.3 | 79.7 | 83.9 | 0.566 |
+| frequency dreams + vetoes | +10 | 82.4 | 85.7 | 77.5 | 0.411 |
+| tree dreams + vetoes | 0 | 81.1 | 81.9 | 80.0 | 0.528 |
+| tree dreams + vetoes | +5 | 81.4 | 84.9 | 76.0 | 0.444 |
+| joint training (same code) | 0 | 85.8 | 85.2 | 86.7 | 0.617 |
+| joint training | +10 | 85.5 | 88.5 | 81.1 | 0.425 |
+| (2 epochs per stage, frequency dreams, 18,000 imagined) | 0 / +10 | 82.7 / 82.0 | 85.3 / 88.6 | 78.9 / 72.2 | 0.376 / 0.214 |
+
+- **Dream structure is not the lever.** Tree dreams (bits that depend on each other) give the same accuracy as independent-bit dreams (81.1 against 81.3). Imagining better does not close the gap.
+- **The gap to joint training is about 3 to 4 points overall, all on the new classes.** At equal old-class accuracy (about 85), joint gets new 86.7 and the staged chip 78.9 to 80.0; Shirt recall 0.617 against 0.38 to 0.53.
+- **Why:** a new class is learned against the other new classes and against imagined old classes, never against real old images. Shirt is defined by what separates it from T-shirt, Pullover and Coat, and with those images gone that boundary cannot be observed; no imagination from per-class statistics reproduces it. The old classes are protected (storage never forgets; accuracy 85 against 90.8 before Shirt joined, the rest being the harder 10-class task), the cost falls on the late class.
+- Staged and joint land on the same frontier shape, so the choice of operating point (offset) is a free trade, and the label-free rule for it is still open.
+- Honest summary of the fix attempts: frequency dreams, hard dreams (failed), stored images (work only at 241 KB), counted vetoes (bounded, weak), tree dreams (no gain). Best staged result 82 to 83 against 85.8 joint.
+
 Related: [Local layers and neurogenesis](local_growth_staged.md), [Feature-level dreams](frozen_encoder_tests.md), [Our own methods](own_methods_routing.md), [Results index](INDEX.md)
