@@ -37,5 +37,8 @@ Read from the arXiv/OpenReview/NeurIPS PDF text with the network access opened o
 - [Study: nvidia blackwell study](nvidia_blackwell_study.md): NVIDIA data-centre GPU architecture up to Blackwell (vendor pages blocked; specs second-hand)
 - [Study: Cerebras wafer-scale engine in depth](cerebras_study.md): about 22 arXiv papers read; vendor whitepapers blocked
 - [Thinking research 2: working memory and steps over time](thinking_research_2_working_memory.md): matrix-free state carried between steps (in progress, full reads being completed)
+- [Thinking research 1: imagination without backprop](thinking_research_1_imagination.md): generators that keep how features combine (in progress, full reads being completed)
+- [Thinking research 3: hypothesis, test and keep](thinking_research_3_hypothesis_loop.md): propose-test-keep loop on counted contrasts (in progress, full reads being completed)
+- [Thinking research 4: goals and intrinsic motivation](thinking_research_4_goals.md): bounded drives for the controller (in progress)
 
 Related: [Research notes](../notes/INDEX.md), [Research report](../matrix_free_vs_cnn_report.md), [Docs index](../../INDEX.md)
