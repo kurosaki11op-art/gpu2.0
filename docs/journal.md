@@ -1690,4 +1690,8 @@ Asked: do not build yet; learn from papers how each of the five parts (imaginati
 
 Built hypothesis_loop.py (contrast-counted 2 to 4 literal clauses, held-set test with Wilson bounds and a damage budget, batch undo, random-clause control). Version 0 had a bug (candidate count shadowed by the class id: 6 candidates instead of 180); logs kept (hypothesis_loop_bug_run.log). Version 1: 180 candidates separate Shirt from the paired class (lower-bound margin median 0.35) but fire on 48% of other classes, so none passes a 12% damage budget: nothing kept, L unchanged. Version 2 (negatives include every other class): 5 pass, held-set Shirt recall +0.016, but on the test set Shirt recall 0.626 against 0.638 and accuracy 88.72 against 88.85: no gain; the random control gives 0.618. Next: proposals from L's own Shirt mistakes (version 3). Founder asked for everything to be run overnight with a report in the morning.
 
+## 26 Oct 2026 (night): part 3 hypothesis loop, version 3 and conclusion (SIMULATED)
+
+Version 3 proposed clauses from L's own missed Shirts: 0 pass (they fire on the paired class 79% against 51% on Shirt). Three versions, no test-set gain; random control similar. Missed Shirts look like the confused class in this code; short conjunctions cannot separate them. Note: hw/results/hypothesis_loop.md. Part 3 closed as no gain unless a finer feature level is tried later.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
