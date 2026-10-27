@@ -1,0 +1,5 @@
+level-1 bits equal L's shipped code: True [16s]
+clauses fired [23s]
+RESULT two-level code alone (levels 1,4): acc 0.8945 | cluster 0.8163 | Shirt recall 0.613 | Shirt AP 0.772 (752 active)
+RESULT + 2000 clauses, every image: acc 0.8968 | cluster 0.8243 | Shirt recall 0.645 | Shirt AP 0.787 (512 clauses fire) || routed 30%: acc 0.8969 | cluster 0.8245 | Shirt recall 0.646 | Shirt AP 0.783 [59s]
+RESULT + 4000 clauses, every image: acc 0.8970 | cluster 0.8237 | Shirt recall 0.677 | Shirt AP 0.791 (1046 clauses fire) || routed 30%: acc 0.8973 | cluster 0.8237 | Shirt recall 0.676 | Shirt AP 0.787 [82s]

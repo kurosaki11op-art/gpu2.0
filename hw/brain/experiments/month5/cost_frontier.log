@@ -1,0 +1,12 @@
+variant                                 acc  energy nJ      x L  within 2x ceiling
+L as shipped (4 channels)             88.85       29.9     1.00  yes
+shipped, two-level (1,4)              89.45       36.3     1.21  yes
+7 channels                            89.48       50.9     1.70  yes
+7 channels, two-level (1,3)           89.73       67.9     2.27  NO
+7 channels, two-level (1,2)           89.95       73.5     2.46  NO
+10 channels                           89.82       73.3     2.45  NO
+L + clause layer, all images (measured)    89.73      110.7     3.70  NO
+L + clause layer, routed 30%          89.71       53.7     1.79  yes
+add-only ternary network (reference)    89.40      198.7     6.64
+small float CNN (reference)           91.28     1967.8    65.72
+dense float network (reference)       89.15    64548.6  2155.65

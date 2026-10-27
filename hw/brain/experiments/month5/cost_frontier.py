@@ -1,0 +1,12 @@
+"""27 Oct 2026, ESTIMATED. One consistent cost model for every variant measured so far (Horowitz ISSCC 2014 constants, 45 nm, the same ones as energy_cortex.py and clause_energy.py): front end = 576 positions x 32 detectors x 4.. channels x (match 0.2 pJ + add 0.03 pJ); table = active bits x (SRAM word read for the table size + 10 adds of 0.1 pJ), SRAM word read 10 pJ (<=8 KB), 20 pJ (<=32 KB) rising to 100 pJ at 1 MB; table size = bits x 10 bytes. Clause layer figures are the measured keyed-read estimates of best_version_energy_tiles.md. References: add-only ternary network (4,608 inputs, 256 hidden, ternary weights, 589 active inputs: 8 words of 64 bits per active input row, 295 KB of weights, 0.03 pJ int8 adds) and a small float CNN (32 3x3 filters on 28x28, ~250 k multiply-adds at 4.6 pJ, 27 k weight words at 30 pJ, plus pixel reads) at 91.3%; dense float network 64.5 uJ (foundations_study E4)."""
+def sram(kb): return 10.0 if kb <= 8 else 20.0 if kb <= 32 else 20.0 + 80.0 * min(1.0, (kb - 32) / 992)
+def energy(channels, bits, active): return channels * 576 * 32 * 0.23 / 1000 + active * (sram(bits * 10 / 1024) + 1.0) / 1000          # nJ
+rows = [("L as shipped (4 channels)", 4, 4608, 589, 88.85), ("shipped, two-level (1,4)", 4, 9216, 752, 89.45), ("7 channels", 7, 8064, 855, 89.48), ("7 channels, two-level (1,3)", 7, 16128, 1228, 89.73), ("7 channels, two-level (1,2)", 7, 16128, 1409, 89.95), ("10 channels", 10, 11520, 1125, 89.82)]
+base = energy(4, 4608, 589)
+print("%-34s %8s %10s %8s  %s" % ("variant", "acc", "energy nJ", "x L", "within 2x ceiling"))
+for n, ch, b, a, acc in rows: e = energy(ch, b, a); print("%-34s %8.2f %10.1f %8.2f  %s" % (n, acc, e, e / base, "yes" if e <= 2 * base else "NO"))
+print("%-34s %8.2f %10.1f %8.2f  %s" % ("L + clause layer, all images (measured)", 89.73, 110.7, 110.7 / base, "NO"))
+print("%-34s %8.2f %10.1f %8.2f  %s" % ("L + clause layer, routed 30%", 89.71, 53.7, 53.7 / base, "yes"))
+print("%-34s %8.2f %10.1f %8.2f" % ("add-only ternary network (reference)", 89.40, (589 * 8 * (sram(295) ) + 152000 * 0.03) / 1000, (589 * 8 * sram(295) + 152000 * 0.03) / 1000 / base))
+print("%-34s %8.2f %10.1f %8.2f" % ("small float CNN (reference)", 91.28, (250000 * 4.6 + 27000 * 30 + 784 * 10) / 1000, (250000 * 4.6 + 27000 * 30 + 784 * 10) / 1000 / base))
+print("%-34s %8.2f %10.1f %8.2f" % ("dense float network (reference)", 89.15, 64548.6, 64548.6 / base))

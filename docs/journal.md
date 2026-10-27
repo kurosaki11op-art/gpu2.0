@@ -1742,4 +1742,8 @@ Test of 'send the error to the eyes': four training routes (none, exact backprop
 
 two_level_L.py: second bit 'won at T or more of 16 positions in the pooled window'. Shipped channels, levels 1 and 4: 89.45 (+0.6) at x1.28 active bits; seven channels, levels 1 and 2: 89.95 (+1.1 over shipped) at x2.4 active bits, Shirt recall 0.669. Modest gains, best cost for gain is the shipped channels with levels 1 and 4. Disk allowance ran out once; regenerable caches deleted. Note: hw/results/multi_threshold_front_end.md.
 
+## 27 Oct 2026: cost ceiling adopted and judged (ESTIMATED / SIMULATED)
+
+Founder: every fix raises memory and power. Rule: cost beside every accuracy, 2x ceiling, compared with the best add-only baseline at equal accuracy. cost_frontier.py puts all variants on one model: inside 2x the best is the routed clause layer (89.71 at 1.79x) and the two-level code (89.45 at 1.21x); richer options (89.8 to 89.95) cost 2.3 to 2.5x. Add-only ternary network 89.4 at about 199 nJ: we are 5.5x cheaper at that accuracy. Clause layer on the richer code stopped (over budget by design). Combination routed clauses + two-level code: 89.73, Shirt recall 0.676 (best so far) but the gains overlap and cost is no better. Note: hw/results/cost_frontier.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

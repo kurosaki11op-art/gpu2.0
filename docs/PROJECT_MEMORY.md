@@ -281,5 +281,9 @@ Part 1 counted-mixture dreams: +0.9 with 20 stored images, parity without keepin
 
 Standard networks multiply for graded votes, dense hardware, and smooth weights that allow backprop; data movement, not the multiply, dominates energy. Measured on L's code: float linear, MLP, ternary and add-only networks 89.1 / 89.15 / 89.47 / 89.40 against our table 88.85 (the readout operation is not our limit); a learned hidden layer beats a random one by 8 points and feedback alignment equals backprop; counting is more robust to corrupted bits; the CNN's +2.4 needs features and readout trained together. Rule going forward: before replacing a standard mechanism, state the property it provides and test that property in isolation. Details: hw/results/foundations_study.md.
 
+## Cost rule (27 Oct 2026)
+
+Every accuracy number carries its estimated cost on one consistent model; ceiling about 2x L's cost today (about 60 nJ per decision); judged against the best add-only baseline at equal accuracy (add-only ternary network 89.4% at about 199 nJ), not only a dense GPU network. Inside the ceiling the best is about 89.7% (routed clause layer, 53.7 nJ). Details: hw/results/cost_frontier.md.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
