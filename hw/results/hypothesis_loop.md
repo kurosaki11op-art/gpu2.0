@@ -23,4 +23,10 @@ Loop: Shirt is confused with T-shirt, Pullover and Coat. A contrast counter grow
 - Held-set gains that vanish on the test set (version 2) show why the separate test matters.
 - Not tried: longer conjunctions (more than 4 literals), a different feature level (clause bits instead of pixels), a second look with finer detectors on the confused region only.
 
+### Version 4: longer clauses and a looser damage budget (27 Oct 2026, SIMULATED; `hypothesis_loop_v4.log`)
+
+MAXLEN 8 literals, damage budget 20%. 94 of 180 candidates pass the held-set test; the batch of 94 hurts (held-set Shirt recall -0.035), halving reaches 11 clauses with held-set Shirt recall +0.032, but on the test set: accuracy 88.82, Shirt recall 0.627, AP 0.742, against L alone 88.85 / 0.638 / 0.753. The random-clause control (9 clauses) gives Shirt recall 0.658 on the test set, above the loop's own clauses, so the held-set gains here are within the noise of choosing among many candidates.
+
+**Conclusion: part 3 closed as no gain in four versions.** Short and medium conjunctions over L's code and raw pixels do not separate the missed Shirts from the classes they are confused with; the loop mechanics (propose, held-set test, damage budget, undo) work, but the proposals carry no usable signal at this feature level. Reopen only with a different feature level (for example finer detectors on the confused region).
+
 Related: [Append-only clause banks](append_only_clause_staged.md), [Shirt difference-learning ideas](shirt_difference_layers.md), [Results index](INDEX.md)

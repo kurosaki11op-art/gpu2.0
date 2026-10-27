@@ -1706,4 +1706,8 @@ seq_order_test.py: counting sequence model with matched-order state and allocate
 
 staged_mixture.py: dreams from K counted sub-prototypes per old class, labelled by the frozen stage-1 banks, kept near the teacher's boundary. 20 stored + dreams: +0.7 (seed 0) and +0.5 (seed 1) over stored-only (84.2, 83.8); dreams only with 1 stored image: 85.5 (seed 0), joint 85.8; offset needed falls from +30 to about +0 to +10. First imagination that helps. Memory about 25 to 49 KB per class (ESTIMATED), more than 20 stored images. Next: dreams-only second seed, EMNIST, smaller K. Note: hw/results/counted_mixture_dreams.md.
 
+## 27 Oct 2026: part 3 closed (SIMULATED)
+
+Version 4 (8-literal clauses, 20% damage budget): 11 clauses kept, held-set Shirt recall +0.032, test 0.627 against 0.638; random control 0.658. Four versions, no test-set gain. Closed as no gain. Note: hw/results/hypothesis_loop.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

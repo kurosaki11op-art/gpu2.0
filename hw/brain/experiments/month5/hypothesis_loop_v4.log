@@ -1,0 +1,22 @@
+[  11s] L alone, trained on A, scored on held B: acc 0.8901 | Shirt recall 0.596 | cluster 0.8102 | AP 0.775
+  hypothesis: 180 candidates proposed
+  hypothesis diagnostics over 180 candidates: coverage of Shirt median 0.648 (max 0.835); firing on the paired class median 0.324; firing on other classes median 0.198 (min 0.097); lower-bound margin median 0.268 (max 0.498); passing alone: coverage>=0.03 180, damage<=0.20 94, margin>0.05 180
+  hypothesis: 94 pass the held-set test (damage <= 0.20, lower-bound margin > 0.05)
+  hypothesis: batch of 94 clauses -> held-set acc 0.8895 (-0.0006) | Shirt recall 0.562 (-0.035)
+    batch undone, halved
+  hypothesis: batch of 47 clauses -> held-set acc 0.8912 (+0.0011) | Shirt recall 0.594 (-0.003)
+    batch undone, halved
+  hypothesis: batch of 23 clauses -> held-set acc 0.8923 (+0.0022) | Shirt recall 0.588 (-0.008)
+    batch undone, halved
+  hypothesis: batch of 11 clauses -> held-set acc 0.8922 (+0.0021) | Shirt recall 0.628 (+0.032)
+FINAL hypothesis kept  11 clauses | test acc 0.8882 | Shirt recall 0.627 | cluster 0.8095 | Shirt AP 0.742
+  error: 180 candidates proposed
+  error diagnostics over 180 candidates: coverage of Shirt median 0.468 (max 0.650); firing on the paired class median 0.742; firing on other classes median 0.107 (min 0.020); lower-bound margin median -0.304 (max -0.013); passing alone: coverage>=0.03 180, damage<=0.20 180, margin>0.05 0
+  error: 0 pass the held-set test (damage <= 0.20, lower-bound margin > 0.05)
+FINAL error      kept   0 clauses | test acc 0.8885 | Shirt recall 0.638 | cluster 0.8063 | Shirt AP 0.753
+  random: 180 candidates proposed
+  random diagnostics over 180 candidates: coverage of Shirt median 0.482 (max 0.973); firing on the paired class median 0.450; firing on other classes median 0.480 (min 0.032); lower-bound margin median -0.041 (max 0.225); passing alone: coverage>=0.03 180, damage<=0.20 38, margin>0.05 45
+  random: 9 pass the held-set test (damage <= 0.20, lower-bound margin > 0.05)
+  random: batch of 9 clauses -> held-set acc 0.8917 (+0.0016) | Shirt recall 0.610 (+0.013)
+FINAL random     kept   9 clauses | test acc 0.8871 | Shirt recall 0.658 | cluster 0.8065 | Shirt AP 0.755
+FINAL L alone (no clauses)      | test acc 0.8885 | Shirt recall 0.638 | cluster 0.8063 | Shirt AP 0.753
