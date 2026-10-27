@@ -87,5 +87,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Counted-mixture dreams with teacher labels](counted_mixture_dreams.md): first dreams that help; dreams alone (1 stored image per class) reach 85.5 against joint 85.8 (one seed)
 - [Progress-ranked rehearsal](progress_ranked_rehearsal.md): the chip picks what to rehearse and when to stop; parity with the uniform schedule (83.3 against 83.0), tripwire catches a corrupted chunk but fires falsely on clean ones
 - [Foundations study: why multiply, what replacing it costs](foundations_study.md): on L's code multiply and depth add nothing; features shaped end to end are the gap; counting is more robust; energy ladder
+- [Multi-threshold input for L's front end](multi_threshold_front_end.md): error to the eyes helps little; more threshold banks lift L from 88.85 to 89.48 / 89.82 at x1.45 / x1.9 active bits
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

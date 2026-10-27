@@ -1734,4 +1734,8 @@ Founder: closing means fixing the failure and making it a win. Part 3: the failu
 
 Founder asked to stop and learn why GPUs multiply and use matrices before replacing more. Ran E1 to E7 (numpy reference models). On L's code float linear 89.11, MLP 89.15, ternary 89.47, add-only 89.40, our table 88.85 (the readout operation is not the limit); frozen random hidden layer 81.0 against learned 89.1, feedback alignment 88.9 (exact gradients not needed); counting table most robust to corrupted bits (84.4 against 80.1 at 30%); energy ladder 64.5 uJ dense float to 0.074 uJ table; the CNN reaches 91.28 only when features and readout are trained together (frozen features with a retrained readout 89.62, same as our table on those features); multi-level codes give our table +0.85. Hypothesis: our ceiling is the unsupervised features, not the readout operations. Next tests in the note. Note: hw/results/foundations_study.md.
 
+## 27 Oct 2026: front-end tests and multi-threshold input on L (SIMULATED)
+
+Test of 'send the error to the eyes': four training routes (none, exact backprop, feedback alignment, sparse +-1 feedback) all land within +0.7 of random eyes and below L's Hebbian code: hypothesis not supported, corrected in the foundations note. What helps: finer input. On L itself, more threshold banks: 7 channels 89.48 (x1.45 active bits), 10 channels 89.82 (x1.9); thresholds alone without the centre-surround channels are worse (four thresholds 87.74). Note: hw/results/multi_threshold_front_end.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -60,7 +60,11 @@ A weight times an input is a graded vote; a matrix is many votes at once and fit
 5. **Where our ceiling is: the features, shaped end to end.** The CNN reaches 91.28, +2.4 over L, but only when features and readout are trained together: its frozen features with a retrained float readout give 89.62 (+0.8 over L's table, equal to our table on the same features: 89.85). Binarising the responses loses nothing for a linear readout (89.58 against 89.62), and graded multi-level codes lift our table by +0.85 (89.00 to 89.85). Random filters with our table are almost as good as learned ones at sparse thresholds. So: (i) our counting readout equals a float readout on any given features; (ii) the remaining +1.7 comes from shaping the feature layer with the readout's error, end to end (the property backprop provides and that feedback alignment suggests can be approximated); (iii) L's Hebbian detectors are unsupervised and not shaped by the task, which matches the single-layer ceiling near 89 to 90.
 6. **Ternary costs about a point per layer in a convolutional network** (conv filters ternary -1.3, readout ternary -0.8, both -2.8), but nothing in a wide readout over a sparse binary code.
 
-## Implications for our failures (hypotheses to test, not conclusions)
+## Correction after the follow-up tests (27 Oct 2026)
+
+The hypothesis below, that L is limited because its detectors are not taught by the task error, was tested and **not supported**: teaching the eyes by exact backprop, feedback alignment or sparse +-1 feedback changed our table's accuracy by at most +0.4 to +0.7 and stayed below L's Hebbian code. What did help was finer input (more threshold banks: 88.85 to 89.48 and 89.82) and, on a stand-in, a two-level output code. See [multi-threshold input](multi_threshold_front_end.md).
+
+## Implications for our failures (hypotheses to test, not conclusions; first hypothesis corrected above)
 
 - The deep and shared-weight attempts (L-Deep, convolutional clauses) tried to replace end-to-end error-driven feature learning without a replacement for it. The readout never needed replacing; the credit path to the features did.
 - Next tests before building: (1) shape L's detectors with a task error signal through a random fixed feedback path (feedback alignment on a sparse binary front end) and see if the table gains toward 91; (2) a graded, multi-level code on L's own responses (the +0.85 gain seen on CNN features); (3) a CNN feature layer trained by feedback alignment instead of backprop, to see how much of 91 survives.

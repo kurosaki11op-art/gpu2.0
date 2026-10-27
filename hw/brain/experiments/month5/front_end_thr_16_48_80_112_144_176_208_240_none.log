@@ -6,3 +6,5 @@
   none epoch 6 done [220s]
   none epoch 7 done [253s]
   none epoch 8 done [285s]
+   2-level output code (794 active of 9216 bits): our counting table 0.8665
+RESULT none    eyes trained 8 epochs: own float readout on real responses 0.8794 | float readout on the binary code 0.8736 | OUR counting table on the binary code (567 active of 4608) 0.8625  [L's Hebbian code + table: 0.8885] [397s]
