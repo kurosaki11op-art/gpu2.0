@@ -1,0 +1,14 @@
+class           CNN   L ship   L rich   CNN-ship   CNN-rich
+T-shirt       0.891    0.878    0.865     +0.013     +0.026
+Trouser       0.978    0.974    0.977     +0.004     +0.001
+Pullover      0.856    0.827    0.840     +0.029     +0.016
+Dress         0.936    0.887    0.916     +0.049     +0.020
+Coat          0.870    0.818    0.860     +0.052     +0.010
+Sandal        0.984    0.967    0.968     +0.017     +0.016
+Shirt         0.707    0.638    0.669     +0.069     +0.038
+Sneaker       0.958    0.969    0.971     -0.011     -0.013
+Bag           0.975    0.978    0.976     -0.003     -0.001
+Boot          0.973    0.949    0.953     +0.024     +0.020
+accuracy     0.9128   0.8885   0.8995
+share of the CNN gap (to rich L) carried by the four upper-body classes (T-shirt, Pullover, Coat, Shirt): 0.68 of 0.0133
+largest confusions of rich L (true -> predicted, count): [(116, 'Shirt', 'T-shirt'), (99, 'Shirt', 'Coat'), (81, 'T-shirt', 'Shirt'), (80, 'Shirt', 'Pullover'), (67, 'Pullover', 'Coat'), (63, 'Pullover', 'Shirt'), (60, 'Coat', 'Shirt'), (47, 'Coat', 'Pullover')]

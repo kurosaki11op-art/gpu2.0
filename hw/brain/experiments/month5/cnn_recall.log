@@ -1,0 +1,13 @@
+CNN accuracy 0.9128 [220s]
+RESULT recall T-shirt   0.891
+RESULT recall Trouser   0.978
+RESULT recall Pullover  0.856
+RESULT recall Dress     0.936
+RESULT recall Coat      0.870
+RESULT recall Sandal    0.984
+RESULT recall Shirt     0.707
+RESULT recall Sneaker   0.958
+RESULT recall Bag       0.975
+RESULT recall Boot      0.973
+RESULT cluster accuracy (4 classes, 10-way prediction restricted): 0.8310
+RESULT Shirt predicted as: {'T-shirt': 141, 'Trouser': 1, 'Pullover': 41, 'Dress': 36, 'Coat': 65, 'Shirt': 707, 'Bag': 9}

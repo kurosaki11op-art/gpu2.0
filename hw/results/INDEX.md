@@ -89,5 +89,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Foundations study: why multiply, what replacing it costs](foundations_study.md): on L's code multiply and depth add nothing; features shaped end to end are the gap; counting is more robust; energy ladder
 - [Multi-threshold input for L's front end](multi_threshold_front_end.md): error to the eyes helps little; more threshold banks lift L from 88.85 to 89.48 / 89.82 at x1.45 / x1.9 active bits
 - [Cost frontier and the 2x ceiling](cost_frontier.md): every variant on one cost model; inside 2x the best is 89.7; the gains from clauses and two-level code overlap
+- [Detector selection and the gap to the CNN](detector_selection_and_gap.md): informative detectors give 89.03 at 27% fewer active bits (32 per channel) and 89.76 with Shirt recall 0.691 (64); the CNN's Shirt recall is only 0.707; the gap is spread over classes
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

@@ -1746,4 +1746,8 @@ two_level_L.py: second bit 'won at T or more of 16 positions in the pooled windo
 
 Founder: every fix raises memory and power. Rule: cost beside every accuracy, 2x ceiling, compared with the best add-only baseline at equal accuracy. cost_frontier.py puts all variants on one model: inside 2x the best is the routed clause layer (89.71 at 1.79x) and the two-level code (89.45 at 1.21x); richer options (89.8 to 89.95) cost 2.3 to 2.5x. Add-only ternary network 89.4 at about 199 nJ: we are 5.5x cheaper at that accuracy. Clause layer on the richer code stopped (over budget by design). Combination routed clauses + two-level code: 89.73, Shirt recall 0.676 (best so far) but the gains overlap and cost is no better. Note: hw/results/cost_frontier.md.
 
+## 27 Oct 2026: choosing detectors by class information; where the CNN gap is (SIMULATED)
+
+Founder: close the gap to the CNN and raise Shirt recall by making L learn what is common and uncommon. Test: pool of 128 detectors per channel, keep the most informative by counted mutual information: 32 per channel gives 89.03 (shipped 88.85) with 27% fewer active bits (estimated 26.5 against 29.9 nJ); random control 87.87; 64 per channel 89.76, Shirt recall 0.691 (est. 50.6 nJ). Group-specific selection no better than global. The CNN's own Shirt recall is 0.707 (so the Shirt target is about 0.70); the remaining 1.3 point gap to the CNN is spread (upper-body classes 68%). Note: hw/results/detector_selection_and_gap.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
