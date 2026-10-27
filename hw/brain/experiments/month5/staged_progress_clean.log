@@ -1,0 +1,10 @@
+start: offset +0, share distance 0.785
+EVAL start (stage 1 + nothing)          offset +0: all 0.5434 | old 0.9092 | new 0.0015 | Shirt recall 0.006
+chunk 1 (25000 steps, flip 0.02): share distance 0.122, offset +6 -> ok; first chunk, uniform
+EVAL after chunk 1                      offset +6: all 0.8210 | old 0.8241 | new 0.8164 | Shirt recall 0.421
+chunk 2 (25000 steps, flip 0.02): share distance 0.124, offset +6 -> ok; progress [0.01, 0.002, 0.022, 0.003, 0.08, 0.001, 0.012, 0.017, 0.0, 0.025]; weights [0.81, 0.26, 4.37, 0.3, 1.8, 0.23, 0.37, 0.84, 0.2, 0.82]
+EVAL after chunk 2                      offset +6: all 0.8266 | old 0.8372 | new 0.8109 | Shirt recall 0.392
+chunk 3 (25000 steps, flip 0.02): share distance 0.144, offset +22 -> ok; progress [0.016, 0.0, 0.029, 0.001, 0.006, 0.001, 0.062, 0.001, 0.003, 0.001]; weights [0.49, 0.26, 1.24, 0.27, 1.16, 0.36, 5.05, 0.27, 0.64, 0.26]
+EVAL after chunk 3                      offset +22: all 0.8158 | old 0.8141 | new 0.8184 | Shirt recall 0.442
+STOP: no progress or no improvement for 2 chunks (chip decides it is done)
+EVAL FINAL                              offset +22: all 0.8158 | old 0.8141 | new 0.8184 | Shirt recall 0.442
