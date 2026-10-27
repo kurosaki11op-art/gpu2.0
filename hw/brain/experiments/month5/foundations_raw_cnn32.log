@@ -1,0 +1,6 @@
+  CNN 32 shared 3x3 filters, float              epoch 1: test acc 0.8717 [14s]
+  CNN 32 shared 3x3 filters, float              epoch 20: test acc 0.9128 [235s]
+RESULT raw pixels, CNN 32 shared 3x3 filters, float              acc 0.9128
+  CNN 32 shared 3x3 filters, ternary weights    epoch 1: test acc 0.8342 [248s]
+  CNN 32 shared 3x3 filters, ternary weights    epoch 20: test acc 0.8852 [453s]
+RESULT raw pixels, CNN 32 shared 3x3 filters, ternary weights    acc 0.8852

@@ -277,5 +277,9 @@ To save usage, read the abstract and conclusion first, summarise the contributio
 
 Part 1 counted-mixture dreams: +0.9 with 20 stored images, parity without keeping old images (84.2 against 83.7). Part 2 burst-allocation sequence core: 4 to 5 times fewer contexts than full backoff for about 2 points (one corpus). Part 3: short-rule loop no gain, but a clause specialist for the confusable group (1,600 clauses as table inputs) gives +0.4 to +0.5 accuracy and the Shirt AP and recall of the full 4,000-clause layer with 5 times fewer clauses firing. Part 4 progress-ranked rehearsal: parity with the uniform schedule; a teacher-agreement harm signal detects corrupted chunks reliably, benefit in final accuracy not yet shown. Part 5 relation code: generalises to unseen classes (70 to 73%) but not better than an overlap threshold (79%). Details: hw/results/counted_mixture_dreams.md, sequence_burst_allocation.md, hypothesis_loop.md, progress_ranked_rehearsal.md, composition_relation_test.md.
 
+## Foundations study (27 Oct 2026, SIMULATED)
+
+Standard networks multiply for graded votes, dense hardware, and smooth weights that allow backprop; data movement, not the multiply, dominates energy. Measured on L's code: float linear, MLP, ternary and add-only networks 89.1 / 89.15 / 89.47 / 89.40 against our table 88.85 (the readout operation is not our limit); a learned hidden layer beats a random one by 8 points and feedback alignment equals backprop; counting is more robust to corrupted bits; the CNN's +2.4 needs features and readout trained together. Rule going forward: before replacing a standard mechanism, state the property it provides and test that property in isolation. Details: hw/results/foundations_study.md.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

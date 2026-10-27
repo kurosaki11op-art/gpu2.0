@@ -1,0 +1,15 @@
+  softmax regression, float                     epoch 1: test acc 0.8095 [2s]
+  softmax regression, float                     epoch 6: test acc 0.8400 [3s]
+RESULT raw pixels, softmax regression, float                     acc 0.8400
+  MLP 256 hidden, float                         epoch 1: test acc 0.8451 [4s]
+  MLP 256 hidden, float                         epoch 6: test acc 0.8690 [11s]
+RESULT raw pixels, MLP 256 hidden, float                         acc 0.8690
+  MLP 256 hidden, ternary weights               epoch 1: test acc 0.8292 [12s]
+  MLP 256 hidden, ternary weights               epoch 6: test acc 0.8631 [19s]
+RESULT raw pixels, MLP 256 hidden, ternary weights               acc 0.8631
+  CNN 16 shared 3x3 filters, float              epoch 1: test acc 0.8466 [28s]
+  CNN 16 shared 3x3 filters, float              epoch 6: test acc 0.8900 [67s]
+RESULT raw pixels, CNN 16 shared 3x3 filters, float              acc 0.8900
+  CNN 16 shared 3x3 filters, ternary weights    epoch 1: test acc 0.8275 [77s]
+  CNN 16 shared 3x3 filters, ternary weights    epoch 6: test acc 0.8635 [115s]
+RESULT raw pixels, CNN 16 shared 3x3 filters, ternary weights    acc 0.8635

@@ -1,0 +1,2 @@
+RESULT raw pixels, CNN 32 filters, conv filters ternary, readout float      acc 0.8999
+RESULT raw pixels, CNN 32 filters, conv filters float, readout ternary      acc 0.9046

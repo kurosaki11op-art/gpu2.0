@@ -1,0 +1,10 @@
+CNN float with its own readout: test acc 0.9128 [231s]
+RESULT learned filters  code on above-quantile 0.5 (2482 active of 5408 bits): our counting table acc 0.8833 [291s]
+RESULT random filters   code on above-quantile 0.5 (2194 active of 5408 bits): our counting table acc 0.8538 [303s]
+RESULT learned filters  code on above-quantile 0.7 (1541 active of 5408 bits): our counting table acc 0.8900 [316s]
+RESULT random filters   code on above-quantile 0.7 (1431 active of 5408 bits): our counting table acc 0.8729 [327s]
+RESULT learned filters  code on above-quantile 0.8 (1064 active of 5408 bits): our counting table acc 0.8870 [337s]
+RESULT random filters   code on above-quantile 0.8 (1006 active of 5408 bits): our counting table acc 0.8785 [347s]
+RESULT learned filters  code on above-quantile 0.9 (541 active of 5408 bits): our counting table acc 0.8796 [355s]
+RESULT random filters   code on above-quantile 0.9 (533 active of 5408 bits): our counting table acc 0.8805 [364s]
+reference: L's own Hebbian code + the same table: 0.8885

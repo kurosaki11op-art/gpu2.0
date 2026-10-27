@@ -1,0 +1,7 @@
+CNN float with its own readout: test acc 0.9128 [235s]
+RESULT (a) float readout on real pooled responses (standardised)        acc 0.8962 [273s]
+RESULT (b) float readout on BINARISED responses (q 0.7, 5408 bits)        acc 0.8958 [288s]
+RESULT (d) our counting table, 1-level code (quantiles (0.7,), 5408 bits, 1546 active): acc 0.8900 [305s]
+RESULT (d) our counting table, 2-level code (quantiles (0.7, 0.9), 10816 bits, 2090 active): acc 0.8985 [336s]
+RESULT (d) our counting table, 3-level code (quantiles (0.5, 0.75, 0.9), 16224 bits, 4342 active): acc 0.8970 [385s]
+RESULT (d) our counting table, 4-level code (quantiles (0.4, 0.6, 0.8, 0.9), 21632 bits, 6302 active): acc 0.8967 [449s]
