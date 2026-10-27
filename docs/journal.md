@@ -1710,4 +1710,8 @@ staged_mixture.py: dreams from K counted sub-prototypes per old class, labelled 
 
 Version 4 (8-literal clauses, 20% damage budget): 11 clauses kept, held-set Shirt recall +0.032, test 0.627 against 0.638; random control 0.658. Four versions, no test-set gain. Closed as no gain. Note: hw/results/hypothesis_loop.md.
 
+## 27 Oct 2026: part 4 progress-ranked rehearsal (SIMULATED)
+
+staged_progress.py: class weights from per-class doubt progress (0.2 uniform floor), self-stopping, decision log, read-only set-points. Version 1 stopped at 3 chunks and lost 1.4 points; version 2 (minimum 6 chunks): 83.3 clean against 83.0 uniform (parity), 82.9 with a corrupted chunk (caught, share distance +0.23); false alarms at 0.05 to 0.07 on clean chunks; threshold near 0.12 not yet re-run. Note: hw/results/progress_ranked_rehearsal.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

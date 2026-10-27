@@ -85,5 +85,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Composition, first test (relations)](composition_relation_test.md): relation code generalises to unseen classes (70 to 73%) but a plain overlap threshold gets 79%
 - [Sequence memory: burst allocation](sequence_burst_allocation.md): matched-order state, allocate longer contexts only on error; 4 to 5 times fewer contexts than full backoff for 1.7 to 2 points
 - [Counted-mixture dreams with teacher labels](counted_mixture_dreams.md): first dreams that help; dreams alone (1 stored image per class) reach 85.5 against joint 85.8 (one seed)
+- [Progress-ranked rehearsal](progress_ranked_rehearsal.md): the chip picks what to rehearse and when to stop; parity with the uniform schedule (83.3 against 83.0), tripwire catches a corrupted chunk but fires falsely on clean ones
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
