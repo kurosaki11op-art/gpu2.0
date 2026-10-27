@@ -23,4 +23,21 @@ SIMULATED, Fashion-MNIST, 6 old + 4 new classes, one seed. Part 4 of the thinkin
 
 Raising the alarm threshold from 0.05 to 0.12 removed the false alarms on the clean run but did not give a better result: clean run 81.4 (stopped early, old 80.7, new 82.5, Shirt 0.57) and corrupted-chunk run 79.9 (the alarm fired one chunk late, at chunk 4 with a rise of 0.13, so the corrupted chunk 3 was kept). So the threshold is not a clean fix: the share-distance rise caused by a corrupted chunk varied from 0.13 to 0.23 across runs, overlapping the 0.05 to 0.07 false-alarm range at the low end. **Part 4 stands at parity at best (83.3 with threshold 0.05, 81.4 with 0.12, against 83.0 for uniform), with run-to-run differences of 1 to 2 points; the tripwire is real but its threshold is sensitive.** A rise measured over two chunks, or a threshold set from the chip's own recent chunk-to-chunk spread, is the next thing to try.
 
+### Closing run: three alarm designs, two repeats each, against no controller (27 Oct 2026, SIMULATED)
+
+Corrupted chunk moved to chunk 4 so a spread-based rule has history. Final accuracy (all ten classes), clean runs and corrupted-chunk runs; logs `staged_progress_{adapt,fix10,uniform}_sab{0,1}_{a,b}.log`.
+
+| alarm design | clean a / b | corrupted a / b | what the alarm did |
+|---|---|---|---|
+| no controller (uniform schedule, 8 chunks) | 83.4 (one run) | 82.3 (one run) | nothing; the stream recovers from the bad chunk by itself |
+| fixed threshold 0.05 (earlier) | 83.3 | 82.9 | 3 false alarms on the clean run |
+| adaptive threshold max(0.04, 4 x median chunk-to-chunk change) | 82.6 / 83.8 | 82.8 / 82.2 | 2 false alarms in clean b, 1 in corrupted a; caught the corrupted chunk in both |
+| fixed threshold 0.10 | 82.5 / 83.3 | 80.8 / 82.5 | no false alarms; missed the corrupted chunk in a (rise below 0.10), caught it in b (rise 0.18) |
+| plus accuracy on the chip's stored images | | | 1.000 at every chunk (the stored images are trained on constantly): no signal; runs stopped |
+
+- **No design is clearly better than no controller.** Every controller result (80.8 to 83.8) sits inside the spread of the uniform runs (82.3 to 83.4) plus the 1 to 2 point run-to-run noise. The earlier claim that the tripwire lifted a corrupted run from 81.4 to 83.0 was one run against one run and was inside that noise.
+- **The share-distance rise does not separate a harmful chunk from a normal one reliably**: normal chunks raised it by 0.05 to 0.08 and a harmful chunk by 0.06 to 0.25 depending on how much damage the corrupted chunk did; any threshold trades false alarms against misses.
+- A harm signal the chip can trust would need held-out evidence that is not trained on (for example dreams not used for training, or a held-out slice of the unlabeled probe scored against the old model's own answers); the stored images are useless for it. Not built.
+- **Part 4 is closed at parity**: the chip can pick its own class weights and its own stopping point with no human-set schedule and ends where the uniform schedule ends (82.5 to 83.8 against 82.3 to 83.4). The tripwire is a working mechanism but its benefit was not shown; keep it as a safety option, not a claim.
+
 Related: [Thinking synthesis](../../docs/research/thinking_synthesis.md), [Append-only clause banks](append_only_clause_staged.md), [Results index](INDEX.md)

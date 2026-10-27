@@ -1,0 +1,16 @@
+start: offset +0, share distance 0.785
+EVAL start (stage 1 + nothing)          offset +0: all 0.5434 | old 0.9092 | new 0.0015 | Shirt recall 0.006
+chunk 1 (25000 steps, flip 0.02): share distance 0.094, offset +10 -> ok; first chunk, uniform
+EVAL after chunk 1                      offset +10: all 0.8212 | old 0.8342 | new 0.8020 | Shirt recall 0.402
+chunk 2 (25000 steps, flip 0.02): share distance 0.060, offset +16 -> ok; progress [0.022, 0.005, 0.019, 0.004, 0.012, 0.063, 0.042, 0.001, 0.003, 0.006]; weights [1.5, 0.36, 3.87, 0.34, 0.44, 1.88, 0.81, 0.22, 0.22, 0.35]
+EVAL after chunk 2                      offset +16: all 0.8296 | old 0.8325 | new 0.8253 | Shirt recall 0.485
+chunk 3 (25000 steps, flip 0.02): share distance 0.056, offset +18 -> ok; progress [0.019, 0.002, 0.049, 0.012, 0.013, 0.003, 0.015, 0.029, 0.016, 0.0]; weights [0.45, 0.39, 1.52, 0.68, 1.68, 0.45, 1.06, 1.74, 1.81, 0.2]
+EVAL after chunk 3                      offset +18: all 0.8362 | old 0.8399 | new 0.8308 | Shirt recall 0.514
+chunk 4 (25000 steps, flip 0.02): share distance 0.054, offset +28 -> ok; progress [0.007, 0.008, 0.0, 0.008, 0.001, 0.014, 0.022, 0.023, 0.019, 0.007]; weights [0.57, 0.62, 0.23, 1.26, 0.26, 0.69, 1.66, 3.2, 0.98, 0.53]
+EVAL after chunk 4                      offset +28: all 0.8380 | old 0.8362 | new 0.8407 | Shirt recall 0.523
+chunk 5 (25000 steps, flip 0.02): share distance 0.111, offset +32 -> ALARM: share distance rose by 0.057 (threshold 0.040), chunk undone, step size halved
+EVAL after chunk 5                      offset +28: all 0.8380 | old 0.8362 | new 0.8407 | Shirt recall 0.523
+chunk 6 (12500 steps, flip 0.02): share distance 0.119, offset +22 -> ALARM: share distance rose by 0.065 (threshold 0.040), chunk undone, step size halved
+EVAL after chunk 6                      offset +28: all 0.8380 | old 0.8362 | new 0.8407 | Shirt recall 0.523
+STOP: no progress or no improvement for 2 chunks (chip decides it is done)
+EVAL FINAL                              offset +28: all 0.8380 | old 0.8362 | new 0.8407 | Shirt recall 0.523

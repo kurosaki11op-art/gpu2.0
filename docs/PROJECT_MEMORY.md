@@ -275,7 +275,7 @@ To save usage, read the abstract and conclusion first, summarise the contributio
 
 ## Thinking plan, first results (27 Oct 2026, SIMULATED)
 
-Part 1 counted-mixture dreams: +0.9 with 20 stored images, parity without keeping old images (84.2 against 83.7). Part 2 burst-allocation sequence core: 4 to 5 times fewer contexts than full backoff for about 2 points (one corpus). Part 3 hypothesis loop: no gain in four versions. Part 4 progress-ranked rehearsal: parity with the uniform schedule, alarm threshold sensitive. Part 5 relation code: generalises to unseen classes (70 to 73%) but not better than an overlap threshold (79%). Details: hw/results/counted_mixture_dreams.md, sequence_burst_allocation.md, hypothesis_loop.md, progress_ranked_rehearsal.md, composition_relation_test.md.
+Part 1 counted-mixture dreams: +0.9 with 20 stored images, parity without keeping old images (84.2 against 83.7). Part 2 burst-allocation sequence core: 4 to 5 times fewer contexts than full backoff for about 2 points (one corpus). Part 3 hypothesis loop: no gain in four versions, closed (a dense specialist on the same input has only about +0.05 Shirt recall headroom). Part 4 progress-ranked rehearsal: parity with the uniform schedule; the tripwire's benefit was not shown (alarm thresholds trade false alarms against misses); closed. Part 5 relation code: generalises to unseen classes (70 to 73%) but not better than an overlap threshold (79%). Details: hw/results/counted_mixture_dreams.md, sequence_burst_allocation.md, hypothesis_loop.md, progress_ranked_rehearsal.md, composition_relation_test.md.
 
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

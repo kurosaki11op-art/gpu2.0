@@ -1,0 +1,19 @@
+start: offset +0, share distance 0.785
+EVAL start (stage 1 + nothing)          offset +0: all 0.5434 | old 0.9092 | new 0.0015 | Shirt recall 0.006
+chunk 1 (25000 steps, flip 0.02): share distance 0.094, offset +8
+EVAL after chunk 1                      offset +8: all 0.8294 | old 0.8345 | new 0.8218 | Shirt recall 0.452
+chunk 2 (25000 steps, flip 0.02): share distance 0.066, offset +22
+EVAL after chunk 2                      offset +22: all 0.8362 | old 0.8452 | new 0.8228 | Shirt recall 0.490
+chunk 3 (25000 steps, flip 0.02): share distance 0.041, offset +34
+EVAL after chunk 3                      offset +34: all 0.8308 | old 0.8291 | new 0.8333 | Shirt recall 0.554
+chunk 4 (25000 steps, flip 0.02): share distance 0.079, offset +32
+EVAL after chunk 4                      offset +32: all 0.8312 | old 0.8355 | new 0.8248 | Shirt recall 0.506
+chunk 5 (25000 steps, flip 0.02): share distance 0.052, offset +34
+EVAL after chunk 5                      offset +34: all 0.8358 | old 0.8338 | new 0.8387 | Shirt recall 0.535
+chunk 6 (25000 steps, flip 0.02): share distance 0.081, offset +30
+EVAL after chunk 6                      offset +30: all 0.8326 | old 0.8352 | new 0.8288 | Shirt recall 0.463
+chunk 7 (25000 steps, flip 0.02): share distance 0.052, offset +38
+EVAL after chunk 7                      offset +38: all 0.8336 | old 0.8228 | new 0.8496 | Shirt recall 0.581
+chunk 8 (25000 steps, flip 0.02): share distance 0.072, offset +28
+EVAL after chunk 8                      offset +28: all 0.8344 | old 0.8399 | new 0.8263 | Shirt recall 0.446
+EVAL FINAL                              offset +28: all 0.8344 | old 0.8399 | new 0.8263 | Shirt recall 0.446

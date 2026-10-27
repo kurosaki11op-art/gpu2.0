@@ -1,0 +1,19 @@
+start: offset +0, share distance 0.785
+EVAL start (stage 1 + nothing)          offset +0: all 0.5434 | old 0.9092 | new 0.0015 | Shirt recall 0.006
+chunk 1 (25000 steps, flip 0.02): share distance 0.084, offset +18 -> ok; first chunk, uniform
+EVAL after chunk 1                      offset +18: all 0.8242 | old 0.8261 | new 0.8213 | Shirt recall 0.525
+chunk 2 (25000 steps, flip 0.02): share distance 0.086, offset +22 -> ok; progress [0.004, 0.0, 0.006, 0.005, 0.067, 0.042, 0.056, 0.005, 0.006, 0.034]; weights [0.57, 0.2, 1.65, 0.45, 2.01, 1.77, 1.32, 0.44, 0.27, 1.33]
+EVAL after chunk 2                      offset +22: all 0.8264 | old 0.8342 | new 0.8149 | Shirt recall 0.542
+chunk 3 (25000 steps, flip 0.02): share distance 0.188, offset +38 -> ALARM: share distance rose by 0.103 (threshold 0.100), stored-image accuracy 1.000 (best 1.000), chunk undone, step size halved
+EVAL after chunk 3                      offset +22: all 0.8264 | old 0.8342 | new 0.8149 | Shirt recall 0.542
+chunk 4 (12500 steps, flip 0.02): share distance 0.106, offset +6 -> ok; progress [0.007, 0.002, 0.035, 0.012, 0.02, 0.015, 0.042, 0.025, 0.042, 0.005]; weights [0.25, 0.33, 0.75, 0.48, 1.54, 1.04, 1.63, 0.99, 2.68, 0.31]
+EVAL after chunk 4                      offset +6: all 0.8320 | old 0.8305 | new 0.8342 | Shirt recall 0.471
+chunk 5 (12500 steps, flip 0.02): share distance 0.122, offset +6 -> ok; progress [0.026, 0.005, 0.006, 0.005, 0.024, 0.0, 0.082, 0.001, 0.001, 0.017]; weights [1.3, 0.4, 0.51, 0.71, 1.01, 0.21, 4.43, 0.34, 0.23, 0.86]
+EVAL after chunk 5                      offset +6: all 0.8276 | old 0.8228 | new 0.8347 | Shirt recall 0.463
+chunk 6 (12500 steps, flip 0.02): share distance 0.055, offset +34 -> ok; progress [0.011, 0.001, 0.02, 0.001, 0.001, 0.077, 0.063, 0.008, 0.001, 0.005]; weights [0.31, 0.21, 0.83, 0.22, 0.27, 4.13, 2.34, 0.81, 0.24, 0.64]
+EVAL after chunk 6                      offset +34: all 0.8354 | old 0.8392 | new 0.8298 | Shirt recall 0.531
+chunk 7 (12500 steps, flip 0.02): share distance 0.073, offset +36 -> ok; progress [0.019, 0.029, 0.024, 0.002, 0.0, 0.002, 0.063, 0.025, 0.02, 0.011]; weights [1.83, 0.75, 1.37, 0.25, 0.24, 0.27, 3.02, 1.35, 0.49, 0.45]
+EVAL after chunk 7                      offset +36: all 0.8310 | old 0.8332 | new 0.8278 | Shirt recall 0.585
+chunk 8 (12500 steps, flip 0.02): share distance 0.177, offset +24 -> ALARM: share distance rose by 0.122 (threshold 0.100), stored-image accuracy 1.000 (best 1.000), chunk undone, step size halved
+EVAL after chunk 8                      offset +36: all 0.8310 | old 0.8332 | new 0.8278 | Shirt recall 0.585
+EVAL FINAL                              offset +36: all 0.8310 | old 0.8332 | new 0.8278 | Shirt recall 0.585

@@ -47,10 +47,12 @@ def probe(offset_rule=True):
 def doubt_per_class(off):
     sc = scores(Xp, inc_list, inc_n).astype(np.float32); sc[:, :6] += off; srt = np.sort(sc, 1); marg = srt[:, -1] - srt[:, -2]; p = sc.argmax(1); small = marg <= np.quantile(marg, 0.25)
     return np.array([small[p == c].mean() if (p == c).sum() > 20 else 0.5 for c in range(10)])
+def mem_acc(off):                                                                                   # the chip's own stored rehearsal images (labels known to it): old-class accuracy, an independent harm signal
+    sc = scores(EX.reshape(-1, NB), inc_list, inc_n).astype(np.float32); sc[:, :6] += off; return (sc.argmax(1) == np.repeat(np.arange(6), EX.shape[1])).mean()
 def evaluate(tag, off):
     s_ = scores(Xe, inc_list, inc_n).astype(np.float32); s_[:, :6] += off; p = s_.argmax(1)
     print("EVAL %-34s offset %+d: all %.4f | old %.4f | new %.4f | Shirt recall %.3f" % (tag, off, (p == ye).mean(), (p[om] == ye[om]).mean(), (p[~om] == ye[~om]).mean(), (p[ye == 6] == 6).mean()), flush=True)
-cw = np.ones(10); prev_doubt = None; calm = 0; hist = []; EPS = 0.01; MINCH = E_("MINCH", 6); rng = np.random.RandomState(5); best_d = 9.0; ck = (state.copy(), inc_list.copy(), inc_n.copy()); stale = 0; lr_div = 1; log = []
+cw = np.ones(10); prev_doubt = None; calm = 0; hist = []; best_mem = 0.0; MEMDROP = E_('MEMDROP', 0.0); EPS = 0.01; MINCH = E_("MINCH", 6); rng = np.random.RandomState(5); best_d = 9.0; ck = (state.copy(), inc_list.copy(), inc_n.copy()); stale = 0; lr_div = 1; log = []
 off, share, d0, pair = probe(); print("start: offset %+d, share distance %.3f" % (off, d0), flush=True); evaluate("start (stage 1 + nothing)", off); best_d = d0
 for ch in range(NCH):
     flip = 0.45 if (SAB and ch == E_('SABCH', 2)) else 0.02; steps = CHUNK // lr_div
@@ -59,10 +61,11 @@ for ch in range(NCH):
     if CTRL:
         spread = max(0.01, float(np.median(np.abs(np.diff(hist))))) if len(hist) >= 3 else None
         thr = ALARM if (spread is None or E_('ALARMMODE', 'fixed') == 'fixed') else max(0.04, 4 * spread)
-        if d > best_d + thr:
-            state[:], inc_list[:], inc_n[:] = ck; lr_div = min(lr_div * 2, 4); cw[:] = 1; msg += " -> ALARM: share distance rose by %.3f (threshold %.3f), chunk undone, step size halved" % (d - best_d, thr); off, share, d, pair = probe()
+        ma = mem_acc(off) if MEMDROP > 0 else 1.0
+        if d > best_d + thr or (MEMDROP > 0 and best_mem - ma > MEMDROP):
+            state[:], inc_list[:], inc_n[:] = ck; lr_div = min(lr_div * 2, 4); cw[:] = 1; msg += " -> ALARM: share distance rose by %.3f (threshold %.3f), stored-image accuracy %.3f (best %.3f), chunk undone, step size halved" % (d - best_d, thr, ma, best_mem); off, share, d, pair = probe()
         else:
-            ck = (state.copy(), inc_list.copy(), inc_n.copy()); stale = 0 if d < best_d - 0.005 else stale + 1; best_d = min(best_d, d)
+            best_mem = max(best_mem, ma); ck = (state.copy(), inc_list.copy(), inc_n.copy()); stale = 0 if d < best_d - 0.005 else stale + 1; best_d = min(best_d, d)
             dn = doubt_per_class(off)
             if prev_doubt is not None:
                 prog = np.maximum(prev_doubt - dn, 0) + 0.25 * np.maximum(dn - prev_doubt, 0); noisy = prog * rng.gamma(2.0, 0.5, 10) + 1e-6
