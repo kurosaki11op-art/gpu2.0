@@ -17,7 +17,7 @@ def fire(M, lit_ids):
     out = np.ones(len(M), bool)
     for l in lit_ids: out &= (M[:, l] == 1) if l < NB else (M[:, l - NB] == 0)
     return out
-def propose(c, n, rng, maxlen=4, count=None, pmask=None):                                                                    # contrast counting on set A: grow a conjunction that fires on class c and not on class n
+def propose(c, n, rng, maxlen=int(os.environ.get('MAXLEN', 4)), count=None, pmask=None):                                                                    # contrast counting on set A: grow a conjunction that fires on class c and not on class n
     Ac = Z[ia][(ytr[ia] == c) & (pmask if pmask is not None else True)]; An = np.concatenate([Z[ia][ytr[ia] == n]] * 3 + [Z[ia][(ytr[ia] != c) & (ytr[ia] != n)]]); out = []                    # negatives: the paired class (3x weight) and every other class, so a clause that fires on the wrong class is made more specific
     for _ in range(count or NCAND):
         pc, pn = lits(Ac).mean(0), lits(An).mean(0); score = pc - pn; ok = pc >= 0.3; cand = np.where(ok)[0]
