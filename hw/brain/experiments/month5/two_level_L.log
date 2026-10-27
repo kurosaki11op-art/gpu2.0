@@ -1,0 +1,11 @@
+sanity: recomputed one-level code equals L's cached code: True
+RESULT shipped 4 channels, levels (1,)               4608 bits,  589 active: acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753 [13s]
+RESULT shipped 4 channels, levels (1, 2)             9216 bits,  960 active: acc 0.8900 | cluster 0.8097 | Shirt recall 0.630 | Shirt AP 0.765 [28s]
+RESULT shipped 4 channels, levels (1, 3)             9216 bits,  833 active: acc 0.8907 | cluster 0.8133 | Shirt recall 0.613 | Shirt AP 0.776 [39s]
+RESULT shipped 4 channels, levels (1, 4)             9216 bits,  752 active: acc 0.8945 | cluster 0.8163 | Shirt recall 0.613 | Shirt AP 0.772 [51s]
+RESULT shipped 4 channels, levels (1, 2, 4)         13824 bits, 1124 active: acc 0.8941 | cluster 0.8193 | Shirt recall 0.639 | Shirt AP 0.776 [70s]
+  counted channel t224   [120s]
+RESULT seven channels, levels (1,)                   8064 bits,  855 active: acc 0.8948 | cluster 0.8207 | Shirt recall 0.641 | Shirt AP 0.763 [133s]
+RESULT seven channels, levels (1, 2)                16128 bits, 1409 active: acc 0.8995 | cluster 0.8245 | Shirt recall 0.669 | Shirt AP 0.777 [157s]
+RESULT seven channels, levels (1, 3)                16128 bits, 1228 active: acc 0.8973 | cluster 0.8245 | Shirt recall 0.659 | Shirt AP 0.786 [177s]
+RESULT seven channels, levels (1, 2, 4)             24192 bits, 1663 active: acc 0.8970 | cluster 0.8243 | Shirt recall 0.650 | Shirt AP 0.781 [209s]

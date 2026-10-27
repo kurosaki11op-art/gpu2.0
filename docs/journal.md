@@ -1738,4 +1738,8 @@ Founder asked to stop and learn why GPUs multiply and use matrices before replac
 
 Test of 'send the error to the eyes': four training routes (none, exact backprop, feedback alignment, sparse +-1 feedback) all land within +0.7 of random eyes and below L's Hebbian code: hypothesis not supported, corrected in the foundations note. What helps: finer input. On L itself, more threshold banks: 7 channels 89.48 (x1.45 active bits), 10 channels 89.82 (x1.9); thresholds alone without the centre-surround channels are worse (four thresholds 87.74). Note: hw/results/multi_threshold_front_end.md.
 
+## 27 Oct 2026: two-level output code on L (SIMULATED)
+
+two_level_L.py: second bit 'won at T or more of 16 positions in the pooled window'. Shipped channels, levels 1 and 4: 89.45 (+0.6) at x1.28 active bits; seven channels, levels 1 and 2: 89.95 (+1.1 over shipped) at x2.4 active bits, Shirt recall 0.669. Modest gains, best cost for gain is the shipped channels with levels 1 and 4. Disk allowance ran out once; regenerable caches deleted. Note: hw/results/multi_threshold_front_end.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
