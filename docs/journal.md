@@ -1750,4 +1750,8 @@ Founder: every fix raises memory and power. Rule: cost beside every accuracy, 2x
 
 Founder: close the gap to the CNN and raise Shirt recall by making L learn what is common and uncommon. Test: pool of 128 detectors per channel, keep the most informative by counted mutual information: 32 per channel gives 89.03 (shipped 88.85) with 27% fewer active bits (estimated 26.5 against 29.9 nJ); random control 87.87; 64 per channel 89.76, Shirt recall 0.691 (est. 50.6 nJ). Group-specific selection no better than global. The CNN's own Shirt recall is 0.707 (so the Shirt target is about 0.70); the remaining 1.3 point gap to the CNN is spread (upper-body classes 68%). Note: hw/results/detector_selection_and_gap.md.
 
+## 27 Oct 2026: CNN energy reference corrected (ESTIMATED)
+
+Founder asked whether the CNN uses about 69 nJ. Same constants: float32 small CNN about 2,300 nJ, int8 about 260 nJ (8.7 x L); 69 nJ is not supported (67.9 nJ is our own 7-channel two-level variant). The fair low-precision reference is the int8 CNN: ours is 5 to 7 times cheaper at 1.5 to 1.9 points less accuracy; the 10 to 20 times claim holds against float networks only. Note: hw/results/cost_frontier.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
