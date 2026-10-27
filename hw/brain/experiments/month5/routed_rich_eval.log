@@ -1,0 +1,11 @@
+shipped alone: acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753 | est. 29.9 nJ
+rich alone (levels (1, 2), every image): acc 0.8995 | cluster 0.8245 | Shirt recall 0.669 | Shirt AP 0.777 | est. 73.5 nJ
+RESULT routed rich (levels (1, 2)), 20% of images: acc 0.8998 | cluster 0.8247 | Shirt recall 0.665 | Shirt AP 0.772 | est. 43.0 nJ (1.43 x L)
+RESULT routed rich (levels (1, 2)), 30% of images: acc 0.8997 | cluster 0.8250 | Shirt recall 0.667 | Shirt AP 0.777 | est. 49.5 nJ (1.65 x L)
+RESULT routed rich (levels (1, 2)), 50% of images: acc 0.8995 | cluster 0.8245 | Shirt recall 0.669 | Shirt AP 0.779 | est. 62.5 nJ (2.09 x L)
+RESULT routed rich (levels (1, 2)), 100% of images: acc 0.8995 | cluster 0.8245 | Shirt recall 0.669 | Shirt AP 0.777 | est. 95.0 nJ (3.17 x L)
+rich alone (levels (1, 3), every image): acc 0.8973 | cluster 0.8245 | Shirt recall 0.659 | Shirt AP 0.786 | est. 67.9 nJ
+RESULT routed rich (levels (1, 3)), 20% of images: acc 0.8988 | cluster 0.8250 | Shirt recall 0.664 | Shirt AP 0.778 | est. 41.8 nJ (1.40 x L)
+RESULT routed rich (levels (1, 3)), 30% of images: acc 0.8977 | cluster 0.8250 | Shirt recall 0.658 | Shirt AP 0.782 | est. 47.8 nJ (1.60 x L)
+RESULT routed rich (levels (1, 3)), 50% of images: acc 0.8973 | cluster 0.8243 | Shirt recall 0.659 | Shirt AP 0.787 | est. 59.6 nJ (1.99 x L)
+RESULT routed rich (levels (1, 3)), 100% of images: acc 0.8973 | cluster 0.8245 | Shirt recall 0.659 | Shirt AP 0.786 | est. 89.4 nJ (2.98 x L)

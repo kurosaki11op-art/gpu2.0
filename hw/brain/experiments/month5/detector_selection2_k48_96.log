@@ -1,0 +1,6 @@
+  channel 50: pool scored [50s]
+  channel 150: pool scored [96s]
+  channel ('on', 8): pool scored [144s]
+  channel ('off', 8): pool scored [192s]
+RESULT installed alone: 48 most informative of 128       6912 bits,  708 active: acc 0.8942 | cluster 0.8153 | Shirt recall 0.633 | Shirt AP 0.762 [419s]
+RESULT installed alone: 96 most informative of 128      13824 bits,  810 active: acc 0.8986 | cluster 0.8223 | Shirt recall 0.665 | Shirt AP 0.770 [787s]

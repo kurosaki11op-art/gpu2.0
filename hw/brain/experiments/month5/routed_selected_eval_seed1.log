@@ -1,0 +1,10 @@
+  channel 50: 64 informative detectors installed [51s]
+  channel 150: 64 informative detectors installed [96s]
+  channel ('on', 8): 64 informative detectors installed [143s]
+  channel ('off', 8): 64 informative detectors installed [191s]
+shipped alone: acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753 | est. 29.9 nJ
+second pass alone (64 informative per channel, every image): acc 0.8997 | cluster 0.8215 | Shirt recall 0.656 | Shirt AP 0.778 | 759 active | est. 53.4 nJ
+RESULT routed second pass (64 informative), 10% of images: acc 0.9003 | cluster 0.8215 | Shirt recall 0.655 | Shirt AP 0.767 | est. 35.3 nJ (1.18 x L)
+RESULT routed second pass (64 informative), 20% of images: acc 0.9002 | cluster 0.8217 | Shirt recall 0.654 | Shirt AP 0.768 | est. 40.6 nJ (1.36 x L)
+RESULT routed second pass (64 informative), 30% of images: acc 0.8998 | cluster 0.8207 | Shirt recall 0.655 | Shirt AP 0.774 | est. 46.0 nJ (1.54 x L)
+RESULT routed second pass (64 informative), 50% of images: acc 0.8996 | cluster 0.8210 | Shirt recall 0.655 | Shirt AP 0.781 | est. 56.6 nJ (1.89 x L)

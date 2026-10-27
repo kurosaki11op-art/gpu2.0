@@ -283,7 +283,7 @@ Standard networks multiply for graded votes, dense hardware, and smooth weights 
 
 ## Cost rule (27 Oct 2026)
 
-Every accuracy number carries its estimated cost on one consistent model; ceiling about 2x L's cost today (about 60 nJ per decision); judged against the best add-only baseline at equal accuracy (add-only ternary network 89.4% at about 199 nJ), not only a dense GPU network. Inside the ceiling the best is about 89.7% (routed clause layer, 53.7 nJ). Details: hw/results/cost_frontier.md.
+Every accuracy number carries its estimated cost on one consistent model; ceiling about 2x L's cost today (about 60 nJ per decision); judged against the best add-only baseline at equal accuracy (add-only ternary network 89.4% at about 199 nJ), not only a dense GPU network. Inside the ceiling the best is now about 90.0 to 90.35% at about 41 nJ (routed second pass with 64 informative detectors per channel; earlier best 89.7% routed clause layer at 53.7 nJ). Details: hw/results/cost_frontier.md.
 
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

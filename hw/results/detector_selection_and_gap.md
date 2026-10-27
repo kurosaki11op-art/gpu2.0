@@ -5,6 +5,8 @@ tags: [spark, results, front-end, cnn-gap]
 
 # Choosing detectors by what separates the classes, and where the gap to the CNN is (27 Oct 2026)
 
+> **Correction (27 Oct 2026, later):** Test 1 below kept the bits produced when all 128 pool detectors compete at each position; a chip with only the chosen detectors would see different winners, and reproducing these bits needs all 128 evaluated per position. The cost column and the claim that selection is cheaper and better at 32 per channel are therefore **withdrawn**: installed alone, the 32 most informative give 88.77 and 32 random give 88.75. The deployable results are in [routed second pass](routed_second_pass.md) (64 informative installed alone: 90.26 and 89.97 against 89.31 for random). Test 2 (the CNN's per-class recall and where the gap is) is unaffected.
+
 SIMULATED, Fashion-MNIST, one seed (spread about 0.3). Founder's direction: close the accuracy gap to the CNN and improve Shirt recall by making L learn what is common and uncommon across classes, so that it confuses less. Scripts in `hw/brain/experiments/month5/`: `detector_selection.py` (logs `detector_selection_stage1.log`, `detector_selection.log`), `cnn_recall.py` (`cnn_recall.log`), `per_class_gap.py` (`per_class_gap.log`).
 
 ## Test 1: choose L's detectors by class information (counting only, no multiply)

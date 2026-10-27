@@ -90,5 +90,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Multi-threshold input for L's front end](multi_threshold_front_end.md): error to the eyes helps little; more threshold banks lift L from 88.85 to 89.48 / 89.82 at x1.45 / x1.9 active bits
 - [Cost frontier and the 2x ceiling](cost_frontier.md): every variant on one cost model; inside 2x the best is 89.7; the gains from clauses and two-level code overlap
 - [Detector selection and the gap to the CNN](detector_selection_and_gap.md): informative detectors give 89.03 at 27% fewer active bits (32 per channel) and 89.76 with Shirt recall 0.691 (64); the CNN's Shirt recall is only 0.707; the gap is spread over classes
+- [Routed second pass with informative detectors](routed_second_pass.md): 90.0 to 90.35% at 1.36x L's cost (about 41 nJ), gap to the CNN 0.9 to 1.3 points; withdraws the first selection claim
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

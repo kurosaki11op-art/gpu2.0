@@ -1754,4 +1754,8 @@ Founder: close the gap to the CNN and raise Shirt recall by making L learn what 
 
 Founder asked whether the CNN uses about 69 nJ. Same constants: float32 small CNN about 2,300 nJ, int8 about 260 nJ (8.7 x L); 69 nJ is not supported (67.9 nJ is our own 7-channel two-level variant). The fair low-precision reference is the int8 CNN: ours is 5 to 7 times cheaper at 1.5 to 1.9 points less accuracy; the 10 to 20 times claim holds against float networks only. Note: hw/results/cost_frontier.md.
 
+## 27 Oct 2026: close the gap with lessons from failures (SIMULATED / ESTIMATED)
+
+Withdrew the first detector-selection claim (it kept bits from a 128-detector competition; installed alone 32 informative = 32 random = 88.77/88.75). Deployable selection: 64 informative of 128 installed alone 90.26 (seed 0) / 89.97 (seed 1) against 89.31 for random. Lesson from the failures (gains overlap, only routing kept gains cheaply): route a stronger second pass to the least-sure images. Routed 64-informative second pass, 20% of images: 90.35 / 90.02 at est. 40.6 nJ (1.36x L); routed richer code (7 channels, two-level) 89.98 at 43.0 nJ. Gap to the CNN now 0.9 to 1.3 points (was 2.4), at about 6 times lower cost than the int8 CNN. Notes: hw/results/routed_second_pass.md, detector_selection_and_gap.md (correction), cost_frontier.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

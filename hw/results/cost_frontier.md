@@ -44,4 +44,8 @@ The existing clause state fires unchanged (L's shipped code is exactly the level
 
 The table above compared only against a float32 CNN. With the same constants the small CNN (32 shared 3 by 3 filters, about 248,768 multiply-adds per image) costs about **2,300 nJ in float32** (the 1,970 nJ in the table was a rougher count) and about **260 nJ at int8** (multiply-add 0.23 pJ, 53 KB of weights read once from SRAM, activations through small SRAM): 8.7 times L's 29.9 nJ. So the fair comparison for a CNN deployed on a GPU or accelerator at low precision is about 260 nJ at 91.3%. Against it our options inside the ceiling are about 5 to 7 times cheaper (54 nJ at 89.7% routed clauses; 36 nJ at 89.45%) but 1.5 to 1.9 points less accurate. The 10 to 20 times target holds against float networks (37 to 77 times against the float CNN), not against an int8 CNN (5 to 7 times), and the gap in accuracy to that CNN is the 1.3 to 1.6 points measured. A figure of about 69 nJ for the CNN is not supported by this model; 67.9 nJ is our own 7-channel two-level variant.
 
+## Update (27 Oct 2026): routed second pass moves the frontier
+
+The routed second pass with 64 informative detectors per channel (see [routed second pass](routed_second_pass.md)) reaches **90.0 to 90.35% at an estimated 40.6 nJ (1.36 times L)**, inside the 2 times ceiling and above every earlier inside-ceiling point (best before: 89.71 at 53.7 nJ). Against the int8 CNN (about 260 nJ, 91.28%) this is about 6 times cheaper at 0.9 to 1.3 points less accuracy; against the float CNN about 56 times cheaper.
+
 Related: [Multi-threshold front end](multi_threshold_front_end.md), [Energy and tiles](best_version_energy_tiles.md), [Foundations study](foundations_study.md), [Results index](INDEX.md)
