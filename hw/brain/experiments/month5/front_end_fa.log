@@ -1,0 +1,5 @@
+  fa epoch 1 done [62s]
+  fa epoch 2 done [124s]
+  fa epoch 3 done [185s]
+  fa epoch 4 done [248s]
+RESULT fa      eyes trained 4 epochs: own float readout on real responses 0.8670 | float readout on the binary code 0.8804 | OUR counting table on the binary code (563 active of 4608) 0.8733  [L's Hebbian code + table: 0.8885] [333s]

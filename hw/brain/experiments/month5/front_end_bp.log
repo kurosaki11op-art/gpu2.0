@@ -1,0 +1,5 @@
+  bp epoch 1 done [59s]
+  bp epoch 2 done [119s]
+  bp epoch 3 done [183s]
+  bp epoch 4 done [251s]
+RESULT bp      eyes trained 4 epochs: own float readout on real responses 0.8862 | float readout on the binary code 0.8855 | OUR counting table on the binary code (583 active of 4608) 0.8774  [L's Hebbian code + table: 0.8885] [341s]

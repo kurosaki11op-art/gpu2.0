@@ -1,0 +1,10 @@
+  bp epoch 1 done [29s]
+  bp epoch 2 done [57s]
+  bp epoch 3 done [88s]
+  bp epoch 4 done [117s]
+  bp epoch 5 done [145s]
+  bp epoch 6 done [177s]
+  bp epoch 7 done [214s]
+  bp epoch 8 done [242s]
+   2-level output code (819 active of 9216 bits): our counting table 0.8843
+RESULT bp      eyes trained 8 epochs: own float readout on real responses 0.8952 | float readout on the binary code 0.8841 | OUR counting table on the binary code (590 active of 4608) 0.8796  [L's Hebbian code + table: 0.8885] [330s]

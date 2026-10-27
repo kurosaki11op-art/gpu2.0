@@ -1,0 +1,5 @@
+  sparse epoch 1 done [62s]
+  sparse epoch 2 done [124s]
+  sparse epoch 3 done [185s]
+  sparse epoch 4 done [244s]
+RESULT sparse  eyes trained 4 epochs: own float readout on real responses 0.8723 | float readout on the binary code 0.8793 | OUR counting table on the binary code (570 active of 4608) 0.8731  [L's Hebbian code + table: 0.8885] [331s]
