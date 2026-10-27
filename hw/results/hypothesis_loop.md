@@ -29,4 +29,17 @@ MAXLEN 8 literals, damage budget 20%. 94 of 180 candidates pass the held-set tes
 
 **Conclusion: part 3 closed as no gain in four versions.** Short and medium conjunctions over L's code and raw pixels do not separate the missed Shirts from the classes they are confused with; the loop mechanics (propose, held-set test, damage budget, undo) work, but the proposals carry no usable signal at this feature level. Reopen only with a different feature level (for example finer detectors on the confused region).
 
+### Ceiling check: how much could any proposer find? (27 Oct 2026, SIMULATED; `part3_ceiling.py`)
+
+Trained only on the four confusable classes (T-shirt, Pullover, Coat, Shirt) and scored on the same four classes of the test set (reference networks are a GPU-style baseline, not our chip):
+
+| model | 4-way accuracy | Shirt recall |
+|---|---|---|
+| L's counting table (4 classes only) | 81.1 | 0.687 |
+| one-hidden-layer network (256 units) on raw pixels | 81.1 | 0.702 |
+| one-hidden-layer network on L's code bits | 83.5 | 0.739 |
+
+- Even a dense specialist trained only on the confusable group gets Shirt recall 0.70 to 0.74 against 0.687 for L's table, so on this input the whole headroom is about +0.02 to +0.05 Shirt recall (and +2.4 points of four-way accuracy at most). The loop's target (Shirt recall of at least 0.67 from 0.638) was already at the level of L's own 4-class table; four versions found nothing because there is almost nothing left for short rules to find, not because the loop is faulty.
+- **Part 3 is closed**: the propose-test-keep loop works as a mechanism and is kept in the toolbox for tasks with real headroom; on clothing the remaining Shirt gap is the information ceiling of this input (consistent with the earlier finding that Shirt/T-shirt/Coat confusion is largely irreducible at 28 by 28), not something a hypothesis step can recover.
+
 Related: [Append-only clause banks](append_only_clause_staged.md), [Shirt difference-learning ideas](shirt_difference_layers.md), [Results index](INDEX.md)

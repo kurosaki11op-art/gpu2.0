@@ -1718,4 +1718,8 @@ staged_progress.py: class weights from per-class doubt progress (0.2 uniform flo
 
 Part 1: the offset grid started at 0 and could not favour new classes; extended to negative offsets. Results over seeds: stored-only 83.7 (3 seeds); stored + dreams 84.9 against 84.0 on the same two seeds (+0.9); dreams only 84.2 (parity, no real old images kept). Corrected note: counted_mixture_dreams.md (the first writeup overstated). Part 4: alarm threshold 0.12 removed false alarms but missed the corrupted chunk and ended at 81.4 / 79.9; parity at best; threshold sensitive. Part 3 closed (no gain). Part 2 and 5 first tests done earlier tonight (burst allocation positive; relation code generalises but does not beat overlap baseline).
 
+## 27 Oct 2026: part 3 closed with a ceiling check (SIMULATED)
+
+part3_ceiling.py: a dense network trained only on the four confusable classes reaches Shirt recall 0.70 (raw pixels) to 0.74 (L's code) against 0.687 for L's table, four-way accuracy 81.1 to 83.5 against 81.1. Headroom of at most about +0.05 Shirt recall on this input; part 3 closed as information-limited. Note: hw/results/hypothesis_loop.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

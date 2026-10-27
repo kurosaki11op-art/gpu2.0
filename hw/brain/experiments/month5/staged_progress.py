@@ -50,15 +50,17 @@ def doubt_per_class(off):
 def evaluate(tag, off):
     s_ = scores(Xe, inc_list, inc_n).astype(np.float32); s_[:, :6] += off; p = s_.argmax(1)
     print("EVAL %-34s offset %+d: all %.4f | old %.4f | new %.4f | Shirt recall %.3f" % (tag, off, (p == ye).mean(), (p[om] == ye[om]).mean(), (p[~om] == ye[~om]).mean(), (p[ye == 6] == 6).mean()), flush=True)
-cw = np.ones(10); prev_doubt = None; calm = 0; EPS = 0.01; MINCH = E_("MINCH", 6); rng = np.random.RandomState(5); best_d = 9.0; ck = (state.copy(), inc_list.copy(), inc_n.copy()); stale = 0; lr_div = 1; log = []
+cw = np.ones(10); prev_doubt = None; calm = 0; hist = []; EPS = 0.01; MINCH = E_("MINCH", 6); rng = np.random.RandomState(5); best_d = 9.0; ck = (state.copy(), inc_list.copy(), inc_n.copy()); stale = 0; lr_div = 1; log = []
 off, share, d0, pair = probe(); print("start: offset %+d, share distance %.3f" % (off, d0), flush=True); evaluate("start (stage 1 + nothing)", off); best_d = d0
 for ch in range(NCH):
-    flip = 0.45 if (SAB and ch == 2) else 0.02; steps = CHUNK // lr_div
+    flip = 0.45 if (SAB and ch == E_('SABCH', 2)) else 0.02; steps = CHUNK // lr_div
     stream(X, NI, EX, state, inc_list, inc_n, steps, 11 + ch, flip, cw); off, share, d, pair = probe()
     msg = "chunk %d (%d steps, flip %.2f%s): share distance %.3f, offset %+d" % (ch + 1, steps, flip, " SABOTAGED" if flip > 0.1 else "", d, off)
     if CTRL:
-        if d > best_d + ALARM:
-            state[:], inc_list[:], inc_n[:] = ck; lr_div = min(lr_div * 2, 4); cw[:] = 1; msg += " -> ALARM: share distance rose by %.3f, chunk undone, step size halved" % (d - best_d); off, share, d, pair = probe()
+        spread = max(0.01, float(np.median(np.abs(np.diff(hist))))) if len(hist) >= 3 else None
+        thr = ALARM if (spread is None or E_('ALARMMODE', 'fixed') == 'fixed') else max(0.04, 4 * spread)
+        if d > best_d + thr:
+            state[:], inc_list[:], inc_n[:] = ck; lr_div = min(lr_div * 2, 4); cw[:] = 1; msg += " -> ALARM: share distance rose by %.3f (threshold %.3f), chunk undone, step size halved" % (d - best_d, thr); off, share, d, pair = probe()
         else:
             ck = (state.copy(), inc_list.copy(), inc_n.copy()); stale = 0 if d < best_d - 0.005 else stale + 1; best_d = min(best_d, d)
             dn = doubt_per_class(off)
@@ -67,7 +69,7 @@ for ch in range(NCH):
                 cw = 0.2 / 10 + 0.8 * noisy / noisy.sum(); cw = cw / cw.mean(); tot = np.abs(prev_doubt - dn).sum(); calm = calm + 1 if tot < EPS * 10 else 0
                 msg += " -> ok; progress %s; weights %s" % (np.round(prog, 3).tolist(), np.round(cw, 2).tolist())
             else: msg += " -> ok; first chunk, uniform"
-            prev_doubt = dn
+            prev_doubt = dn; hist.append(d)
     print(msg, flush=True); evaluate("after chunk %d" % (ch + 1), off)
     if CTRL and ch + 1 >= MINCH and (stale >= 2 or calm >= 2): print("STOP: no progress or no improvement for 2 chunks (chip decides it is done)", flush=True); break
 off, share, d, pair = probe(); evaluate("FINAL", off)

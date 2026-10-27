@@ -1,0 +1,4 @@
+start: offset +0, share distance 0.785
+EVAL start (stage 1 + nothing)          offset +0: all 0.5434 | old 0.9092 | new 0.0015 | Shirt recall 0.006
+chunk 1 (25000 steps, flip 0.02): share distance 0.062, offset +8 -> ok; first chunk, uniform
+EVAL after chunk 1                      offset +8: all 0.8284 | old 0.8469 | new 0.8010 | Shirt recall 0.481
