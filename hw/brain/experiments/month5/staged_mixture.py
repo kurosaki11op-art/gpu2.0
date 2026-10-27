@@ -48,7 +48,7 @@ def stream(Xs, newcls_idx, EX, DB, dbn, pd, state, inc_list, inc_n, steps, seed,
 om = np.isin(yte, OLD)
 for r in range(STEPS // 50000):
     stream(X, NI, EX, DB, dbn, PD, state, inc_list, inc_n, 50000, 11 + r + 100 * SEED, FLIP); so = scores(Xt, inc_list, inc_n).astype(np.float32); best = (9, 0); res = {}
-    for off in range(0, 61, 5):
+    for off in range(-30, 61, 5):
         s_ = so.copy(); s_[:, :6] += off; p = s_.argmax(1); res[off] = ((p == yte).mean(), (p[om] == yte[om]).mean(), (p[~om] == yte[~om]).mean(), (p[yte == 6] == 6).mean(), (p < 6).mean(), np.abs(np.bincount(p, minlength=10) / len(p) - 0.1).sum())
         if abs(res[off][4] - 0.6) < best[0]: best = (abs(res[off][4] - 0.6), off)
     bc = min(res, key=lambda o: res[o][5]); bo = max(res, key=lambda o: res[o][0]); print("RESULT E=%d K=%d PD=%.1f MQ=%.2f seed %d steps %d | share-rule offset %+d: all %.4f (old %.4f, new %.4f, Shirt %.3f) | best offset %+d: all %.4f | per-class share rule offset %+d: all %.4f (old %.4f, new %.4f, Shirt %.3f)" % (NE, K, PD, MQ, SEED, 50000 * (r + 1), best[1], *res[best[1]][:4], bo, res[bo][0], bc, *res[bc][:4]), flush=True)
