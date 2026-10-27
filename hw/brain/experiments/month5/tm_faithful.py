@@ -37,6 +37,12 @@ if INPUT == 'deep':                                                             
         return out
     _f = lambda B: np.concatenate([_fire_all(B[i:i + 5000], _il, _in, B.shape[1]) for i in range(0, len(B), 5000)])
     ctr, cte = np.concatenate([_b1, _f(_b1)], 1), np.concatenate([_b2, _f(_b2)], 1); del _b1, _b2
+if INPUT == 'rich':                                                                                  # clauses read the richer L code (7 channels, two-level output) + raw pixel bits
+    from shirt_new_methods_setup import xtr, xte
+    _SP = "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/"; _chs = ['t32', 't80', 't128', 't176', 't224', 'on8', 'off8']
+    def _rich(w): return np.concatenate([np.concatenate([(np.load(_SP + 'cnt_%s.npz' % c)['ab'[w]] >= t) for t in (1, 2)], 1) for c in _chs], 1).astype(np.uint8)
+    def _bits(x): im = x.reshape(-1, 28, 28); return np.concatenate([(im > 85).reshape(len(im), -1), (im > 170).reshape(len(im), -1)], 1).astype(np.uint8)
+    ctr, cte = np.concatenate([_rich(0), _bits(xtr)], 1), np.concatenate([_rich(1), _bits(xte)], 1)
 NB = ctr.shape[1]; NL = 2 * NB; C = int(os.environ.get("C", 100)); T = int(os.environ.get("TT", 30)); S = float(os.environ.get("SS", 8.0)); POS = int(os.environ.get('POSLIT', 0)); SEEDADD = int(os.environ.get('SEEDADD', 0)); NST = 100; LMAX = int(os.environ.get("LMAX", 64)); BUDGET = float(os.environ.get("BUDGET", 480))
 CK = "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/tm_faithful_state%s.npz" % (("_" + os.environ["INPUT"] if os.environ.get("INPUT", "code") != "code" else "") + ("_pos" if os.environ.get("POSLIT", "0") == "1" else "") + ("_s%s" % os.environ["SEEDADD"] if os.environ.get("SEEDADD") else ""))
 @njit
