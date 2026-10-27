@@ -38,6 +38,19 @@ Corrupted chunk moved to chunk 4 so a spread-based rule has history. Final accur
 - **No design is clearly better than no controller.** Every controller result (80.8 to 83.8) sits inside the spread of the uniform runs (82.3 to 83.4) plus the 1 to 2 point run-to-run noise. The earlier claim that the tripwire lifted a corrupted run from 81.4 to 83.0 was one run against one run and was inside that noise.
 - **The share-distance rise does not separate a harmful chunk from a normal one reliably**: normal chunks raised it by 0.05 to 0.08 and a harmful chunk by 0.06 to 0.25 depending on how much damage the corrupted chunk did; any threshold trades false alarms against misses.
 - A harm signal the chip can trust would need held-out evidence that is not trained on (for example dreams not used for training, or a held-out slice of the unlabeled probe scored against the old model's own answers); the stored images are useless for it. Not built.
-- **Part 4 is closed at parity**: the chip can pick its own class weights and its own stopping point with no human-set schedule and ends where the uniform schedule ends (82.5 to 83.8 against 82.3 to 83.4). The tripwire is a working mechanism but its benefit was not shown; keep it as a safety option, not a claim.
+- **Part 4 stands at parity**: the chip can pick its own class weights and its own stopping point with no human-set schedule and ends where the uniform schedule ends (82.5 to 83.8 against 82.3 to 83.4). The tripwire is a working mechanism but its benefit was not shown; keep it as a safety option, not a claim.
+
+### Fix attempt: a harm signal that is not trained on (27 Oct 2026, `staged_progress_agree_sab{0,1}_{a,b}.log`)
+
+New signal, label-free and never trained on: the chip keeps the stage-1 model's confident answers on the unlabeled probe (the 50% of probe images with the largest top-2 margin) and measures how often the current model still gives the same answer; an alarm fires when that agreement drops by more than 0.04 from its best. It is independent of the share-distance signal that could not separate harm from noise.
+
+| run | alarm result | final accuracy |
+|---|---|---|
+| corrupted chunk, run a | caught the corrupted chunk (agreement 0.586 against best 0.666); also one false alarm on a clean chunk (drop 0.087) | 81.1 |
+| corrupted chunk, run b | caught the corrupted chunk by agreement (drop 0.048) when the share-distance rise was only 0.048, which the 0.10 share threshold would have missed | 82.8 |
+| clean runs a / b | no false alarm | 83.6 / 82.8 |
+
+- Detection is better than with the share signal (2 of 2 corrupted chunks caught, 1 false alarm in 4 runs against misses and several false alarms before) but final accuracy is still inside the noise of the uniform runs (82.3 corrupted, 83.4 clean), and one corrupted run still dipped to 78.8 right after the fault. So the chip now notices harm reliably enough to act on, but a measurable accuracy benefit from acting is not shown at this run count.
+- Open: a smaller undo (halve only the damaged classes), repeating until the benefit is visible, a larger fault set.
 
 Related: [Thinking synthesis](../../docs/research/thinking_synthesis.md), [Append-only clause banks](append_only_clause_staged.md), [Results index](INDEX.md)

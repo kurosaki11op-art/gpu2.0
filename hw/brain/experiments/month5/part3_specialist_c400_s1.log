@@ -1,0 +1,21 @@
+L alone: acc 0.8885 | Shirt recall 0.638 | group 4-way acc 0.8063 | 4-way Shirt recall 0.652
+[epoch 1] specialist alone, 4-way: acc 0.3733 | Shirt recall 0.981
+     balanced offsets [26.3, 26.3, -7.4, -45.3]: specialist 4-way acc 0.7438 | Shirt recall 0.662
+     cascade (hard-balanced): acc 0.8636 | Shirt recall 0.639
+     cascade (soft-balanced): acc 0.8851 | Shirt recall 0.652
+     cascade (hard): acc 0.7174 | Shirt recall 0.945 | group acc 0.3625
+     cascade (soft): acc 0.8535 | Shirt recall 0.861 | group acc 0.7027
+[epoch 2] specialist alone, 4-way: acc 0.6760 | Shirt recall 0.047
+     balanced offsets [-9.0, -16.2, -4.1, 29.3]: specialist 4-way acc 0.7780 | Shirt recall 0.593
+     cascade (hard-balanced): acc 0.8769 | Shirt recall 0.574
+     cascade (soft-balanced): acc 0.8884 | Shirt recall 0.619
+     cascade (hard): acc 0.8363 | Shirt recall 0.047 | group acc 0.6597
+     cascade (soft): acc 0.8695 | Shirt recall 0.320 | group acc 0.7428
+[epoch 3] specialist alone, 4-way: acc 0.6767 | Shirt recall 0.000
+     balanced offsets [-15.6, -5.8, -22.2, 43.7]: specialist 4-way acc 0.7735 | Shirt recall 0.503
+     cascade (hard-balanced): acc 0.8752 | Shirt recall 0.488
+     cascade (soft-balanced): acc 0.8879 | Shirt recall 0.586
+     cascade (hard): acc 0.8362 | Shirt recall 0.000 | group acc 0.6595
+     cascade (soft): acc 0.8595 | Shirt recall 0.183 | group acc 0.7177
+L + specialist clause bits in the table (1600 clauses, 202 fire per image): acc 0.8935 | Shirt recall 0.658 | cluster 0.8175 | Shirt AP 0.779   [L alone: 0.8885 | 0.638 | 0.8063 | 0.753]
+ROUTED (specialist evaluated only on the 40% of images L assigns to the group; 86 clauses fire per image on average): acc 0.8950 | Shirt recall 0.637 | cluster 0.8193 | Shirt AP 0.777

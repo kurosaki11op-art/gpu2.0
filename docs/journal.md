@@ -1726,4 +1726,8 @@ part3_ceiling.py: a dense network trained only on the four confusable classes re
 
 Three alarm designs x two repeats against no controller: all controller results (80.8 to 83.8) inside the uniform spread (82.3 to 83.4); the share-distance rise does not separate harmful from normal chunks reliably (normal 0.05 to 0.08, harmful 0.06 to 0.25); stored-image accuracy is 1.000 at every chunk (trained on constantly), no signal. Earlier tripwire win (81.4 to 83.0) was one run against one run, inside noise. Closed: parity for self-chosen weights and stopping; tripwire benefit not shown. Note: hw/results/progress_ranked_rehearsal.md.
 
+## 27 Oct 2026: parts 3 and 4 reopened as fixes (SIMULATED)
+
+Founder: closing means fixing the failure and making it a win. Part 3: the failure was the proposer, not the idea of a second look. A clause specialist trained only on the four confusable classes, its 1,600 clauses used as extra table inputs: accuracy +0.4 to +0.5, Shirt recall 0.654 to 0.666, Shirt AP 0.779 to 0.786 on three runs, with about 205 clauses firing per image instead of 1,035 for the all-class layer (same AP and recall); 800 clauses per class no better; routed version keeps accuracy and AP but loses the recall gain. Part 4: a teacher-agreement harm signal caught both corrupted chunks (one false alarm in four runs) where the share signal missed; accuracy benefit still inside noise. Notes: hw/results/hypothesis_loop.md, progress_ranked_rehearsal.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -40,6 +40,23 @@ Trained only on the four confusable classes (T-shirt, Pullover, Coat, Shirt) and
 | one-hidden-layer network on L's code bits | 83.5 | 0.739 |
 
 - Even a dense specialist trained only on the confusable group gets Shirt recall 0.70 to 0.74 against 0.687 for L's table, so on this input the whole headroom is about +0.02 to +0.05 Shirt recall (and +2.4 points of four-way accuracy at most). The loop's target (Shirt recall of at least 0.67 from 0.638) was already at the level of L's own 4-class table; four versions found nothing because there is almost nothing left for short rules to find, not because the loop is faulty.
-- **Part 3 is closed**: the propose-test-keep loop works as a mechanism and is kept in the toolbox for tasks with real headroom; on clothing the remaining Shirt gap is the information ceiling of this input (consistent with the earlier finding that Shirt/T-shirt/Coat confusion is largely irreducible at 28 by 28), not something a hypothesis step can recover.
+- The short-rule loop does not recover the gap (see the specialist below, which does).
+
+### Fix: a clause specialist for the confusable group, used as extra table inputs (27 Oct 2026, SIMULATED; `part3_specialist.py`, logs `part3_specialist_*.log`)
+
+The failure of the loop was its proposer (short conjunctions), not the idea of a second, stronger look at the group. The hypothesis "these four classes need their own look" is now built from our own primitives: a Tsetlin-style clause specialist trained ONLY on T-shirt, Pullover, Coat and Shirt (24,000 images, over L's code plus raw pixel bits, 400 clauses per class, 3 epochs, no matrix, no backprop), whose firing bits are added to L's counting table input (the recipe that worked for the all-class clause layer). Used on its own, as a classifier or as a hard replacement inside the group, the specialist is poor and unstable (4-way 67 to 77% against 80.6 for L's table; its raw class sums swing) so it is only used as table input.
+
+| system (Fashion-MNIST test) | accuracy | Shirt recall | cluster accuracy | Shirt AP | clauses firing per image |
+|---|---|---|---|---|---|
+| L alone | 88.85 | 0.638 | 80.6 | 0.753 | 0 |
+| L + 1,600 specialist clauses, run 1 / 2 / 3 (seed 0 twice, seed 1) | 89.35 / 89.24 / 89.35 | 0.654 / 0.666 / 0.658 | 81.7 / 81.6 / 81.8 | 0.786 / 0.782 / 0.779 | 203 / 208 / 202 |
+| L + 3,200 specialist clauses (800 per class) | 89.37 | 0.650 | 81.6 | 0.780 | 415 |
+| routed: specialist evaluated only on the 40% of images L assigns to the group, two runs | 89.22 / 89.50 | 0.638 / 0.637 | 81.5 / 81.9 | 0.777 / 0.777 | 86 |
+| for comparison: L + best 4,000 all-class clauses (two seeds) | 89.73 / 89.76 | 0.649 / 0.667 | 82.1 / 82.4 | 0.780 / 0.786 | 1,035 |
+
+- **A win on efficiency and on the Shirt target.** With 1,600 clauses (and 24,000 training images) the specialist reaches the Shirt AP and recall of the full 4,000-clause layer (AP 0.779 to 0.786 against 0.780 to 0.786, recall 0.654 to 0.666 against 0.649 to 0.667) while only about 205 clauses fire per image instead of 1,035 (5 times fewer) and it needs 2.5 times fewer clauses. Against L alone: +0.4 to +0.5 accuracy, +0.016 to +0.028 Shirt recall, +1.0 cluster accuracy, +0.03 Shirt AP, on all three runs. Overall accuracy stays 0.4 below the all-class layer (89.3 against 89.75).
+- The original success criterion (Shirt recall at least 0.67 with accuracy down by at most 0.2) is reached in one of three runs (0.666, accuracy up): partly met. The dense network ceiling from `part3_ceiling.py` (Shirt recall 0.74 in 4-way, trained on the group) is not reached.
+- Doubling the clauses does not help (800 per class: no better), so the cheap version is the right size. Routing to the images L assigns to the group (86 firing clauses per image) keeps accuracy and AP (+0.4 to +0.65, AP 0.777) but loses the Shirt recall gain (0.638).
+- Caveats: three runs, two seeds, spread about 0.01 in recall; the specialist's group is chosen by hand (the confusable classes found earlier by the chip's own confusion counts could choose it: not done); the memory of 1,600 clauses is small (about 1,600 times a few literals).
 
 Related: [Append-only clause banks](append_only_clause_staged.md), [Shirt difference-learning ideas](shirt_difference_layers.md), [Results index](INDEX.md)

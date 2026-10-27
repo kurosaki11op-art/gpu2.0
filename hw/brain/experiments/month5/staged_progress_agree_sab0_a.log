@@ -1,0 +1,16 @@
+start: offset +0, share distance 0.785
+EVAL start (stage 1 + nothing)          offset +0: all 0.5434 | old 0.9092 | new 0.0015 | Shirt recall 0.006
+chunk 1 (25000 steps, flip 0.02): share distance 0.068, offset +18 -> ok; first chunk, uniform
+EVAL after chunk 1                      offset +18: all 0.8204 | old 0.8224 | new 0.8174 | Shirt recall 0.473
+chunk 2 (25000 steps, flip 0.02): share distance 0.091, offset +16 -> ok; progress [0.007, 0.001, 0.011, 0.008, 0.015, 0.003, 0.01, 0.019, 0.028, 0.007]; weights [0.94, 0.23, 4.03, 0.7, 0.72, 0.34, 0.46, 1.47, 0.61, 0.5]
+EVAL after chunk 2                      offset +16: all 0.8238 | old 0.8355 | new 0.8065 | Shirt recall 0.403
+chunk 3 (25000 steps, flip 0.02): share distance 0.099, offset +16 -> ok; progress [0.007, 0.004, 0.039, 0.004, 0.001, 0.005, 0.013, 0.005, 0.01, 0.033]; weights [0.33, 0.71, 1.76, 0.42, 0.34, 0.95, 1.35, 0.59, 1.67, 1.89]
+EVAL after chunk 3                      offset +16: all 0.8286 | old 0.8302 | new 0.8263 | Shirt recall 0.459
+chunk 4 (25000 steps, flip 0.02): share distance 0.079, offset +36 -> ok; progress [0.011, 0.005, 0.021, 0.002, 0.018, 0.127, 0.063, 0.027, 0.017, 0.013]; weights [0.49, 0.31, 0.83, 0.3, 0.55, 2.43, 2.19, 1.84, 0.54, 0.52]
+EVAL after chunk 4                      offset +36: all 0.8262 | old 0.8221 | new 0.8323 | Shirt recall 0.542
+chunk 5 (25000 steps, flip 0.02): share distance 0.107, offset +26 -> ok; progress [0.016, 0.016, 0.006, 0.009, 0.006, 0.008, 0.015, 0.028, 0.005, 0.011]; weights [0.43, 0.62, 0.46, 0.52, 0.82, 0.79, 0.95, 3.3, 0.45, 1.67]
+EVAL after chunk 5                      offset +26: all 0.8306 | old 0.8315 | new 0.8293 | Shirt recall 0.492
+chunk 6 (25000 steps, flip 0.02): share distance 0.094, offset +24 -> ok; progress [0.019, 0.006, 0.006, 0.013, 0.001, 0.001, 0.003, 0.004, 0.004, 0.064]; weights [3.26, 0.4, 0.76, 0.75, 0.3, 0.26, 0.46, 0.57, 0.3, 2.92]
+EVAL after chunk 6                      offset +24: all 0.8364 | old 0.8352 | new 0.8382 | Shirt recall 0.469
+STOP: no progress or no improvement for 2 chunks (chip decides it is done)
+EVAL FINAL                              offset +24: all 0.8364 | old 0.8352 | new 0.8382 | Shirt recall 0.469
