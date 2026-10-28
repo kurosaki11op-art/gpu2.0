@@ -1,0 +1,2 @@
+Kalman 12 states, all matrix products through the Forge lane (3 seeds): difference from the fp64 filter ['2.68e-02', '3.11e-02', '3.53e-02'] ; RMSE vs truth: fp64 1.028, lane 1.030
+Kalman 12 states, all products and the inverse (8 Newton-Schulz iterations) on the lane, 3 seeds: difference from the fp64 filter ['2.69e-02', '3.30e-02', '3.39e-02']; RMSE vs truth: fp64 1.028, lane 1.031; mean ||S^-1 S - I|| of the lane inverse 3.09e-02

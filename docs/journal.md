@@ -1926,4 +1926,8 @@ Wrote [the measurement protocol](measurement_protocol.md) and `gpu_energy_baseli
 
 [forge_fft_lane.py](../hw/brain/experiments/month5/forge_fft_lane.py): DFTs as real matrix products on the bit-exact lane: error 9.3e-3 (one pass) and 5.5e-5 (three passes, two-word split) for N = 64; 1.3e-2 and 6.7e-5 for a four-step N = 256. Costs 8 to 21 times the ideal radix-2 operation count, three times more for the accurate version; consequence ESTIMATED: the FFT gain at 2 GB falls from 4.6 times to about 3.6 (8-bit) or 2.1 (16-bit-class). All four Forge kernels now have a through-the-lane result (matrix multiply in RTL; Kalman, Poisson refinement and FFT in the bit-exact lane model).
 
+## 28 Oct 2026: Kalman inverse on the lane
+
+[forge_kalman_lane_inv.py](../hw/brain/experiments/month5/forge_kalman_lane_inv.py): the matrix inverse by 8 Newton-Schulz iterations (products only) on the bit-exact lane; the whole 12-state Kalman filter then runs on the lane with RMSE against truth 1.031 against 1.028 (fp64), 2.7e-2 to 3.4e-2 from the fp64 filter, inverse residual 3.1e-2 (SIMULATED, three seeds, well-conditioned only). No high-precision path needed for this kernel.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
