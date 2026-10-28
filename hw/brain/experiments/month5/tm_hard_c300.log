@@ -18,3 +18,4 @@ hard-image specialist: training on 24001 images
 [ 821s]   epoch 8, 15000 images: test acc 0.8550 | cluster 0.7660 | Shirt recall 0.683 | Shirt AP 0.616 | mean included literals per clause 24.2
 [ 856s] after epoch 9: test acc 0.8568 | cluster 0.7730 | Shirt recall 0.616 | Shirt AP 0.623 | mean included literals per clause 24.5
 [1078s]   epoch 9, 15000 images: test acc 0.8626 | cluster 0.7775 | Shirt recall 0.647 | Shirt AP 0.627 | mean included literals per clause 24.9
+[1235s] saved (epoch 9, position 24000): test acc 0.8627 | cluster 0.7788 | Shirt recall 0.648 | Shirt AP 0.629 | mean included literals per clause 25.3

@@ -1,0 +1,15 @@
+{
+ "images": 1000,
+ "pipelined_build": true,
+ "commands": 2012,
+ "lines_compared": 11226,
+ "mismatches": 0,
+ "model_stream_exact": true,
+ "train_cycles": 13568827,
+ "cycles_per_image": 13568.827,
+ "seconds_at_50MHz": 0.27137654,
+ "projected_seconds_60000_images_at_50MHz": 16.2825924,
+ "test_accuracy_chip_table": 0.7865,
+ "test_accuracy_model_table": 0.7865,
+ "wall_s": 136.7419593334198
+}
