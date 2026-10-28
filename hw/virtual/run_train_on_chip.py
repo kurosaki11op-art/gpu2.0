@@ -94,7 +94,7 @@ tb = open(os.path.join(t, "tb_cortex_core_slow.v")).read(); tb = tb.replace("for
 open(os.path.join(t, "cmds.hex"), "w").write("\n".join("%08x" % w for w in words) + "\n"); open(os.path.join(t, "lanes.hex"), "w").write("\n".join("%08x" % s for s in seeds) + "\n")
 subprocess.run(["iverilog", "-g2005", "-DCORTEX_SLOW", "-s", "tb_cortex_core_slow", "-o", "sim", "-Ptb_cortex_core_slow.CB=10", "-Ptb_cortex_core_slow.NW=%d" % (len(words) + 8), "cortex_core.v", "tb_cortex_core_slow.v"] + PIPE, cwd=t, check=True)
 res = subprocess.run("vvp -n sim", shell=True, cwd=t, capture_output=True, text=True).stdout
-tc = [int(l.split()[1]) for l in res.splitlines() if l.startswith("train_cycles")]; train_cycles = tc[0] if tc else -1
+tc = [int(l.split()[1]) for l in res.splitlines() if l.startswith("train_cycles")]; train_cycles = tc[0] // 1000 if tc else -1   # %0t prints picoseconds: 1 cycle = 10 ns of simulated time = 10,000 ps, and the testbench prints $time / 10 (cycles) as a time value of 1 ns = 1,000 ps per cycle
 got = open(os.path.join(t, "out_cortex.txt")).read().split("\n")[:-1]; got = [g.upper() if g[0] in "WS" else g for g in got]; exp = [e.upper() if e[0] in "WS" else e for e in exp]
 bad = sum(1 for a, e in zip(got, exp) if a != e) + abs(len(got) - len(exp))
 for a, e in [(a, e) for a, e in zip(got, exp) if a != e][:4]: print("  MISMATCH rtl:", a, " model:", e)
