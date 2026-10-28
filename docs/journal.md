@@ -1770,4 +1770,8 @@ On the routed second pass (64 informative detectors, 20% routed): smarter router
 
 Founder: ternary operators cannot do everything GPUs and AI models do, so use ternary weights and matrices / multiplication wherever needed, and focus on a light-weight design. Recorded in CLAUDE.md (item 4) and docs/PROJECT_MEMORY.md. First study to price the change: a small int8 convolutional second pass on the routed images only.
 
+## 28 Oct 2026: hybrid study, routed int8 CNN second pass (SIMULATED/ESTIMATED)
+
+First study after the founder's decision. L first pass (29.9 nJ) on all images; a small CNN only on the least-sure share. 32-filter CNN at 20% routed: 91.28% at est. 81.9 nJ against 91.15% at 260 nJ for the int8 CNN alone (3.2 times less at equal accuracy); small CNNs (8, 16 filters) no better than the matrix-free routed pass (90.4 at 54.9 nJ against 90.35 at 40.6 nJ). Note: hw/results/hybrid_routed_cnn.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
