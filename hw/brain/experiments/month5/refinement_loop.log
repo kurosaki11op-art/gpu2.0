@@ -1,0 +1,15 @@
+REFINEMENT LOOP on 2D Poisson, target relative residual 1e-12; baseline fp64 CG
+grid  format      outer   inner    final converged traffic vs fp64 high-precision share of traffic
+32    fp64 CG         -     128  7.2e-13       yes         1.00           100%
+32    fp16           60    3383  7.3e-08        NO         6.99             5%
+32    bfloat16       13     431  2.9e-13       yes         0.93             9%
+32    int8           13     363  2.4e-13       yes         0.44            20%
+32    BFP8           12     339  2.3e-13       yes         0.43            19%
+32    BFP5           36    1486  6.0e-13       yes         1.23            19%
+64    fp64 CG         -     249  8.3e-13       yes         1.00           100%
+64    fp16           60    3600  7.3e-08        NO         3.81             5%
+64    bfloat16       16     864  4.5e-13       yes         0.92             6%
+64    int8           17     781  1.5e-13       yes         0.45            13%
+64    BFP8           15     709  7.8e-13       yes         0.43            12%
+64    BFP5           60    3590  1.0e-11        NO         1.44            14%
+128   fp64 CG         -     494  9.6e-13       yes         1.00           100%
