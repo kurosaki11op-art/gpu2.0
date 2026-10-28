@@ -40,6 +40,20 @@ One seed, one problem (constant-coefficient Poisson, no preconditioner); the inn
 
 ## Next
 
-Raise the inner cap and test a simple preconditioner on the 128 grid; diagnose the fp16 failure with residual scaling; routed precision for FFT and the Kalman filter; then the block floating-point multiply-accumulate lane numerics.
+Done in round 2: inner cap, preconditioner, fp16 diagnosis. Still to do: routed precision for FFT and the Kalman filter; the block floating-point multiply-accumulate lane numerics; a looser outer schedule to cut the fp64 share; variable-coefficient and anisotropic problems.
+
+## Round 2 (28 Oct 2026): bigger cap, multigrid preconditioner, fp16 fix
+
+Script and log: [refinement_loop2.py](../brain/experiments/month5/refinement_loop2.py), `refinement_loop2.log`. SIMULATED, one seed, grids 31, 63, 127 (multigrid needs 2^k - 1), target 1e-12. The preconditioner is one multigrid V-cycle built only from stencil operations (weighted Jacobi smoothing, full-weighting restriction, bilinear interpolation, exact solve on a 3 x 3 coarse grid), run in the low-precision format. Traffic is an ESTIMATED proxy (multigrid-preconditioned iteration 29 vector passes).
+
+| fix | result |
+|---|---|
+| **fp16 fix (scale the inner residual by a power of two, unscale the correction)** | **fp16 now converges on every grid** (it stalled at 7e-8 before). Diagnosis confirmed: the stall was the fp16 subnormal floor (6e-8), underflow of small corrections, not a precision limit. With plain CG fp16 still moves 0.58 to 0.92 of fp64's bytes (2 bytes per value) |
+| **Bigger inner cap (60 to 250)** | only matters on the largest grid: BFP8 traffic 0.64 to 0.53, outer steps 35 to 22; no change on the smaller grids |
+| **Multigrid preconditioner** | inner iterations fall from 321 / 706 / 2,100 (BFP8, plain CG) to **27 / 30 / 30**; outer steps 9 to 10; BFP8 and int8 reach 1e-12 on all grids; BFP5 reaches it too (24 to 43 outer steps, traffic 0.32 to 0.43); fp16 and bfloat16 also converge |
+
+**The fair comparison matters.** Against plain fp64 CG the traffic proxy looks like 0.15, 0.08 and 0.04 (BFP8, multigrid), but most of that is multigrid itself (13 fp64 multigrid iterations against 122 to 484 plain CG iterations). Against an equally preconditioned fp64 multigrid-CG (13 iterations, 3,016 traffic units) the BFP8 refinement uses **0.49, 0.54 and 0.54** of the bytes. So: **multigrid, which is stencil adds and shifts, gives the large algorithmic saving; 8-bit precision routing gives about a further factor of 2 in traffic**, not an order of magnitude. The share of traffic in fp64 is 43% for BFP8 with multigrid (higher than the 10% assumed in the tile model, because the inner solve is now short); a looser outer schedule (fewer fp64 residual steps) is untested.
+
+Caveats unchanged: one seed, constant-coefficient Poisson, wide exact accumulation assumed in dot products, compute energy and fabric traffic not counted, multigrid in low precision is only approximately symmetric.
 
 Related: [Results index](INDEX.md), [L Forge design](../../docs/L_forge_design.md), [Arithmetic primitive shoot-out](arithmetic_primitive_test.md), [Build plan](../../docs/L_build_plan_dec_jan.md)
