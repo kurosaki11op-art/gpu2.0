@@ -1,0 +1,6 @@
+[  33s] prepared; L alone 0.8885, routed 20.0%, L on routed 0.6052
+[  35s] specialist clauses: 3000, mean literals 25.3, fire rate 0.117
+shipped (code + 2,000 clauses)               routed acc 0.6492 | total 0.8973 | all-image acc 0.8967 | fixes 2.80% breaks 1.92% [  45s]
+code + 2,000 + 1000 specialist clauses       routed acc 0.6537 | total 0.8982 | all-image acc 0.8983 | fixes 2.82% breaks 1.85% [  59s]
+code + 2,000 + 3000 specialist clauses       routed acc 0.6562 | total 0.8987 | all-image acc 0.8982 | fixes 2.82% breaks 1.80% [  77s]
+code + 2,000 specialist clauses only         routed acc 0.6312 | total 0.8937 | all-image acc 0.8924 | fixes 2.55% breaks 2.03% [  90s]

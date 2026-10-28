@@ -1970,4 +1970,8 @@ Founder asked for the energy-efficient way to close the accuracy gap. Detectors 
 
 Four routing signals plus a cross-fitted learned router at equal routed share, and score combining: all within 0.1 point of the shipped margin rule (89.73%); 15% routed is as accurate as 20%. An oracle router would give 91.7%, but Deep fixes 2.9% and breaks 2.1% of images, so the weak part is Deep, not the routing. See [accuracy gap tests](../hw/results/accuracy_gap_tests.md) test 3.
 
+## 28 Oct 2026: three attempts to fix L Deep (all negative)
+
+Hard-only table training, a residual Deep and specialist clauses trained on the hard images: best total 89.87% (specialist, +0.14 point, much more energy) against the shipped 89.73%. The cap seems to be the input code and the clause learner, not Deep's training set. See [accuracy gap tests](../hw/results/accuracy_gap_tests.md) tests 4 to 6.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

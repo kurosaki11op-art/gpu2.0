@@ -49,6 +49,21 @@ At equal accuracy (89.7%) the dense stage costs about 30 nJ against Deep's 19 nJ
 
 L alone 88.85%; Deep on every image 89.67%. Deep fixes 2.9% of all images but also breaks 2.1% that L had right, which is why the oracle stops at 91.7% and why no realisable signal gains more than about 0.1 point (the shipped margin is already within noise of the best, and 15% routed is as accurate as 20%, a slightly cheaper operating point). Adding L's scores to Deep's on routed images instead of replacing them (weights 1:1, 1:2, 1:4, 2:1) moves accuracy by at most 0.08 point. Class-pair routing is worse than the margin.
 
+## Tests 4 to 6: three attempts to fix L Deep itself - NONE WORKED (SIMULATED)
+
+L Deep fixes 2.8% of all images and breaks 1.9% (test 3). Three fixes, all against the same routing (L's margin, 20% routed) and the same 2,000 shipped clauses unless stated:
+
+| fix | routed accuracy | total accuracy | fixes / breaks (% of all images) |
+|---|---|---|---|
+| shipped | 64.9% | 89.73% | 2.80 / 1.92 |
+| **4. stage-2 table trained on the hard images only** (lowest 20 / 40 / 60% of cross-fitted margins; [deep_fix_test.py](../brain/experiments/month5/deep_fix_test.py)) | 63.5 / 64.4 / 64.9% | 89.45 / 89.63 / 89.72% | 3.09 / 2.49, 2.94 / 2.16, 2.87 / 2.00 |
+| all images plus the hard 30% repeated twice | 64.9% | 89.73% | 2.97 / 2.09 |
+| **5. residual Deep**: keep L's scores, add only a clause correction trained on cross-fitted scores (softmax regression, int8 weights times 2^k; [deep_residual_test.py](../brain/experiments/month5/deep_residual_test.py)) | 61.1 to 61.9% | 88.97 to 89.12% | 2.18 to 2.81 / 1.91 to 2.69 |
+| **6. specialist clauses**: 3,000 more clauses trained only on the 40% of training images L is least sure about, added to the 2,000 ([deep_specialist_test.py](../brain/experiments/month5/deep_specialist_test.py), clause training `tm_faithful.py` with HARDQ=0.4) | 65.4% (+1,000) / 65.6% (+3,000) | 89.82% / 89.87% | 2.82 / 1.85, 2.82 / 1.80 |
+| specialist clauses instead of the shipped ones | 63.1% | 89.37% | 2.55 / 2.03 |
+
+Reading: the training set of the table does not matter (test 4); keeping L's scores and adding a clause correction is worse than retraining the table jointly (test 5, about 0.7 point lower); a clause layer aimed at the hard images adds at most 0.14 point and costs far more per clause (25 literals per clause against about 7 for the shipped ones, so 3,000 more clauses would add roughly 3x the stage-2 energy). The specialist layer alone reaches only 86.3% on all images. So the limit is not how Deep is trained on this input: the information in the 4,608-bit code plus pixel thresholds and the local-feedback clause learner seems to cap the system near 89.7 to 89.9%. Remaining untested: a richer input code for the hard classes (the notes list edge-map and multi-code variants as not yet done), a different clause learner, or accepting the cap and making the chip cheaper instead.
+
 ## Conclusion
 
 The energy-efficient point is the one already built: L Deep with 2,000 clauses and 20% routing. Further accuracy costs energy steeply (about 3 nJ more per image for each 0.1 point beyond 89.7%, from the dense curve; the clause frontier in [L Deep build](l_deep_build.md) results 6 and 9 shows the same shape). Routing signals and score combining are also exhausted (Test 3). The remaining lever is the quality of Deep itself (it breaks 2.1% of images while fixing 2.9%) and the detector learning rule (a Cortex change), neither tested yet.
