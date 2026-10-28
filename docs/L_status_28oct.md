@@ -29,7 +29,7 @@ L Deep is the clause layer, not a language model (found while starting its build
 
 ## What I need from the founder
 
-1. An FPGA board with at least about 1.5 Mbit of block RAM and some multiplier blocks (the Tang Nano 20K has 0.83 Mbit): the choice and purchase from the Rs 1 lakh.
+1. The FPGA purchase from the Rs 1 lakh: decision recorded in the [FPGA board decision](fpga_board_decision.md) (Tang Mega 138K primary, Arty A7-100T fallback); the founder must run the three pre-purchase checks (toolchain licence, package and pins, price and stock) and buy.
 2. A GPU baseline run on the same task (clothing recognition) with power read from the GPU sensor, and the board power measurement of Cortex.
 3. A quote from a shuttle or design-service programme (no price found), and whether a registered company exists for the Design Linked Incentive.
 
