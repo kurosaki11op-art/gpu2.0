@@ -1914,4 +1914,8 @@ KEEP=2000, route 20% (threshold 2,299): integer accuracy 89.73% unchanged, memor
 
 Wrote [the claims register](claims_register.md): eleven supported claims with labels and evidence, eight claims not to make (including no MEASURED numbers exist, no GPU measured, 36x is a tile-model ratio for sparse recognition only, no language model, FPGA does not fit a Tang Nano 20K), and what would turn estimates into measurements. Forge first tile synthesis: about 2,960 LUT4, 16 multipliers, 8 block-RAM blocks. The pitch and deck were not touched.
 
+## 28 Oct 2026: measurement protocol and GPU baseline script
+
+Wrote [the measurement protocol](measurement_protocol.md) and `gpu_energy_baseline.py` (trains the reference CNN on Fashion-MNIST, samples the GPU power sensor with NVML while a timed inference loop runs, subtracts idle power, reports mJ per image at batch sizes 1, 64, 1024 in float32 and float16). Tested here only on the CPU path (the container has no GPU), so the GPU power sampling code is untested; the founder runs it on a GPU. Also lists the FPGA resource budget for the three-layer build and what each measurement unlocks.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -77,6 +77,7 @@ tags: [spark, index]
 - [Build plan, December to January](L_build_plan_dec_jan.md): weeks, gates, deliverables and cuts for finishing L Deep and L Forge before the February event (ESTIMATED, 28 Oct 2026)
 - [Status, 28 Oct 2026](L_status_28oct.md): what exists for L Cortex, L Deep and L Forge, the evidence, the gaps and what is needed from the founder
 - [Claims register](claims_register.md): what may be said about L with its label and evidence, and what may not (28 Oct 2026)
+- [Measurement protocol](measurement_protocol.md): the GPU baseline script, board power procedure and the three-layer FPGA build, to turn estimates into MEASURED numbers (28 Oct 2026)
 - [Concept study: GPU and memory](concept_study_gpu_and_memory.md): how a GPU, SRAM, DRAM and HBM are built, their flaws, density options and our own directions (28 Oct 2026)
 - [Dispatch research](research/dispatch_research.md): early exit and power gating references, abstract level only, arXiv unreachable (28 Oct 2026)
 
