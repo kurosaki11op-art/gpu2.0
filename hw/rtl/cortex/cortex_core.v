@@ -171,6 +171,9 @@ module cortex_core #(
         if (lbw_n) lbuf[lba_n] <= lbd_n;
         else lb_q <= lbuf[lba_n];
     end
+`ifdef CORTEX_INFER
+    always @(posedge clk) begin wq <= 0; cq <= 0; end   // inference-only: no fast table and no dream counters (only the slow table, the list buffer and the known flags are kept)
+`else
     always @(posedge clk) begin
         wq <= wmem[m_addr_n];
         if (w_wen_n) wmem[m_addr_n] <= w_wd_n;
@@ -179,6 +182,7 @@ module cortex_core #(
         cq <= cmem[m_addr_n];
         if (c_wen_n) cmem[m_addr_n] <= c_wd_n;
     end
+`endif
 
 `endif
 `ifdef CORTEX_CONTEXT
