@@ -5,6 +5,8 @@ tags: [spark, result, simulated, estimate, dispatch, architecture]
 
 # Dispatch tests (28 Oct 2026)
 
+**Correction (28 Oct 2026):** the 262 KB layer in (c) and the 'Deep weights and state' mentioned there came from the language-model reading of L Deep, which was a mistake (L Deep is the clause layer, about 60 KB). The break-even arithmetic scales with the layer's memory: at about 60 KB the idle leakage is about 0.03 mW, so gating saves even less (the conclusion that gating a Deep-sized layer saves little is strengthened). Part (a), early exit on Cortex, does not depend on this.
+
 The founder's dispatch decision ([one chip, three layers, section 6](one_chip_three_layers.md)): Cortex reads its evidence step by step, exits early when sure, and wakes the bigger layer when not (rules 2 and 3). Three tests on the shipped L code (4,608 bits, shipped table, 10,000 test images, accuracy 88.85). Script and log: [dispatch_tests.py](../brain/experiments/month5/dispatch_tests.py), `dispatch_tests.log`. (a) is SIMULATED on real data; (b) and (c) are arithmetic on those rates with ASSUMED energy figures (stage-2 cost 10.7 nJ, wake energy 0.1 to 100 nJ, 60 pW per bit leakage, retention saving 98% from a paper's claim not verified, decision 6 us). Reference reading was not possible (see [dispatch research](../../docs/research/dispatch_research.md)).
 
 ## (a) Does a partial margin predict who the final rule would route? (SIMULATED)

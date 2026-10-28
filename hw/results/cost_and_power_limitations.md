@@ -5,6 +5,8 @@ tags: [spark, result, estimate, accelerator, cost, power]
 
 # Cost and power as limitations (28 Oct 2026)
 
+**Note (28 Oct 2026):** the 1M to 4B-parameter model sizes discussed here belong to a future language model (L Language), not to L Deep, which is the clause layer (about 60 KB). The cost and power arithmetic is unaffected.
+
 Founder's request: take the cost of building a chip with 1 to 2 GB of SRAM, why placing memory in a chip costs so much, and why such chips use so much power, as the limitations, and work on them. **ESTIMATED throughout; inputs are the assumed or unverified ones listed in [cost by node](cost_by_node.md); rupees at an assumed 85 per dollar.** Script and log: [cost_constrained_design.py](../brain/experiments/month5/cost_constrained_design.py), `cost_constrained_design.log`. A first version of the script scaled logic by node squared and gave absurd die counts (60 dies at 28 nm); fixed with assumed density ratios (logic x12 at 28 nm, x5 at 16 nm relative to 5 nm).
 
 ## 1. What 1 to 2 GB costs (ESTIMATED)

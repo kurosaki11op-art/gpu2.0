@@ -74,6 +74,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Connected structure (the DNA idea)](connected_structure.md): counted neighbour-conditioned class models; connection adds real information and is continual by construction
 - [Tsetlin-style clause learner](tsetlin_clause_learner.md): local feedback, no error passing; 86% with tiny clauses, Shirt AP 0.65, still rising
 - [L-Deep attempts](ldeep_attempts.md): shared gate trees by error passing collapse; trees chosen by counted information reach 84%, no gain on L's code
+- [L Deep build](l_deep_build.md): integer pipeline reproduces 89.73%, RTL bit-exact on 300 routed images, memory and what is left (28 Oct 2026)
 - [MEM-C1 table compression](table_compression_mem_c1.md): difference-only pruned table; only 10 to 25% saving at 10 classes, pays at scale
 - [Sparse-by-construction table (option B)](sparse_table_option_b.md): slots and sketch; free at 10 classes, 3 times fewer reads costs 2 to 3 points at 47
 - [Our own methods: retrieve-then-rerank and routed clauses](own_methods_routing.md): reads only where they pay; routed clauses keep the whole gain at 30% of the clause cost
@@ -95,6 +96,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Arithmetic primitive shoot-out](arithmetic_primitive_test.md): log numbers, block floating point, stochastic, analog, int4 against int8 on matmul, FFT, CG, Kalman (SIMULATED error, ESTIMATED energy, 28 Oct 2026)
 - [L Forge refinement loop](refinement_loop.md): 8-bit inner solves refined to fp64 accuracy on Poisson, about half the vector traffic (SIMULATED, 28 Oct 2026)
 - [FFT and Kalman precision routing](fft_kalman_routing.md): no refinement shortcut for the FFT, no fp64 needed for the 12-state Kalman filter (SIMULATED, 28 Oct 2026)
+- [L Forge lane numerics](bfp_lane_numerics.md): mantissa, block size, accumulator width and rounding for the block floating-point lane (SIMULATED, 28 Oct 2026)
 - [SRAM area and cost model](sram_area_cost_model.md): silicon area, yield, cost and leakage of 64 MB to 44 GB on-chip memory against HBM (ESTIMATED, 28 Oct 2026)
 - [Cost by process node](cost_by_node.md): die cost, NRE and per-chip price by node and volume, and the tiny recognition chip (ESTIMATED, 28 Oct 2026)
 - [Cost and power as limitations](cost_and_power_limitations.md): what 1 to 2 GB of on-chip memory costs in rupees, why, the power drivers, and the levers to work on (ESTIMATED, 28 Oct 2026)

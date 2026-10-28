@@ -1,0 +1,24 @@
+
+== normal data ==
+(1) accumulator mantissa bits, block 16, round to nearest:
+    mant    acc8   acc11  acc16  acc24  acc53 
+    m=4     1.7e-01 1.7e-01 1.7e-01 1.7e-01 1.7e-01
+    m=5     8.4e-02 8.4e-02 8.4e-02 8.4e-02 8.4e-02
+    m=6     4.2e-02 4.2e-02 4.2e-02 4.2e-02 4.2e-02
+    m=8     1.1e-02 1.0e-02 1.0e-02 1.0e-02 1.0e-02
+    m=10    5.4e-03 2.7e-03 2.6e-03 2.6e-03 2.6e-03
+    m=12    5.0e-03 8.8e-04 6.6e-04 6.6e-04 6.6e-04
+(2) block size, m=8, acc24:   blk8 8.8e-03  blk16 1.0e-02  blk32 1.2e-02  blk64 1.3e-02
+(3) rounding, m=8, blk16, acc24: nearest 1.0e-02 | truncate 2.5e-02
+
+== heavy-tailed data ==
+(1) accumulator mantissa bits, block 16, round to nearest:
+    mant    acc8   acc11  acc16  acc24  acc53 
+    m=4     2.2e-01 2.2e-01 2.2e-01 2.2e-01 2.2e-01
+    m=5     1.2e-01 1.2e-01 1.2e-01 1.2e-01 1.2e-01
+    m=6     6.4e-02 6.4e-02 6.4e-02 6.4e-02 6.4e-02
+    m=8     2.0e-02 1.9e-02 1.9e-02 1.9e-02 1.9e-02
+    m=10    6.7e-03 4.1e-03 4.1e-03 4.1e-03 4.1e-03
+    m=12    5.4e-03 1.3e-03 1.2e-03 1.2e-03 1.2e-03
+(2) block size, m=8, acc24:   blk8 1.7e-02  blk16 1.9e-02  blk32 2.6e-02  blk64 3.3e-02
+(3) rounding, m=8, blk16, acc24: nearest 1.9e-02 | truncate 3.7e-02

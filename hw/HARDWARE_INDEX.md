@@ -21,6 +21,7 @@ tags: [spark, index, hardware]
 - [ESP32 test of the L decision](board/esp32_l_test/README.md): self-measuring sketch (logic, speed, power on one board) plus analysis script, end-to-end procedure; logic verified on a PC build (0 of 200 differ); board run still to be done by the user.
 - [Gate-level checks](synth/gate_level/sky130/README.md): core netlists (generic gates, SKY130 cells with macro models) against the integer model.
 - [Layout checks 22 Oct](asic/cortex/signoff/README.md): routing, GDSII, timing, DRC of the L Cortex layout (DRC and hold fail).
+- [L Deep RTL](rtl/deep/README.md): routed clause layer, bit-exact against the integer golden model (300 routed images, 0 mismatches, 28 Oct 2026).
 - [Results index](results/INDEX.md): every result.
 
 Related: [Home](../README.md)

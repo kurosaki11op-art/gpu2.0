@@ -5,6 +5,8 @@ tags: [spark, plan, l-deep, l-forge, schedule]
 
 # Build plan: L Deep and L Forge (started 28 Oct 2026)
 
+**Correction (28 Oct 2026):** L Deep is the clause layer over L Cortex's code, not a language model; the L Deep column and deliverable 4 below were written under that mistake and are replaced by [the L Deep plan](../hw/results/l_deep_build.md). L Deep is further along than this plan assumed (the algorithm is done in simulation, no GPU training is needed); what remains is its bit-exact integer model, RTL, cost reduction and measurement. The L Forge column stands.
+
 Founder's target: finish L Deep and L Forge by December or January, about Rs 1 lakh available from other projects, a pitch event in February. Today is 28 Oct 2026, so about 9 to 14 weeks. **The dates below are my ESTIMATES (uncertainty about 2x), not commitments**; a failed test changes the plan, and several things wait on the founder (marked **needs founder**). Scope is the FPGA-measured pitch version; fabrication and the 2 GB chip at 5 nm stay a separate roadmap ([L Forge design](L_forge_design.md), [cost and power limitations](../hw/results/cost_and_power_limitations.md)). The standing rule that the pitch and deck are not edited by me still holds: this plan produces evidence only.
 
 ## Deliverables that make the February claim defensible

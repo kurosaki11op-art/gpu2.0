@@ -5,6 +5,8 @@ tags: [spark, result, estimate, accelerator, cost, architecture]
 
 # Layered product line (28 Oct 2026)
 
+**Correction (28 Oct 2026):** L Deep is the clause layer (about 60 KB, small logic), not a 4 MB language layer; the assumed 4 MB and 40 mm2 for Deep below are far too large. The conclusions about reuse of layers and NRE still hold; the Deep numbers are placeholders from the mistaken reading.
+
 Founder's idea: build separate layers (L Cortex, L Deep, and new layers for dense matrices, physics, rendering, big memory), so that each customer receives, powers and pays for only the layers needed. This note tests the economics before anything is designed. **ESTIMATED, with ASSUMED inputs** (16 nm-class node, same wafer, density and defect inputs as [cost by node](cost_by_node.md); layer sizes, 10% link overhead per chiplet, $20 packaging per chiplet and the two design-cost cases are ours). Script and log: [layered_product_model.py](../brain/experiments/month5/layered_product_model.py), `layered_product_model.log`.
 
 Layers (SRAM MB, logic mm2, assumed): Cortex 0.5 and 30; Deep 4 and 40; Dense 64 and 90; Physics 256 and 110; Render 256 and 100; Memory block 1,024 and 10. Products: A edge sensor (Cortex), B assistant (Cortex, Deep), C vision and language server (Cortex, Deep, Dense, 1 GB memory), D science (Physics, Dense, 1 GB), E everything. 10,000 chips per product.
