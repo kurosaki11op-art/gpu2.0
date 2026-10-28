@@ -96,5 +96,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [SRAM area and cost model](sram_area_cost_model.md): silicon area, yield, cost and leakage of 64 MB to 44 GB on-chip memory against HBM (ESTIMATED, 28 Oct 2026)
 - [Cost by process node](cost_by_node.md): die cost, NRE and per-chip price by node and volume, and the tiny recognition chip (ESTIMATED, 28 Oct 2026)
 - [Layered product line](layered_product_line.md): separate layers sold and powered per customer, against a custom die each and one universal die (ESTIMATED, 28 Oct 2026)
+- [One chip, three layers](one_chip_three_layers.md): memory map, die area by process, banking and gating energy, and a cheap fabrication path for the pitch chip (ESTIMATED, 28 Oct 2026)
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

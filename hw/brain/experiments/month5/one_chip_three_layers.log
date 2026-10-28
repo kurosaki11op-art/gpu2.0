@@ -1,0 +1,25 @@
+MEMORY MAP (KB):
+  Cortex (table+dream counts+list, layout)                        84
+  Deep weights ternary d=128                                     227
+  Deep state (delta rule + scan + conv)                           35
+  shared block (embeddings, buffers, replay store) ASSUMED       256
+  total                                                          602  (d=192 Deep: 922)
+
+DIE AREA (mm2) for the 602 KB map + logic, by process:
+  SKY130 open macros (measured in our layout)      memory    86.0 + logic  2.84 =    88.8 mm2
+  SKY130 denser compiler (ASSUMED 4x)              memory    21.5 + logic  2.84 =    24.3 mm2
+  28 nm (ASSUMED 7 Mb/mm2)                         memory     0.7 + logic  0.26 =     1.0 mm2
+  16 nm (ASSUMED 14 Mb/mm2)                        memory     0.3 + logic  0.09 =     0.4 mm2
+
+DEEP, ENERGY PER TOKEN (45 nm constants, ESTIMATED; every ternary weight read once per token, dense case):
+  one 227 KB array                         1065.26 nJ/token (reads 1038.05 + adds 27.210)
+  32 KB banks                              608.33 nJ/token (reads 581.12 + adds 27.210)
+  8 KB banks (wake one bank at a time)     317.77 nJ/token (reads 290.56 + adds 27.210)
+  with event skipping, 5% FFN neurons fire (saves 31% of adds and reads, design doc): 219.3 nJ (8 KB banks)
+
+CORTEX, ENERGY PER DECISION: operation count 9.4 nJ | own layout 0.18-0.26 uJ (20-28x above) -> the pitch figure must be the layout one until the gap is closed
+
+SYSTEM, average per task with a router: Cortex always on, Deep woken on a share r of tasks (r from the routed-pass results: 0.2 earlier for images; for language the share is unknown)
+  r=0.05: Cortex 0.22 uJ + r x Deep 0.32 uJ (8KB banks, 1 token) = 0.24 uJ
+  r=0.20: Cortex 0.22 uJ + r x Deep 0.32 uJ (8KB banks, 1 token) = 0.28 uJ
+  r=1.00: Cortex 0.22 uJ + r x Deep 0.32 uJ (8KB banks, 1 token) = 0.54 uJ

@@ -1810,4 +1810,8 @@ Founder idea: layers (Cortex, Deep, dense, physics, render, memory) so customers
 
 Founder: fabricate only one chip first, so the pitch rests on real (MEASURED) numbers. Consequence: the four untested points from the layered-product note (link cost between layers, fixed interface and shared memory block, new physics/render layers, power gating as a benefit) do not apply to a single chip and are parked, not dropped; the layered line stays a later roadmap. Open: which chip (candidate: the L Cortex recognition chip, about $5 to $9 per die ESTIMATED, bit-exact RTL already exists), shuttle price (no source found, needs a quote), and a measured GPU baseline on the same task to compare against.
 
+## 28 Oct 2026: one layered chip for the pitch
+
+Founder: the pitch chip should carry all three layers (Cortex, Deep, shared memory); find a cheap way to fabricate and manage memory and energy. Done: [one chip, three layers](../hw/results/one_chip_three_layers.md). Result (ESTIMATED / MODELLED): total memory about 0.6 to 0.9 MB; die about 89 mm2 with the open SKY130 macros, 24 mm2 with a denser compiler, about 1 mm2 at 28 nm, so memory type decides cost; Deep energy per token 1,065 nJ in one array, 318 nJ with 8 KB banks, 219 nJ with skipping (banking worth 3 to 5x); Cortex layout is 20 to 28x above its operation count (0.18 to 0.26 uJ vs 9.4 nJ), so the pitch must quote the layout figure. Failure recorded: first run printed nJ as uJ (units bug), fixed. Not known: Deep layout and energy, shared block size, shuttle prices.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
