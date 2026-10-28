@@ -1,0 +1,14 @@
+{
+ "images": 10000,
+ "mismatches": 0,
+ "overlap_errors": 0,
+ "accuracy_rtl": 0.8973,
+ "routed_share": 0.2001,
+ "cycles_mean": 32326.7147,
+ "cycles_not_routed_mean": 30330.585823227902,
+ "cycles_routed_mean": 40306.242378810595,
+ "encoder_cycles_mean": 27427.0,
+ "core_cycles_mean": 2958.4495,
+ "deep_cycles_routed_mean": 9691.480259870064,
+ "wall_s": 5652.4212946891785
+}

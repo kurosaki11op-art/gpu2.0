@@ -1958,4 +1958,8 @@ Added SLOAD (MEM arg 13) to `cortex_core.v` and `hw/rtl/deep/l_cortex_deep.v` (e
 
 Four-engine Deep behind the Cortex blocks and a CORTEX_INFER build of the core: 200 images, 38 routed, 0 mismatches; Deep when woken 9,812 cycles (was 37,795); core block RAM 67 to 26. See [L Deep build](../hw/results/l_deep_build.md) result 11. Next: the encoder (91% of cycles), then the mesh overlap and the FFT butterfly path.
 
+## 28 Oct 2026: 10,000 images through the integrated chip, faster encoder
+
+ENC_PAIR encoder option (27,427 cycles per image, was 48,163; bit-exact on the encoder check) and an ASIC path for the inference core (compiles, not simulated). The integrated top ran all 10,000 test images from raw pixels: **0 mismatches** against the independent reference, 89.73%, mean 32,327 cycles per image (about 1,547 per second at 50 MHz, ESTIMATED). See [L Deep build](../hw/results/l_deep_build.md) result 11 and `hw/virtual/results/full_chip.json`. Next: mesh overlap, FFT butterfly path.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
