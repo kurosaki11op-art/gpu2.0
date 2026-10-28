@@ -1794,4 +1794,8 @@ Asked: run the primitive test. Done: 13 multiplier variants on four kernels, [re
 
 Asked: run the SRAM area and cost model. Done: [result note](../hw/results/sram_area_cost_model.md), three scenarios. Result (ESTIMATED): SRAM costs about 10 to 60 times HBM per byte; 1 GB on chip is about 260 to 510 mm2 and $110 to $440 of silicon (one or two dies), leakage 0.2 to 1.6 W, so the 1 GB tile that gives the 33x and 48x gains is affordable in silicon; beyond a few GB it is multi-die and interconnect (not modelled) dominates. Limits: all costs assumed except the cited density, no HBM price source found, no packaging or NRE.
 
+## 28 Oct 2026: GPU and memory concept study
+
+Asked: study how a GPU and its memory are built and whether changes let us fit more memory efficiently. Done: [concept card](concept_study_gpu_and_memory.md) from web references (not verified) plus [memory_options_model.py](../hw/brain/experiments/month5/memory_options_model.py). Result (ESTIMATED): gain cell, MRAM and stacking cut 1 GB on-chip cost and footprint by 1.5 to 3x (base: $223 down to $107 to $184), still far from HBM per byte; honest gain about 2x until a stacked option is proved. Four own directions listed (read-mostly cells, in-place working set, event-indexed table, mixed precision). No per-block GPU die-area breakdown found. Next: bytes per class of an event-indexed table (measurable now), then a read/write split in the tile model.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

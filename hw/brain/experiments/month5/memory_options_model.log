@@ -1,0 +1,8 @@
+option                         1 GB mm2 footprint     1 GB $ 4 GB footprint       4 GB $      44 GB $
+6T SRAM (baseline)                    491        223         1515          696         7365
+gain cell, 1.5x                       378        154         1060          498         4896
+gain cell, 2x                         321        124          833          352         3663
+STT-MRAM, 2.5x                        287        107          696          276         2869
+SRAM stacked 2 layers                 321        198          833          563         5861
+SRAM stacked 4 layers                 235        235          491          624         5089
+gain cell 2x stacked 4 layers         193        184          321          347         2528

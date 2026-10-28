@@ -73,5 +73,6 @@ tags: [spark, index]
 - [Thinking research synthesis and build order](research/thinking_synthesis.md): five parts of thinking, papers read, proposed methods, order (26 Oct 2026)
 - [Concept study: convolution](concept_study_convolution.md): why it exists, how it is built, its flaws, our own fix directions and tests (28 Oct 2026)
 - [L numeric tile study](L_numeric_tile_study.md): benchmark list (physics, FFT, rendering, LLM, recognition) and an energy model of a memory-on-chip tile against a GPU (ESTIMATED, 28 Oct 2026)
+- [Concept study: GPU and memory](concept_study_gpu_and_memory.md): how a GPU, SRAM, DRAM and HBM are built, their flaws, density options and our own directions (28 Oct 2026)
 
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)
