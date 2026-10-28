@@ -297,5 +297,9 @@ The 22 Oct rule (no matrix of any kind, ternary or not) is replaced: L uses tern
 
 Multiplication and matrices are allowed where a test shows they pay, but no CNN or other standard GPU architecture is used as a component of L (a CNN on both sides invites the question of why a GPU cannot optimise it equally); standard architectures appear only as labelled reference baselines. Before using or replacing a concept: learn why it exists, how it is built, where it is used, where it fails, then build our own method that fixes those flaws and test it first. The routed int8 CNN cascade (91.41% at est. 66.6 nJ) is therefore a reference study only. First concept card: docs/concept_study_convolution.md.
 
+## Target locked for the layered chip (founder, 28 Oct 2026)
+
+Layered chip, three layers, built-in (on-chip) memory, **5 nm and 2 GB of SRAM** as the design target. Estimated manufacturing cost per chip at that target: about Rs 32,000 to 34,000 bare silicon, about Rs 81,000 to 85,000 finished (2 dies; assumed inputs, [cost and power limitations](../hw/results/cost_and_power_limitations.md)); the one-time cost is large and separate. Layers: L Cortex (recognition, built to a bit-exact RTL and layout), L Deep (language and sequences, not finished) and a third general numeric layer (what a GPU does that the first two cannot; not started, name pending). Dispatch: Cortex first, early exit, wake only the layer needed ([dispatch tests](../hw/results/dispatch_tests.md)). The FPGA build and measured numbers still come first for the pitch.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

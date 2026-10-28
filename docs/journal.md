@@ -1834,4 +1834,8 @@ Founder: how much for 1 to 2 GB of SRAM, why chips cost and burn so much, work o
 
 Founder idea: ask a buyer to build it. Discussed three meanings: a paying customer funding the one-time cost, a design or fab partner, and government co-funding. Search (secondary sources, unverified): India's Design Linked Incentive scheme, run by MeitY with C-DAC as nodal agency, reimburses up to 50% of eligible expenditure capped at Rs 15 crore per application, plus shared EDA access through ChipIN; eligibility, windows and shuttle access not found, need checking with MeitY and ChipIN. Our low-case one-time cost estimate is Rs 13 to 85 crore, so this scale of support matters. Recommendation: bring measured numbers first and pitch a narrow product (always-on recognition), not 1 to 2 GB.
 
+## 28 Oct 2026: target locked, 5 nm and 2 GB; naming the third layer
+
+Founder locked 5 nm with 2 GB of built-in memory for the three-layer chip; L Deep and the third layer are unfinished, so the third layer needs a name. Recorded in [project memory](PROJECT_MEMORY.md). Name proposed: L Forge (heavy numeric work); alternatives L Atlas, L Anvil; not final until the founder chooses.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
