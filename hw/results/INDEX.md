@@ -107,4 +107,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [One chip, three layers](one_chip_three_layers.md): memory map, die area by process, banking and gating energy, and a cheap fabrication path for the pitch chip (ESTIMATED, 28 Oct 2026)
 - [Dispatch tests](dispatch_tests.md): early partial margin, false wakes and break-even for gating a layer (SIMULATED rates, ESTIMATED energy, 28 Oct 2026)
 
+- [Accuracy gap tests](accuracy_gap_tests.md): better detectors (no gain) and a multiplier-based stage (not better than L Deep per joule).
+
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

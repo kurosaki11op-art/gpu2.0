@@ -1962,4 +1962,8 @@ Four-engine Deep behind the Cortex blocks and a CORTEX_INFER build of the core: 
 
 ENC_PAIR encoder option (27,427 cycles per image, was 48,163; bit-exact on the encoder check) and an ASIC path for the inference core (compiles, not simulated). The integrated top ran all 10,000 test images from raw pixels: **0 mismatches** against the independent reference, 89.73%, mean 32,327 cycles per image (about 1,547 per second at 50 MHz, ESTIMATED). See [L Deep build](../hw/results/l_deep_build.md) result 11 and `hw/virtual/results/full_chip.json`. Next: mesh overlap, FFT butterfly path.
 
+## 28 Oct 2026: accuracy gap tests (both negative)
+
+Founder asked for the energy-efficient way to close the accuracy gap. Detectors fitted on all ten classes: L alone 88.87% vs 88.85%, no gain. A multiplier-based dense stage on the routed 20%: 89.74% needs about 30 nJ per image against Deep's 19 nJ for the same accuracy, and the logistic version is worse than L. Conclusion: L Deep at 2,000 clauses and 20% routing is the energy-efficient point; no multiplier stage is built. See [accuracy gap tests](../hw/results/accuracy_gap_tests.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
