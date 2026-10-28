@@ -5,11 +5,11 @@
  "lines_compared": 11226,
  "mismatches": 0,
  "model_stream_exact": true,
- "train_cycles": 32115207000,
- "cycles_per_image": 32115207.0,
- "seconds_at_50MHz": 642.30414,
- "projected_seconds_60000_images_at_50MHz": 38538.2484,
+ "train_cycles": 32115207,
+ "cycles_per_image": 32115.207,
+ "seconds_at_50MHz": 0.64230414,
+ "projected_seconds_60000_images_at_50MHz": 38.5382484,
  "test_accuracy_chip_table": 0.7865,
  "test_accuracy_model_table": 0.7865,
- "wall_s": 213.98617553710938
+ "wall_s": 224.16835045814514
 }
