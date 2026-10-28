@@ -16,4 +16,4 @@ Question: can a small always-on stage decide early whether to wake a larger stag
 
 Next reading, once arXiv is reachable: the BranchyNet abstract, conclusion and the confidence-threshold section; ReGate abstract and conclusion; then decide on a full read. The founder can allow the domain in the environment's network settings; I will not change settings myself.
 
-Related: [Docs index](INDEX.md), [One chip, three layers](../../hw/results/one_chip_three_layers.md), [Dispatch tests](../../hw/results/dispatch_tests.md)
+Related: [Docs index](../INDEX.md), [One chip, three layers](../../hw/results/one_chip_three_layers.md), [Dispatch tests](../../hw/results/dispatch_tests.md)
