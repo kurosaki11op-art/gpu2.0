@@ -1,0 +1,3 @@
+on-chip rule (shipped table): 0.8885
+offline softmax, no decay           float 0.8607 | int8 table + bias 0.8604 | int8 range -127..106 [517s]
+offline softmax, weight decay 1e-5  float 0.8669 | int8 table + bias 0.8669 | int8 range -127..102 [1055s]
