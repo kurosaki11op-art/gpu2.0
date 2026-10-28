@@ -1,0 +1,6 @@
+[  36s] prepared; L alone 0.8885, routed 20.0%, L on routed 0.6052
+residual, shift 0, all training images   routed acc 0.6187 | total 0.8912 | fixes 2.18% breaks 1.91% | weight range -127..127 [ 175s]
+residual, shift 2, all training images   routed acc 0.6162 | total 0.8907 | fixes 2.54% breaks 2.32% | weight range -90..105 [ 276s]
+residual, shift 4, all training images   routed acc 0.6172 | total 0.8909 | fixes 2.66% breaks 2.42% | weight range -78..64 [ 475s]
+residual, shift 2, hardest 40%           routed acc 0.6182 | total 0.8911 | fixes 2.57% breaks 2.31% | weight range -127..127 [ 516s]
+residual, shift 4, hardest 40%           routed acc 0.6112 | total 0.8897 | fixes 2.81% breaks 2.69% | weight range -120..123 [ 586s]

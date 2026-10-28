@@ -44,7 +44,7 @@ if INPUT == 'rich':                                                             
     def _bits(x): im = x.reshape(-1, 28, 28); return np.concatenate([(im > 85).reshape(len(im), -1), (im > 170).reshape(len(im), -1)], 1).astype(np.uint8)
     ctr, cte = np.concatenate([_rich(0), _bits(xtr)], 1), np.concatenate([_rich(1), _bits(xte)], 1)
 NB = ctr.shape[1]; NL = 2 * NB; C = int(os.environ.get("C", 100)); T = int(os.environ.get("TT", 30)); S = float(os.environ.get("SS", 8.0)); POS = int(os.environ.get('POSLIT', 0)); SEEDADD = int(os.environ.get('SEEDADD', 0)); NST = 100; LMAX = int(os.environ.get("LMAX", 64)); BUDGET = float(os.environ.get("BUDGET", 480))
-CK = "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/tm_faithful_state%s.npz" % (("_" + os.environ["INPUT"] if os.environ.get("INPUT", "code") != "code" else "") + ("_pos" if os.environ.get("POSLIT", "0") == "1" else "") + ("_s%s" % os.environ["SEEDADD"] if os.environ.get("SEEDADD") else ""))
+CK = "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/tm_faithful_state%s.npz" % (("_" + os.environ["INPUT"] if os.environ.get("INPUT", "code") != "code" else "") + ("_pos" if os.environ.get("POSLIT", "0") == "1" else "") + ("_hard" if os.environ.get("HARDQ") else "") + ("_s%s" % os.environ["SEEDADD"] if os.environ.get("SEEDADD") else ""))
 @njit
 def fires(cl, x, inc_list, inc_n, train):
     n = inc_n[cl]
@@ -116,6 +116,12 @@ else:
     state = np.full((10 * C, NL), NST, np.uint8); inc_list = np.zeros((10 * C, LMAX), np.int32); inc_n = np.zeros(10 * C, np.int32); ep = 0; pos = 0
 t0 = time.time(); X = ctr.astype(np.uint8); y = ytr.astype(np.int64); Xt = cte.astype(np.uint8)
 rs = np.random.RandomState(1)
+if os.environ.get("HARDQ"):   # specialist: train only on the training images L is least sure about (cross-fitted margins, so they are not inflated by L's own training)
+    from shirt_new_methods_setup import train_table
+    _p = np.random.RandomState(5).permutation(len(y)); _h = [_p[: len(_p) // 2], _p[len(_p) // 2:]]; _m = np.zeros(len(y))
+    for _a, _b in ((_h[0], _h[1]), (_h[1], _h[0])):
+        _w = train_table(X[_a][:, :4608], y[_a]); _s = np.sort(X[_b][:, :4608].astype(np.int32) @ _w, 1); _m[_b] = _s[:, -1] - _s[:, -2]
+    _sel = np.nonzero(_m <= np.quantile(_m, float(os.environ["HARDQ"])))[0]; X, y = X[_sel], y[_sel]; print("hard-image specialist: training on %d images" % len(y), flush=True)
 def report(tag):
     sc = predict(Xt, inc_list, inc_n).astype(np.float32); p = sc.argmax(1); mk = np.isin(yte, CL); s = sc[:, 6] - np.delete(sc, 6, 1).max(1); yy = yte == 6; o = np.argsort(-s, kind="stable"); tp = np.cumsum(yy[o]); ap = ((tp / np.arange(1, len(o) + 1)) * yy[o]).sum() / yy.sum()
     print("[%4.0fs] %s: test acc %.4f | cluster %.4f | Shirt recall %.3f | Shirt AP %.3f | mean included literals per clause %.1f" % (time.time() - t0, tag, (p == yte).mean(), (CL[sc[mk][:, CL].argmax(1)] == yte[mk]).mean(), (p[yte == 6] == 6).mean(), ap, inc_n.mean()), flush=True)
