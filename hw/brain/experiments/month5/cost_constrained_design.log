@@ -1,0 +1,42 @@
+PER-CHIP SILICON (die cost only), 1 GB and 2 GB, by tile logic assumption; rupees in thousands (Rs k)
+node   GB    logic assumption                         mm2  dies silicon Rs k
+28nm   1     shared 150 mm2 logic (earlier)          1320     3         7.0
+28nm   1     Cerebras-size tile 0.025 mm2            7724    13        43.8
+28nm   1     add-only tile 0.005 mm2 (assumed)       2481     5        13.4
+28nm   2     shared 150 mm2 logic (earlier)          2491     5        13.5
+28nm   2     Cerebras-size tile 0.025 mm2           15448    26        87.6
+28nm   2     add-only tile 0.005 mm2 (assumed)       4962     9        27.6
+16nm   1     shared 150 mm2 logic (earlier)           735     2         6.0
+16nm   1     Cerebras-size tile 0.025 mm2            3316     6        30.7
+16nm   1     add-only tile 0.005 mm2 (assumed)       1131     2        10.6
+16nm   2     shared 150 mm2 logic (earlier)          1320     3        11.3
+16nm   2     Cerebras-size tile 0.025 mm2            6632    12        61.4
+16nm   2     add-only tile 0.005 mm2 (assumed)       2263     4        21.1
+5nm    1     shared 150 mm2 logic (earlier)           491     1        18.4
+5nm    1     Cerebras-size tile 0.025 mm2             887     2        31.8
+5nm    1     add-only tile 0.005 mm2 (assumed)        451     1        16.2
+5nm    2     shared 150 mm2 logic (earlier)           833     2        29.1
+5nm    2     Cerebras-size tile 0.025 mm2            1775     3        72.7
+5nm    2     add-only tile 0.005 mm2 (assumed)        901     2        32.5
+
+ONE-TIME COST (NRE: masks + design + IP), crore rupees (1 crore = 1e7): low case / high case
+  28nm  Rs 12.8 crore (low) / Rs 382 crore (high)
+  16nm  Rs 23.8 crore (low) / Rs 850 crore (high)
+  5nm   Rs 85.0 crore (low) / Rs 4080 crore (high)
+
+STORAGE LEVER: MB needed per model size and bits per parameter
+      1M params: int8        1 MB | ternary 2-bit        0 MB | packed 1.58-bit        0 MB
+    100M params: int8      100 MB | ternary 2-bit       25 MB | packed 1.58-bit       20 MB
+   1000M params: int8     1000 MB | ternary 2-bit      250 MB | packed 1.58-bit      198 MB
+   4000M params: int8     4000 MB | ternary 2-bit     1000 MB | packed 1.58-bit      790 MB
+
+PER-CHIP PRICE at volume incl. NRE share (add-only tile, 1 GB, 2.5x package/margin), Rs k: NRE low / high
+  28nm  volume    1000: Rs       161 k (low NRE) / Rs       3859 k (high NRE)
+  28nm  volume   10000: Rs        46 k (low NRE) / Rs        416 k (high NRE)
+  28nm  volume  100000: Rs        35 k (low NRE) / Rs         72 k (high NRE)
+  16nm  volume    1000: Rs       264 k (low NRE) / Rs       8526 k (high NRE)
+  16nm  volume   10000: Rs        50 k (low NRE) / Rs        876 k (high NRE)
+  16nm  volume  100000: Rs        29 k (low NRE) / Rs        111 k (high NRE)
+  5nm   volume    1000: Rs       891 k (low NRE) / Rs      40841 k (high NRE)
+  5nm   volume   10000: Rs       126 k (low NRE) / Rs       4121 k (high NRE)
+  5nm   volume  100000: Rs        49 k (low NRE) / Rs        449 k (high NRE)
