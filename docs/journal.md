@@ -1782,4 +1782,8 @@ Stage 1 L (all images), stage 2 matrix-free 64-informative pass (20%), stage 3 s
 
 Founder: multiplication and matrices yes, but no CNN (GPU architectures invite the question of why a GPU cannot optimise it); learn why a concept is used, how it is built and where it fails, then build our own method fixing its flaws. Stopped the second-seed cascade run; marked hybrid_routed_cnn.md as a reference study only; wrote docs/concept_study_convolution.md (concept card with our own evidence and three tests: match-strength bit, group specialist, neighbour-relation bits). Rule added to CLAUDE.md item 4 and docs/PROJECT_MEMORY.md.
 
+## 28 Oct 2026: benchmark list and numeric tile model
+
+Asked: benchmark list and numeric tile model; then a primitive that does everything GPUs and models do. Done: wrote [L numeric tile study](L_numeric_tile_study.md) from `hw/brain/experiments/month5/numeric_tile_model.py` (logs at 64/256/1024 MB). Result (ESTIMATED, plus or minus 3x, energy only): gains over a mixed-precision GPU baseline are 1.1 to 4x at 64 to 256 MB for physics and the LLM, up to 33x (Poisson) and 48x (LLM) only if 1 GB fits on chip; small int8 network 20.6x; sparse recognition 35.8x. Compute is 59 to 63% of tile energy for dense multiply and Kalman, 1 to 12% for memory-bound kernels, so a new arithmetic primitive helps only the compute-bound kernels. Failures fixed on the way: LLM reuse of 0 and sparse operation count 1000x low. Not modelled: SRAM area and cost, accuracy of mixed precision. Next: arithmetic primitive shoot-out (error plus energy), after the capacity question.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

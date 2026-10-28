@@ -1,0 +1,24 @@
+
+=== constant set: 45nm | on-chip capacity 64 MB ===
+workload                                                    GPU naive J  GPU mixed J       tile J gain vs naive  vs mixed  where the tile's energy goes (compute/on-chip/external)
+Dense matrix multiply 4096^3 fp32                                  1.87         1.87        0.974      1.9x      1.9x  32%/18%/50%
+3D FFT 512^3 complex fp32                                           2.9          2.9         1.39      2.1x      2.1x   3%/26%/71%
+3D Poisson solve 256^3, CG 200 its, fp64                           41.5         41.1         31.6      1.3x      1.3x   1%/ 4%/95%
+CFD stencil 512^3 x 100 steps, fp64                                 152          144         85.8      1.8x      1.7x   5%/16%/79%
+Kalman filter 12 states x 1e6 steps, fp64                         0.671        0.671        0.271      2.5x      2.5x  63%/37%/ 0%
+Neural network inference int8 x 1e6 images (small)                 22.3         22.3         1.28     17.4x     17.4x   2%/98%/ 0%
+LLM token generation, 1B params int8 x 100 tokens                  17.5         17.5         15.5      1.1x      1.1x   0%/ 2%/98%
+Ray tracing 1080p frame, 2M rays, 500 MB scene, fp32              0.495        0.495        0.282      1.8x      1.8x   4%/17%/79%
+Sparse recognition (L-like) x 1e6 images: 4608 inputs x 10        0.586        0.586       0.0163     35.8x     35.8x   8%/91%/ 0%
+
+=== constant set: modern | on-chip capacity 64 MB ===
+workload                                                    GPU naive J  GPU mixed J       tile J gain vs naive  vs mixed  where the tile's energy goes (compute/on-chip/external)
+Dense matrix multiply 4096^3 fp32                                 0.432        0.432        0.235      1.8x      1.8x  27%/15%/59%
+3D FFT 512^3 complex fp32                                         0.666        0.666         0.36      1.8x      1.8x   2%/20%/77%
+3D Poisson solve 256^3, CG 200 its, fp64                           11.1           11         8.81      1.3x      1.3x   0%/ 3%/96%
+CFD stencil 512^3 x 100 steps, fp64                                36.1         34.6         22.8      1.6x      1.5x   4%/12%/84%
+Kalman filter 12 states x 1e6 steps, fp64                         0.134        0.134       0.0541      2.5x      2.5x  63%/37%/ 0%
+Neural network inference int8 x 1e6 images (small)                 5.27         5.27        0.256     20.6x     20.6x   2%/98%/ 0%
+LLM token generation, 1B params int8 x 100 tokens                  4.85         4.85         4.36      1.1x      1.1x   0%/ 1%/99%
+Ray tracing 1080p frame, 2M rays, 500 MB scene, fp32              0.119        0.119       0.0748      1.6x      1.6x   3%/13%/84%
+Sparse recognition (L-like) x 1e6 images: 4608 inputs x 10        0.117        0.117      0.00327     35.8x     35.8x   8%/91%/ 0%

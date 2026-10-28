@@ -72,5 +72,6 @@ tags: [spark, index]
 - [Blackwell, Cerebras and memory physics](research/hardware_landscape_synthesis.md): side-by-side, weak points and where L could differ (25 Oct 2026)
 - [Thinking research synthesis and build order](research/thinking_synthesis.md): five parts of thinking, papers read, proposed methods, order (26 Oct 2026)
 - [Concept study: convolution](concept_study_convolution.md): why it exists, how it is built, its flaws, our own fix directions and tests (28 Oct 2026)
+- [L numeric tile study](L_numeric_tile_study.md): benchmark list (physics, FFT, rendering, LLM, recognition) and an energy model of a memory-on-chip tile against a GPU (ESTIMATED, 28 Oct 2026)
 
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)
