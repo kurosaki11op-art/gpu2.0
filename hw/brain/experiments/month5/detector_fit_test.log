@@ -1,0 +1,3 @@
+shipped      L alone accuracy 0.8885 | shirt recall 0.638 | active bits 589 | [205s]
+all10        L alone accuracy 0.8887 | shirt recall 0.612 | active bits 584 | [389s]
+all10_big    L alone accuracy 0.8880 | shirt recall 0.634 | active bits 592 | [606s]
