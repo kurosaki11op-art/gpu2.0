@@ -75,6 +75,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Tsetlin-style clause learner](tsetlin_clause_learner.md): local feedback, no error passing; 86% with tiny clauses, Shirt AP 0.65, still rising
 - [L-Deep attempts](ldeep_attempts.md): shared gate trees by error passing collapse; trees chosen by counted information reach 84%, no gain on L's code
 - [L Deep build](l_deep_build.md): integer pipeline reproduces 89.73%, RTL bit-exact on 300 routed images, memory and what is left (28 Oct 2026)
+- [Virtual device tests](virtual_device_tests.md): the whole design on a simulated FPGA, 10,000 images through the RTL, stress tests, two real bugs found and fixed, and a 3D virtual board (28 Oct 2026)
 - [MEM-C1 table compression](table_compression_mem_c1.md): difference-only pruned table; only 10 to 25% saving at 10 classes, pays at scale
 - [Sparse-by-construction table (option B)](sparse_table_option_b.md): slots and sketch; free at 10 classes, 3 times fewer reads costs 2 to 3 points at 47
 - [Our own methods: retrieve-then-rerank and routed clauses](own_methods_routing.md): reads only where they pay; routed clauses keep the whole gain at 30% of the clause cost

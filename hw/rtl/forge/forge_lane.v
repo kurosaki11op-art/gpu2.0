@@ -1,6 +1,6 @@
 // L Forge block floating-point multiply-accumulate lane (28 Oct 2026, SIMULATED/verified against forge_lane_golden.py).
 // One block of 16 signed 8-bit mantissa pairs (ma, mb) with block exponents ea, eb per cycle: exact integer dot product P, scaled by 2^(ea+eb-12),
-// added into a floating accumulator (signed 16-bit-magnitude mantissa macc, exponent eacc) with round-to-nearest (ties away from zero) after the add.
+// added into a floating accumulator (a zero block sum leaves the accumulator unchanged) (signed 16-bit-magnitude mantissa macc, exponent eacc) with round-to-nearest (ties away from zero) after the add.
 // value = macc * 2^eacc. 'first' starts a new sum. Operand alignment is exact up to 40 bits; a larger exponent gap keeps the larger operand.
 module forge_lane (
     input clk, input rst, input valid, input first,
@@ -15,6 +15,7 @@ module forge_lane (
             P = 0; for (i = 0; i < 16; i = i + 1) P = P + $signed(ma[8*i +: 8]) * $signed(mb[8*i +: 8]);
             E = ea + eb - 12; Am = first ? 17'sd0 : macc; Ae = eacc;
             if (Am == 0) begin S = P; Es = E; end
+            else if (P == 0) begin S = Am; Es = Ae; end
             else begin
                 if (E >= Ae) begin d = E - Ae; if (d > 40) begin S = P; Es = E; end else begin Ps = P; S = (Ps <<< d) + Am; Es = Ae; end end
                 else begin d = Ae - E; if (d > 40) begin S = Am; Es = Ae; end else begin As = Am; S = (As <<< d) + P; Es = E; end end

@@ -26,16 +26,16 @@ module ldeep_core_bram #(parameter NB = 6176, NCODE = 4608, NCL = 2000, NLITS = 
                     if (i != 0 && bit_q) for (j = 0; j < 10; j = j + 1) acc[j] <= acc[j] + $signed(wcode_q[8*j +: 8]);
                     if (i == NCODE) begin st <= S_H; c <= 0; end else i <= i + 1; end
                 S_H: st <= S_H2;
-                S_H2: begin lcnt <= hdr_q[7:0]; la <= hdr_q[23:8]; t <= 0; if (hdr_q[7:0] == 0) begin c <= c + 1; st <= (c + 1 == NCL) ? S_ARG : S_H; if (c + 1 == NCL) begin k <= 1; best <= acc[0]; bidx <= 0; end end else st <= S_L1; end
+                S_H2: begin lcnt <= hdr_q[7:0]; la <= hdr_q[23:8]; t <= 0; if (hdr_q[7:0] == 0) begin c <= c + 1; st <= (c + 1 == NCL) ? S_ARG : S_H; if (c + 1 == NCL) begin k <= 0; best <= -20'sd524288; bidx <= 0; end end else st <= S_L1; end
                 S_L1: st <= S_L2;
                 S_L2: begin if (lits_q < NB) begin ba <= lits_q; inv <= 0; end else begin ba <= lits_q - NB; inv <= 1; end st <= S_L3; end
                 S_L3: st <= S_L4;
                 S_L4: begin
-                    if (!(inv ? ~bit_q : bit_q)) begin c <= c + 1; st <= (c + 1 == NCL) ? S_ARG : S_H; if (c + 1 == NCL) begin k <= 1; best <= acc[0]; bidx <= 0; end end
+                    if (!(inv ? ~bit_q : bit_q)) begin c <= c + 1; st <= (c + 1 == NCL) ? S_ARG : S_H; if (c + 1 == NCL) begin k <= 0; best <= -20'sd524288; bidx <= 0; end end
                     else if (t + 1 == lcnt) st <= S_F1;
                     else begin t <= t + 1; la <= la + 1; st <= S_L1; end end
                 S_F1: st <= S_F2;
-                S_F2: begin for (j = 0; j < 10; j = j + 1) acc[j] <= acc[j] + $signed(wcl_q[8*j +: 8]); c <= c + 1; st <= (c + 1 == NCL) ? S_ARG : S_H; if (c + 1 == NCL) begin k <= 1; best <= acc[0]; bidx <= 0; end end
+                S_F2: begin for (j = 0; j < 10; j = j + 1) acc[j] <= acc[j] + $signed(wcl_q[8*j +: 8]); c <= c + 1; st <= (c + 1 == NCL) ? S_ARG : S_H; if (c + 1 == NCL) begin k <= 0; best <= -20'sd524288; bidx <= 0; end end
                 S_ARG: begin
                     if (k == 10) begin pred <= bidx; done <= 1; busy <= 0; st <= S_IDLE; end
                     else begin if (acc[k] > best) begin best <= acc[k]; bidx <= k; end k <= k + 1; end end

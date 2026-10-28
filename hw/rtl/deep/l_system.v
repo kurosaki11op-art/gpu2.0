@@ -18,7 +18,7 @@ module l_system #(parameter NB = 6176, NCODE = 4608, NCL = 2000, NLITS = 13497, 
         if (wr_en) bitsm[wr_addr] <= wr_bit;
     end
     wire [79:0] row = stage2 ? wcode_q : wcode1_q;
-    task go_arg; begin k <= 1; best <= acc[0]; second <= -20'sd524288; bidx <= 0; st <= S_ARG; end endtask
+    task go_arg; begin k <= 0; best <= -20'sd524288; second <= -20'sd524288; bidx <= 0; st <= S_ARG; end endtask   // the argmax starts from the lowest value and visits all 10 classes, so it never reads an accumulator that is being updated in the same cycle (that stale read was a real bug: found by the full test-set run)
     always @(posedge clk) begin
         if (rst) begin st <= S_IDLE; busy <= 0; done <= 0; pred <= 0; cycles <= 0; routed <= 0; stage2 <= 0; end
         else begin

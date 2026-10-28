@@ -1,0 +1,15 @@
+{
+ "images": 10000,
+ "mismatches": 0,
+ "accuracy_rtl": 0.8973,
+ "routed_share": 0.2001,
+ "cycles_mean": 12102.5454,
+ "cycles_not_routed_mean": 4620.0,
+ "cycles_routed_mean": 42014.029985007495,
+ "cycles_max": 50810,
+ "clock_hz": 50000000,
+ "images_per_s_at_clock": 4131.3623165586305,
+ "ms_per_image_mean": 0.242050908,
+ "ms_per_image_routed_mean": 0.8402805997001499,
+ "wall_s": 226.09648728370667
+}

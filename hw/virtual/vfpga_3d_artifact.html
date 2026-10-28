@@ -1,0 +1,183 @@
+<title>VFPGA-L1 Virtual Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout concept: an instrument bench. A rotatable 3D board fills the left; a narrow ledger of numbers, tests and findings sits right (stacks below on a phone).
+   Palette: ink (bg), copper (accent), three layer hues (Cortex amber, Deep teal, Forge blue), slate for idle silicon, pcb for the board.
+   Type: Barlow Condensed for labels and headings, Source Sans 3 for text, JetBrains Mono for every number. */
+:root{
+  --bg:#EEF2F3; --panel:#FFFFFF; --line:#D3DDE1; --fg:#14202A; --muted:#5B6B75; --accent:#B4592B;
+  --cortex:#C47F0F; --deep:#15897D; --forge:#2F67C9; --disp:#6C7E88; --ok:#2A8A4A; --bad:#C4372E;
+  --board:#9CC2B0; --die:#B9C5CB; --idle:#CBD6DB; --bramidle:#AEBCC5; --scene:#E4EBEE;
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'Source Sans 3','Segoe UI',sans-serif; --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1316; --panel:#151C20; --line:#26323A; --fg:#DCE6E9; --muted:#8A9AA2; --accent:#E0925F;
+  --cortex:#E3A13A; --deep:#35B8A8; --forge:#6A9BEE; --disp:#B7C4CB; --ok:#5DBB7A; --bad:#E5675F;
+  --board:#2A5446; --die:#3A4A54; --idle:#4A5C68; --bramidle:#566B78; --scene:#0C1215; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#0E1316; --panel:#151C20; --line:#26323A; --fg:#DCE6E9; --muted:#8A9AA2; --accent:#E0925F;
+  --cortex:#E3A13A; --deep:#35B8A8; --forge:#6A9BEE; --disp:#B7C4CB; --ok:#5DBB7A; --bad:#E5675F;
+  --board:#2A5446; --die:#3A4A54; --idle:#4A5C68; --bramidle:#566B78; --scene:#0C1215; color-scheme:dark; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px}
+h1,h2{font-family:var(--display);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin:0}
+h1{font-size:30px;line-height:1.1} h2{font-size:15px;color:var(--muted);margin-bottom:10px}
+.sub{color:var(--muted);max-width:70ch;margin:6px 0 18px}
+.app{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.app{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;background:var(--scene);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+canvas{display:block;width:100%;height:min(66vh,620px);min-height:340px;touch-action:none;cursor:grab}
+canvas:active{cursor:grabbing}
+.hud{position:absolute;left:12px;top:10px;font-family:var(--mono);font-size:12px;color:var(--fg);pointer-events:none;background:color-mix(in srgb,var(--scene) 78%,transparent);padding:6px 8px;border-radius:4px;max-width:calc(100% - 24px)}
+.hud b{font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 12px;border-top:1px solid var(--line);background:var(--panel)}
+button{font:600 13px var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:4px;padding:7px 12px;cursor:pointer}
+button:hover{border-color:var(--accent)} button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+label{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
+input[type=range]{accent-color:var(--accent);width:130px}
+.strip{display:flex;flex-wrap:wrap;gap:3px;padding:0 12px 12px;background:var(--panel)}
+.strip i{display:block;height:12px;border-radius:2px;min-width:5px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:10px 12px;background:var(--panel);border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+section{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px;min-width:0}
+.res{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;font-size:13px}
+.res .meter{height:8px;background:var(--idle);border-radius:4px;overflow:hidden}.res .meter i{display:block;height:100%;background:var(--accent)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12.5px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:5px 8px 5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pass{color:var(--ok);font-weight:600}.fail{color:var(--bad);font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:10px}
+.kpi{border-left:3px solid var(--accent);padding-left:10px}.kpi .v{font:600 22px var(--mono)}.kpi .l{font-size:12px;color:var(--muted)}
+ul.find{margin:0;padding-left:18px;font-size:14px}ul.find li{margin-bottom:8px}
+.note{font-size:12.5px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+<h1>VFPGA-L1 virtual board</h1>
+<p class="sub">A simulated FPGA sized for the three-layer L design. The 3D floorplan shows where each layer's logic, block RAM and multipliers sit, replays real simulated jobs, and lists what the virtual tests found. Everything here is simulation and synthesis estimates, no board.</p>
+<div class="app">
+ <div>
+  <div class="stage"><canvas id="cv" aria-label="Rotatable 3D floorplan of the virtual FPGA"></canvas><div class="hud" id="hud"></div>
+   <div class="bar"><button id="play" aria-pressed="true">Pause</button>
+    <label>Speed <input id="spd" type="range" min="1" max="100" value="45" aria-label="Replay speed"></label>
+    <span style="flex:1"></span><button data-view="iso">Isometric</button><button data-view="top">Top</button><button data-view="side">Side</button></div>
+   <div class="strip" id="strip" title="Replayed jobs: each block is one job, width is its cycle count"></div>
+   <div class="legend" id="legend"></div></div>
+  <p class="note" style="margin-top:8px">Drag to rotate, scroll or pinch to zoom. Jobs replayed are real RTL simulation results (cycles per image from the two-stage system, matrix products from the Forge tile). The split of the shared system module between Cortex stage 1 and L Deep is an estimate; the memory split is exact by size.</p>
+ </div>
+ <div class="side">
+  <section><h2>Fit on the device</h2><div class="kpis" id="kpis"></div><div class="res" id="res"></div><p class="note" id="fitnote"></p></section>
+  <section><h2>Blocks (synthesis counts)</h2><div class="scroll"><table id="blocks"></table></div></section>
+  <section><h2>Virtual tests</h2><div class="kpis" id="tkpis"></div><div class="scroll"><table id="tests"></table></div></section>
+  <section><h2>Found by the tests</h2><ul class="find" id="finds"></ul></section>
+  <section><h2>What this is not</h2><p class="note" id="limits"></p></section>
+ </div>
+</div>
+<script>
+const DATA = {"device": {"name": "VFPGA-L1", "description": "Virtual FPGA device sized for the three-layer L design, modelled on the resource types of the Gowin GW2A family that the project synthesises for (LUT4 logic, carry cells, flip-flops, 18 Kbit block RAM, 9x9 multipliers). Resource counts are chosen with headroom for the design; it is a simulation target, not a real part.", "clock_hz": 50000000, "lut4": 20000, "alu": 20000, "ff": 20000, "bsram_18k": 120, "mult9x9": 48, "uart": 1, "io": 64, "grid": {"cols": 44, "rows": 40, "bsram_columns": [10, 22, 34], "dsp_columns": [16, 28]}}, "blocks": {"uart": {"lut4": 106, "alu": 39, "ff": 70, "bsram_18k": 0, "mult9x9": 0}, "system": {"lut4": 2746, "alu": 574, "ff": 384, "bsram_18k": 64, "mult9x9": 0}, "forge": {"lut4": 2803, "alu": 479, "ff": 208, "bsram_18k": 10, "mult9x9": 16}, "whole": {"lut4": 4861, "alu": 1134, "ff": 779, "bsram_18k": 74, "mult9x9": 16}, "deep4": {"lut4": 3408, "alu": 2097, "ff": 1418, "bsram_18k": 76, "mult9x9": 0}}, "blockRows": [{"name": "uart (rx+tx)", "lut4": 106, "alu": 39, "ff": 70, "bsram_18k": 0, "mult9x9": 0}, {"name": "L system (stage 1 + dispatcher + L Deep, 1 engine)", "lut4": 2746, "alu": 574, "ff": 384, "bsram_18k": 64, "mult9x9": 0}, {"name": "L Forge tile (lane + matrix-product control)", "lut4": 2803, "alu": 479, "ff": 208, "bsram_18k": 10, "mult9x9": 16}, {"name": "whole board top (UART + dispatcher + system + Forge tile)", "lut4": 4861, "alu": 1134, "ff": 779, "bsram_18k": 74, "mult9x9": 16}, {"name": "L Deep, 4 parallel engines (alternative core)", "lut4": 3408, "alu": 2097, "ff": 1418, "bsram_18k": 76, "mult9x9": 0}], "split": {"cortex_logic_fraction": 0.22, "cortex_bram": 21}, "full": {"images": 10000, "mismatches": 0, "accuracy_rtl": 0.8973, "routed_share": 0.2001, "cycles_mean": 12102.5454, "cycles_not_routed_mean": 4620.0, "cycles_routed_mean": 42014.029985007495, "cycles_max": 50810, "clock_hz": 50000000, "images_per_s_at_clock": 4131.3623165586305, "ms_per_image_mean": 0.242050908, "ms_per_image_routed_mean": 0.8402805997001499, "wall_s": 226.09648728370667}, "tests": [{"name": "L Deep core, asynchronous reads (300 routed images)", "passed": true, "line": "PASS"}, {"name": "L Deep core, block-RAM version (300 routed images)", "passed": true, "line": "PASS"}, {"name": "L Deep core, four parallel engines (300 routed images)", "passed": true, "line": "PASS"}, {"name": "two-stage system with dispatcher (200 images, 38 routed)", "passed": true, "line": "PASS"}, {"name": "layered top: 40 recognitions and a matrix product", "passed": true, "line": "recognitions 40 (routed 6): mismatches 0; matrix product outputs 256: mismatches 0; cycles awake: cortex 184800, deep 222976, forge 2051, total 657719"}, {"name": "UART board top: 4 recognitions and a matrix product", "passed": true, "line": "recognitions 4: reply mismatches 0 (cycles reported [4620, 35762, 4620, 44984]); matrix product: header ok, 256 outputs, mismatches 0, tile cycles 2051"}, {"name": "L Forge tile matrix product (16x128x16)", "passed": true, "line": "tile matrix product 16x128x16: 0 of 256 outputs differ from the lane golden model; error vs fp64 9.64e-03; 2051 cycles for 2048 block operations (32768 multiply-accumulates)"}, {"name": "TEST 2: stress mix on the layered top, seed 1", "passed": true, "line": "stress mix: 47 recognitions (21 routed, 2 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, deep 788880, forge 8204"}, {"name": "TEST 2: stress mix on the layered top, seed 2", "passed": true, "line": "stress mix: 47 recognitions (20 routed, 6 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, deep 751062, forge 8204"}, {"name": "TEST 2: stress mix on the layered top, seed 3", "passed": true, "line": "stress mix: 47 recognitions (22 routed, 5 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, deep 873852, forge 8204"}, {"name": "TEST 3: L Forge stress (200,000 lane operations, 7 data distributions)", "passed": true, "line": "tile mismatches in total: 0"}, {"name": "TEST 4: UART board under a hostile host", "passed": true, "line": "bytes back 1320, expected 1320 (extra bytes from junk: 0); failures 0"}, {"name": "TEST 1: the whole 10,000-image test set through the RTL", "passed": true, "line": "PASS: all 10000 images identical to the reference model"}, {"name": "resource fit on VFPGA-L1 (yosys, Gowin family)", "passed": true, "line": "  logic cells (LUT4 + carry): 5995 of 20000 (30.0%)"}], "jobs": [{"kind": "rec", "id": 0, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 1, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 2, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 3, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 4, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 5, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "mm", "forge": 2051}, {"kind": "rec", "id": 6, "routed": 1, "cortex": 4620, "deep": 31142}, {"kind": "rec", "id": 7, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 8, "routed": 1, "cortex": 4620, "deep": 40364}, {"kind": "rec", "id": 9, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 10, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 11, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 12, "routed": 1, "cortex": 4620, "deep": 38928}, {"kind": "mm", "forge": 2051}, {"kind": "rec", "id": 13, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 14, "routed": 1, "cortex": 4620, "deep": 41024}, {"kind": "rec", "id": 15, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 16, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 17, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 18, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 19, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "mm", "forge": 2051}, {"kind": "rec", "id": 20, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 21, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 22, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 23, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 24, "routed": 0, "cortex": 4620, "deep": 0}, {"kind": "rec", "id": 25, "routed": 1, "cortex": 4620, "deep": 30616}], "finds": ["<b>A real RTL bug, found only by the full test set.</b> The final class choice read class 0 before the last table add had landed; 1 image of 10,000 got the wrong class (RTL 89.72% against 89.73%). The 300- and 200-image checks had missed it. Fixed in the system and block-RAM cores; the whole set now matches the reference.", "<b>Forge accumulator erased by a zero block.</b> A block whose products summed to zero but whose exponent was much larger wiped the running sum (90%-zero data: 21% error instead of 0.7%). Fixed in the lane RTL, its golden model and the tile model; exponents of all-zero blocks are now clamped.", "<b>The UART protocol has no flow control.</b> A host that sends the next command before the reply arrives loses bytes silently. The host script waits for each reply; the protocol note now says so.", "<b>No mismatches elsewhere:</b> 200,006 random lane operations, seven matrix-product data distributions, 3 stress mixes with reset injection, and a hostile UART byte stream all match their references."], "limits": "VFPGA-L1 is a simulation target sized for this design, not a real part. Resource counts come from yosys synthesis for the Gowin family; there is no place and route, timing closure or power measurement. Stage 1 is a re-implementation of the table read for the experiment's trained table, not the existing Cortex core. All cycle counts come from RTL simulation at a 50 MHz virtual clock."};
+(function(){
+const D = DATA, dev = D.device, COLS = dev.grid.cols, ROWS = dev.grid.rows, $ = id => document.getElementById(id);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function rgb(c){ if(c[0]==='#'){ const v=parseInt(c.slice(1),16); return [(v>>16)&255,(v>>8)&255,v&255]; } const m=c.match(/\d+/g); return m?m.slice(0,3).map(Number):[128,128,128]; }
+let T = {};
+function readTheme(){ ['bg','fg','muted','accent','cortex','deep','forge','disp','board','die','idle','bramidle','scene','line'].forEach(k=>T[k]=rgb(css('--'+k))); }
+readTheme();
+const fmt = n => n.toLocaleString('en-US');
+// ---------- floorplan ----------
+const kind = [], owner = [], boxes = [];
+for(let c=0;c<COLS;c++){ kind[c]=[]; owner[c]=[]; for(let r=0;r<ROWS;r++){ kind[c][r]='logic'; owner[c][r]=null; } }
+dev.grid.bsram_columns.forEach(c=>{ for(let r=0;r<ROWS;r++) kind[c][r]='bram'; });
+dev.grid.dsp_columns.forEach(c=>{ for(let r=0;r<24&&r<ROWS;r++) kind[c][r]='dsp'; });
+let nLogic=0; for(let c=0;c<COLS;c++) for(let r=0;r<ROWS;r++) if(kind[c][r]==='logic') nLogic++;
+const perTile = dev.lut4 / nLogic, B = D.blocks;
+const sys = B.system, forge = B.forge, whole = B.whole, uart = B.uart;
+const sysCells = sys.lut4 + sys.alu, forgeCells = forge.lut4 + forge.alu, wholeCells = whole.lut4 + whole.alu;
+const cortexCells = Math.round(sysCells * D.split.cortex_logic_fraction), deepCells = sysCells - cortexCells, dispCells = Math.max(60, wholeCells - sysCells - forgeCells + uart.lut4 + uart.alu);
+const cortexBram = D.split.cortex_bram, deepBram = Math.max(0, sys.bsram_18k - cortexBram), forgeBram = forge.bsram_18k;
+const plan = [ {id:'cortex', name:'L Cortex stage 1', cells:cortexCells, cols:[0,9]}, {id:'deep', name:'L Deep', cells:deepCells, cols:[11,21]}, {id:'forge', name:'L Forge tile', cells:forgeCells, cols:[23,33]}, {id:'disp', name:'Dispatcher + UART', cells:dispCells, cols:[35,COLS-1]} ];
+plan.forEach(p=>{ let need = Math.ceil(p.cells/perTile); p.tiles = need; let placed=0;
+  for(let r=0;r<ROWS&&placed<need;r++) for(let c=p.cols[0];c<=p.cols[1]&&placed<need;c++) if(kind[c][r]==='logic'&&!owner[c][r]){ owner[c][r]=p.id; placed++; } });
+function fillCol(c, start, n, id, k){ let m=0; for(let r=start;r<ROWS&&m<n;r++) if(kind[c][r]===k&&!owner[c][r]){ owner[c][r]=id; m++; } return m; }
+const bc = dev.grid.bsram_columns, dc = dev.grid.dsp_columns;
+fillCol(bc[0],0,cortexBram,'cortex','bram'); let left = deepBram - fillCol(bc[1],0,deepBram,'deep','bram'); if(left>0) fillCol(bc[0],cortexBram,left,'deep','bram');
+fillCol(bc[2],0,forgeBram,'forge','bram'); fillCol(dc[1],0,forge.mult9x9,'forge','dsp');
+const used = {bram: cortexBram+deepBram+forgeBram};
+// ---------- boxes ----------
+const CELL = 1.0, X0 = -COLS*CELL/2, Z0 = -ROWS*CELL/2;
+boxes.push({x:0,y:-0.9,z:0,sx:COLS+8,sy:1.4,sz:ROWS+8,id:'board',slab:true,kind:'board'});
+boxes.push({x:0,y:-0.1,z:0,sx:COLS+2.2,sy:0.4,sz:ROWS+2.2,id:'die',slab:true,kind:'die'});
+for(let c=0;c<COLS;c++) for(let r=0;r<ROWS;r++){ const o = owner[c][r], k = kind[c][r]; const h = o ? (k==='logic'?0.55:0.9) : (k==='logic'?0.12:0.28);
+  boxes.push({x:X0+(c+.5)*CELL,y:0.1+h/2,z:Z0+(r+.5)*CELL,sx:CELL*0.94,sy:h,sz:CELL*0.94,id:o,kind:k,rest:h,c:c,r:r}); }
+const anchors = plan.map(p=>{ let sx=0,sz=0,n=0; for(let c=0;c<COLS;c++) for(let r=0;r<ROWS;r++) if(owner[c][r]===p.id&&kind[c][r]==='logic'){ sx+=X0+(c+.5)*CELL; sz+=Z0+(r+.5)*CELL; n++; } return {name:p.name,id:p.id,x:n?sx/n:0,z:n?sz/n:0}; });
+anchors.push({name:'Block RAM',id:'bram',x:X0+(bc[1]+.5)*CELL,z:Z0-1.8}); anchors.push({name:'Multipliers',id:'dsp',x:X0+(dc[1]+.5)*CELL,z:Z0-1.8});
+// ---------- camera / render ----------
+const cv = $('cv'), g = cv.getContext('2d'); let W=0,H=0,dpr=1;
+const cam = {yaw:-0.62,pitch:0.78,dist:90,tyaw:-0.62,tpitch:0.78}; const views = {iso:[-0.62,0.78],top:[0,1.5],side:[0,0.18]};
+function size(){ dpr = Math.min(2,window.devicePixelRatio||1); const r = cv.getBoundingClientRect(); W=Math.max(10,r.width); H=Math.max(10,r.height); cv.width=W*dpr; cv.height=H*dpr; g.setTransform(dpr,0,0,dpr,0,0); }
+new ResizeObserver(size).observe(cv); size();
+const L = (()=>{ const v=[-0.45,0.85,0.5], n=Math.hypot(...v); return v.map(a=>a/n); })();
+const FACES = [ {n:[0,1,0],v:[[-1,1,-1],[1,1,-1],[1,1,1],[-1,1,1]],s:1.0}, {n:[0,0,1],v:[[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]],s:.8}, {n:[1,0,0],v:[[1,-1,-1],[1,-1,1],[1,1,1],[1,1,-1]],s:.66}, {n:[-1,0,0],v:[[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]],s:.66}, {n:[0,0,-1],v:[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1]],s:.6} ];
+function toView(x,y,z){ const cy=Math.cos(cam.yaw), sy=Math.sin(cam.yaw), cp=Math.cos(cam.pitch), sp=Math.sin(cam.pitch); const x1=x*cy-z*sy, z1=x*sy+z*cy; return [x1, y*cp+z1*sp, -y*sp+z1*cp+cam.dist]; }
+function rotN(n){ const cy=Math.cos(cam.yaw), sy=Math.sin(cam.yaw), cp=Math.cos(cam.pitch), sp=Math.sin(cam.pitch); const x1=n[0]*cy-n[2]*sy, z1=n[0]*sy+n[2]*cy; return [x1, n[1]*cp+z1*sp, -n[1]*sp+z1*cp]; }
+const mix=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]; const css3=(c,s)=>'rgb('+Math.round(Math.min(255,c[0]*s))+','+Math.round(Math.min(255,c[1]*s))+','+Math.round(Math.min(255,c[2]*s))+')';
+function baseColor(b){ if(b.kind==='board') return T.board; if(b.kind==='die') return T.die; if(!b.id) return (b.kind==='bram'||b.kind==='dsp')?mix(T.bramidle,T.accent,0.22):T.idle; return T[b.id]||T.accent; }
+let active = {}, pulse = 0;
+function draw(){
+  g.clearRect(0,0,W,H); g.fillStyle='rgb('+T.scene.join(',')+')'; g.fillRect(0,0,W,H);
+  const f = Math.min(W*0.9,H*1.25)*1.3, cx=W/2, cyy=H*0.5; const Ls = L; const order = [];
+  for(const b of boxes){ const v = toView(b.x,b.y,b.z); b._v=v; order.push(b); }
+  order.sort((a,b)=>{ if(a.slab!==b.slab) return a.slab?-1:1; if(a.slab&&b.slab) return a.kind==='board'?-1:1; return b._v[2]-a._v[2]; });
+  const nv = FACES.map(fc=>rotN(fc.n));
+  for(const b of order){
+    const hs=[b.sx/2,b.sy/2,b.sz/2]; let col = baseColor(b), glow = 0; if(b.id&&active[b.id]) glow = 0.35+0.3*Math.sin(pulse*5+b.c*0.3);
+    if(glow) col = mix(col,[255,255,255],glow);
+    let lift = 0; if(glow && !b.slab) lift = 0.25*glow;
+    for(let i=0;i<FACES.length;i++){ const fc=FACES[i], n=nv[i]; const cxv=b._v[0]+n[0]*hs[0]*0+0; const fcx = toView(b.x+fc.n[0]*hs[0], b.y+fc.n[1]*hs[1]+lift/2, b.z+fc.n[2]*hs[2]); if(n[0]*fcx[0]+n[1]*fcx[1]+n[2]*fcx[2] >= 0) continue;
+      const sh = (0.5+0.5*Math.max(0, fc.n[0]*Ls[0]+fc.n[1]*Ls[1]+fc.n[2]*Ls[2]))*fc.s*1.05; g.beginPath();
+      for(let k=0;k<4;k++){ const p=fc.v[k], w = toView(b.x+p[0]*hs[0], b.y+p[1]*hs[1]+(p[1]>0?lift:0), b.z+p[2]*hs[2]); const px=cx+f*w[0]/w[2], py=cyy-f*w[1]/w[2]; if(k===0) g.moveTo(px,py); else g.lineTo(px,py); }
+      g.closePath(); g.fillStyle=css3(col,sh); g.fill(); if(!b.slab){ g.strokeStyle='rgba(0,0,0,.22)'; g.lineWidth=.5; g.stroke(); } }
+  }
+  g.font='600 12px '+css('--display'); g.textBaseline='middle';
+  for(const a of anchors){ const w = toView(a.x,2.4,a.z), px=cx+f*w[0]/w[2], py=cyy-f*w[1]/w[2]; const t=a.name.toUpperCase(); const wd=g.measureText(t).width+12; const col = T[a.id]||T.muted;
+    g.fillStyle='rgba('+T.scene.join(',')+',.82)'; g.fillRect(px-wd/2,py-18,wd,18); g.fillStyle='rgb('+col.join(',')+')'; g.textAlign='center'; g.fillText(t,px,py-9); }
+}
+// ---------- interaction ----------
+let drag=null; cv.addEventListener('pointerdown',e=>{ drag={x:e.clientX,y:e.clientY}; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener('pointermove',e=>{ if(!drag) return; cam.yaw -= (e.clientX-drag.x)*0.008; cam.pitch = Math.max(0.12,Math.min(1.55,cam.pitch+(e.clientY-drag.y)*0.006)); cam.tyaw=cam.yaw; cam.tpitch=cam.pitch; drag={x:e.clientX,y:e.clientY}; });
+cv.addEventListener('pointerup',()=>drag=null); cv.addEventListener('pointercancel',()=>drag=null);
+cv.addEventListener('wheel',e=>{ e.preventDefault(); cam.dist = Math.max(40,Math.min(180,cam.dist*(1+Math.sign(e.deltaY)*0.08))); },{passive:false});
+let pinch=null; cv.addEventListener('touchmove',e=>{ if(e.touches.length===2){ const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); if(pinch) cam.dist=Math.max(40,Math.min(180,cam.dist*pinch/d)); pinch=d; } },{passive:true}); cv.addEventListener('touchend',()=>pinch=null);
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{ const v=views[b.dataset.view]; cam.tyaw=v[0]; cam.tpitch=v[1]; }));
+// ---------- replay ----------
+const layerName = {cortex:'L Cortex stage 1',deep:'L Deep',forge:'L Forge',disp:'Dispatcher'}; const segs=[]; let tot={cortex:0,deep:0,forge:0}; let cursor=0;
+D.jobs.forEach((j,i)=>{ if(j.kind==='mm'){ segs.push({job:i,layer:'disp',cyc:150,label:'matrix product requested'}); segs.push({job:i,layer:'forge',cyc:j.forge,label:'matrix product'}); tot.forge+=j.forge; }
+  else { segs.push({job:i,layer:'cortex',cyc:j.cortex,label:'image '+(j.id+1)+': stage 1'}); tot.cortex+=j.cortex; segs.push({job:i,layer:'disp',cyc:300,label:j.routed?'margin small, waking L Deep':'margin large, answer now'}); if(j.routed){ segs.push({job:i,layer:'deep',cyc:j.deep,label:'L Deep stage 2'}); tot.deep+=j.deep; } } segs.push({job:i,layer:null,cyc:250,label:'idle'}); });
+const total = segs.reduce((a,s)=>a+s.cyc,0); const strip=$('strip'); D.jobs.forEach((j,i)=>{ const e=document.createElement('i'); const cyc=(j.kind==='mm'?j.forge:j.cortex+(j.routed?j.deep:0)); e.style.width=Math.max(5,cyc/total*100*0.98)+'%'; e.style.background='var(--'+(j.kind==='mm'?'forge':j.routed?'deep':'cortex')+')'; e.title='job '+(i+1)+': '+(j.kind==='mm'?'matrix product':j.routed?'image, routed to L Deep':'image, answered by stage 1')+', '+fmt(cyc)+' cycles'; strip.appendChild(e); });
+let playing = !matchMedia('(prefers-reduced-motion: reduce)').matches, last=performance.now(); const awake={cortex:0,deep:0,forge:0}; let lastCursor=0;
+$('play').setAttribute('aria-pressed',playing); $('play').textContent=playing?'Pause':'Play'; $('play').addEventListener('click',()=>{ playing=!playing; $('play').setAttribute('aria-pressed',playing); $('play').textContent=playing?'Pause':'Play'; });
+function segAt(c){ let a=0; for(const s of segs){ if(c<a+s.cyc) return s; a+=s.cyc; } return segs[segs.length-1]; }
+function hud(){ const s=segAt(cursor), j=D.jobs[s.job]; const us = cursor/dev.clock_hz*1e6; const sh = k=>(awake[k]/Math.max(1,cursor)*100).toFixed(0)+'%';
+  $('hud').innerHTML = 'job <b>'+(s.job+1)+'/'+D.jobs.length+'</b> · '+(s.layer?'<b style="color:var(--'+s.layer+')">'+layerName[s.layer]+'</b> · ':'')+s.label+'<br>'+fmt(Math.round(cursor))+' cycles · '+us.toFixed(0)+' µs at '+(dev.clock_hz/1e6)+' MHz<br>awake share: Cortex '+sh('cortex')+' · Deep '+sh('deep')+' · Forge '+sh('forge'); }
+function frame(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; pulse+=dt;
+  if(playing){ const prev=cursor; cursor += dt*Number($('spd').value)*2000; if(cursor>=total){ cursor=0; awake.cortex=awake.deep=awake.forge=0; lastCursor=0; } else { let a=0; for(const s of segs){ const lo=a, hi=a+s.cyc; a=hi; if(s.layer&&s.layer!=='disp'){ const ov=Math.max(0,Math.min(cursor,hi)-Math.max(prev,lo)); awake[s.layer]+=ov; } } } }
+  const s=segAt(cursor); active={}; if(s.layer) active[s.layer]=true; cam.yaw+=(cam.tyaw-cam.yaw)*0.12; cam.pitch+=(cam.tpitch-cam.pitch)*0.12;
+  if(playing && !drag && cam.tyaw===cam.yaw) { /* gentle idle sway */ } draw(); hud(); requestAnimationFrame(frame); }
+requestAnimationFrame(frame);
+// ---------- theme changes ----------
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readTheme); new MutationObserver(readTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+// ---------- side panel ----------
+$('legend').innerHTML = [['cortex','L Cortex stage 1'],['deep','L Deep'],['forge','L Forge tile'],['disp','dispatcher + UART'],['idle','unused']].map(a=>'<span style="--c:var(--'+a[0]+')">'+a[1]+'</span>').join('');
+const bud = {lut4:dev.lut4, alu:dev.alu, ff:dev.ff, bsram_18k:dev.bsram_18k, mult9x9:dev.mult9x9}, lab = {lut4:'LUT4',alu:'Carry cells',ff:'Flip-flops',bsram_18k:'Block RAM 18 Kbit',mult9x9:'Multipliers 9x9'};
+$('kpis').innerHTML = [['logic cells',fmt(wholeCells)+' / '+fmt(dev.lut4), Math.round(100*wholeCells/dev.lut4)+'%'],['block RAM',whole.bsram_18k+' / '+dev.bsram_18k, Math.round(100*whole.bsram_18k/dev.bsram_18k)+'%'],['multipliers',whole.mult9x9+' / '+dev.mult9x9, Math.round(100*whole.mult9x9/dev.mult9x9)+'%']].map(k=>'<div class="kpi"><div class="v">'+k[2]+'</div><div class="l">'+k[0]+' ('+k[1]+')</div></div>').join('');
+$('res').innerHTML = Object.keys(lab).map(k=>{ const p=100*whole[k]/bud[k]; return '<span>'+lab[k]+'</span><span class="meter"><i style="width:'+Math.min(100,p).toFixed(1)+'%"></i></span><span class="num">'+fmt(whole[k])+' / '+fmt(bud[k])+'</span>'; }).join('');
+$('fitnote').textContent = 'Whole board top: UART, dispatcher, stage 1, L Deep (one engine) and one Forge tile. Counts are yosys estimates for the Gowin family, not place-and-route; no timing closure is checked.';
+$('blocks').innerHTML = '<tr><th>block</th><th>LUT4</th><th>carry</th><th>FF</th><th>BRAM</th><th>MULT</th></tr>' + D.blockRows.map(r=>'<tr><td>'+r.name+'</td><td class="num">'+fmt(r.lut4)+'</td><td class="num">'+fmt(r.alu)+'</td><td class="num">'+fmt(r.ff)+'</td><td class="num">'+r.bsram_18k+'</td><td class="num">'+r.mult9x9+'</td></tr>').join('');
+const ft = D.full; $('tkpis').innerHTML = [['images through the RTL', fmt(ft.images)],['mismatches', fmt(ft.mismatches)],['accuracy from the RTL', (100*ft.accuracy_rtl).toFixed(2)+'%'],['mean per image', ft.ms_per_image_mean.toFixed(2)+' ms'],['images/s at '+(dev.clock_hz/1e6)+' MHz', fmt(Math.round(ft.images_per_s_at_clock))]].map(k=>'<div class="kpi"><div class="v">'+k[1]+'</div><div class="l">'+k[0]+'</div></div>').join('');
+$('tests').innerHTML = '<tr><th>test</th><th>result</th></tr>' + D.tests.map(t=>'<tr><td>'+t.name+'<div class="note">'+t.line+'</div></td><td class="'+(t.passed?'pass':'fail')+'">'+(t.passed?'PASS':'FAIL')+'</td></tr>').join('');
+$('finds').innerHTML = D.finds.map(f=>'<li>'+f+'</li>').join(''); $('limits').textContent = D.limits;
+})();
+</script>

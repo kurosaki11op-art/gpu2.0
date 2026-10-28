@@ -7,12 +7,12 @@ def bitlen(x):
     return L + (y > 0)
 def lane_step_vec(macc, eacc, first, P, E):
     Am = np.where(first, 0, macc); Ae = eacc; zero = Am == 0; ge = E >= Ae; d = np.abs(E - Ae); far = d > 40; dd = np.minimum(d, 40)
-    S = np.where(zero, P, np.where(ge, np.where(far, P, (P << dd) + Am), np.where(far, Am, (Am << dd) + P)))
-    Es = np.where(zero, E, np.where(ge, np.where(far, E, Ae), np.where(far, Ae, E)))
+    S = np.where(zero, P, np.where(P == 0, Am, np.where(ge, np.where(far, P, (P << dd) + Am), np.where(far, Am, (Am << dd) + P))))
+    Es = np.where(zero, E, np.where(P == 0, Ae, np.where(ge, np.where(far, E, Ae), np.where(far, Ae, E))))
     sgn = S < 0; mag = np.abs(S); L = bitlen(mag); r = np.maximum(L - 16, 0); mag2 = np.where(r > 0, (mag + (1 << np.maximum(r - 1, 0))) >> r, mag); ov = mag2 >= 65536; mag2 = np.where(ov, mag2 >> 1, mag2); r = np.where(ov, r + 1, r)
     return np.where(sgn, -mag2, mag2), Es + r
 def bfp_encode(X, blk=16, mbits=8):
-    R, K = X.shape; B = X.reshape(R, K // blk, blk); e = np.floor(np.log2(np.abs(B).max(-1) + 1e-300)).astype(np.int64); sc = 2.0 ** (e - (mbits - 2))[..., None]; lim = 2 ** (mbits - 1) - 1
+    R, K = X.shape; B = X.reshape(R, K // blk, blk); e = np.clip(np.floor(np.log2(np.abs(B).max(-1) + 1e-300)), -127, 127).astype(np.int64); sc = 2.0 ** (e - (mbits - 2))[..., None]; lim = 2 ** (mbits - 1) - 1
     return np.clip(np.round(B / sc), -lim, lim).astype(np.int64), e
 def lane_matmul(A, B, blk=16):
     ma, ea = bfp_encode(A, blk); mb, eb = bfp_encode(B.T, blk); M, nb = ea.shape; N = mb.shape[0]; macc = np.zeros((M, N), np.int64); eacc = np.zeros((M, N), np.int64)

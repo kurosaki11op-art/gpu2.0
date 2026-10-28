@@ -1,0 +1,129 @@
+{
+ "steps": [
+  {
+   "name": "L Deep core, asynchronous reads (300 routed images)",
+   "passed": true,
+   "seconds": 16.5,
+   "summary": [
+    "images 300, expected 300, mismatches 0, mean cycles per routed image 13514 (min 11335, max 15201)",
+    "PASS"
+   ]
+  },
+  {
+   "name": "L Deep core, block-RAM version (300 routed images)",
+   "passed": true,
+   "seconds": 43.9,
+   "summary": [
+    "images 300, expected 300, mismatches 0, mean cycles per routed image 37177 (min 28248, max 44164)",
+    "PASS"
+   ]
+  },
+  {
+   "name": "L Deep core, four parallel engines (300 routed images)",
+   "passed": true,
+   "seconds": 59.7,
+   "summary": [
+    "images 300, expected 300, mismatches 0, mean cycles per routed image 9628 (min 7412, max 11544)",
+    "PASS"
+   ]
+  },
+  {
+   "name": "two-stage system with dispatcher (200 images, 38 routed)",
+   "passed": true,
+   "seconds": 15.8,
+   "summary": [
+    "images 200, expected 200, routed 38, mismatches 0; mean cycles: not routed 4620, routed 42413, overall 11801",
+    "PASS"
+   ]
+  },
+  {
+   "name": "layered top: 40 recognitions and a matrix product",
+   "passed": true,
+   "seconds": 5.3,
+   "summary": [
+    "recognitions 40 (routed 6): mismatches 0; matrix product outputs 256: mismatches 0; cycles awake: cortex 184800, deep 222976, forge 2051, total 657719"
+   ]
+  },
+  {
+   "name": "UART board top: 4 recognitions and a matrix product",
+   "passed": true,
+   "seconds": 6.3,
+   "summary": [
+    "recognitions 4: reply mismatches 0 (cycles reported [4620, 35762, 4620, 44984]); matrix product: header ok, 256 outputs, mismatches 0, tile cycles 2051"
+   ]
+  },
+  {
+   "name": "L Forge tile matrix product (16x128x16)",
+   "passed": true,
+   "seconds": 0.3,
+   "summary": [
+    "tile matrix product 16x128x16: 0 of 256 outputs differ from the lane golden model; error vs fp64 9.64e-03; 2051 cycles for 2048 block operations (32768 multiply-accumulates)"
+   ]
+  },
+  {
+   "name": "TEST 2: stress mix on the layered top, seed 1",
+   "passed": true,
+   "seconds": 13.8,
+   "summary": [
+    "stress mix: 47 recognitions (21 routed, 2 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, deep 788880, forge 8204"
+   ]
+  },
+  {
+   "name": "TEST 2: stress mix on the layered top, seed 2",
+   "passed": true,
+   "seconds": 13.5,
+   "summary": [
+    "stress mix: 47 recognitions (20 routed, 6 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, deep 751062, forge 8204"
+   ]
+  },
+  {
+   "name": "TEST 2: stress mix on the layered top, seed 3",
+   "passed": true,
+   "seconds": 13.5,
+   "summary": [
+    "stress mix: 47 recognitions (22 routed, 5 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, deep 873852, forge 8204"
+   ]
+  },
+  {
+   "name": "TEST 3: L Forge stress (200,000 lane operations, 7 data distributions)",
+   "passed": true,
+   "seconds": 21.1,
+   "summary": [
+    "all maximum                     0     0.00e+00       2051",
+    "alternating extremes            0     0.00e+00       2051",
+    "tile mismatches in total: 0"
+   ]
+  },
+  {
+   "name": "TEST 4: UART board under a hostile host",
+   "passed": true,
+   "seconds": 20.2,
+   "summary": [
+    "matrix product: ok (256 outputs, cycles 2051)",
+    "routed again: ok (routed 1, class 4, cycles 45644)",
+    "bytes back 1320, expected 1320 (extra bytes from junk: 0); failures 0"
+   ]
+  },
+  {
+   "name": "TEST 1: the whole 10,000-image test set through the RTL",
+   "passed": true,
+   "seconds": 226.8,
+   "summary": [
+    " \"wall_s\": 226.09648728370667",
+    "}",
+    "PASS: all 10000 images identical to the reference model"
+   ]
+  },
+  {
+   "name": "resource fit on VFPGA-L1 (yosys, Gowin family)",
+   "passed": true,
+   "seconds": 50.5,
+   "summary": [
+    "  block RAM 18 Kbit        74 of    120  (61.7%)",
+    "  9x9 multipliers          16 of     48  (33.3%)",
+    "  logic cells (LUT4 + carry): 5995 of 20000 (30.0%)"
+   ]
+  }
+ ],
+ "all_passed": true
+}

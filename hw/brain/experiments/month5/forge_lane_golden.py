@@ -4,6 +4,7 @@ import numpy as np
 def lane_step(macc, eacc, first, ma, mb, ea, eb):
     P = int(sum(int(a) * int(b) for a, b in zip(ma, mb))); E = ea + eb - 12; Am = 0 if first else macc; Ae = eacc
     if Am == 0: S, Es = P, E
+    elif P == 0: S, Es = Am, Ae                      # a zero block sum leaves the accumulator unchanged (found by the stress test: it used to be wiped when the zero block had a much larger exponent)
     elif E >= Ae:
         d = E - Ae; S, Es = (P, E) if d > 40 else ((P << d) + Am, Ae)
     else:

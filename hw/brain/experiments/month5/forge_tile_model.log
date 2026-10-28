@@ -1,3 +1,3 @@
 vectorised lane vs scalar golden: 0 mismatches in 300 random sequences
-matmul 128x256x128, normal data: error vs fp64 1.03e-02, block ops 262144, lane cycles on 1 tile 262144, on 1,024 tiles 256  [0.0s]
-matmul 128x256x128, heavy-tailed data: error vs fp64 1.87e-02, block ops 262144, lane cycles on 1 tile 262144, on 1,024 tiles 256  [0.0s]
+matmul 128x256x128, normal data: error vs fp64 1.03e-02, block ops 262144, lane cycles on 1 tile 262144, on 1,024 tiles 256  [0.1s]
+matmul 128x256x128, heavy-tailed data: error vs fp64 1.87e-02, block ops 262144, lane cycles on 1 tile 262144, on 1,024 tiles 256  [0.1s]

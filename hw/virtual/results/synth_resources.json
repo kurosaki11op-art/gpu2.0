@@ -1,0 +1,47 @@
+{
+ "device": "VFPGA-L1",
+ "budget": {
+  "lut4": 20000,
+  "alu": 20000,
+  "ff": 20000,
+  "bsram_18k": 120,
+  "mult9x9": 48
+ },
+ "blocks": {
+  "uart (rx+tx)": {
+   "lut4": 106,
+   "alu": 39,
+   "ff": 70,
+   "bsram_18k": 0,
+   "mult9x9": 0
+  },
+  "L system (stage 1 + dispatcher + L Deep, 1 engine)": {
+   "lut4": 2746,
+   "alu": 574,
+   "ff": 384,
+   "bsram_18k": 64,
+   "mult9x9": 0
+  },
+  "L Deep, 4 parallel engines (alternative core)": {
+   "lut4": 3408,
+   "alu": 2097,
+   "ff": 1418,
+   "bsram_18k": 76,
+   "mult9x9": 0
+  },
+  "L Forge tile (lane + matrix-product control)": {
+   "lut4": 2803,
+   "alu": 479,
+   "ff": 208,
+   "bsram_18k": 10,
+   "mult9x9": 16
+  },
+  "whole board top (UART + dispatcher + system + Forge tile)": {
+   "lut4": 4861,
+   "alu": 1134,
+   "ff": 779,
+   "bsram_18k": 74,
+   "mult9x9": 16
+  }
+ }
+}

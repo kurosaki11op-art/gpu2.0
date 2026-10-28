@@ -1,0 +1,15 @@
+PASS L Deep core, asynchronous reads (300 routed images)                        16s  PASS
+PASS L Deep core, block-RAM version (300 routed images)                         44s  PASS
+PASS L Deep core, four parallel engines (300 routed images)                     60s  PASS
+PASS two-stage system with dispatcher (200 images, 38 routed)                   16s  PASS
+PASS layered top: 40 recognitions and a matrix product                           5s  recognitions 40 (routed 6): mismatches 0; matrix product outputs 256: mismatches 0; cycles awake: cortex 184800, deep 222976, forge 2051, to
+PASS UART board top: 4 recognitions and a matrix product                         6s  recognitions 4: reply mismatches 0 (cycles reported [4620, 35762, 4620, 44984]); matrix product: header ok, 256 outputs, mismatches 0, tile 
+PASS L Forge tile matrix product (16x128x16)                                     0s  tile matrix product 16x128x16: 0 of 256 outputs differ from the lane golden model; error vs fp64 9.64e-03; 2051 cycles for 2048 block operat
+PASS TEST 2: stress mix on the layered top, seed 1                              14s  stress mix: 47 recognitions (21 routed, 2 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, d
+PASS TEST 2: stress mix on the layered top, seed 2                              14s  stress mix: 47 recognitions (20 routed, 6 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, d
+PASS TEST 2: stress mix on the layered top, seed 3                              14s  stress mix: 47 recognitions (22 routed, 5 corner inputs), 4 matrix products, 2 reset injections: mismatches 0; cycles awake cortex 226380, d
+PASS TEST 3: L Forge stress (200,000 lane operations, 7 data distributions)     21s  tile mismatches in total: 0
+PASS TEST 4: UART board under a hostile host                                    20s  bytes back 1320, expected 1320 (extra bytes from junk: 0); failures 0
+PASS TEST 1: the whole 10,000-image test set through the RTL                   227s  PASS: all 10000 images identical to the reference model
+PASS resource fit on VFPGA-L1 (yosys, Gowin family)                             50s    logic cells (LUT4 + carry): 5995 of 20000 (30.0%)
+ALL PASSED

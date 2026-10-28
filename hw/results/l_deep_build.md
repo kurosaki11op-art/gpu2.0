@@ -5,6 +5,8 @@ tags: [spark, result, simulated, l-deep, rtl]
 
 # L Deep build (28 Oct 2026)
 
+**Correction (28 Oct 2026, found by the virtual full-test-set run):** the system and block-RAM cores had a stale-read bug in the final class choice (1 image in 10,000 got the wrong class); the 300- and 200-image checks quoted below had not exposed it. Fixed; all 10,000 test images now match the reference model, and every cycle count below is one higher after the fix. See [virtual device tests](virtual_device_tests.md).
+
 **What L Deep is:** the deeper learned layer over L Cortex's code, defined by the founder on 25 Oct 2026 ([attempts](ldeep_attempts.md), [routed clauses](own_methods_routing.md)): Tsetlin-style clauses (each an AND of literals of L's code and raw pixel bits, learned by local feedback, no error passing), read by a counting table, run only on the images L is least sure about. (Earlier today I wrongly treated it as a language model; see the correction in [project memory](../../docs/PROJECT_MEMORY.md).) **SIMULATED unless stated; the cycle counts are from RTL simulation, not a board.**
 
 ## Result 1: the integer pipeline reproduces the experiment

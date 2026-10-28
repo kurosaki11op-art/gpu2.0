@@ -1930,4 +1930,8 @@ Wrote [the measurement protocol](measurement_protocol.md) and `gpu_energy_baseli
 
 [forge_kalman_lane_inv.py](../hw/brain/experiments/month5/forge_kalman_lane_inv.py): the matrix inverse by 8 Newton-Schulz iterations (products only) on the bit-exact lane; the whole 12-state Kalman filter then runs on the lane with RMSE against truth 1.031 against 1.028 (fp64), 2.7e-2 to 3.4e-2 from the fp64 filter, inverse residual 3.1e-2 (SIMULATED, three seeds, well-conditioned only). No high-precision path needed for this kernel.
 
+## 28 Oct 2026: virtual FPGA device and serious tests
+
+Founder: test everything virtually first, on a virtual 3D FPGA made for us. Built `hw/virtual` ([README](../hw/virtual/README.md)): VFPGA-L1, an independent reference model (`ldeep_ref.py`), a 14-step regression (`run_all.py`), four tests and a canvas-based 3D board. Result ([virtual device tests](../hw/results/virtual_device_tests.md)): all pass after two real bugs were fixed. Test 1 (10,000 images through the RTL) first showed 1 mismatch (image 4203): the argmax read a stale class-0 score; fixed. Test 3 found a zero block erasing the Forge accumulator (90%-zero data error 21%); fixed in RTL, golden model and tile model. Test 4 first failed because my hostile host sent commands without waiting for replies: the protocol has no flow control (now documented). Fit: 4,861 LUT4, 74 block RAMs, 16 multipliers = 30% logic, 62% block RAM, 33% multipliers of the virtual device. Failure noted: the earlier 300- and 200-image checks had passed by luck over the stale-read bug. Next: the founder's decision on the FPGA to buy; optional: run the four-engine core through the 10,000 images.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

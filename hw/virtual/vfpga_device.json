@@ -1,0 +1,7 @@
+{
+ "name": "VFPGA-L1",
+ "description": "Virtual FPGA device sized for the three-layer L design, modelled on the resource types of the Gowin GW2A family that the project synthesises for (LUT4 logic, carry cells, flip-flops, 18 Kbit block RAM, 9x9 multipliers). Resource counts are chosen with headroom for the design; it is a simulation target, not a real part.",
+ "clock_hz": 50000000,
+ "lut4": 20000, "alu": 20000, "ff": 20000, "bsram_18k": 120, "mult9x9": 48, "uart": 1, "io": 64,
+ "grid": {"cols": 44, "rows": 34, "bsram_columns": [10, 22, 34], "dsp_columns": [16, 28]}
+}
