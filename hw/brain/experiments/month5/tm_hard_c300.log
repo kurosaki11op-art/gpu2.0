@@ -11,3 +11,9 @@ hard-image specialist: training on 24001 images
 [ 510s] after epoch 5: test acc 0.8507 | cluster 0.7630 | Shirt recall 0.640 | Shirt AP 0.624 | mean included literals per clause 20.2
 [ 564s]   epoch 5, 15000 images: test acc 0.8461 | cluster 0.7615 | Shirt recall 0.700 | Shirt AP 0.612 | mean included literals per clause 21.0
 [ 596s] after epoch 6: test acc 0.8491 | cluster 0.7570 | Shirt recall 0.628 | Shirt AP 0.620 | mean included literals per clause 21.6
+[ 651s]   epoch 6, 15000 images: test acc 0.8555 | cluster 0.7685 | Shirt recall 0.621 | Shirt AP 0.616 | mean included literals per clause 22.3
+[ 683s] after epoch 7: test acc 0.8547 | cluster 0.7642 | Shirt recall 0.632 | Shirt AP 0.622 | mean included literals per clause 22.5
+[ 736s]   epoch 7, 15000 images: test acc 0.8524 | cluster 0.7680 | Shirt recall 0.648 | Shirt AP 0.624 | mean included literals per clause 23.2
+[ 767s] after epoch 8: test acc 0.8553 | cluster 0.7680 | Shirt recall 0.650 | Shirt AP 0.624 | mean included literals per clause 23.7
+[ 821s]   epoch 8, 15000 images: test acc 0.8550 | cluster 0.7660 | Shirt recall 0.683 | Shirt AP 0.616 | mean included literals per clause 24.2
+[ 856s] after epoch 9: test acc 0.8568 | cluster 0.7730 | Shirt recall 0.616 | Shirt AP 0.623 | mean included literals per clause 24.5
