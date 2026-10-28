@@ -1838,4 +1838,8 @@ Founder idea: ask a buyer to build it. Discussed three meanings: a paying custom
 
 Founder locked 5 nm with 2 GB of built-in memory for the three-layer chip; L Deep and the third layer are unfinished, so the third layer needs a name. Recorded in [project memory](PROJECT_MEMORY.md). Name proposed: L Forge (heavy numeric work); alternatives L Atlas, L Anvil; not final until the founder chooses.
 
+## 28 Oct 2026: L Forge named and designed on paper
+
+Founder: L Forge is the name; design it from all the parts that make it different from a GPU. Done: [L Forge design](L_forge_design.md) (design hypothesis) and a 2 GB run of the tile model (`numeric_tile_model_2048.log`). Eight differences listed with evidence and status (memory in the tile, precision routing, event skipping, banked gated reads, dispatch, deterministic dataflow, cost-aware tile, measured acceptance tests). Model gains at 2 GB over a mixed-precision GPU baseline (ESTIMATED): matrix multiply 4.0x, FFT 5.1x, Poisson 33x, CFD 8.2x, Kalman 2.5x, small network 20.6x, 1B language model 48x, ray tracing 3.4x. Cost correction: with a multiply-accumulate Forge tile (0.015 mm2, ASSUMED) 2 GB at 5 nm is 3 dies, about Rs 48k bare and Rs 120k finished, not the 2-die Rs 32k of the add-only case. Biggest unknown: tile-to-tile traffic, absent from the model. Next: build order in the design note.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
