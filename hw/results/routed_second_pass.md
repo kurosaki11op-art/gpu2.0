@@ -49,4 +49,18 @@ Routing the richer 7-channel two-level code (no selection) shows the same effect
 - Routing at 20% captures the whole gain of the second pass (the 10 to 20% least-sure images are where the extra detail matters); more routing adds nothing.
 - Caveats: two seeds (seed-to-seed spread about 0.3 to 0.4); the estimated energy counts the second pass at full cost for each routed image and assumes the router's margin comes free from the first table read; the router and the selection were evaluated on the same test set once per configuration; not yet tested on EMNIST or combined with the clause layer.
 
+## Follow-up (28 Oct 2026): better routers and clauses in the second pass (`second_stage_extras.py`, `second_stage_extras_seed0.log`; seed 0, SIMULATED accuracy, ESTIMATED energy)
+
+Second pass = the 64-informative front end; routers use only the first (shipped) pass. At 20% routed, accuracy / Shirt recall / est. energy:
+
+| router | stage-2 only | + 2,000 clauses | + 4,000 clauses |
+|---|---|---|---|
+| margin (used so far) | 90.35 / 0.668 / 40.6 nJ | 90.47 / 0.675 / 48.8 nJ | 90.25 / 0.676 / 57.2 nJ |
+| cluster-aware (bonus for T-shirt, Pullover, Coat, Shirt) | 90.40 / 0.674 / 40.6 nJ | 90.38 / 0.679 / 48.8 nJ | 90.16 / 0.682 / 57.2 nJ |
+| class-relative (margin over the predicted class's usual margin) | 90.29 / 0.680 / 40.6 nJ | 90.50 / 0.687 / 48.8 nJ | 90.19 / 0.692 / 57.2 nJ |
+
+- **No router beats the margin router in accuracy** (90.29 to 90.40 against 90.35, inside the 0.3 to 0.4 spread); the class-relative router lifts Shirt recall from 0.668 to 0.680 at the same cost.
+- **Clauses in the second pass add almost nothing to accuracy** (+0.12 with 2,000 clauses, -0.10 with 4,000) and raise Shirt recall by up to 0.024 (0.692 with 4,000 clauses and the class-relative router, against the CNN's 0.707 SIMULATED) at +16 nJ (1.91 times L).
+- Conclusion: the plateau at about 90.3 to 90.5% is again an information overlap, not a routing or readout limit. Cheapest best point stays the stage-2 routed pass at 20% (90.35 at 40.6 nJ); Shirt recall can be bought (0.69 at 1.9 times L) but accuracy cannot.
+
 Related: [Detector selection and the gap](detector_selection_and_gap.md), [Cost frontier](cost_frontier.md), [Foundations study](foundations_study.md), [Results index](INDEX.md)
