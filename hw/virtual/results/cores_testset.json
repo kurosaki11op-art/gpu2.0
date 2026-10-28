@@ -1,0 +1,23 @@
+{
+ "asynchronous-read core": {
+  "routed_images": 2001,
+  "mismatches": 0,
+  "cycles_mean": 13566.332333833083,
+  "cycles_max": 15678,
+  "seconds": 31
+ },
+ "block-RAM core": {
+  "routed_images": 2001,
+  "mismatches": 0,
+  "cycles_mean": 37394.029985007495,
+  "cycles_max": 46190,
+  "seconds": 85
+ },
+ "four-engine core": {
+  "routed_images": 2001,
+  "mismatches": 0,
+  "cycles_mean": 9689.480259870064,
+  "cycles_max": 12108,
+  "seconds": 107
+ }
+}

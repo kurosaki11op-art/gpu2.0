@@ -22,6 +22,8 @@ Founder's request: before any FPGA is built or bought, test that everything runs
 
 Block counts (LUT4 / carry / flip-flops / block RAM / multipliers): UART 106 / 39 / 70 / 0 / 0; L system (stage 1, dispatcher, L Deep with one engine) 2,746 / 574 / 384 / 64 / 0; Forge tile 2,803 / 479 / 208 / 10 / 16; four-engine Deep core 3,408 / 2,097 / 1,418 / 76 / 0.
 
+| **Test 5** | the three stand-alone L Deep cores on every routed image of the test set (2,001 images): asynchronous-read core, block-RAM core, four-engine core | **0 mismatches in all three**; mean cycles per routed image 13,566 / 37,394 / 9,689 |
+
 ## What the virtual tests found (failures recorded as prominently as wins)
 
 1. **A real RTL bug, found only by the full test set.** The final class choice read class 0 before the last table add had landed. 1 image of 10,000 got the wrong class (RTL 89.72% against the reference's 89.73%); image 4203 scored 5,075 for class 0 and 5,092 for class 2 and the RTL answered class 0. All earlier checks (300 and 200 images) had passed by luck. Fixed in the system and block-RAM cores (the argmax now starts from the lowest value and visits all classes); every cycle count in earlier notes is now one higher (for example 4,620 for a not-routed image).
@@ -30,7 +32,7 @@ Block counts (LUT4 / carry / flip-flops / block RAM / multipliers): UART 106 / 3
 
 ## Limits
 
-Simulation only: the virtual device checks function and resource counts, not timing, clock domains, block-RAM initialisation on a real part, or power. The yosys counts are estimates. Stage 1 is a re-implementation of the table read for the experiment's trained table, not the existing Cortex core. The reference model is independent of the golden exporter but shares the memory files, so it checks the RTL logic, not the trained contents. Four-engine L Deep and the Forge tile were exercised in the regression but not inside the 10,000-image run (which uses the one-engine core).
+Simulation only: the virtual device checks function and resource counts, not timing, clock domains, block-RAM initialisation on a real part, or power. The yosys counts are estimates. Stage 1 is a re-implementation of the table read for the experiment's trained table, not the existing Cortex core. The reference model is independent of the golden exporter but shares the memory files, so it checks the RTL logic, not the trained contents. The four-engine core and the other stand-alone Deep cores are covered by Test 5 (every routed image); the Forge tile is covered by Tests 3 and 4 and the stress mix. **The virtual device models the small pitch design (about 1.3 Mbit of memory); the 2 GB, 5 nm architecture (tens of thousands of tiles with routers) has no RTL and is not covered by any of these tests; it exists only as the numeric tile model, the fabric traffic model and the cost models.**
 
 ## The 3D virtual board
 

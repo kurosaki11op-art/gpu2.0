@@ -1,0 +1,5 @@
+routed images: 2001
+asynchronous-read core   2001 images, mismatches 0, mean cycles 13566 (max 15678) [31s]
+block-RAM core           2001 images, mismatches 0, mean cycles 37394 (max 46190) [85s]
+four-engine core         2001 images, mismatches 0, mean cycles 9689 (max 12108) [107s]
+PASS: all three cores identical to the reference on every routed image

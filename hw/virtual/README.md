@@ -14,6 +14,7 @@ A simulation target for the three-layer L design, built before any real FPGA is 
 - Test 2 `run_stress_top.py`: a stress mix on the layered top (random and corner inputs, matrix products interleaved, reset injected mid-job, repeated images).
 - Test 3 `run_stress_forge.py`: 200,000 random lane operations and the matrix-product tile on seven data distributions.
 - Test 4 `run_stress_board.py`: the UART board top under junk bytes, invalid ops and stray sync bytes.
+- Test 5 `run_cores_testset.py`: the three stand-alone L Deep cores (asynchronous reads, block RAM, four parallel engines) on every routed image of the test set (2,001 images).
 - `vfpga_3d.html` (standalone) and `vfpga_3d_artifact.html`: the 3D board, built by `build_3d.py` from the results; open the file in a browser (fonts load from the web, the 3D is plain canvas code).
 
 Results and findings: [Virtual device tests](../results/virtual_device_tests.md).
