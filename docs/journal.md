@@ -1814,4 +1814,8 @@ Founder: fabricate only one chip first, so the pitch rests on real (MEASURED) nu
 
 Founder: the pitch chip should carry all three layers (Cortex, Deep, shared memory); find a cheap way to fabricate and manage memory and energy. Done: [one chip, three layers](../hw/results/one_chip_three_layers.md). Result (ESTIMATED / MODELLED): total memory about 0.6 to 0.9 MB; die about 89 mm2 with the open SKY130 macros, 24 mm2 with a denser compiler, about 1 mm2 at 28 nm, so memory type decides cost; Deep energy per token 1,065 nJ in one array, 318 nJ with 8 KB banks, 219 nJ with skipping (banking worth 3 to 5x); Cortex layout is 20 to 28x above its operation count (0.18 to 0.26 uJ vs 9.4 nJ), so the pitch must quote the layout figure. Failure recorded: first run printed nJ as uJ (units bug), fixed. Not known: Deep layout and energy, shared block size, shuttle prices.
 
+## 28 Oct 2026: correction, the third layer is the GPU-everything layer
+
+I had called the third layer a shared memory block; the founder's intent is a general numeric layer doing what a GPU does and Cortex and Deep cannot. Corrected in [one chip, three layers](../hw/results/one_chip_three_layers.md). The 256 KB figure is a placeholder, not a design. Next: define the third layer from the benchmark list (numeric tile study) and the primitive test.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
