@@ -1778,4 +1778,8 @@ First study after the founder's decision. L first pass (29.9 nJ) on all images; 
 
 Stage 1 L (all images), stage 2 matrix-free 64-informative pass (20%), stage 3 small int8 CNN (hardest 25 to 50% of those, 5 to 10% of images overall): 91.02 / 91.41% at est. 53.6 / 66.6 nJ (1.79 / 2.23 x L), against 91.15% for the int8 CNN at 260 nJ (3.9 times more) and 91.28% float32 at 2,300 nJ. One seed. Note: hw/results/hybrid_routed_cnn.md.
 
+## 28 Oct 2026: no CNN as a component; concept-study method
+
+Founder: multiplication and matrices yes, but no CNN (GPU architectures invite the question of why a GPU cannot optimise it); learn why a concept is used, how it is built and where it fails, then build our own method fixing its flaws. Stopped the second-seed cascade run; marked hybrid_routed_cnn.md as a reference study only; wrote docs/concept_study_convolution.md (concept card with our own evidence and three tests: match-strength bit, group specialist, neighbour-relation bits). Rule added to CLAUDE.md item 4 and docs/PROJECT_MEMORY.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

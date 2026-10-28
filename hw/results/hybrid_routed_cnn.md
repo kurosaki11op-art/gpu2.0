@@ -5,6 +5,8 @@ tags: [spark, results, hybrid, routing, cnn-gap]
 
 # Hybrid study: a small int8 CNN as the routed second pass (28 Oct 2026)
 
+> **Status (28 Oct 2026, later): reference study only, NOT our method.** Founder's rule: no CNN or other standard GPU architecture as a component of L (a CNN on both sides invites the question of why a GPU cannot optimise it equally). The numbers below show what routed multiplication could add and what the gap to a CNN is worth; the design must reach it with our own methods. A second-seed run of the cascade was stopped for this reason.
+
 SIMULATED accuracy (Fashion-MNIST, one seed, numpy CNN trained here, weights quantised to int8, activations float: the int8 accuracy is an approximation), ESTIMATED energy (45 nJ-scale cost model of [cost frontier](cost_frontier.md): int8 multiply-add 0.23 pJ, weight and activation words through SRAM). The CNN is a SIMULATED reference model trained here, not a GPU measurement. Founder's decision of 28 Oct 2026: use ternary weights, matrices and multiplication where a test shows they pay, and keep the design light. Script `hw/brain/experiments/month5/hybrid_routed_cnn.py`, log `hybrid_routed_cnn.log`.
 
 First pass: L as shipped (matrix-free, 29.9 nJ) on every image. Second pass: a small convolutional network (shared 3 by 3 filters) run only on the images L's table is least sure about (smallest margin); for those images the CNN's answer replaces L's.

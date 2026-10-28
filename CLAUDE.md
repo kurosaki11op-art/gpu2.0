@@ -21,6 +21,10 @@
      where a measured test shows it pays (accuracy per unit of energy, memory and latency), is routed to the
      inputs that need it, and is labelled as a hybrid component. Inference on the chip, training on a GPU. Label every
      number MEASURED / MODELLED / ESTIMATED / SIMULATED, and every reference number with its own label.
+     **No CNN (or other standard GPU architecture) as a component of L** (founder, 28 Oct 2026: if we and GPUs both use a
+     CNN, "CNN optimised" invites the question of why a GPU cannot optimise it). A standard architecture may appear only
+     as a labelled reference baseline. Method: study each concept (why it exists, how it is built, where it is used,
+     its flaws and limits), then build our own method that fixes those flaws, and test it before building.
 5. Never write AI model identifiers into repo content.
 6. This repo is the team's **second brain**, opened in Obsidian as a vault (home: `README.md`). Keep it linked:
    every new note is linked from its folder's index (`docs/INDEX.md`, `hw/results/INDEX.md`, `hw/HARDWARE_INDEX.md`)
