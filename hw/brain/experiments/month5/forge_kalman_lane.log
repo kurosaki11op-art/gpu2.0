@@ -1,0 +1,1 @@
+Kalman 12 states, all matrix products through the Forge lane (3 seeds): difference from the fp64 filter ['2.68e-02', '3.11e-02', '3.53e-02'] ; RMSE vs truth: fp64 1.028, lane 1.030

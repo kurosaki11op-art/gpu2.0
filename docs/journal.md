@@ -1878,4 +1878,8 @@ L Deep ([build note](../hw/results/l_deep_build.md)): integer golden model (ldee
 
 [L Deep build](../hw/results/l_deep_build.md): block-RAM version of the core bit-exact (300 routed images), 62,341 cycles per routed image; yosys: about 1,650 LUT4 and 62 block-RAM blocks (about 1.1 Mbit), so it does not fit the Tang Nano 20K (46 blocks); the first asynchronous-read version synthesised to about 43,000 LUT4 (failure recorded, memories became logic). `l_system.v` (Cortex-style stage 1, dispatcher, Deep stage 2) bit-exact on 200 test images (58 routed), mean 22,814 cycles per image, about 3,000 LUT4 and 82 block-RAM blocks. Forge lane ([forge_lane_and_traffic](../hw/results/forge_lane_and_traffic.md)): about 2,630 LUT4 and 16 multipliers, ASIC about 0.002 to 0.006 mm2 (ESTIMATED). Limit: stage 1 is a re-implementation for the experiment's table, not yet the existing Cortex core. Next: write the project status, update memory, and the energy per image estimate.
 
+## 28 Oct 2026: Forge tile runs a matrix product in RTL; Kalman through the lane
+
+`forge_tile_mm.v` (block memories, lane, address generator, output memory) runs a 16x128x16 product: 0 of 256 outputs differ from the lane golden model, error 9.6e-3 against fp64, 2,051 cycles for 2,048 block operations (lane 99.9% busy). The 12-state Kalman filter with every product through the bit-exact lane: 2.7e-2 to 3.5e-2 from the fp64 filter, RMSE against truth 1.030 against 1.028. Two of the four hand-mapped Forge kernels are done (matrix multiply in RTL, Kalman through the lane); FFT and Poisson refinement exist at the format level only. See [Forge lane and traffic](../hw/results/forge_lane_and_traffic.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
