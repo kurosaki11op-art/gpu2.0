@@ -1898,4 +1898,8 @@ Counts from the exported clause lists ([L Deep build](../hw/results/l_deep_build
 
 `hw/rtl/top/l_chip_top.v`: one command interface over recognition (Cortex stage 1, Deep woken by margin) and the Forge matrix-product tile, with activity flags. 40 recognitions (13 routed) and a 16x128x16 product: 0 mismatches. Cycles awake: Cortex 184,760, Deep 799,163, Forge 2,051 ([L Deep build](../hw/results/l_deep_build.md) result 7). Deep dominates awake time with the sequential evaluator, which supports speeding it up before any energy claim. Gating and retention are not built.
 
+## 28 Oct 2026: L Deep with four parallel engines
+
+`ldeep_core_p.v` + `partition_engines.py`: bit-exact on 300 routed images, 16,066 cycles per routed image against 62,341 (3.9x), about 3,450 LUT4 and 60 block-RAM blocks (Gowin counts). First partition was contiguous and unbalanced (5,690 vs 3,927 literals per engine in the first split attempt: engine 0 had 7,887 and engine 3 only 3,927); interleaving the clauses balanced it to about 5,100 to 5,800. Same energy by operation count, awake about 4x less ([L Deep build](../hw/results/l_deep_build.md) result 8).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
