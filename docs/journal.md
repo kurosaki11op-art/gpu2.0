@@ -1902,4 +1902,8 @@ Counts from the exported clause lists ([L Deep build](../hw/results/l_deep_build
 
 `ldeep_core_p.v` + `partition_engines.py`: bit-exact on 300 routed images, 16,066 cycles per routed image against 62,341 (3.9x), about 3,450 LUT4 and 60 block-RAM blocks (Gowin counts). The first partition (contiguous clause ranges) was unbalanced: 7,887, 5,610, 4,808 and 3,927 literals per engine; interleaving the clauses balanced it to 5,129 to 5,764. Same energy by operation count, awake about 4x less ([L Deep build](../hw/results/l_deep_build.md) result 8).
 
+## 28 Oct 2026: L Deep routing share
+
+[deep_route_sweep.py](../hw/brain/experiments/month5/deep_route_sweep.py), two seeds ([L Deep build](../hw/results/l_deep_build.md) result 9): with 2,000 clauses the accuracy gain is complete by 20% routing (+0.88 and +0.83 points) and does not grow with more; routing all images costs 107 to 111 nJ and gains slightly less (+0.82 and +0.73). Best operating point: 2,000 clauses, 20% routed, about 49 nJ per image (1.45 times L's 34 nJ), against 4,000 clauses at 30% (about 70 nJ). The RTL checks use the older default; a re-export would move them.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

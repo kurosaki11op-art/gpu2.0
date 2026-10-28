@@ -58,6 +58,20 @@ Energy per image from these counts with the project's 45 nm constants (SRAM read
 
 [ldeep_core_p.v](../rtl/deep/ldeep_core_p.v): four engines, each with a quarter of the code rows (a contiguous range), an interleaved quarter of the clauses (clause c to engine c mod 4, which balances the load: the clauses are ranked by use and the first ones are longest), its own input-bit copy and its own partial score vector; the top adds the four vectors and takes the argmax. [partition_engines.py](../rtl/deep/partition_engines.py) splits the memories; check `python hw/rtl/deep/run_check_deep.py --parallel`. **Bit-exact on the same 300 routed images, 0 mismatches; mean 16,066 cycles per routed image (min 12,578, max 18,870), 3.9 times fewer than the single engine's 62,341.** Gowin synthesis: about 3,450 LUT4, 2,100 carry cells, 1,400 flip-flops and 60 block-RAM blocks (the same 1.07 Mbit of memory, only the small bit memory is copied four times). Eight engines would give about 8,000 cycles. Energy by operation count is unchanged (the same reads), but the layer is awake about four times less, which is what a power gate sees.
 
+## Result 9: how many images to route (SIMULATED accuracy, ESTIMATED energy)
+
+[deep_route_sweep.py](../brain/experiments/month5/deep_route_sweep.py), logs `deep_route_sweep_s0.log` and `_s1.log`: 2,000 kept clauses, the least-sure share r of images by the shipped table's margin go to stage 2. Seed 0 / seed 1:
+
+| routed share r | accuracy gain (points) | system energy, nJ (multiple of L's 34) |
+|---|---|---|
+| 0.1 | +0.77 / +0.72 | 41 / 42 (1.2x) |
+| **0.2** | **+0.88 / +0.83** | **49 / 49 (1.45x)** |
+| 0.3 | +0.86 / +0.77 | 56 / 57 (1.65x) |
+| 0.5 | +0.82 / +0.73 | 71 / 73 (2.1x) |
+| 1.0 | +0.82 / +0.73 | 107 / 111 (3.2x) |
+
+**The gain is reached by about 20% routing and does not grow after it; routing everything adds energy and lowers accuracy slightly (the clause layer is slightly worse than L on the easy images it replaces).** Best operating point found: **2,000 clauses, route 20%: about +0.85 points at about 49 nJ per image, 1.45 times L's energy** (ESTIMATED, two seeds), against the earlier default of 4,000 clauses at 30% (about 70 nJ). The RTL checks use the older defaults (4,000 clauses, threshold 3,415); the new point needs only a re-export with 2,000 clauses and the 20th-percentile threshold.
+
 ## What is left for L Deep
 
 1. Cost: 5.6 literals per clause on average and a full scan of the code bits; a keyed evaluation (only clauses whose positive literal is active) and the Cortex active-bit list would cut cycles several-fold; pruning clauses by use (top 4,000 of 8,000 already).
