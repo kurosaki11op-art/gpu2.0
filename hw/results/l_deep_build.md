@@ -33,6 +33,23 @@ Counted on the 300 routed test images (exported clause lists): **631 active code
 
 Energy per image from these counts with the project's 45 nm constants (SRAM read 10 pJ per 64-bit word up to 8 KB, 20 pJ at 32 KB, rising to about 21 to 23 pJ at 40 to 50 KB; adds 0.03 pJ; encoder detectors 17 nJ): stage 1 about 34 nJ; stage 2 about **120 nJ** if a 14-bit literal costs 0.22 of a word read, up to about **350 nJ** if every literal read costs a whole word. Average over a system that routes 30% of images: **about 70 to 140 nJ per image** (L alone: 29.9 nJ; the earlier note's routed-clause estimate: 68 to 99 nJ; int8 convolutional network reference: 260 nJ, all ESTIMATED), so about 1.9 to 3.7 times lower energy than the int8 reference for 1.5 points less accuracy (89.7 against 91.3, SIMULATED). The RTL as written needs 62,341 cycles per routed image, which is a latency and clocking cost (the Cortex layout showed that clocking can dominate by 20 to 28 times), not what these counts measure; a version with parallel clause engines would need about 3,000 to 12,000 cycles.
 
+## Result 6: the cost frontier, how many clauses are worth keeping (SIMULATED accuracy, ESTIMATED energy)
+
+[deep_frontier.py](../brain/experiments/month5/deep_frontier.py), logs `deep_frontier_s0.log` and `deep_frontier_s1.log`: N kept clauses (of 8,000, ranked by table use), routed 30%, the two-stage integer pipeline; accuracy gain over L alone (88.85), literal checks per routed image (counted, with early exit), system energy per image from counted operations (stage 1 and encoder 34 nJ plus 30% of stage 2; 45 nm constants as above). Seed 0 / seed 1:
+
+| kept N | accuracy gain (points) | Shirt AP | literal checks | system nJ |
+|---|---|---|---|---|
+| 0 (L alone) | 0 | 0.753 | 0 | 34 |
+| 250 | +0.43 / +0.34 | 0.769 / 0.767 | 1,146 / 1,321 | 41 / 42 |
+| 500 | +0.40 / +0.72 | 0.770 / 0.772 | 2,110 / 2,343 | 44 / 44 |
+| 1,000 | +0.58 / +0.55 | 0.771 / 0.774 | 3,938 / 4,436 | 48 / 49 |
+| **2,000** | **+0.86 / +0.77** | 0.774 / 0.777 | 6,962 / 7,766 | **56 / 57** |
+| 3,000 | +0.78 / +0.81 | 0.777 / 0.781 | 9,673 / 10,500 | 63 / 65 |
+| 4,000 | +0.88 / +0.95 | 0.774 / 0.780 | 11,930 / 12,914 | 70 / 71 |
+| 6,000 | +0.91 / +0.80 | 0.784 / 0.780 | 15,702 / 16,664 | 82 / 83 |
+
+**Most of the gain comes from the first 1,000 to 2,000 clauses: 2,000 clauses give about 90% of the 4,000-clause gain at 20% less energy (56 against 70 nJ, 1.6 times L's 34 nJ); 1,000 clauses give about 65% at 48 nJ (1.4 times L); more than 4,000 adds nothing.** This is a free cost cut for the chip: memory also falls (2,000 clauses need about half the literal, header and row storage, roughly 80 KB at int8 instead of 134 KB). The golden model and RTL use 4,000; changing to 2,000 is a re-export. Seeds agree on the shape, not on every point (differences of about 0.2 points are noise at one seed each).
+
 ## What is left for L Deep
 
 1. Cost: 5.6 literals per clause on average and a full scan of the code bits; a keyed evaluation (only clauses whose positive literal is active) and the Cortex active-bit list would cut cycles several-fold; pruning clauses by use (top 4,000 of 8,000 already).

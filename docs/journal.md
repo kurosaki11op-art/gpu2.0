@@ -1890,4 +1890,8 @@ Wrote [the status note](../docs/L_status_28oct.md) (layers, evidence, honest GPU
 
 Counts from the exported clause lists ([L Deep build](../hw/results/l_deep_build.md)): 11,920 literal checks per routed image; keyed evaluation saves only 15% because 1,485 of 4,000 kept clauses are negative-only. Energy per image from these counts (ESTIMATED, 45 nm constants): stage 1 about 34 nJ, stage 2 120 to 350 nJ, system average 70 to 140 nJ against 260 nJ for the int8 CNN reference. Poisson refinement with lane-computed dot products converges exactly as before (9 outer, 27 inner, residual 1.9e-13 and 7.6e-13). Three of four Forge kernels now run through the lane arithmetic (matrix multiply in RTL, Kalman, Poisson); FFT remains at format level.
 
+## 28 Oct 2026: L Deep cost frontier
+
+[deep_frontier.py](../hw/brain/experiments/month5/deep_frontier.py), two seeds, SIMULATED accuracy and ESTIMATED energy ([L Deep build](../hw/results/l_deep_build.md)): 2,000 kept clauses give +0.86 and +0.77 points (4,000: +0.88 and +0.95) at 56 to 57 nJ per image instead of 70 to 71; 1,000 clauses give about +0.55 at 48 nJ; beyond 4,000 nothing. Failure recorded: the first run compared raw scores across the two tables for Shirt AP (values fell to 0.72 to 0.77, not comparable); fixed with the z-scored replacement as in the earlier experiments (accuracy was unaffected). Free cost cut for the chip: 2,000 clauses, memory roughly 80 KB.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
