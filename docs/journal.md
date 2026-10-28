@@ -1900,6 +1900,6 @@ Counts from the exported clause lists ([L Deep build](../hw/results/l_deep_build
 
 ## 28 Oct 2026: L Deep with four parallel engines
 
-`ldeep_core_p.v` + `partition_engines.py`: bit-exact on 300 routed images, 16,066 cycles per routed image against 62,341 (3.9x), about 3,450 LUT4 and 60 block-RAM blocks (Gowin counts). First partition was contiguous and unbalanced (5,690 vs 3,927 literals per engine in the first split attempt: engine 0 had 7,887 and engine 3 only 3,927); interleaving the clauses balanced it to about 5,100 to 5,800. Same energy by operation count, awake about 4x less ([L Deep build](../hw/results/l_deep_build.md) result 8).
+`ldeep_core_p.v` + `partition_engines.py`: bit-exact on 300 routed images, 16,066 cycles per routed image against 62,341 (3.9x), about 3,450 LUT4 and 60 block-RAM blocks (Gowin counts). The first partition (contiguous clause ranges) was unbalanced: 7,887, 5,610, 4,808 and 3,927 literals per engine; interleaving the clauses balanced it to 5,129 to 5,764. Same energy by operation count, awake about 4x less ([L Deep build](../hw/results/l_deep_build.md) result 8).
 
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
