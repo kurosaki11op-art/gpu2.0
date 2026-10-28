@@ -1,0 +1,6 @@
+[  38s] prepared; L alone 0.8885, routed 20.0%, L on routed 0.6052
+shipped (all training images)      routed acc 0.6492 | total 0.8973 | fixes 2.80% breaks 1.92% of all images | entries -104..105 [  47s]
+hard only (lowest 20% margins)     routed acc 0.6352 | total 0.8945 | fixes 3.09% breaks 2.49% of all images | entries -59..61 [  50s]
+hard only (lowest 40% margins)     routed acc 0.6442 | total 0.8963 | fixes 2.94% breaks 2.16% of all images | entries -89..90 [  53s]
+hard only (lowest 60% margins)     routed acc 0.6487 | total 0.8972 | fixes 2.87% breaks 2.00% of all images | entries -104..105 [  60s]
+all + hard 30% repeated twice      routed acc 0.6492 | total 0.8973 | fixes 2.97% breaks 2.09% of all images | entries -104..105 [  79s]
