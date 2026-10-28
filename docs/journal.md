@@ -1938,4 +1938,8 @@ Founder: test everything virtually first, on a virtual 3D FPGA made for us. Buil
 
 Founder: do the test; the design is not made for 2 GB. Test 5 (`run_cores_testset.py`): asynchronous-read, block-RAM and four-engine L Deep cores on all 2,001 routed test images: 0 mismatches each (mean cycles 13,566, 37,394, 9,689). Scope statement recorded in [virtual device tests](../hw/results/virtual_device_tests.md): the virtual device and the FPGA shortlist are for the small pitch design (about 1.3 Mbit); the 2 GB, 5 nm tile-array architecture has no RTL and no virtual test, only models. Candidate next step if wanted: an RTL mesh of Forge tiles with routers (a few tiles) to validate the tile-to-tile traffic assumptions.
 
+## 28 Oct 2026: tile mesh test
+
+[Mesh test](../hw/results/mesh_test.md) (hw/rtl/mesh): routers with deliver-and-forward, a distributed matrix product on 2x2 to 8x8 tiles: 0 mismatches against the lane golden model in all five configurations, 1.00 link traversals per delivered word (the model's broadcast assumption holds, but only with forward-while-delivering routers), communication 17 to 19% of cycles unless overlapped, speedup about 80% of ideal (58% with very small tiles per node). First version of the check printed its test bench format string wrongly (Python formatting clash), fixed. Not covered: FFT all-to-all, contention, energy, scale beyond 64 tiles.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

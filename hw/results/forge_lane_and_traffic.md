@@ -51,6 +51,10 @@ Lane plus the matrix-product control and its memories for the 16 x 128 x 16 test
 
 [forge_kalman_lane_inv.py](../brain/experiments/month5/forge_kalman_lane_inv.py): the 6 x 6 matrix inverse of the Kalman filter is computed by 8 Newton-Schulz iterations (X <- X (2I - S X), matrix products only, started from a scaled transpose), so every multiplication in the filter, including the inverse, runs on the lane and **no high-precision path is needed for it**. Result (3 seeds): difference from the fp64 filter 2.7e-2 to 3.4e-2, RMSE against the truth 1.031 against 1.028 for fp64, mean residual of the lane inverse ||S^-1 S - I|| 3.1e-2. Limits: a well-conditioned 12-state system; Newton-Schulz needs a fixed iteration count and a safe starting scale; ill-conditioned covariances are untested.
 
+## 9. Check of the traffic assumption in RTL (SIMULATED)
+
+[Tile mesh test](mesh_test.md): a 4 to 64 tile mesh with deliver-and-forward routers computes a distributed matrix product bit-exact; each word crosses one link per delivered copy (1.00 traversals per delivered word), as the traffic model assumed for broadcasts, but only if routers can forward while delivering; communication takes 17 to 19% of the cycles unless overlapped with compute. The FFT's all-to-all pattern is not tested.
+
 ## Limits
 
 Traffic volumes are first-order formulas for standard decompositions, not a simulated schedule; no contention, latency or buffering; the 1,024-tile grouping is a choice; the lane is verified alone, not inside a tile with memory and routing; no area or timing from synthesis yet.

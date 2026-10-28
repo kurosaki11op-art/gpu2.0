@@ -14,6 +14,7 @@ STEPS = [
  ("TEST 2: stress mix on the layered top, seed 3", [sys.executable, os.path.join(here, "run_stress_top.py"), "3"]),
  ("TEST 3: L Forge stress (200,000 lane operations, 7 data distributions)", [sys.executable, os.path.join(here, "run_stress_forge.py")]),
  ("TEST 4: UART board under a hostile host", [sys.executable, os.path.join(here, "run_stress_board.py")])]
+STEPS += [("TEST 6: L Forge tile mesh, 4x4 and 8x8 tiles (distributed matrix product)", [sys.executable, os.path.join(rtl, "mesh", "mesh_run_all.py")])]
 if not quick: STEPS += [("TEST 5: three stand-alone L Deep cores on every routed test image (2,001)", [sys.executable, os.path.join(here, "run_cores_testset.py"), "4"])]
 if not quick: STEPS += [("TEST 1: the whole 10,000-image test set through the RTL", [sys.executable, os.path.join(here, "run_full_testset.py"), "10000", "4"]), ("resource fit on VFPGA-L1 (yosys, Gowin family)", [sys.executable, os.path.join(here, "vfpga.py")])]
 out = []
