@@ -1,0 +1,34 @@
+
+3. Printing statistics.
+
+=== ldeep_core_bram ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     2990 wires
+     7938 wire bits
+     2990 public wires
+     7938 public wire bits
+       11 ports
+      256 port bits
+     3234 cells
+      514   ALU
+       26   DFF
+       64   DFFE
+       33   DFFR
+      243   DFFRE
+        1   DPB
+        1   GND
+       18   IBUF
+      266   LUT1
+      103   LUT2
+      520   LUT3
+      753   LUT4
+      273   MUX2_LUT5
+       75   MUX2_LUT6
+       31   MUX2_LUT7
+       13   MUX2_LUT8
+      238   OBUF
+       61   SPX9
+        1   VCC
+

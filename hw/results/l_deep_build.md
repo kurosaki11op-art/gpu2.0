@@ -19,11 +19,19 @@ tags: [spark, result, simulated, l-deep, rtl]
 
 About **134 KB**: literals 22,232 of 14 bits (38 KB), clause headers (12 KB), clause rows 4,000 by 10 (39 KB), the stage-2 code rows 4,608 by 10 (45 KB). The stage-2 code rows duplicate Cortex's own table in a jointly trained form; sharing or retraining on the Cortex table would save 45 KB. This replaces my earlier 60 KB guess.
 
+## Result 3: a block-RAM version and what an FPGA needs (SIMULATED RTL, synthesis counts from yosys)
+
+[ldeep_core_bram.v](../rtl/deep/ldeep_core_bram.v) has synchronous-read memories (so synthesis maps them to block RAM) and loads the input bits one at a time; **bit-exact on the same 300 routed images, 0 mismatches**, but 4 cycles per literal, so **mean 62,341 cycles per routed image** (min 48,771, max 72,119; 1.2 ms at 50 MHz). Synthesised for the Gowin family with yosys: about 1,650 LUT4, 514 carry cells, about 370 flip-flops and **62 block-RAM blocks (about 1.1 Mbit)**. The first version (asynchronous reads) turned every memory into logic: about 43,000 LUT4, unusable. **The Tang Nano 20K has 46 block-RAM blocks (about 0.83 Mbit), so L Deep does not fit it; the FPGA for the three-layer build needs more than about 1.5 Mbit of block RAM** (Cortex's tables and the Forge tile memories add to this).
+
+## Result 4: two stages and the dispatcher in RTL (SIMULATED RTL)
+
+[l_system.v](../rtl/deep/l_system.v): stage 1 reads L's table (scan of the active code bits), the dispatcher compares the margin with the routing threshold (3,415) and wakes L Deep only if the margin is at most that, whose answer replaces the first; checked by [run_check_system.py](../rtl/deep/run_check_system.py) against the integer golden pipeline on the first 200 test images in order (58 routed): **0 mismatches in the routed flag, all 10 scores and the prediction.** Mean cycles: **4,619 when not routed, 67,360 when routed, 22,814 overall** (0.46 ms per image at 50 MHz). Synthesis: about 3,000 LUT4, 575 carry cells, about 390 flip-flops and 82 block-RAM blocks (about 1.5 Mbit). Caveats: stage 1 here is a re-implementation of the table read for the experiment's integer table (the existing Cortex RTL core uses its own table format and cannot be loaded with the experiment's trained table), so this is the system of the simulated pipeline, not yet the existing Cortex core wired to Deep.
+
 ## What is left for L Deep
 
 1. Cost: 5.6 literals per clause on average and a full scan of the code bits; a keyed evaluation (only clauses whose positive literal is active) and the Cortex active-bit list would cut cycles several-fold; pruning clauses by use (top 4,000 of 8,000 already).
-2. FPGA fit: the bit memory as block RAM with a serial load; the wide input port is simulation only.
-3. Integration: shared code memory with Cortex and the dispatcher (margin at most the threshold wakes Deep).
+2. FPGA fit: done in RTL (block-RAM version, serial load); needs an FPGA with more than about 1.5 Mbit of block RAM, to be chosen.
+3. Integration: done for the simulated pipeline (l_system.v); wiring the existing Cortex RTL core to Deep (table format and the learned-table load path) is not done.
 4. Energy per routed image (cycles times layout energy per cycle), not yet estimated.
 5. Continual learning: clause banks are append-only in simulation; the hardware update path is not built.
 

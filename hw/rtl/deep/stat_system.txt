@@ -1,0 +1,35 @@
+
+3. Printing statistics.
+
+=== l_system ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     5399 wires
+    12055 wire bits
+     5399 public wires
+    12055 public wire bits
+       12 ports
+      257 port bits
+     5626 cells
+      575   ALU
+       26   DFF
+       56   DFFE
+       33   DFFR
+      270   DFFRE
+        2   DFFSE
+        1   DPB
+        1   GND
+       18   IBUF
+      347   LUT1
+       73   LUT2
+      615   LUT3
+     1939   LUT4
+      921   MUX2_LUT5
+      308   MUX2_LUT6
+       98   MUX2_LUT7
+       22   MUX2_LUT8
+      239   OBUF
+       81   SPX9
+        1   VCC
+

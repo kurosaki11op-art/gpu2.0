@@ -2,8 +2,9 @@
 import os, subprocess, sys
 d = os.path.dirname(os.path.abspath(__file__)); os.chdir(d)
 n = int([l.split()[1] for l in open("deep_params.txt") if l.startswith("NTEST")][0])
-subprocess.check_call(["iverilog", "-g2012", "-o", "ldeep_sim", "-P", "ldeep_tb.NTEST=%d" % n, "ldeep_tb.v", "ldeep_core.v"]); subprocess.check_call(["vvp", "ldeep_sim"], stdout=subprocess.DEVNULL)
-exp = [list(map(int, l.split())) for l in open("deep_exp.txt") if l.strip()]; got = [list(map(int, l.split())) for l in open("out_deep.txt") if l.strip()]
+bram = "--bram" in sys.argv; tb, top, tbn, outf = ("ldeep_bram_tb.v", "ldeep_core_bram.v", "ldeep_bram_tb", "out_deep_bram.txt") if bram else ("ldeep_tb.v", "ldeep_core.v", "ldeep_tb", "out_deep.txt")
+subprocess.check_call(["iverilog", "-g2012", "-o", "ldeep_sim", "-P", "%s.NTEST=%d" % (tbn, n), tb, top]); subprocess.check_call(["timeout", "900", "vvp", "ldeep_sim"], stdout=subprocess.DEVNULL)
+exp = [list(map(int, l.split())) for l in open("deep_exp.txt") if l.strip()]; got = [list(map(int, l.split())) for l in open(outf) if l.strip()]
 bad = [i for i, (e, g) in enumerate(zip(exp, got)) if e != g[:11]]; cyc = [g[11] for g in got]
 print("images %d, expected %d, mismatches %d, mean cycles per routed image %.0f (min %d, max %d)" % (len(got), len(exp), len(bad), sum(cyc) / len(cyc), min(cyc), max(cyc)))
 if bad: print("first mismatches:", bad[:5]); sys.exit(1)

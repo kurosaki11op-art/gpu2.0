@@ -31,6 +31,10 @@ A block of 16 signed 8-bit mantissa pairs plus block exponents per cycle, exact 
 
 Reading (ESTIMATED): **neighbour-exchange kernels (stencils, Poisson, matrix multiply) lose almost nothing to the fabric, the FFT loses 10 to 25%, the language model loses half (mostly from crossing dies, not the mesh: a model that fits on one die would keep most of its gain), and ray tracing, with its random fetches, falls to about 1x or below** and should be left to a GPU or dropped from the acceptance list. The conclusion rests on the assumed link energies; a layout-level estimate would replace them.
 
+## 4. Lane synthesis (yosys, Gowin family; ASIC area ESTIMATED)
+
+The lane synthesises to about 2,630 LUT4, 359 carry cells, 30 flip-flops and **16 9 x 9 multipliers**, with the wide aligner and normaliser (64-bit shifts) taking most of the logic. Rough ASIC size: about 39,000 NAND2-equivalent gates (LUT4 about 8, carry cell about 20, 9 x 9 multiplier about 700; a rough conversion) at an assumed 0.06 um2 per gate at 5 nm including routing gives **about 0.002 to 0.006 mm2 for the lane**, within the assumed tile logic of 0.005 to 0.015 mm2 (the tile also needs a router, control and bank interfaces, not designed yet). Narrowing the alignment shift from 40 to about 24 bits would cut the aligner roughly in half at negligible numeric cost (not done).
+
 ## Limits
 
 Traffic volumes are first-order formulas for standard decompositions, not a simulated schedule; no contention, latency or buffering; the 1,024-tile grouping is a choice; the lane is verified alone, not inside a tile with memory and routing; no area or timing from synthesis yet.

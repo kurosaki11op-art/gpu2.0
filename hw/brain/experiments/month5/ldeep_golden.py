@@ -51,3 +51,11 @@ open(os.path.join(OUT, "deep_exp.txt"), "w").write("\n".join(" ".join(str(int(v)
 open(os.path.join(OUT, "deep_params.txt"), "w").write("NB %d\nNCODE %d\nNCL %d\nNLITS %d\nNTEST %d\nNCLS 10\nROUTE_T %d\n" % (NB, NCODE, len(keep), len(lits), len(ids), T))
 mem_kb = (len(lits) * 14 + len(keep) * 24 + len(keep) * 80 + NCODE * 80) / 8 / 1024
 print("exported: %d kept clauses, %d literals (mean %.2f per clause, max %d), test images %d; memory at int8 entries %.0f KB (literals %.0f + headers %.0f + clause rows %.0f + code rows %.0f)" % (len(keep), len(lits), len(lits) / len(keep), max(n for _, n in hdr), len(ids), mem_kb, len(lits) * 14 / 8192, len(keep) * 24 / 8192, len(keep) * 80 / 8192, NCODE * 80 / 8192))
+
+# system test files: the first NSYS test images in order (routed and not routed), final scores and prediction of the two-stage pipeline
+NSYS = int(os.environ.get("NSYS", 200)); sid = np.arange(NSYS)
+open(os.path.join(OUT, "deep_wcode1.hex"), "w").write("\n".join(row(W_L[i]) for i in range(NCODE)) + "\n")
+open(os.path.join(OUT, "sys_in.hex"), "w").write("\n".join("%0*x" % ((NB + 3) // 4, int("".join(str(int(b)) for b in IN_TE[i][::-1]), 2)) for i in sid) + "\n")
+fin = np.where(route[:, None], S_LC, S_L)
+open(os.path.join(OUT, "sys_exp.txt"), "w").write("\n".join("%d " % int(route[i]) + " ".join(str(int(v)) for v in fin[i]) + " %d" % int(fin[i].argmax()) for i in sid) + "\n")
+print("system test: %d images, %d routed, pipeline accuracy on them %.4f" % (NSYS, route[sid].sum(), (fin[sid].argmax(1) == yte[sid]).mean()))
