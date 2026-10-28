@@ -11,12 +11,16 @@
 4. **The project is named L** (renamed from SPARK on 22 Oct 2026; code, board and file names keep the old `spark_`
    prefix so the regression keeps working). Two workstreams, both in this repo:
    - **L Cortex** (the counting chip, done to a bit-exact RTL): keep to brain principles, no matrices, no multiplies,
-     no backprop in the chip design. Do not reframe it as a GPU helper or an FPGA builder.
+     no backprop in the chip design. Do not reframe it as a GPU helper or an FPGA builder. (28 Oct 2026: hybrid
+     additions beyond this are allowed only as separately labelled options, per the founder's decision below.)
    - **L accelerator** (the dedicated chip for the L language model, the alternative to a GPU; see
-     `docs/L_accelerator_design.md`): **also matrix-free** (founder's rule, 22 Oct 2026: no matrix, especially no heavy
-     matrix: no dense matrix-vector products, ternary or not). Allowed: scans, event-driven sparse row lookups, table
-     and hash lookups, counters, small state. Inference on the chip, training on a GPU. Label every number
-     MEASURED / MODELLED / ESTIMATED.
+     `docs/L_accelerator_design.md`): **matrix-free by default, hybrid where a test shows a need** (founder's decision,
+     28 Oct 2026, replacing the 22 Oct rule that forbade every matrix: use ternary weights AND matrices / multiplication
+     wherever they are needed, and keep the design light-weight). Default tools: scans, event-driven sparse row lookups,
+     table and hash lookups, counters, small state, ternary add-only paths. A multiplier or matrix path is added only
+     where a measured test shows it pays (accuracy per unit of energy, memory and latency), is routed to the
+     inputs that need it, and is labelled as a hybrid component. Inference on the chip, training on a GPU. Label every
+     number MEASURED / MODELLED / ESTIMATED / SIMULATED, and every reference number with its own label.
 5. Never write AI model identifiers into repo content.
 6. This repo is the team's **second brain**, opened in Obsidian as a vault (home: `README.md`). Keep it linked:
    every new note is linked from its folder's index (`docs/INDEX.md`, `hw/results/INDEX.md`, `hw/HARDWARE_INDEX.md`)

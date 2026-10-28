@@ -289,5 +289,9 @@ Every accuracy number carries its estimated cost on one consistent model; ceilin
 
 A referenced number is a labelled number: any baseline, reference model or published figure quoted next to ours carries its own label (MEASURED, SIMULATED, ESTIMATED, MODELLED, or the paper it comes from). Reference models trained here (the numpy CNN, the add-only network, the dense network) are SIMULATED, their energies ESTIMATED; no GPU has been measured.
 
+## Founder decision: matrix-free by default, hybrid where needed (28 Oct 2026)
+
+The 22 Oct rule (no matrix of any kind, ternary or not) is replaced: L uses ternary weights AND matrices / multiplication wherever they are needed, with a focus on a light-weight design. Reasons given: ternary and add-only operations cannot do everything GPUs and AI models do; rocket-class workloads are linear algebra. Our measurements (SIMULATED) support a mixed answer: on L's code multiply, float precision and depth add nothing (float 89.15, add-only 89.40, our table 88.85), while in a convolutional network ternary weights cost about a point per layer (float 91.28 against all-ternary 88.52). Working rule: a multiplier or matrix path is added only where a test shows it pays (accuracy per energy), is routed to the inputs that need it (the routing already built), and is labelled as a hybrid component. CLAUDE.md item 4 updated. First study: routed small int8 convolutional second pass (hw/results/hybrid_routed_cnn.md when done).
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
