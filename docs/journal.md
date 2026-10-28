@@ -1802,4 +1802,8 @@ Asked: study how a GPU and its memory are built and whether changes let us fit m
 
 Founder fear: efficiency versus GPUs and the cost to fabricate ($220 for 1 GB, $7,000 Cerebras-scale). Done: [cost by node](../hw/results/cost_by_node.md). Result (ESTIMATED): the $220 is a per-die cost; the real barrier is NRE (reported $1.5M to $10M mask-plus-NRE up to $450M-plus full design at 5 nm, sources disagree) and volume. Mature nodes (16, 28 nm) give SRAM at about $80 to 100 per GB against $211 at 5 nm; per-chip price including NRE is a few hundred dollars at 100,000 to 1,000,000 chips, tens of thousands below 10,000 except mature node with low NRE. The L-class recognition chip is about $5 to $9 per die. Efficiency advantage is unproven except sparse recognition (about 36x, ESTIMATED). Shuttle (MPW) price not found; needs a quote. Direction: cost per task becomes a tracked metric.
 
+## 28 Oct 2026: layered product line
+
+Founder idea: layers (Cortex, Deep, dense, physics, render, memory) so customers get and power only what they use. Done: [layered product line](../hw/results/layered_product_line.md) (layered_product_model.py). Result (ESTIMATED, assumed inputs): the layer kit halves total NRE against a custom die per product ($272M to $123M IBS-like, $39M to $20M lean) because each layer is designed once; it does not beat one universal die on NRE, and costs more than it on big products (links, packaging); small customers avoid paying for unused silicon. Power gating alone is not the reason (monolithic dies gate too). Not modelled: chiplet link energy, software, thermal. A layer is justified only by its own test; physics and render show only 1.3 to 4x so far.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

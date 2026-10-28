@@ -1,0 +1,20 @@
+
+=== IBS-like design cost 0.3M per new logic mm2 ; volume 10000 per product ===
+universal die (everything for everyone): 1297 mm2, 3 dies, silicon $130, price/chip $2696 (volume 50000), idle leakage if all memory powered 0.77 W
+product                     needs mm2 custom mono $ chiplet kit $  universal $     leak W
+A edge sensor                      30         1056         2486         2696       0.00
+B assistant                        73         2264         2515         2696       0.00
+C vision+language server          794         5595         2738         2696       0.52
+D science                         978         6855         2766         2696       0.65
+E everything                     1297        12176         2903         2696       0.77
+NRE: universal 118.5M | all five custom dies 271.5M | chiplet kit (each layer once) 123.0M
+
+=== lean design cost 0.03M per mm2 ; volume 10000 per product ===
+universal die (everything for everyone): 1297 mm2, 3 dies, silicon $130, price/chip $644 (volume 50000), idle leakage if all memory powered 0.77 W
+product                     needs mm2 custom mono $ chiplet kit $  universal $     leak W
+A edge sensor                      30          246          434          644       0.00
+B assistant                        73          374          463          644       0.00
+C vision+language server          794         1005          686          644       0.52
+D science                         978         1185          714          644       0.65
+E everything                     1297         1916          851          644       0.77
+NRE: universal 15.9M | all five custom dies 39.3M | chiplet kit (each layer once) 20.4M
