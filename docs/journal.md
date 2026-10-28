@@ -1758,4 +1758,8 @@ Founder asked whether the CNN uses about 69 nJ. Same constants: float32 small CN
 
 Withdrew the first detector-selection claim (it kept bits from a 128-detector competition; installed alone 32 informative = 32 random = 88.77/88.75). Deployable selection: 64 informative of 128 installed alone 90.26 (seed 0) / 89.97 (seed 1) against 89.31 for random. Lesson from the failures (gains overlap, only routing kept gains cheaply): route a stronger second pass to the least-sure images. Routed 64-informative second pass, 20% of images: 90.35 / 90.02 at est. 40.6 nJ (1.36x L); routed richer code (7 channels, two-level) 89.98 at 43.0 nJ. Gap to the CNN now 0.9 to 1.3 points (was 2.4), at about 6 times lower cost than the int8 CNN. Notes: hw/results/routed_second_pass.md, detector_selection_and_gap.md (correction), cost_frontier.md.
 
+## 28 Oct 2026: labels on reference numbers
+
+Founder: referenced means labelled. Added a label block to cost_frontier.md, routed_second_pass.md and detector_selection_and_gap.md (CNN accuracy and recall SIMULATED from our own numpy CNN, reference energies ESTIMATED, no GPU measured), labelled the reference rows of the cost table, and fixed the float CNN row (about 2,300 nJ, was 1,970). Rule added to docs/PROJECT_MEMORY.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

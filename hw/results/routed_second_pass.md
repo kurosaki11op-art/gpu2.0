@@ -5,6 +5,9 @@ tags: [spark, results, front-end, routing, cnn-gap]
 
 # Routed second pass with informative detectors (27 Oct 2026)
 
+> **Labels of the reference numbers (27 Oct 2026):** every figure marked "reference" or "CNN" is labelled by origin. CNN accuracy and per-class recall (91.28, Shirt 0.707) are SIMULATED: a small CNN trained here in numpy (32 shared 3 by 3 filters, 20 epochs, one seed), not a published or GPU-measured result. Reference energies (CNN float32 and int8, add-only ternary network, dense float network) are ESTIMATED with the project's 45 nm per-operation constants, not measured on hardware. Our own accuracies are SIMULATED, our own energies ESTIMATED.
+
+
 SIMULATED accuracy (Fashion-MNIST, two detector seeds), ESTIMATED energy (the cost model of [cost frontier](cost_frontier.md)). Founder's direction: close the gap to the CNN cleanly, with new concepts learned from the failures. Scripts in `hw/brain/experiments/month5/`: `detector_selection2.py`, `routed_rich_eval.py`, `routed_selected_eval.py` (logs `detector_selection2*.log`, `routed_rich_eval.log`, `routed_selected_eval_seed{0,1}.log`).
 
 ## Lessons from our own failures that shaped this

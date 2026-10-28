@@ -5,6 +5,9 @@ tags: [spark, results, front-end, cnn-gap]
 
 # Choosing detectors by what separates the classes, and where the gap to the CNN is (27 Oct 2026)
 
+> **Labels of the reference numbers (27 Oct 2026):** every figure marked "reference" or "CNN" is labelled by origin. CNN accuracy and per-class recall (91.28, Shirt 0.707) are SIMULATED: a small CNN trained here in numpy (32 shared 3 by 3 filters, 20 epochs, one seed), not a published or GPU-measured result. Reference energies (CNN float32 and int8, add-only ternary network, dense float network) are ESTIMATED with the project's 45 nm per-operation constants, not measured on hardware. Our own accuracies are SIMULATED, our own energies ESTIMATED.
+
+
 > **Correction (27 Oct 2026, later):** Test 1 below kept the bits produced when all 128 pool detectors compete at each position; a chip with only the chosen detectors would see different winners, and reproducing these bits needs all 128 evaluated per position. The cost column and the claim that selection is cheaper and better at 32 per channel are therefore **withdrawn**: installed alone, the 32 most informative give 88.77 and 32 random give 88.75. The deployable results are in [routed second pass](routed_second_pass.md) (64 informative installed alone: 90.26 and 89.97 against 89.31 for random). Test 2 (the CNN's per-class recall and where the gap is) is unaffected.
 
 SIMULATED, Fashion-MNIST, one seed (spread about 0.3). Founder's direction: close the accuracy gap to the CNN and improve Shirt recall by making L learn what is common and uncommon across classes, so that it confuses less. Scripts in `hw/brain/experiments/month5/`: `detector_selection.py` (logs `detector_selection_stage1.log`, `detector_selection.log`), `cnn_recall.py` (`cnn_recall.log`), `per_class_gap.py` (`per_class_gap.log`).

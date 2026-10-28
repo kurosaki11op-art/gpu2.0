@@ -5,6 +5,9 @@ tags: [spark, results, energy, cost]
 
 # Cost frontier and the 2x ceiling (27 Oct 2026)
 
+> **Labels of the reference numbers (27 Oct 2026):** every figure marked "reference" or "CNN" is labelled by origin. CNN accuracy and per-class recall (91.28, Shirt 0.707) are SIMULATED: a small CNN trained here in numpy (32 shared 3 by 3 filters, 20 epochs, one seed), not a published or GPU-measured result. Reference energies (CNN float32 and int8, add-only ternary network, dense float network) are ESTIMATED with the project's 45 nm per-operation constants, not measured on hardware. Our own accuracies are SIMULATED, our own energies ESTIMATED.
+
+
 Founder's concern: every fix raises memory and power. Rule adopted: every accuracy number carries its cost, compared on one consistent model, with a ceiling of about 2 times L's cost today, and judged against the best add-only baseline at the same accuracy (not only against a dense GPU network). Script `hw/brain/experiments/month5/cost_frontier.py` (log `cost_frontier.log`), combination test `clause_on_rich_eval.py` (log `clause_on_rich_eval.log`). Energies are ESTIMATED with the project's 45 nm constants (Horowitz 2014): front end 576 positions x 32 detectors x channels x 0.23 pJ; table = active bits x (SRAM word read for the table size, 20 pJ up to 32 KB rising to 100 pJ at 1 MB, plus 10 adds). Accuracies are SIMULATED, one seed.
 
 | variant | accuracy | energy | x L | inside 2x ceiling |
@@ -17,9 +20,9 @@ Founder's concern: every fix raises memory and power. Rule adopted: every accura
 | 10 channels | 89.82 | 73.3 nJ | 2.45 | no |
 | L + clause layer (4,000), every image (measured) | 89.73 | 110.7 nJ | 3.70 | no |
 | L + clause layer, routed to 30% of images | 89.71 | 53.7 nJ | 1.79 | yes |
-| reference: add-only ternary network (256 hidden) | 89.40 | about 199 nJ | 6.6 | |
-| reference: small float CNN | 91.28 | about 1,970 nJ | 65.7 | |
-| reference: dense float network | 89.15 | 64,549 nJ | 2,156 | |
+| reference (SIMULATED accuracy, ESTIMATED energy): add-only ternary network (256 hidden) | 89.40 | about 199 nJ | 6.6 | |
+| reference (SIMULATED accuracy, ESTIMATED energy): small float CNN | 91.28 | about 2,300 nJ (1,970 in the first estimate, corrected below); int8 about 260 nJ | 77 (int8: 8.7) | |
+| reference (SIMULATED accuracy, ESTIMATED energy): dense float network | 89.15 | 64,549 nJ | 2,156 | |
 
 ## Judgement
 
