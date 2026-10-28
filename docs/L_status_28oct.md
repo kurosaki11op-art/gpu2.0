@@ -17,7 +17,7 @@ Target set by the founder: a layered chip, all three layers, built-in memory, 5 
 
 ## The honest comparison with a GPU (nothing measured)
 
-Sparse recognition: about 36x lower energy than a GPU-style baseline by the tile model (ESTIMATED) and about 2.6x lower than an int8 convolutional network by operation count (99 nJ against 260 nJ, both ESTIMATED) for 1.5 points less accuracy (89.7 against 91.3, SIMULATED). Dense physics and language models: about 4x to 32x in the tile model at 2 GB (ESTIMATED), shrinking with fabric traffic and die crossing; ray tracing about 1x. All GPU-side numbers are modelled references.
+Sparse recognition: about 36x lower energy than a GPU-style baseline by the tile model (ESTIMATED) and about 5 times lower than an int8 convolutional network by operation count (49 nJ for L plus Deep at the recommended point against 260 nJ, both ESTIMATED, not counting clocking and layout overhead) for 1.5 points less accuracy (89.7 against 91.3, SIMULATED). Dense physics and language models: about 4x to 32x in the tile model at 2 GB (ESTIMATED), shrinking with fabric traffic and die crossing; ray tracing about 1x. All GPU-side numbers are modelled references.
 
 ## Corrections made in this session (recorded in the notes)
 
@@ -31,7 +31,7 @@ L Deep is the clause layer, not a language model (found while starting its build
 
 ## Next steps in order
 
-1. Faster, lower-energy Deep microarchitecture (active-list scan, parallel clause engines) and an energy estimate from cycles.
+1. Layout-based energy for Deep and a Forge tile (clocking and overhead are not in the operation counts); an active-list scan for the code phase.
 2. FFT and Poisson refinement through the lane; tile router and control; area from synthesis of a full tile.
 3. Wire the existing Cortex RTL core to Deep and the dispatcher; replicate Deep on a second dataset.
 4. Board and GPU measurements once the hardware is available.
