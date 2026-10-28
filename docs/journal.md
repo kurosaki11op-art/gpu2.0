@@ -1882,4 +1882,8 @@ L Deep ([build note](../hw/results/l_deep_build.md)): integer golden model (ldee
 
 `forge_tile_mm.v` (block memories, lane, address generator, output memory) runs a 16x128x16 product: 0 of 256 outputs differ from the lane golden model, error 9.6e-3 against fp64, 2,051 cycles for 2,048 block operations (lane 99.9% busy). The 12-state Kalman filter with every product through the bit-exact lane: 2.7e-2 to 3.5e-2 from the fp64 filter, RMSE against truth 1.030 against 1.028. Two of the four hand-mapped Forge kernels are done (matrix multiply in RTL, Kalman through the lane); FFT and Poisson refinement exist at the format level only. See [Forge lane and traffic](../hw/results/forge_lane_and_traffic.md).
 
+## 28 Oct 2026: status note
+
+Wrote [the status note](../docs/L_status_28oct.md) (layers, evidence, honest GPU comparison, corrections, what is needed from the founder, next steps) and pointed project memory at it.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

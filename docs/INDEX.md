@@ -75,6 +75,7 @@ tags: [spark, index]
 - [L numeric tile study](L_numeric_tile_study.md): benchmark list (physics, FFT, rendering, LLM, recognition) and an energy model of a memory-on-chip tile against a GPU (ESTIMATED, 28 Oct 2026)
 - [L Forge design](L_forge_design.md): the third layer, a GPU-class numeric layer built on our own differences, tile spec, cost at 5 nm and 2 GB, acceptance tests (design hypothesis, 28 Oct 2026)
 - [Build plan, December to January](L_build_plan_dec_jan.md): weeks, gates, deliverables and cuts for finishing L Deep and L Forge before the February event (ESTIMATED, 28 Oct 2026)
+- [Status, 28 Oct 2026](L_status_28oct.md): what exists for L Cortex, L Deep and L Forge, the evidence, the gaps and what is needed from the founder
 - [Concept study: GPU and memory](concept_study_gpu_and_memory.md): how a GPU, SRAM, DRAM and HBM are built, their flaws, density options and our own directions (28 Oct 2026)
 - [Dispatch research](research/dispatch_research.md): early exit and power gating references, abstract level only, arXiv unreachable (28 Oct 2026)
 

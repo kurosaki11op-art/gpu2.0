@@ -305,5 +305,9 @@ Layered chip, three layers, built-in (on-chip) memory, **5 nm and 2 GB of SRAM**
 
 **L Deep is the deeper learned layer over L Cortex's code: the Tsetlin-style clause layer (each clause an AND of about 4 literals of L's code and raw pixel bits, learned by local feedback only, no error passing), read by L's counting table and run only on the images L is least sure about (routed).** Defined by the founder on 25 Oct 2026 ([L-Deep attempts](../hw/results/ldeep_attempts.md)). Best simulated version: 89.7% accuracy and Shirt AP 0.78 (L alone 88.85 and 0.753), routed on 30% of images, about 68 nJ keyed (2.3x L), SIMULATED, one seed. Earlier in this session I treated L Deep as a language or sequence model (about 1M parameters, ternary weights, trained on a GPU); that was my mistake, made from the accelerator design note for the L language model, which is a separate future item (call it L Language). Notes written under the mistaken reading carry a correction line: [one chip, three layers](../hw/results/one_chip_three_layers.md), [build plan](L_build_plan_dec_jan.md), [dispatch tests](../hw/results/dispatch_tests.md).
 
+## Where the three-layer build stands (28 Oct 2026)
+
+See [status, 28 Oct 2026](L_status_28oct.md). L Deep: integer model and bit-exact RTL (core and two-stage system with dispatcher), 89.73%, 134 KB, needs an FPGA with more than about 1.5 Mbit of block RAM. L Forge (name locked): lane in RTL bit-exact, tile running a matrix product in RTL, numeric studies, traffic model. Nothing is MEASURED on hardware; the FPGA purchase, a GPU baseline and a shuttle quote need the founder. Start a new session by reading that status note and the last journal entries.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
