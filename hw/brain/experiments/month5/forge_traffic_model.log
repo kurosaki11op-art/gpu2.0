@@ -1,0 +1,10 @@
+FABRIC ENERGY and the revised gain over a mixed-precision GPU baseline (2 GB on chip, modern constants, ESTIMATED)
+kernel                       GPU J    tile J | hop 0.02 pJ/bit: fabric J, gain    | hop 0.05 pJ/bit: fabric J, gain    | hop 0.2 pJ/bit: fabric J, gain    
+Dense matrix multiply        0.432     0.107 |   0.00444 J,   4.0x ->   3.9x |   0.00472 J,   4.0x ->   3.9x |   0.00608 J,   4.0x ->   3.8x
+3D FFT                       0.666      0.13 |   0.00767 J,   5.1x ->   4.8x |    0.0132 J,   5.1x ->   4.6x |    0.0407 J,   5.1x ->   3.9x
+Poisson CG                      11     0.337 |   0.00417 J,  32.8x ->  32.4x |   0.00881 J,  32.8x ->  32.0x |     0.032 J,  32.8x ->  30.0x
+CFD stencil                   34.6       4.2 |    0.0417 J,   8.2x ->   8.1x |    0.0881 J,   8.2x ->   8.1x |      0.32 J,   8.2x ->   7.6x
+LLM 1B int8                   4.85     0.101 |     0.098 J,  48.2x ->  24.4x |     0.104 J,  48.2x ->  23.7x |     0.134 J,  48.2x ->  20.6x
+Ray tracing                  0.119    0.0348 |    0.0457 J,   3.4x ->   1.5x |    0.0785 J,   3.4x ->   1.1x |     0.242 J,   3.4x ->   0.4x
+
+No fabric traffic: Kalman (one tile), small network and sparse recognition (tables stay local); their gains are unchanged.

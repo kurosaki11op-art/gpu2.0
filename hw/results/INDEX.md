@@ -97,6 +97,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [L Forge refinement loop](refinement_loop.md): 8-bit inner solves refined to fp64 accuracy on Poisson, about half the vector traffic (SIMULATED, 28 Oct 2026)
 - [FFT and Kalman precision routing](fft_kalman_routing.md): no refinement shortcut for the FFT, no fp64 needed for the 12-state Kalman filter (SIMULATED, 28 Oct 2026)
 - [L Forge lane numerics](bfp_lane_numerics.md): mantissa, block size, accumulator width and rounding for the block floating-point lane (SIMULATED, 28 Oct 2026)
+- [Forge lane, tile model and traffic](forge_lane_and_traffic.md): lane RTL bit-exact (3,288 ops), matrix product 1.0e-2 error through the lane, fabric energy by kernel (ESTIMATED, 28 Oct 2026)
 - [SRAM area and cost model](sram_area_cost_model.md): silicon area, yield, cost and leakage of 64 MB to 44 GB on-chip memory against HBM (ESTIMATED, 28 Oct 2026)
 - [Cost by process node](cost_by_node.md): die cost, NRE and per-chip price by node and volume, and the tiny recognition chip (ESTIMATED, 28 Oct 2026)
 - [Cost and power as limitations](cost_and_power_limitations.md): what 1 to 2 GB of on-chip memory costs in rupees, why, the power drivers, and the levers to work on (ESTIMATED, 28 Oct 2026)

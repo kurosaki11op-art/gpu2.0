@@ -47,6 +47,8 @@ Memory is about 683 mm2; the rest depends on tile logic, which is an assumption:
 | 1B-parameter language model, int8 | 48x | weights must be stationary beside compute |
 | Ray tracing | 3.4x | irregular memory access |
 
+**Update 28 Oct (lane and traffic):** the lane is in RTL and bit-exact; a matrix product through it has 1.0e-2 error; with tile-to-tile traffic (0.05 pJ per bit per hop assumed, 3 dies) the gains become matrix multiply 3.9x, FFT 4.6x, Poisson 32x, CFD 8.1x, small network 20.6x, language model 24x (halved by die crossing), ray tracing 1.1x ([lane and traffic](../hw/results/forge_lane_and_traffic.md)). Ray tracing is dropped from the acceptance list.
+
 ## 6. Where L Forge is not better (honest)
 
 Dense matrix multiply gains only memory energy; a multiplier costs the same. Fabric traffic between tiles (FFT, stencils, all-reduce) is **not in the model** and could remove much of D1's gain. fp64 at scale needs the refinement loop to converge. GPUs have a software moat (CUDA, libraries) that a new chip has no answer to without a compiler. No GPU or tile has been measured.
