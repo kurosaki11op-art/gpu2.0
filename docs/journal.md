@@ -1830,4 +1830,8 @@ Founder: rules 2 and 3 (Cortex first, predict need early); write into plan, rese
 
 Founder: how much for 1 to 2 GB of SRAM, why chips cost and burn so much, work on them as limitations. Done: [cost and power limitations](../hw/results/cost_and_power_limitations.md) (cost_constrained_design.py). Result (ESTIMATED, assumed inputs): silicon per chip for 1 to 2 GB is Rs 11k to 88k (up to 2 to 26 dies); the lakhs and crores are NRE (Rs 13 to 85 crore low case, hundreds to thousands of crore high); so a 1 to 2 GB chip is a tens-of-crores project and not the first chip. Correction: the earlier 1 GB cost assumed shared logic; logic beside every 48 KB bank can double the area. Failure recorded: first run scaled logic by node squared and gave 60 dies, fixed. Levers listed with tests; first two: bytes per class of an event-indexed table and the add-only tile area. Cost per task cannot be computed until throughput is modelled.
 
+## 28 Oct 2026: idea, get a buyer to fund the build
+
+Founder idea: ask a buyer to build it. Discussed three meanings: a paying customer funding the one-time cost, a design or fab partner, and government co-funding. Search (secondary sources, unverified): India's Design Linked Incentive scheme, run by MeitY with C-DAC as nodal agency, reimburses up to 50% of eligible expenditure capped at Rs 15 crore per application, plus shared EDA access through ChipIN; eligibility, windows and shuttle access not found, need checking with MeitY and ChipIN. Our low-case one-time cost estimate is Rs 13 to 85 crore, so this scale of support matters. Recommendation: bring measured numbers first and pitch a narrow product (always-on recognition), not 1 to 2 GB.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
