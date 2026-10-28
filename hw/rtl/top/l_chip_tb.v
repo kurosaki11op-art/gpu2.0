@@ -5,7 +5,7 @@ module l_chip_tb;
     parameter NB = 6176, NIMG = 40;
     reg clk = 0, rst = 1, op = 0, start = 0, wr_en = 0; reg [12:0] wr_addr; reg wr_bit; reg [7:0] ra; wire busy, done, routed, ca, da, fa; wire [3:0] pred; wire [199:0] sc; wire signed [16:0] cm; wire signed [11:0] ce;
     l_chip_top dut (.clk(clk), .rst(rst), .op(op), .start(start), .wr_en(wr_en), .wr_addr(wr_addr), .wr_bit(wr_bit), .busy(busy), .done(done), .routed(routed), .pred(pred), .scores_flat(sc),
-                    .cortex_active(ca), .deep_active(da), .forge_active(fa), .c_raddr(ra), .c_macc(cm), .c_eacc(ce));
+                    .cortex_active(ca), .deep_active(da), .forge_active(fa), .c_raddr(ra), .c_macc(cm), .c_eacc(ce), .cycles());
     always #5 clk = ~clk;
     reg [NB-1:0] imgs [0:NIMG-1]; integer n, f, j, a, k; integer cyc_c = 0, cyc_d = 0, cyc_f = 0, cyc_all = 0; reg signed [19:0] s;
     always @(posedge clk) if (!rst) begin cyc_all <= cyc_all + 1; if (ca) cyc_c <= cyc_c + 1; if (da) cyc_d <= cyc_d + 1; if (fa) cyc_f <= cyc_f + 1; end

@@ -1918,4 +1918,8 @@ Wrote [the claims register](claims_register.md): eleven supported claims with la
 
 Wrote [the measurement protocol](measurement_protocol.md) and `gpu_energy_baseline.py` (trains the reference CNN on Fashion-MNIST, samples the GPU power sensor with NVML while a timed inference loop runs, subtracts idle power, reports mJ per image at batch sizes 1, 64, 1024 in float32 and float16). Tested here only on the CPU path (the container has no GPU), so the GPU power sampling code is untested; the founder runs it on a GPU. Also lists the FPGA resource budget for the three-layer build and what each measurement unlocks.
 
+## 28 Oct 2026: UART board top and host script
+
+`hw/rtl/top/l_board_top.v` (UART front end for the layered top) and `hw/board/l_host.py`. In simulation with a UART model: 2 non-routed and 2 routed images and the matrix product, 0 mismatches (reported cycles 4,619, 35,760, 4,619, 44,982; matrix product 2,051). Failure recorded: the first version wrote the next byte's first bit at the previous byte's last address (an off-by-one in the address increment), caught because the routed-flag and prediction replies disagreed. Host script has only a protocol self-check; not run on a board; no pin constraints (board not chosen).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
