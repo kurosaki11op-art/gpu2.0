@@ -9,4 +9,6 @@ tags: [spark, rtl, l-forge, mesh, hardware]
 
 `gen_and_check.py [P] [MT] [NT] [NBT]` generates the mesh for the given size, runs it in iverilog and compares every output (mantissa and exponent) with the lane golden model. Results: [Mesh test](../../results/mesh_test.md).
 
+`gr_tile.v` is the **general** version: a 5-port router with dimension-order (X then Y) routing, 4-flit input buffers, round-robin arbitration and ready-based back-pressure, plus an endpoint that injects flits from a list and stores arrivals by slot. `fft_alltoall.py [P]` runs a distributed 2D DFT whose all-to-all transpose goes through these routers in RTL (the DFT arithmetic uses the bit-exact lane model) and checks every delivered word, the final result and the network cost.
+
 Related: [Hardware index](../../HARDWARE_INDEX.md), [Forge RTL](../forge/README.md), [Forge lane and traffic](../../results/forge_lane_and_traffic.md)

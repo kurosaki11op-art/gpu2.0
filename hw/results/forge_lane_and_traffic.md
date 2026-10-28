@@ -53,7 +53,7 @@ Lane plus the matrix-product control and its memories for the 16 x 128 x 16 test
 
 ## 9. Check of the traffic assumption in RTL (SIMULATED)
 
-[Tile mesh test](mesh_test.md): a 4 to 64 tile mesh with deliver-and-forward routers computes a distributed matrix product bit-exact; each word crosses one link per delivered copy (1.00 traversals per delivered word), as the traffic model assumed for broadcasts, but only if routers can forward while delivering; communication takes 17 to 19% of the cycles unless overlapped with compute. The FFT's all-to-all pattern is not tested.
+[Tile mesh test](mesh_test.md): a 4 to 64 tile mesh with deliver-and-forward routers computes a distributed matrix product bit-exact; each word crosses one link per delivered copy (1.00 traversals per delivered word), as the traffic model assumed for broadcasts, but only if routers can forward while delivering; communication takes 17 to 19% of the cycles unless overlapped with compute. The FFT's all-to-all transpose through general routers is tested too: delivered correctly at 4 to 64 tiles, link traversals per flit equal to the mean Manhattan distance (2p/3) the model assumed, but with 3.5 to 6.8 blocked cycles per flit and 2.4 to 3 times the bisection bound in time.
 
 ## Limits
 
