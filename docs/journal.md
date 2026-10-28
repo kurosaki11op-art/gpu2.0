@@ -1950,4 +1950,8 @@ Founder: do the test; the design is not made for 2 GB. Test 5 (`run_cores_testse
 
 Decision recorded in [the FPGA board decision](fpga_board_decision.md): primary a Sipeed Tang Mega 138K (GW5AST-138: about 6,120 Kbit block SRAM, 298 multipliers; the design needs 22%, 5%, 4%), fallback Digilent Arty A7-100T. Pre-purchase checks the founder must do: Gowin Educational EDA device list (GW5AST-138 support unconfirmed), package and pins (Pro and plain Dock chips reported with different packages; no pin numbers found, none guessed), price and stock in India (listings exist at an Indian reseller, no price). Bring-up kit README with a blank constraint template added. Nothing was bought; no board-specific constraint file exists.
 
+## 28 Oct 2026: Cortex core wired to L Deep
+
+Added SLOAD (MEM arg 13) to `cortex_core.v` and `hw/rtl/deep/l_cortex_deep.v` (existing encoder + core as stage 1, Deep stage 2 behind the dispatcher). 200 images (38 routed), raw pixels to class: 0 mismatches against the integer model; mean 58,213 cycles, the encoder is 83% of it. See [L Deep build](../hw/results/l_deep_build.md) result 11. Next: overlap communication on the mesh, then the FFT butterfly path.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

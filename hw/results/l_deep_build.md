@@ -78,11 +78,15 @@ Energy per image from these counts with the project's 45 nm constants (SRAM read
 
 `KEEP=2000 RQ=0.2 python ldeep_golden.py`, then `partition_engines.py 4`: 2,000 kept clauses, 13,497 literals (6.75 per clause), threshold 2,299, integer pipeline accuracy **89.73% (the same as the 4,000-clause, 30% version, with the routed images' accuracy 64.9% against 60.5%)**, **memory 93 KB at int8** (literals 23, headers 6, clause rows 20, code rows 45). All RTL checks pass at this point with 0 mismatches on 300 routed images: single-engine core with asynchronous reads 13,514 cycles per routed image; block-RAM core 37,176; **four-engine core 9,628**; the two-stage system on 200 images (38 routed): 4,619 cycles not routed, 42,411 routed, 11,800 overall (single-engine block-RAM stage 2); the top-level dispatcher on 40 recognitions (6 routed) and a matrix product: 0 mismatches, cycles awake Cortex stage 184,760, Deep 222,970, Forge 2,051. The older results above (4,000 clauses, threshold 3,415) are kept as history.
 
+## Result 11: the existing Cortex blocks wired to L Deep (SIMULATED RTL, 28 Oct 2026)
+
+`hw/rtl/deep/l_cortex_deep.v`: the existing `cortex_encoder` (ENC_S1, finer grid, detectors loaded from the fitted features) and `cortex_core` (CORTEX_SLOW, CORTEX_HOOKS) do stage 1; a new core command, SLOAD (MEM arg 13, writes one slow-table word from the host), loads the table L Deep was trained against; the dispatcher wakes Deep stage 2 (`l_system` with S1 = 0) when the core's top margin is <= 2,299. Deep's bit memory is filled from the encoder's list and the two pixel planes. Raw 28x28 pixels in, class out. `run_check_full.py` compares routed flag, all ten final scores and the class with the integer golden model (`sys_exp.txt`). **200 test images (38 routed): 0 mismatches**, no overlap between the memory sweep and the encoder's output. Mean 58,213 cycles per image (50,965 not routed, 89,112 routed): encoder 48,163, core 2,867, Deep when woken 37,795. So the encoder, not the scoring, dominates stage 1 (about 83% of cycles) in this build. The unrouted count here is 38 of 200; the earlier "58 routed" figure belonged to an older export, not to this one. Limits: 200 images only (not the full 10,000), the sequential Deep core is used (not the four-engine one), SIMULATED only, and the cortex core carries its learning memories unused.
+
 ## What is left for L Deep
 
 1. Cost: 5.6 literals per clause on average and a full scan of the code bits; a keyed evaluation (only clauses whose positive literal is active) and the Cortex active-bit list would cut cycles several-fold; pruning clauses by use (top 4,000 of 8,000 already).
 2. FPGA fit: done in RTL (block-RAM version, serial load); needs an FPGA with more than about 1.5 Mbit of block RAM, to be chosen.
-3. Integration: done for the simulated pipeline (l_system.v); wiring the existing Cortex RTL core to Deep (table format and the learned-table load path) is not done.
+3. Integration: done (Result 11): the existing Cortex encoder and core now feed Deep. Remaining: the Cortex core's own learning memories are unused in this build (area), and Deep's four-engine core is not yet behind it.
 4. Energy per routed image (cycles times layout energy per cycle), not yet estimated.
 5. Continual learning: clause banks are append-only in simulation; the hardware update path is not built.
 
