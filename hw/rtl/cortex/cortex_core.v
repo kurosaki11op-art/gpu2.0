@@ -256,7 +256,13 @@ module cortex_core #(
 `else
                 if (!(cmd_op == 3'd4 && cmd_arg[0])) for (j = 0; j < C; j = j + 1) acc[j] <= 0;   // PREDICT arg 1 keeps the sum
 `endif
+`ifdef CORTEX_INFER
+                // inference-only build (28 Oct 2026): only KNOWN, PREDICT, SLOAD and the S-word read are decoded; every learning, dreaming, clearing and fast-table command ends at once, so the fast table,
+                // the dream counters and the dream generator are never reached and synthesis drops them
+                case ((cmd_op == 3'd4 || cmd_op == 3'd5 || (cmd_op == 3'd7 && (cmd_arg == 4'd7 || cmd_arg == 4'd13))) ? cmd_op : 3'd0)
+`else
                 case (cmd_op)
+`endif
                     3'd1: begin
 `ifdef CORTEX_CONTEXT
                         tsel <= 0;

@@ -3,7 +3,8 @@
 // (l_system with S1 = 0) when the margin is <= ROUTE_T. Deep's bit memory holds the code bits (cleared, then set from the encoder's list) and the two raw-pixel threshold planes.
 // Host: load detectors (tm_*), the stage-1 table (tbl_we, one 80-bit word per code bit), pixels (pix_we), then start; wait for done. busy is high while a table word is being written.
 `timescale 1ns/1ps
-module l_cortex_deep #(parameter ROUTE_T = 2299, NCL = 2000, NLITS = 13497) (
+module l_cortex_deep #(parameter ROUTE_T = 2299, NCL = 2000, NLITS = 13497, P4 = 1) (   // P4 = 1: the four-engine Deep core (ldeep_core_p), 0: the sequential one (l_system, S1 = 0)
+    
     input clk, input rst,
     input tm_we, input [1:0] tm_ch, input [4:0] tm_f, input [24:0] tm_data,
     input tbl_we, input [12:0] tbl_addr, input [79:0] tbl_data,
@@ -25,8 +26,12 @@ module l_cortex_deep #(parameter ROUTE_T = 2299, NCL = 2000, NLITS = 13497) (
         .top_margin(c_margin), .wr_count(c_wrc), .rd_scores(c_sc), .rd_s(c_rds), .rd_w(c_rdw), .rd_c(c_rdc), .rd_n(c_rdn), .rd_known(c_known));
     // ---- Deep stage 2
     reg d_wr; reg [12:0] d_addr; reg d_bit; reg d_start; wire d_busy, d_done, d_routed; wire [3:0] d_pred; wire [199:0] d_sc; wire [31:0] d_cyc; wire d_act;
-    l_system #(.ROUTE_T(ROUTE_T), .NCL(NCL), .NLITS(NLITS), .S1(0)) u_deep (.clk(clk), .rst(rst), .wr_en(d_wr), .wr_addr(d_addr), .wr_bit(d_bit), .start(d_start),
-        .busy(d_busy), .done(d_done), .routed(d_routed), .pred(d_pred), .scores_flat(d_sc), .cycles(d_cyc), .s2_active());
+    generate if (P4) begin : g_p4
+        ldeep_core_p u_deep (.clk(clk), .rst(rst), .wr_en(d_wr), .wr_addr(d_addr), .wr_bit(d_bit), .start(d_start), .busy(d_busy), .done(d_done), .pred(d_pred), .scores_flat(d_sc), .cycles(d_cyc));
+    end else begin : g_seq
+        l_system #(.ROUTE_T(ROUTE_T), .NCL(NCL), .NLITS(NLITS), .S1(0)) u_deep (.clk(clk), .rst(rst), .wr_en(d_wr), .wr_addr(d_addr), .wr_bit(d_bit), .start(d_start),
+            .busy(d_busy), .done(d_done), .routed(d_routed), .pred(d_pred), .scores_flat(d_sc), .cycles(d_cyc), .s2_active());
+    end endgenerate
     // ---- control
     localparam T_IDLE = 0, T_TBL = 1, T_TBLW = 2, T_KN = 3, T_KNW = 4, T_RUN = 5, T_PRED = 6, T_PREDW = 7, T_PREDW2 = 8, T_D = 9, T_DW = 10;
     reg [3:0] st; reg [3:0] kn; reg [13:0] sw; reg sweep_done; reg [2:0] sph; reg [9:0] spx; reg sph_b; reg have_enc; reg [13:0] cnt_l;
