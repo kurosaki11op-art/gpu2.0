@@ -1,0 +1,41 @@
+
+7. Printing statistics.
+
+=== l_cortex_deep ===
+
+        +----------Local Count, excluding submodules.
+        | 
+    18263 wires
+    40347 wire bits
+    18263 public wires
+    40347 public wire bits
+       23 ports
+      485 port bits
+    20048 cells
+        7   $scopeinfo
+     3422   ALU
+      143   DFF
+     1371   DFFE
+      273   DFFN
+       49   DFFR
+     1484   DFFRE
+        1   DFFS
+        3   DFFSE
+        4   DPB
+        1   DPX9B
+        1   GND
+      149   IBUF
+     1017   LUT1
+      570   LUT2
+     2999   LUT3
+     5584   LUT4
+     1753   MUX2_LUT5
+      255   MUX2_LUT6
+       95   MUX2_LUT7
+       28   MUX2_LUT8
+      336   OBUF
+      363   RAM16SDP4
+       28   SP
+      111   SPX9
+        1   VCC
+
