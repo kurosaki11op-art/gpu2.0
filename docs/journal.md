@@ -1922,4 +1922,8 @@ Wrote [the measurement protocol](measurement_protocol.md) and `gpu_energy_baseli
 
 `hw/rtl/top/l_board_top.v` (UART front end for the layered top) and `hw/board/l_host.py`. In simulation with a UART model: 2 non-routed and 2 routed images and the matrix product, 0 mismatches (reported cycles 4,619, 35,760, 4,619, 44,982; matrix product 2,051). Failure recorded: the first version wrote the next byte's first bit at the previous byte's last address (an off-by-one in the address increment), caught because the routed-flag and prediction replies disagreed. Host script has only a protocol self-check; not run on a board; no pin constraints (board not chosen).
 
+## 28 Oct 2026: FFT through the lane
+
+[forge_fft_lane.py](../hw/brain/experiments/month5/forge_fft_lane.py): DFTs as real matrix products on the bit-exact lane: error 9.3e-3 (one pass) and 5.5e-5 (three passes, two-word split) for N = 64; 1.3e-2 and 6.7e-5 for a four-step N = 256. Costs 8 to 21 times the ideal radix-2 operation count, three times more for the accurate version; consequence ESTIMATED: the FFT gain at 2 GB falls from 4.6 times to about 3.6 (8-bit) or 2.1 (16-bit-class). All four Forge kernels now have a through-the-lane result (matrix multiply in RTL; Kalman, Poisson refinement and FFT in the bit-exact lane model).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

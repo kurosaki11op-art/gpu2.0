@@ -1,0 +1,6 @@
+N = 64, batch 64 complex vectors, DFT as one real 128 x 128 matrix product:
+  1 lane pass(es): error 9.33e-03, block operations 65536 (a radix-2 FFT would need about 768 multiply-accumulates per vector: 3072 block ops at full lane use)
+  3 lane pass(es): error 5.52e-05, block operations 196608 (a radix-2 FFT would need about 768 multiply-accumulates per vector: 3072 block ops at full lane use)
+N = 256 four-step (16 x 16): 16-point DFT stages as matrix products, twiddles in fp64 (a real design would use the lane's high-precision path):
+  1 lane pass(es): error 1.29e-02, block operations 65536 for 32 transforms of 256 points
+  3 lane pass(es): error 6.72e-05, block operations 196608 for 32 transforms of 256 points

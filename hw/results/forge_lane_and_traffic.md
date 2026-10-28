@@ -43,6 +43,10 @@ The lane synthesises to about 2,630 LUT4, 359 carry cells, 30 flip-flops and **1
 
 Lane plus the matrix-product control and its memories for the 16 x 128 x 16 test: about 2,960 LUT4, 479 carry cells, about 210 flip-flops, 16 9 x 9 multipliers and 8 block-RAM blocks, so a full tile with this control is not much bigger than the lane alone; a router, scheduler and the other kernels' control are not included.
 
+## 7. The FFT through the lane (SIMULATED, with an ESTIMATED consequence)
+
+[forge_fft_lane.py](../brain/experiments/month5/forge_fft_lane.py), log `forge_fft_lane.log`: small DFTs computed as real matrix products so the lane stays full, with an optional two-word split (x = xh + xl, three lane passes for about 16 mantissa bits). 64-point transforms (batch of 64): **error 9.3e-3 with one pass, 5.5e-5 with three passes**; four-step 256-point transforms (two 16-point stages, twiddles in fp64): 1.3e-2 and 6.7e-5. The cost: matrix-product DFTs need about **21 times (64-point) and 8 times (256-point) more lane block operations than an ideal radix-2 FFT at full lane use**, and three times more again for the 16-bit-class result. In the tile model the FFT's compute is 6% of its energy; multiplying it by 8 (one pass) or 24 (three passes) cuts the FFT gain at 2 GB from 4.6 times (with fabric) to about **3.6 times at 8-bit accuracy and about 2.1 times at 16-bit-class accuracy** (ESTIMATED from those factors). A radix-2 mapping would fill only 2 of 16 lane slots; a dedicated butterfly path would be needed to keep the ideal figure.
+
 ## Limits
 
 Traffic volumes are first-order formulas for standard decompositions, not a simulated schedule; no contention, latency or buffering; the 1,024-tile grouping is a choice; the lane is verified alone, not inside a tile with memory and routing; no area or timing from synthesis yet.

@@ -47,7 +47,7 @@ Memory is about 683 mm2; the rest depends on tile logic, which is an assumption:
 | 1B-parameter language model, int8 | 48x | weights must be stationary beside compute |
 | Ray tracing | 3.4x | irregular memory access |
 
-**Update 28 Oct (lane and traffic):** the lane is in RTL and bit-exact; a matrix product through it has 1.0e-2 error; with tile-to-tile traffic (0.05 pJ per bit per hop assumed, 3 dies) the gains become matrix multiply 3.9x, FFT 4.6x, Poisson 32x, CFD 8.1x, small network 20.6x, language model 24x (halved by die crossing), ray tracing 1.1x ([lane and traffic](../hw/results/forge_lane_and_traffic.md)). Ray tracing is dropped from the acceptance list.
+**Update 28 Oct (lane and traffic):** the lane is in RTL and bit-exact; a matrix product through it has 1.0e-2 error; with tile-to-tile traffic (0.05 pJ per bit per hop assumed, 3 dies) the gains become matrix multiply 3.9x, FFT 4.6x, Poisson 32x, CFD 8.1x, small network 20.6x, language model 24x (halved by die crossing), ray tracing 1.1x ([lane and traffic](../hw/results/forge_lane_and_traffic.md)). Ray tracing is dropped from the acceptance list. **FFT through the lane** costs 8 to 21 times the ideal operation count (matrix-product DFTs), so the FFT gain falls to about 3.6 times (8-bit accuracy) or 2.1 times (16-bit-class, three passes) unless a dedicated butterfly path is added ([lane and traffic](../hw/results/forge_lane_and_traffic.md) section 7).
 
 ## 6. Where L Forge is not better (honest)
 
