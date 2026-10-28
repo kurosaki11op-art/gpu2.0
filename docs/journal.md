@@ -1846,4 +1846,8 @@ Founder: L Forge is the name; design it from all the parts that make it differen
 
 Script `hw/brain/experiments/month5/refinement_loop.py` (mixed-precision iterative refinement of a 2D Poisson solve, fp64 outer loop, low-precision CG inner solve) was started and interrupted by the founder before it finished; `refinement_loop.log` holds a partial run (grid 32 complete, grid 64 partly). Partial, SIMULATED, one seed, not yet analysed: on the 32 x 32 grid, bfloat16, int8, BFP8 and BFP5 inner solves all reached the 1e-12 target (12 to 36 outer steps); BFP8 and int8 used about 0.43 of the fp64 CG vector traffic (ESTIMATED proxy) with about 20% of the traffic in fp64; fp16 did not converge in 60 outer steps. Not concluded until the full run and the larger grids finish. The founder asked to confirm first that the hybrid structure (multiply only where needed) is what we are building; answered yes (Cortex matrix-free, Deep mostly add-only, Forge hybrid).
 
+## 28 Oct 2026: go-ahead to build L Deep and L Forge, deadline December or January
+
+Founder: build both, finish by December or January, about Rs 1 lakh coming from other projects, pitch event in February. Plan written: [build plan](L_build_plan_dec_jan.md): five deliverables, a week-by-week schedule (ESTIMATED), scope cuts (four hand-mapped Forge kernels, Deep at about 1M parameters, no fabrication in this window) and what needs the founder (GPU time, choice of FPGA, GPU baseline run). First step: the full refinement loop run (gate for L Forge).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
