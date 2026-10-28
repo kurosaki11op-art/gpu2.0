@@ -1,7 +1,8 @@
 // L system top, two stages with a dispatcher (28 Oct 2026, SIMULATED/verified): stage 1 is L Cortex's table read (scan of the active code bits, adds of table rows),
 // the dispatcher compares the margin (top score minus runner-up) with ROUTE_T and either answers at once or wakes L Deep (stage 2: code rows plus the kept clauses),
 // whose answer replaces the first. Same integer pipeline as ldeep_golden.py. Block-RAM friendly (synchronous reads); input bits loaded through (wr_en, wr_addr, wr_bit).
-module l_system #(parameter NB = 6176, NCODE = 4608, NCL = 2000, NLITS = 13497, ROUTE_T = 2299) (
+module l_system #(parameter NB = 6176, NCODE = 4608, NCL = 2000, NLITS = 13497, ROUTE_T = 2299, S1 = 1) (   // S1 = 0: stage 1 is done elsewhere (the Cortex core), a start runs L Deep stage 2 only
+    
     input clk, input rst, input wr_en, input [12:0] wr_addr, input wr_bit, input start,
     output reg busy, output reg done, output reg routed, output reg [3:0] pred, output [199:0] scores_flat, output reg [31:0] cycles, output s2_active);
     reg [79:0] wcode1 [0:NCODE-1]; reg [79:0] wcode [0:NCODE-1]; reg [79:0] wcl [0:NCL-1]; reg [23:0] hdr [0:NCL-1]; reg [13:0] lits [0:NLITS-1]; reg bitsm [0:NB-1];
@@ -24,7 +25,7 @@ module l_system #(parameter NB = 6176, NCODE = 4608, NCL = 2000, NLITS = 13497, 
         else begin
             done <= 0; if (st != S_IDLE) cycles <= cycles + 1;
             case (st)
-                S_IDLE: if (start) begin for (j = 0; j < 10; j = j + 1) acc[j] <= 0; i <= 0; c <= 0; cycles <= 0; busy <= 1; stage2 <= 0; routed <= 0; st <= S_CODE; end
+                S_IDLE: if (start) begin for (j = 0; j < 10; j = j + 1) acc[j] <= 0; i <= 0; c <= 0; cycles <= 0; busy <= 1; stage2 <= (S1 == 0); routed <= (S1 == 0); st <= S_CODE; end
                 S_CODE: begin
                     if (i != 0 && bit_q) for (j = 0; j < 10; j = j + 1) acc[j] <= acc[j] + $signed(row[8*j +: 8]);
                     if (i == NCODE) begin if (stage2) begin st <= S_H; c <= 0; end else go_arg; end else i <= i + 1; end

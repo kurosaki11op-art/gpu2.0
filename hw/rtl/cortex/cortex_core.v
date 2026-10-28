@@ -26,6 +26,7 @@
 //              few-shot fix of 15 Oct 2026: a new class learned from a few examples is no longer outvoted by old ones.
 //              arg 5 (build option CORTEX_SLOW) = FOLLOW: slow table S (SB-bit signed fields) follows the fast table W:
 //              S += (((W << SFR) - S) + 2^(SLOWK-1)) >>> SLOWK for every code bit and class (3 cycles per code bit); arg 6 = SCOPY: S = W << SFR;
+//              arg 13 = SLOAD: write S word mem_addr from wr_c[C*SB-1:0] (host loads a trained table; 28 Oct 2026, for the L Cortex + L Deep integration);
 //              arg 7 = read S word mem_addr into rd_s. With CORTEX_SLOW, PREDICT scores with S instead of W (learning, PRACTISE
 //              and DREAM still use W). The host decides when to FOLLOW (every CH real examples / night dreams) and SCOPYs after
 //              a stage too short to consolidate. Redesign 6 of 18 Oct 2026 (all-at-once clothing +3.3, words +2.6 in the model); SLOWK = 5 (19 Oct: slower consolidation also lifts staged clothing 78.5 -> 81.6).
@@ -304,6 +305,8 @@ module cortex_core #(
                             b <= 0; st <= S_Y0;
                         end else if (cmd_arg == 4'd7) begin
                             m_addr <= mem_addr; st <= S_Q0;
+                        end else if (cmd_arg == 4'd13) begin
+                            m_addr <= mem_addr; s_wd <= wr_c[C*SB-1:0]; s_wen <= 1; st <= S_Q0;   // SLOAD (28 Oct 2026): write S word mem_addr from wr_c (loads a table trained elsewhere, e.g. the table L Deep reads)
 `endif
 `ifdef CORTEX_IMPRINT
                         end else if (cmd_arg == 4'd4) begin
