@@ -16,7 +16,7 @@ words = [sum(1 << i for i in range(25) if t[i]) for f in fes for t in (f.cnt >= 
 open(os.path.join(HERE, "tmpl.hex"), "w").write("\n".join("%07x" % w for w in words) + "\n")
 open(os.path.join(HERE, "full_img.hex"), "w").write("\n".join("%02x" % v for v in xte[:N].reshape(-1)) + "\n")
 srcs = ["l_cortex_deep_tb.v", "l_cortex_deep.v", "l_system.v", "ldeep_core_p.v", os.path.join(CX, "cortex_core.v"), os.path.join(CX, "cortex_encoder.v")]
-subprocess.run(["iverilog", "-g2005", "-DCORTEX_SLOW", "-DCORTEX_HOOKS", "-DENC_S1", "-DCORTEX_INFER", "-o", "/tmp/full.vvp", f"-Pl_cortex_deep_tb.N={N}"] + srcs, cwd=HERE, check=True)
+subprocess.run(["iverilog", "-g2005", "-DCORTEX_SLOW", "-DCORTEX_HOOKS", "-DENC_S1", "-DENC_PAIR", "-DCORTEX_INFER", "-o", "/tmp/full.vvp", f"-Pl_cortex_deep_tb.N={N}"] + srcs, cwd=HERE, check=True)
 res = subprocess.run(["vvp", "-n", "/tmp/full.vvp"], cwd=HERE, capture_output=True, text=True); print(res.stdout.strip().splitlines()[-1] if res.stdout.strip() else res.stderr[-500:])
 exp = [list(map(int, l.split())) for l in open(os.path.join(HERE, "sys_exp.txt")).read().strip().split("\n")][:N]
 got = [list(map(int, l.split())) for l in open(os.path.join(HERE, "out_full.txt")).read().strip().split("\n")]

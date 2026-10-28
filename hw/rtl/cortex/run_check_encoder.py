@@ -7,7 +7,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", "brain"))
 from feature_layer import Features  # noqa
 from cortex_core import load  # noqa
-ASIC = "--asic" in sys.argv; S1 = "--s1" in sys.argv; sys.argv = [a for a in sys.argv if a not in ("--asic", "--s1")]
+PAIR = "--pair" in sys.argv; ASIC = "--asic" in sys.argv; S1 = "--s1" in sys.argv; sys.argv = [a for a in sys.argv if a not in ("--asic", "--s1", "--pair")]
 import feature_layer  # noqa
 if S1:
     feature_layer.PS, feature_layer.ST = 5, 1
@@ -22,7 +22,7 @@ for f in fes:
         words.append(sum(1 << i for i in range(25) if t[i]))
 open(os.path.join(HERE, "tmpl.hex"), "w").write("\n".join("%07x" % w for w in words) + "\n")
 open(os.path.join(HERE, "img.hex"), "w").write("\n".join("%02x" % v for v in imgs.reshape(-1)) + "\n")
-subprocess.run(["iverilog", "-g2005"] + (["-DCORTEX_ASIC"] if ASIC else []) + (["-DENC_S1"] if S1 else []) + ["-o", "/tmp/enc.vvp", f"-Ptb_cortex_encoder.N={N}", "cortex_encoder.v", "tb_cortex_encoder.v"] + (["cortex_cg.v"] if ASIC else []),
+subprocess.run(["iverilog", "-g2005"] + (["-DCORTEX_ASIC"] if ASIC else []) + (["-DENC_S1"] if S1 else []) + (["-DENC_PAIR"] if PAIR else []) + ["-o", "/tmp/enc.vvp", f"-Ptb_cortex_encoder.N={N}", "cortex_encoder.v", "tb_cortex_encoder.v"] + (["cortex_cg.v"] if ASIC else []),
                cwd=HERE, check=True)
 res = subprocess.run(["vvp", "-n", "/tmp/enc.vvp"], cwd=HERE, capture_output=True, text=True)
 print(res.stdout.strip().splitlines()[0] if res.stdout.strip() else res.stderr[-400:])

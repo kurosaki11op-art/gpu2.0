@@ -163,8 +163,12 @@ module cortex_core #(
     // its output directly gives the same cycle timing as the FPGA block RAMs above.
     wire [AW-1:0] lb_rd; wire [C*WB-1:0] w_rd; wire [C*CB-1:0] c_rd;
     sram_array #(.W(AW), .DEPTH(NB), .AW(AW)) u_lbuf (.clk(clk), .we(lbw_n), .wa(lba_n), .wd(lbd_n), .ra(lba_n), .rd(lb_rd));
+`ifdef CORTEX_INFER
+    assign w_rd = {(C*WB){1'b0}}; assign c_rd = {(C*CB){1'b0}};   // inference-only: no SRAM macros for the fast table and the dream counters
+`else
     sram_array #(.W(C*WB), .DEPTH(NB), .AW(AW)) u_wmem (.clk(clk), .we(w_wen_n), .wa(m_addr_n), .wd(w_wd_n), .ra(m_addr_n), .rd(w_rd));
     sram_array #(.W(C*CB), .DEPTH(NB), .AW(AW)) u_cmem (.clk(clk), .we(c_wen_n), .wa(m_addr_n), .wd(c_wd_n), .ra(m_addr_n), .rd(c_rd));
+`endif
     always @(*) begin lb_q = lb_rd; wq = w_rd; cq = c_rd; end
 `else
     always @(posedge clk) begin

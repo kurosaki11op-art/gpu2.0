@@ -23,6 +23,11 @@
 // detector that has not won since the last reseed the next window from the ring. Costs 19,200 + 3,200 + 128 bits of
 // state and one add/clip per bit of the winner; meant for the ASIC (the Tang Nano build is full).
 `timescale 1ns/1ps
+`ifdef ENC_PAIR
+`ifdef ENC_LEARN
+`error "ENC_PAIR cannot be combined with ENC_LEARN"
+`endif
+`endif
 `ifdef ENC_S1
 `ifdef ENC_LEARN
 `error "ENC_S1 cannot be combined with ENC_LEARN"
@@ -123,6 +128,14 @@ module cortex_encoder #(parameter AW = 13) (
     wire [3:0] gb = bmap[m28(wy) + wx];
     wire [4:0] a0 = pop25(~(p0 ^ tm0[f[4:0]])), a1 = pop25(~(p1 ^ tm1[f[4:0]])),
                a2 = pop25(~(p2 ^ tm2[f[4:0]])), a3 = pop25(~(p3 ^ tm3[f[4:0]]));
+`ifdef ENC_PAIR
+    // pair matching: detectors f and f+1 of every channel in one cycle; the odd one wins only if strictly better (same first-on-tie rule as one at a time)
+    wire [4:0] fo = {f[4:1], 1'b1};
+    wire [4:0] c0 = pop25(~(p0 ^ tm0[fo])), c1 = pop25(~(p1 ^ tm1[fo])), c2 = pop25(~(p2 ^ tm2[fo])), c3 = pop25(~(p3 ^ tm3[fo]));
+    wire q0 = c0 > a0, q1 = c1 > a1, q2 = c2 > a2, q3 = c3 > a3;
+    wire [4:0] h0 = q0 ? c0 : a0, h1 = q1 ? c1 : a1, h2 = q2 ? c2 : a2, h3 = q3 ? c3 : a3;
+    wire [4:0] g0 = q0 ? fo : {f[4:1], 1'b0}, g1 = q1 ? fo : {f[4:1], 1'b0}, g2 = q2 ? fo : {f[4:1], 1'b0}, g3 = q3 ? fo : {f[4:1], 1'b0};
+`endif
     wire [4:0] wsel = (sc == 0) ? w0 : (sc == 1) ? w1 : (sc == 2) ? w2 : w3;
     wire [24:0] psel = (sc == 0) ? p0 : (sc == 1) ? p1 : (sc == 2) ? p2 : p3;
     wire       osel = (sc == 0) ? (pop25(p0) >= 3) : (sc == 1) ? (pop25(p1) >= 3) : (sc == 2) ? (pop25(p2) >= 3) : (pop25(p3) >= 3);
@@ -185,11 +198,30 @@ module cortex_encoder #(parameter AW = 13) (
         end
         // ---- detectors: gather the 5x5 window of the 4 channels, then match 32 detectors per channel ---------------
         E_POS: begin g <= 0; gr <= 0; gc <= 0; st <= E_GATH; end
+`ifdef ENC_PAIR
+        E_GATH: begin   // one window row (5 cells) per cycle: five read ports on the code-bit map
+            for (t = 0; t < 5; t = t + 1) begin
+                p0[gr*5 + t] <= bmap[m28(wy) + sj + t][0]; p1[gr*5 + t] <= bmap[m28(wy) + sj + t][1]; p2[gr*5 + t] <= bmap[m28(wy) + sj + t][2]; p3[gr*5 + t] <= bmap[m28(wy) + sj + t][3];
+            end
+            if (gr == 4) begin f <= 0; b0 <= 0; b1 <= 0; b2 <= 0; b3 <= 0; w0 <= 0; w1 <= 0; w2 <= 0; w3 <= 0; st <= E_MATCH; end
+            else gr <= gr + 1'b1;
+        end
+`else
         E_GATH: begin
             p0[g] <= gb[0]; p1[g] <= gb[1]; p2[g] <= gb[2]; p3[g] <= gb[3];
             if (g == 24) begin f <= 0; b0 <= 0; b1 <= 0; b2 <= 0; b3 <= 0; w0 <= 0; w1 <= 0; w2 <= 0; w3 <= 0; st <= E_MATCH; end
             else begin g <= g + 1'b1; if (gc == 4) begin gc <= 0; gr <= gr + 1'b1; end else gc <= gc + 1'b1; end
         end
+`endif
+`ifdef ENC_PAIR
+        E_MATCH: begin
+            if (f == 0 || h0 > b0) begin b0 <= h0; w0 <= g0; end
+            if (f == 0 || h1 > b1) begin b1 <= h1; w1 <= g1; end
+            if (f == 0 || h2 > b2) begin b2 <= h2; w2 <= g2; end
+            if (f == 0 || h3 > b3) begin b3 <= h3; w3 <= g3; end
+            if (f == 30) begin sc <= 0; st <= E_SET; end else f <= f + 2;
+        end
+`else
         E_MATCH: begin
             if (f == 0 || a0 > b0) begin b0 <= a0; w0 <= f[4:0]; end
             if (f == 0 || a1 > b1) begin b1 <= a1; w1 <= f[4:0]; end
@@ -201,6 +233,7 @@ module cortex_encoder #(parameter AW = 13) (
             if (f == 31) begin sc <= 0; st <= E_SET; end else f <= f + 1;
 `endif
         end
+`endif
         E_SET: begin
 `ifndef CORTEX_ASIC
             if (osel) cmap4[cidx[12:2]] <= cmap4[cidx[12:2]] | (4'b1 << cidx[1:0]);
