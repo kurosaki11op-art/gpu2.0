@@ -13,3 +13,8 @@ grid  format      outer   inner    final converged traffic vs fp64 high-precisio
 64    BFP8           15     709  7.8e-13       yes         0.43            12%
 64    BFP5           60    3590  1.0e-11        NO         1.44            14%
 128   fp64 CG         -     494  9.6e-13       yes         1.00           100%
+128   fp16           60    3600  9.1e-08        NO         1.92             5%
+128   bfloat16       28    1680  3.1e-13       yes         0.90             5%
+128   int8           32    1920  7.5e-13       yes         0.54            10%
+128   BFP8           32    1920  7.1e-13       yes         0.57             9%
+128   BFP5           60    3600  5.0e-06        NO         0.73            14%

@@ -1850,4 +1850,8 @@ Script `hw/brain/experiments/month5/refinement_loop.py` (mixed-precision iterati
 
 Founder: build both, finish by December or January, about Rs 1 lakh coming from other projects, pitch event in February. Plan written: [build plan](L_build_plan_dec_jan.md): five deliverables, a week-by-week schedule (ESTIMATED), scope cuts (four hand-mapped Forge kernels, Deep at about 1M parameters, no fabrication in this window) and what needs the founder (GPU time, choice of FPGA, GPU baseline run). First step: the full refinement loop run (gate for L Forge).
 
+## 28 Oct 2026: refinement loop, full run
+
+Full run of `refinement_loop.py` ([result note](../hw/results/refinement_loop.md)). SIMULATED, one seed: BFP8 and int8 inner solves refined in fp64 reach 1e-12 on 32, 64 and 128 grids at about 0.43 to 0.57 of fp64 CG vector traffic (ESTIMATED proxy), fp64 share of traffic 19, 12 and 9%; bfloat16 converges with no saving; BFP5 fails on 64 and 128; fp16 fails everywhere (cause not diagnosed). Inner iterations 2.6 to 3.9x fp64 CG and capped at 60 on the 128 grid. Replaces the earlier partial entry. Gate for L Forge difference D2 passed on this problem, with limits. Next: cap and preconditioner, fp16 scaling, FFT and Kalman refinement, BFP lane numerics.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

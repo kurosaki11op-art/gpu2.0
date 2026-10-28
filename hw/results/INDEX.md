@@ -93,6 +93,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Routed second pass with informative detectors](routed_second_pass.md): 90.0 to 90.35% at 1.36x L's cost (about 41 nJ), gap to the CNN 0.9 to 1.3 points; withdraws the first selection claim
 - [Hybrid study: routed int8 CNN second pass](hybrid_routed_cnn.md): CNN on the 20% least-sure images reaches 91.28% at est. 81.9 nJ, 3.2 times below the int8 CNN at equal accuracy
 - [Arithmetic primitive shoot-out](arithmetic_primitive_test.md): log numbers, block floating point, stochastic, analog, int4 against int8 on matmul, FFT, CG, Kalman (SIMULATED error, ESTIMATED energy, 28 Oct 2026)
+- [L Forge refinement loop](refinement_loop.md): 8-bit inner solves refined to fp64 accuracy on Poisson, about half the vector traffic (SIMULATED, 28 Oct 2026)
 - [SRAM area and cost model](sram_area_cost_model.md): silicon area, yield, cost and leakage of 64 MB to 44 GB on-chip memory against HBM (ESTIMATED, 28 Oct 2026)
 - [Cost by process node](cost_by_node.md): die cost, NRE and per-chip price by node and volume, and the tiny recognition chip (ESTIMATED, 28 Oct 2026)
 - [Cost and power as limitations](cost_and_power_limitations.md): what 1 to 2 GB of on-chip memory costs in rupees, why, the power drivers, and the levers to work on (ESTIMATED, 28 Oct 2026)
