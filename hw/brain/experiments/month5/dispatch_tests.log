@@ -1,0 +1,46 @@
+shipped: acc 0.8885
+
+== final route share r = 10% (shipped margin rule), 1001 images ==
+order                              f bits/img | wake w=r: missed / false     | wake w=2r: missed / false    | early-exit acc on not-woken (w=2r) vs final answer
+image order (position-major)    0.10      460 |   95.1% /   96.2%            |   89.3% /   94.8%            | 0.3791 vs 0.8735
+image order (position-major)    0.25     1152 |   92.3% /   92.3%            |   82.2% /   91.1%            | 0.5499 vs 0.8802
+image order (position-major)    0.50     2304 |   84.5% /   84.5%            |   69.4% /   84.7%            | 0.7224 vs 0.8984
+image order (position-major)    0.75     3456 |   69.9% /   69.9%            |   46.8% /   73.4%            | 0.8851 vs 0.9205
+random order                    0.10      460 |   82.7% /   82.8%            |   65.3% /   82.7%            | 0.7136 vs 0.9047
+random order                    0.25     1152 |   75.8% /   75.8%            |   54.9% /   77.5%            | 0.8506 vs 0.9154
+random order                    0.50     2304 |   60.9% /   60.9%            |   32.8% /   66.4%            | 0.9262 vs 0.9352
+random order                    0.75     3456 |   35.7% /   35.6%            |    6.1% /   53.0%            | 0.9551 vs 0.9550
+
+== final route share r = 20% (shipped margin rule), 2001 images ==
+order                              f bits/img | wake w=r: missed / false     | wake w=2r: missed / false    | early-exit acc on not-woken (w=2r) vs final answer
+image order (position-major)    0.10      460 |   87.6% /   87.9%            |   67.9% /   84.0%            | 0.4245 vs 0.8668
+image order (position-major)    0.25     1152 |   82.7% /   82.7%            |   63.5% /   81.8%            | 0.5703 vs 0.8757
+image order (position-major)    0.50     2304 |   69.3% /   69.3%            |   42.7% /   71.4%            | 0.7910 vs 0.9108
+image order (position-major)    0.75     3456 |   51.4% /   51.4%            |   19.4% /   59.7%            | 0.9383 vs 0.9495
+random order                    0.10      460 |   67.3% /   67.4%            |   40.4% /   70.3%            | 0.7947 vs 0.9230
+random order                    0.25     1152 |   58.3% /   58.3%            |   27.8% /   63.9%            | 0.9108 vs 0.9406
+random order                    0.50     2304 |   39.2% /   39.2%            |    9.2% /   54.6%            | 0.9670 vs 0.9677
+random order                    0.75     3456 |   18.3% /   18.3%            |    0.3% /   50.2%            | 0.9827 vs 0.9827
+
+(b),(c) COST ARITHMETIC (ESTIMATED; assumed inputs listed): Deep-class layer: stage-2 energy 10.7 nJ per woken image (matrix-free second pass, cost model of earlier notes), Cortex full 29.9 nJ; memory of the woken layer 262 KB (Deep 227+35 KB), leakage 60 pW/bit powered, retention saves 98% (claim of a retention-SRAM paper found by search, not verified), decision time 6 us (pipelined core, 264 cycles at 43 MHz).
+  powered-idle leakage of the woken layer's memory 0.129 mW; saved by retention 0.126 mW
+  BREAK-EVEN idle time t = E_wake / P_saved:
+    wake energy    0.1 nJ -> break-even       0.8 us
+    wake energy    1.0 nJ -> break-even       7.9 us
+    wake energy   10.0 nJ -> break-even      79.2 us
+    wake energy  100.0 nJ -> break-even     792.4 us
+  Mean gap between wake requests = decision time / share woken:
+    share woken    5% ->    120 us between wakes (pays only if wake energy small enough for the break-even above to be shorter)
+    share woken   10% ->     60 us between wakes (pays only if wake energy small enough for the break-even above to be shorter)
+    share woken   20% ->     30 us between wakes (pays only if wake energy small enough for the break-even above to be shorter)
+    share woken   40% ->     15 us between wakes (pays only if wake energy small enough for the break-even above to be shorter)
+  NET ENERGY per image for 'always on' vs 'gated with wake energy W', wake share w, false-wake rate fw (extra wakes among those woken):
+    w=10% W=  1.0 nJ: always-on 31.67 nJ, gated 31.08 nJ
+    w=10% W= 10.0 nJ: always-on 31.67 nJ, gated 31.98 nJ
+    w=10% W=100.0 nJ: always-on 31.67 nJ, gated 40.98 nJ
+    w=20% W=  1.0 nJ: always-on 32.66 nJ, gated 32.25 nJ
+    w=20% W= 10.0 nJ: always-on 32.66 nJ, gated 34.05 nJ
+    w=20% W=100.0 nJ: always-on 32.66 nJ, gated 52.05 nJ
+    w=40% W=  1.0 nJ: always-on 34.64 nJ, gated 34.59 nJ
+    w=40% W= 10.0 nJ: always-on 34.64 nJ, gated 38.19 nJ
+    w=40% W=100.0 nJ: always-on 34.64 nJ, gated 74.19 nJ
