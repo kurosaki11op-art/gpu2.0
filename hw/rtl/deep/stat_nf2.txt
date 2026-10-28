@@ -1,0 +1,312 @@
+
+7. Printing statistics.
+
+=== $paramod$809fb77e598b2516f783ea898056628beea87af5\ldeep_eng ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1400 wires
+     3369 wire bits
+     1400 public wires
+     3369 public wire bits
+        8 ports
+      219 port bits
+     1582 cells
+      456   ALU
+       30   DFF
+       33   DFFE
+      236   DFFRE
+        1   DPB
+        1   GND
+       18   IBUF
+       20   LUT1
+       19   LUT2
+       47   LUT3
+      399   LUT4
+       98   MUX2_LUT5
+        3   MUX2_LUT6
+        1   MUX2_LUT7
+      201   OBUF
+        7   SP
+       11   SPX9
+        1   VCC
+
+=== $paramod$a4566bb7429cd2e9766de618f9fff9dd9094b91d\ldeep_eng ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1485 wires
+     3472 wire bits
+     1485 public wires
+     3472 public wire bits
+        8 ports
+      219 port bits
+     1661 cells
+      462   ALU
+       30   DFF
+       33   DFFE
+      236   DFFRE
+        1   DPB
+        1   GND
+       18   IBUF
+       43   LUT1
+       19   LUT2
+       51   LUT3
+      406   LUT4
+      119   MUX2_LUT5
+       14   MUX2_LUT6
+        6   MUX2_LUT7
+        2   MUX2_LUT8
+      201   OBUF
+        7   SP
+       11   SPX9
+        1   VCC
+
+=== $paramod$a64e8acf46be42cf8610393b0fa448083d5263ff\cortex_core ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     6402 wires
+    13822 wire bits
+     6402 public wires
+    13822 public wire bits
+       27 ports
+      864 port bits
+     8985 cells
+      645   ALU
+       27   DFF
+     1477   DFFE
+      121   DFFN
+        8   DFFR
+      327   DFFRE
+        1   GND
+      252   IBUF
+      434   LUT1
+      493   LUT2
+     1848   LUT3
+     1854   LUT4
+      666   MUX2_LUT5
+      136   MUX2_LUT6
+       51   MUX2_LUT7
+        6   MUX2_LUT8
+      612   OBUF
+       26   SPX9
+        1   VCC
+
+=== $paramod$d34ca15cd08074b9464ce84b213bee6fd310b97d\ldeep_eng ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1404 wires
+     3386 wire bits
+     1404 public wires
+     3386 public wire bits
+        8 ports
+      219 port bits
+     1581 cells
+      461   ALU
+       30   DFF
+       33   DFFE
+      236   DFFRE
+        1   DPB
+        1   GND
+       18   IBUF
+       16   LUT1
+       21   LUT2
+       46   LUT3
+      399   LUT4
+       96   MUX2_LUT5
+        2   MUX2_LUT6
+        1   MUX2_LUT7
+      201   OBUF
+        7   SP
+       11   SPX9
+        1   VCC
+
+=== $paramod$fcee030d6c25c2923f212b3de2643f5b1aa24398\ldeep_eng ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1451 wires
+     3445 wire bits
+     1451 public wires
+     3445 public wire bits
+        8 ports
+      219 port bits
+     1625 cells
+      462   ALU
+       30   DFF
+       32   DFFE
+      236   DFFRE
+        1   DPB
+        1   GND
+       18   IBUF
+       32   LUT1
+       21   LUT2
+       44   LUT3
+      406   LUT4
+      111   MUX2_LUT5
+        7   MUX2_LUT6
+        3   MUX2_LUT7
+        1   MUX2_LUT8
+      201   OBUF
+        7   SP
+       11   SPX9
+        1   VCC
+
+=== $paramod\cortex_encoder\AW=s32'00000000000000000000000000001101 ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     4494 wires
+     8453 wire bits
+     4494 public wires
+     8453 public wire bits
+       16 ports
+       98 port bits
+     4991 cells
+      278   ALU
+       26   DFF
+      184   DFFE
+        1   DFFR
+       87   DFFRE
+        1   GND
+       55   IBUF
+      686   LUT1
+      155   LUT2
+      669   LUT3
+     1361   LUT4
+      764   MUX2_LUT5
+      243   MUX2_LUT6
+       73   MUX2_LUT7
+       17   MUX2_LUT8
+       43   OBUF
+      347   RAM16SDP4
+        1   VCC
+
+=== l_cortex_deep ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1616 wires
+     3491 wire bits
+     1616 public wires
+     3491 public wire bits
+       23 ports
+      485 port bits
+     1934 cells
+      202   ALU
+       10   DFF
+      345   DFFE
+       37   DFFR
+      114   DFFRE
+        1   DFFS
+        5   DFFSE
+        1   DPX9B
+        1   GND
+      149   IBUF
+       49   LUT1
+       97   LUT2
+      253   LUT3
+      166   LUT4
+      104   MUX2_LUT5
+       42   MUX2_LUT6
+       17   MUX2_LUT7
+        4   MUX2_LUT8
+      336   OBUF
+        1   VCC
+        3 submodules
+        1   $paramod$a64e8acf46be42cf8610393b0fa448083d5263ff\cortex_core
+        1   $paramod\cortex_encoder\AW=s32'00000000000000000000000000001101
+        1   ldeep_core_p
+
+=== ldeep_core_p ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     2506 wires
+     4439 wire bits
+     2506 public wires
+     4439 public wire bits
+       11 ports
+      256 port bits
+     2982 cells
+      255   ALU
+        4   DFF
+      220   DFFE
+       33   DFFR
+       13   DFFRE
+        1   DFFSE
+        1   GND
+       18   IBUF
+      220   LUT1
+       22   LUT2
+      809   LUT3
+      520   LUT4
+      362   MUX2_LUT5
+      169   MUX2_LUT6
+       73   MUX2_LUT7
+       23   MUX2_LUT8
+      238   OBUF
+        1   VCC
+        4 submodules
+        1   $paramod$809fb77e598b2516f783ea898056628beea87af5\ldeep_eng
+        1   $paramod$a4566bb7429cd2e9766de618f9fff9dd9094b91d\ldeep_eng
+        1   $paramod$d34ca15cd08074b9464ce84b213bee6fd310b97d\ldeep_eng
+        1   $paramod$fcee030d6c25c2923f212b3de2643f5b1aa24398\ldeep_eng
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+    25341 l_cortex_deep
+     8985 $paramod$a64e8acf46be42cf8610393b0fa448083d5263ff\cortex_core
+     4991 $paramod\cortex_encoder\AW=s32'00000000000000000000000000001101
+     2982 ldeep_core_p
+     1582   $paramod$809fb77e598b2516f783ea898056628beea87af5\ldeep_eng
+     1661   $paramod$a4566bb7429cd2e9766de618f9fff9dd9094b91d\ldeep_eng
+     1581   $paramod$d34ca15cd08074b9464ce84b213bee6fd310b97d\ldeep_eng
+     1625   $paramod$fcee030d6c25c2923f212b3de2643f5b1aa24398\ldeep_eng
+
+        +----------Count including submodules.
+        | 
+    20758 wires
+    43877 wire bits
+    20758 public wires
+    43877 public wire bits
+      109 ports
+     2579 port bits
+        - memories
+        - memory bits
+        - processes
+    25341 cells
+     3221   ALU
+      187   DFF
+     2357   DFFE
+      121   DFFN
+       79   DFFR
+     1485   DFFRE
+        1   DFFS
+        6   DFFSE
+        4   DPB
+        1   DPX9B
+        8   GND
+      546   IBUF
+     1500   LUT1
+      847   LUT2
+     3767   LUT3
+     5511   LUT4
+     2320   MUX2_LUT5
+      616   MUX2_LUT6
+      225   MUX2_LUT7
+       53   MUX2_LUT8
+     2033   OBUF
+      347   RAM16SDP4
+       28   SP
+       70   SPX9
+        8   VCC
+        3 submodules
+        1   $paramod$a64e8acf46be42cf8610393b0fa448083d5263ff\cortex_core
+        1   $paramod\cortex_encoder\AW=s32'00000000000000000000000000001101
+        1   ldeep_core_p
+
