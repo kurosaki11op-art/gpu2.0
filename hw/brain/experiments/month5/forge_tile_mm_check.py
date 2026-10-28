@@ -19,5 +19,6 @@ for i in range(M):
         from forge_lane_golden import lane_step
         for b in range(NB): m, e = lane_step(m, e, b == 0, ma[i, b], mb[j, b], int(ea[i, b]), int(eb[j, b]))
         bad += (got[i * N + j] != (m, e)); C[i, j] = got[i * N + j][0] * 2.0 ** got[i * N + j][1]
+open(os.path.join(D, "mm_exp.txt"), "w").write("\n".join("%d %d" % g for g in got) + "\n")
 print("tile matrix product %dx%dx%d: %d of %d outputs differ from the lane golden model; error vs fp64 %.2e; %d cycles for %d block operations (%d multiply-accumulates)" % (M, K, N, bad, M * N, np.linalg.norm(C - A @ B) / np.linalg.norm(A @ B), cyc, M * N * NB, M * N * K))
 sys.exit(1 if bad else 0)

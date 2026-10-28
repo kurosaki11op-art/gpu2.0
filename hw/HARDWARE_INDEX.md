@@ -23,6 +23,7 @@ tags: [spark, index, hardware]
 - [Layout checks 22 Oct](asic/cortex/signoff/README.md): routing, GDSII, timing, DRC of the L Cortex layout (DRC and hold fail).
 - [L Deep RTL](rtl/deep/README.md): routed clause layer, bit-exact against the integer golden model (300 routed images, 0 mismatches, 28 Oct 2026).
 - [L Forge RTL](rtl/forge/README.md): the block floating-point multiply-accumulate lane, bit-exact against the integer golden model (3,288 ops, 0 mismatches, 28 Oct 2026).
+- [L chip top](rtl/top/README.md): dispatcher over Cortex, Deep and Forge with activity flags; 40 recognitions and a matrix product, 0 mismatches (28 Oct 2026).
 - [Results index](results/INDEX.md): every result.
 
 Related: [Home](../README.md)

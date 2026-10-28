@@ -50,6 +50,10 @@ Energy per image from these counts with the project's 45 nm constants (SRAM read
 
 **Most of the gain comes from the first 1,000 to 2,000 clauses: 2,000 clauses give about 90% of the 4,000-clause gain at 20% less energy (56 against 70 nJ, 1.6 times L's 34 nJ); 1,000 clauses give about 65% at 48 nJ (1.4 times L); more than 4,000 adds nothing.** This is a free cost cut for the chip: memory also falls (2,000 clauses need about half the literal, header and row storage, roughly 80 KB at int8 instead of 134 KB). The golden model and RTL use 4,000; changing to 2,000 is a re-export. Seeds agree on the shape, not on every point (differences of about 0.2 points are noise at one seed each).
 
+## Result 7: the dispatcher over all three layers in RTL (SIMULATED RTL)
+
+[l_chip_top.v](../rtl/top/l_chip_top.v) puts the recognition path (Cortex stage 1, Deep woken by the margin) and an L Forge matrix-product tile behind one command interface with per-layer activity flags ([README](../rtl/top/README.md)). [run_check_top.py](../rtl/top/run_check_top.py): 40 recognitions (13 routed) and one 16 x 128 x 16 matrix product, **0 mismatches** in routed flag, scores, prediction and all 256 matrix outputs. Cycles each layer was awake: Cortex stage 184,760, **Deep 799,163 (the dominant share, 13 of 40 images woke it at about 61,000 cycles each)**, Forge 2,051. The flags are the hooks for clock and bank gating; the gating, a power controller and retention are not built, and stage 1 is still the re-implementation of the experiment's table, not the existing Cortex core.
+
 ## What is left for L Deep
 
 1. Cost: 5.6 literals per clause on average and a full scan of the code bits; a keyed evaluation (only clauses whose positive literal is active) and the Cortex active-bit list would cut cycles several-fold; pruning clauses by use (top 4,000 of 8,000 already).

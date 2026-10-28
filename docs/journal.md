@@ -1894,4 +1894,8 @@ Counts from the exported clause lists ([L Deep build](../hw/results/l_deep_build
 
 [deep_frontier.py](../hw/brain/experiments/month5/deep_frontier.py), two seeds, SIMULATED accuracy and ESTIMATED energy ([L Deep build](../hw/results/l_deep_build.md)): 2,000 kept clauses give +0.86 and +0.77 points (4,000: +0.88 and +0.95) at 56 to 57 nJ per image instead of 70 to 71; 1,000 clauses give about +0.55 at 48 nJ; beyond 4,000 nothing. Failure recorded: the first run compared raw scores across the two tables for Shirt AP (values fell to 0.72 to 0.77, not comparable); fixed with the z-scored replacement as in the earlier experiments (accuracy was unaffected). Free cost cut for the chip: 2,000 clauses, memory roughly 80 KB.
 
+## 28 Oct 2026: top-level dispatcher in RTL
+
+`hw/rtl/top/l_chip_top.v`: one command interface over recognition (Cortex stage 1, Deep woken by margin) and the Forge matrix-product tile, with activity flags. 40 recognitions (13 routed) and a 16x128x16 product: 0 mismatches. Cycles awake: Cortex 184,760, Deep 799,163, Forge 2,051 ([L Deep build](../hw/results/l_deep_build.md) result 7). Deep dominates awake time with the sequential evaluator, which supports speeding it up before any energy claim. Gating and retention are not built.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

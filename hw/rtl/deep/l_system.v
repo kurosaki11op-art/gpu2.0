@@ -3,13 +3,14 @@
 // whose answer replaces the first. Same integer pipeline as ldeep_golden.py. Block-RAM friendly (synchronous reads); input bits loaded through (wr_en, wr_addr, wr_bit).
 module l_system #(parameter NB = 6176, NCODE = 4608, NCL = 4000, NLITS = 22232, ROUTE_T = 3415) (
     input clk, input rst, input wr_en, input [12:0] wr_addr, input wr_bit, input start,
-    output reg busy, output reg done, output reg routed, output reg [3:0] pred, output [199:0] scores_flat, output reg [31:0] cycles);
+    output reg busy, output reg done, output reg routed, output reg [3:0] pred, output [199:0] scores_flat, output reg [31:0] cycles, output s2_active);
     reg [79:0] wcode1 [0:NCODE-1]; reg [79:0] wcode [0:NCODE-1]; reg [79:0] wcl [0:NCL-1]; reg [23:0] hdr [0:NCL-1]; reg [13:0] lits [0:NLITS-1]; reg bitsm [0:NB-1];
     initial begin $readmemh("deep_wcode1.hex", wcode1); $readmemh("deep_wcode.hex", wcode); $readmemh("deep_wcl.hex", wcl); $readmemh("deep_hdr.hex", hdr); $readmemh("deep_lits.hex", lits); end
     reg signed [19:0] acc [0:9];
     genvar g; generate for (g = 0; g < 10; g = g + 1) begin : pk assign scores_flat[20*g +: 20] = acc[g]; end endgenerate
     localparam S_IDLE = 0, S_CODE = 1, S_H = 2, S_H2 = 3, S_L1 = 4, S_L2 = 5, S_L3 = 6, S_L4 = 7, S_F1 = 8, S_F2 = 9, S_ARG = 10, S_C1 = 11, S_M = 12;
     reg [3:0] st; reg stage2; reg [12:0] i; reg [12:0] c; reg [7:0] t; reg [14:0] la; reg [7:0] lcnt; reg [3:0] k; reg signed [19:0] best, second; reg [3:0] bidx; reg [12:0] ba; reg inv; integer j;
+    assign s2_active = stage2 && busy;
     wire [12:0] bit_addr = (st == S_CODE || st == S_C1) ? i : ba;
     reg [79:0] wcode1_q, wcode_q, wcl_q; reg [23:0] hdr_q; reg [13:0] lits_q; reg bit_q;
     always @(posedge clk) begin
