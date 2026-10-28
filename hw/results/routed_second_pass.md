@@ -63,4 +63,28 @@ Second pass = the 64-informative front end; routers use only the first (shipped)
 - **Clauses in the second pass add almost nothing to accuracy** (+0.12 with 2,000 clauses, -0.10 with 4,000) and raise Shirt recall by up to 0.024 (0.692 with 4,000 clauses and the class-relative router, against the CNN's 0.707 SIMULATED) at +16 nJ (1.91 times L).
 - Conclusion: the plateau at about 90.3 to 90.5% is again an information overlap, not a routing or readout limit. Cheapest best point stays the stage-2 routed pass at 20% (90.35 at 40.6 nJ); Shirt recall can be bought (0.69 at 1.9 times L) but accuracy cannot.
 
+## Follow-up (28 Oct 2026): redundancy-aware selection and a two-level output on the stage-2 detectors (seed 0; SIMULATED accuracy, ESTIMATED energy; `detector_selection3.py`, `stage2_twolevel.py`)
+
+**Redundancy-aware detector choice** (greedy: class information minus lambda times redundancy with the detectors already chosen; 64 of 128 per channel, installed alone):
+
+| choice | accuracy | cluster | Shirt recall | Shirt AP |
+|---|---|---|---|---|
+| top class information (reference) | **90.26** | 83.1 | 0.675 | 0.785 |
+| redundancy-aware, lambda 0.5 / 1.0 / 2.0 | 89.79 / 89.93 / 89.79 | 82.0 / 82.4 / 82.3 | 0.687 / 0.675 / 0.659 | 0.775 / 0.773 / 0.781 |
+
+No gain: choosing complementary detectors does not beat choosing the most informative ones; the "overlap" is not removable by selection from this pool.
+
+**Two-level output on the stage-2 detectors, routed** (levels = pooled-window count thresholds; second pass on the least-sure share of images):
+
+| levels | routed share | accuracy | cluster | Shirt recall | Shirt AP | est. energy |
+|---|---|---|---|---|---|---|
+| 1 (reference) | 20% | 90.35 | 83.1 | 0.668 | 0.774 | 40.6 nJ (1.36x) |
+| 1, 4 | 20% | 90.08 | 82.9 | 0.652 | 0.774 | 42.5 nJ (1.42x) |
+| 1, 2, 4 | 10% | 90.12 | 82.5 | 0.677 | 0.771 | 38.3 nJ (1.28x) |
+| 1, 2, 4 | 20% | 90.32 | 83.1 | **0.697** | 0.784 | **46.7 nJ (1.56x)** |
+| 1, 2, 4 | 30% | 90.25 | 83.2 | **0.704** | 0.781 | 55.0 nJ (1.84x) |
+
+- **Shirt recall reaches 0.697 to 0.704, level with the CNN's 0.707 (SIMULATED: our own numpy CNN)**, at 1.56 to 1.84 times L's cost; accuracy stays at the plateau (90.3). So the Shirt target set by the measured CNN is met inside the 2 times ceiling.
+- **Accuracy plateaus at about 90.3% (seed 0; seed 1 gave 90.0) for every variant inside the ceiling** (routers, clauses, redundancy-aware selection, two-level output). The remaining gap to the CNN (91.28, SIMULATED) is 0.9 to 1.3 points. Selection from a bigger pool (256) and joint training of the features are the untested levers; the foundations study suggests the CNN's last point needs features and readout trained together with graded activations.
+
 Related: [Detector selection and the gap](detector_selection_and_gap.md), [Cost frontier](cost_frontier.md), [Foundations study](foundations_study.md), [Results index](INDEX.md)

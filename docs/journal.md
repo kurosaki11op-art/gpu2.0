@@ -1762,4 +1762,8 @@ Withdrew the first detector-selection claim (it kept bits from a 128-detector co
 
 Founder: referenced means labelled. Added a label block to cost_frontier.md, routed_second_pass.md and detector_selection_and_gap.md (CNN accuracy and recall SIMULATED from our own numpy CNN, reference energies ESTIMATED, no GPU measured), labelled the reference rows of the cost table, and fixed the float CNN row (about 2,300 nJ, was 1,970). Rule added to docs/PROJECT_MEMORY.md.
 
+## 28 Oct 2026: router, clause, selection and two-level follow-ups (SIMULATED/ESTIMATED)
+
+On the routed second pass (64 informative detectors, 20% routed): smarter routers equal the margin router in accuracy (90.29 to 90.40 against 90.35), clauses add +0.12 at most; redundancy-aware selection no better (89.79 to 89.93 against 90.26); two-level output on the stage-2 detectors (levels 1, 2, 4) lifts Shirt recall to 0.697 (CNN 0.707, SIMULATED) at est. 46.7 nJ (1.56x), accuracy unchanged at 90.32. Plateau about 90.3 inside the 2x ceiling; gap to the CNN 0.9 to 1.3 points. Note: hw/results/routed_second_pass.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

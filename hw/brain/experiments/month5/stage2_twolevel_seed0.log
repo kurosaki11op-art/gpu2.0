@@ -1,0 +1,18 @@
+  channel 50 installed [42s]
+  channel 150 installed [80s]
+  channel ('on', 8) installed [122s]
+  channel ('off', 8) installed [162s]
+counts encoded [494s]
+first pass alone: acc 0.8885 | cluster 0.8063 | Shirt recall 0.638 | Shirt AP 0.753 | est. 29.9 nJ
+second pass alone, levels (1,) (9216 bits, 760 active, every image): acc 0.9026 | cluster 0.8313 | Shirt recall 0.675 | Shirt AP 0.785 | est. 53.4 nJ
+RESULT levels (1,)      routed 10%: acc 0.9013 | cluster 0.8243 | Shirt recall 0.658 | Shirt AP 0.765 | est. 35.3 nJ (1.18 x L)
+RESULT levels (1,)      routed 20%: acc 0.9035 | cluster 0.8310 | Shirt recall 0.668 | Shirt AP 0.774 | est. 40.6 nJ (1.36 x L)
+RESULT levels (1,)      routed 30%: acc 0.9034 | cluster 0.8320 | Shirt recall 0.674 | Shirt AP 0.779 | est. 46.0 nJ (1.54 x L)
+second pass alone, levels (1, 4) (18432 bits, 872 active, every image): acc 0.8996 | cluster 0.8280 | Shirt recall 0.657 | Shirt AP 0.779 | est. 62.6 nJ
+RESULT levels (1, 4)    routed 10%: acc 0.8983 | cluster 0.8215 | Shirt recall 0.650 | Shirt AP 0.764 | est. 36.2 nJ (1.21 x L)
+RESULT levels (1, 4)    routed 20%: acc 0.9008 | cluster 0.8287 | Shirt recall 0.652 | Shirt AP 0.774 | est. 42.5 nJ (1.42 x L)
+RESULT levels (1, 4)    routed 30%: acc 0.9001 | cluster 0.8280 | Shirt recall 0.655 | Shirt AP 0.774 | est. 48.7 nJ (1.63 x L)
+second pass alone, levels (1, 2, 4) (27648 bits, 1237 active, every image): acc 0.9025 | cluster 0.8333 | Shirt recall 0.707 | Shirt AP 0.794 | est. 83.6 nJ
+RESULT levels (1, 2, 4) routed 10%: acc 0.9012 | cluster 0.8253 | Shirt recall 0.677 | Shirt AP 0.771 | est. 38.3 nJ (1.28 x L)
+RESULT levels (1, 2, 4) routed 20%: acc 0.9032 | cluster 0.8305 | Shirt recall 0.697 | Shirt AP 0.784 | est. 46.7 nJ (1.56 x L)
+RESULT levels (1, 2, 4) routed 30%: acc 0.9025 | cluster 0.8317 | Shirt recall 0.704 | Shirt AP 0.781 | est. 55.0 nJ (1.84 x L)
