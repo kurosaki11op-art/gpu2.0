@@ -16,7 +16,7 @@ Thousands of lock-step lanes, a four-step memory ladder (registers, shared memor
 | # | difference | GPU does | L Forge does | evidence | status |
 |---|---|---|---|---|---|
 | D1 | **Memory in the tile, the whole working set on chip** | streams from HBM through a ladder | 48 KB banked SRAM per tile, data stays put, work moves | tile model: 2 to 48x at 2 GB (table 5) | ESTIMATED; fabric traffic not modelled |
-| D2 | **Precision routing** | one precision per kernel | bulk in 8-bit block floating point or int8, a small routed share in fp32 or double (iterative refinement) | primitive test: only fp16, bfloat16, int8, 8-bit block floating point pass four kernels; low precision stalls CG at 1e-2, refinement needed | SIMULATED error; refinement loop built and converges on Poisson with 8-bit inner solves, about half the traffic; with a stencil multigrid preconditioner the solve itself needs far fewer passes ([refinement loop](../hw/results/refinement_loop.md)) |
+| D2 | **Precision routing (solvers only)** | one precision per kernel | bulk in 8-bit block floating point or int8, a small routed share in fp32 or double (iterative refinement) | primitive test: only fp16, bfloat16, int8, 8-bit block floating point pass four kernels; low precision stalls CG at 1e-2, refinement needed | SIMULATED error; refinement loop built and converges on Poisson with 8-bit inner solves, about half the traffic; with a stencil multigrid preconditioner the solve itself needs far fewer passes ([refinement loop](../hw/results/refinement_loop.md)) |
 | D3 | **Event-driven skipping** | computes zeros | tiles do work only where data is non-zero or changed | 35.8x on sparse recognition; 4.7x when run dense | ESTIMATED; helps only sparse work |
 | D4 | **Banked, gated reads** | wide reads from large arrays | wake one 6 KB bank, gate the others | 3 to 5x on L Deep reads (model); layout power 366 to 47 mW with gating (ESTIMATED) | needs Forge tile layout |
 | D5 | **Dispatch by input** | the host launches kernels | an always-on dispatcher wakes only the layer needed; Cortex first, early exit | early exit works (0.967 vs 0.968), predictive wake not supported ([dispatch tests](../hw/results/dispatch_tests.md)) | SIMULATED for recognition only; the rule for numeric jobs is the free input-type tag |
@@ -31,6 +31,8 @@ Per tile: 8 banks of 6 KB (48 KB), a router with five ports, a small scheduler w
 ## 4. Size and cost at 5 nm, 2 GB (ESTIMATED, assumed tile logic)
 
 Memory is about 683 mm2; the rest depends on tile logic, which is an assumption: add-only tile 0.005 mm2 (901 mm2 total, 2 dies, Rs 32k bare, Rs 81k finished); **Forge tile with multiply-accumulate lanes 0.015 mm2 (1,338 mm2, 3 dies, Rs 48k bare, Rs 120k finished)**; Cerebras-size tile 0.025 mm2 (1,775 mm2, 3 dies, Rs 73k bare, Rs 182k finished). So the locked target's cost depends on how small the Forge tile can be made, and the earlier 2-die figure assumed the add-only tile.
+
+**Update 28 Oct (FFT and Kalman):** precision routing with a fp64 share helps iterative solvers (Poisson: about 2x traffic; [refinement loop](../hw/results/refinement_loop.md)) but not direct transforms or small filters, which simply use a block format of the width the job needs ([FFT and Kalman routing](../hw/results/fft_kalman_routing.md)).
 
 ## 5. Acceptance tests (target gains at 2 GB, modern constants, ESTIMATED upper-bound-style model gains over a mixed-precision GPU baseline)
 

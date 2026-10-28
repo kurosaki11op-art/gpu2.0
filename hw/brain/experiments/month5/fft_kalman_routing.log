@@ -1,0 +1,61 @@
+PART 1a: standalone FFT n=1024, relative L2 error vs fp64 (rounded after every stage, SIMULATED)
+  BFP5      2.00e-01
+  BFP8      2.43e-02
+  BFP10     5.91e-03
+  BFP12     1.44e-03
+  BFP16     9.16e-05
+  BFP24     3.66e-07
+  int8      2.59e-02
+  fp16      7.22e-04
+  bfloat16  3.38e-02
+  fp32      9.42e-08
+
+PART 1b: FFT as the inner solver of a refinement loop (screened Poisson 64x64, periodic, target 1e-12)
+  fp64 spectral solve, single shot: residual 2.0e-15
+  format     outer      final  converged
+  BFP5          60    6.7e-01         NO
+  BFP8          23    4.7e-13        yes
+  BFP12          7    2.8e-13        yes
+  int8          60    9.5e-01         NO
+  fp16           5    5.1e-13        yes
+  bfloat16      12    9.4e-13        yes
+
+PART 2: Kalman filter, 12 states, 6 measurements, 1000 steps, 3 seeds; error = relative L2 difference of the estimates vs the fp64 filter
+format    routing (what stays fp64)               error    min eig P   fp64 flops
+BFP8      nothing (all low)                    3.57e-02     3.56e-02           0%
+BFP8      covariance update fp64               3.51e-02     3.58e-02          29%
+BFP8      covariance predict+update fp64       3.13e-02     3.78e-02          67%
+BFP8      Joseph form, all low                 3.76e-02     3.57e-02           0%
+BFP8      Joseph, update fp64                  3.57e-02     3.62e-02          29%
+int8      nothing (all low)                    2.94e-02     3.59e-02           0%
+int8      covariance update fp64               2.84e-02     3.67e-02          29%
+int8      covariance predict+update fp64       2.20e-02     3.75e-02          67%
+int8      Joseph form, all low                 2.98e-02     3.57e-02           0%
+int8      Joseph, update fp64                  2.79e-02     3.69e-02          29%
+bfloat16  nothing (all low)                    9.90e-02     3.62e-02           0%
+bfloat16  covariance update fp64               9.44e-02     3.66e-02          29%
+bfloat16  covariance predict+update fp64       6.77e-02     3.83e-02          67%
+bfloat16  Joseph form, all low                 1.14e-01     3.52e-02           0%
+bfloat16  Joseph, update fp64                  9.60e-02     3.64e-02          29%
+fp16      nothing (all low)                    1.24e-03     3.80e-02           0%
+fp16      covariance update fp64               1.17e-03     3.80e-02          29%
+fp16      covariance predict+update fp64       1.02e-03     3.80e-02          67%
+fp16      Joseph form, all low                 1.24e-03     3.79e-02           0%
+fp16      Joseph, update fp64                  1.20e-03     3.80e-02          29%
+fp32      nothing (all low)                    1.32e-07     3.80e-02           0%
+fp32      covariance update fp64               1.31e-07     3.80e-02          29%
+fp32      covariance predict+update fp64       1.18e-07     3.80e-02          67%
+fp32      Joseph form, all low                 1.45e-07     3.80e-02           0%
+fp32      Joseph, update fp64                  1.30e-07     3.80e-02          29%
+
+real	0m20.467s
+user	0m47.049s
+sys	0m0.127s
+
+PART 2b (corrected): error against the TRUTH (RMSE of the state estimate, steps 100 to 1000, mean of 3 seeds), all-low-precision filter; fp64 filter for reference
+  fp64      RMSE vs truth 1.028
+  fp32      RMSE vs truth 1.028
+  fp16      RMSE vs truth 1.028
+  bfloat16  RMSE vs truth 1.035
+  int8      RMSE vs truth 1.027
+  BFP8      RMSE vs truth 1.032
