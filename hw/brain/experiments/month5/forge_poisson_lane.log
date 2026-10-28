@@ -1,0 +1,2 @@
+grid 31: lane dot products: 9 outer steps, 27 inner iterations, final residual 1.9e-13 (exact-dot BFP8 run: 9 outer, 27 inner)
+grid 63: lane dot products: 9 outer steps, 27 inner iterations, final residual 7.6e-13 (exact-dot BFP8 run: 10 outer, 30 inner)

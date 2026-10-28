@@ -1886,4 +1886,8 @@ L Deep ([build note](../hw/results/l_deep_build.md)): integer golden model (ldee
 
 Wrote [the status note](../docs/L_status_28oct.md) (layers, evidence, honest GPU comparison, corrections, what is needed from the founder, next steps) and pointed project memory at it.
 
+## 28 Oct 2026: Deep stage-2 cost breakdown, Poisson refinement through the lane
+
+Counts from the exported clause lists ([L Deep build](../hw/results/l_deep_build.md)): 11,920 literal checks per routed image; keyed evaluation saves only 15% because 1,485 of 4,000 kept clauses are negative-only. Energy per image from these counts (ESTIMATED, 45 nm constants): stage 1 about 34 nJ, stage 2 120 to 350 nJ, system average 70 to 140 nJ against 260 nJ for the int8 CNN reference. Poisson refinement with lane-computed dot products converges exactly as before (9 outer, 27 inner, residual 1.9e-13 and 7.6e-13). Three of four Forge kernels now run through the lane arithmetic (matrix multiply in RTL, Kalman, Poisson); FFT remains at format level.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
