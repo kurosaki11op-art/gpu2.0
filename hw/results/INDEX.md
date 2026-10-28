@@ -92,5 +92,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Detector selection and the gap to the CNN](detector_selection_and_gap.md): informative detectors give 89.03 at 27% fewer active bits (32 per channel) and 89.76 with Shirt recall 0.691 (64); the CNN's Shirt recall is only 0.707; the gap is spread over classes
 - [Routed second pass with informative detectors](routed_second_pass.md): 90.0 to 90.35% at 1.36x L's cost (about 41 nJ), gap to the CNN 0.9 to 1.3 points; withdraws the first selection claim
 - [Hybrid study: routed int8 CNN second pass](hybrid_routed_cnn.md): CNN on the 20% least-sure images reaches 91.28% at est. 81.9 nJ, 3.2 times below the int8 CNN at equal accuracy
+- [Arithmetic primitive shoot-out](arithmetic_primitive_test.md): log numbers, block floating point, stochastic, analog, int4 against int8 on matmul, FFT, CG, Kalman (SIMULATED error, ESTIMATED energy, 28 Oct 2026)
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

@@ -1786,4 +1786,8 @@ Founder: multiplication and matrices yes, but no CNN (GPU architectures invite t
 
 Asked: benchmark list and numeric tile model; then a primitive that does everything GPUs and models do. Done: wrote [L numeric tile study](L_numeric_tile_study.md) from `hw/brain/experiments/month5/numeric_tile_model.py` (logs at 64/256/1024 MB). Result (ESTIMATED, plus or minus 3x, energy only): gains over a mixed-precision GPU baseline are 1.1 to 4x at 64 to 256 MB for physics and the LLM, up to 33x (Poisson) and 48x (LLM) only if 1 GB fits on chip; small int8 network 20.6x; sparse recognition 35.8x. Compute is 59 to 63% of tile energy for dense multiply and Kalman, 1 to 12% for memory-bound kernels, so a new arithmetic primitive helps only the compute-bound kernels. Failures fixed on the way: LLM reuse of 0 and sparse operation count 1000x low. Not modelled: SRAM area and cost, accuracy of mixed precision. Next: arithmetic primitive shoot-out (error plus energy), after the capacity question.
 
+## 28 Oct 2026: arithmetic primitive shoot-out
+
+Asked: run the primitive test. Done: 13 multiplier variants on four kernels, [result note](../hw/results/arithmetic_primitive_test.md). Result (SIMULATED error, ESTIMATED energy): none of log numbers, stochastic, analog or int4 passes all four kernels at an energy below int8; only fp16, bfloat16, int8 and 8-bit block floating point pass, block floating point best at about int8 cost; low precision stalls CG at 1e-2, so refinement is needed. Failure recorded: stochastic N=256 and analog 5% broke Kalman (nan); their noise model is pessimistic. Conclusion: the primitive is a minor lever; capacity, locality and skipping matter more.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

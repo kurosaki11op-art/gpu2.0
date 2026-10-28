@@ -1,0 +1,23 @@
+SIMULATED error vs fp64 (lower is better). CG truth run: final residual 7.44e-15, iterations to 1e-6: 85
+primitive                             matmul       FFT    CG resid       CG its    Kalman    pJ/mult  energy source (ESTIMATED)
+fp32                                3.58e-08  7.08e-08    7.28e-08           85  6.61e-08      3.700  Horowitz
+fp16                                2.90e-04  5.39e-04    1.22e-02           96  5.10e-04      1.100  Horowitz
+bfloat16                            6.05e-03  2.28e-02    4.26e-03          120  3.57e-02      1.000  assumed
+int8                                1.35e-02  1.97e-02    2.47e-02          107  1.02e-02      0.200  Horowitz
+int4 (16x16 table)                  2.49e-01  3.65e-01    4.25e+02          inf  4.56e-01      0.050  assumed (int8 x 1/4)
+block FP 8-bit mantissa             7.89e-03  1.99e-02    1.76e-02           98  1.67e-02      0.220  assumed (int8 + exponent logic)
+block FP 5-bit mantissa             6.36e-02  1.46e-01    2.00e-01          inf  1.39e-01      0.080  assumed
+log number F=8 (multiply = add)     3.45e-02  6.72e-02    8.95e-02          172  2.18e-01      0.150  assumed (adder + log-to-linear table)
+log number F=3                      9.41e-02  2.23e-01    1.31e+00          inf  6.17e-01      0.100  assumed
+/home/user/gpu2.0/hw/brain/experiments/month5/arithmetic_primitive_test.py:40: RuntimeWarning: overflow encountered in scalar multiply
+  return pr if p is None else p(pr, (np.abs(a).max() * np.abs(b).max() + 1e-300))
+/usr/local/lib/python3.13/dist-packages/numpy/_core/_methods.py:49: RuntimeWarning: invalid value encountered in reduce
+  return umr_sum(a, axis, dtype, out, keepdims, initial, where)
+/usr/local/lib/python3.13/dist-packages/numpy/linalg/_linalg.py:2767: RuntimeWarning: overflow encountered in dot
+  sqnorm = x.dot(x)
+stochastic N=256 (int8 operands)    1.10e+00  7.54e-01    8.61e-01          inf       nan      0.200  assumed (256 gate toggles)
+stochastic N=4096                   2.79e-01  1.79e-01    1.74e-01          inf  1.60e-01      3.200  assumed (4096 gate toggles)
+analog 1% noise (int8 operands)     1.79e-01  1.17e-01    1.02e-01          161  1.03e-01      0.070  assumed (cell + amortised converter)
+/home/user/gpu2.0/hw/brain/experiments/month5/arithmetic_primitive_test.py:39: RuntimeWarning: overflow encountered in multiply
+  a, b = np.broadcast_arrays(np.asarray(a, np.float64), np.asarray(b, np.float64)); pr = q(a.copy()) * q(b.copy())
+analog 5% noise                     8.87e-01  6.03e-01    4.38e-01          inf       nan      0.070  assumed
