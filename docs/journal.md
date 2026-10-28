@@ -1906,4 +1906,8 @@ Counts from the exported clause lists ([L Deep build](../hw/results/l_deep_build
 
 [deep_route_sweep.py](../hw/brain/experiments/month5/deep_route_sweep.py), two seeds ([L Deep build](../hw/results/l_deep_build.md) result 9): with 2,000 clauses the accuracy gain is complete by 20% routing (+0.88 and +0.83 points) and does not grow with more; routing all images costs 107 to 111 nJ and gains slightly less (+0.82 and +0.73). Best operating point: 2,000 clauses, 20% routed, about 49 nJ per image (1.45 times L's 34 nJ), against 4,000 clauses at 30% (about 70 nJ). The RTL checks use the older default; a re-export would move them.
 
+## 28 Oct 2026: RTL re-exported at the recommended point, all checks pass
+
+KEEP=2000, route 20% (threshold 2,299): integer accuracy 89.73% unchanged, memory 93 KB (was 134). RTL checks, 0 mismatches each: single engine 13,514 cycles per routed image, block-RAM core 37,176, four engines 9,628, two-stage system (200 images, 38 routed) 11,800 cycles per image, top-level (40 recognitions, 6 routed, plus a matrix product). Note: older entries refer to the 4,000-clause configuration. See [L Deep build](../hw/results/l_deep_build.md) result 10.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,7 +1,7 @@
 // L Deep core with P parallel engines (28 Oct 2026): each engine owns a slice of the code rows and an interleaved set of clauses (files deep_*_e<k>.hex from
 // partition_engines.py), its own copy of the input-bit memory and its own 10 accumulators; engines run independently and the top adds the P partial score vectors,
 // then takes the argmax (first maximum wins). Same function as ldeep_core.v, so the same expected scores apply (integer addition is order-independent).
-module ldeep_eng #(parameter NB = 6176, NCODE_E = 1152, CODE_BASE = 0, NCL_E = 1000, NLITS_E = 8192,
+module ldeep_eng #(parameter NB = 6176, NCODE_E = 1152, CODE_BASE = 0, NCL_E = 500, NLITS_E = 8192,
                    parameter F_WCODE = "deep_wcode_e0.hex", parameter F_WCL = "deep_wcl_e0.hex", parameter F_HDR = "deep_hdr_e0.hex", parameter F_LITS = "deep_lits_e0.hex") (
     input clk, input rst, input wr_en, input [12:0] wr_addr, input wr_bit, input start, output reg done, output [199:0] acc_flat);
     reg [79:0] wcode [0:NCODE_E-1]; reg [79:0] wcl [0:NCL_E-1]; reg [23:0] hdr [0:NCL_E-1]; reg [13:0] lits [0:NLITS_E-1]; reg bitsm [0:NB-1];

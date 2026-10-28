@@ -4,7 +4,7 @@
 // that fires, then takes the argmax (first maximum wins, as numpy argmax). Integer only: adds, compares, no multiplier.
 // in_bits = L's code bits [0..NCODE-1] followed by the raw pixel bits (>85 then >170). Memories load from hex files at
 // time zero (simulation); a board top would stream them in from SRAM or flash.
-module ldeep_core #(parameter NB = 6176, NCODE = 4608, NCL = 4000, NLITS = 22232) (
+module ldeep_core #(parameter NB = 6176, NCODE = 4608, NCL = 2000, NLITS = 13497) (
     input clk, input rst, input start, input [NB-1:0] in_bits,
     output reg busy, output reg done, output reg [3:0] pred, output [199:0] scores_flat, output reg [31:0] cycles);
     reg [79:0] wcode [0:NCODE-1]; reg [79:0] wcl [0:NCL-1]; reg [23:0] hdr [0:NCL-1]; reg [13:0] lits [0:NLITS-1];

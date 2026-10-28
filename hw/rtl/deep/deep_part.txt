@@ -1,5 +1,5 @@
 P 4
-engine 0: code base 0 count 1152, clauses 1000, literals 5690
-engine 1: code base 1152 count 1152, clauses 1000, literals 5764
-engine 2: code base 2304 count 1152, clauses 1000, literals 5129
-engine 3: code base 3456 count 1152, clauses 1000, literals 5649
+engine 0: code base 0 count 1152, clauses 500, literals 3411
+engine 1: code base 1152 count 1152, clauses 500, literals 3480
+engine 2: code base 2304 count 1152, clauses 500, literals 3192
+engine 3: code base 3456 count 1152, clauses 500, literals 3414

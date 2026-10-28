@@ -1,7 +1,7 @@
 // L Deep core, block-RAM version (28 Oct 2026): same function as ldeep_core.v (bit-exact on the same test vectors) but every memory has a
 // registered (synchronous) read so synthesis can map it to block RAM, and the input bits are loaded one bit at a time through (wr_en, wr_addr, wr_bit).
 // Each literal costs 4 cycles (literal read, bit address, bit read, decision); a clause header costs 2; a firing clause 2 more.
-module ldeep_core_bram #(parameter NB = 6176, NCODE = 4608, NCL = 4000, NLITS = 22232) (
+module ldeep_core_bram #(parameter NB = 6176, NCODE = 4608, NCL = 2000, NLITS = 13497) (
     input clk, input rst, input wr_en, input [12:0] wr_addr, input wr_bit, input start,
     output reg busy, output reg done, output reg [3:0] pred, output [199:0] scores_flat, output reg [31:0] cycles);
     reg [79:0] wcode [0:NCODE-1]; reg [79:0] wcl [0:NCL-1]; reg [23:0] hdr [0:NCL-1]; reg [13:0] lits [0:NLITS-1]; reg bitsm [0:NB-1];

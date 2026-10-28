@@ -28,8 +28,8 @@ def fire_all(X, inc_list, inc_n, nb):
     return out
 fire = lambda X: np.concatenate([fire_all(X[i:i + 5000], inc_list, inc_n, NB) for i in range(0, len(X), 5000)])
 ftr, fte = fire(IN_TR), fire(IN_TE); print("[%4.0fs] fired" % (time.time() - t0), flush=True)
-W = train_table(ftr[:20000], ytr[:20000]); use = W.max(1) - W.min(1); keep = np.argsort(-use)[:4000]
-W_L = train_table(ctr, ytr); S_L = cte.astype(np.int32) @ W_L; srt = np.sort(S_L, 1); marg = srt[:, -1] - srt[:, -2]; T = int(np.floor(np.quantile(marg, 0.3))); route = marg <= T
+W = train_table(ftr[:20000], ytr[:20000]); use = W.max(1) - W.min(1); KEEP = int(os.environ.get("KEEP", 4000)); RQ = float(os.environ.get("RQ", 0.3)); keep = np.argsort(-use)[:KEEP]
+W_L = train_table(ctr, ytr); S_L = cte.astype(np.int32) @ W_L; srt = np.sort(S_L, 1); marg = srt[:, -1] - srt[:, -2]; T = int(np.floor(np.quantile(marg, RQ))); route = marg <= T
 A = np.concatenate([ctr, ftr[:, keep]], 1); B = np.concatenate([cte, fte[:, keep]], 1); W_LC = train_table(A, ytr); S_LC = B.astype(np.int32) @ W_LC
 print("table entry ranges: W_L %d..%d, W_LC %d..%d" % (W_L.min(), W_L.max(), W_LC.min(), W_LC.max()))
 assert W_LC.min() >= -128 and W_LC.max() <= 127, "entries do not fit int8"

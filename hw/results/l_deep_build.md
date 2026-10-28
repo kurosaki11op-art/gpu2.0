@@ -72,6 +72,10 @@ Energy per image from these counts with the project's 45 nm constants (SRAM read
 
 **The gain is reached by about 20% routing and does not grow after it; routing everything adds energy and lowers accuracy slightly (the clause layer is slightly worse than L on the easy images it replaces).** Best operating point found: **2,000 clauses, route 20%: about +0.85 points at about 49 nJ per image, 1.45 times L's energy** (ESTIMATED, two seeds), against the earlier default of 4,000 clauses at 30% (about 70 nJ). The RTL checks use the older defaults (4,000 clauses, threshold 3,415); the new point needs only a re-export with 2,000 clauses and the 20th-percentile threshold.
 
+## Result 10: the RTL re-exported at the recommended point (2,000 clauses, route 20%), all checks pass
+
+`KEEP=2000 RQ=0.2 python ldeep_golden.py`, then `partition_engines.py 4`: 2,000 kept clauses, 13,497 literals (6.75 per clause), threshold 2,299, integer pipeline accuracy **89.73% (the same as the 4,000-clause, 30% version, with the routed images' accuracy 64.9% against 60.5%)**, **memory 93 KB at int8** (literals 23, headers 6, clause rows 20, code rows 45). All RTL checks pass at this point with 0 mismatches on 300 routed images: single-engine core with asynchronous reads 13,514 cycles per routed image; block-RAM core 37,176; **four-engine core 9,628**; the two-stage system on 200 images (38 routed): 4,619 cycles not routed, 42,411 routed, 11,800 overall (single-engine block-RAM stage 2); the top-level dispatcher on 40 recognitions (6 routed) and a matrix product: 0 mismatches, cycles awake Cortex stage 184,760, Deep 222,970, Forge 2,051. The older results above (4,000 clauses, threshold 3,415) are kept as history.
+
 ## What is left for L Deep
 
 1. Cost: 5.6 literals per clause on average and a full scan of the code bits; a keyed evaluation (only clauses whose positive literal is active) and the Cortex active-bit list would cut cycles several-fold; pruning clauses by use (top 4,000 of 8,000 already).
