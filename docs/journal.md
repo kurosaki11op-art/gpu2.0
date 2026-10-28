@@ -1818,4 +1818,8 @@ Founder: the pitch chip should carry all three layers (Cortex, Deep, shared memo
 
 I had called the third layer a shared memory block; the founder's intent is a general numeric layer doing what a GPU does and Cortex and Deep cannot. Corrected in [one chip, three layers](../hw/results/one_chip_three_layers.md). The 256 KB figure is a placeholder, not a design. Next: define the third layer from the benchmark list (numeric tile study) and the primitive test.
 
+## 28 Oct 2026: layer-wise or one unified design
+
+Founder asked whether to build layer-wise or redesign as one layer, and whether better power and cost are certain. Not certain. Quick check on the tile model (ESTIMATED, 256 MB, modern constants): sparse recognition gains 35.8x over a GPU-style baseline with event-driven skipping, but only 4.7x with the same tile run dense (what a unified dense design would do). Recommendation: design layer-wise (separate blocks and power domains), fabricate as one die for the pitch. A full unified-versus-layered comparison with area and shared-memory savings is still to run.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
