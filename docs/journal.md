@@ -1798,4 +1798,8 @@ Asked: run the SRAM area and cost model. Done: [result note](../hw/results/sram_
 
 Asked: study how a GPU and its memory are built and whether changes let us fit more memory efficiently. Done: [concept card](concept_study_gpu_and_memory.md) from web references (not verified) plus [memory_options_model.py](../hw/brain/experiments/month5/memory_options_model.py). Result (ESTIMATED): gain cell, MRAM and stacking cut 1 GB on-chip cost and footprint by 1.5 to 3x (base: $223 down to $107 to $184), still far from HBM per byte; honest gain about 2x until a stacked option is proved. Four own directions listed (read-mostly cells, in-place working set, event-indexed table, mixed precision). No per-block GPU die-area breakdown found. Next: bytes per class of an event-indexed table (measurable now), then a read/write split in the tile model.
 
+## 28 Oct 2026: cost focus, cost by node
+
+Founder fear: efficiency versus GPUs and the cost to fabricate ($220 for 1 GB, $7,000 Cerebras-scale). Done: [cost by node](../hw/results/cost_by_node.md). Result (ESTIMATED): the $220 is a per-die cost; the real barrier is NRE (reported $1.5M to $10M mask-plus-NRE up to $450M-plus full design at 5 nm, sources disagree) and volume. Mature nodes (16, 28 nm) give SRAM at about $80 to 100 per GB against $211 at 5 nm; per-chip price including NRE is a few hundred dollars at 100,000 to 1,000,000 chips, tens of thousands below 10,000 except mature node with low NRE. The L-class recognition chip is about $5 to $9 per die. Efficiency advantage is unproven except sparse recognition (about 36x, ESTIMATED). Shuttle (MPW) price not found; needs a quote. Direction: cost per task becomes a tracked metric.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

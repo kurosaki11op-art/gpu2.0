@@ -1,0 +1,35 @@
+Silicon per chip (die cost only), by node and capacity
+node   capacity        mm2  dies  silicon $ $ per GB of SRAM
+28nm   1 MB            401     1       24.4          24396
+28nm   64 MB           473     1       29.8            465
+28nm   256 MB          693     2       41.0            160
+28nm   1024 MB        1570     3      101.3             99
+16nm   1 MB            251     1       22.3          22308
+16nm   64 MB           287     1       26.1            408
+16nm   256 MB          396     1       38.9            152
+16nm   1024 MB         835     2       83.2             81
+7nm    1 MB            170     1       33.0          32989
+7nm    64 MB           193     1       38.2            597
+7nm    256 MB          263     1       55.2            216
+7nm    1024 MB         542     1      144.2            141
+5nm    1 MB            150     1       47.9          47892
+5nm    64 MB           171     1       55.7            870
+5nm    256 MB          235     1       81.4            318
+5nm    1024 MB         491     1      216.2            211
+
+Per-chip cost incl. 2.5x package/test/margin plus NRE spread over volume (1 GB chip); NRE low / high case
+node       chip 1e3          1e4          1e5          1e6
+28nm   low           1753          403          268          255
+28nm   high         45253         4753          703          298
+16nm   low           3008          488          236          211
+16nm   high        100208        10208         1208          308
+7nm    low           5860          910          415          366
+7nm    high        270360        27360         3060          630
+5nm    low          10540         1540          640          550
+5nm    high        480540        48540         5340         1020
+
+Tiny recognition chip (L-class: ~4 Mb of tables incl. margin = 0.5 MB, 30 mm2 logic assumed) silicon only
+28nm     90.6 mm2  $4.73 per die
+16nm     60.3 mm2  $4.71 per die
+7nm      36.2 mm2  $6.22 per die
+5nm      30.2 mm2  $8.54 per die

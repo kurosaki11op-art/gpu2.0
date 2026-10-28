@@ -94,5 +94,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Hybrid study: routed int8 CNN second pass](hybrid_routed_cnn.md): CNN on the 20% least-sure images reaches 91.28% at est. 81.9 nJ, 3.2 times below the int8 CNN at equal accuracy
 - [Arithmetic primitive shoot-out](arithmetic_primitive_test.md): log numbers, block floating point, stochastic, analog, int4 against int8 on matmul, FFT, CG, Kalman (SIMULATED error, ESTIMATED energy, 28 Oct 2026)
 - [SRAM area and cost model](sram_area_cost_model.md): silicon area, yield, cost and leakage of 64 MB to 44 GB on-chip memory against HBM (ESTIMATED, 28 Oct 2026)
+- [Cost by process node](cost_by_node.md): die cost, NRE and per-chip price by node and volume, and the tiny recognition chip (ESTIMATED, 28 Oct 2026)
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
