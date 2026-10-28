@@ -1790,4 +1790,8 @@ Asked: benchmark list and numeric tile model; then a primitive that does everyth
 
 Asked: run the primitive test. Done: 13 multiplier variants on four kernels, [result note](../hw/results/arithmetic_primitive_test.md). Result (SIMULATED error, ESTIMATED energy): none of log numbers, stochastic, analog or int4 passes all four kernels at an energy below int8; only fp16, bfloat16, int8 and 8-bit block floating point pass, block floating point best at about int8 cost; low precision stalls CG at 1e-2, so refinement is needed. Failure recorded: stochastic N=256 and analog 5% broke Kalman (nan); their noise model is pessimistic. Conclusion: the primitive is a minor lever; capacity, locality and skipping matter more.
 
+## 28 Oct 2026: SRAM area and cost model
+
+Asked: run the SRAM area and cost model. Done: [result note](../hw/results/sram_area_cost_model.md), three scenarios. Result (ESTIMATED): SRAM costs about 10 to 60 times HBM per byte; 1 GB on chip is about 260 to 510 mm2 and $110 to $440 of silicon (one or two dies), leakage 0.2 to 1.6 W, so the 1 GB tile that gives the 33x and 48x gains is affordable in silicon; beyond a few GB it is multi-die and interconnect (not modelled) dominates. Limits: all costs assumed except the cited density, no HBM price source found, no packaging or NRE.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
