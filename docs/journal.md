@@ -1974,4 +1974,8 @@ Four routing signals plus a cross-fitted learned router at equal routed share, a
 
 Hard-only table training, a residual Deep and specialist clauses trained on the hard images: best total 89.87% (specialist, +0.14 point, much more energy) against the shipped 89.73%. The cap seems to be the input code and the clause learner, not Deep's training set. See [accuracy gap tests](../hw/results/accuracy_gap_tests.md) tests 4 to 6.
 
+## 28 Oct 2026: gap diagnosis
+
+Founder asked for the cause of the accuracy gap before any fix. Offline softmax table on the same code: worse (86.0 to 86.7%), so the learning rule is not the cause; an unrestricted network on the code: 90.92%; reference small CNN measured here: 89.91%, level with L + Deep (89.73%); errors: Shirt 31% of all, four shirt-like pairs 61%. Corrects my earlier "3 to 5 points below a CNN": true only against deep, tuned CNNs. Operation-count energy ratio at similar accuracy about 16x (ESTIMATED). See [gap diagnosis](../hw/results/gap_diagnosis.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

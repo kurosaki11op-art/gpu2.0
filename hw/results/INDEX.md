@@ -109,4 +109,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 
 - [Accuracy gap tests](accuracy_gap_tests.md): better detectors (no gain) and a multiplier-based stage (not better than L Deep per joule).
 
+- [Gap diagnosis](gap_diagnosis.md): where the accuracy gap comes from; a measured small CNN reaches 89.9%, level with L + Deep.
+
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
