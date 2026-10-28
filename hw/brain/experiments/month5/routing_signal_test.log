@@ -1,0 +1,16 @@
+L alone 0.8885 | Deep on every image 0.8967 | oracle (Deep fixes L, everything else L) 0.9174 | images Deep fixes 2.9%, Deep breaks 2.1%
+accuracy at routed share                         10%       15%       20%       30%       40%
+margin (shipped)                              0.8962    0.8982    0.8973    0.8971    0.8968
+margin, confusable top class only             0.8942    0.8950    0.8939    0.8937    0.8938
+margin / top score                            0.8969    0.8975    0.8976    0.8973    0.8973
+learned router: P(L wrong)                    0.8945    0.8965    0.8972    0.8970    0.8969
+learned router: P(Deep fixes L)               0.8956    0.8981    0.8977    0.8969    0.8967
+ORACLE: Deep fixes L (not realisable)         0.9174    0.9168    0.9151    0.9137    0.9116
+
+combining L and Deep scores on routed images (margin routing); weights wa:wb on S1:S2
+wa:wb                            10%       15%       20%       30%       40%
+0:1 (shipped)                 0.8962    0.8982    0.8973    0.8971    0.8968
+1:1                           0.8963    0.8981    0.8981    0.8981    0.8981
+1:2                           0.8959    0.8973    0.8972    0.8975    0.8974
+1:4                           0.8958    0.8976    0.8972    0.8974    0.8974
+2:1                           0.8951    0.8963    0.8962    0.8962    0.8962

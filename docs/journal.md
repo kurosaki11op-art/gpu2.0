@@ -1966,4 +1966,8 @@ ENC_PAIR encoder option (27,427 cycles per image, was 48,163; bit-exact on the e
 
 Founder asked for the energy-efficient way to close the accuracy gap. Detectors fitted on all ten classes: L alone 88.87% vs 88.85%, no gain. A multiplier-based dense stage on the routed 20%: 89.74% needs about 30 nJ per image against Deep's 19 nJ for the same accuracy, and the logistic version is worse than L. Conclusion: L Deep at 2,000 clauses and 20% routing is the energy-efficient point; no multiplier stage is built. See [accuracy gap tests](../hw/results/accuracy_gap_tests.md).
 
+## 28 Oct 2026: routing signal test (no gain)
+
+Four routing signals plus a cross-fitted learned router at equal routed share, and score combining: all within 0.1 point of the shipped margin rule (89.73%); 15% routed is as accurate as 20%. An oracle router would give 91.7%, but Deep fixes 2.9% and breaks 2.1% of images, so the weak part is Deep, not the routing. See [accuracy gap tests](../hw/results/accuracy_gap_tests.md) test 3.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

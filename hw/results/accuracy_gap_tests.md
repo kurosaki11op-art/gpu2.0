@@ -34,8 +34,23 @@ The fit data is not the limit. A fixed 5x5-window code with 4,608 bits seems to 
 
 At equal accuracy (89.7%) the dense stage costs about 30 nJ against Deep's 19 nJ, and it needs multipliers and a 50 KB weight store; getting to 90.0% costs 60 nJ. So the multiplier stage is not worth building under the 28 Oct rule (a hybrid component only where a test shows it pays). The logistic stage is cheap but hurts. Caveat: the dense models were trained briefly (30 iterations, not converged), no int8 quantisation loss was applied, and no sparsity (skipping zero pixels) was credited; either could move the dense numbers somewhat, not by the 1.5x needed to beat Deep.
 
+## Test 3: a better routing signal and combining the two answers - AT MOST 0.1 POINT (SIMULATED)
+
+[routing_signal_test.py](../brain/experiments/month5/routing_signal_test.py) runs both stages on every test image (integer scores from the RTL memory files), then lets each signal pick the images to route at the same share (same energy):
+
+| accuracy at routed share | 10% | 15% | 20% | 30% | 40% |
+|---|---|---|---|---|---|
+| margin (shipped) | 89.62 | 89.82 | 89.73 | 89.71 | 89.68 |
+| margin, confusable top class only | 89.42 | 89.50 | 89.39 | 89.37 | 89.38 |
+| margin / top score | 89.69 | 89.75 | 89.76 | 89.73 | 89.73 |
+| learned router: P(L wrong), cross-fitted | 89.45 | 89.65 | 89.72 | 89.70 | 89.69 |
+| learned router: P(Deep fixes L), cross-fitted | 89.56 | 89.81 | 89.77 | 89.69 | 89.67 |
+| ORACLE: route exactly where Deep fixes L (not realisable) | 91.74 | 91.68 | 91.51 | 91.37 | 91.16 |
+
+L alone 88.85%; Deep on every image 89.67%. Deep fixes 2.9% of all images but also breaks 2.1% that L had right, which is why the oracle stops at 91.7% and why no realisable signal gains more than about 0.1 point (the shipped margin is already within noise of the best, and 15% routed is as accurate as 20%, a slightly cheaper operating point). Adding L's scores to Deep's on routed images instead of replacing them (weights 1:1, 1:2, 1:4, 2:1) moves accuracy by at most 0.08 point. Class-pair routing is worse than the margin.
+
 ## Conclusion
 
-The energy-efficient point is the one already built: L Deep with 2,000 clauses and 20% routing. Further accuracy costs energy steeply (about 3 nJ more per image for each 0.1 point beyond 89.7%, from the dense curve; the clause frontier in [L Deep build](l_deep_build.md) results 6 and 9 shows the same shape). The remaining untested directions are new detector learning rules (supervised or discriminative, a Cortex change) and a better routing signal.
+The energy-efficient point is the one already built: L Deep with 2,000 clauses and 20% routing. Further accuracy costs energy steeply (about 3 nJ more per image for each 0.1 point beyond 89.7%, from the dense curve; the clause frontier in [L Deep build](l_deep_build.md) results 6 and 9 shows the same shape). Routing signals and score combining are also exhausted (Test 3). The remaining lever is the quality of Deep itself (it breaks 2.1% of images while fixing 2.9%) and the detector learning rule (a Cortex change), neither tested yet.
 
 Related: [L Deep build](l_deep_build.md), [Results index](INDEX.md), [Journal](../../docs/journal.md)
