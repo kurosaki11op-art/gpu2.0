@@ -1910,4 +1910,8 @@ Counts from the exported clause lists ([L Deep build](../hw/results/l_deep_build
 
 KEEP=2000, route 20% (threshold 2,299): integer accuracy 89.73% unchanged, memory 93 KB (was 134). RTL checks, 0 mismatches each: single engine 13,514 cycles per routed image, block-RAM core 37,176, four engines 9,628, two-stage system (200 images, 38 routed) 11,800 cycles per image, top-level (40 recognitions, 6 routed, plus a matrix product). Note: older entries refer to the 4,000-clause configuration. See [L Deep build](../hw/results/l_deep_build.md) result 10.
 
+## 28 Oct 2026: claims register, tile synthesis
+
+Wrote [the claims register](claims_register.md): eleven supported claims with labels and evidence, eight claims not to make (including no MEASURED numbers exist, no GPU measured, 36x is a tile-model ratio for sparse recognition only, no language model, FPGA does not fit a Tang Nano 20K), and what would turn estimates into measurements. Forge first tile synthesis: about 2,960 LUT4, 16 multipliers, 8 block-RAM blocks. The pitch and deck were not touched.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
