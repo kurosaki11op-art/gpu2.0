@@ -1774,4 +1774,8 @@ Founder: ternary operators cannot do everything GPUs and AI models do, so use te
 
 First study after the founder's decision. L first pass (29.9 nJ) on all images; a small CNN only on the least-sure share. 32-filter CNN at 20% routed: 91.28% at est. 81.9 nJ against 91.15% at 260 nJ for the int8 CNN alone (3.2 times less at equal accuracy); small CNNs (8, 16 filters) no better than the matrix-free routed pass (90.4 at 54.9 nJ against 90.35 at 40.6 nJ). Note: hw/results/hybrid_routed_cnn.md.
 
+## 28 Oct 2026: three-stage cascade closes the gap to the CNN (SIMULATED/ESTIMATED)
+
+Stage 1 L (all images), stage 2 matrix-free 64-informative pass (20%), stage 3 small int8 CNN (hardest 25 to 50% of those, 5 to 10% of images overall): 91.02 / 91.41% at est. 53.6 / 66.6 nJ (1.79 / 2.23 x L), against 91.15% for the int8 CNN at 260 nJ (3.9 times more) and 91.28% float32 at 2,300 nJ. One seed. Note: hw/results/hybrid_routed_cnn.md.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
