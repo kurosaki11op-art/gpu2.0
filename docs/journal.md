@@ -1806,4 +1806,8 @@ Founder fear: efficiency versus GPUs and the cost to fabricate ($220 for 1 GB, $
 
 Founder idea: layers (Cortex, Deep, dense, physics, render, memory) so customers get and power only what they use. Done: [layered product line](../hw/results/layered_product_line.md) (layered_product_model.py). Result (ESTIMATED, assumed inputs): the layer kit halves total NRE against a custom die per product ($272M to $123M IBS-like, $39M to $20M lean) because each layer is designed once; it does not beat one universal die on NRE, and costs more than it on big products (links, packaging); small customers avoid paying for unused silicon. Power gating alone is not the reason (monolithic dies gate too). Not modelled: chiplet link energy, software, thermal. A layer is justified only by its own test; physics and render show only 1.3 to 4x so far.
 
+## 28 Oct 2026: founder decision, fabricate one chip first
+
+Founder: fabricate only one chip first, so the pitch rests on real (MEASURED) numbers. Consequence: the four untested points from the layered-product note (link cost between layers, fixed interface and shared memory block, new physics/render layers, power gating as a benefit) do not apply to a single chip and are parked, not dropped; the layered line stays a later roadmap. Open: which chip (candidate: the L Cortex recognition chip, about $5 to $9 per die ESTIMATED, bit-exact RTL already exists), shuttle price (no source found, needs a quote), and a measured GPU baseline on the same task to compare against.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
