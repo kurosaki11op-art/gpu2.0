@@ -1982,4 +1982,8 @@ Founder asked for the cause of the accuracy gap before any fix. Offline softmax 
 
 Founder's concern: a small accuracy miss gives wrong results. Using the margin the chip already computes, flagging the least-sure 20% raises accuracy on the answered images from 89.73% to 95.80% (67% of all errors are in that 20%); 40% flagged gives 98.13%. No extra energy. Not yet compared with a CNN's own confidence curve. See [gap diagnosis](../hw/results/gap_diagnosis.md).
 
+## 29 Oct 2026: CNN confidence curve, fixability, cascade
+
+Chip's confidence curve is 1 to 2 points below a small and a strong reference CNN at 20% flagged. 42% of the chip's errors are right for the strong CNN (fixable by a second opinion), 5.9% of all images are wrong for both (210 Shirt). Cascade chip -> strong CNN: 91.4% at 15% flagged, about 6x less energy than the CNN alone (ESTIMATED, operation counts). Small CNN seed noise about 0.8 point (89.9 vs 90.7). See [gap diagnosis](../hw/results/gap_diagnosis.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

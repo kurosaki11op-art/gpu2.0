@@ -1,0 +1,9 @@
+strong CNN alone: accuracy 0.9175, 3.80 uJ per image (multiplies only)
+flagged  | chip -> strong CNN                 | small CNN -> strong CNN           
+share    | accuracy     uJ/image   vs strong  | accuracy     uJ/image   vs strong 
+0%       | 0.8973       0.049      77.6x less | 0.9070       0.770      4.9x less 
+5%       | 0.9056       0.239      15.9x less | 0.9118       0.960      4.0x less 
+10%      | 0.9127       0.429      8.9x less  | 0.9162       1.150      3.3x less 
+15%      | 0.9142       0.619      6.1x less  | 0.9179       1.340      2.8x less 
+20%      | 0.9160       0.809      4.7x less  | 0.9185       1.530      2.5x less 
+30%      | 0.9180       1.189      3.2x less  | 0.9171       1.910      2.0x less 

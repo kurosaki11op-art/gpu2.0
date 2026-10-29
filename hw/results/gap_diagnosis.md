@@ -46,4 +46,30 @@ The defensible statement is a matched comparison: against a CNN of similar accur
 
 The 20% least-sure images hold 67% of all errors. So accuracy among the images the chip is sure about can exceed what a deep CNN reaches on every image, at the price of handing 10 to 20% to a fallback. Caveat: a CNN can also decline by its softmax confidence and would show a similar curve; that comparison is not done here (the reference networks did not save their scores), so this shows the chip has a usable confidence signal, not that it beats a CNN at it.
 
+## Update 29 Oct 2026: the CNN's confidence curve, fixability, and the cascade (SIMULATED accuracy, ESTIMATED energy)
+
+Scripts [cnn_confidence.py](../brain/experiments/month5/cnn_confidence.py) and [cascade_test.py](../brain/experiments/month5/cascade_test.py), logs next to them. Two reference CNNs, one seed each: a small one (8 epochs) and a stronger one (4 conv layers, shift and flip augmentation, 12 epochs). **The small CNN scored 90.70% this time against 89.91% in the first run (different seed and batch order), so seed noise is about 0.8 point and "level with L + Deep" above should read "within about 1 point".** The strong CNN reaches 91.75%, not the 93 to 95% of the literature (heavier networks and longer training).
+
+**Confidence curves** (accuracy on the answered images when the least-sure share is flagged):
+
+| share flagged | 0% | 5% | 10% | 20% | 30% | 40% |
+|---|---|---|---|---|---|---|
+| chip (L + L Deep), margin | 89.73 | 91.92 | 93.83 | 95.80 | 97.19 | 98.13 |
+| small CNN, logit margin | 90.70 | 92.86 | 94.70 | 97.21 | 98.57 | 99.42 |
+| strong CNN, logit margin | 91.75 | 93.78 | 95.31 | 97.69 | 99.00 | 99.73 |
+
+The chip's curve is below both CNNs by about 1 to 2 points at 20% flagged: it is a usable confidence signal, not a better one.
+
+**Fixability.** The chip makes 1,027 errors. The strong CNN gets 42.2% of them right (small CNN 34.5%), so a stronger model could fix up to about 4.3 points of the 10.3; on the chip's flagged 20% the strong CNN scores 74.8% against the chip's 65.4%. **594 errors (5.9% of all images) are wrong for both**, 210 of them Shirt, then Pullover 91, T-shirt 84, Coat 73, Dress 57: these look hard for any model at this resolution (oracle chip-or-strong-CNN accuracy 94.06%). So the errors are partly fixable (by a stronger second opinion) and partly not.
+
+**Cascade** (chip answers what it is sure about, the least-sure share goes to the strong CNN as a fallback, e.g. a GPU or a person; energy per image = first stage + share x fallback, operation counts only, so lower bounds for the CNNs, chip first stage 49 nJ):
+
+| flagged to fallback | chip -> strong CNN accuracy | energy per image | vs strong CNN alone (91.75%, 3.8 uJ) | small CNN -> strong CNN: accuracy, energy |
+|---|---|---|---|---|
+| 10% | 91.27% | 0.43 uJ | 8.9x less | 91.62%, 1.15 uJ |
+| 15% | 91.42% | 0.62 uJ | 6.1x less | 91.79%, 1.34 uJ |
+| 20% | 91.60% | 0.81 uJ | 4.7x less | 91.85%, 1.53 uJ |
+
+At 15 to 20% flagged the chip-first cascade is within 0.2 to 0.4 point of the CNN-only cascade at about 2x less energy, and within 0.2 to 0.5 point of the strong CNN alone at about 5 to 6x less. Caveats: the fallback must exist (the chip then removes 80 to 90% of its load, it does not replace it); the chip's layout energy is 20 to 28 times its operation count (apply to both sides before any claim); CNN energies exclude memory traffic; nothing is measured on a board or a GPU.
+
 Related: [Accuracy gap tests](accuracy_gap_tests.md), [L Deep build](l_deep_build.md), [Results index](INDEX.md), [Journal](../../docs/journal.md)
