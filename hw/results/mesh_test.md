@@ -47,4 +47,16 @@ What it shows (SIMULATED):
 
 Stencil halo exchange as its own test (it uses the same single-hop links, so the traversal result carries over, but contention and corner cases are untested), die-to-die links, the 2,048 to 43,000 tile scale, energy (only traversals are counted), and any clocking or physical effect.
 
+## Communication overlapped with compute (29 Oct 2026, SIMULATED RTL)
+
+[mesh_tile_pipe.v](../rtl/mesh/mesh_tile_pipe.v) and [gen_and_check_pipe.py](../rtl/mesh/gen_and_check_pipe.py) (log [mesh_pipe_results.log](../rtl/mesh/mesh_pipe_results.log)): the tile has two operand banks; in a stream of independent matrix products, while the lane computes product t from one bank the routers deliver the operands of product t+1 into the other. The accumulation order inside a product is unchanged, so the answers stay bit-exact with the lane golden model (reordering the K sum inside one product would change the numerics and was deliberately not done). The same hardware and data run twice, sequential (communicate, compute, next) and overlapped, and every output of every product is checked:
+
+| mesh | products | outputs mismatching (both runs) | cycles sequential -> overlapped | saved | link traversals |
+|---|---|---|---|---|---|
+| 2x2 | 3 | 0 of 192 | 249 -> 223 | 26 (10.4%) | identical (192) |
+| 4x4 | 6 | 0 of 1,536 | 978 -> 833 | 145 (14.8%) | identical (4,608) |
+| 8x8 | 3 | 0 of 3,072 | 969 -> 847 | 122 (12.6%) | identical (21,504) |
+
+The saving equals (products - 1) times the communication time of one product (13, 28 and 60 cycles at the three sizes), as expected: only the first product's communication cannot be hidden. For long streams the saving approaches the communication share of 17 to 19% found above, so the cost of communication is recovered almost completely when the work is a stream of products (layers, iterations). It does not help a single isolated product; overlapping inside one product would need the lane to load a partial accumulator (K-slice order), which is not built. Limits: only matrix products are tested; the stream uses independent operands per product; compute must be at least as long as communication, which holds at these tile sizes.
+
 Related: [Results index](INDEX.md), [Forge lane and traffic](forge_lane_and_traffic.md), [Virtual device tests](virtual_device_tests.md), [L Forge design](../../docs/L_forge_design.md), [Mesh RTL](../rtl/mesh/README.md)

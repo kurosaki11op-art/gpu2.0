@@ -1,0 +1,10 @@
+== 4 4 4 2 6
+SEQUENTIAL: 6 products, mesh 4x4, C 16x16, K 128: mismatches 0 of 1536 outputs, worst error vs fp64 1.11e-02; cycles 978, link traversals 4608
+OVERLAPPED: 6 products, mesh 4x4, C 16x16, K 128: mismatches 0 of 1536 outputs, worst error vs fp64 1.11e-02; cycles 833, link traversals 4608
+overlap saves 145 cycles (14.8%): 978 -> 833; per product 163 -> 139; link traversals identical: True
+PASS
+== 8 4 4 2 3
+SEQUENTIAL: 3 products, mesh 8x8, C 32x32, K 256: mismatches 0 of 3072 outputs, worst error vs fp64 1.08e-02; cycles 969, link traversals 21504
+OVERLAPPED: 3 products, mesh 8x8, C 32x32, K 256: mismatches 0 of 3072 outputs, worst error vs fp64 1.08e-02; cycles 847, link traversals 21504
+overlap saves 122 cycles (12.6%): 969 -> 847; per product 323 -> 282; link traversals identical: True
+PASS

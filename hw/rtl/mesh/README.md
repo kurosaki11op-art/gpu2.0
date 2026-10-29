@@ -11,4 +11,6 @@ tags: [spark, rtl, l-forge, mesh, hardware]
 
 `gr_tile.v` is the **general** version: a 5-port router with dimension-order (X then Y) routing, 4-flit input buffers, round-robin arbitration and ready-based back-pressure, plus an endpoint that injects flits from a list and stores arrivals by slot. `fft_alltoall.py [P]` runs a distributed 2D DFT whose all-to-all transpose goes through these routers in RTL (the DFT arithmetic uses the bit-exact lane model) and checks every delivered word, the final result and the network cost.
 
+`mesh_tile_pipe.v` and `gen_and_check_pipe.py`: double-buffered tile and checker for a stream of matrix products with communication overlapped with compute (bit-exact, saves 10 to 15% of cycles on short streams; see [mesh test](../../results/mesh_test.md)).
+
 Related: [Hardware index](../../HARDWARE_INDEX.md), [Forge RTL](../forge/README.md), [Forge lane and traffic](../../results/forge_lane_and_traffic.md)

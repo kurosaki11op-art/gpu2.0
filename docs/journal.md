@@ -1990,4 +1990,8 @@ Chip's confidence curve is 1 to 2 points below a small and a strong reference CN
 
 CNN memory traffic added (strong CNN 4.2 to 23 uJ per image depending on batch and SRAM, small 1.0 uJ); the chip cascade stays 6x cheaper than the strong CNN alone and 1.3x to 2.5x cheaper than a CNN-only cascade; break-even chip first-stage energy about 1.0 uJ (21x the estimate) against the CNN-only cascade. The GPU baseline script now covers the two reference networks (CPU smoke test only). Still open: a real GPU run and a board measurement. See [gap diagnosis](../hw/results/gap_diagnosis.md).
 
+## 29 Oct 2026: mesh communication overlapped with compute
+
+Double-buffered tile (`mesh_tile_pipe.v`): in a stream of matrix products the routers fill one operand bank while the lane computes from the other. 2x2, 4x4 and 8x8 meshes: 0 mismatches against the lane golden model in both sequential and overlapped runs; cycles saved 10.4%, 14.8%, 12.6% (equal to products minus one times the communication time). See [mesh test](../hw/results/mesh_test.md). Next: dedicated FFT butterfly path.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
