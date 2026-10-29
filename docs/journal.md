@@ -1978,4 +1978,8 @@ Hard-only table training, a residual Deep and specialist clauses trained on the 
 
 Founder asked for the cause of the accuracy gap before any fix. Offline softmax table on the same code: worse (86.0 to 86.7%), so the learning rule is not the cause; an unrestricted network on the code: 90.92%; reference small CNN measured here: 89.91%, level with L + Deep (89.73%); errors: Shirt 31% of all, four shirt-like pairs 61%. Corrects my earlier "3 to 5 points below a CNN": true only against deep, tuned CNNs. Operation-count energy ratio at similar accuracy about 16x (ESTIMATED). See [gap diagnosis](../hw/results/gap_diagnosis.md).
 
+## 29 Oct 2026: selective answering (risk-coverage)
+
+Founder's concern: a small accuracy miss gives wrong results. Using the margin the chip already computes, flagging the least-sure 20% raises accuracy on the answered images from 89.73% to 95.80% (67% of all errors are in that 20%); 40% flagged gives 98.13%. No extra energy. Not yet compared with a CNN's own confidence curve. See [gap diagnosis](../hw/results/gap_diagnosis.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

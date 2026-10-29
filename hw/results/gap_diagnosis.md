@@ -31,4 +31,19 @@ The small CNN above needs about 3.9 million multiply-adds per image (conv1 226k,
 
 The defensible statement is a matched comparison: against a CNN of similar accuracy (a small one), L + L Deep uses far fewer operations, and the benchmark for that is measured on an FPGA board and a GPU. Against a deep, tuned CNN (93 to 95%) we are behind by 3 to 5 points; the notes say so. What would close that gap is not the learning rule (tested, negative) and not Deep's training (tested, negative) but information the code does not hold for the shirt-like classes.
 
+## Selective answering: fewer wrong results at no extra cost (SIMULATED)
+
+[risk_coverage.py](../brain/experiments/month5/risk_coverage.py): the chip answers only when the margin of its final scores is above a threshold and flags the rest for a fallback (a person, a GPU, another look). The margin is already computed, so there is no extra energy. All 10,000 test images:
+
+| share flagged | accuracy on the answered images | errors per 1,000 answered |
+|---|---|---|
+| 0% | 89.73% | 103 |
+| 5% | 91.92% | 81 |
+| 10% | 93.83% | 62 |
+| 20% | 95.80% | 42 |
+| 30% | 97.19% | 28 |
+| 40% | 98.13% | 19 |
+
+The 20% least-sure images hold 67% of all errors. So accuracy among the images the chip is sure about can exceed what a deep CNN reaches on every image, at the price of handing 10 to 20% to a fallback. Caveat: a CNN can also decline by its softmax confidence and would show a similar curve; that comparison is not done here (the reference networks did not save their scores), so this shows the chip has a usable confidence signal, not that it beats a CNN at it.
+
 Related: [Accuracy gap tests](accuracy_gap_tests.md), [L Deep build](l_deep_build.md), [Results index](INDEX.md), [Journal](../../docs/journal.md)
