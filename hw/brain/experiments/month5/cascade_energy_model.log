@@ -1,0 +1,16 @@
+CNN energy per image (uJ)                           small CNN   strong CNN
+multiplies only                                          0.77         3.80
+traffic, weights amortised over a batch of 64            1.03         4.18
+traffic, batch 1, large SRAM (4 pJ/byte)                 1.03         7.49
+traffic, batch 1, large SRAM (22 pJ/byte)                1.03        23.16
+\nCascade at 15% flagged (accuracy: chip -> strong 91.42%, small -> strong 91.79%, strong alone 91.75%), chip first stage 0.049 uJ:
+case                                               chip cascade      small->strong     strong alone
+multiplies only                                         0.62 uJ            1.34 uJ          3.80 uJ  (6.1x less than strong alone, 2.2x less than small->strong)
+traffic, weights amortised over a batch of 64           0.68 uJ            1.66 uJ          4.18 uJ  (6.2x less than strong alone, 2.5x less than small->strong)
+traffic, batch 1, large SRAM (4 pJ/byte)                1.17 uJ            2.15 uJ          7.49 uJ  (6.4x less than strong alone, 1.8x less than small->strong)
+traffic, batch 1, large SRAM (22 pJ/byte)               3.52 uJ            4.50 uJ         23.16 uJ  (6.6x less than strong alone, 1.3x less than small->strong)
+\nBreak-even first-stage energy of the chip at 15% flagged (above it the chip cascade loses): vs strong alone = (1 - f) x strong; vs small->strong = small CNN energy
+multiplies only                                  vs strong alone 3.23 uJ (66x the 49 nJ estimate) | vs small->strong 0.77 uJ (16x)
+traffic, weights amortised over a batch of 64    vs strong alone 3.55 uJ (72x the 49 nJ estimate) | vs small->strong 1.03 uJ (21x)
+traffic, batch 1, large SRAM (4 pJ/byte)         vs strong alone 6.37 uJ (130x the 49 nJ estimate) | vs small->strong 1.03 uJ (21x)
+traffic, batch 1, large SRAM (22 pJ/byte)        vs strong alone 19.69 uJ (402x the 49 nJ estimate) | vs small->strong 1.03 uJ (21x)

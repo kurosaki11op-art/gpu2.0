@@ -72,4 +72,17 @@ The chip's curve is below both CNNs by about 1 to 2 points at 20% flagged: it is
 
 At 15 to 20% flagged the chip-first cascade is within 0.2 to 0.4 point of the CNN-only cascade at about 2x less energy, and within 0.2 to 0.5 point of the strong CNN alone at about 5 to 6x less. Caveats: the fallback must exist (the chip then removes 80 to 90% of its load, it does not replace it); the chip's layout energy is 20 to 28 times its operation count (apply to both sides before any claim); CNN energies exclude memory traffic; nothing is measured on a board or a GPU.
 
+### Limits revisited (29 Oct 2026, ESTIMATED): CNN memory traffic and the chip's first-stage energy
+
+[cascade_energy_model.py](../brain/experiments/month5/cascade_energy_model.py), log next to it. Weight reads and activation traffic added to the CNN energies (project SRAM constants; the strong CNN has 0.87 M parameters, mostly in its first fully connected layer, so at batch 1 its weights cost more to read than its multiplies):
+
+| CNN energy per image (uJ) | small CNN | strong CNN |
+|---|---|---|
+| multiplies only | 0.77 | 3.80 |
+| + traffic, weights amortised over a batch of 64 | 1.03 | 4.18 |
+| + traffic, batch 1, large SRAM at 4 pJ/byte | 1.03 | 7.49 |
+| + traffic, batch 1, large SRAM at 22 pJ/byte | 1.03 | 23.16 |
+
+At 15% flagged the chip -> strong CNN cascade (91.42%) uses 0.62 to 3.5 uJ against 3.8 to 23 uJ for the strong CNN alone (6.1x to 6.6x less) and is 1.3x to 2.5x cheaper than the small -> strong CNN cascade. **Break-even:** the chip cascade only loses if its first stage costs more than the small CNN (about 1.0 uJ, 21 times the 49 nJ operation-count estimate) against the CNN-only cascade, or more than 3.2 to 20 uJ (66 to 400 times) against the strong CNN alone. The Cortex layout estimate (0.18 to 0.26 uJ) is inside that margin, so the cascade advantage survives the layout adjustment on the chip side, but it is a margin of 4x to 5x, not of orders of magnitude, against the CNN-only cascade. GPU measurement kit: `gpu_energy_baseline.py` now takes `--net small|strong` (the two networks above) and is smoke-tested on the CPU path only; it still has to be run on a real GPU by the founder.
+
 Related: [Accuracy gap tests](accuracy_gap_tests.md), [L Deep build](l_deep_build.md), [Results index](INDEX.md), [Journal](../../docs/journal.md)

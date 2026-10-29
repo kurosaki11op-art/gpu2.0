@@ -1986,4 +1986,8 @@ Founder's concern: a small accuracy miss gives wrong results. Using the margin t
 
 Chip's confidence curve is 1 to 2 points below a small and a strong reference CNN at 20% flagged. 42% of the chip's errors are right for the strong CNN (fixable by a second opinion), 5.9% of all images are wrong for both (210 Shirt). Cascade chip -> strong CNN: 91.4% at 15% flagged, about 6x less energy than the CNN alone (ESTIMATED, operation counts). Small CNN seed noise about 0.8 point (89.9 vs 90.7). See [gap diagnosis](../hw/results/gap_diagnosis.md).
 
+## 29 Oct 2026: limits of the cascade claim revisited
+
+CNN memory traffic added (strong CNN 4.2 to 23 uJ per image depending on batch and SRAM, small 1.0 uJ); the chip cascade stays 6x cheaper than the strong CNN alone and 1.3x to 2.5x cheaper than a CNN-only cascade; break-even chip first-stage energy about 1.0 uJ (21x the estimate) against the CNN-only cascade. The GPU baseline script now covers the two reference networks (CPU smoke test only). Still open: a real GPU run and a board measurement. See [gap diagnosis](../hw/results/gap_diagnosis.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

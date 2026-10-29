@@ -4,11 +4,14 @@ import argparse, json, os, subprocess, sys, threading, time
 import numpy as np, torch, torch.nn as nn
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")); sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "brain"))
 from cortex_core import load
-ap = argparse.ArgumentParser(); ap.add_argument("data_dir"); ap.add_argument("--epochs", type=int, default=10); ap.add_argument("--seconds", type=float, default=10.0); ap.add_argument("--cpu", action="store_true"); ap.add_argument("--batches", default="1,64,1024"); a = ap.parse_args()
+ap = argparse.ArgumentParser(); ap.add_argument("data_dir"); ap.add_argument("--epochs", type=int, default=10); ap.add_argument("--seconds", type=float, default=10.0); ap.add_argument("--cpu", action="store_true"); ap.add_argument("--batches", default="1,64,1024"); ap.add_argument("--net", default="tiny", choices=["tiny", "small", "strong"]); a = ap.parse_args()   # small / strong = the two reference networks of cnn_confidence.py, so the measured energy matches the accuracy and operation-count comparison
 dev = "cpu" if (a.cpu or not torch.cuda.is_available()) else "cuda"
 xtr, ytr, xte, yte = load(a.data_dir, "fashion"); f = lambda x: torch.tensor(x.reshape(-1, 1, 28, 28), dtype=torch.float32) / 255.0
 Xtr, Ytr, Xte, Yte = f(xtr).to(dev), torch.tensor(ytr, dtype=torch.long).to(dev), f(xte).to(dev), torch.tensor(yte, dtype=torch.long).to(dev)
-model = nn.Sequential(nn.Conv2d(1, 32, 3), nn.ReLU(), nn.MaxPool2d(2), nn.Flatten(), nn.Linear(13 * 13 * 32, 10)).to(dev); opt = torch.optim.Adam(model.parameters(), 1e-3)
+NETS = {"tiny": lambda: nn.Sequential(nn.Conv2d(1, 32, 3), nn.ReLU(), nn.MaxPool2d(2), nn.Flatten(), nn.Linear(13 * 13 * 32, 10)),
+        "small": lambda: nn.Sequential(nn.Conv2d(1, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2), nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2), nn.Flatten(), nn.Dropout(0.3), nn.Linear(64 * 49, 10)),
+        "strong": lambda: nn.Sequential(nn.Conv2d(1, 32, 3, padding=1), nn.ReLU(), nn.Conv2d(32, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2), nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(), nn.Conv2d(64, 64, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2), nn.Flatten(), nn.Dropout(0.4), nn.Linear(64 * 49, 256), nn.ReLU(), nn.Dropout(0.4), nn.Linear(256, 10))}
+model = NETS[a.net]().to(dev); opt = torch.optim.Adam(model.parameters(), 1e-3)
 for ep in range(a.epochs):
     perm = torch.randperm(len(Xtr), device=dev)
     for i in range(0, len(Xtr), 128): j = perm[i:i + 128]; opt.zero_grad(); nn.functional.cross_entropy(model(Xtr[j]), Ytr[j]).backward(); opt.step()
@@ -36,7 +39,7 @@ class Power:
         while time.time() - t0 < seconds: n += fn()
         if dev == "cuda": torch.cuda.synchronize()
         dt = time.time() - t0; stop.set(); th.join(); return n, dt, [p for _, p in samples if p is not None]
-pw = Power(); out = {"device": dev, "accuracy_float32": acc, "epochs": a.epochs, "results": []}
+pw = Power(); out = {"net": a.net, "device": dev, "accuracy_float32": acc, "epochs": a.epochs, "results": []}
 if dev == "cuda": out["gpu"] = torch.cuda.get_device_name(0)
 idle = None
 if dev == "cuda":
@@ -55,4 +58,4 @@ for prec in (["fp32", "fp16"] if dev == "cuda" else ["fp32"]):
         net = (mp - idle) if (mp is not None and idle is not None) else None
         rec = {"precision": prec, "batch": bs, "images_per_s": thr, "mean_watts": mp, "net_watts": net, "mJ_per_image_net": (1000 * net / thr) if net is not None else None, "mJ_per_image_gross": (1000 * mp / thr) if mp is not None else None}
         out["results"].append(rec); print("%-10s %-8d %10.0f %12s %12s %14s %14s" % (prec, bs, thr, "%.1f" % mp if mp else "n/a", "%.1f" % net if net is not None else "n/a", "%.4f" % rec["mJ_per_image_net"] if rec["mJ_per_image_net"] is not None else "n/a", "%.4f" % rec["mJ_per_image_gross"] if rec["mJ_per_image_gross"] is not None else "n/a"), flush=True)
-json.dump(out, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "gpu_energy_baseline.json"), "w"), indent=1); print("wrote gpu_energy_baseline.json. Power is the whole GPU board as the sensor reports it.")
+json.dump(out, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "gpu_energy_baseline_%s.json" % a.net), "w"), indent=1); print("wrote gpu_energy_baseline_<net>.json. Power is the whole GPU board as the sensor reports it.")
