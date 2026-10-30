@@ -2038,4 +2038,8 @@ Founder asked to stop the test-after-test loop and execute effective fixes. Adde
 
 `hw/virtual/cascade_demo.py`: image, chip with reject flag, fallback CNN on the flagged images, final answer, energy accounting; threshold calibrated on 2,000 unlabelled images and scored on the other 8,000: cascade 91.24% against the strong CNN 91.53% at 16.3% flagged and about 5.7x less estimated energy (ESTIMATED; 2.3x if the chip's first stage costs 1 uJ). RTL in the loop on 200 images: predictions identical to the model, 40 flagged, cascade 91.5% (the CNN 93.5% on that small sample). See [cascade demo](../hw/results/cascade_demo.md).
 
+## 30 Oct 2026: MCU port ready for the USB-meter measurement
+
+Founder ordered a USB power meter (two days) to measure power with an ESP32. Built `hw/mcu`: the L chip algorithm in portable C (0 mismatches on 200 images against the model), a reference int8 CNN in C (float 91.52%, int8 91.52%, bit-exact against the numpy int8 model on 200 images), the ESP32 sketch (L, CNN or idle mode) and the measurement procedure. PC time per image 0.21 ms (L) against 6.02 ms (CNN), a time not an energy. Nothing run on an ESP32 yet; the MEASURED energy waits for the meter. See [MCU port](../hw/results/mcu_port.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

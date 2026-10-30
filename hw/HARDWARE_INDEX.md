@@ -27,6 +27,7 @@ tags: [spark, index, hardware]
 - [Virtual FPGA device and tests](virtual/README.md): VFPGA-L1, the full regression, stress tests and the 3D board (28 Oct 2026).
 - [L Forge tile mesh](rtl/mesh/README.md): routers and a distributed matrix product on 4 to 64 tiles, bit-exact against the lane golden model (28 Oct 2026).
 - [FPGA bring-up kit](board/fpga_bringup/README.md): files and constraint template for the chosen board (pins left blank until the board is chosen and bought).
+- [MCU port and ESP32 measurement](mcu/README.md): the L algorithm and a reference CNN in portable C, the ESP32 sketch and the USB-meter procedure.
 - [Results index](results/INDEX.md): every result.
 
 Related: [Home](../README.md)
