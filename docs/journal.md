@@ -2014,4 +2014,8 @@ Founder asked whether we know every process a GPU is used for before designing. 
 
 Founder asked for a short list with reasons. Wrote [the options](../docs/new_start_target_options.md): (1) always-on recognition and on-device learning (strongest evidence, cheapest), (2) irregular and sparse workloads (where GPUs are reported to waste units; no evidence yet), (3) batch-1 language-model inference at the edge (largest market, least evidence). Each has a first decisive test with its pass or fail bar stated in advance. Waiting for the founder's choice.
 
+## 30 Oct 2026: target 1 first test (new-class learning)
+
+Chosen target: always-on recognition and on-device learning. First decisive test: the chip against a small CNN when two new classes arrive with 1, 5, 20 or 100 examples. Result: no accuracy win (a CNN with 160 stored images is as good or better; without stored data the CNN forgets everything); few-shot is weak (58% on easy and 12% on hard new classes at 5 examples); update time bar met after cutting dreams 100-fold (about 0.26 s ESTIMATED). Founder noted this feels like going back to the old project; offered three paths (re-scope, a different target, pause). See [target 1 new-class learning](../hw/results/target1_new_class_learning.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
