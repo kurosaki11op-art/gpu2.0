@@ -2002,4 +2002,8 @@ Founder asked to analyse all problems of today's GPUs and solve them, with no lo
 
 Counting-table model against a small transformer on Tiny Shakespeare: 2.33 vs 2.25 to 2.28 bits per character (about 3 to 4% worse) with about 1,000x fewer operations (ESTIMATED) and one-pass learning, but the counting tables stop improving beyond order 5 while neural models keep scaling. Result: the method carries over to language at tiny scale and not beyond. See [text boundary test](../hw/results/text_boundary_test.md).
 
+## 30 Oct 2026: decision to start a new project
+
+Founder decided to stop the three-layer design and start new, learning from wins and failures. Wrote [lessons from L version 1](../docs/lessons_L_v1.md) and recorded the decision in [project memory](../docs/PROJECT_MEMORY.md). Version 1 is kept untouched. The new target is not chosen yet; the next step is to pick it from the GPU problem list with a number-based bar and measure the incumbent first.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

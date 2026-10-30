@@ -84,4 +84,6 @@ tags: [spark, index]
 
 - [GPU problem analysis](gpu_problem_analysis.md): each problem of today's GPUs against what L shows, with labels, accuracy position and coverage of GPU workloads (30 Oct 2026)
 
+- [Lessons from L version 1](lessons_L_v1.md): wins, failures and what the new start must do differently (30 Oct 2026)
+
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)

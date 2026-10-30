@@ -309,5 +309,9 @@ Layered chip, three layers, built-in (on-chip) memory, **5 nm and 2 GB of SRAM**
 
 See [status, 28 Oct 2026](L_status_28oct.md). L Deep: integer model and bit-exact RTL (core and two-stage system with dispatcher), 89.73% at the recommended point (2,000 clauses, route 20%, about 49 nJ per image), 93 KB, needs an FPGA with about 1.1 to 1.5 Mbit of block RAM. L Forge (name locked): lane in RTL bit-exact, tile running a matrix product in RTL, numeric studies, traffic model. Nothing is MEASURED on hardware; the FPGA purchase, a GPU baseline and a shuttle quote need the founder. Start a new session by reading that status note and the last journal entries.
 
+## Decision 30 Oct 2026: stop version 1, start a new project
+
+Founder's decision: the three-layer L design is not carried forward as it stands; version 1 stays in the repository (commit recorded in [lessons](lessons_L_v1.md)); the new start is problem-first (target and bar in numbers, incumbent measured first, one GPU weakness chosen from the founder's list). The new project's target has not been chosen yet. Standing rules (labels, no AI model identifiers in repo content, journal and index updates, regression before RTL changes) still apply.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
