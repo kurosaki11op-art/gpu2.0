@@ -34,6 +34,7 @@ L + L Deep 89.73%; small reference CNN 90.7%; stronger reference CNN with augmen
 | small-network inference | covered by L Cortex and L Deep (recognition) |
 | on-device learning | covered by L Cortex (clothing and digits; few-label and staged) |
 | deep-network training with backprop | **not covered, by design** |
+| small-scale language (next-character, commands) | SIMULATED: counting tables 2.33 bits per character against 2.25 to 2.28 for an undertrained small transformer, about 1,000x fewer operations (ESTIMATED); hit a wall at that quality ([text boundary test](../hw/results/text_boundary_test.md)) |
 | large language models | **not covered**: needs about a gigabyte of weights (ESTIMATED gain 48x only if it all fits on chip) and no RTL exists |
 | graphics, rasterisation, ray tracing | **not covered** (ray tracing dropped from the acceptance list: about 1x in the traffic model) |
 | general programmability (CUDA ecosystem), video codecs | **not covered** |

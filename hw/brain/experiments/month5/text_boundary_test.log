@@ -1,0 +1,50 @@
+vocabulary 65, train 1003854 chars, test 111540 chars
+[ 16s] n-gram tables built (one pass over the training text)
+n-gram order 1: 4.819 BPC | stored counts 65 (about 0 KB at 2 bytes) | table reads per character 1 | [ 16s]
+n-gram order 2: 3.587 BPC | stored counts 1445 (about 3 KB at 2 bytes) | table reads per character 2 | [ 16s]
+n-gram order 3: 2.902 BPC | stored counts 12673 (about 25 KB at 2 bytes) | table reads per character 3 | [ 16s]
+n-gram order 4: 2.487 BPC | stored counts 61212 (about 120 KB at 2 bytes) | table reads per character 4 | [ 17s]
+n-gram order 5: 2.327 BPC | stored counts 194505 (about 380 KB at 2 bytes) | table reads per character 5 | [ 17s]
+n-gram order 6: 2.358 BPC | stored counts 459128 (about 897 KB at 2 bytes) | table reads per character 6 | [ 17s]
+n-gram order 7: 2.447 BPC | stored counts 872748 (about 1705 KB at 2 bytes) | table reads per character 7 | [ 17s]
+n-gram order 8: 2.545 BPC | stored counts 1432251 (about 2797 KB at 2 bytes) | table reads per character 8 | [ 18s]
+n-gram order 9: 2.634 BPC | stored counts 2116891 (about 4135 KB at 2 bytes) | table reads per character 9 | [ 18s]
+  transformer step 300 (29s): held-out 3.375 BPC
+  transformer step 600 (55s): held-out 2.715 BPC
+  transformer step 900 (81s): held-out 2.526 BPC
+  transformer step 1200 (106s): held-out 2.426 BPC
+  transformer step 1500 (129s): held-out 2.380 BPC
+  transformer step 1800 (153s): held-out 2.378 BPC
+  transformer step 2100 (175s): held-out 2.323 BPC
+  transformer step 2400 (199s): held-out 2.312 BPC
+  transformer step 2700 (223s): held-out 2.282 BPC
+  transformer step 3000 (246s): held-out 2.271 BPC
+  transformer step 3300 (269s): held-out 2.261 BPC
+  transformer step 3600 (294s): held-out 2.273 BPC
+  transformer step 3900 (317s): held-out 2.255 BPC
+  transformer step 4200 (339s): held-out 2.248 BPC
+  transformer step 4500 (362s): held-out 2.250 BPC
+  transformer step 4800 (385s): held-out 2.239 BPC
+  transformer step 5100 (408s): held-out 2.237 BPC
+  transformer step 5400 (429s): held-out 2.244 BPC
+  transformer step 5700 (454s): held-out 2.237 BPC
+  transformer step 6000 (478s): held-out 2.251 BPC
+  transformer step 6300 (501s): held-out 2.249 BPC
+  transformer step 6600 (525s): held-out 2.232 BPC
+  transformer step 6900 (548s): held-out 2.232 BPC
+  transformer step 7200 (572s): held-out 2.244 BPC
+  transformer step 7500 (596s): held-out 2.241 BPC
+  transformer step 7800 (619s): held-out 2.240 BPC
+  transformer step 8100 (644s): held-out 2.248 BPC
+  transformer step 8400 (669s): held-out 2.255 BPC
+  transformer step 8700 (693s): held-out 2.238 BPC
+  transformer step 9000 (717s): held-out 2.257 BPC
+  transformer step 9300 (740s): held-out 2.247 BPC
+  transformer step 9600 (764s): held-out 2.252 BPC
+  transformer step 9900 (789s): held-out 2.264 BPC
+  transformer step 10200 (814s): held-out 2.250 BPC
+  transformer step 10500 (837s): held-out 2.232 BPC
+  transformer step 10800 (859s): held-out 2.254 BPC
+  transformer step 11100 (882s): held-out 2.276 BPC
+reference transformer (2 layers, d=128, context 128, 429889 parameters, 11354 steps, 900 s on this CPU, undertrained): 2.280 BPC
+ESTIMATED energy per character: transformer about 0.48 M multiply-adds = 0.10 uJ (multiplies only); 8-order counting table: 8 reads = 0.000 uJ

@@ -1998,4 +1998,8 @@ Double-buffered tile (`mesh_tile_pipe.v`): in a stream of matrix products the ro
 
 Founder asked to analyse all problems of today's GPUs and solve them, with no loss of accuracy and no missing GPU process. Wrote [the analysis](../docs/gpu_problem_analysis.md): problem by problem with evidence labels, the accuracy position, and a coverage table of GPU workloads. Honest conclusion: power, heat and memory are addressed in design but estimated, not measured; on-device learning is the strongest differentiator; accuracy is within 1 to 2 points of small CNNs, behind deep ones; training with backprop, large language models, graphics and general programmability are not covered. Also on 30 Oct: laptop GPU found throttled by Windows energy saver (clock 210 MHz); founder travelling, GPU baseline to be rerun.
 
+## 30 Oct 2026: language boundary test
+
+Counting-table model against a small transformer on Tiny Shakespeare: 2.33 vs 2.25 to 2.28 bits per character (about 3 to 4% worse) with about 1,000x fewer operations (ESTIMATED) and one-pass learning, but the counting tables stop improving beyond order 5 while neural models keep scaling. Result: the method carries over to language at tiny scale and not beyond. See [text boundary test](../hw/results/text_boundary_test.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -111,4 +111,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 
 - [Gap diagnosis](gap_diagnosis.md): where the accuracy gap comes from; a measured small CNN reaches 89.9%, level with L + Deep.
 
+- [Language boundary test](text_boundary_test.md): counting tables against a small transformer on Tiny Shakespeare; competitive at tiny scale, hits a wall near 2.3 bits per character.
+
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)
