@@ -11,7 +11,11 @@ module l_cortex_deep #(parameter ROUTE_T = 2299, NCL = 2000, NLITS = 13497, P4 =
     input pix_we, input [9:0] pix_addr, input [7:0] pix_data,
     input start,
     output reg busy, output reg done, output reg routed, output reg [3:0] pred, output reg [199:0] scores_flat,
-    output reg [31:0] cycles, output reg [31:0] cyc_enc, cyc_core, cyc_deep, output reg err_overlap);
+    output reg [31:0] cycles, output reg [31:0] cyc_enc, cyc_core, cyc_deep, output reg err_overlap,
+    input [19:0] reject_t, output flag);   // flag (30 Oct 2026, selective answering): 1 when the margin of the FINAL scores (top minus runner-up, after L Deep where it was woken) is <= reject_t, valid with done and until the next start; the host sets reject_t from unlabelled data (a percentile of the margins) and sends flagged images to a fallback (a person, a GPU or another look)
+    reg signed [19:0] fa, fb, fv; integer fi;
+    always @(*) begin fa = -20'sd524288; fb = -20'sd524288; for (fi = 0; fi < 10; fi = fi + 1) begin fv = scores_flat[20*fi +: 20]; if (fv > fa) begin fb = fa; fa = fv; end else if (fv > fb) fb = fv; end end
+    assign flag = (($signed({fa[19], fa}) - $signed({fb[19], fb})) <= $signed({1'b0, reject_t}));
     reg [7:0] pimg [0:783];
     always @(posedge clk) if (pix_we) pimg[pix_addr] <= pix_data;
     // ---- encoder

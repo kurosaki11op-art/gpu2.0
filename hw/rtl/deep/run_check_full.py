@@ -17,15 +17,19 @@ open(os.path.join(HERE, "tmpl.hex"), "w").write("\n".join("%07x" % w for w in wo
 open(os.path.join(HERE, "full_img.hex"), "w").write("\n".join("%02x" % v for v in xte[:N].reshape(-1)) + "\n")
 srcs = ["l_cortex_deep_tb.v", "l_cortex_deep.v", "l_system.v", "ldeep_core_p.v", os.path.join(CX, "cortex_core.v"), os.path.join(CX, "cortex_encoder.v")]
 subprocess.run(["iverilog", "-g2005", "-DCORTEX_SLOW", "-DCORTEX_HOOKS", "-DENC_S1", "-DENC_PAIR", "-DCORTEX_INFER", "-o", "/tmp/full.vvp", f"-Pl_cortex_deep_tb.N={N}"] + srcs, cwd=HERE, check=True)
-res = subprocess.run(["vvp", "-n", "/tmp/full.vvp"], cwd=HERE, capture_output=True, text=True); print(res.stdout.strip().splitlines()[-1] if res.stdout.strip() else res.stderr[-500:])
 exp = [list(map(int, l.split())) for l in open(os.path.join(HERE, "sys_exp.txt")).read().strip().split("\n")][:N]
+mrg = np.array([sorted(e[1:11])[-1] - sorted(e[1:11])[-2] for e in exp]); RT = int(np.floor(np.quantile(mrg, 0.2)))   # reject threshold: the 20th percentile of the final margins (unlabelled data), as the host would set it
+res = subprocess.run(["vvp", "-n", "/tmp/full.vvp", "+reject_t=%d" % RT], cwd=HERE, capture_output=True, text=True); print(res.stdout.strip().splitlines()[-1] if res.stdout.strip() else res.stderr[-500:])
 got = [list(map(int, l.split())) for l in open(os.path.join(HERE, "out_full.txt")).read().strip().split("\n")]
-bad = 0; ov = 0
+bad = 0; ov = 0; badflag = 0
 for i in range(N):
-    e = exp[i]; g = got[i]; ov += g[-1]
+    e = exp[i]; g = got[i]; ov += g[16]
     if g[:12] != e:
         bad += 1
         if bad <= 3: print("MISMATCH image", i, "rtl", g[:12], "model", e)
+    if g[17] != int(mrg[i] <= RT): badflag += 1
+fl = np.array([g[17] for g in got]).astype(bool); ok = np.array([g[11] == yte[i] for i, g in enumerate(got)])
+print("reject flag (threshold %d = 20th percentile of the margins): %d of %d images flagged, flag mismatches against the model %d; accuracy on all %.4f, on the answered (unflagged) %.4f, on the flagged %.4f" % (RT, fl.sum(), N, badflag, ok.mean(), ok[~fl].mean(), ok[fl].mean() if fl.any() else 0))
 cyc = np.array([g[12] for g in got]); r = np.array([g[0] for g in got])
 print("images %d, routed %d, mismatches %d, overlap errors %d; mean cycles %.0f (not routed %.0f, routed %.0f); encoder %.0f, core %.0f, deep (routed) %.0f" % (N, r.sum(), bad, ov, cyc.mean(), cyc[r == 0].mean() if (r == 0).any() else 0, cyc[r == 1].mean() if r.any() else 0, np.mean([g[13] for g in got]), np.mean([g[14] for g in got]), np.mean([g[15] for g in got if g[0]] or [0])))
-print("PASS" if bad == 0 and ov == 0 else "FAIL")
+print("PASS" if bad == 0 and ov == 0 and badflag == 0 else "FAIL")
