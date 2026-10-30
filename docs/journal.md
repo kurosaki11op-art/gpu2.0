@@ -2018,4 +2018,8 @@ Founder asked for a short list with reasons. Wrote [the options](../docs/new_sta
 
 Chosen target: always-on recognition and on-device learning. First decisive test: the chip against a small CNN when two new classes arrive with 1, 5, 20 or 100 examples. Result: no accuracy win (a CNN with 160 stored images is as good or better; without stored data the CNN forgets everything); few-shot is weak (58% on easy and 12% on hard new classes at 5 examples); update time bar met after cutting dreams 100-fold (about 0.26 s ESTIMATED). Founder noted this feels like going back to the old project; offered three paths (re-scope, a different target, pause). See [target 1 new-class learning](../hw/results/target1_new_class_learning.md).
 
+## 30 Oct 2026: clean start, step 1 (Rust model) fails
+
+Founder asked for a clean start. Wrote the [charter](../new_start/README.md) (target irregular and sparse workloads, bars and kill rules in advance). Step 1, a trace-driven model of GPU waste on BFS and SpMV written in Rust (52 s for the sweep), gave memory waste of 1.9x to 2.9x on a skewed graph (worst-case order 2.9x) and warp-per-vertex lane utilisation of 67%: below the 5x and above the 20% bars, so by the pre-set rule the target is dropped. See [step 1 result](../new_start/step1_result.md). Next: the same cheap Rust model for target 3 (batch-1 language inference) before any build.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

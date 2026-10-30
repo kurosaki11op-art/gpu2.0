@@ -313,5 +313,9 @@ See [status, 28 Oct 2026](L_status_28oct.md). L Deep: integer model and bit-exac
 
 Founder's decision: the three-layer L design is not carried forward as it stands; version 1 stays in the repository (commit recorded in [lessons](lessons_L_v1.md)); the new start is problem-first (target and bar in numbers, incumbent measured first, one GPU weakness chosen from the founder's list). The new project's target has not been chosen yet. Standing rules (labels, no AI model identifiers in repo content, journal and index updates, regression before RTL changes) still apply.
 
+## Decision 30 Oct 2026 (second): clean start, target 2
+
+Founder: version 1 was dropped because it was losing and on a wrong path, so the new start must be clean. Charter in [new_start](../new_start/README.md): no version 1 code, problem first, bars and kill rules in numbers, target = irregular and sparse workloads (census rows 2, 9, 10), first step a trace-driven model of GPU waste on graph and sparse kernels.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)

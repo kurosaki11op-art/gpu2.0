@@ -90,4 +90,6 @@ tags: [spark, index]
 
 - [New start: target options](new_start_target_options.md): three candidate targets with reasons, first decisive tests and bars (30 Oct 2026)
 
+- [New start charter](../new_start/README.md): clean rules, target (irregular and sparse workloads), bars and kill rules for the restarted project; [step 1 result](../new_start/step1_result.md): target 2 fails its first test (30 Oct 2026)
+
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)
