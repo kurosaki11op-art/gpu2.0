@@ -28,6 +28,8 @@ Graph traversal, sparse matrix-vector product, sequence matching. Reason: it is 
 
 - Step 1 run 30 Oct 2026: **failed the bar on the skewed graph; target 2 dropped as a first target.** See [step 1 result](step1_result.md). Experiments are written in Rust (standard library only) where speed matters.
 
+- Target 3 (batch-1 language-model decode) step 1 run 30 Oct 2026: **failed the pre-set bar (3.6x at the pessimistic SRAM energy, 5x needed; passes at the middle value; capacity fits)**; dropped as a first target. See [step 1 result, target 3](step1_lm_result.md). Two of two new targets failed their first step: the premise "a different architecture beats a GPU by a wide margin on general workloads" is not supported by our models.
+
 ## Folder
 
 `new_start/experiments/` holds scripts and logs of each step; results get a note in `new_start/` and are linked from here and from the [docs index](../docs/INDEX.md).

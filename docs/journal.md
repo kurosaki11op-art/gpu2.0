@@ -2022,4 +2022,8 @@ Chosen target: always-on recognition and on-device learning. First decisive test
 
 Founder asked for a clean start. Wrote the [charter](../new_start/README.md) (target irregular and sparse workloads, bars and kill rules in advance). Step 1, a trace-driven model of GPU waste on BFS and SpMV written in Rust (52 s for the sweep), gave memory waste of 1.9x to 2.9x on a skewed graph (worst-case order 2.9x) and warp-per-vertex lane utilisation of 67%: below the 5x and above the 20% bars, so by the pre-set rule the target is dropped. See [step 1 result](../new_start/step1_result.md). Next: the same cheap Rust model for target 3 (batch-1 language inference) before any build.
 
+## 30 Oct 2026: new start, target 3 step 1 (Rust model) fails its pre-set bar
+
+Batch-1 language-model decode, GPU against weights-in-SRAM, written in Rust with the bar fixed before the run: 1B model at 4-bit, energy per token 3.6x lower at the pessimistic SRAM energy (5x needed; 9.8x at the middle value), capacity 0.77 GB; by the rule the target is dropped, with the dependence on one uncertain constant stated. Both new targets have now failed their first test; the conclusion recorded is that the broad "beat a GPU by a wide margin" premise is not supported by our models. See [step 1 result, target 3](../new_start/step1_lm_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -1,0 +1,24 @@
+MODEL, not a measurement. Context 2048 tokens. GPU-style: DRAM 5.74 pJ/bit, 168 GB/s, board static 6 W (MEASURED idle of an RTX 3050 laptop). Chip: SRAM 0.495 to 2.78 pJ/bit, compute-bound.
+energy per token in millijoules; ratio = GPU / chip; chip cases use the PESSIMISTIC SRAM energy (2.78 pJ/bit), middle value (1.0) in brackets; capacity = weights + KV cache for ONE sequence.
+
+model  bits  batch |    GPU mJ GPU tok/s |   chip mJ     [mid]    ratio | ratio B8 ratio B64 ratio mid |   cap GB  area mm2   cost $
+125M   16    1     |    26.816     516.1 |     7.494     2.859     3.6x |     3.4x      3.3x     9.4x |     0.33       111       65
+125M   8     1     |    16.408     837.9 |     4.510     1.654     3.6x |     3.6x      3.5x     9.9x |     0.20        68       40
+125M   4     1     |    11.285    1217.4 |     3.098     1.133     3.6x |     3.6x      3.5x    10.0x |     0.14        47       28
+125M   1.58  1     |     8.188    1676.9 |     2.247     0.820     3.6x |     3.6x      3.6x    10.0x |     0.10        34       20
+1B     16    1     |   186.883      74.1 |    52.337    20.034     3.6x |     3.3x      2.8x     9.3x |     2.27       774      454
+1B     8     1     |   103.831     132.4 |    28.622    10.560     3.6x |     3.5x      3.1x     9.8x |     1.27       433      254
+1B     4     1     |    62.867     218.6 |    17.326     6.384     3.6x |     3.5x      3.1x     9.8x |     0.77       262      154
+       -> BAR (the smallest model of >= 1B parameters, 4-bit): ratio 3.6x (>= 5x needed), capacity 0.77 GB (<= 1 GB needed): FAIL
+1B     1.58  1     |    38.104     360.6 |    10.514     3.879     3.6x |     3.5x      3.1x     9.8x |     0.47       159       93
+7B     16    1     |  1241.839      11.1 |   352.603   137.953     3.5x |     2.9x      1.6x     9.0x |    15.07      5140     3015
+7B     8     1     |   660.978      20.8 |   184.864    69.894     3.6x |     3.1x      1.7x     9.5x |     8.07      2753     1615
+7B     4     1     |   374.279      36.7 |   104.725    39.595     3.6x |     3.2x      1.7x     9.5x |     4.57      1560      915
+7B     1.58  1     |   200.966      68.4 |    56.381    21.405     3.6x |     3.2x      1.7x     9.4x |     2.46       838      491
+70B    16    1     | 11976.097       1.2 |  3873.962  1803.912     3.1x |     1.5x      0.4x     6.6x |   145.37     49571    29074
+70B    8     1     |  6170.842       2.2 |  1971.912   898.661     3.1x |     1.6x      0.3x     6.9x |    75.37     25701    15074
+70B    4     1     |  3304.193       4.2 |  1056.865   482.015     3.1x |     1.6x      0.3x     6.9x |    40.37     13766     8074
+70B    1.58  1     |  1571.226       8.8 |   504.617   231.299     3.1x |     1.6x      0.3x     6.8x |    19.19      6545     3839
+
+VERDICT by the pre-set bar (applied to the 1B model at 4-bit, the smallest that counts): FAIL
+The 7B and 70B rows need several dies (capacity above 1 GB), whose links are not modelled; their ratios are shown for direction only.
