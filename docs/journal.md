@@ -2010,4 +2010,8 @@ Founder decided to stop the three-layer design and start new, learning from wins
 
 Founder asked whether we know every process a GPU is used for before designing. Answer: not as a closed list, only partial lists in the repo. Wrote [the census](../docs/gpu_workload_census.md): 19 computation patterns (the Berkeley dwarfs from memory, to be checked against the original report, plus graphics, video, machine learning and cryptography), each with what version 1 tested (matrix multiply in RTL; partial for sparse, FFT, stencil, small recognition and learning; none for 12 of 19), and a test plan with a coverage matrix. Noted the tension: covering everything is what a GPU is, and the efficiency edge shrinks to 1.3 to 4x on dense kernels.
 
+## 30 Oct 2026: target options for the new start
+
+Founder asked for a short list with reasons. Wrote [the options](../docs/new_start_target_options.md): (1) always-on recognition and on-device learning (strongest evidence, cheapest), (2) irregular and sparse workloads (where GPUs are reported to waste units; no evidence yet), (3) batch-1 language-model inference at the edge (largest market, least evidence). Each has a first decisive test with its pass or fail bar stated in advance. Waiting for the founder's choice.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

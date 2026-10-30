@@ -88,4 +88,6 @@ tags: [spark, index]
 
 - [GPU workload census](gpu_workload_census.md): the 19 computation patterns a GPU is used for, what version 1 tested, and how coverage would be tested (30 Oct 2026)
 
+- [New start: target options](new_start_target_options.md): three candidate targets with reasons, first decisive tests and bars (30 Oct 2026)
+
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)
