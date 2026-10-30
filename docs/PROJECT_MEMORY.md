@@ -317,5 +317,11 @@ Founder's decision: the three-layer L design is not carried forward as it stands
 
 Founder: version 1 was dropped because it was losing and on a wrong path, so the new start must be clean. Charter in [new_start](../new_start/README.md): no version 1 code, problem first, bars and kill rules in numbers, target = irregular and sparse workloads (census rows 2, 9, 10), first step a trace-driven model of GPU waste on graph and sparse kernels.
 
+## Update 30 Oct 2026 (third): both new targets failed, and the defensible scope
+
+Target 2 (irregular and sparse workloads) failed its pre-set step-1 bar: GPU memory waste 1.9x to 2.9x on a skewed graph (bar 5x), lane utilisation 67% with the good mapping (bar below 20%) ([step 1](../new_start/step1_result.md)). Target 3 (batch-1 language-model decode) failed its bar narrowly: 3.6x energy per token at the pessimistic SRAM energy (bar 5x), passing at the middle value, capacity 0.77 GB ([step 1, target 3](../new_start/step1_lm_result.md)). Pattern: a GPU's inefficiency is a modest factor in our models; the premise "a different architecture beats a GPU by a wide margin on general workloads" is not supported.
+
+**Defensible scope (the claim to make, every number labelled):** small, sparse, on-device recognition with a confidence flag. SIMULATED: 89.7% clothing accuracy (a small reference CNN 90.7%, a stronger one 91.75%), the whole chip bit-exact on 10,000 images, learning on the chip with no backprop; the chip flags unsure answers (flag and programmable threshold, in the RTL and over the board's serial protocol): 95.8% accuracy on the answered images at 20% flagged, a chip-first cascade with a stronger fallback 91.4% at 15% flagged and about 6x less energy than the strong CNN alone (ESTIMATED). Stated as NOT covered: backprop training, large language models, graphics, ray tracing, video, general programming, dense numerics beyond the matrix-multiply tile ([census](gpu_workload_census.md)). Still open and decisive: the measured GPU baseline (founder's RTX 3050, idle and at full clock) and the board power; the chip-level energy remains a projection.
+
 Related: [Home](../README.md), [Journal](journal.md), [L Cortex redesign](cortex_redesign.md),
 [Results index](../hw/results/INDEX.md), [Docs index](INDEX.md)
