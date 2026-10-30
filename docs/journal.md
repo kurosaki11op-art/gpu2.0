@@ -2034,4 +2034,8 @@ Founder asked to stop the test-after-test loop and execute effective fixes. Adde
 
 `l_chip_top.v` computes `flag` from the final-score margin with a host-set `reject_t`; `l_board_top.v` gained op 0x03 SET_REJECT (3 bytes, no reply) and reply status bit 1 = flag (bit 0 = routed unchanged); `hw/board/l_host.py` gained `set_reject` and the `flag` field. Checks (SIMULATED, UART model): board check 4 recognitions and a matrix product 0 mismatches, flags [1, 1, 0, 0] as expected; chip-top check 40 recognitions and a matrix product 0 mismatches. Narrow scope (small, sparse, on-device recognition with a confidence flag) written into [project memory](PROJECT_MEMORY.md). Not run on a board.
 
+## 30 Oct 2026: cascade demo
+
+`hw/virtual/cascade_demo.py`: image, chip with reject flag, fallback CNN on the flagged images, final answer, energy accounting; threshold calibrated on 2,000 unlabelled images and scored on the other 8,000: cascade 91.24% against the strong CNN 91.53% at 16.3% flagged and about 5.7x less estimated energy (ESTIMATED; 2.3x if the chip's first stage costs 1 uJ). RTL in the loop on 200 images: predictions identical to the model, 40 flagged, cascade 91.5% (the CNN 93.5% on that small sample). See [cascade demo](../hw/results/cascade_demo.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

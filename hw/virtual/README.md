@@ -19,4 +19,6 @@ A simulation target for the three-layer L design, built before any real FPGA is 
 
 Results and findings: [Virtual device tests](../results/virtual_device_tests.md).
 
+`cascade_demo.py` (30 Oct 2026): the chip-first cascade demo with the reject flag and the energy accounting, see [cascade demo](../results/cascade_demo.md).
+
 Related: [Hardware index](../HARDWARE_INDEX.md), [L chip top](../rtl/top/README.md), [Status, 28 Oct 2026](../../docs/L_status_28oct.md)

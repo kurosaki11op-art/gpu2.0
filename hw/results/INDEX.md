@@ -114,5 +114,6 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Language boundary test](text_boundary_test.md): counting tables against a small transformer on Tiny Shakespeare; competitive at tiny scale, hits a wall near 2.3 bits per character.
 
 - [Target 1 new-class learning](target1_new_class_learning.md): on-device learning against a CNN with and without replay; no accuracy win, update time under a second (30 Oct 2026).
+- [Cascade demo](cascade_demo.md): chip first, fallback CNN on the flagged images, with the reject flag in the RTL; 91.2% at about 5.7x less estimated energy than the strong CNN alone (30 Oct 2026).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

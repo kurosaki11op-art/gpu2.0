@@ -78,5 +78,12 @@
    3.8489999999999998
   ]
  ],
- "label": "SIMULATED accuracy, ESTIMATED energy"
+ "label": "SIMULATED accuracy, ESTIMATED energy",
+ "rtl": {
+  "images": 200,
+  "chip_alone": 0.89,
+  "flagged": 40,
+  "cascade": 0.915,
+  "predictions_identical_to_model": true
+ }
 }
