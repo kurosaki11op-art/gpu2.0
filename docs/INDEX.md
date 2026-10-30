@@ -82,4 +82,6 @@ tags: [spark, index]
 - [Concept study: GPU and memory](concept_study_gpu_and_memory.md): how a GPU, SRAM, DRAM and HBM are built, their flaws, density options and our own directions (28 Oct 2026)
 - [Dispatch research](research/dispatch_research.md): early exit and power gating references, abstract level only, arXiv unreachable (28 Oct 2026)
 
+- [GPU problem analysis](gpu_problem_analysis.md): each problem of today's GPUs against what L shows, with labels, accuracy position and coverage of GPU workloads (30 Oct 2026)
+
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)

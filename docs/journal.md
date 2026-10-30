@@ -1994,4 +1994,8 @@ CNN memory traffic added (strong CNN 4.2 to 23 uJ per image depending on batch a
 
 Double-buffered tile (`mesh_tile_pipe.v`): in a stream of matrix products the routers fill one operand bank while the lane computes from the other. 2x2, 4x4 and 8x8 meshes: 0 mismatches against the lane golden model in both sequential and overlapped runs; cycles saved 10.4%, 14.8%, 12.6% (equal to products minus one times the communication time). See [mesh test](../hw/results/mesh_test.md). Next: dedicated FFT butterfly path.
 
+## 30 Oct 2026: GPU problem analysis
+
+Founder asked to analyse all problems of today's GPUs and solve them, with no loss of accuracy and no missing GPU process. Wrote [the analysis](../docs/gpu_problem_analysis.md): problem by problem with evidence labels, the accuracy position, and a coverage table of GPU workloads. Honest conclusion: power, heat and memory are addressed in design but estimated, not measured; on-device learning is the strongest differentiator; accuracy is within 1 to 2 points of small CNNs, behind deep ones; training with backprop, large language models, graphics and general programmability are not covered. Also on 30 Oct: laptop GPU found throttled by Windows energy saver (clock 210 MHz); founder travelling, GPU baseline to be rerun.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
