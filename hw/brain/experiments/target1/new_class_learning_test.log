@@ -1,0 +1,17 @@
+\nNEW classes Bag, Boot (the other 8 are known)
+  before the new classes: chip old-class accuracy 0.8750 | CNN old-class accuracy 0.8951 [114s]
+  k    | CHIP (dreams, no stored data) | CNN fine-tune, new data only | CNN + 20 stored old / class 
+       | all      old       new       | all      old       new       | all      old       new      
+  1    | 0.675    0.825     0.076     | 0.228    0.092     0.774     | 0.717    0.862     0.136    
+  5    | 0.774    0.822     0.580     | 0.195    0.001     0.974     | 0.809    0.855     0.622    
+  20   | 0.810    0.808     0.816     | 0.199    0.000     0.996     | 0.863    0.850     0.914    
+  100  | 0.822    0.794     0.934     | 0.199    0.000     0.997     | 0.859    0.829     0.979    
+\nNEW classes Coat, Shirt (the other 8 are known)
+  before the new classes: chip old-class accuracy 0.9565 | CNN old-class accuracy 0.9645 [531s]
+  k    | CHIP (dreams, no stored data) | CNN fine-tune, new data only | CNN + 20 stored old / class 
+       | all      old       new       | all      old       new       | all      old       new      
+  1    | 0.757    0.943     0.011     | 0.219    0.125     0.594     | 0.764    0.951     0.018    
+  5    | 0.777    0.940     0.124     | 0.154    0.012     0.722     | 0.798    0.940     0.228    
+  20   | 0.817    0.913     0.436     | 0.158    0.000     0.791     | 0.828    0.899     0.542    
+  100  | 0.834    0.902     0.561     | 0.166    0.000     0.829     | 0.783    0.783     0.786    
+\n[873s] done
