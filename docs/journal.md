@@ -2030,4 +2030,8 @@ Batch-1 language-model decode, GPU against weights-in-SRAM, written in Rust with
 
 Founder asked to stop the test-after-test loop and execute effective fixes. Added `reject_t` and `flag` to `l_cortex_deep.v` (selective answering from the final-score margin, ten comparators, no extra cycles); 200-image RTL check: 40 flagged, 0 flag mismatches, 0 score mismatches, accuracy on the answered images 95.6%. See [L Deep build](../hw/results/l_deep_build.md) result 12.
 
+## 30 Oct 2026: reject flag wired through the board top and the host script
+
+`l_chip_top.v` computes `flag` from the final-score margin with a host-set `reject_t`; `l_board_top.v` gained op 0x03 SET_REJECT (3 bytes, no reply) and reply status bit 1 = flag (bit 0 = routed unchanged); `hw/board/l_host.py` gained `set_reject` and the `flag` field. Checks (SIMULATED, UART model): board check 4 recognitions and a matrix product 0 mismatches, flags [1, 1, 0, 0] as expected; chip-top check 40 recognitions and a matrix product 0 mismatches. Narrow scope (small, sparse, on-device recognition with a confidence flag) written into [project memory](PROJECT_MEMORY.md). Not run on a board.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
