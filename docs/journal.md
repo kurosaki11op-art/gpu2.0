@@ -2026,4 +2026,8 @@ Founder asked for a clean start. Wrote the [charter](../new_start/README.md) (ta
 
 Batch-1 language-model decode, GPU against weights-in-SRAM, written in Rust with the bar fixed before the run: 1B model at 4-bit, energy per token 3.6x lower at the pessimistic SRAM energy (5x needed; 9.8x at the middle value), capacity 0.77 GB; by the rule the target is dropped, with the dependence on one uncertain constant stated. Both new targets have now failed their first test; the conclusion recorded is that the broad "beat a GPU by a wide margin" premise is not supported by our models. See [step 1 result, target 3](../new_start/step1_lm_result.md).
 
+## 30 Oct 2026: reject flag built into the chip (a fix, not a test)
+
+Founder asked to stop the test-after-test loop and execute effective fixes. Added `reject_t` and `flag` to `l_cortex_deep.v` (selective answering from the final-score margin, ten comparators, no extra cycles); 200-image RTL check: 40 flagged, 0 flag mismatches, 0 score mismatches, accuracy on the answered images 95.6%. See [L Deep build](../hw/results/l_deep_build.md) result 12.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
