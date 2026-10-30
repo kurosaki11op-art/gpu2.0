@@ -2006,4 +2006,8 @@ Counting-table model against a small transformer on Tiny Shakespeare: 2.33 vs 2.
 
 Founder decided to stop the three-layer design and start new, learning from wins and failures. Wrote [lessons from L version 1](../docs/lessons_L_v1.md) and recorded the decision in [project memory](../docs/PROJECT_MEMORY.md). Version 1 is kept untouched. The new target is not chosen yet; the next step is to pick it from the GPU problem list with a number-based bar and measure the incumbent first.
 
+## 30 Oct 2026: GPU workload census
+
+Founder asked whether we know every process a GPU is used for before designing. Answer: not as a closed list, only partial lists in the repo. Wrote [the census](../docs/gpu_workload_census.md): 19 computation patterns (the Berkeley dwarfs from memory, to be checked against the original report, plus graphics, video, machine learning and cryptography), each with what version 1 tested (matrix multiply in RTL; partial for sparse, FFT, stencil, small recognition and learning; none for 12 of 19), and a test plan with a coverage matrix. Noted the tension: covering everything is what a GPU is, and the efficiency edge shrinks to 1.3 to 4x on dense kernels.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

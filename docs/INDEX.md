@@ -86,4 +86,6 @@ tags: [spark, index]
 
 - [Lessons from L version 1](lessons_L_v1.md): wins, failures and what the new start must do differently (30 Oct 2026)
 
+- [GPU workload census](gpu_workload_census.md): the 19 computation patterns a GPU is used for, what version 1 tested, and how coverage would be tested (30 Oct 2026)
+
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)
