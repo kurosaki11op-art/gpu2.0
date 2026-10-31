@@ -8,7 +8,7 @@ MACPC, SRAMBW, VECL, HOPCYC = float(os.environ.get('M2_MACPC', 368.0)), float(os
 E_SRAM_BYTE, E_VEC, E_HOP_BYTE, LEAK_W_PER_TILE = 0.55 * 8, 0.4, 0.1 * 8, 1.6 * (4 * 1024 * 1024 / 2 ** 30)
 CLOCK = 1e9
 
-def step_ops(NL, d, ff, heads, V, t, B, wb, a, kvb, kvd=None):
+def step_ops(NL, d, ff, heads, V, t, B, wb, a, kvb, kvd=None, gated=False):
     """list of (tag, macs, rd, wr, vec) for one decode step of B sequences at context length t (the cache holds t entries after the append)."""
     kvd = kvd or d; ops = []; add = lambda tag, macs=0, rd=0, wr=0, vec=0: ops.append((tag, macs, rd, wr, vec))
     add("emb", 0, B * a + B * d * wb, B * d * a); add("emb", 0, B * a + B * d * wb, B * d * a); add("emb", 0, 2 * B * d * a, B * d * a, B * d)
@@ -20,7 +20,7 @@ def step_ops(NL, d, ff, heads, V, t, B, wb, a, kvb, kvd=None):
         add(g + "attn", 0, B * d * a, B * kvd * kvb); add(g + "attn", 0, B * d * a, B * kvd * kvb)
         add(g + "attn", 2 * B * d * t, B * d * a + 2 * B * t * kvd * kvb, B * d * a, 3 * B * heads * t)
         mm(g + "attn", d, d); add(g + "attn", 0, 2 * B * d * a, B * d * a, B * d)
-        ln(g + "mlp"); mm(g + "mlp", d, ff); add(g + "mlp", 0, B * ff * a, B * ff * a, B * ff); mm(g + "mlp", ff, d); add(g + "mlp", 0, 2 * B * d * a, B * d * a, B * d)
+        ln(g + "mlp"); mm(g + "mlp", d, ff); gated and mm(g + "mlp", d, ff); add(g + "mlp", 0, B * ff * a, B * ff * a, B * ff); mm(g + "mlp", ff, d); add(g + "mlp", 0, 2 * B * d * a, B * d * a, B * d)
     ln("head"); mm("head", d, V); return ops
 
 def cost(ops, R=1, fabric_phases_per_layer=0, NL=0, side=1, B=1, d=1, a=2):
@@ -62,9 +62,9 @@ for B in (1, 64):
     variants = dict(A_occupied_tiles=cyc / CLOCK, B_whole_chips=cycB / CLOCK, A_with_factor_1_8=1.8 * cyc / CLOCK, B_with_factor_1_8=1.8 * cycB / CLOCK)
     ej = (dyn + static) * 1e-12 / B; res["one_b_batch%d" % B] = dict(latency_variants_s=variants, latency_variants_ratio_to_reference={k: v / lat5 for k, v in variants.items()}, tiles=tiles, chips_equivalent=tiles * 4 * 1024 * 1024 / (1.88e9), cycles_per_step=cyc, step_time_s=t_s, energy_per_token_J=ej, dynamic_J_per_token=dyn * 1e-12 / B, static_J_per_token=static * 1e-12 / B,
         step5_energy_per_token_J=j5, step5_latency_s=lat5, step5_chips=ch5, energy_ratio=ej / j5, latency_ratio=t_s / lat5, energy_within_20pct=abs(ej / j5 - 1) <= 0.2, latency_within_20pct=abs(t_s / lat5 - 1) <= 0.2)
-# ---- informational cross-check, not a bar: the same model on the two Llama-3.1-class dense models for which a vendor reported per-user speeds on wafer-scale hardware (16-bit weights, batch 1, short context, grouped-query cache)
+# ---- informational cross-check, not a bar: the same model on two dense decoder models of the 70B and 405B class for which a vendor reported per-user speeds on wafer-scale hardware (16-bit weights, batch 1, short context, grouped-query cache)
 EMAC = 1.5
 for name, NL2, d2, ff2, H2, V2, kvd2, vendor in (("70B", 80, 8192, 28672, 64, 128256, 1024, 2100), ("405B", 126, 16384, 53248, 128, 128256, 1024, 969)):
-    prm = NL2 * (2 * d2 * d2 + 2 * d2 * kvd2 + 2 * d2 * ff2 * 1.5) + d2 * V2; tiles = math.ceil((prm * 2) / (4 * 1024 * 1024)); cyc, dyn, per = cost(step_ops(NL2, d2, ff2, H2, V2, 1024, 1, 2, 2, 2, kvd2), R=tiles, fabric_phases_per_layer=6, NL=NL2, B=1, d=d2, a=2)
+    prm = NL2 * (2 * d2 * d2 + 2 * d2 * kvd2 + 2 * d2 * ff2 * 1.5) + d2 * V2; tiles = math.ceil((prm * 2) / (4 * 1024 * 1024)); cyc, dyn, per = cost(step_ops(NL2, d2, ff2, H2, V2, 1024, 1, 2, 2, 2, kvd2, gated=True), R=tiles, fabric_phases_per_layer=6, NL=NL2, B=1, d=d2, a=2)
     res["crosscheck_" + name] = dict(tiles=tiles, tokens_per_s_model=CLOCK / cyc, vendor_reported_tokens_per_s=vendor, ratio_model_to_vendor=(CLOCK / cyc) / vendor)
 print(json.dumps(res, indent=1)); json.dump(res, open(os.path.join(W, os.environ.get("M2_OUT", "m2_model.json")), "w"), indent=1)

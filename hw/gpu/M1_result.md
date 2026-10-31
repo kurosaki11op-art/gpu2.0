@@ -42,4 +42,16 @@ tags: [spark, gpu, m1, simulator, result, int8]
 
 **Passed on bars (a), (b) as worded and (c); with one honest miss: transformer W8A8 top-1 agreement 98.73% (near-ties only).** Next: M2, the cycle and energy model validated against the simulator for batch-1 and batch-64 decode of a 1B-parameter model (the charter's bars); it needs the simulator extended with a time model (key-value cache growth, one token per step) and the energy constants of the existing models.
 
+## How to reproduce (added 31 Oct 2026, Vision review V-24)
+
+```
+pip install -r requirements.txt            # numpy, torch, transformers, datasets (versions pinned in the file)
+python3 hw/gpu/m1/export_models.py /tmp/gpu_m1     # trains the two tiny models (about 15 minutes on a CPU); needs Fashion-MNIST gz files in /tmp/fashion
+rustc -O hw/gpu/sim/gpu_sim.rs -o /tmp/gpu_sim
+for m in fp32 w8 int8; do /tmp/gpu_sim /tmp/gpu_m1/selftest $m 1; /tmp/gpu_sim /tmp/gpu_m1/cnn $m 1000; /tmp/gpu_sim /tmp/gpu_m1/lm $m 16; done
+python3 hw/gpu/m1/m1_check.py /tmp/gpu_m1
+# M2 decode: python3 hw/gpu/m2/export_decode.py /tmp/gpu_m1 ; /tmp/gpu_sim /tmp/gpu_m1/lm_dec int8 64 4194304 decode ; python3 hw/gpu/m2/m2_model.py /tmp/gpu_m1
+```
+The simulator usage line is in the header of `hw/gpu/sim/gpu_sim.rs` (`gpu_sim DIR MODE NSAMPLES [TILE_BYTES [decode]]`). Scripts use `/tmp` paths (not native Windows); making them environment-driven is an open item.
+
 Related: [ISA note](ISA_M1.md), [Own GPU charter](../../docs/own_gpu_charter.md), [Hardware index](../HARDWARE_INDEX.md), [Workload map](../../docs/gpu_workload_map.md), [Journal](../../docs/journal.md)

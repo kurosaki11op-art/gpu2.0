@@ -5,6 +5,8 @@ tags: [spark, new-start, cost, power, heat, closure, failure, final]
 
 # Rows I and J: final disposition (31 Oct 2026)
 
+> **Correction banner, 31 Oct 2026 ([Vision review 01](../docs/reviews/vision_review_01.md), [corrections](step21_vision_corrections.md)):** row J ("closed, passes") does not stand: the worst-corner energy advantage is 3.5x after the corrections, below the 5x bar (V-03, V-04), and "floor confirmed by one measurement" over-reads a laptop GPU in an unoptimised Python loop (V-15). Row I stays failed.
+
 > **Update, same day:** the founder reopened row I (no row K before winning on I). The like-for-like cost failure below stands; the [buyer's price view](step13_buyer_price_result.md) makes row I a conditional win (3.2x at central assumptions at a 2x markup, 1.26x in the worst corner, bar missed).
 
 Founder's instruction: fix the I and J failures and close them. This note fixes what can be fixed, tests the last remaining route for cost, and closes each row with an honest status. Models: [`step5_worst_case_model.rs`](experiments/step5_worst_case_model.rs) with the new `SLA` switch, [log](experiments/step12_equal_speed.log). Bars written in the source before the run.
@@ -39,5 +41,7 @@ Founder's instruction: fix the I and J failures and close them. This note fixes 
 | A energy/dense inference | modelled advantage in energy and speed; accuracy inherited, never tested on a real model on our hardware |
 | **I cost** | **closed as failed** (structural), reopen condition stated |
 | **J power and heat** | **closed, passes on the model**, GPU energy floor confirmed by one measurement |
+
+**Correction after Vision review 01 (31 Oct 2026), V-15):** the 1.375 J per token is real (43 W, 31.4 tokens/s) but it is one GDDR laptop GPU in an unoptimised Python loop at batch 1; it says nothing about an HBM data-centre GPU at batch 1,024, and 'GPU energy floor confirmed' is withdrawn. Measure an optimised engine, then a data-centre GPU.
 
 Related: [Step 11 memory technology study](step11_memory_technology_study.md), [Step 10 capacity levers](step10_capacity_levers_result.md), [Step 7 cost result](step7_cost_basis_result.md), [Step 6 SRAM energy](step6_sram_energy_result.md), [Workload map](../docs/gpu_workload_map.md), [New start charter](README.md), [Docs index](../docs/INDEX.md)

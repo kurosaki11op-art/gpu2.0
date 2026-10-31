@@ -5,6 +5,8 @@ tags: [spark, new-start, cost, sram, hbm, correction, model]
 
 # Cost, like for like (31 Oct 2026)
 
+> **Correction banner, 31 Oct 2026 ([Vision review 01](../docs/reviews/vision_review_01.md), [corrections](step21_vision_corrections.md)):** the like-for-like cost failure stated here stands and is stronger after the corrections: attention priced at the 16-bit cost, one cooling factor, a host and network adder and the M3 tile rates give a cost advantage of 1.35x centrally and 0.82x in the worst corner, and an energy advantage of 7.3x and 3.5x. The speed range quoted below (7x to 20x per user) is withdrawn (V-02). A lower packaging price was said not to close the gap; step 15 later reopened it with an unsourced figure.
+
 **MODELLED, not measured; inputs are third-party estimates.** Output: [log](experiments/step7_cost_basis.log), from [`step5_worst_case_model.rs`](experiments/step5_worst_case_model.rs) with the GPU priced by env override (`GPU_PRICE_ABS`). The founder asked to close the cost question first. I searched for the packaged-chip cost, and the search exposed an error in my comparison.
 
 ## What the sources say (third-party estimates, not disclosures)

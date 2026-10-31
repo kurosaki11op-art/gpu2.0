@@ -23,7 +23,7 @@ tags: [spark, gpu, product, plan, failures, milestones]
 | 2 | **Latency overhead factor** unresolved (21 to 36 microseconds per token) | latency claim | resolved only by RTL cycle counts (M3) and a measurement (M5); until then reported as a range |
 | 3 | **No RTL of the tile** | silicon-level numbers | **M3** after M4 |
 | 4 | **No hardware measurement** | every energy and latency constant | gated on money: first a board or an open shuttle only if M3 passes and a partner or funding exists |
-| 5 | **Cost only at parity** (manufacturing), conditional on price against Nvidia's margin; packaging cost unsourced | the cost claim | supplier quotes ([data requests](manufacturing_data_requests.md)); not fixable by modelling |
+| 5 | **Cost: about 1.35x centrally and 0.82x in the worst corner like for like after the review corrections (the 2x bar fails)**; packaging and host cost unsourced | the cost claim | supplier quotes ([data requests](manufacturing_data_requests.md)); not fixable by modelling |
 | 6 | **Quantisation metric**: top-1 agreement is noisy | quality claims | resolved in M1 fix; later milestones use the loss increase (at most 0.01 nats per token) |
 | 7 | **L's accuracy ceiling** (about 90% clothing) | none for this product | retired (the founder chose the accelerator on 31 Oct) |
 | 8 | **Language cascade** failed its bars | none for this product | retired by the pre-set stop rule |

@@ -44,4 +44,6 @@ The M2 constants (368 multiply-adds and 2,000 SRAM bytes per cycle per tile) wer
 
 **Passed on all four bars** for the first slice. **Not covered by this slice (stated gaps):** the vector unit, the mesh interface, the control program and sequencing across layers, the SRAM macros themselves, a pipelined multiplier, place and route, power (energy per multiply-add is **not measured**; 0.25 pJ is still an assumed constant), and timing at the modelled node. **Next:** M4 (compiler front end, real model), then the hardware gate.
 
+**Correction after Vision review 01 (31 Oct 2026), V-01):** the planning range of 19 to 32 microseconds per token (batch 1) and the agreement with the reference latency model assume a striped mapping of every matrix over all tiles of the chip, which the instruction set and the simulator cannot express; both models share that assumption, so their agreement is not evidence for it. As implemented (a matrix on as few tiles as it needs) the 1B decoder takes about **2.4 milliseconds per token** at the RTL tile rate. The RTL result itself (bit-exact accumulators, cycles, synthesis) is unaffected.
+
 Related: [M3 plan](M3_plan.md), [M2 result](M2_result.md), [ISA note](ISA_M1.md), [Finish plan](../../docs/product_finish_plan.md), [Own GPU charter](../../docs/own_gpu_charter.md), [Hardware index](../HARDWARE_INDEX.md)

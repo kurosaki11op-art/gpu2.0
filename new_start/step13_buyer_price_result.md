@@ -5,6 +5,8 @@ tags: [spark, new-start, cost, price, margin, buyer, model, nre]
 
 # Row I, buyer's price view (31 Oct 2026)
 
+> **Correction banner, 31 Oct 2026 ([Vision review 01](../docs/reviews/vision_review_01.md), [corrections](step21_vision_corrections.md)):** corrected buyer-price results are in step 21 (1.87x centrally and 0.75x in the worst corner at $2,660 per chip, not 3.16x); the design-cost recovery arithmetic below was wrong and is corrected inline (V-08).
+
 **MODELLED.** Same model as [steps 5 to 12](step12_close_i_j_final.md); [log](experiments/step13_buyer_price.log). Founder: no row K before winning on I. The like-for-like comparison (both machines at manufacturing cost) stays failed ([step 7](step7_cost_basis_result.md)). A buyer, though, compares **prices**: our selling price against the GPU cluster's selling price. Bar written in the source before the run: **at 2x our cost ($2,660 per chip, a 50% gross margin), worst corner, cost per token to the buyer at least 2x below the GPU cluster and energy at least 5x below.**
 
 ## Inputs and labels
@@ -29,7 +31,7 @@ Energy advantage at every price: 13.2x central, 6.2x worst (the bar of 5x is met
 
 - **Row I is a conditional win for the buyer, not a manufacturing-cost win.** At a 2x markup the buyer's cost per token is about 3.2x below an H100-class cluster at central assumptions and 1.26x below in the worst corner, with energy 6x to 13x lower. The win comes from Nvidia's margin, not from cheaper silicon.
 - **It is fragile against a price response.** The advantage scales with the GPU price: if Nvidia cut its price to half, the central 3.2x becomes 1.6x and the worst 1.26x becomes 0.6x.
-- **Our own business needs the margin.** At 2x markup the gross profit is about $1,330 per chip and about $840,000 per 630-chip system. Recovering a design cost of, say, $150 million (**assumed**, covering a leading-node tape-out, a design team and software) takes about 113 systems, about 71,000 chips, so volume, not unit cost, decides viability.
+- **Our own business needs the margin.** At 2x markup the gross profit is about $1,330 per chip and about $840,000 per 630-chip system. Recovering a design cost of, say, $150 million (**assumed**, covering a leading-node tape-out, a design team and software) takes about 113 systems, about 71,000 chips, so volume, not unit cost, decides viability. **Correction, 31 Oct 2026 (Vision review V-08): this arithmetic was wrong. $150 million / $1,330 profit per chip = 112,782 chips = 179 systems of 630 chips (113 systems recover only $94.7 million).** Volume still decides viability, at 179 systems.
 - **The input that moves this most is still unsourced:** the $1,000 per chip. Each $500 of it changes the central advantage at 2x markup by about 17%.
 
 ## Status

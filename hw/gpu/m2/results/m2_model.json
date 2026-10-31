@@ -125,6 +125,18 @@
  "decode_vs_full_pass_relative_error": 0.0,
  "one_b_parameters_read_per_token": 870842368,
  "one_b_batch1": {
+  "latency_variants_s": {
+   "A_occupied_tiles": 2.1401e-05,
+   "B_whole_chips": 1.4706e-05,
+   "A_with_factor_1_8": 3.85218e-05,
+   "B_with_factor_1_8": 2.64708e-05
+  },
+  "latency_variants_ratio_to_reference": {
+   "A_occupied_tiles": 0.6018937392195041,
+   "B_whole_chips": 0.41359980042811206,
+   "A_with_factor_1_8": 1.0834087305951074,
+   "B_with_factor_1_8": 0.7444796407706018
+  },
   "tiles": 168,
   "chips_equivalent": 0.37481014468085105,
   "cycles_per_step": 21401.0,
@@ -132,15 +144,27 @@
   "energy_per_token_J": 0.003261719738320004,
   "dynamic_J_per_token": 0.003239248688320004,
   "static_J_per_token": 2.2471050000000002e-05,
-  "step5_energy_per_token_J": 0.003906998,
-  "step5_latency_s": 0.0001219561,
+  "step5_energy_per_token_J": 0.003621689,
+  "step5_latency_s": 3.555611e-05,
   "step5_chips": 1,
-  "energy_ratio": 0.8348403910931114,
-  "latency_ratio": 0.1754811772432867,
+  "energy_ratio": 0.9006073515202447,
+  "latency_ratio": 0.6018937392195041,
   "energy_within_20pct": true,
   "latency_within_20pct": false
  },
  "one_b_batch64": {
+  "latency_variants_s": {
+   "A_occupied_tiles": 6.6783e-05,
+   "B_whole_chips": 6.495e-05,
+   "A_with_factor_1_8": 0.00012020940000000001,
+   "B_with_factor_1_8": 0.00011691
+  },
+  "latency_variants_ratio_to_reference": {
+   "A_occupied_tiles": 0.8061785413314531,
+   "B_whole_chips": 0.7840512744183084,
+   "A_with_factor_1_8": 1.4511213743966158,
+   "B_with_factor_1_8": 1.4112922939529549
+  },
   "tiles": 4200,
   "chips_equivalent": 9.370253617021277,
   "cycles_per_step": 66783.0,
@@ -148,24 +172,24 @@
   "energy_per_token_J": 0.0014134377211637488,
   "dynamic_J_per_token": 0.0013860462563199988,
   "static_J_per_token": 2.739146484375e-05,
-  "step5_energy_per_token_J": 0.001470833,
-  "step5_latency_s": 0.000159339,
+  "step5_energy_per_token_J": 0.001400837,
+  "step5_latency_s": 8.283897e-05,
   "step5_chips": 12,
-  "energy_ratio": 0.9609777052620854,
-  "latency_ratio": 0.4191252612354791,
+  "energy_ratio": 1.0089951373098718,
+  "latency_ratio": 0.8061785413314531,
   "energy_within_20pct": true,
-  "latency_within_20pct": false
+  "latency_within_20pct": true
  },
  "crosscheck_70B": {
   "tiles": 33141,
-  "tokens_per_s_model": 2798.8390415655585,
+  "tokens_per_s_model": 2786.3613186176303,
   "vendor_reported_tokens_per_s": 2100,
-  "ratio_model_to_vendor": 1.3327804959835994
+  "ratio_model_to_vendor": 1.3268387231512526
  },
  "crosscheck_405B": {
   "tiles": 192522,
-  "tokens_per_s_model": 749.6982464558015,
+  "tokens_per_s_model": 748.7787418720068,
   "vendor_reported_tokens_per_s": 969,
-  "ratio_model_to_vendor": 0.7736824008831801
+  "ratio_model_to_vendor": 0.772733479744073
  }
 }

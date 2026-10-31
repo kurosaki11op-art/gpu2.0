@@ -50,4 +50,6 @@ Energy counted, not measured (waiting for the power meter and a real machine); t
 
 **Narrowed and partly supported:** the claim that survives is **"much less training compute (about 20x to 350x counted, conservative) for accuracy within about 1 point of a tuned small network once there are a few thousand labels"**. The claim "less data" fails at small N. Open: measured energy; a task where labels are scarce and a method that fixes the small-N weakness (the earlier work on few-label learning, [F2](../docs/PROJECT_MEMORY.md), is the starting point); bigger tasks.
 
+**Correction after Vision review 01 (31 Oct 2026), V-13):** the 352x ratio compares the network at the end of two full learning-rate runs (88.2%, the tuned network that under-trained) with L at 88.85%, not at equal accuracy. Measured per-epoch test accuracy of a plain network shows it passes L's 88.9% at epochs 6 to 9, i.e. **about 80x to 120x** more counted energy than L (x28), and 26x at 85% accuracy. **Quote about 100x at equal accuracy, not 352x or the 5,096x of test 1.** No tuning energy was charged to L although its recipe was tuned earlier on the full training set (V-13).
+
 Related: [Step 17 plan](step17_k2_plan.md), [Step 16 test 1 result](step16_k1_result.md), [Workload map](../docs/gpu_workload_map.md), [New start charter](README.md), [Docs index](../docs/INDEX.md)

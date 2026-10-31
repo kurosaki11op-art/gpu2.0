@@ -11,9 +11,9 @@ tags: [spark, gpu, accelerator, charter, plan, milestones]
 
 | claim | status | note |
 |---|---|---|
-| energy per token 5x to 13x below a GPU cluster on large-model decode (SRAM-resident weights, 0.55 pJ/bit reads) | modelled, one cited datapoint behind the read energy | [step 6](../new_start/step6_sram_energy_result.md), [step 12](../new_start/step12_close_i_j_final.md) |
-| per-user speed 7x to 20x higher | modelled with a latency model calibrated on two vendor figures | [step 4](../new_start/step4_close_i_j_result.md) |
-| cost: parity at manufacturing cost (central), conditional win on price against Nvidia's margin | modelled; rests on an unsourced $150 package/board/power/cooling figure | [step 13](../new_start/step13_buyer_price_result.md), [step 15](../new_start/step15_packaged_cost_result.md) |
+| energy per token about 7x (central) to 3.5x (worst corner) below a GPU cluster on large-model decode (SRAM-resident weights, 0.55 pJ/bit reads), **after the corrections of Vision review 01** (was 5x to 13x) | modelled, one cited datapoint behind the read energy; the 5x floor does not hold in the worst corner | [corrections](../new_start/step21_vision_corrections.md), [step 6](../new_start/step6_sram_energy_result.md) |
+| per-user speed advantage: **unquantified** (the 7x to 20x range is withdrawn, Vision V-02); a 1B-parameter model takes about 2.4 ms per token as implemented and 19 to 32 microseconds only with a striped mapping that is not built (V-01) | not validated | [corrections](../new_start/step21_vision_corrections.md) |
+| cost: advantage against assumed all-in chip cost, with the worst corner and a host adder applied: about 1.35x centrally and 0.82x in the worst corner (the 2x bar fails in both); the unsourced $150 and $125 figures decide it | modelled | [corrections](../new_start/step21_vision_corrections.md), [step 15](../new_start/step15_packaged_cost_result.md) |
 | heat: about 11 W per chip, no cold plate | modelled | [step 15](../new_start/step15_packaged_cost_result.md) |
 | **not supported or not covered:** training, graphics, FP64, graph and sparse irregular work (1.9x to 2.9x against a 5x bar), long-context attention | gaps | [workload map](gpu_workload_map.md) |
 

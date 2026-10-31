@@ -27,6 +27,12 @@ fn sla() -> f64 { std::env::var("SLA").ok().and_then(|v| v.parse().ok()).unwrap_
 // STEP 14 PRICE-CUT TEST (bar written before the run): sweep the GPU selling price per GPU (env GPU_PRICE_ABS) at our price of $2,660 per chip (2x cost). PC1: after a 40% Nvidia cut ($15,000 per GPU) the buyer still pays at least 2x less per token (central corner). PC2: the largest cut at which the buyer still pays less (advantage above 1x, central corner) is at least 50%. PC3: the cut at which the advantage falls to 1x is printed for both corners; the floor of Nvidia pricing (its cost, $3,320) is shown as the lower limit.
 // STEP 15 BOTTOM-UP PACKAGED COST (bar written before the run): per-chip all-in cost from the die (800 mm2, N5, third-party wafer price, dies per wafer by the standard formula, yield 45% without repair or 85% with SRAM repair) plus $150 for package, board share, power and cooling of a chip drawing about 10 W (ASSUMED, unsourced; the old $1,000 was set for a hot chip). Cases: $480 (85% yield) and $780 (45% yield). BAR: central corner, like-for-like (GPU at manufacturing cost, GPU_PRICE_ABS=3320), cost advantage at least 2x at $480; the $780 case and the worst corner are reported.
 // STEP M2 reference (hw/gpu/M2_plan.md): env MODEL_TOTAL, MODEL_ACTIVE, MODEL_LAYERS, MODEL_D, MODEL_KVDIV, CTX, FIXED_B select a model, a context length and one batch; the machine-readable line M2REF is printed and the program ends.
+// VISION REVIEW 01 CORRECTIONS (31 Oct 2026, docs/reviews/vision_review_01.md): switches, each defaulting to env V2 (0 = the model as published, 1 = corrected); override one at a time with A_ATT, A_PUE, A_HOST, A_TILE.
+// A_ATT: attention multiply-adds on the 16-bit cache are priced as 16-bit operations (1.5 pJ), on both machines (V-03). A_PUE: one cooling factor (PUE_EQ, default 1.3) for both machines (V-04). A_HOST: a host, network and rack adder per chip on our side (HOST_PER_CHIP, default 125 dollars, ASSUMED) (V-05).
+// A_TILE: compute and SRAM bandwidth per chip from the M3 RTL tile (256 multiply-adds and 256 bytes per cycle per 4 MiB tile at 1 GHz) instead of the wafer-derived figures (V-06, V-16).
+fn tog(k: &str) -> bool { match std::env::var(k) { Ok(v) => v == "1", Err(_) => std::env::var("V2").map_or(false, |v| v == "1") } }
+fn pue_eq() -> f64 { std::env::var("PUE_EQ").ok().and_then(|v| v.parse().ok()).unwrap_or(1.3) }
+fn host_per_chip() -> f64 { std::env::var("HOST_PER_CHIP").ok().and_then(|v| v.parse().ok()).unwrap_or(125.0) }
 fn ctxl() -> f64 { std::env::var("CTX").ok().and_then(|v| v.parse().ok()).unwrap_or(4096.0) }
 fn envf(k: &str) -> Option<f64> { std::env::var(k).ok().and_then(|v| v.parse().ok()) }
 fn sram_pj() -> f64 { std::env::var("SRAM_PJ").ok().and_then(|v| v.parse().ok()).unwrap_or(2.78) } const TILE_MM2: f64 = 0.05; const SPARE: f64 = 0.01; const SYS_HW: f64 = 150000.0;
@@ -36,18 +42,18 @@ const LW_PEAK: f64 = 10e15; const CB_PRICE: f64 = 2.5e6;
 const KWH: f64 = 0.10; const LIFE_S: f64 = 4.0 * 365.0 * 86400.0; const UTIL: f64 = 0.5; const PUE_AIR: f64 = 1.4; const PUE_LIQ: f64 = 1.15; 
 fn mac_pj(bits: f64) -> f64 { if bits >= 16.0 { 1.5 } else if bits >= 8.0 { 0.25 } else { 0.12 } }
 struct M { total: f64, active: f64, layers: f64, d: f64, kv_div: f64 }
-struct S { wtot: f64, touched: f64, bytes: f64, kvseq: f64, macs: f64 }
+struct S { wtot: f64, touched: f64, bytes: f64, kvseq: f64, macs: f64, macs_w: f64, macs_att: f64 }
 fn step(m: &M, bits: f64, b: f64) -> S {
     let wtot = m.total * bits / 8.0; let f = m.active / m.total; let touched = if f >= 0.999 { 1.0 } else { 1.0 - (1.0 - f).powf(b) };
-    let kvseq = 2.0 * m.layers * (m.d / m.kv_div) * ctxl() * kv_bytes(); let macs = b * (m.active + 2.0 * m.layers * m.d * ctxl());
-    S { wtot, touched, bytes: wtot * touched + b * kvseq, kvseq, macs }
+    let kvseq = 2.0 * m.layers * (m.d / m.kv_div) * ctxl() * kv_bytes(); let macs_w = b * m.active; let macs_att = b * 2.0 * m.layers * m.d * ctxl(); let macs = macs_w + macs_att;
+    S { wtot, touched, bytes: wtot * touched + b * kvseq, kvseq, macs, macs_w, macs_att }
 }
 struct R { n: f64, lat: f64, t: f64, ej: f64, capex: f64, pue: f64, b: f64 } // lat: seconds per token per sequence; t: seconds per step of b tokens
 fn units_for(s: &S, b: f64, cap: f64) -> f64 { ((s.wtot + b * s.kvseq) / cap).ceil().max(1.0) }
 fn gpu(m: &M, bits: f64, b: f64, w: f64, price: f64) -> R {
     let price = std::env::var("GPU_PRICE_ABS").ok().and_then(|v| v.parse().ok()).unwrap_or(price); // step 7: price the GPU at its estimated manufacturing cost instead of its selling price
     let s = step(m, bits, b); let tt = 1.0 / sla(); let n = units_for(&s, b, GPU_CAP).max((s.bytes / (GPU_BW * tt)).ceil()).max((s.macs / (GPU_PEAK * tt)).ceil()); let t = (s.bytes / (GPU_BW * n)).max(s.macs / (GPU_PEAK * n));
-    let e = s.bytes * 8.0 * E_HBM * 1e-12 + s.macs * 0.25e-12 + w * n * t; R { n, lat: t, t, ej: e / b, capex: n * price * GPU_OVERHEAD, pue: PUE_AIR, b }
+    let emac = if tog("A_ATT") { s.macs_w * 0.25e-12 + s.macs_att * mac_pj(kv_bytes() * 8.0) * 1e-12 } else { s.macs * 0.25e-12 }; let e = s.bytes * 8.0 * E_HBM * 1e-12 + emac + w * n * t; R { n, lat: t, t, ej: e / b, capex: n * price * GPU_OVERHEAD, pue: if tog("A_PUE") { pue_eq() } else { PUE_AIR }, b }
 }
 fn lw(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, unit_price: f64, scale: f64) -> R {
     let gb = 0.8 * WAFER_MM2 / mm2gb(); let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap);
@@ -63,11 +69,11 @@ fn lw(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, unit_price: f64, scale: 
 // package, board share, power and cooling per chip ASSUMED $1,000 (no source); inter-chip link 0.5 us per crossing and 10 pJ/bit (ASSUMED); compute per chip = the wafer's peak share by area.
 fn chips(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, per_chip: f64, scale: f64) -> R {
     let gb = 0.8 * 800.0 / mm2gb(); let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap); let cpl = (n / m.layers).ceil().max(1.0);
-    let q = (b / m.layers).max(1.0); let peak = LW_PEAK * 800.0 / WAFER_MM2; let bwc = bw_per_byte() * cap;
+    let q = (b / m.layers).max(1.0); let (peak, bwc) = if tog("A_TILE") { let tiles = cap / 4194304.0; (tiles * 256e9, tiles * 256e9) } else { (LW_PEAK * 800.0 / WAFER_MM2, bw_per_byte() * cap) };
     let fabric = PHASES * ((800.0f64).sqrt() / TILE_MM2.sqrt() * HOP_S + 0.5e-6 * cpl.log2().ceil().max(0.0)); // correction 31 Oct 2026 (M2): no inter-chip link term when a layer fits on one chip (the earlier max(1.0) charged one); layer-boundary crossings are added below for that case
     let comp = q * (m.active / m.layers + 2.0 * m.d * ctxl()) / (peak * cpl); let read = (s.wtot * s.touched / m.layers + q * s.kvseq / m.layers) / (bwc * cpl);
-    let boundary = if cpl <= 1.0 { (n - 1.0) * LINK_S } else { 0.0 }; let lat = (m.layers * (fabric + comp + read) + boundary) * scale; let link = (m.layers * PHASES * (m.d * 2.0 * 8.0 * E_LINK * 1e-12) * cpl.log2().ceil().max(0.0) + if cpl <= 1.0 { (n - 1.0) * m.d * 2.0 * 8.0 * E_LINK * 1e-12 } else { 0.0 }) * b;
-    let e = s.bytes * 8.0 * e_sram * 1e-12 + s.macs * mac_pj(bits) * 1e-12 + (0.5 + leak * gb) * n * lat + link; R { n, lat, t: lat, ej: e / b, capex: n * per_chip, pue: PUE_LIQ, b }
+    let boundary = if cpl <= 1.0 { (n - 1.0) * 0.5e-6 } else { 0.0 }; /* 0.5 microsecond chip link, corrected from LINK_S = 1 microsecond (Vision V-19) */ let lat = (m.layers * (fabric + comp + read) + boundary) * scale; let link = (m.layers * PHASES * (m.d * 2.0 * 8.0 * E_LINK * 1e-12) * cpl.log2().ceil().max(0.0) + if cpl <= 1.0 { (n - 1.0) * m.d * 2.0 * 8.0 * E_LINK * 1e-12 } else { 0.0 }) * b;
+    let emac = if tog("A_ATT") { s.macs_w * mac_pj(bits) * 1e-12 + s.macs_att * mac_pj(kv_bytes() * 8.0) * 1e-12 } else { s.macs * mac_pj(bits) * 1e-12 }; let e = s.bytes * 8.0 * e_sram * 1e-12 + emac + (0.5 + leak * gb) * n * lat + link; R { n, lat, t: lat, ej: e / b, capex: n * (per_chip + if tog("A_HOST") { host_per_chip() } else { 0.0 }), pue: if tog("A_PUE") { pue_eq() } else { PUE_LIQ }, b }
 }
 // cost per million tokens: tokens per second = b / t_step where one step yields b tokens; for the wafer a step of b tokens takes lat (all sequences advance together through the pipeline)
 fn cost(r: &R) -> (f64, f64) { let toks = r.b / r.t * UTIL; (r.capex / LIFE_S / toks * 1e6, r.ej * r.pue * KWH / 3.6e6 * 1e6) }

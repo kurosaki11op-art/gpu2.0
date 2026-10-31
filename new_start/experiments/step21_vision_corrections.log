@@ -1,0 +1,8 @@
+corrections applied (GPU priced at its manufacturing cost 3,320; chip 480 dollars + host adder where on; SRAM 0.55 pJ/bit; 420 mm2/GB) | central: cost x, energy x | worst: cost x, energy x
+none                     | central 2.74x 13.2x | worst 1.67x 6.2x
+A_ATT only               | central 2.71x 10.0x | worst 1.66x 5.0x
+A_PUE only               | central 2.68x 10.8x | worst 1.64x 5.1x
+A_HOST only              | central 2.19x 13.2x | worst 1.33x 6.2x
+A_TILE only              | central 1.72x 11.3x | worst 1.04x 5.1x
+ALL (V2=1)               | central 1.35x 7.3x | worst 0.82x 3.5x
+ALL, HOST 400            | central 0.94x 7.3x | worst 0.57x 3.5x

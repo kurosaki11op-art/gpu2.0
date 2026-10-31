@@ -10,3 +10,5 @@ hw/rtl/cortex/sense_out.txt
 hw/rtl/cortex/out_cortex.txt
 hw/rtl/cortex/sound/*.hex
 hw/rtl/cortex/sound/*_out.txt
+__pycache__/
+*.pyc

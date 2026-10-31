@@ -5,6 +5,8 @@ tags: [spark, new-start, cost, price, nvidia, sensitivity, model]
 
 # Row I: Nvidia price-cut test (31 Oct 2026)
 
+> **Correction banner, 31 Oct 2026 ([Vision review 01](../docs/reviews/vision_review_01.md), [corrections](step21_vision_corrections.md)):** the tables below use the uncorrected model; the margin and price-cut arithmetic needs the corrections of step 21 before it is quoted (the corrected buyer advantage at $2,660 per chip is 1.87x centrally, so the price-cut headroom shrinks accordingly); the 113 systems figure was wrong (V-08).
+
 **MODELLED.** Same model as [step 13](step13_buyer_price_result.md); [log](experiments/step14_price_cut.log). Bars written in the source before the run: **PC1** after a 40% Nvidia cut ($15,000 per GPU) the buyer still pays at least 2x less per token at our price of $2,660 per chip (central corner); **PC2** the largest cut at which the buyer still pays less (advantage above 1x, central corner) is at least 50%; **PC3** the cut at which the advantage falls to 1x is printed for both corners.
 
 GPU price per GPU is applied to both corners here (so the "worst" column at $25,000 is 2.1x, not the 1.26x of step 13, where the worst corner also lowered the GPU price to $15,000); in the worst corner the GPU draws 100 W and our latency is 1.5x the calibrated model. Cost advantage = GPU cluster cost per token (price x 1.5 host and network) / ours.
@@ -31,7 +33,7 @@ GPU price per GPU is applied to both corners here (so the "worst" column at $25,
 
 - **The price advantage is real but not durable.** A GPU priced at about $7,700 (a gross margin of about 57% on a $3,320 cost) erases it at our 2x markup. Nvidia has that room; whether it would use it against a small entrant is a market question this model cannot answer.
 - **What a price cut does not erase:** energy per token (5x to 13x lower), heat, and per-user speed (7x to 20x higher), which are properties of the design. A defensible position is one that sells on those, with the price advantage as a bonus, not the other way round.
-- **Margin trade-off:** every 10% we cut our own price adds about 11% to the advantage, so a price war can be met only by giving up the margin we need for the design cost (about 113 systems at 2x markup for an assumed $150M).
+- **Margin trade-off:** every 10% we cut our own price adds about 11% to the advantage, so a price war can be met only by giving up the margin we need for the design cost (about 113 systems at 2x markup for an assumed $150M; **corrected 31 Oct 2026, Vision review V-08: 179 systems, 112,782 chips**).
 
 ## Can we undercut Nvidia and keep a high margin? (31 Oct 2026, derived from the table above)
 

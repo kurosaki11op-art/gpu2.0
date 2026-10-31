@@ -5,6 +5,8 @@ tags: [spark, new-start, cost, packaging, yield, manufacturing, model]
 
 # Row I: bottom-up cost of the packaged chip (31 Oct 2026)
 
+> **Correction banner, 31 Oct 2026 ([Vision review 01](../docs/reviews/vision_review_01.md), [corrections](step21_vision_corrections.md)):** the "bar met" below is a **central-corner bar written after the worst-corner bar W1 had failed**; **W1 still fails (1.67x against 2x, before the corrections)**, and with the corrections the central value falls from 2.74x to 1.35x and the worst corner to 0.82x. The $150 for package, board, power and cooling is **unsourced** (the earlier $1,000 was also an unsourced assumption; the description of it as a placeholder for a hot chip was a later rationalisation). Do not quote 2.74x.
+
 **MODELLED, with a few sourced fragments and one key assumption.** Founder: manufacturing cost can be cut if the design is done properly. Model: [`step5_worst_case_model.rs`](experiments/step5_worst_case_model.rs), [log](experiments/step15_packaged_cost.log); bar written in the source before the run: with the packaged chip built up from its parts, **central corner, like for like (GPU at manufacturing cost $3,320), cost advantage at least 2x at $480 per chip**; the $780 case and the worst corner are reported.
 
 ## What the search found (third-party estimates and general sources; none of it is a supplier quote)
@@ -34,7 +36,7 @@ Cost advantage scales as 1 over the chip cost: **central reaches 2x up to about 
 - **Bar: PASS** (2.74x against 2x at $480, central). With the $150 assumption the cost failure of rows I turns into a win on manufacturing cost in the central corner, not only on price against Nvidia's margin.
 - **The founder's point holds:** manufacturing cost is not fixed. The big lever is that a low-power chip avoids the expensive parts a GPU needs (CoWoS, HBM, a 700 W cold plate). Yield repair of the SRAM is the second lever ($336 against $635 per die).
 - **What is not shown:** the $150 is an estimate; at $300 for the same items (so $636 per chip) the central advantage is about 2.1x; the worst corner stays below 2x at any plausible price. A node change (7 nm at half the wafer price, but about 1.3x the area per bit if bit-cell sizes are as I recall, unsourced) does not help: packaging, not silicon, dominates the cost per GB at this price level.
-- **Combined with the buyer view:** at $480 cost, a 2x markup ($960 per chip) still gives the buyer 1.9x lower cost per token than a GPU cluster at manufacturing cost, and far more against Nvidia's $25,000 price.
+- **Combined with the buyer view:** at $480 cost, a 2x markup ($960 per chip) still gives the buyer 1.9x lower cost per token than a GPU cluster at manufacturing cost, and far more against Nvidia's $25,000 price. **Correction, 31 Oct 2026 (Vision review V-08): the $960 case gives 1.4x, not 1.9x** (cost scales as one over the chip price: 2.74x at $480 is 1.37x at $960).
 
 ## Status and next step
 

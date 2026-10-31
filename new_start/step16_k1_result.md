@@ -33,4 +33,6 @@ tags: [spark, new-start, training, data-efficiency, result, row-k]
 
 **Supported on one small task, with a basic baseline.** The next test to make it convincing is test 2: stronger baselines (augmentation, tuned training, nearest-neighbour and linear baselines) and a second task. Bars to be written before it.
 
+**Correction after Vision review 01 (31 Oct 2026), V-13, V-21):** the 5,096x ratio is the end-of-training energy of a network that exceeds L's accuracy after 15 epochs; at equal accuracy the ratio is about 100x (see the step 17 correction). The detector encoder is labelled 'fitted without labels' but the 12,000 images are chosen by class (the first two classes of the training set): class selection uses labels, and its cost is not counted at N = 100 (V-21). No test-set leakage was found in these scripts (V-21).
+
 Related: [Step 16 plan](step16_k1_plan.md), [Workload map](../docs/gpu_workload_map.md), [New start charter](README.md), [Docs index](../docs/INDEX.md)

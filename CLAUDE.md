@@ -6,8 +6,8 @@
    - add an entry to `docs/journal.md` (what was asked, what was done, result with its label, file paths);
    - update `docs/PROJECT_MEMORY.md` if the design, results, rules or plan changed;
    - copy experiment scripts and raw logs into the repo (`hw/brain/experiments/<month>/`), not only a scratch folder;
-   - commit and push to `claude/zealous-turing-lsg561`.
-3. Label every number MEASURED / SIMULATED / ESTIMATED / PROJECTED, and record failures as clearly as wins.
+   - commit and push to the current working branch named in the session instructions (at present `claude/sharp-davinci-wrwazg`; an older branch name appeared here until 31 Oct 2026).
+3. Label every number MEASURED / SIMULATED / MODELLED / ESTIMATED / PROJECTED (and COUNTED for operation-count energies), and record failures as clearly as wins.
 4. **The project is named L** (renamed from SPARK on 22 Oct 2026; code, board and file names keep the old `spark_`
    prefix so the regression keeps working). Two workstreams, both in this repo:
    - **L Cortex** (the counting chip, done to a bit-exact RTL): keep to brain principles, no matrices, no multiplies,
