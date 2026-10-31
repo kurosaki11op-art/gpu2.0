@@ -27,6 +27,7 @@ fn step(m: &M, bits: f64, b: f64) -> S {
 struct R { n: f64, lat: f64, t: f64, ej: f64, capex: f64, pue: f64, b: f64 } // lat: seconds per token per sequence; t: seconds per step of b tokens
 fn units_for(s: &S, b: f64, cap: f64) -> f64 { ((s.wtot + b * s.kvseq) / cap).ceil().max(1.0) }
 fn gpu(m: &M, bits: f64, b: f64, w: f64, price: f64) -> R {
+    let price = std::env::var("GPU_PRICE_ABS").ok().and_then(|v| v.parse().ok()).unwrap_or(price); // step 7: price the GPU at its estimated manufacturing cost instead of its selling price
     let s = step(m, bits, b); let n = units_for(&s, b, GPU_CAP); let t = (s.bytes / (GPU_BW * n)).max(s.macs / (GPU_PEAK * n));
     let e = s.bytes * 8.0 * E_HBM * 1e-12 + s.macs * 0.25e-12 + w * n * t; R { n, lat: t, t, ej: e / b, capex: n * price * GPU_OVERHEAD, pue: PUE_AIR, b }
 }

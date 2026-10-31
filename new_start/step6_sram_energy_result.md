@@ -5,6 +5,8 @@ tags: [spark, new-start, sram, energy, bank, model, worst-case]
 
 # SRAM bank energy model (31 Oct 2026)
 
+> **Correction, same day ([like-for-like cost](step7_cost_basis_result.md)):** the cost thresholds in this note ($1,700 per chip, $190k per wafer) compare our cost with the GPU's selling price. Like for like, the cost bar fails in both corners. The energy results here stand.
+
 **MODELLED, not measured.** Rust model [`step6_sram_bank_energy_model.rs`](experiments/step6_sram_bank_energy_model.rs), [log](experiments/step6_sram_bank_energy_model.log), and the feed into step 5 ([log](experiments/step6_feed_into_step5.log)). Bars were written at the top of the source before the first run. Question: can a weight-stationary SRAM read cost 1.6 pJ/bit or less, all in, so that the worst corner of [step 5](step5_worst_case_result.md) meets the 5x energy bar?
 
 ## The model and what supports it

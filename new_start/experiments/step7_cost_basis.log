@@ -1,0 +1,27 @@
+=== GPU priced at $3320 (SRAM 0.55 pJ/bit, 420 mm2/GB)
+central (350 W, $25k, x1.8, bottom-up) | 1024    14     0.028     0.150       49 | 1024    11     0.031     0.010      950 |    0.91x    18.2x
+worst: 100 W, $15k, x2.7, cited price | 1024    14     0.025     0.080       49 | 1024    11     0.672     0.011      634 |    0.04x     9.0x
+OPTION B: many reticle-size SRAM chips (die $330 + package, board share, power and cooling per chip as shown, ASSUMED), same corners and SRAM constants (2.78 pJ/bit, 1.6 W/GB)
+corner                             $ per chip | batch  chips    $/Mtok     J/tok tok/s/sq |   cost x energy x
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+central (350 W, $25k, x1.8, bottom-up)       2330 |  1024    630     0.048     0.014      481 |    0.58x    13.2x
+central (350 W, $25k, x1.8, bottom-up)       5330 |  1024    630     0.109     0.014      481 |    0.26x    13.2x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    0.61x     6.2x
+=== GPU priced at $8000 (SRAM 0.55 pJ/bit, 420 mm2/GB)
+central (350 W, $25k, x1.8, bottom-up) | 1024    14     0.059     0.150       49 | 1024    11     0.031     0.010      950 |    1.93x    18.2x
+worst: 100 W, $15k, x2.7, cited price | 1024    14     0.056     0.080       49 | 1024    11     0.672     0.011      634 |    0.08x     9.0x
+OPTION B: many reticle-size SRAM chips (die $330 + package, board share, power and cooling per chip as shown, ASSUMED), same corners and SRAM constants (2.78 pJ/bit, 1.6 W/GB)
+corner                             $ per chip | batch  chips    $/Mtok     J/tok tok/s/sq |   cost x energy x
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    2.15x    13.2x
+central (350 W, $25k, x1.8, bottom-up)       2330 |  1024    630     0.048     0.014      481 |    1.24x    13.2x
+central (350 W, $25k, x1.8, bottom-up)       5330 |  1024    630     0.109     0.014      481 |    0.54x    13.2x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    1.37x     6.2x
+=== GPU priced at $25000 (SRAM 0.55 pJ/bit, 420 mm2/GB)
+central (350 W, $25k, x1.8, bottom-up) | 1024    14     0.172     0.150       49 | 1024    11     0.031     0.010      950 |    5.63x    18.2x
+worst: 100 W, $15k, x2.7, cited price | 1024    14     0.169     0.080       49 | 1024    11     0.672     0.011      634 |    0.25x     9.0x
+OPTION B: many reticle-size SRAM chips (die $330 + package, board share, power and cooling per chip as shown, ASSUMED), same corners and SRAM constants (2.78 pJ/bit, 1.6 W/GB)
+corner                             $ per chip | batch  chips    $/Mtok     J/tok tok/s/sq |   cost x energy x
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    6.27x    13.2x
+central (350 W, $25k, x1.8, bottom-up)       2330 |  1024    630     0.048     0.014      481 |    3.60x    13.2x
+central (350 W, $25k, x1.8, bottom-up)       5330 |  1024    630     0.109     0.014      481 |    1.58x    13.2x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    4.13x     6.2x
