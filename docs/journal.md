@@ -2124,4 +2124,6 @@ Founder asked whether the reduced claims come from switching away from wafer. An
 
 Founder decision: wafer-scale first; reticle chip if people and investors reject it. Recorded in [project memory](PROJECT_MEMORY.md) with the open facts (wafer worst-corner cost 0.17x, price unsourced, not yet re-run under the Vision corrections). Both options stay modelled.
 
+Founder: pursue both wafer and reticle. Recorded as one tile design with two integration targets ([project memory](PROJECT_MEMORY.md)); claims labelled per target; one built first.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
