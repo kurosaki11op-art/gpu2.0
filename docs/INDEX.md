@@ -92,6 +92,7 @@ tags: [spark, index]
 - [Cascade on real language models, pair A CPU result](../new_start/step8_pairA_cpu_result.md): margin trigger fails C1 (7.4% worse than the large model at 30% escalation) and C3 (1.6x random, bar 2x); learned router proposed (31 Oct 2026)
 - [Cascade on real language models, bars and test plan](../new_start/step8_cascade_lm_plan.md): small plus large model, margin-gated; bars written before any run, script included (31 Oct 2026)
 - [Data and quotes to obtain before manufacturing](manufacturing_data_requests.md): ten figures the cost, energy and capacity models still assume, with who can answer and which result each decides (31 Oct 2026)
+- [Row K test 3, bars](../new_start/step18_k3_plan.md): the few-label weakness, methods using unlabelled images (cluster features plus ridge readout); bars written before the run (31 Oct 2026)
 - [Row K test 2, result](../new_start/step17_k2_result.md): K2-a, b, c pass, K2-d fails (MNIST 1,000 labels -1.9 pts); less training compute holds (17x-352x, conservative), less data does not (L 6-14 pts behind at 100-300 labels) (31 Oct 2026)
 - [Row K test 2, bars](../new_start/step17_k2_plan.md): stronger baselines, more seeds, MNIST as a second task, conservative energy accounting (L x28); bars written before the run (31 Oct 2026)
 - [Row K test 1, result](../new_start/step16_k1_result.md): MEASURED accuracy, COUNTED compute; all three bars pass (L 88.85% vs network 89.4% at 60,000 labels, ahead at 1,000-10,000; about 200x to 5,000x less training energy); basic baseline, one task (31 Oct 2026)
