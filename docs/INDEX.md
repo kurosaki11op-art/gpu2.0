@@ -94,6 +94,7 @@ tags: [spark, index]
 - [Prompt for the independent reviewer (Vision)](vision_review_prompt.md): how the second agent reviews the project, what to attack and how to report (31 Oct 2026)
 - [Corrections after Vision review 01](../new_start/step21_vision_corrections.md): energy 7.3x central and 3.5x worst (was 13.2x and 6.2x), cost 1.35x and 0.82x (was 2.74x and 1.67x), speed range withdrawn, 1B latency 2.4 ms as implemented; supersedes the headline numbers of steps 5 to 15 (31 Oct 2026)
 - [Vision review 01](reviews/vision_review_01.md) and [Jarvis response to review 01](reviews/jarvis_response_01.md): independent review (25 findings) and the point-by-point answer with fixes and disagreements (31 Oct 2026)
+- [Wafer price research prompt](wafer_price_research_prompt.md): the design we plan and the prices to find (31 Oct 2026).
 - [Striping plan and bars](../hw/gpu/stripe_plan.md): the gate for any latency claim (Vision V-01); written before the work.
 - [Our GPU, M3 result](../hw/gpu/M3_result.md): the INT8 tile engine is bit-exact with the simulator (0 mismatches), 98.1% decode utilisation, 130 nm synthesis (5,400 um2 per lane); with the RTL tile rate the M2 latency agrees with the corrected earlier model within 11%, but both assume a striped mapping the ISA cannot express (Vision V-01; 2.4 ms as implemented) (31 Oct 2026)
 - [Finish plan before customers](product_finish_plan.md): what "the product is done" means, the failure register with a plan for each item, and the order of work (M4, M3, hardware gate, customers) (31 Oct 2026)
