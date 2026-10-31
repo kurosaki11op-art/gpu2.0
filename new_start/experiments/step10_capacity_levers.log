@@ -1,0 +1,15 @@
+=== KV 16-bit, weights 4-bit (GPU priced at its manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB)
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    0.61x     6.2x
+=== KV 8-bit, weights 4-bit (GPU priced at its manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB)
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    479     0.020     0.011      499 |    1.06x    12.4x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    479     0.030     0.013      333 |    0.64x     6.0x
+=== KV 4-bit, weights 4-bit (GPU priced at its manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB)
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    404     0.018     0.011      468 |    0.99x    11.3x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    404     0.027     0.012      312 |    0.60x     5.6x
+=== KV 4-bit, weights 3-bit (GPU priced at its manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB)
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    322     0.015     0.010      442 |    0.94x    10.1x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    322     0.023     0.011      295 |    0.57x     5.1x
+=== KV 4-bit, weights 2-bit (GPU priced at its manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB)
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    240     0.012     0.008      408 |    0.87x     9.1x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    240     0.018     0.009      272 |    0.53x     4.7x

@@ -11,6 +11,10 @@
 const WAFER_PRICE: f64 = 18500.0; const WAFER_MM2: f64 = 46225.0;
 // step 6 overrides (defaults = the step 5 values): MM2GB = area per GB of SRAM, SRAM_PJ = all-in read energy per bit
 fn mm2gb() -> f64 { std::env::var("MM2GB").ok().and_then(|v| v.parse().ok()).unwrap_or(341.0) }
+// STEP 10 LEVER TEST (written before the run): applies the capacity levers to BOTH machines through env KV_BITS (key-value cache width, default 16) and W_BITS (weight width, default 4).
+// BAR: with the levers applied equally, GPU priced at its estimated manufacturing cost ($3,320, GPU_PRICE_ABS), worst corner, reticle-chip option at $1,330 per chip: cost advantage at least 2x. Printed result decides; no constant is changed after the run.
+fn kv_bytes() -> f64 { std::env::var("KV_BITS").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(16.0) / 8.0 }
+fn w_bits() -> f64 { std::env::var("W_BITS").ok().and_then(|v| v.parse().ok()).unwrap_or(4.0) }
 fn sram_pj() -> f64 { std::env::var("SRAM_PJ").ok().and_then(|v| v.parse().ok()).unwrap_or(2.78) } const TILE_MM2: f64 = 0.05; const SPARE: f64 = 0.01; const SYS_HW: f64 = 150000.0;
 const E_HBM: f64 = 5.74; const L: f64 = 4096.0; const E_LINK: f64 = 10.0; const HOP_S: f64 = 1e-9; const PHASES: f64 = 6.0; const LINK_S: f64 = 1e-6;
 const GPU_BW: f64 = 3.35e12; const GPU_PEAK: f64 = 495e12; const GPU_CAP: f64 = 72e9; const GPU_OVERHEAD: f64 = 1.5;
@@ -21,7 +25,7 @@ struct M { total: f64, active: f64, layers: f64, d: f64, kv_div: f64 }
 struct S { wtot: f64, touched: f64, bytes: f64, kvseq: f64, macs: f64 }
 fn step(m: &M, bits: f64, b: f64) -> S {
     let wtot = m.total * bits / 8.0; let f = m.active / m.total; let touched = if f >= 0.999 { 1.0 } else { 1.0 - (1.0 - f).powf(b) };
-    let kvseq = 2.0 * m.layers * (m.d / m.kv_div) * L * 2.0; let macs = b * (m.active + 2.0 * m.layers * m.d * L);
+    let kvseq = 2.0 * m.layers * (m.d / m.kv_div) * L * kv_bytes(); let macs = b * (m.active + 2.0 * m.layers * m.d * L);
     S { wtot, touched, bytes: wtot * touched + b * kvseq, kvseq, macs }
 }
 struct R { n: f64, lat: f64, t: f64, ej: f64, capex: f64, pue: f64, b: f64 } // lat: seconds per token per sequence; t: seconds per step of b tokens
@@ -55,7 +59,7 @@ fn chips(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, per_chip: f64, scale:
 fn cost(r: &R) -> (f64, f64) { let toks = r.b / r.t * UTIL; (r.capex / LIFE_S / toks * 1e6, r.ej * r.pue * KWH / 3.6e6 * 1e6) }
 fn best(f: &dyn Fn(f64) -> R) -> (R, f64) { let mut bb: Option<(R, f64)> = None; for &b in &[64.0, 128.0, 256.0, 512.0, 1024.0] { let r = f(b); if 1.0 / r.lat < SLA { continue; } let (c, e) = cost(&r); let tot = c + e; if bb.as_ref().map_or(true, |x| tot < x.1) { bb = Some((r, tot)); } } bb.unwrap_or_else(|| { let r = f(64.0); let (c, e) = cost(&r); (r, c + e) }) }
 fn main() {
-    let m = M { total: 1000e9, active: 32e9, layers: 61.0, d: 7168.0, kv_div: 16.0 }; let bits = 4.0; let bu = WAFER_PRICE / (1.0 - SPARE) + SYS_HW;
+    let m = M { total: 1000e9, active: 32e9, layers: 61.0, d: 7168.0, kv_div: 16.0 }; let bits = w_bits(); let bu = WAFER_PRICE / (1.0 - SPARE) + SYS_HW;
     println!("MODEL, not a measurement. 1T MoE (32B active), 4-bit, context {}, speed floor {} tokens/s per sequence, each machine at its own best batch (64 to 1,024).", L, SLA);
     println!("{:<34} | {:>4} {:>5} {:>9} {:>9} {:>8} | {:>4} {:>5} {:>9} {:>9} {:>8} | {:>8} {:>8}", "corner", "gpuB", "gpus", "gpu $/Mt", "gpu J/tok", "tok/s/sq", "wafB", "wfrs", "wf $/Mt", "wf J/tok", "tok/s/sq", "cost x", "energy x");
     let corners: [(&str, f64, f64, f64, f64); 4] = [("central (350 W, $25k, x1.8, bottom-up)", 350.0, 25000.0, 1.8, bu), ("worst: 100 W, $15k, x2.7, cited price", 100.0, 15000.0, 2.7, CB_PRICE), ("worst but bottom-up price", 100.0, 15000.0, 2.7, bu), ("GPU 220 W, $25k, x2.7, cited price", 220.0, 25000.0, 2.7, CB_PRICE)];
