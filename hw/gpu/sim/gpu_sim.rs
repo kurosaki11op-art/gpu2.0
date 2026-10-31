@@ -24,14 +24,19 @@ impl Ct { fn diff(&self, b: &Ct) -> Ct { Ct { macs: self.macs - b.macs, macs16: 
 fn numel(d: &[usize]) -> usize { d.iter().product() }
 fn dist(a: usize, b: usize, side: usize) -> u64 { let (ax, ay, bx, by) = ((a % side) as i64, (a / side) as i64, (b % side) as i64, (b / side) as i64); ((ax - bx).abs() + (ay - by).abs()) as u64 }
 
-struct Sim { t: HashMap<String, Tn>, wq: HashMap<String, Wq>, prec: HashMap<String, u8>, int8: bool, a8: bool, side: usize, tile_bytes: usize, used: HashMap<usize, usize>, ct: HashMap<String, Ct>, tag: String, cyc: HashMap<String, f64>, en: HashMap<String, f64>, stripe: usize, ltiles: usize, striped: std::collections::HashSet<String>, ovr: Option<f64>, macpc: f64, srambw: f64, stripe_attn: bool }
+struct Sim { t: HashMap<String, Tn>, wq: HashMap<String, Wq>, prec: HashMap<String, u8>, int8: bool, a8: bool, side: usize, tile_bytes: usize, used: HashMap<usize, usize>, ct: HashMap<String, Ct>, tag: String, cyc: HashMap<String, f64>, en: HashMap<String, f64>, stripe: usize, ltiles: usize, striped: std::collections::HashSet<String>, ovr: Option<f64>, macpc: f64, srambw: f64, stripe_attn: bool, compact: bool }
 impl Sim {
+    // placement of stripe tiles. Spread (default): stripe i of logical tile h is tile h + i*ltiles on a square mesh. Compact (GPU_COMPACT=1): the `stripe` tiles of logical tile h form a w x w block (w = ceil(sqrt(stripe))), the home tile is the block's corner, blocks sit side by side.
+    fn cpos(&self, id: usize) -> (i64, i64) { let s = self.stripe.max(1); let w = (s as f64).sqrt().ceil() as usize; let bx = ((self.ltiles as f64).sqrt().ceil() as usize).max(1); let (g, i) = (id / s, id % s); (((g % bx) * w + i % w) as i64, ((g / bx) * w + i / w) as i64) }
+    fn stripe_id(&self, h: usize, i: usize) -> usize { if self.compact { h * self.stripe + i } else { h + i * self.ltiles } }
+    fn hd(&self, a: usize, b: usize) -> u64 { if self.compact { let (p, q) = (self.cpos(a * self.stripe), self.cpos(b * self.stripe)); ((p.0 - q.0).abs() + (p.1 - q.1).abs()) as u64 } else { dist(a, b, self.side) } }
+    fn sd(&self, h: usize, i: usize) -> u64 { if self.compact { let (p, q) = (self.cpos(h * self.stripe), self.cpos(h * self.stripe + i)); ((p.0 - q.0).abs() + (p.1 - q.1).abs()) as u64 } else { dist(h, h + i * self.ltiles, self.side) } }
     fn wb(&self) -> u64 { if self.int8 { 1 } else { 4 } }
     fn ab(&self) -> u64 { if self.int8 { 2 } else { 4 } }
     fn c(&mut self) -> &mut Ct { let tag = self.tag.clone(); self.ct.entry(tag).or_default() }
     fn get(&self, n: &str) -> Tn { self.t.get(n).unwrap_or_else(|| panic!("missing tensor {}", n)).clone() }
     fn fetch(&mut self, n: &str, tile: usize) -> Tn {
-        let t = self.get(n); let h = dist(t.home, tile, self.side); let ab = self.ab(); let bytes = numel(&t.dims) as u64 * ab;
+        let t = self.get(n); let h = self.hd(t.home, tile); let ab = self.ab(); let bytes = numel(&t.dims) as u64 * ab;
         self.c().hop += bytes * h; self.c().rd += bytes; if h > 0 { self.c().net += bytes / linkbw() + hopcyc() *h; } t
     }
     fn put(&mut self, n: &str, dims: Vec<usize>, d: Vec<f32>, home: usize) { let ab = self.ab(); self.c().wr += d.len() as u64 * ab; self.t.insert(n.to_string(), Tn { dims, d, home }); }
@@ -77,7 +82,7 @@ impl Sim {
             let ab = self.ab(); let abytes = (m * k) as u64 * ab; let mut cols: Vec<Vec<f32>> = Vec::new(); let mut worst = 0f64; let mut maxd = 0u64; let mut tot_n = 0;
             for (i, nm) in parts.iter().enumerate() {
                 let before = self.c().clone(); let part = self.mm(nm, &a.d, m, k); let ni = part.len() / m; tot_n += ni;
-                let ph = tile + i * self.ltiles; let dd = dist(tile, ph, self.side); maxd = maxd.max(dd);
+                let dd = self.sd(tile, i); maxd = maxd.max(dd);
                 self.c().hop += abytes * dd + (m * ni) as u64 * ab * dd; // broadcast in, gather out
                 let d = self.c().diff(&before); let mc = (d.macs + d.macs16) as f64;
                 worst = worst.max((mc / self.macpc).max(d.rd as f64 / self.srambw).ceil());
@@ -119,7 +124,7 @@ impl Sim {
         let ab = self.ab(); self.c().macs += (2 * d * t) as u64; self.c().rd += (2 * t * d) as u64 * ab; self.c().vec += (heads * t * 3) as u64;
         if self.stripe > 1 && self.stripe_attn {
             // striped attention: the cache is split by head and by context chunk over `stripe` tiles (tile home + i*ltiles); each tile reads its share of the cache and does 1/stripe of the multiply-adds; the query is broadcast and each tile returns one partial (dh values plus the softmax maximum and sum) per head it touches, merged on the home tile
-            let sn = self.stripe; let mut maxd = 0u64; for i in 0..sn { maxd = maxd.max(dist(tile, tile + i * self.ltiles, self.side)); }
+            let sn = self.stripe; let mut maxd = 0u64; for i in 0..sn { maxd = maxd.max(self.sd(tile, i)); }
             let per_macs = ((2 * d * t) as f64 / sn as f64).ceil(); let per_rd = ((2 * t * d) as u64 * ab) as f64 / sn as f64;
             let bc = (d as u64 * ab) / linkbw() + hopcyc() *maxd; let part = (sn.min(heads * 8) * (dh + 2)) as u64 * ab; let ga = part / linkbw() + hopcyc() *maxd;
             self.c().hop += (d as u64 * ab) * maxd + part * maxd;
@@ -176,7 +181,7 @@ fn main() {
     let tile_of = |l: &String| -> Option<usize> { let tk: Vec<&str> = l.split_whitespace().collect(); match tk.first().copied() { Some("W") => tk.get(2).and_then(|v| v.parse().ok()), Some("MM") => tk.get(5).and_then(|v| v.parse().ok()), Some("GATHER") => tk.get(4).and_then(|v| v.parse().ok()), Some("ATTN") | Some("ATTNC") => tk.get(6).and_then(|v| v.parse().ok()), Some("KVAPP") => tk.get(3).and_then(|v| v.parse().ok()), Some("CONV") => tk.get(8).and_then(|v| v.parse().ok()), _ => None } };
     let stripe: usize = std::env::var("GPU_STRIPE").ok().and_then(|v| v.parse().ok()).unwrap_or(1); let macpc: f64 = std::env::var("GPU_MACPC").ok().and_then(|v| v.parse().ok()).unwrap_or(MACPC); let srambw: f64 = std::env::var("GPU_SRAMBW").ok().and_then(|v| v.parse().ok()).unwrap_or(SRAMBW);
     let ltiles = prog.iter().filter_map(|l| tile_of(l)).max().unwrap_or(0) + 1; let striped: std::collections::HashSet<String> = prog.iter().filter_map(|l| { let tk: Vec<&str> = l.split_whitespace().collect(); if tk.first() == Some(&"MM") { Some(tk[3].to_string()) } else { None } }).collect(); let tiles = ltiles * stripe.max(1); let side = ((tiles as f64).sqrt().ceil() as usize).max(1);
-    let mut sim = Sim { t, wq: HashMap::new(), prec: HashMap::new(), int8, a8, side, tile_bytes, used: HashMap::new(), ct: HashMap::new(), tag: "load".to_string(), cyc: HashMap::new(), en: HashMap::new(), stripe, ltiles, striped, ovr: None, macpc, srambw, stripe_attn: std::env::var("GPU_STRIPE_ATTN").map_or(false, |v| v == "1") };
+    let mut sim = Sim { t, wq: HashMap::new(), prec: HashMap::new(), int8, a8, side, tile_bytes, used: HashMap::new(), ct: HashMap::new(), tag: "load".to_string(), cyc: HashMap::new(), en: HashMap::new(), stripe, ltiles, striped, ovr: None, macpc, srambw, stripe_attn: std::env::var("GPU_STRIPE_ATTN").map_or(false, |v| v == "1"), compact: std::env::var("GPU_COMPACT").map_or(false, |v| v == "1") };
     let mut outs: Vec<f32> = Vec::new(); let mut last_out = String::new();
     for s in 0..ns {
         sim.t.insert(iname.clone(), Tn { dims: idims.clone(), d: idata[s * isz..(s + 1) * isz].to_vec(), home: 0 });
@@ -189,7 +194,7 @@ fn main() {
             match tok[0] {
                 "W" if sim.stripe > 1 && sim.striped.contains(tok[1]) && sim.t[tok[1]].dims.len() == 2 => { if s > 0 { continue; } let tile: usize = tok[2].parse().unwrap(); let pr = match tok.get(3) { Some(&"a16") => 16u8, Some(&"af") => 0u8, _ => 8u8 };
                     let full = sim.t[tok[1]].clone(); let (k, n) = (full.dims[0], full.dims[1]); let sn = sim.stripe; let per = (n + sn - 1) / sn; sim.prec.insert(tok[1].to_string(), pr); sim.t.get_mut(tok[1]).unwrap().home = tile;
-                    for i in 0..sn { let (j0, j1) = (i * per, ((i + 1) * per).min(n)); if j0 >= j1 { continue; } let ni = j1 - j0; let nm = format!("{}#{}", tok[1], i); let ph = tile + i * sim.ltiles;
+                    for i in 0..sn { let (j0, j1) = (i * per, ((i + 1) * per).min(n)); if j0 >= j1 { continue; } let ni = j1 - j0; let nm = format!("{}#{}", tok[1], i); let ph = sim.stripe_id(tile, i);
                         let mut d = vec![0f32; k * ni]; for kk in 0..k { for j in 0..ni { d[kk * ni + j] = full.d[kk * n + j0 + j]; } }
                         sim.prec.insert(nm.clone(), pr); sim.t.insert(nm.clone(), Tn { dims: vec![k, ni], d: d.clone(), home: ph }); let bytes = d.len() * if int8 { 1 } else { 4 };
                         if int8 { let e = sim.used.entry(ph).or_insert(0); *e += bytes; assert!(*e <= sim.tile_bytes, "tile {} SRAM overflow: {} bytes", ph, *e);
