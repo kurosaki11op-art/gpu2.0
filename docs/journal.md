@@ -2042,4 +2042,8 @@ Founder asked to stop the test-after-test loop and execute effective fixes. Adde
 
 Founder ordered a USB power meter (two days) to measure power with an ESP32. Built `hw/mcu`: the L chip algorithm in portable C (0 mismatches on 200 images against the model), a reference int8 CNN in C (float 91.52%, int8 91.52%, bit-exact against the numpy int8 model on 200 images), the ESP32 sketch (L, CNN or idle mode) and the measurement procedure. PC time per image 0.21 ms (L) against 6.02 ms (CNN), a time not an energy. Nothing run on an ESP32 yet; the MEASURED energy waits for the meter. See [MCU port](../hw/results/mcu_port.md).
 
+## 31 Oct 2026: first real-hardware numbers (ESP32)
+
+Founder flashed the sketches on an ESP32 (COM7). MEASURED (software, not the chip): L algorithm bit-exact on the board, 25.05 ms per image at first, 18.53 ms with a shift-add popcount, **8.69 ms with a table popcount and -O3**; per-stage timing shows the detectors dominate (6.64 of 8.69 ms); the small int8 CNN **255.2 ms per image**, checksum identical to the PC run: a **29x time ratio** on the same processor. Energy still waits for the USB meter (expected in two days). Two upload mix-ups (an old copy of the sketch folder; the IDE running a mixed build) cost round trips and are recorded. See [first ESP32 run](../hw/results/esp32_first_run.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
