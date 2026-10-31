@@ -1,0 +1,20 @@
+{
+ "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+ "vram_gb": 6.441926656,
+ "device": "cuda",
+ "torch": "2.14.1+cu126",
+ "model": "x",
+ "prompt": 256,
+ "new": 128,
+ "runs": [],
+ "bandwidth_copy_gbs": 123.58809528354507,
+ "idle_power_w": 7.985141509433962,
+ "launch_us_per_op": 26.693344116210938,
+ "matmul_tflops": 10.998241922532447,
+ "memory_before_model": {
+  "free_gb": 5.356126208,
+  "total_gb": 6.441926656,
+  "torch_allocated_gb": 0.00851968,
+  "torch_reserved_gb": 0.02097152
+ }
+}
