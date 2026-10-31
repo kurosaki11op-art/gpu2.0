@@ -31,9 +31,11 @@ tags: [spark, gpu, product, plan, failures, milestones]
 
 ## Order of work
 
-1. **M4 (compiler front end, real model)** first: it is the part a customer sees (a real model running), it uses what exists (ISA, simulator, M2 model), and it costs nothing but time. Bars in [M4 plan](../hw/gpu/M4_plan.md).
-2. **M3 (RTL of one tile)** next, for cycle counts and area (closes item 2 as far as modelling can, and gives item 3).
-3. **Gate to hardware (items 4 and 5):** decided together with the founder once M3 results exist.
+*Changed 31 Oct 2026: M3 first (the founder left the order to me after asking why M4 came first).* The largest uncertainty is the silicon-level numbers (MAC rate per tile, SRAM bandwidth, latency overhead), not software, and every claim rests on them; RTL is the first thing that can confirm or break them, so it comes before the compiler.
+
+1. **M3 (RTL of one tile)** first, as a small slice: an INT8 matrix engine, bit-exact with the simulator, synthesised on the open 130 nm flow, with cycle counts, area and timing. Bars in [M3 plan](../hw/gpu/M3_plan.md). The numbers then recalibrate the M2 constants.
+2. **M4 (compiler front end, real model)** next: a pretrained GPT-2 small through the simulator, bars in [M4 plan](../hw/gpu/M4_plan.md); it is the part a customer sees.
+3. **Gate to hardware (items 4 and 5 of the failure register):** decided together with the founder once M3 results exist.
 4. **Customers** after items 1 to 3 pass and the gap list is honest.
 
 Related: [Own GPU charter](own_gpu_charter.md), [Failure and lessons notes](lessons_L_v1.md), [Manufacturing data requests](manufacturing_data_requests.md), [M2 result](../hw/gpu/M2_result.md), [Docs index](INDEX.md)

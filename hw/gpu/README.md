@@ -8,6 +8,7 @@ tags: [spark, gpu, index]
 Charter and milestones: [own GPU charter](../../docs/own_gpu_charter.md).
 
 - [ISA_M1.md](ISA_M1.md): instruction set and programming model, version 0.
+- [M3_plan.md](M3_plan.md): milestone M3 plan and bars (RTL of one tile, INT8 matrix engine).
 - [M4_plan.md](M4_plan.md): milestone M4 plan and bars (compiler front end, real pretrained model).
 - [M2_plan.md](M2_plan.md) and [M2_result.md](M2_result.md): milestone M2 plan, bars and result (cycle and energy model: counts, cycles, decode and energy pass; latency against the earlier model fails).
 - [M1_result.md](M1_result.md): milestone M1 result (SIMULATED); [M1_fix_plan.md](M1_fix_plan.md) and [M1_fix_result.md](M1_fix_result.md): the W8A8 transformer fix (bars met with mixed precision; the loss shows quantisation was already harmless).
