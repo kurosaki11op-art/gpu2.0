@@ -2050,4 +2050,8 @@ Founder flashed the sketches on an ESP32 (COM7). MEASURED (software, not the chi
 
 After fixing three setup problems (the old firmware was still on the board, the Serial Monitor held the port, and the auto-reset upload failed until the board was put into download mode by hand with BOOT and EN), the founder ran `serve_host.py` against the ESP32 image server: **10,000 of 10,000 images identical to the reference model** (prediction, routed bit, margin), 89.73% accuracy, 95.09% on the answered images at 16.3% flagged, hardware cascade 91.24% against the fallback alone 91.53%, 9.09 ms per image on the board, 182 s in all. MEASURED on hardware (software on a microcontroller, not the chip). See [full test set on the ESP32](../hw/results/esp32_full_testset.md). Energy still waits for the USB meter.
 
+## 31 Oct 2026: the integrated chip in silicon terms
+
+Founder: the ternary language model was context only; continue with the chip, hardware purchase and GPU test set aside. First sky130 synthesis of the integrated chip (encoder, core inference build, dispatcher, four-engine L Deep, reject flag): logic 0.186 mm2 (19,735 cells, 2,765 flip-flops, no multiplier); memories 1.50 Mbit in 33 arrays, memory about 99% of the area at 130 nm with open macros. Found the literal memories declared 8,192 deep per engine against at most 3,480 needed: right-sized to 4,096, 229,376 bits (15%) fewer, regression PASS (200 images, identical cycles). ESTIMATED, synthesis only. See [chip ASIC estimate](../hw/results/chip_asic_estimate.md). Next chip step: place and route this synthesis.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

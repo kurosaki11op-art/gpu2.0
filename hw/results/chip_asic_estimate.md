@@ -32,7 +32,7 @@ The logic is small: under 0.2 mm2 at 130 nm, no multiplier anywhere. Its biggest
 | encoder (templates, maps, pixels) + top pixel copy | 23,488 | RAM |
 | **total as built before the fix** | **1,502,972 bits (188 KB)** | |
 
-**Free saving found and applied:** the literal memories were declared 8,192 deep per engine; the engines hold at most 3,480 literals, so they are now 4,096 deep (`NLITS_E`, `ldeep_core_p.v`), 4 x 57,344 bits instead of 4 x 114,688: **229,376 bits fewer, 1,273,596 bits (159 KB) in total, 15% less memory**, with the same function (the regression below confirms it).
+**Free saving found and applied (regression after the change: the integrated-chip check on 200 images, PASS, 0 mismatches, 0 flag mismatches, identical cycle counts):** the literal memories were declared 8,192 deep per engine; the engines hold at most 3,480 literals, so they are now 4,096 deep (`NLITS_E`, `ldeep_core_p.v`), 4 x 57,344 bits instead of 4 x 114,688: **229,376 bits fewer, 1,273,596 bits (159 KB) in total, 15% less memory**, with the same function (the regression below confirms it).
 
 ## What this means in area (ESTIMATED, assumptions stated)
 

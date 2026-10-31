@@ -115,6 +115,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 
 - [Target 1 new-class learning](target1_new_class_learning.md): on-device learning against a CNN with and without replay; no accuracy win, update time under a second (30 Oct 2026).
 - [Cascade demo](cascade_demo.md): chip first, fallback CNN on the flagged images, with the reject flag in the RTL; 91.2% at about 5.7x less estimated energy than the strong CNN alone (30 Oct 2026).
+- [Integrated chip in silicon terms](chip_asic_estimate.md): sky130 synthesis, logic 0.186 mm2, 1.5 Mbit of memories, a free 15% memory saving (31 Oct 2026).
 - [Full test set on a real ESP32](esp32_full_testset.md): 10,000 images on the board, 0 mismatches against the model, hardware cascade 91.24% (31 Oct 2026).
 - [First run on a real ESP32](esp32_first_run.md): the L algorithm bit-exact on hardware, 25.05 ms per image before the popcount fix (31 Oct 2026).
 - [MCU port](mcu_port.md): the L algorithm and a reference int8 CNN in portable C for an ESP32, bit-exact on a PC; the energy measurement waits for the USB meter (30 Oct 2026).
