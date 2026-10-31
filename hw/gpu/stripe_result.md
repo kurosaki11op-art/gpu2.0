@@ -54,6 +54,23 @@ Per-token cost near 480 tokens of context, microseconds, scaled decoder, width 1
 - **What it means:** the 33 to 51 microsecond results hold only if a hop costs about 2 cycles (2 nanoseconds at 1 GHz) with this placement. On-wafer wires might do that; chip-to-chip links cannot (Vision research: 2 to 3 microseconds per crossing), so **striping every matrix across chips is not viable** in this form: at 200 cycles per hop it is already more than 10x over the bar's limit, which was the pre-set trigger for rethinking the reticle mapping.
 - **Not yet tried (next experiment, new bar needed):** compact placement (the 16 stripe tiles of a layer in a 4 x 4 block, farthest tile about 6 hops), tree broadcast, and overlapping the broadcast with compute. Compact placement alone should cut the serial hop count by about 5x; that is a prediction, not a result.
 
+## Compact placement (bar S-f, 31 Oct 2026, SIMULATED; plan and bar committed before the run)
+
+The 16 stripe tiles of a layer now sit in a 4 x 4 block with the home tile at its corner (`GPU_COMPACT=1`). Same decoder, striped attention, width 16, per-token cost in microseconds near 480 tokens of context ([log](stripe/results/sweep_network_compact.log)); the spread placement of S-e in brackets:
+
+| link bytes per cycle \ cycles per hop | 2 | 16 | 200 | 2,000 |
+|---|---|---|---|---|
+| 16 | 56.3 (62.1) | 93.0 (139.0) | 576 (1,150) | 5,299 (11,045) |
+| 32 | 40.9 (46.6) | 77.6 (123.6) | 560 (1,135) | 5,284 (11,030) |
+| 64 | 33.1 (38.9) | **69.9** (115.8) | 553 (1,127) | 5,276 (11,022) |
+| 128 | 29.3 (35.0) | 66.0 (112.0) | 549 (1,123) | 5,272 (11,018) |
+| 256 | 27.3 (33.1) | 64.1 (110.0) | 547 (1,122) | 5,270 (11,016) |
+
+- **S-f PASSES:** at 16 cycles per hop and 64 bytes per cycle the cost is 69.9 microseconds (bar 95); it passes at every link width from 16 bytes per cycle up (64 to 93 microseconds). Outputs are byte-identical to the unstriped run at widths 1, 4 and 16 for the prefill and decode models ([log](stripe/results/compact_md5.log)).
+- **The prediction was about right:** about 5x fewer serial hops was predicted; the hop-dependent part of the cost fell about 2x at 16 cycles per hop (from 116 to 70 microseconds, against the 33 microsecond floor), less than hoped, because the farthest stripe tile is still 6 hops away and each operation still pays a broadcast and a gather.
+- **Chip-to-chip crossings are still not viable:** at 200 cycles per hop (0.2 microsecond) the cost is about 550 microseconds, 5x over the bar, and about 5.3 milliseconds at 2,000 cycles (the 2 to 3 microsecond crossing reported for shipping systems). Reducing the number of serial hops further (tree broadcast, overlapping with compute, a different split such as pipeline stages across chips) is untried; the plain striping mapping does not work across chips, which matters for the reticle design.
+- **Summary of the speed claim, all SIMULATED, scaled decoder, 480 tokens of context:** 33 to 70 microseconds per token if a hop costs 2 to 16 cycles at 1 GHz with compact placement; about 550 microseconds at 0.2 microsecond per hop. It rests on assumed hop cost and has not been checked against a real mesh.
+
 ## Status
 
 The Vision V-01 gate is **met on the scaled model in simulation**: striped weights and striped attention give 32.5 microseconds per token with an empty cache and 51.5 microseconds at 2,048 tokens of context. The latency claim stays withdrawn from charter-level statements until it is run on the full 1B shape and with network contention, and its dependence on the assumed link constants is tested (a width or hop-cost sweep is the next run). Next: the link-constant sweep, then the wafer and reticle system models under the Vision corrections.

@@ -14,3 +14,10 @@ link_bytes_per_cycle hop_cycles us_per_token_near_480_context
 128 2 29.3
 128 16 66.0
 128 200 548.8
+128 2000 5272.0
+256 2 27.3
+256 16 64.1
+256 200 546.9
+256 2000 5270.1
+
+[exited with code 0]
