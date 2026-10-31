@@ -23,6 +23,23 @@ tags: [spark, gpu, m2, cycle-model, energy-model, result]
 - **Latency does not agree, and the disagreement is informative.** The earlier latency model charges 6 synchronisation phases per layer at 0.5 microsecond of link time plus a wire term, calibrated by a factor 1.8 on vendor figures for multi-wafer machines; for a model that fits on one chip that link term does not exist, so it predicts 122 microseconds per token. The bottom-up cycle model, with the 1B decoder spread over 168 tiles, has 6 phases per layer of about 100 cycles of mesh latency (0.1 microsecond each) and about 1 microsecond of compute per layer, and predicts 21 microseconds (about 47,000 tokens per second per user). **Which is closer to a real chip is not settled by either model: the bottom-up model has no software, scheduling or imperfect-overlap overheads; the earlier model was calibrated on a different class of machine.** M3 (RTL of a tile) and M5 (a test chip) are what can decide.
 - **Informational cross-check, not a bar:** the same cycle model on the two dense models for which a vendor reported per-user speeds on wafer-scale machines (16-bit weights, batch 1, short context, vendor figures: about 2,100 tokens per second for a 70B model and 969 for a 405B model, from the step 4 sources) gives **2,800 and 750 tokens per second (ratios 1.33 and 0.77)**: the right order, within about 35% either way, although the vendor configurations and the model's hypothetical mesh are not the same.
 
+
+## Correction of the reference latency model, and what is left (31 Oct 2026, after the founder asked whether latency was being left unfixed)
+
+Investigating the M2-e miss found **an error in the earlier latency model for a layer that fits on one chip**: it charged one inter-chip link time (0.5 microsecond) per synchronisation phase even when no link is crossed (`max(1.0)` on the logarithm of the number of chips per layer), and charged no layer-boundary crossings when each layer sits on its own chip. Corrected in `step5_worst_case_model.rs` (single-chip case only: link term zero when a layer fits on one chip, one link time per layer boundary instead). The large-system results of steps 5 to 15 have more than one chip per layer and do not change (checked: the central 480-dollar case still gives 2.74x). **The original M2-e result above (122 and 159 microseconds, ratios 0.18 and 0.42) stays recorded as measured against the uncorrected model.**
+
+Against the corrected reference (batch 1: 35.6 microseconds, 3.62 mJ; batch 64: 92.7 microseconds, 1.406 mJ, 12 chips):
+
+| variant of the bottom-up model | batch 1 | ratio to reference | batch 64 | ratio to reference |
+|---|---|---|---|---|
+| A: operations share the occupied tiles | 21.4 microseconds | **0.60** | 66.8 | **0.72** |
+| B: each layer spread over every tile of the chips used | 14.7 | 0.41 | 65.0 | 0.70 |
+| A with the reference's overhead factor 1.8 | 38.5 | **1.08** | 120.2 | 1.30 |
+
+- **M2-d (energy) with the corrected reference: still PASS** (batch 1: 3.26 against 3.62 mJ, ratio 0.90; batch 64: 1.413 against 1.406 mJ, ratio 1.00).
+- **M2-e (latency, as pre-set, variant A against the corrected reference): still FAIL** (0.60 and 0.72). The gap fell from 5.7x and 2.4x to 1.7x and 1.4x. **What remains is the overhead factor:** the reference multiplies its ideal latency by 1.8 (calibrated on vendor figures for software, synchronisation and imperfect overlap) and the bottom-up model has none; with the same factor applied the batch-1 value agrees to 8% and the batch-64 value is 30% above (the batch-64 reference includes eleven chip-to-chip layer crossings that the on-chip model does not charge).
+- **Planning range until hardware data exists:** about **21 to 36 microseconds per token at batch 1** (28,000 to 47,000 tokens per second per user) and **67 to 93 microseconds per step at batch 64**, for a dense 1B decoder in 4-bit on one to twelve chips. Either end is far above what a GPU does for the same model; the 2x spread between the two ends is an unresolved overhead factor, not a difference in what the design can do.
+
 ## Status of milestone M2
 
 **Partly passed:** counts, cycles, decode equivalence and energy pass; **the speed bar against the earlier latency model fails (a factor of 2.4 to 5.7 faster in the new model)**. M2 delivers the cycle and energy model and its validation against the simulator; the open item is which latency figure to trust at small scale. Proposal for the next steps: keep both numbers (the bottom-up 21 microseconds and the conservative 122 microseconds) as a range for a 1B model on one chip until M3 gives cycle counts from RTL.

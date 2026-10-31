@@ -64,9 +64,9 @@ fn lw(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, unit_price: f64, scale: 
 fn chips(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, per_chip: f64, scale: f64) -> R {
     let gb = 0.8 * 800.0 / mm2gb(); let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap); let cpl = (n / m.layers).ceil().max(1.0);
     let q = (b / m.layers).max(1.0); let peak = LW_PEAK * 800.0 / WAFER_MM2; let bwc = bw_per_byte() * cap;
-    let fabric = PHASES * ((800.0f64).sqrt() / TILE_MM2.sqrt() * HOP_S + 0.5e-6 * cpl.log2().ceil().max(1.0));
+    let fabric = PHASES * ((800.0f64).sqrt() / TILE_MM2.sqrt() * HOP_S + 0.5e-6 * cpl.log2().ceil().max(0.0)); // correction 31 Oct 2026 (M2): no inter-chip link term when a layer fits on one chip (the earlier max(1.0) charged one); layer-boundary crossings are added below for that case
     let comp = q * (m.active / m.layers + 2.0 * m.d * ctxl()) / (peak * cpl); let read = (s.wtot * s.touched / m.layers + q * s.kvseq / m.layers) / (bwc * cpl);
-    let lat = (m.layers * (fabric + comp + read)) * scale; let link = m.layers * PHASES * (m.d * 2.0 * 8.0 * E_LINK * 1e-12) * cpl.log2().ceil().max(1.0) * b;
+    let boundary = if cpl <= 1.0 { (n - 1.0) * LINK_S } else { 0.0 }; let lat = (m.layers * (fabric + comp + read) + boundary) * scale; let link = (m.layers * PHASES * (m.d * 2.0 * 8.0 * E_LINK * 1e-12) * cpl.log2().ceil().max(0.0) + if cpl <= 1.0 { (n - 1.0) * m.d * 2.0 * 8.0 * E_LINK * 1e-12 } else { 0.0 }) * b;
     let e = s.bytes * 8.0 * e_sram * 1e-12 + s.macs * mac_pj(bits) * 1e-12 + (0.5 + leak * gb) * n * lat + link; R { n, lat, t: lat, ej: e / b, capex: n * per_chip, pue: PUE_LIQ, b }
 }
 // cost per million tokens: tokens per second = b / t_step where one step yields b tokens; for the wafer a step of b tokens takes lat (all sequences advance together through the pipeline)
