@@ -8,7 +8,10 @@ use std::fs;
 use std::io::Write;
 
 // ASSUMED parameters, from the wafer-scale cost and energy notes (see hw/gpu/M2_plan.md)
-const MACPC: f64 = 368.0; const SRAMBW: f64 = 2000.0; const VECL: f64 = 64.0; const LINKBW: u64 = 64; const HOPCYC: u64 = 2; const CLOCK_HZ: f64 = 1.0e9;
+const MACPC: f64 = 368.0; const SRAMBW: f64 = 2000.0; const VECL: f64 = 64.0; fn env_u64(k: &str, d: u64) -> u64 { std::env::var(k).ok().and_then(|v| v.parse().ok()).unwrap_or(d) }
+fn linkbw() -> u64 { static V: std::sync::OnceLock<u64> = std::sync::OnceLock::new(); *V.get_or_init(|| env_u64("GPU_LINKBW", 64)) } // bytes per cycle per link (ASSUMED)
+fn hopcyc() -> u64 { static V: std::sync::OnceLock<u64> = std::sync::OnceLock::new(); *V.get_or_init(|| env_u64("GPU_HOPCYC", 2)) } // cycles per hop (ASSUMED)
+const CLOCK_HZ: f64 = 1.0e9;
 const E_MAC_PJ: f64 = 0.25; const E_SRAM_BYTE_PJ: f64 = 0.55 * 8.0; const E_VEC_PJ: f64 = 0.4; const E_HOP_BYTE_PJ: f64 = 0.1 * 8.0; const LEAK_W_PER_GB: f64 = 1.6;
 
 #[derive(Clone)]
@@ -29,7 +32,7 @@ impl Sim {
     fn get(&self, n: &str) -> Tn { self.t.get(n).unwrap_or_else(|| panic!("missing tensor {}", n)).clone() }
     fn fetch(&mut self, n: &str, tile: usize) -> Tn {
         let t = self.get(n); let h = dist(t.home, tile, self.side); let ab = self.ab(); let bytes = numel(&t.dims) as u64 * ab;
-        self.c().hop += bytes * h; self.c().rd += bytes; if h > 0 { self.c().net += bytes / LINKBW + HOPCYC * h; } t
+        self.c().hop += bytes * h; self.c().rd += bytes; if h > 0 { self.c().net += bytes / linkbw() + hopcyc() *h; } t
     }
     fn put(&mut self, n: &str, dims: Vec<usize>, d: Vec<f32>, home: usize) { let ab = self.ab(); self.c().wr += d.len() as u64 * ab; self.t.insert(n.to_string(), Tn { dims, d, home }); }
     // matrix product a[m,k] @ w[k,n]; int8: per-row activation scale, per-column weight scale, integer accumulate; precision of the activations per weight: 8 (default), 16, 0 (FP32, also the whole mode w8)
@@ -82,7 +85,7 @@ impl Sim {
             }
             n = tot_n; o = vec![0f32; m * n]; let mut c0 = 0;
             for part in &cols { let ni = part.len() / m; for r in 0..m { for j in 0..ni { o[r * n + c0 + j] = part[r * ni + j]; } } c0 += ni; }
-            let bc = abytes / LINKBW + HOPCYC * maxd; let ga = (m * n) as u64 * ab / LINKBW + HOPCYC * maxd;
+            let bc = abytes / linkbw() + hopcyc() *maxd; let ga = (m * n) as u64 * ab / linkbw() + hopcyc() *maxd;
             self.ovr = Some(worst + (bc + ga) as f64);
         } else { o = self.mm(wn, &a.d, m, k); n = o.len() / m; }
         if bn != "-" { let b = self.t[bn].d.clone(); for i in 0..m { for j in 0..n { o[i * n + j] += b[j]; } } self.c().vec += (m * n) as u64; }
@@ -118,7 +121,7 @@ impl Sim {
             // striped attention: the cache is split by head and by context chunk over `stripe` tiles (tile home + i*ltiles); each tile reads its share of the cache and does 1/stripe of the multiply-adds; the query is broadcast and each tile returns one partial (dh values plus the softmax maximum and sum) per head it touches, merged on the home tile
             let sn = self.stripe; let mut maxd = 0u64; for i in 0..sn { maxd = maxd.max(dist(tile, tile + i * self.ltiles, self.side)); }
             let per_macs = ((2 * d * t) as f64 / sn as f64).ceil(); let per_rd = ((2 * t * d) as u64 * ab) as f64 / sn as f64;
-            let bc = (d as u64 * ab) / LINKBW + HOPCYC * maxd; let part = (sn.min(heads * 8) * (dh + 2)) as u64 * ab; let ga = part / LINKBW + HOPCYC * maxd;
+            let bc = (d as u64 * ab) / linkbw() + hopcyc() *maxd; let part = (sn.min(heads * 8) * (dh + 2)) as u64 * ab; let ga = part / linkbw() + hopcyc() *maxd;
             self.c().hop += (d as u64 * ab) * maxd + part * maxd;
             self.ovr = Some((per_macs / self.macpc).max(per_rd / self.srambw).ceil() + (bc + ga) as f64 + ((heads * t * 3) as f64 / sn as f64 / VECL).ceil());
         }
