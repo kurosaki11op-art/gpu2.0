@@ -1,0 +1,35 @@
+MODEL, not a measurement. MoE 1T/32B 4-bit, 64 sequences, context 4096. Latency model: 6 phases per layer, 1 ns per hop, tile 0.05 mm2, link 1 us (all ASSUMED).
+model        machine                      n token lat ms    tok/s/seq     tok/s   J/token  power kW    W/mm2 |  $/Mtok c  $/Mtok e    $/Mtok
+MoE 1T/32B   GPU cluster (350 W, $25k)    8      17.399           57      3678     1.105       4.1    0.624 |     1.293     0.043     1.336
+MoE 1T/32B   cited wafer system (ref)    13       0.317         3154    192369     1.554     299.0    0.498 |     2.679     0.050     2.728
+MoE 1T/32B   L-wafer A, cited price       5       0.274         3655    222967     0.170      38.0    0.164 |     0.889     0.005     0.894
+MoE 1T/32B   L-wafer A, bottom-up         5       0.274         3655    222967     0.170      38.0    0.164 |     0.060     0.005     0.065
+dense 70B    GPU cluster                  2      18.045           55      3547     0.303       1.1    0.660 |     0.335     0.012     0.347
+dense 70B    L-wafer A, bottom-up         2       0.726         1377     88110     0.055       4.8    0.052 |     0.061     0.002     0.062
+MoE 671B/37B GPU cluster                  6      17.675           57      3621     0.845       3.1    0.626 |     0.985     0.033     1.018
+MoE 671B/37B L-wafer A, bottom-up         4       0.291         3434    209493     0.132      27.6    0.149 |     0.051     0.004     0.055
+
+Hardware-cost threshold (I2'): the highest system hardware cost per wafer at which L-wafer A stays at or below 0.5x the GPU cluster, for each GPU assumption:
+   GPU W    GPU $ | GPU $/Mtok max hardware $ break-even $/wafer J2' ratio
+     100    15000 |      0.798        1087756        2228178      4.0x
+     100    25000 |      1.315        1815128        3682923      4.0x
+     100    40000 |      2.091        2906186        5865039      4.0x
+     220    15000 |      0.808        1102029        2256724      5.9x
+     220    25000 |      1.325        1829401        3711468      5.9x
+     220    40000 |      2.101        2920459        5893585      5.9x
+     350    15000 |      0.819        1117491        2287648      7.9x
+     350    25000 |      1.336        1844863        3742393      7.9x
+     350    40000 |      2.112        2935921        5924509      7.9x
+     700    15000 |      0.848        1159120        2370906     13.3x
+     700    25000 |      1.366        1886492        3825651     13.3x
+     700    40000 |      2.141        2977550        6007767     13.3x
+
+Calibration of the latency model on the cited wafer system (16-bit weights, batch 1): vendor-reported per-user speed about 2,100 tokens/s for Llama 3.1 70B and 969 for 405B.
+  dense 70B: modelled 2095 tokens/s per sequence on 4 wafers
+  dense 405B: modelled 908 tokens/s per sequence on 19 wafers
+
+BAR RESULTS (pre-set, applied as written):
+L1 token latency 0.274 ms (needs <= 2 ms): PASS   [step 3 assumed 0.5 ms; per-sequence speed 3655 tokens/s]
+I2' bottom-up $0.065 per Mtok against GPU $1.336 (needs <= $0.668): PASS; hardware-cost threshold at the central GPU assumption (350 W, $25k): see table; threshold >= $150k across 220-700 W and >= $25k: PASS
+J2' facility energy ratio >= 5x for every GPU power 220-700 W: PASS
+J1' heat density 0.164 W/mm2 (needs <= 1.0): PASS

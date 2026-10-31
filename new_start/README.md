@@ -30,6 +30,7 @@ Graph traversal, sparse matrix-vector product, sequence matching. Reason: it is 
 
 - Rows B and A of the [workload map](../docs/gpu_workload_map.md), run 31 Oct 2026 (existing models on an SRAM wafer, against a GPU cluster and a Cerebras-class wafer): capacity 2.46x the cited wafer (pass), energy 3.4x at the pessimistic SRAM value against a 5x bar (fail; 5x needs reads at 1.87 pJ/bit or less); see [step 2 result](step2_wafer_sram_result.md).
 - Rows I and J of the workload map, run 31 Oct 2026 (cost, yield, power, heat of an SRAM wafer): silicon is under 1% of the cited system price; the wafer wins on cost per token only with a step latency near 1 ms and a system price well under $2-3M, neither shown; see [step 3 result](step3_cost_power_result.md).
+- Rows I and J closed on the model, 31 Oct 2026: calibrated latency model, all pre-set bars pass at central assumptions, three external numbers can still break the claim; see [step 4 result](step4_close_i_j_result.md).
 - Target 3 (batch-1 language-model decode) step 1 run 30 Oct 2026: **failed the pre-set bar (3.6x at the pessimistic SRAM energy, 5x needed; passes at the middle value; capacity fits)**; dropped as a first target. See [step 1 result, target 3](step1_lm_result.md). Two of two new targets failed their first step: the premise "a different architecture beats a GPU by a wide margin on general workloads" is not supported by our models.
 
 ## Folder
