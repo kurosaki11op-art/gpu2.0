@@ -92,4 +92,6 @@ tags: [spark, index]
 
 - [New start charter](../new_start/README.md): clean rules, target (irregular and sparse workloads), bars and kill rules for the restarted project; [step 1 result, target 2](../new_start/step1_result.md) and [step 1 result, target 3](../new_start/step1_lm_result.md): both fail their first test (30 Oct 2026)
 
+- [Status, 31 Oct 2026](status_31oct.md): what is measured, simulated and estimated, and what waits on whom (replaces the 28 Oct status for the current direction)
+
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)
