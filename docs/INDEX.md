@@ -86,6 +86,7 @@ tags: [spark, index]
 
 - [Lessons from L version 1](lessons_L_v1.md): wins, failures and what the new start must do differently (30 Oct 2026)
 
+- [Workload map](gpu_workload_map.md): rows A-H of what a chip must do to replace a GPU, including running existing (not only ternary) models, with mechanism, bar and status per row (31 Oct 2026)
 - [GPU workload census](gpu_workload_census.md): the 19 computation patterns a GPU is used for, what version 1 tested, and how coverage would be tested (30 Oct 2026)
 
 - [New start: target options](new_start_target_options.md): three candidate targets with reasons, first decisive tests and bars (30 Oct 2026)
