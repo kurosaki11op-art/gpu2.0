@@ -1,0 +1,5 @@
+DRAM-PIM-like(1.5pJ,BW0.2)     cost_x 7.20x  energy_x 4.0x   tok/s/seq 182   chips 12
+DRAM-PIM-like(3pJ,BW0.2)       cost_x 6.23x  energy_x 2.3x   tok/s/seq 182   chips 12
+DRAM-PIM-like(1.5pJ,BW0.05)    cost_x 6.55x  energy_x 4.0x   tok/s/seq 162   chips 12
+SRAM-density-4.2x              cost_x 1.65x  energy_x 4.9x   tok/s/seq 212   chips 150
+SRAM(reference)                cost_x 0.61x  energy_x 6.2x   tok/s/seq 321   chips 630
