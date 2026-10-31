@@ -1,2 +1,8 @@
 mean active code bits 582; L per example: encoder 0.006 uJ, learning 15140.4032 adds = 0.00045 uJ; fixed encoder fitting 132.7 uJ
 N=   100  L 0.6395  CNN 0.5002 (seeds [0.3895, 0.6109], 94.5 epochs)  energy L 133.3 uJ, CNN 26311.0 uJ, ratio 197x   wall L 1s CNN 6s
+N=   300  L 0.6915  CNN 0.6981 (seeds [0.683, 0.7132], 54.0 epochs)  energy L 134.5 uJ, CNN 45104.5 uJ, ratio 335x   wall L 1s CNN 5s
+N=  1000  L 0.7865  CNN 0.7287 (seeds [0.6682, 0.7891], 27.5 epochs)  energy L 138.7 uJ, CNN 76566.3 uJ, ratio 552x   wall L 1s CNN 6s
+N=  3000  L 0.8338  CNN 0.8034 (seeds [0.7896, 0.8173], 14.0 epochs)  energy L 150.7 uJ, CNN 116937.7 uJ, ratio 776x   wall L 1s CNN 9s
+N= 10000  L 0.8608  CNN 0.8500 (seeds [0.85], 13.0 epochs)  energy L 192.5 uJ, CNN 361950.0 uJ, ratio 1880x   wall L 2s CNN 12s
+N= 60000  L 0.8885  CNN 0.8936 (seeds [0.8936], 15.0 epochs)  energy L 491.7 uJ, CNN 2505807.4 uJ, ratio 5096x   wall L 8s CNN 84s
+BARS: K1-a (L >= CNN - 1pt at 1,000 and 3,000) PASS;  K1-b (energy ratio >= 20x at largest N with both >= 85%: N=60000) PASS;  K1-c (60,000: within 3 pts) PASS
