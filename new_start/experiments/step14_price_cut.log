@@ -1,0 +1,10 @@
+gpu_price  cut_vs_25k  | central_adv@2660  central_adv@1330 | worst_adv@2660  worst_adv@1330  (cost advantage = GPU cluster cost per token / ours; SRAM 0.55 pJ/bit, 420 mm2/GB)
+25000      0%          | 3.16x             6.27x             | 2.08x           4.13x          
+20000      20%         | 2.55x             5.06x             | 1.67x           3.32x          
+15000      40%         | 1.94x             3.85x             | 1.26x           2.51x          
+12500      50%         | 1.63x             3.24x             | 1.06x           2.10x          
+10000      60%         | 1.33x             2.64x             | 0.85x           1.70x          
+7900       68%         | 1.07x             2.13x             | 0.68x           1.36x          
+6640       73%         | 0.92x             1.82x             | 0.58x           1.15x          
+5000       80%         | 0.72x             1.42x             | 0.45x           0.89x          
+3320       87%         | 0.51x             1.02x             | 0.31x           0.61x          
