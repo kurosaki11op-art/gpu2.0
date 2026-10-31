@@ -1,0 +1,86 @@
+{
+ "cases": [
+  {
+   "case": "selftest_8x16x8",
+   "lanes": 64,
+   "accumulators_equal_numpy": true,
+   "mismatches": 0,
+   "outputs_seen": 8,
+   "outputs_expected": 8,
+   "cycles": 133,
+   "formula_m_nb_k_plus_3": 131,
+   "cycle_error_pct": 1.5267175572519085,
+   "utilisation": 0.12030075187969924,
+   "dequantised_equals_simulator_output": true,
+   "max_abs_diff_vs_simulator": 0.0
+  },
+  {
+   "case": "selftest_8x16x8",
+   "lanes": 256,
+   "accumulators_equal_numpy": true,
+   "mismatches": 0,
+   "outputs_seen": 8,
+   "outputs_expected": 8,
+   "cycles": 133,
+   "formula_m_nb_k_plus_3": 131,
+   "cycle_error_pct": 1.5267175572519085,
+   "utilisation": 0.03007518796992481,
+   "dequantised_equals_simulator_output": true,
+   "max_abs_diff_vs_simulator": 0.0
+  },
+  {
+   "case": "L0.wq_64x256x256",
+   "lanes": 64,
+   "accumulators_equal_numpy": true,
+   "mismatches": 0,
+   "outputs_seen": 256,
+   "outputs_expected": 256,
+   "cycles": 65541,
+   "formula_m_nb_k_plus_3": 65539,
+   "cycle_error_pct": 0.0030516181205083996,
+   "utilisation": 0.9999237118750095
+  },
+  {
+   "case": "L0.wq_64x256x256",
+   "lanes": 256,
+   "accumulators_equal_numpy": true,
+   "mismatches": 0,
+   "outputs_seen": 64,
+   "outputs_expected": 64,
+   "cycles": 16389,
+   "formula_m_nb_k_plus_3": 16387,
+   "cycle_error_pct": 0.012204796485018612,
+   "utilisation": 0.9996949173225944
+  },
+  {
+   "case": "L0.w1_16x256x1024",
+   "lanes": 64,
+   "accumulators_equal_numpy": true,
+   "mismatches": 0,
+   "outputs_seen": 256,
+   "outputs_expected": 256,
+   "cycles": 65541,
+   "formula_m_nb_k_plus_3": 65539,
+   "cycle_error_pct": 0.0030516181205083996,
+   "utilisation": 0.9999237118750095
+  },
+  {
+   "case": "L0.w1_16x256x1024",
+   "lanes": 256,
+   "accumulators_equal_numpy": true,
+   "mismatches": 0,
+   "outputs_seen": 64,
+   "outputs_expected": 64,
+   "cycles": 16389,
+   "formula_m_nb_k_plus_3": 16387,
+   "cycle_error_pct": 0.012204796485018612,
+   "utilisation": 0.9996949173225944
+  }
+ ],
+ "decode_1x256x256_lanes256": {
+  "exact": true,
+  "cycles": 261,
+  "utilisation": 0.9808429118773946
+ },
+ "all_accumulators_exact": true
+}
