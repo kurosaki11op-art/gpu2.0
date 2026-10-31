@@ -31,6 +31,7 @@ Graph traversal, sparse matrix-vector product, sequence matching. Reason: it is 
 - Rows B and A of the [workload map](../docs/gpu_workload_map.md), run 31 Oct 2026 (existing models on an SRAM wafer, against a GPU cluster and a Cerebras-class wafer): capacity 2.46x the cited wafer (pass), energy 3.4x at the pessimistic SRAM value against a 5x bar (fail; 5x needs reads at 1.87 pJ/bit or less); see [step 2 result](step2_wafer_sram_result.md).
 - Rows I and J of the workload map, run 31 Oct 2026 (cost, yield, power, heat of an SRAM wafer): silicon is under 1% of the cited system price; the wafer wins on cost per token only with a step latency near 1 ms and a system price well under $2-3M, neither shown; see [step 3 result](step3_cost_power_result.md).
 - Rows I and J, 31 Oct 2026: the first "closed on the model" was withdrawn after a fair comparison (each machine at its best batch); worst case fails cost and energy, with two named levers; see [step 5 result](step5_worst_case_result.md) and the superseded [step 4](step4_close_i_j_result.md).
+- Row K test 1 plan, 31 Oct 2026: see [bars](step16_k1_plan.md).
 - Row I bottom-up packaged cost, 31 Oct 2026: cost bar passes centrally at $480 per chip; see [note](step15_packaged_cost_result.md).
 - Row I price-cut test, 31 Oct 2026: see [note](step14_price_cut_result.md).
 - Row I buyer price view, 31 Oct 2026: conditional win at central assumptions; see [note](step13_buyer_price_result.md).
