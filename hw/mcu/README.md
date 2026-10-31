@@ -16,6 +16,7 @@ Purpose: turn the energy claim into a **MEASURED** number on a real device, with
 | `gen_tables.py`, `gen_cnn.py` | generate `l_tables.h`, `l_testimg.h`, `test_images.bin` and `cnn_tables.h` (the CNN is trained and quantised here) |
 | `main_pc.c`, `main_pc_cnn.c` | PC checks: L core against the model's expected scores, CNN against the numpy int8 model |
 | `esp32_bench/esp32_bench.ino` | the ESP32 sketch: MODE 0 = L algorithm, 1 = CNN, 2 = idle baseline (includes the cores from the parent folder; use PlatformIO or copy the files next to it) |
+| `esp32_serve/` and `serve_host.py` | the ESP32 as an image server over USB serial and the host script that runs the whole 10,000-image test set through the L algorithm on the board, calibrates the reject threshold from the board's own margins and cascades the flagged images to the fallback; checks every prediction against `model_expected_10k.npz` (made by `gen_expected.py`); protocol tested on a PC against a stand-in |
 | `esp32_mode1/`, `esp32_mode2/` | self-contained Arduino sketch folders for MODE 1 (the CNN: esp32_mode1.ino, cnn_core.c, cnn_core.h, cnn_tables.h, l_testimg.h) and MODE 2 (idle baseline: one file); open each folder the same way as esp32_mode0 |
 | `esp32_mode0/` | a self-contained Arduino sketch folder for MODE 0 only (L algorithm): esp32_mode0.ino, l_core.c, l_core.h, l_tables.h, l_testimg.h; open this folder in the Arduino IDE; its logic was compiled and run on a PC against an Arduino stand-in, 1,000 of 1,000 identical to the model |
 
