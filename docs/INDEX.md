@@ -94,4 +94,6 @@ tags: [spark, index]
 
 - [Status, 31 Oct 2026](status_31oct.md): what is measured, simulated and estimated, and what waits on whom (replaces the 28 Oct status for the current direction)
 
+- [The founder's ternary language model project](founder_ternary_lm_context.md): why it exists, its honest results, a literature check, and the proposed joint plan with this repo (31 Oct 2026)
+
 Related: [Home](../README.md), [Results index](../hw/results/INDEX.md)
