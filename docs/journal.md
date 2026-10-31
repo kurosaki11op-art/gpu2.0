@@ -2060,4 +2060,6 @@ Founder: wants a chip that does what a GPU does, differently, more efficient and
 
 Rows B and A run (Rust model, bars written first): [result](../new_start/step2_wafer_sram_result.md). MODELLED. Capacity PASS: an SRAM-heavy wafer holds 108 GB = 2.46x the cited 44 GB wafer (a 1T model at 4-bit needs 5 wafers against 12). Energy FAIL: 3.4x below a GPU cluster at pessimistic SRAM (2.78 pJ/bit), bar 5x; 9.2x at 1.0; 5x needs reads at 1.87 pJ/bit or less. Equal energy to a Cerebras-class wafer at the same constants. Weakest input: the GPU's 100 W floor during decode (at 220 W the ratio is 5.0x, at 700 W 11.3x). Speed bar passes but is only a bandwidth bound. Next proposed: bank-level SRAM read-energy model and a measured GPU decode-power run. Source files: `new_start/experiments/step2_wafer_sram_model.rs` and logs.
 
+Founder then said memory was solved in simulation and asked for lower cost than Cerebras, less power, heat and cooling water, and less training. Correction made: memory is NOT solved (model only, energy bar failed, no cost/yield/power-delivery/latency terms). Added rows I (cost), J (power and cooling), K (training) to the [workload map](../docs/gpu_workload_map.md), bars to be written before any run.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

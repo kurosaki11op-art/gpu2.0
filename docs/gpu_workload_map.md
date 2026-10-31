@@ -35,6 +35,16 @@ Status words: **not covered** (no mechanism tested), **partly** (some evidence b
 
 The model was run ([result](../new_start/step2_wafer_sram_result.md), MODELLED): **row B capacity passes its bar** (2.46x the cited 44 GB wafer; 5 wafers for a 1T model at 4-bit against 12), **row A energy misses its bar** (3.4x against 5x at the pessimistic SRAM energy; 9.2x at 1.0 pJ/bit; 5x needs 1.87 pJ/bit or less). Both rows stay "partly covered"; the open question is the real read energy per bit of weight-stationary SRAM, and the GPU's real decode power.
 
+## Founder's additions, 31 Oct 2026: cost, power and cooling, training (rows I, J, K; bars not yet written, nothing run)
+
+The founder asked for a chip that is also cheaper than a wafer-scale machine, lighter on power, heat and cooling water, and needs less training. Correction recorded the same day: **memory is not "solved"**. Rows B and A are a model; the capacity result is an area-share calculation, the energy bar failed (3.4x against 5x at the pessimistic SRAM energy), and the model has no cost, yield, power-delivery, latency or software terms, which are the likely reasons wafer-scale machines do not simply add more SRAM.
+
+| # | row | what is known (labels) | what a test must show | status |
+|---|---|---|---|---|
+| I | **Cost per token and per GB** | SRAM about $174-223 per GB in the project cost model (ESTIMATED); HBM per GB not yet sourced; wafer cost, yield and defect redundancy not modelled | cost per million tokens of a 1T model against a GPU cluster, from sourced wafer, memory and yield figures | not covered |
+| J | **Power, heat and cooling** | energy per token is the lever (heat is the energy used); cited wafer about 23 kW per system (vendor claim); the model gives the energy per token only | watts per mm2 against what air or liquid cooling can remove, and energy per token including the cooling overhead; any water figure must be sourced | not covered |
+| K | **Training cost / learning with little training** | counting rules learn a small task in one pass (60,000 images in about 16 s at 50 MHz, SIMULATED) at 88.85% against 90-92% for CNNs; counting tables 2.33 bits per character against 2.25-2.28 for an undertrained transformer on Tiny Shakespeare (MEASURED, a toy); a new class learned from dreams costs 0 to 5 points against replay | energy and data to reach a stated accuracy, ours against a standard model trained with a stated budget, at one task bigger than a toy | not covered |
+
 ## Order of work (proposal, for the founder to confirm)
 
 1. **Row B, then A** (the capacity and dense paths, because they decide whether "run existing models" can beat a GPU at all). First test: extend the Rust decode model of target 3 with the weight-tier axis and the dense multiply-add unit, **with the founder's models and existing ones (for example a 7B and a 70B dense model, one mixture-of-experts model) as inputs**. Bar above; written before the run.
