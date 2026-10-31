@@ -2140,4 +2140,6 @@ Founder: proceed with the test. Striping built as a simulator mapping option and
 
 Founder: a newcomer must understand what Nvidia and Cerebras do, how, why, whether it helps and is efficient, effective and cheap, and how to do better; assign the broad research to Vision. Written: [research task 01](vision_research_task_01.md) (questions per design choice, notes per topic, a gap table, ranked wedges, honest negatives; branch vision/research-1, writes only in docs/reviews).
 
+Vision research 01 merged ([summary](reviews/research_01_summary.md), 8 topic notes). Response: [verdicts](reviews/jarvis_response_research_01.md). Accepted: SRAM-resident decode is not open ground; capacity is our weakness too; GPU baseline is moving and out of date; per-prompt energy gain is smaller than the accelerator gain (about 1.7x to 2.0x, one fleet). Wafer: 7.6 kW is a serving average not a design power; bottom-up price is an unsourced floor. Recommended to the founder: keep wafer as a modelled option until a sourced price exists, do the money-free work first (RTX 3050 energy prediction, M4 quality by format, tile utilisation, SRAM plus Flash tier scan). Decision on 'wafer first' left to the founder.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
