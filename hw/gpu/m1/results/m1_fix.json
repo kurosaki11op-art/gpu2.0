@@ -1,0 +1,44 @@
+{
+ "calibration_baseline": 0.9873046875,
+ "sensitivity": {
+  "L0.wq": 0.0029296875,
+  "L0.wk": 0.0068359375,
+  "L0.wv": 0.0048828125,
+  "L0.wo": 0.0009765625,
+  "L0.w1": 0.00390625,
+  "L0.w2": 0.0048828125,
+  "L1.wq": 0.0009765625,
+  "L1.wk": 0.0048828125,
+  "L1.wv": 0.00390625,
+  "L1.wo": 0.0048828125,
+  "L1.w1": 0.0009765625,
+  "L1.w2": 0.0029296875,
+  "headw": 0.001953125
+ },
+ "chosen_int16": [
+  "L0.wk",
+  "L0.wv",
+  "L0.w2",
+  "L1.wk",
+  "L1.wo"
+ ],
+ "calibration_final": 0.9912109375,
+ "evaluation": {
+  "original_eval_1024": {
+   "agreement_w8a8": 0.9873046875,
+   "agreement_mixed": 0.990234375,
+   "rel_err_mixed": 0.010487389750778675,
+   "macs_total": 104890368,
+   "macs_int16_activations": 33554432
+  },
+  "fresh_eval_1024": {
+   "agreement_w8a8": 0.994140625,
+   "agreement_mixed": 0.998046875,
+   "rel_err_mixed": 0.010819504037499428,
+   "macs_total": 104890368,
+   "macs_int16_activations": 33554432
+  }
+ },
+ "int16_share_of_macs": 0.3199000312402374,
+ "mac_energy_overhead_if_int16_costs_2x": 1.3199000312402374
+}

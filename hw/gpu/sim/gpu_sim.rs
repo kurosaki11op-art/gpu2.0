@@ -9,12 +9,12 @@ use std::io::Write;
 struct Tn { dims: Vec<usize>, d: Vec<f32>, home: usize }
 struct Wq { q: Vec<i8>, s: Vec<f32>, k: usize, n: usize }
 #[derive(Default, Clone)]
-struct Ct { macs: u64, rd: u64, wr: u64, hop: u64, vec: u64 }
+struct Ct { macs: u64, macs16: u64, rd: u64, wr: u64, hop: u64, vec: u64 }
 
 fn numel(d: &[usize]) -> usize { d.iter().product() }
 fn dist(a: usize, b: usize, side: usize) -> u64 { let (ax, ay, bx, by) = ((a % side) as i64, (a / side) as i64, (b % side) as i64, (b / side) as i64); ((ax - bx).abs() + (ay - by).abs()) as u64 }
 
-struct Sim { t: HashMap<String, Tn>, wq: HashMap<String, Wq>, int8: bool, a8: bool, side: usize, tile_bytes: usize, used: HashMap<usize, usize>, ct: HashMap<String, Ct>, tag: String }
+struct Sim { t: HashMap<String, Tn>, wq: HashMap<String, Wq>, prec: HashMap<String, u8>, int8: bool, a8: bool, side: usize, tile_bytes: usize, used: HashMap<usize, usize>, ct: HashMap<String, Ct>, tag: String }
 impl Sim {
     fn wb(&self) -> u64 { if self.int8 { 1 } else { 4 } }
     fn ab(&self) -> u64 { if self.int8 { 2 } else { 4 } }
@@ -27,9 +27,19 @@ impl Sim {
         let (n, out);
         if self.int8 {
             let w = &self.wq[wname]; assert_eq!(w.k, k); n = w.n; let mut o = vec![0f32; m * n];
-            if !self.a8 { // weight-only INT8 (mode w8): activations stay FP32, weights dequantised per output channel
+            let p = if !self.a8 { 0 } else { *self.prec.get(wname).unwrap_or(&8) }; // activation precision of this weight: 8 (default), 16, or 0 (FP32; also the whole mode w8)
+            if p == 0 { // weight-only INT8: activations stay FP32, weights dequantised per output channel
                 for i in 0..m { for kk in 0..k { let x = a[i * k + kk]; let wr = &w.q[kk * n..(kk + 1) * n]; for j in 0..n { o[i * n + j] += x * (wr[j] as f32 * w.s[j]); } } }
                 let wbytes = self.wb(); self.c().macs += (m * k * n) as u64; self.c().rd += (k * n) as u64 * wbytes; return o;
+            }
+            if p == 16 { // INT16 activations (per-row scale), INT8 weights, 64-bit accumulation
+                for i in 0..m {
+                    let row = &a[i * k..(i + 1) * k]; let mx = row.iter().fold(0f32, |x, &v| x.max(v.abs())); let sa = if mx > 0.0 { mx / 32767.0 } else { 1.0 };
+                    let qa: Vec<i64> = row.iter().map(|&v| (v / sa).round().clamp(-32767.0, 32767.0) as i64).collect(); let mut acc = vec![0i64; n];
+                    for kk in 0..k { let x = qa[kk]; if x == 0 { continue; } let wr = &w.q[kk * n..(kk + 1) * n]; for j in 0..n { acc[j] += x * wr[j] as i64; } }
+                    for j in 0..n { o[i * n + j] = acc[j] as f32 * sa * w.s[j]; }
+                }
+                let wbytes = self.wb(); self.c().macs += (m * k * n) as u64; self.c().macs16 += (m * k * n) as u64; self.c().rd += (k * n) as u64 * wbytes; return o;
             }
             for i in 0..m {
                 let row = &a[i * k..(i + 1) * k]; let mx = row.iter().fold(0f32, |x, &v| x.max(v.abs())); let sa = if mx > 0.0 { mx / 127.0 } else { 1.0 };
@@ -98,7 +108,7 @@ fn main() {
     let tiles = prog.iter().filter_map(|l| l.split_whitespace().last().and_then(|v| v.parse::<usize>().ok())).max().unwrap_or(0).max(
         prog.iter().filter(|l| l.starts_with("W ")).filter_map(|l| l.split_whitespace().nth(2).and_then(|v| v.parse::<usize>().ok())).max().unwrap_or(0)) + 1;
     let side = (tiles as f64).sqrt().ceil() as usize;
-    let mut sim = Sim { t, wq: HashMap::new(), int8, a8, side: side.max(1), tile_bytes, used: HashMap::new(), ct: HashMap::new(), tag: "load".to_string() };
+    let mut sim = Sim { t, wq: HashMap::new(), prec: HashMap::new(), int8, a8, side: side.max(1), tile_bytes, used: HashMap::new(), ct: HashMap::new(), tag: "load".to_string() };
     let mut outs: Vec<f32> = Vec::new(); let mut last_out = String::new();
     for s in 0..ns {
         let pristine: Vec<(String, Tn)> = if s == 0 { Vec::new() } else { Vec::new() }; let _ = pristine;
@@ -110,7 +120,7 @@ fn main() {
             let mut tok: Vec<&str> = line.split_whitespace().collect(); if tok.is_empty() { continue; }
             if let Some(l) = tok.last() { if l.starts_with('#') { sim.tag = l[1..].to_string(); tok.pop(); } }
             match tok[0] {
-                "W" => { if s > 0 { continue; } sim.tag = "load".to_string(); let tile: usize = tok[2].parse().unwrap(); let tn = sim.t.get_mut(tok[1]).unwrap(); tn.home = tile; let bytes = tn.d.len() * if int8 { 1 } else { 4 };
+                "W" => { if s > 0 { continue; } sim.tag = "load".to_string(); let tile: usize = tok[2].parse().unwrap(); let pr = match tok.get(3) { Some(&"a16") => 16u8, Some(&"af") => 0u8, _ => 8u8 }; sim.prec.insert(tok[1].to_string(), pr); let tn = sim.t.get_mut(tok[1]).unwrap(); tn.home = tile; let bytes = tn.d.len() * if int8 { 1 } else { 4 };
                     if int8 { let e = sim.used.entry(tile).or_insert(0); *e += bytes; assert!(*e <= sim.tile_bytes, "tile {} SRAM overflow: {} bytes", tile, *e);
                         let tn = sim.t[tok[1]].clone(); if tn.dims.len() == 2 { let (k, n) = (tn.dims[0], tn.dims[1]); let mut sc = vec![0f32; n]; for j in 0..n { let mut m = 0f32; for kk in 0..k { m = m.max(tn.d[kk * n + j].abs()); } sc[j] = if m > 0.0 { m / 127.0 } else { 1.0 }; }
                             let q: Vec<i8> = (0..k * n).map(|i| (tn.d[i] / sc[i % n]).round().clamp(-127.0, 127.0) as i8).collect(); sim.wq.insert(tok[1].to_string(), Wq { q, s: sc, k, n }); } }
@@ -133,8 +143,8 @@ fn main() {
         let o = &sim.t[&last_out]; outs.extend_from_slice(&o.d);
         if s == 0 { /* counters of sample 0 are final after this sample; later samples add to the totals, so snapshot now */ let snap = sim.ct.clone(); let mut f = fs::File::create(format!("{}/counters_{}.json", dir, mode)).unwrap(); let mut tags: Vec<&String> = snap.keys().collect(); tags.sort();
             let mut tot = Ct::default(); let mut parts = Vec::new();
-            for k in &tags { let c = &snap[*k]; tot.macs += c.macs; tot.rd += c.rd; tot.wr += c.wr; tot.hop += c.hop; tot.vec += c.vec; parts.push(format!("  \"{}\": {{\"macs\": {}, \"sram_read_bytes\": {}, \"sram_write_bytes\": {}, \"mesh_byte_hops\": {}, \"vector_ops\": {}}}", k, c.macs, c.rd, c.wr, c.hop, c.vec)); }
-            write!(f, "{{\n\"mode\": \"{}\", \"tiles\": {}, \"mesh_side\": {},\n\"total\": {{\"macs\": {}, \"sram_read_bytes\": {}, \"sram_write_bytes\": {}, \"mesh_byte_hops\": {}, \"vector_ops\": {}}},\n\"per_tag\": {{\n{}\n}}\n}}\n", mode, tiles, side, tot.macs, tot.rd, tot.wr, tot.hop, tot.vec, parts.join(",\n")).unwrap(); }
+            for k in &tags { let c = &snap[*k]; tot.macs += c.macs; tot.macs16 += c.macs16; tot.rd += c.rd; tot.wr += c.wr; tot.hop += c.hop; tot.vec += c.vec; parts.push(format!("  \"{}\": {{\"macs\": {}, \"macs_int16_activations\": {}, \"sram_read_bytes\": {}, \"sram_write_bytes\": {}, \"mesh_byte_hops\": {}, \"vector_ops\": {}}}", k, c.macs, c.macs16, c.rd, c.wr, c.hop, c.vec)); }
+            write!(f, "{{\n\"mode\": \"{}\", \"tiles\": {}, \"mesh_side\": {},\n\"total\": {{\"macs\": {}, \"macs_int16_activations\": {}, \"sram_read_bytes\": {}, \"sram_write_bytes\": {}, \"mesh_byte_hops\": {}, \"vector_ops\": {}}},\n\"per_tag\": {{\n{}\n}}\n}}\n", mode, tiles, side, tot.macs, tot.macs16, tot.rd, tot.wr, tot.hop, tot.vec, parts.join(",\n")).unwrap(); }
     }
     let bytes: Vec<u8> = outs.iter().flat_map(|v| v.to_le_bytes()).collect(); fs::write(format!("{}/out_{}.bin", dir, mode), bytes).unwrap();
     eprintln!("ran {} samples in mode {} on {} tiles", ns, mode, tiles);
