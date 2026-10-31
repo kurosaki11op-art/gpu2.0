@@ -56,6 +56,21 @@ def bandwidth_gbs():
     if GPU: torch.cuda.empty_cache()
     return r
 
+def micro_benchmarks():
+    """Two small benchmarks the v2 predictor needs. launch_us_per_op: time per tiny GPU operation issued from Python (this is the CPU-side overhead that limits small-model decode). matmul_tflops: half-precision matrix multiply rate (GPU) or float32 (CPU test mode)."""
+    dt = torch.float16 if GPU else torch.float32; x = torch.zeros(256, device=DEV, dtype=dt)
+    for _ in range(200): x.add_(1)
+    sync(); n = 5000; t = time.time()
+    for _ in range(n): x.add_(1)
+    sync(); launch = (time.time() - t) / n * 1e6
+    m = 4096 if GPU else 1024; a = torch.randn(m, m, device=DEV, dtype=dt); b = torch.randn(m, m, device=DEV, dtype=dt)
+    for _ in range(3): a @ b
+    sync(); k = 20 if GPU else 5; t = time.time()
+    for _ in range(k): a @ b
+    sync(); tf = 2 * m ** 3 * k / (time.time() - t) / 1e12
+    del x, a, b; release()
+    return launch, tf
+
 def kv_estimate_gb(res, B, ctx):
     """Cache bytes for B sequences of ctx tokens (K and V, every layer). Estimate only."""
     try:
@@ -98,6 +113,7 @@ def main():
     res["bandwidth_copy_gbs"] = bandwidth_gbs(); print("copy bandwidth GB/s", round(res["bandwidth_copy_gbs"], 1))
     smp = Sampler(); smp.start(); time.sleep(a.idle_seconds); idle = smp.v[:]; smp.v = []
     res["idle_power_w"] = sum(idle) / len(idle) if idle else None; print("idle power W", res["idle_power_w"])
+    res["launch_us_per_op"], res["matmul_tflops"] = micro_benchmarks(); print("launch overhead us per tiny op %.1f | matmul rate %.1f TFLOPs" % (res["launch_us_per_op"], res["matmul_tflops"]))
     res["memory_before_model"] = mem_state()
     if a.info_only:
         smp.run_flag = False; save(res, a.out); print("info written", a.out, "(send this file; no model was run)"); return

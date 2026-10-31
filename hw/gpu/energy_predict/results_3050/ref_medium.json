@@ -1,0 +1,52 @@
+{
+ "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+ "vram_gb": 6.441926656,
+ "device": "cuda",
+ "torch": "2.14.1+cu126",
+ "model": "Qwen/Qwen2.5-0.5B",
+ "prompt": 256,
+ "new": 128,
+ "runs": [
+  {
+   "batch": 1,
+   "seconds": 3.6460390090942383,
+   "new_tokens": 128,
+   "tokens_per_s_total": 35.10659092805433,
+   "tokens_per_s_per_user": 35.10659092805433,
+   "mean_power_w": 26.546,
+   "peak_mem_gb": 1.015272448,
+   "joules_per_token_gross": 0.7561543088704348,
+   "joules_per_token_net": 0.5264353964345556
+  },
+  {
+   "batch": 4,
+   "seconds": 3.5598270893096924,
+   "new_tokens": 128,
+   "tokens_per_s_total": 143.82721046692328,
+   "tokens_per_s_per_user": 35.95680261673082,
+   "mean_power_w": 26.749166666666667,
+   "peak_mem_gb": 1.050755072,
+   "joules_per_token_gross": 0.18598126585246064,
+   "joules_per_token_net": 0.12990948457308574
+  },
+  {
+   "batch": 16,
+   "seconds": 3.3606748580932617,
+   "new_tokens": 128,
+   "tokens_per_s_total": 609.4014108707823,
+   "tokens_per_s_per_user": 38.087588179423896,
+   "mean_power_w": 33.73208333333333,
+   "peak_mem_gb": 1.200022528,
+   "joules_per_token_gross": 0.05535281463351566,
+   "joules_per_token_net": 0.0421190942261404
+  }
+ ],
+ "bandwidth_copy_gbs": 122.90879889553723,
+ "idle_power_w": 8.064647887323943,
+ "weight_bytes": 988065536,
+ "layers": 24,
+ "hidden": 896,
+ "heads": 14,
+ "kv_heads": 2,
+ "dtype_bytes": 2
+}
