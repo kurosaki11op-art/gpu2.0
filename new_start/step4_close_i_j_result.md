@@ -5,6 +5,8 @@ tags: [spark, new-start, cost, power, latency, wafer, model, closure]
 
 # Closing rows I and J (31 Oct 2026)
 
+> **Superseded the same day by the [fair comparison and worst case](step5_worst_case_result.md).** The cost figures below compare both machines at 64 sequences; a GPU cluster at its own best batch is 8 to 13 times cheaper per token than shown here, and the "closed" verdict does not stand. The latency model and its calibration remain valid as inputs.
+
 **MODELLED, not measured.** Rust model [`step4_wafer_latency_model.rs`](experiments/step4_wafer_latency_model.rs), [log](experiments/step4_wafer_latency_model.log), [uncalibrated first run](experiments/step4_run1_uncalibrated.log). Bars were written at the top of the source before the first run. It replaces the two largest assumptions of [step 3](step3_cost_power_result.md) (the 0.5 ms step latency, the $150k hardware cost) by a latency model and by thresholds. Case: the 1T mixture-of-experts model (32B active), 4-bit, 64 sequences, context 4,096.
 
 ## The latency model, and how far to trust it

@@ -1,0 +1,19 @@
+MODEL, not a measurement. 1T MoE (32B active), 4-bit, context 4096, speed floor 30 tokens/s per sequence, each machine at its own best batch (64 to 1,024).
+corner                             | gpuB  gpus  gpu $/Mt gpu J/tok tok/s/sq | wafB  wfrs   wf $/Mt  wf J/tok tok/s/sq |   cost x energy x
+central (350 W, $25k, x1.8, bottom-up) | 1024    14     0.172     0.150       49 | 1024     9     0.027     0.027      885 |    6.27x     6.8x
+worst: 100 W, $15k, x2.7, cited price | 1024    14     0.103     0.080       49 | 1024     9     0.591     0.028      590 |    0.17x     3.5x
+worst but bottom-up price          | 1024    14     0.103     0.080       49 | 1024     9     0.041     0.028      590 |    2.52x     3.5x
+GPU 220 W, $25k, x2.7, cited price | 1024    14     0.171     0.113       49 | 1024     9     0.591     0.028      590 |    0.29x     5.0x
+
+OPTION B: many reticle-size SRAM chips (die $330 + package, board share, power and cooling per chip as shown, ASSUMED), same corners and SRAM constants (2.78 pJ/bit, 1.6 W/GB):
+corner                             $ per chip | batch  chips    $/Mtok     J/tok tok/s/sq |   cost x energy x
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    511     0.024     0.031      454 |    7.11x     6.0x
+central (350 W, $25k, x1.8, bottom-up)       2330 |  1024    511     0.042     0.031      454 |    4.13x     6.0x
+central (350 W, $25k, x1.8, bottom-up)       5330 |  1024    511     0.094     0.031      454 |    1.83x     6.0x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    511     0.036     0.033      302 |    2.87x     3.0x
+worst: 100 W, $15k, x2.7, cited price       2330 |  1024    511     0.062     0.033      302 |    1.66x     3.0x
+worst: 100 W, $15k, x2.7, cited price       5330 |  1024    511     0.140     0.033      302 |    0.73x     3.0x
+
+BARS in the worst corner (pre-set): W1 cost at most 0.5x the GPU: ours is 5.75x of GPU cost (FAIL) ; W2 facility energy at least 5x below: 3.5x (FAIL)
+LEVER W1: the wafer system price at which cost = 0.5x the GPU (worst corner): $213830 per wafer system (9% of the cited $2.5M); bottom-up estimate $168687
+LEVER W2: first scanned setting reaching 5x: SRAM read 1.60 pJ/bit with leakage 1.6 W/GB -> 5.2x (needs a bank-level design that delivers it; the central project range is 0.495 to 2.78 pJ/bit)
