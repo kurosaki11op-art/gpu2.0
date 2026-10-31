@@ -54,13 +54,16 @@ static void top2(const int32_t *s, int *pred, int32_t *margin) {
     *pred = p; *margin = a - b;
 }
 
+uint32_t (*l_clock)(void) = 0; uint32_t l_prof[4] = {0, 0, 0, 0};
+#define TICK() (l_clock ? l_clock() : 0u)
 void l_classify(const uint8_t *img, int32_t reject_t, l_result *r) {
     uint8_t bmap[784], code[NCODE]; static uint8_t in[NB];
-    receptors(img, bmap); encode(bmap, code);
+    uint32_t t0 = TICK(); receptors(img, bmap); uint32_t t1 = TICK(); encode(bmap, code); uint32_t t2 = TICK();
     int32_t s1[10] = {0}, s2[10] = {0}, m1;
     for (int b = 0; b < NCODE; b++) if (code[b]) for (int c = 0; c < 10; c++) s1[c] += L_W1[b * 10 + c];
     int p1; top2(s1, &p1, &m1);
     r->routed = (m1 <= L_ROUTE_T); r->stage1_margin = m1;
+    uint32_t t3 = TICK(); l_prof[0] += t1 - t0; l_prof[1] += t2 - t1; l_prof[2] += t3 - t2;
     const int32_t *fin = s1;
     if (r->routed) {
         for (int b = 0; b < NCODE; b++) { in[b] = code[b]; if (code[b]) for (int c = 0; c < 10; c++) s2[c] += L_W2[b * 10 + c]; }
@@ -71,7 +74,7 @@ void l_classify(const uint8_t *img, int32_t reject_t, l_result *r) {
             for (int t = 0; t < n; t++) { uint16_t lit = lp[t]; int v = (lit < NB) ? in[lit] : !in[lit - NB]; if (!v) { ok = 0; break; } }
             if (ok) for (int c = 0; c < 10; c++) s2[c] += L_WCL[cl * 10 + c];
         }
-        fin = s2;
+        fin = s2; l_prof[3] += TICK() - t3;
     }
     int32_t mf; top2(fin, &r->pred, &mf); r->margin = mf; r->flag = (mf <= reject_t);
     for (int c = 0; c < 10; c++) r->scores[c] = fin[c];
