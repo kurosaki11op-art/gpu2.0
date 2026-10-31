@@ -1,0 +1,8 @@
+[fashion] k-means (300 clusters, 3 passes) x 5 seeds: 9s
+[fashion] N=  100  M0 0.6065 | M1 0.6923 | M2 0.7318 | M3a 0.6879 | M3b 0.6894+-0.0118 | counted energy M3b 33.9 mJ
+[fashion] N=  300  M0 0.6888 | M1 0.7496 | M2 0.7974 | M3a 0.7334 | M3b 0.7988+-0.0074 | counted energy M3b 34.0 mJ
+[fashion] N= 1000  M0 0.7833 | M1 0.7580 | M2 0.8193 | M3a 0.7607 | M3b 0.8427+-0.0038 | counted energy M3b 34.1 mJ
+[mnist] k-means (300 clusters, 3 passes) x 5 seeds: 8s
+[mnist] N=  100  M0 0.6601 | M1 0.8198 | M2 0.8662 | M3a 0.8708 | M3b 0.8294+-0.0153 | counted energy M3b 33.9 mJ
+[mnist] N=  300  M0 0.8252 | M1 0.8903 | M2 0.9349 | M3a 0.9003 | M3b 0.9456+-0.0020 | counted energy M3b 34.0 mJ
+[mnist] N= 1000  M0 0.9259 | M1 0.9086 | M2 0.9512 | M3a 0.9306 | M3b 0.9630+-0.0009 | counted energy M3b 34.1 mJ
