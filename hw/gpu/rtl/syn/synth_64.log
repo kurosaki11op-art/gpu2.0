@@ -1,0 +1,2813 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.38+92 (git sha1 84116c9a3, x86_64-conda-linux-gnu-cc 11.2.0 -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -fdebug-prefix-map=/root/conda-eda/conda-eda/workdir/conda-env/conda-bld/yosys_1708682838165/work=/usr/local/src/conda/yosys-0.38_93_g84116c9a3 -fdebug-prefix-map=/opt/eda_pdk=/usr/local/src/conda-prefix -fPIC -Os -fno-merge-constants)
+
+
+-- Executing script file `synth_64.ys' --
+
+1. Executing Verilog-2005 frontend: ../tile_mm.v
+Parsing SystemVerilog input from `../tile_mm.v' to AST representation.
+Generating RTLIL representation for module `\tile_mm'.
+Warning: Replacing memory \acc with list of registers. See ../tile_mm.v:47
+Warning: Replacing memory \prod with list of registers. See ../tile_mm.v:37
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \tile_mm
+
+2.2. Analyzing design hierarchy..
+Top module:  \tile_mm
+Removed 0 unused modules.
+Parameter \LANES = 64
+
+3. Executing AST frontend in derive mode using pre-parsed AST for module `\tile_mm'.
+Parameter \LANES = 64
+Generating RTLIL representation for module `$paramod\tile_mm\LANES=32'00000000000000000000000001000000'.
+Warning: Replacing memory \acc with list of registers. See ../tile_mm.v:47
+Warning: Replacing memory \prod with list of registers. See ../tile_mm.v:37
+
+4. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1. Analyzing design hierarchy..
+Top module:  \tile_mm
+
+4.2. Analyzing design hierarchy..
+Top module:  \tile_mm
+Removed 0 unused modules.
+
+5. Executing SYNTH pass.
+
+5.1. Executing HIERARCHY pass (managing design hierarchy).
+
+5.1.1. Analyzing design hierarchy..
+Top module:  \tile_mm
+
+5.1.2. Analyzing design hierarchy..
+Top module:  \tile_mm
+Removed 0 unused modules.
+
+5.2. Executing PROC pass (convert processes to netlists).
+
+5.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 4 switch rules as full_case in process $proc$../tile_mm.v:18$418 in module tile_mm.
+Marked 1 switch rules as full_case in process $proc$../tile_mm.v:51$446 in module tile_mm.
+Removed a total of 0 dead cases.
+
+5.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 3 redundant assignments.
+Promoted 76 assignments to connections.
+
+5.2.4. Executing PROC_INIT pass (extract init attributes).
+
+5.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+5.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+5.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:18$418'.
+     1/17: $0\v0[0:0]
+     2/17: $0\b0[11:0]
+     3/17: $0\r0[11:0]
+     4/17: $0\lastrun0[0:0]
+     5/17: $0\last0[0:0]
+     6/17: $0\first0[0:0]
+     7/17: $0\ab[19:0]
+     8/17: $0\wb[19:0]
+     9/17: $0\rs[11:0]
+    10/17: $0\bs[11:0]
+    11/17: $0\ks[11:0]
+    12/17: $0\nbq[11:0]
+    13/17: $0\mq[11:0]
+    14/17: $0\kq[11:0]
+    15/17: $0\busy[0:0]
+    16/17: $0\a_addr[19:0]
+    17/17: $0\w_addr[19:0]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:39$445'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:51$446'.
+     1/4: $0\out_last[0:0]
+     2/4: $0\out_valid[0:0]
+     3/4: $0\out_blk[11:0]
+     4/4: $0\out_row[11:0]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$451'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$453'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$455'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$457'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$459'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$461'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$463'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$465'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$467'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$469'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$471'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$473'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$475'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$477'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$479'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$481'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$483'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$485'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$487'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$489'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$491'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$493'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$495'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$497'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$499'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$501'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$503'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$505'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$507'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$509'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$511'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$513'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$515'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$517'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$519'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$521'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$523'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$525'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$527'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$529'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$531'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$533'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$535'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$537'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$539'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$541'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$543'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$545'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$547'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$549'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$551'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$553'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$555'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$557'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$559'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$561'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$563'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$565'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$567'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$569'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$571'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$573'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$575'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:37$577'.
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$581'.
+     1/2: $0\acc[0][31:0]
+     2/2: $0\out_acc[31:0]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$585'.
+     1/2: $0\acc[1][31:0]
+     2/2: $0\out_acc[63:32]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$589'.
+     1/2: $0\acc[2][31:0]
+     2/2: $0\out_acc[95:64]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$593'.
+     1/2: $0\acc[3][31:0]
+     2/2: $0\out_acc[127:96]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$597'.
+     1/2: $0\acc[4][31:0]
+     2/2: $0\out_acc[159:128]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$601'.
+     1/2: $0\acc[5][31:0]
+     2/2: $0\out_acc[191:160]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$605'.
+     1/2: $0\acc[6][31:0]
+     2/2: $0\out_acc[223:192]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$609'.
+     1/2: $0\acc[7][31:0]
+     2/2: $0\out_acc[255:224]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$613'.
+     1/2: $0\acc[8][31:0]
+     2/2: $0\out_acc[287:256]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$617'.
+     1/2: $0\acc[9][31:0]
+     2/2: $0\out_acc[319:288]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$621'.
+     1/2: $0\acc[10][31:0]
+     2/2: $0\out_acc[351:320]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$625'.
+     1/2: $0\acc[11][31:0]
+     2/2: $0\out_acc[383:352]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$629'.
+     1/2: $0\acc[12][31:0]
+     2/2: $0\out_acc[415:384]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$633'.
+     1/2: $0\acc[13][31:0]
+     2/2: $0\out_acc[447:416]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$637'.
+     1/2: $0\acc[14][31:0]
+     2/2: $0\out_acc[479:448]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$641'.
+     1/2: $0\acc[15][31:0]
+     2/2: $0\out_acc[511:480]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$645'.
+     1/2: $0\acc[16][31:0]
+     2/2: $0\out_acc[543:512]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$649'.
+     1/2: $0\acc[17][31:0]
+     2/2: $0\out_acc[575:544]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$653'.
+     1/2: $0\acc[18][31:0]
+     2/2: $0\out_acc[607:576]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$657'.
+     1/2: $0\acc[19][31:0]
+     2/2: $0\out_acc[639:608]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$661'.
+     1/2: $0\acc[20][31:0]
+     2/2: $0\out_acc[671:640]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$665'.
+     1/2: $0\acc[21][31:0]
+     2/2: $0\out_acc[703:672]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$669'.
+     1/2: $0\acc[22][31:0]
+     2/2: $0\out_acc[735:704]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$673'.
+     1/2: $0\acc[23][31:0]
+     2/2: $0\out_acc[767:736]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$677'.
+     1/2: $0\acc[24][31:0]
+     2/2: $0\out_acc[799:768]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$681'.
+     1/2: $0\acc[25][31:0]
+     2/2: $0\out_acc[831:800]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$685'.
+     1/2: $0\acc[26][31:0]
+     2/2: $0\out_acc[863:832]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$689'.
+     1/2: $0\acc[27][31:0]
+     2/2: $0\out_acc[895:864]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$693'.
+     1/2: $0\acc[28][31:0]
+     2/2: $0\out_acc[927:896]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$697'.
+     1/2: $0\acc[29][31:0]
+     2/2: $0\out_acc[959:928]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$701'.
+     1/2: $0\acc[30][31:0]
+     2/2: $0\out_acc[991:960]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$705'.
+     1/2: $0\acc[31][31:0]
+     2/2: $0\out_acc[1023:992]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$709'.
+     1/2: $0\acc[32][31:0]
+     2/2: $0\out_acc[1055:1024]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$713'.
+     1/2: $0\acc[33][31:0]
+     2/2: $0\out_acc[1087:1056]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$717'.
+     1/2: $0\acc[34][31:0]
+     2/2: $0\out_acc[1119:1088]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$721'.
+     1/2: $0\acc[35][31:0]
+     2/2: $0\out_acc[1151:1120]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$725'.
+     1/2: $0\acc[36][31:0]
+     2/2: $0\out_acc[1183:1152]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$729'.
+     1/2: $0\acc[37][31:0]
+     2/2: $0\out_acc[1215:1184]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$733'.
+     1/2: $0\acc[38][31:0]
+     2/2: $0\out_acc[1247:1216]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$737'.
+     1/2: $0\acc[39][31:0]
+     2/2: $0\out_acc[1279:1248]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$741'.
+     1/2: $0\acc[40][31:0]
+     2/2: $0\out_acc[1311:1280]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$745'.
+     1/2: $0\acc[41][31:0]
+     2/2: $0\out_acc[1343:1312]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$749'.
+     1/2: $0\acc[42][31:0]
+     2/2: $0\out_acc[1375:1344]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$753'.
+     1/2: $0\acc[43][31:0]
+     2/2: $0\out_acc[1407:1376]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$757'.
+     1/2: $0\acc[44][31:0]
+     2/2: $0\out_acc[1439:1408]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$761'.
+     1/2: $0\acc[45][31:0]
+     2/2: $0\out_acc[1471:1440]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$765'.
+     1/2: $0\acc[46][31:0]
+     2/2: $0\out_acc[1503:1472]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$769'.
+     1/2: $0\acc[47][31:0]
+     2/2: $0\out_acc[1535:1504]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$773'.
+     1/2: $0\acc[48][31:0]
+     2/2: $0\out_acc[1567:1536]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$777'.
+     1/2: $0\acc[49][31:0]
+     2/2: $0\out_acc[1599:1568]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$781'.
+     1/2: $0\acc[50][31:0]
+     2/2: $0\out_acc[1631:1600]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$785'.
+     1/2: $0\acc[51][31:0]
+     2/2: $0\out_acc[1663:1632]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$789'.
+     1/2: $0\acc[52][31:0]
+     2/2: $0\out_acc[1695:1664]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$793'.
+     1/2: $0\acc[53][31:0]
+     2/2: $0\out_acc[1727:1696]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$797'.
+     1/2: $0\acc[54][31:0]
+     2/2: $0\out_acc[1759:1728]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$801'.
+     1/2: $0\acc[55][31:0]
+     2/2: $0\out_acc[1791:1760]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$805'.
+     1/2: $0\acc[56][31:0]
+     2/2: $0\out_acc[1823:1792]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$809'.
+     1/2: $0\acc[57][31:0]
+     2/2: $0\out_acc[1855:1824]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$813'.
+     1/2: $0\acc[58][31:0]
+     2/2: $0\out_acc[1887:1856]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$817'.
+     1/2: $0\acc[59][31:0]
+     2/2: $0\out_acc[1919:1888]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$821'.
+     1/2: $0\acc[60][31:0]
+     2/2: $0\out_acc[1951:1920]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$825'.
+     1/2: $0\acc[61][31:0]
+     2/2: $0\out_acc[1983:1952]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$829'.
+     1/2: $0\acc[62][31:0]
+     2/2: $0\out_acc[2015:1984]
+Creating decoders for process `\tile_mm.$proc$../tile_mm.v:46$833'.
+     1/2: $0\acc[63][31:0]
+     2/2: $0\out_acc[2047:2016]
+
+5.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+5.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\tile_mm.\w_addr' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1272' with positive edge clock.
+Creating register for signal `\tile_mm.\a_addr' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1273' with positive edge clock.
+Creating register for signal `\tile_mm.\busy' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1274' with positive edge clock.
+Creating register for signal `\tile_mm.\kq' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1275' with positive edge clock.
+Creating register for signal `\tile_mm.\mq' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1276' with positive edge clock.
+Creating register for signal `\tile_mm.\nbq' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1277' with positive edge clock.
+Creating register for signal `\tile_mm.\ks' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1278' with positive edge clock.
+Creating register for signal `\tile_mm.\bs' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1279' with positive edge clock.
+Creating register for signal `\tile_mm.\rs' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1280' with positive edge clock.
+Creating register for signal `\tile_mm.\wb' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1281' with positive edge clock.
+Creating register for signal `\tile_mm.\ab' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1282' with positive edge clock.
+Creating register for signal `\tile_mm.\v0' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1283' with positive edge clock.
+Creating register for signal `\tile_mm.\first0' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1284' with positive edge clock.
+Creating register for signal `\tile_mm.\last0' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1285' with positive edge clock.
+Creating register for signal `\tile_mm.\lastrun0' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1286' with positive edge clock.
+Creating register for signal `\tile_mm.\r0' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1287' with positive edge clock.
+Creating register for signal `\tile_mm.\b0' using process `\tile_mm.$proc$../tile_mm.v:18$418'.
+  created $dff cell `$procdff$1288' with positive edge clock.
+Creating register for signal `\tile_mm.\v1' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1289' with positive edge clock.
+Creating register for signal `\tile_mm.\first1' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1290' with positive edge clock.
+Creating register for signal `\tile_mm.\last1' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1291' with positive edge clock.
+Creating register for signal `\tile_mm.\lastrun1' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1292' with positive edge clock.
+Creating register for signal `\tile_mm.\r1' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1293' with positive edge clock.
+Creating register for signal `\tile_mm.\b1' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1294' with positive edge clock.
+Creating register for signal `\tile_mm.\v2' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1295' with positive edge clock.
+Creating register for signal `\tile_mm.\first2' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1296' with positive edge clock.
+Creating register for signal `\tile_mm.\last2' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1297' with positive edge clock.
+Creating register for signal `\tile_mm.\lastrun2' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1298' with positive edge clock.
+Creating register for signal `\tile_mm.\r2' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1299' with positive edge clock.
+Creating register for signal `\tile_mm.\b2' using process `\tile_mm.$proc$../tile_mm.v:39$445'.
+  created $dff cell `$procdff$1300' with positive edge clock.
+Creating register for signal `\tile_mm.\out_valid' using process `\tile_mm.$proc$../tile_mm.v:51$446'.
+  created $dff cell `$procdff$1301' with positive edge clock.
+Creating register for signal `\tile_mm.\out_row' using process `\tile_mm.$proc$../tile_mm.v:51$446'.
+  created $dff cell `$procdff$1302' with positive edge clock.
+Creating register for signal `\tile_mm.\out_blk' using process `\tile_mm.$proc$../tile_mm.v:51$446'.
+  created $dff cell `$procdff$1303' with positive edge clock.
+Creating register for signal `\tile_mm.\out_last' using process `\tile_mm.$proc$../tile_mm.v:51$446'.
+  created $dff cell `$procdff$1304' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[0]' using process `\tile_mm.$proc$../tile_mm.v:37$451'.
+  created $dff cell `$procdff$1305' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[1]' using process `\tile_mm.$proc$../tile_mm.v:37$453'.
+  created $dff cell `$procdff$1306' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[2]' using process `\tile_mm.$proc$../tile_mm.v:37$455'.
+  created $dff cell `$procdff$1307' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[3]' using process `\tile_mm.$proc$../tile_mm.v:37$457'.
+  created $dff cell `$procdff$1308' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[4]' using process `\tile_mm.$proc$../tile_mm.v:37$459'.
+  created $dff cell `$procdff$1309' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[5]' using process `\tile_mm.$proc$../tile_mm.v:37$461'.
+  created $dff cell `$procdff$1310' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[6]' using process `\tile_mm.$proc$../tile_mm.v:37$463'.
+  created $dff cell `$procdff$1311' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[7]' using process `\tile_mm.$proc$../tile_mm.v:37$465'.
+  created $dff cell `$procdff$1312' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[8]' using process `\tile_mm.$proc$../tile_mm.v:37$467'.
+  created $dff cell `$procdff$1313' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[9]' using process `\tile_mm.$proc$../tile_mm.v:37$469'.
+  created $dff cell `$procdff$1314' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[10]' using process `\tile_mm.$proc$../tile_mm.v:37$471'.
+  created $dff cell `$procdff$1315' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[11]' using process `\tile_mm.$proc$../tile_mm.v:37$473'.
+  created $dff cell `$procdff$1316' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[12]' using process `\tile_mm.$proc$../tile_mm.v:37$475'.
+  created $dff cell `$procdff$1317' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[13]' using process `\tile_mm.$proc$../tile_mm.v:37$477'.
+  created $dff cell `$procdff$1318' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[14]' using process `\tile_mm.$proc$../tile_mm.v:37$479'.
+  created $dff cell `$procdff$1319' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[15]' using process `\tile_mm.$proc$../tile_mm.v:37$481'.
+  created $dff cell `$procdff$1320' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[16]' using process `\tile_mm.$proc$../tile_mm.v:37$483'.
+  created $dff cell `$procdff$1321' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[17]' using process `\tile_mm.$proc$../tile_mm.v:37$485'.
+  created $dff cell `$procdff$1322' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[18]' using process `\tile_mm.$proc$../tile_mm.v:37$487'.
+  created $dff cell `$procdff$1323' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[19]' using process `\tile_mm.$proc$../tile_mm.v:37$489'.
+  created $dff cell `$procdff$1324' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[20]' using process `\tile_mm.$proc$../tile_mm.v:37$491'.
+  created $dff cell `$procdff$1325' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[21]' using process `\tile_mm.$proc$../tile_mm.v:37$493'.
+  created $dff cell `$procdff$1326' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[22]' using process `\tile_mm.$proc$../tile_mm.v:37$495'.
+  created $dff cell `$procdff$1327' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[23]' using process `\tile_mm.$proc$../tile_mm.v:37$497'.
+  created $dff cell `$procdff$1328' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[24]' using process `\tile_mm.$proc$../tile_mm.v:37$499'.
+  created $dff cell `$procdff$1329' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[25]' using process `\tile_mm.$proc$../tile_mm.v:37$501'.
+  created $dff cell `$procdff$1330' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[26]' using process `\tile_mm.$proc$../tile_mm.v:37$503'.
+  created $dff cell `$procdff$1331' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[27]' using process `\tile_mm.$proc$../tile_mm.v:37$505'.
+  created $dff cell `$procdff$1332' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[28]' using process `\tile_mm.$proc$../tile_mm.v:37$507'.
+  created $dff cell `$procdff$1333' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[29]' using process `\tile_mm.$proc$../tile_mm.v:37$509'.
+  created $dff cell `$procdff$1334' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[30]' using process `\tile_mm.$proc$../tile_mm.v:37$511'.
+  created $dff cell `$procdff$1335' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[31]' using process `\tile_mm.$proc$../tile_mm.v:37$513'.
+  created $dff cell `$procdff$1336' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[32]' using process `\tile_mm.$proc$../tile_mm.v:37$515'.
+  created $dff cell `$procdff$1337' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[33]' using process `\tile_mm.$proc$../tile_mm.v:37$517'.
+  created $dff cell `$procdff$1338' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[34]' using process `\tile_mm.$proc$../tile_mm.v:37$519'.
+  created $dff cell `$procdff$1339' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[35]' using process `\tile_mm.$proc$../tile_mm.v:37$521'.
+  created $dff cell `$procdff$1340' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[36]' using process `\tile_mm.$proc$../tile_mm.v:37$523'.
+  created $dff cell `$procdff$1341' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[37]' using process `\tile_mm.$proc$../tile_mm.v:37$525'.
+  created $dff cell `$procdff$1342' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[38]' using process `\tile_mm.$proc$../tile_mm.v:37$527'.
+  created $dff cell `$procdff$1343' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[39]' using process `\tile_mm.$proc$../tile_mm.v:37$529'.
+  created $dff cell `$procdff$1344' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[40]' using process `\tile_mm.$proc$../tile_mm.v:37$531'.
+  created $dff cell `$procdff$1345' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[41]' using process `\tile_mm.$proc$../tile_mm.v:37$533'.
+  created $dff cell `$procdff$1346' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[42]' using process `\tile_mm.$proc$../tile_mm.v:37$535'.
+  created $dff cell `$procdff$1347' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[43]' using process `\tile_mm.$proc$../tile_mm.v:37$537'.
+  created $dff cell `$procdff$1348' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[44]' using process `\tile_mm.$proc$../tile_mm.v:37$539'.
+  created $dff cell `$procdff$1349' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[45]' using process `\tile_mm.$proc$../tile_mm.v:37$541'.
+  created $dff cell `$procdff$1350' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[46]' using process `\tile_mm.$proc$../tile_mm.v:37$543'.
+  created $dff cell `$procdff$1351' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[47]' using process `\tile_mm.$proc$../tile_mm.v:37$545'.
+  created $dff cell `$procdff$1352' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[48]' using process `\tile_mm.$proc$../tile_mm.v:37$547'.
+  created $dff cell `$procdff$1353' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[49]' using process `\tile_mm.$proc$../tile_mm.v:37$549'.
+  created $dff cell `$procdff$1354' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[50]' using process `\tile_mm.$proc$../tile_mm.v:37$551'.
+  created $dff cell `$procdff$1355' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[51]' using process `\tile_mm.$proc$../tile_mm.v:37$553'.
+  created $dff cell `$procdff$1356' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[52]' using process `\tile_mm.$proc$../tile_mm.v:37$555'.
+  created $dff cell `$procdff$1357' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[53]' using process `\tile_mm.$proc$../tile_mm.v:37$557'.
+  created $dff cell `$procdff$1358' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[54]' using process `\tile_mm.$proc$../tile_mm.v:37$559'.
+  created $dff cell `$procdff$1359' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[55]' using process `\tile_mm.$proc$../tile_mm.v:37$561'.
+  created $dff cell `$procdff$1360' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[56]' using process `\tile_mm.$proc$../tile_mm.v:37$563'.
+  created $dff cell `$procdff$1361' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[57]' using process `\tile_mm.$proc$../tile_mm.v:37$565'.
+  created $dff cell `$procdff$1362' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[58]' using process `\tile_mm.$proc$../tile_mm.v:37$567'.
+  created $dff cell `$procdff$1363' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[59]' using process `\tile_mm.$proc$../tile_mm.v:37$569'.
+  created $dff cell `$procdff$1364' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[60]' using process `\tile_mm.$proc$../tile_mm.v:37$571'.
+  created $dff cell `$procdff$1365' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[61]' using process `\tile_mm.$proc$../tile_mm.v:37$573'.
+  created $dff cell `$procdff$1366' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[62]' using process `\tile_mm.$proc$../tile_mm.v:37$575'.
+  created $dff cell `$procdff$1367' with positive edge clock.
+Creating register for signal `\tile_mm.\prod[63]' using process `\tile_mm.$proc$../tile_mm.v:37$577'.
+  created $dff cell `$procdff$1368' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [31:0]' using process `\tile_mm.$proc$../tile_mm.v:46$581'.
+  created $dff cell `$procdff$1369' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[0]' using process `\tile_mm.$proc$../tile_mm.v:46$581'.
+  created $dff cell `$procdff$1370' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [63:32]' using process `\tile_mm.$proc$../tile_mm.v:46$585'.
+  created $dff cell `$procdff$1371' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[1]' using process `\tile_mm.$proc$../tile_mm.v:46$585'.
+  created $dff cell `$procdff$1372' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [95:64]' using process `\tile_mm.$proc$../tile_mm.v:46$589'.
+  created $dff cell `$procdff$1373' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[2]' using process `\tile_mm.$proc$../tile_mm.v:46$589'.
+  created $dff cell `$procdff$1374' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [127:96]' using process `\tile_mm.$proc$../tile_mm.v:46$593'.
+  created $dff cell `$procdff$1375' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[3]' using process `\tile_mm.$proc$../tile_mm.v:46$593'.
+  created $dff cell `$procdff$1376' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [159:128]' using process `\tile_mm.$proc$../tile_mm.v:46$597'.
+  created $dff cell `$procdff$1377' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[4]' using process `\tile_mm.$proc$../tile_mm.v:46$597'.
+  created $dff cell `$procdff$1378' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [191:160]' using process `\tile_mm.$proc$../tile_mm.v:46$601'.
+  created $dff cell `$procdff$1379' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[5]' using process `\tile_mm.$proc$../tile_mm.v:46$601'.
+  created $dff cell `$procdff$1380' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [223:192]' using process `\tile_mm.$proc$../tile_mm.v:46$605'.
+  created $dff cell `$procdff$1381' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[6]' using process `\tile_mm.$proc$../tile_mm.v:46$605'.
+  created $dff cell `$procdff$1382' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [255:224]' using process `\tile_mm.$proc$../tile_mm.v:46$609'.
+  created $dff cell `$procdff$1383' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[7]' using process `\tile_mm.$proc$../tile_mm.v:46$609'.
+  created $dff cell `$procdff$1384' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [287:256]' using process `\tile_mm.$proc$../tile_mm.v:46$613'.
+  created $dff cell `$procdff$1385' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[8]' using process `\tile_mm.$proc$../tile_mm.v:46$613'.
+  created $dff cell `$procdff$1386' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [319:288]' using process `\tile_mm.$proc$../tile_mm.v:46$617'.
+  created $dff cell `$procdff$1387' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[9]' using process `\tile_mm.$proc$../tile_mm.v:46$617'.
+  created $dff cell `$procdff$1388' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [351:320]' using process `\tile_mm.$proc$../tile_mm.v:46$621'.
+  created $dff cell `$procdff$1389' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[10]' using process `\tile_mm.$proc$../tile_mm.v:46$621'.
+  created $dff cell `$procdff$1390' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [383:352]' using process `\tile_mm.$proc$../tile_mm.v:46$625'.
+  created $dff cell `$procdff$1391' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[11]' using process `\tile_mm.$proc$../tile_mm.v:46$625'.
+  created $dff cell `$procdff$1392' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [415:384]' using process `\tile_mm.$proc$../tile_mm.v:46$629'.
+  created $dff cell `$procdff$1393' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[12]' using process `\tile_mm.$proc$../tile_mm.v:46$629'.
+  created $dff cell `$procdff$1394' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [447:416]' using process `\tile_mm.$proc$../tile_mm.v:46$633'.
+  created $dff cell `$procdff$1395' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[13]' using process `\tile_mm.$proc$../tile_mm.v:46$633'.
+  created $dff cell `$procdff$1396' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [479:448]' using process `\tile_mm.$proc$../tile_mm.v:46$637'.
+  created $dff cell `$procdff$1397' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[14]' using process `\tile_mm.$proc$../tile_mm.v:46$637'.
+  created $dff cell `$procdff$1398' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [511:480]' using process `\tile_mm.$proc$../tile_mm.v:46$641'.
+  created $dff cell `$procdff$1399' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[15]' using process `\tile_mm.$proc$../tile_mm.v:46$641'.
+  created $dff cell `$procdff$1400' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [543:512]' using process `\tile_mm.$proc$../tile_mm.v:46$645'.
+  created $dff cell `$procdff$1401' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[16]' using process `\tile_mm.$proc$../tile_mm.v:46$645'.
+  created $dff cell `$procdff$1402' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [575:544]' using process `\tile_mm.$proc$../tile_mm.v:46$649'.
+  created $dff cell `$procdff$1403' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[17]' using process `\tile_mm.$proc$../tile_mm.v:46$649'.
+  created $dff cell `$procdff$1404' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [607:576]' using process `\tile_mm.$proc$../tile_mm.v:46$653'.
+  created $dff cell `$procdff$1405' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[18]' using process `\tile_mm.$proc$../tile_mm.v:46$653'.
+  created $dff cell `$procdff$1406' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [639:608]' using process `\tile_mm.$proc$../tile_mm.v:46$657'.
+  created $dff cell `$procdff$1407' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[19]' using process `\tile_mm.$proc$../tile_mm.v:46$657'.
+  created $dff cell `$procdff$1408' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [671:640]' using process `\tile_mm.$proc$../tile_mm.v:46$661'.
+  created $dff cell `$procdff$1409' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[20]' using process `\tile_mm.$proc$../tile_mm.v:46$661'.
+  created $dff cell `$procdff$1410' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [703:672]' using process `\tile_mm.$proc$../tile_mm.v:46$665'.
+  created $dff cell `$procdff$1411' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[21]' using process `\tile_mm.$proc$../tile_mm.v:46$665'.
+  created $dff cell `$procdff$1412' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [735:704]' using process `\tile_mm.$proc$../tile_mm.v:46$669'.
+  created $dff cell `$procdff$1413' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[22]' using process `\tile_mm.$proc$../tile_mm.v:46$669'.
+  created $dff cell `$procdff$1414' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [767:736]' using process `\tile_mm.$proc$../tile_mm.v:46$673'.
+  created $dff cell `$procdff$1415' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[23]' using process `\tile_mm.$proc$../tile_mm.v:46$673'.
+  created $dff cell `$procdff$1416' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [799:768]' using process `\tile_mm.$proc$../tile_mm.v:46$677'.
+  created $dff cell `$procdff$1417' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[24]' using process `\tile_mm.$proc$../tile_mm.v:46$677'.
+  created $dff cell `$procdff$1418' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [831:800]' using process `\tile_mm.$proc$../tile_mm.v:46$681'.
+  created $dff cell `$procdff$1419' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[25]' using process `\tile_mm.$proc$../tile_mm.v:46$681'.
+  created $dff cell `$procdff$1420' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [863:832]' using process `\tile_mm.$proc$../tile_mm.v:46$685'.
+  created $dff cell `$procdff$1421' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[26]' using process `\tile_mm.$proc$../tile_mm.v:46$685'.
+  created $dff cell `$procdff$1422' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [895:864]' using process `\tile_mm.$proc$../tile_mm.v:46$689'.
+  created $dff cell `$procdff$1423' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[27]' using process `\tile_mm.$proc$../tile_mm.v:46$689'.
+  created $dff cell `$procdff$1424' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [927:896]' using process `\tile_mm.$proc$../tile_mm.v:46$693'.
+  created $dff cell `$procdff$1425' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[28]' using process `\tile_mm.$proc$../tile_mm.v:46$693'.
+  created $dff cell `$procdff$1426' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [959:928]' using process `\tile_mm.$proc$../tile_mm.v:46$697'.
+  created $dff cell `$procdff$1427' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[29]' using process `\tile_mm.$proc$../tile_mm.v:46$697'.
+  created $dff cell `$procdff$1428' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [991:960]' using process `\tile_mm.$proc$../tile_mm.v:46$701'.
+  created $dff cell `$procdff$1429' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[30]' using process `\tile_mm.$proc$../tile_mm.v:46$701'.
+  created $dff cell `$procdff$1430' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1023:992]' using process `\tile_mm.$proc$../tile_mm.v:46$705'.
+  created $dff cell `$procdff$1431' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[31]' using process `\tile_mm.$proc$../tile_mm.v:46$705'.
+  created $dff cell `$procdff$1432' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1055:1024]' using process `\tile_mm.$proc$../tile_mm.v:46$709'.
+  created $dff cell `$procdff$1433' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[32]' using process `\tile_mm.$proc$../tile_mm.v:46$709'.
+  created $dff cell `$procdff$1434' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1087:1056]' using process `\tile_mm.$proc$../tile_mm.v:46$713'.
+  created $dff cell `$procdff$1435' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[33]' using process `\tile_mm.$proc$../tile_mm.v:46$713'.
+  created $dff cell `$procdff$1436' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1119:1088]' using process `\tile_mm.$proc$../tile_mm.v:46$717'.
+  created $dff cell `$procdff$1437' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[34]' using process `\tile_mm.$proc$../tile_mm.v:46$717'.
+  created $dff cell `$procdff$1438' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1151:1120]' using process `\tile_mm.$proc$../tile_mm.v:46$721'.
+  created $dff cell `$procdff$1439' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[35]' using process `\tile_mm.$proc$../tile_mm.v:46$721'.
+  created $dff cell `$procdff$1440' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1183:1152]' using process `\tile_mm.$proc$../tile_mm.v:46$725'.
+  created $dff cell `$procdff$1441' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[36]' using process `\tile_mm.$proc$../tile_mm.v:46$725'.
+  created $dff cell `$procdff$1442' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1215:1184]' using process `\tile_mm.$proc$../tile_mm.v:46$729'.
+  created $dff cell `$procdff$1443' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[37]' using process `\tile_mm.$proc$../tile_mm.v:46$729'.
+  created $dff cell `$procdff$1444' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1247:1216]' using process `\tile_mm.$proc$../tile_mm.v:46$733'.
+  created $dff cell `$procdff$1445' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[38]' using process `\tile_mm.$proc$../tile_mm.v:46$733'.
+  created $dff cell `$procdff$1446' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1279:1248]' using process `\tile_mm.$proc$../tile_mm.v:46$737'.
+  created $dff cell `$procdff$1447' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[39]' using process `\tile_mm.$proc$../tile_mm.v:46$737'.
+  created $dff cell `$procdff$1448' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1311:1280]' using process `\tile_mm.$proc$../tile_mm.v:46$741'.
+  created $dff cell `$procdff$1449' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[40]' using process `\tile_mm.$proc$../tile_mm.v:46$741'.
+  created $dff cell `$procdff$1450' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1343:1312]' using process `\tile_mm.$proc$../tile_mm.v:46$745'.
+  created $dff cell `$procdff$1451' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[41]' using process `\tile_mm.$proc$../tile_mm.v:46$745'.
+  created $dff cell `$procdff$1452' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1375:1344]' using process `\tile_mm.$proc$../tile_mm.v:46$749'.
+  created $dff cell `$procdff$1453' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[42]' using process `\tile_mm.$proc$../tile_mm.v:46$749'.
+  created $dff cell `$procdff$1454' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1407:1376]' using process `\tile_mm.$proc$../tile_mm.v:46$753'.
+  created $dff cell `$procdff$1455' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[43]' using process `\tile_mm.$proc$../tile_mm.v:46$753'.
+  created $dff cell `$procdff$1456' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1439:1408]' using process `\tile_mm.$proc$../tile_mm.v:46$757'.
+  created $dff cell `$procdff$1457' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[44]' using process `\tile_mm.$proc$../tile_mm.v:46$757'.
+  created $dff cell `$procdff$1458' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1471:1440]' using process `\tile_mm.$proc$../tile_mm.v:46$761'.
+  created $dff cell `$procdff$1459' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[45]' using process `\tile_mm.$proc$../tile_mm.v:46$761'.
+  created $dff cell `$procdff$1460' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1503:1472]' using process `\tile_mm.$proc$../tile_mm.v:46$765'.
+  created $dff cell `$procdff$1461' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[46]' using process `\tile_mm.$proc$../tile_mm.v:46$765'.
+  created $dff cell `$procdff$1462' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1535:1504]' using process `\tile_mm.$proc$../tile_mm.v:46$769'.
+  created $dff cell `$procdff$1463' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[47]' using process `\tile_mm.$proc$../tile_mm.v:46$769'.
+  created $dff cell `$procdff$1464' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1567:1536]' using process `\tile_mm.$proc$../tile_mm.v:46$773'.
+  created $dff cell `$procdff$1465' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[48]' using process `\tile_mm.$proc$../tile_mm.v:46$773'.
+  created $dff cell `$procdff$1466' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1599:1568]' using process `\tile_mm.$proc$../tile_mm.v:46$777'.
+  created $dff cell `$procdff$1467' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[49]' using process `\tile_mm.$proc$../tile_mm.v:46$777'.
+  created $dff cell `$procdff$1468' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1631:1600]' using process `\tile_mm.$proc$../tile_mm.v:46$781'.
+  created $dff cell `$procdff$1469' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[50]' using process `\tile_mm.$proc$../tile_mm.v:46$781'.
+  created $dff cell `$procdff$1470' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1663:1632]' using process `\tile_mm.$proc$../tile_mm.v:46$785'.
+  created $dff cell `$procdff$1471' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[51]' using process `\tile_mm.$proc$../tile_mm.v:46$785'.
+  created $dff cell `$procdff$1472' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1695:1664]' using process `\tile_mm.$proc$../tile_mm.v:46$789'.
+  created $dff cell `$procdff$1473' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[52]' using process `\tile_mm.$proc$../tile_mm.v:46$789'.
+  created $dff cell `$procdff$1474' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1727:1696]' using process `\tile_mm.$proc$../tile_mm.v:46$793'.
+  created $dff cell `$procdff$1475' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[53]' using process `\tile_mm.$proc$../tile_mm.v:46$793'.
+  created $dff cell `$procdff$1476' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1759:1728]' using process `\tile_mm.$proc$../tile_mm.v:46$797'.
+  created $dff cell `$procdff$1477' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[54]' using process `\tile_mm.$proc$../tile_mm.v:46$797'.
+  created $dff cell `$procdff$1478' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1791:1760]' using process `\tile_mm.$proc$../tile_mm.v:46$801'.
+  created $dff cell `$procdff$1479' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[55]' using process `\tile_mm.$proc$../tile_mm.v:46$801'.
+  created $dff cell `$procdff$1480' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1823:1792]' using process `\tile_mm.$proc$../tile_mm.v:46$805'.
+  created $dff cell `$procdff$1481' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[56]' using process `\tile_mm.$proc$../tile_mm.v:46$805'.
+  created $dff cell `$procdff$1482' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1855:1824]' using process `\tile_mm.$proc$../tile_mm.v:46$809'.
+  created $dff cell `$procdff$1483' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[57]' using process `\tile_mm.$proc$../tile_mm.v:46$809'.
+  created $dff cell `$procdff$1484' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1887:1856]' using process `\tile_mm.$proc$../tile_mm.v:46$813'.
+  created $dff cell `$procdff$1485' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[58]' using process `\tile_mm.$proc$../tile_mm.v:46$813'.
+  created $dff cell `$procdff$1486' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1919:1888]' using process `\tile_mm.$proc$../tile_mm.v:46$817'.
+  created $dff cell `$procdff$1487' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[59]' using process `\tile_mm.$proc$../tile_mm.v:46$817'.
+  created $dff cell `$procdff$1488' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1951:1920]' using process `\tile_mm.$proc$../tile_mm.v:46$821'.
+  created $dff cell `$procdff$1489' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[60]' using process `\tile_mm.$proc$../tile_mm.v:46$821'.
+  created $dff cell `$procdff$1490' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [1983:1952]' using process `\tile_mm.$proc$../tile_mm.v:46$825'.
+  created $dff cell `$procdff$1491' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[61]' using process `\tile_mm.$proc$../tile_mm.v:46$825'.
+  created $dff cell `$procdff$1492' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [2015:1984]' using process `\tile_mm.$proc$../tile_mm.v:46$829'.
+  created $dff cell `$procdff$1493' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[62]' using process `\tile_mm.$proc$../tile_mm.v:46$829'.
+  created $dff cell `$procdff$1494' with positive edge clock.
+Creating register for signal `\tile_mm.\out_acc [2047:2016]' using process `\tile_mm.$proc$../tile_mm.v:46$833'.
+  created $dff cell `$procdff$1495' with positive edge clock.
+Creating register for signal `\tile_mm.\acc[63]' using process `\tile_mm.$proc$../tile_mm.v:46$833'.
+  created $dff cell `$procdff$1496' with positive edge clock.
+
+5.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+5.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 6 empty switches in `\tile_mm.$proc$../tile_mm.v:18$418'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:18$418'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:39$445'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:51$446'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:51$446'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$451'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$453'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$455'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$457'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$459'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$461'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$463'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$465'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$467'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$469'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$471'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$473'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$475'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$477'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$479'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$481'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$483'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$485'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$487'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$489'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$491'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$493'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$495'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$497'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$499'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$501'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$503'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$505'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$507'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$509'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$511'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$513'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$515'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$517'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$519'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$521'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$523'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$525'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$527'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$529'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$531'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$533'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$535'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$537'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$539'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$541'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$543'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$545'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$547'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$549'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$551'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$553'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$555'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$557'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$559'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$561'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$563'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$565'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$567'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$569'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$571'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$573'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$575'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:37$577'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$581'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$581'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$585'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$585'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$589'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$589'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$593'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$593'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$597'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$597'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$601'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$601'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$605'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$605'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$609'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$609'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$613'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$613'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$617'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$617'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$621'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$621'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$625'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$625'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$629'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$629'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$633'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$633'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$637'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$637'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$641'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$641'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$645'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$645'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$649'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$649'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$653'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$653'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$657'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$657'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$661'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$661'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$665'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$665'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$669'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$669'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$673'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$673'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$677'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$677'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$681'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$681'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$685'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$685'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$689'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$689'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$693'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$693'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$697'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$697'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$701'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$701'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$705'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$705'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$709'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$709'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$713'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$713'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$717'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$717'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$721'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$721'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$725'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$725'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$729'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$729'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$733'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$733'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$737'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$737'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$741'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$741'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$745'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$745'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$749'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$749'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$753'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$753'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$757'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$757'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$761'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$761'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$765'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$765'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$769'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$769'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$773'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$773'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$777'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$777'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$781'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$781'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$785'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$785'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$789'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$789'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$793'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$793'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$797'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$797'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$801'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$801'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$805'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$805'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$809'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$809'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$813'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$813'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$817'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$817'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$821'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$821'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$825'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$825'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$829'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$829'.
+Found and cleaned up 2 empty switches in `\tile_mm.$proc$../tile_mm.v:46$833'.
+Removing empty process `tile_mm.$proc$../tile_mm.v:46$833'.
+Cleaned up 136 empty switches.
+
+5.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.3. Executing FLATTEN pass (flatten design).
+
+5.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 0 unused cells and 484 unused wires.
+
+5.6. Executing CHECK pass (checking for obvious problems).
+Checking module tile_mm...
+Found and reported 0 problems.
+
+5.7. Executing OPT pass (performing simple optimizations).
+
+5.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 74 cells.
+
+5.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $procmux$976: \busy -> 1'0
+      Replacing known input bits on port A of cell $procmux$974: \busy -> 1'1
+      Replacing known input bits on port A of cell $procmux$972: \busy -> 1'1
+      Replacing known input bits on port A of cell $procmux$970: \busy -> 1'1
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.7.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.7.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 0 unused cells and 74 unused wires.
+
+5.7.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.7.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.7.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.7.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.7.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.7.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.7.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+5.7.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.7.16. Finished OPT passes. (There is nothing left to do.)
+
+5.8. Executing FSM pass (extract and optimize FSM).
+
+5.8.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+5.8.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+5.8.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+5.8.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+5.8.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+5.8.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+5.8.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+5.8.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+5.9. Executing OPT pass (performing simple optimizations).
+
+5.9.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.9.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.9.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.9.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.9.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.9.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$1496 ($dff) from module tile_mm (D = \accl[63].nxt, Q = \acc[63]).
+Adding EN signal on $procdff$1495 ($dff) from module tile_mm (D = \accl[63].nxt, Q = \out_acc [2047:2016]).
+Adding EN signal on $procdff$1494 ($dff) from module tile_mm (D = \accl[62].nxt, Q = \acc[62]).
+Adding EN signal on $procdff$1493 ($dff) from module tile_mm (D = \accl[62].nxt, Q = \out_acc [2015:1984]).
+Adding EN signal on $procdff$1492 ($dff) from module tile_mm (D = \accl[61].nxt, Q = \acc[61]).
+Adding EN signal on $procdff$1491 ($dff) from module tile_mm (D = \accl[61].nxt, Q = \out_acc [1983:1952]).
+Adding EN signal on $procdff$1490 ($dff) from module tile_mm (D = \accl[60].nxt, Q = \acc[60]).
+Adding EN signal on $procdff$1489 ($dff) from module tile_mm (D = \accl[60].nxt, Q = \out_acc [1951:1920]).
+Adding EN signal on $procdff$1488 ($dff) from module tile_mm (D = \accl[59].nxt, Q = \acc[59]).
+Adding EN signal on $procdff$1487 ($dff) from module tile_mm (D = \accl[59].nxt, Q = \out_acc [1919:1888]).
+Adding EN signal on $procdff$1486 ($dff) from module tile_mm (D = \accl[58].nxt, Q = \acc[58]).
+Adding EN signal on $procdff$1485 ($dff) from module tile_mm (D = \accl[58].nxt, Q = \out_acc [1887:1856]).
+Adding EN signal on $procdff$1484 ($dff) from module tile_mm (D = \accl[57].nxt, Q = \acc[57]).
+Adding EN signal on $procdff$1483 ($dff) from module tile_mm (D = \accl[57].nxt, Q = \out_acc [1855:1824]).
+Adding EN signal on $procdff$1482 ($dff) from module tile_mm (D = \accl[56].nxt, Q = \acc[56]).
+Adding EN signal on $procdff$1481 ($dff) from module tile_mm (D = \accl[56].nxt, Q = \out_acc [1823:1792]).
+Adding EN signal on $procdff$1480 ($dff) from module tile_mm (D = \accl[55].nxt, Q = \acc[55]).
+Adding EN signal on $procdff$1479 ($dff) from module tile_mm (D = \accl[55].nxt, Q = \out_acc [1791:1760]).
+Adding EN signal on $procdff$1478 ($dff) from module tile_mm (D = \accl[54].nxt, Q = \acc[54]).
+Adding EN signal on $procdff$1477 ($dff) from module tile_mm (D = \accl[54].nxt, Q = \out_acc [1759:1728]).
+Adding EN signal on $procdff$1476 ($dff) from module tile_mm (D = \accl[53].nxt, Q = \acc[53]).
+Adding EN signal on $procdff$1475 ($dff) from module tile_mm (D = \accl[53].nxt, Q = \out_acc [1727:1696]).
+Adding EN signal on $procdff$1474 ($dff) from module tile_mm (D = \accl[52].nxt, Q = \acc[52]).
+Adding EN signal on $procdff$1473 ($dff) from module tile_mm (D = \accl[52].nxt, Q = \out_acc [1695:1664]).
+Adding EN signal on $procdff$1472 ($dff) from module tile_mm (D = \accl[51].nxt, Q = \acc[51]).
+Adding EN signal on $procdff$1471 ($dff) from module tile_mm (D = \accl[51].nxt, Q = \out_acc [1663:1632]).
+Adding EN signal on $procdff$1470 ($dff) from module tile_mm (D = \accl[50].nxt, Q = \acc[50]).
+Adding EN signal on $procdff$1469 ($dff) from module tile_mm (D = \accl[50].nxt, Q = \out_acc [1631:1600]).
+Adding EN signal on $procdff$1468 ($dff) from module tile_mm (D = \accl[49].nxt, Q = \acc[49]).
+Adding EN signal on $procdff$1467 ($dff) from module tile_mm (D = \accl[49].nxt, Q = \out_acc [1599:1568]).
+Adding EN signal on $procdff$1466 ($dff) from module tile_mm (D = \accl[48].nxt, Q = \acc[48]).
+Adding EN signal on $procdff$1465 ($dff) from module tile_mm (D = \accl[48].nxt, Q = \out_acc [1567:1536]).
+Adding EN signal on $procdff$1464 ($dff) from module tile_mm (D = \accl[47].nxt, Q = \acc[47]).
+Adding EN signal on $procdff$1463 ($dff) from module tile_mm (D = \accl[47].nxt, Q = \out_acc [1535:1504]).
+Adding EN signal on $procdff$1462 ($dff) from module tile_mm (D = \accl[46].nxt, Q = \acc[46]).
+Adding EN signal on $procdff$1461 ($dff) from module tile_mm (D = \accl[46].nxt, Q = \out_acc [1503:1472]).
+Adding EN signal on $procdff$1460 ($dff) from module tile_mm (D = \accl[45].nxt, Q = \acc[45]).
+Adding EN signal on $procdff$1459 ($dff) from module tile_mm (D = \accl[45].nxt, Q = \out_acc [1471:1440]).
+Adding EN signal on $procdff$1458 ($dff) from module tile_mm (D = \accl[44].nxt, Q = \acc[44]).
+Adding EN signal on $procdff$1457 ($dff) from module tile_mm (D = \accl[44].nxt, Q = \out_acc [1439:1408]).
+Adding EN signal on $procdff$1456 ($dff) from module tile_mm (D = \accl[43].nxt, Q = \acc[43]).
+Adding EN signal on $procdff$1455 ($dff) from module tile_mm (D = \accl[43].nxt, Q = \out_acc [1407:1376]).
+Adding EN signal on $procdff$1454 ($dff) from module tile_mm (D = \accl[42].nxt, Q = \acc[42]).
+Adding EN signal on $procdff$1453 ($dff) from module tile_mm (D = \accl[42].nxt, Q = \out_acc [1375:1344]).
+Adding EN signal on $procdff$1452 ($dff) from module tile_mm (D = \accl[41].nxt, Q = \acc[41]).
+Adding EN signal on $procdff$1451 ($dff) from module tile_mm (D = \accl[41].nxt, Q = \out_acc [1343:1312]).
+Adding EN signal on $procdff$1450 ($dff) from module tile_mm (D = \accl[40].nxt, Q = \acc[40]).
+Adding EN signal on $procdff$1449 ($dff) from module tile_mm (D = \accl[40].nxt, Q = \out_acc [1311:1280]).
+Adding EN signal on $procdff$1448 ($dff) from module tile_mm (D = \accl[39].nxt, Q = \acc[39]).
+Adding EN signal on $procdff$1447 ($dff) from module tile_mm (D = \accl[39].nxt, Q = \out_acc [1279:1248]).
+Adding EN signal on $procdff$1446 ($dff) from module tile_mm (D = \accl[38].nxt, Q = \acc[38]).
+Adding EN signal on $procdff$1445 ($dff) from module tile_mm (D = \accl[38].nxt, Q = \out_acc [1247:1216]).
+Adding EN signal on $procdff$1444 ($dff) from module tile_mm (D = \accl[37].nxt, Q = \acc[37]).
+Adding EN signal on $procdff$1443 ($dff) from module tile_mm (D = \accl[37].nxt, Q = \out_acc [1215:1184]).
+Adding EN signal on $procdff$1442 ($dff) from module tile_mm (D = \accl[36].nxt, Q = \acc[36]).
+Adding EN signal on $procdff$1441 ($dff) from module tile_mm (D = \accl[36].nxt, Q = \out_acc [1183:1152]).
+Adding EN signal on $procdff$1440 ($dff) from module tile_mm (D = \accl[35].nxt, Q = \acc[35]).
+Adding EN signal on $procdff$1439 ($dff) from module tile_mm (D = \accl[35].nxt, Q = \out_acc [1151:1120]).
+Adding EN signal on $procdff$1438 ($dff) from module tile_mm (D = \accl[34].nxt, Q = \acc[34]).
+Adding EN signal on $procdff$1437 ($dff) from module tile_mm (D = \accl[34].nxt, Q = \out_acc [1119:1088]).
+Adding EN signal on $procdff$1436 ($dff) from module tile_mm (D = \accl[33].nxt, Q = \acc[33]).
+Adding EN signal on $procdff$1435 ($dff) from module tile_mm (D = \accl[33].nxt, Q = \out_acc [1087:1056]).
+Adding EN signal on $procdff$1434 ($dff) from module tile_mm (D = \accl[32].nxt, Q = \acc[32]).
+Adding EN signal on $procdff$1433 ($dff) from module tile_mm (D = \accl[32].nxt, Q = \out_acc [1055:1024]).
+Adding EN signal on $procdff$1432 ($dff) from module tile_mm (D = \accl[31].nxt, Q = \acc[31]).
+Adding EN signal on $procdff$1431 ($dff) from module tile_mm (D = \accl[31].nxt, Q = \out_acc [1023:992]).
+Adding EN signal on $procdff$1430 ($dff) from module tile_mm (D = \accl[30].nxt, Q = \acc[30]).
+Adding EN signal on $procdff$1429 ($dff) from module tile_mm (D = \accl[30].nxt, Q = \out_acc [991:960]).
+Adding EN signal on $procdff$1428 ($dff) from module tile_mm (D = \accl[29].nxt, Q = \acc[29]).
+Adding EN signal on $procdff$1427 ($dff) from module tile_mm (D = \accl[29].nxt, Q = \out_acc [959:928]).
+Adding EN signal on $procdff$1426 ($dff) from module tile_mm (D = \accl[28].nxt, Q = \acc[28]).
+Adding EN signal on $procdff$1425 ($dff) from module tile_mm (D = \accl[28].nxt, Q = \out_acc [927:896]).
+Adding EN signal on $procdff$1424 ($dff) from module tile_mm (D = \accl[27].nxt, Q = \acc[27]).
+Adding EN signal on $procdff$1423 ($dff) from module tile_mm (D = \accl[27].nxt, Q = \out_acc [895:864]).
+Adding EN signal on $procdff$1422 ($dff) from module tile_mm (D = \accl[26].nxt, Q = \acc[26]).
+Adding EN signal on $procdff$1421 ($dff) from module tile_mm (D = \accl[26].nxt, Q = \out_acc [863:832]).
+Adding EN signal on $procdff$1420 ($dff) from module tile_mm (D = \accl[25].nxt, Q = \acc[25]).
+Adding EN signal on $procdff$1419 ($dff) from module tile_mm (D = \accl[25].nxt, Q = \out_acc [831:800]).
+Adding EN signal on $procdff$1418 ($dff) from module tile_mm (D = \accl[24].nxt, Q = \acc[24]).
+Adding EN signal on $procdff$1417 ($dff) from module tile_mm (D = \accl[24].nxt, Q = \out_acc [799:768]).
+Adding EN signal on $procdff$1416 ($dff) from module tile_mm (D = \accl[23].nxt, Q = \acc[23]).
+Adding EN signal on $procdff$1415 ($dff) from module tile_mm (D = \accl[23].nxt, Q = \out_acc [767:736]).
+Adding EN signal on $procdff$1414 ($dff) from module tile_mm (D = \accl[22].nxt, Q = \acc[22]).
+Adding EN signal on $procdff$1413 ($dff) from module tile_mm (D = \accl[22].nxt, Q = \out_acc [735:704]).
+Adding EN signal on $procdff$1412 ($dff) from module tile_mm (D = \accl[21].nxt, Q = \acc[21]).
+Adding EN signal on $procdff$1411 ($dff) from module tile_mm (D = \accl[21].nxt, Q = \out_acc [703:672]).
+Adding EN signal on $procdff$1410 ($dff) from module tile_mm (D = \accl[20].nxt, Q = \acc[20]).
+Adding EN signal on $procdff$1409 ($dff) from module tile_mm (D = \accl[20].nxt, Q = \out_acc [671:640]).
+Adding EN signal on $procdff$1408 ($dff) from module tile_mm (D = \accl[19].nxt, Q = \acc[19]).
+Adding EN signal on $procdff$1407 ($dff) from module tile_mm (D = \accl[19].nxt, Q = \out_acc [639:608]).
+Adding EN signal on $procdff$1406 ($dff) from module tile_mm (D = \accl[18].nxt, Q = \acc[18]).
+Adding EN signal on $procdff$1405 ($dff) from module tile_mm (D = \accl[18].nxt, Q = \out_acc [607:576]).
+Adding EN signal on $procdff$1404 ($dff) from module tile_mm (D = \accl[17].nxt, Q = \acc[17]).
+Adding EN signal on $procdff$1403 ($dff) from module tile_mm (D = \accl[17].nxt, Q = \out_acc [575:544]).
+Adding EN signal on $procdff$1402 ($dff) from module tile_mm (D = \accl[16].nxt, Q = \acc[16]).
+Adding EN signal on $procdff$1401 ($dff) from module tile_mm (D = \accl[16].nxt, Q = \out_acc [543:512]).
+Adding EN signal on $procdff$1400 ($dff) from module tile_mm (D = \accl[15].nxt, Q = \acc[15]).
+Adding EN signal on $procdff$1399 ($dff) from module tile_mm (D = \accl[15].nxt, Q = \out_acc [511:480]).
+Adding EN signal on $procdff$1398 ($dff) from module tile_mm (D = \accl[14].nxt, Q = \acc[14]).
+Adding EN signal on $procdff$1397 ($dff) from module tile_mm (D = \accl[14].nxt, Q = \out_acc [479:448]).
+Adding EN signal on $procdff$1396 ($dff) from module tile_mm (D = \accl[13].nxt, Q = \acc[13]).
+Adding EN signal on $procdff$1395 ($dff) from module tile_mm (D = \accl[13].nxt, Q = \out_acc [447:416]).
+Adding EN signal on $procdff$1394 ($dff) from module tile_mm (D = \accl[12].nxt, Q = \acc[12]).
+Adding EN signal on $procdff$1393 ($dff) from module tile_mm (D = \accl[12].nxt, Q = \out_acc [415:384]).
+Adding EN signal on $procdff$1392 ($dff) from module tile_mm (D = \accl[11].nxt, Q = \acc[11]).
+Adding EN signal on $procdff$1391 ($dff) from module tile_mm (D = \accl[11].nxt, Q = \out_acc [383:352]).
+Adding EN signal on $procdff$1390 ($dff) from module tile_mm (D = \accl[10].nxt, Q = \acc[10]).
+Adding EN signal on $procdff$1389 ($dff) from module tile_mm (D = \accl[10].nxt, Q = \out_acc [351:320]).
+Adding EN signal on $procdff$1388 ($dff) from module tile_mm (D = \accl[9].nxt, Q = \acc[9]).
+Adding EN signal on $procdff$1387 ($dff) from module tile_mm (D = \accl[9].nxt, Q = \out_acc [319:288]).
+Adding EN signal on $procdff$1386 ($dff) from module tile_mm (D = \accl[8].nxt, Q = \acc[8]).
+Adding EN signal on $procdff$1385 ($dff) from module tile_mm (D = \accl[8].nxt, Q = \out_acc [287:256]).
+Adding EN signal on $procdff$1384 ($dff) from module tile_mm (D = \accl[7].nxt, Q = \acc[7]).
+Adding EN signal on $procdff$1383 ($dff) from module tile_mm (D = \accl[7].nxt, Q = \out_acc [255:224]).
+Adding EN signal on $procdff$1382 ($dff) from module tile_mm (D = \accl[6].nxt, Q = \acc[6]).
+Adding EN signal on $procdff$1381 ($dff) from module tile_mm (D = \accl[6].nxt, Q = \out_acc [223:192]).
+Adding EN signal on $procdff$1380 ($dff) from module tile_mm (D = \accl[5].nxt, Q = \acc[5]).
+Adding EN signal on $procdff$1379 ($dff) from module tile_mm (D = \accl[5].nxt, Q = \out_acc [191:160]).
+Adding EN signal on $procdff$1378 ($dff) from module tile_mm (D = \accl[4].nxt, Q = \acc[4]).
+Adding EN signal on $procdff$1377 ($dff) from module tile_mm (D = \accl[4].nxt, Q = \out_acc [159:128]).
+Adding EN signal on $procdff$1376 ($dff) from module tile_mm (D = \accl[3].nxt, Q = \acc[3]).
+Adding EN signal on $procdff$1375 ($dff) from module tile_mm (D = \accl[3].nxt, Q = \out_acc [127:96]).
+Adding EN signal on $procdff$1374 ($dff) from module tile_mm (D = \accl[2].nxt, Q = \acc[2]).
+Adding EN signal on $procdff$1373 ($dff) from module tile_mm (D = \accl[2].nxt, Q = \out_acc [95:64]).
+Adding EN signal on $procdff$1372 ($dff) from module tile_mm (D = \accl[1].nxt, Q = \acc[1]).
+Adding EN signal on $procdff$1371 ($dff) from module tile_mm (D = \accl[1].nxt, Q = \out_acc [63:32]).
+Adding EN signal on $procdff$1370 ($dff) from module tile_mm (D = \accl[0].nxt, Q = \acc[0]).
+Adding EN signal on $procdff$1369 ($dff) from module tile_mm (D = \accl[0].nxt, Q = \out_acc [31:0]).
+Adding SRST signal on $procdff$1304 ($dff) from module tile_mm (D = $logic_and$../tile_mm.v:53$449_Y, Q = \out_last, rval = 1'0).
+Adding EN signal on $procdff$1303 ($dff) from module tile_mm (D = \b2, Q = \out_blk).
+Adding EN signal on $procdff$1302 ($dff) from module tile_mm (D = \r2, Q = \out_row).
+Adding SRST signal on $procdff$1301 ($dff) from module tile_mm (D = $logic_and$../tile_mm.v:48$582_Y, Q = \out_valid, rval = 1'0).
+Adding EN signal on $procdff$1288 ($dff) from module tile_mm (D = \bs, Q = \b0).
+Adding EN signal on $procdff$1287 ($dff) from module tile_mm (D = \rs, Q = \r0).
+Adding EN signal on $procdff$1286 ($dff) from module tile_mm (D = $logic_and$../tile_mm.v:25$433_Y, Q = \lastrun0).
+Adding EN signal on $procdff$1285 ($dff) from module tile_mm (D = $eq$../tile_mm.v:24$425_Y, Q = \last0).
+Adding EN signal on $procdff$1284 ($dff) from module tile_mm (D = $eq$../tile_mm.v:24$423_Y, Q = \first0).
+Adding SRST signal on $procdff$1283 ($dff) from module tile_mm (D = $procmux$835_Y, Q = \v0, rval = 1'0).
+Adding EN signal on $procdff$1282 ($dff) from module tile_mm (D = $procmux$892_Y, Q = \ab).
+Adding SRST signal on $auto$ff.cc:266:slice$1675 ($dffe) from module tile_mm (D = $procmux$889_Y, Q = \ab, rval = 20'00000000000000000000).
+Adding EN signal on $procdff$1281 ($dff) from module tile_mm (D = $procmux$906_Y, Q = \wb).
+Adding SRST signal on $auto$ff.cc:266:slice$1687 ($dffe) from module tile_mm (D = $procmux$903_Y, Q = \wb, rval = 20'00000000000000000000).
+Adding EN signal on $procdff$1280 ($dff) from module tile_mm (D = $procmux$920_Y, Q = \rs).
+Adding SRST signal on $auto$ff.cc:266:slice$1697 ($dffe) from module tile_mm (D = $procmux$917_Y, Q = \rs, rval = 12'000000000000).
+Adding EN signal on $procdff$1279 ($dff) from module tile_mm (D = $procmux$934_Y, Q = \bs).
+Adding SRST signal on $auto$ff.cc:266:slice$1709 ($dffe) from module tile_mm (D = $procmux$931_Y, Q = \bs, rval = 12'000000000000).
+Adding EN signal on $procdff$1278 ($dff) from module tile_mm (D = $procmux$945_Y, Q = \ks).
+Adding SRST signal on $auto$ff.cc:266:slice$1719 ($dffe) from module tile_mm (D = $procmux$942_Y, Q = \ks, rval = 12'000000000000).
+Adding EN signal on $procdff$1277 ($dff) from module tile_mm (D = \nb, Q = \nbq).
+Adding EN signal on $procdff$1276 ($dff) from module tile_mm (D = \m, Q = \mq).
+Adding EN signal on $procdff$1275 ($dff) from module tile_mm (D = \k, Q = \kq).
+Adding SRST signal on $procdff$1274 ($dff) from module tile_mm (D = $procmux$979_Y, Q = \busy, rval = 1'0).
+Adding EN signal on $procdff$1273 ($dff) from module tile_mm (D = $add$../tile_mm.v:24$422_Y, Q = \a_addr).
+Adding EN signal on $procdff$1272 ($dff) from module tile_mm (D = $add$../tile_mm.v:24$421_Y, Q = \w_addr).
+
+5.9.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 174 unused cells and 174 unused wires.
+
+5.9.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.9.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.9.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.9.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.9.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 41 cells.
+
+5.9.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.9.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 0 unused cells and 41 unused wires.
+
+5.9.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.9.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.9.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.9.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.9.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.9.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.9.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+5.9.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.9.23. Finished OPT passes. (There is nothing left to do.)
+
+5.10. Executing WREDUCE pass (reducing word size of cells).
+Removed top 31 bits (of 32) from port B of cell tile_mm.$sub$../tile_mm.v:24$424 ($sub).
+Removed top 19 bits (of 32) from port Y of cell tile_mm.$sub$../tile_mm.v:24$424 ($sub).
+Removed top 31 bits (of 32) from port B of cell tile_mm.$sub$../tile_mm.v:25$428 ($sub).
+Removed top 19 bits (of 32) from port Y of cell tile_mm.$sub$../tile_mm.v:25$428 ($sub).
+Removed top 31 bits (of 32) from port B of cell tile_mm.$sub$../tile_mm.v:25$431 ($sub).
+Removed top 19 bits (of 32) from port Y of cell tile_mm.$sub$../tile_mm.v:25$431 ($sub).
+Removed top 31 bits (of 32) from port B of cell tile_mm.$add$../tile_mm.v:28$439 ($add).
+Removed top 20 bits (of 32) from port Y of cell tile_mm.$add$../tile_mm.v:28$439 ($add).
+Removed top 31 bits (of 32) from port B of cell tile_mm.$add$../tile_mm.v:29$442 ($add).
+Removed top 20 bits (of 32) from port Y of cell tile_mm.$add$../tile_mm.v:29$442 ($add).
+Removed top 31 bits (of 32) from port B of cell tile_mm.$add$../tile_mm.v:30$444 ($add).
+Removed top 20 bits (of 32) from port Y of cell tile_mm.$add$../tile_mm.v:30$444 ($add).
+Removed top 2 bits (of 3) from port B of cell tile_mm.$auto$opt_dff.cc:195:make_patterns_logic$1679 ($ne).
+Removed top 1 bits (of 4) from port B of cell tile_mm.$auto$opt_dff.cc:195:make_patterns_logic$1681 ($ne).
+Removed top 20 bits (of 32) from wire tile_mm.$add$../tile_mm.v:28$439_Y.
+Removed top 20 bits (of 32) from wire tile_mm.$add$../tile_mm.v:29$442_Y.
+
+5.11. Executing PEEPOPT pass (run peephole optimizers).
+
+5.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 0 unused cells and 2 unused wires.
+
+5.13. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module tile_mm:
+  creating $macc model for $add$../tile_mm.v:24$421 ($add).
+  creating $macc model for $add$../tile_mm.v:24$422 ($add).
+  creating $macc model for $add$../tile_mm.v:28$438 ($add).
+  creating $macc model for $add$../tile_mm.v:28$439 ($add).
+  creating $macc model for $add$../tile_mm.v:29$442 ($add).
+  creating $macc model for $add$../tile_mm.v:29$443 ($add).
+  creating $macc model for $add$../tile_mm.v:30$444 ($add).
+  creating $macc model for $add$../tile_mm.v:45$580 ($add).
+  creating $macc model for $add$../tile_mm.v:45$584 ($add).
+  creating $macc model for $add$../tile_mm.v:45$588 ($add).
+  creating $macc model for $add$../tile_mm.v:45$592 ($add).
+  creating $macc model for $add$../tile_mm.v:45$596 ($add).
+  creating $macc model for $add$../tile_mm.v:45$600 ($add).
+  creating $macc model for $add$../tile_mm.v:45$604 ($add).
+  creating $macc model for $add$../tile_mm.v:45$608 ($add).
+  creating $macc model for $add$../tile_mm.v:45$612 ($add).
+  creating $macc model for $add$../tile_mm.v:45$616 ($add).
+  creating $macc model for $add$../tile_mm.v:45$620 ($add).
+  creating $macc model for $add$../tile_mm.v:45$624 ($add).
+  creating $macc model for $add$../tile_mm.v:45$628 ($add).
+  creating $macc model for $add$../tile_mm.v:45$632 ($add).
+  creating $macc model for $add$../tile_mm.v:45$636 ($add).
+  creating $macc model for $add$../tile_mm.v:45$640 ($add).
+  creating $macc model for $add$../tile_mm.v:45$644 ($add).
+  creating $macc model for $add$../tile_mm.v:45$648 ($add).
+  creating $macc model for $add$../tile_mm.v:45$652 ($add).
+  creating $macc model for $add$../tile_mm.v:45$656 ($add).
+  creating $macc model for $add$../tile_mm.v:45$660 ($add).
+  creating $macc model for $add$../tile_mm.v:45$664 ($add).
+  creating $macc model for $add$../tile_mm.v:45$668 ($add).
+  creating $macc model for $add$../tile_mm.v:45$672 ($add).
+  creating $macc model for $add$../tile_mm.v:45$676 ($add).
+  creating $macc model for $add$../tile_mm.v:45$680 ($add).
+  creating $macc model for $add$../tile_mm.v:45$684 ($add).
+  creating $macc model for $add$../tile_mm.v:45$688 ($add).
+  creating $macc model for $add$../tile_mm.v:45$692 ($add).
+  creating $macc model for $add$../tile_mm.v:45$696 ($add).
+  creating $macc model for $add$../tile_mm.v:45$700 ($add).
+  creating $macc model for $add$../tile_mm.v:45$704 ($add).
+  creating $macc model for $add$../tile_mm.v:45$708 ($add).
+  creating $macc model for $add$../tile_mm.v:45$712 ($add).
+  creating $macc model for $add$../tile_mm.v:45$716 ($add).
+  creating $macc model for $add$../tile_mm.v:45$720 ($add).
+  creating $macc model for $add$../tile_mm.v:45$724 ($add).
+  creating $macc model for $add$../tile_mm.v:45$728 ($add).
+  creating $macc model for $add$../tile_mm.v:45$732 ($add).
+  creating $macc model for $add$../tile_mm.v:45$736 ($add).
+  creating $macc model for $add$../tile_mm.v:45$740 ($add).
+  creating $macc model for $add$../tile_mm.v:45$744 ($add).
+  creating $macc model for $add$../tile_mm.v:45$748 ($add).
+  creating $macc model for $add$../tile_mm.v:45$752 ($add).
+  creating $macc model for $add$../tile_mm.v:45$756 ($add).
+  creating $macc model for $add$../tile_mm.v:45$760 ($add).
+  creating $macc model for $add$../tile_mm.v:45$764 ($add).
+  creating $macc model for $add$../tile_mm.v:45$768 ($add).
+  creating $macc model for $add$../tile_mm.v:45$772 ($add).
+  creating $macc model for $add$../tile_mm.v:45$776 ($add).
+  creating $macc model for $add$../tile_mm.v:45$780 ($add).
+  creating $macc model for $add$../tile_mm.v:45$784 ($add).
+  creating $macc model for $add$../tile_mm.v:45$788 ($add).
+  creating $macc model for $add$../tile_mm.v:45$792 ($add).
+  creating $macc model for $add$../tile_mm.v:45$796 ($add).
+  creating $macc model for $add$../tile_mm.v:45$800 ($add).
+  creating $macc model for $add$../tile_mm.v:45$804 ($add).
+  creating $macc model for $add$../tile_mm.v:45$808 ($add).
+  creating $macc model for $add$../tile_mm.v:45$812 ($add).
+  creating $macc model for $add$../tile_mm.v:45$816 ($add).
+  creating $macc model for $add$../tile_mm.v:45$820 ($add).
+  creating $macc model for $add$../tile_mm.v:45$824 ($add).
+  creating $macc model for $add$../tile_mm.v:45$828 ($add).
+  creating $macc model for $add$../tile_mm.v:45$832 ($add).
+  creating $macc model for $mul$../tile_mm.v:37$452 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$454 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$456 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$458 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$460 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$462 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$464 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$466 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$468 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$470 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$472 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$474 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$476 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$478 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$480 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$482 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$484 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$486 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$488 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$490 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$492 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$494 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$496 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$498 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$500 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$502 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$504 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$506 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$508 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$510 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$512 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$514 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$516 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$518 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$520 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$522 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$524 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$526 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$528 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$530 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$532 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$534 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$536 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$538 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$540 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$542 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$544 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$546 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$548 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$550 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$552 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$554 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$556 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$558 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$560 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$562 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$564 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$566 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$568 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$570 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$572 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$574 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$576 ($mul).
+  creating $macc model for $mul$../tile_mm.v:37$578 ($mul).
+  creating $macc model for $sub$../tile_mm.v:24$424 ($sub).
+  creating $macc model for $sub$../tile_mm.v:25$428 ($sub).
+  creating $macc model for $sub$../tile_mm.v:25$431 ($sub).
+  creating $alu model for $macc $sub$../tile_mm.v:25$431.
+  creating $alu model for $macc $sub$../tile_mm.v:25$428.
+  creating $alu model for $macc $sub$../tile_mm.v:24$424.
+  creating $alu model for $macc $add$../tile_mm.v:45$832.
+  creating $alu model for $macc $add$../tile_mm.v:45$828.
+  creating $alu model for $macc $add$../tile_mm.v:45$824.
+  creating $alu model for $macc $add$../tile_mm.v:45$820.
+  creating $alu model for $macc $add$../tile_mm.v:45$816.
+  creating $alu model for $macc $add$../tile_mm.v:45$812.
+  creating $alu model for $macc $add$../tile_mm.v:45$808.
+  creating $alu model for $macc $add$../tile_mm.v:45$804.
+  creating $alu model for $macc $add$../tile_mm.v:45$800.
+  creating $alu model for $macc $add$../tile_mm.v:45$796.
+  creating $alu model for $macc $add$../tile_mm.v:45$792.
+  creating $alu model for $macc $add$../tile_mm.v:45$788.
+  creating $alu model for $macc $add$../tile_mm.v:45$784.
+  creating $alu model for $macc $add$../tile_mm.v:45$780.
+  creating $alu model for $macc $add$../tile_mm.v:45$776.
+  creating $alu model for $macc $add$../tile_mm.v:45$772.
+  creating $alu model for $macc $add$../tile_mm.v:45$768.
+  creating $alu model for $macc $add$../tile_mm.v:45$764.
+  creating $alu model for $macc $add$../tile_mm.v:45$760.
+  creating $alu model for $macc $add$../tile_mm.v:45$756.
+  creating $alu model for $macc $add$../tile_mm.v:45$752.
+  creating $alu model for $macc $add$../tile_mm.v:45$748.
+  creating $alu model for $macc $add$../tile_mm.v:45$744.
+  creating $alu model for $macc $add$../tile_mm.v:45$740.
+  creating $alu model for $macc $add$../tile_mm.v:45$736.
+  creating $alu model for $macc $add$../tile_mm.v:45$732.
+  creating $alu model for $macc $add$../tile_mm.v:45$728.
+  creating $alu model for $macc $add$../tile_mm.v:45$724.
+  creating $alu model for $macc $add$../tile_mm.v:45$720.
+  creating $alu model for $macc $add$../tile_mm.v:45$716.
+  creating $alu model for $macc $add$../tile_mm.v:45$712.
+  creating $alu model for $macc $add$../tile_mm.v:45$708.
+  creating $alu model for $macc $add$../tile_mm.v:45$704.
+  creating $alu model for $macc $add$../tile_mm.v:45$700.
+  creating $alu model for $macc $add$../tile_mm.v:45$696.
+  creating $alu model for $macc $add$../tile_mm.v:45$692.
+  creating $alu model for $macc $add$../tile_mm.v:45$688.
+  creating $alu model for $macc $add$../tile_mm.v:45$684.
+  creating $alu model for $macc $add$../tile_mm.v:45$680.
+  creating $alu model for $macc $add$../tile_mm.v:45$676.
+  creating $alu model for $macc $add$../tile_mm.v:45$672.
+  creating $alu model for $macc $add$../tile_mm.v:45$668.
+  creating $alu model for $macc $add$../tile_mm.v:45$664.
+  creating $alu model for $macc $add$../tile_mm.v:45$660.
+  creating $alu model for $macc $add$../tile_mm.v:45$656.
+  creating $alu model for $macc $add$../tile_mm.v:45$652.
+  creating $alu model for $macc $add$../tile_mm.v:45$648.
+  creating $alu model for $macc $add$../tile_mm.v:45$644.
+  creating $alu model for $macc $add$../tile_mm.v:45$640.
+  creating $alu model for $macc $add$../tile_mm.v:45$636.
+  creating $alu model for $macc $add$../tile_mm.v:45$632.
+  creating $alu model for $macc $add$../tile_mm.v:45$628.
+  creating $alu model for $macc $add$../tile_mm.v:45$624.
+  creating $alu model for $macc $add$../tile_mm.v:45$620.
+  creating $alu model for $macc $add$../tile_mm.v:45$616.
+  creating $alu model for $macc $add$../tile_mm.v:45$612.
+  creating $alu model for $macc $add$../tile_mm.v:45$608.
+  creating $alu model for $macc $add$../tile_mm.v:45$604.
+  creating $alu model for $macc $add$../tile_mm.v:45$600.
+  creating $alu model for $macc $add$../tile_mm.v:45$596.
+  creating $alu model for $macc $add$../tile_mm.v:45$592.
+  creating $alu model for $macc $add$../tile_mm.v:45$588.
+  creating $alu model for $macc $add$../tile_mm.v:45$584.
+  creating $alu model for $macc $add$../tile_mm.v:45$580.
+  creating $alu model for $macc $add$../tile_mm.v:30$444.
+  creating $alu model for $macc $add$../tile_mm.v:29$443.
+  creating $alu model for $macc $add$../tile_mm.v:29$442.
+  creating $alu model for $macc $add$../tile_mm.v:28$439.
+  creating $alu model for $macc $add$../tile_mm.v:28$438.
+  creating $alu model for $macc $add$../tile_mm.v:24$422.
+  creating $alu model for $macc $add$../tile_mm.v:24$421.
+  creating $macc cell for $mul$../tile_mm.v:37$458: $auto$alumacc.cc:365:replace_macc$1759
+  creating $macc cell for $mul$../tile_mm.v:37$460: $auto$alumacc.cc:365:replace_macc$1760
+  creating $macc cell for $mul$../tile_mm.v:37$462: $auto$alumacc.cc:365:replace_macc$1761
+  creating $macc cell for $mul$../tile_mm.v:37$464: $auto$alumacc.cc:365:replace_macc$1762
+  creating $macc cell for $mul$../tile_mm.v:37$466: $auto$alumacc.cc:365:replace_macc$1763
+  creating $macc cell for $mul$../tile_mm.v:37$468: $auto$alumacc.cc:365:replace_macc$1764
+  creating $macc cell for $mul$../tile_mm.v:37$470: $auto$alumacc.cc:365:replace_macc$1765
+  creating $macc cell for $mul$../tile_mm.v:37$472: $auto$alumacc.cc:365:replace_macc$1766
+  creating $macc cell for $mul$../tile_mm.v:37$474: $auto$alumacc.cc:365:replace_macc$1767
+  creating $macc cell for $mul$../tile_mm.v:37$476: $auto$alumacc.cc:365:replace_macc$1768
+  creating $macc cell for $mul$../tile_mm.v:37$478: $auto$alumacc.cc:365:replace_macc$1769
+  creating $macc cell for $mul$../tile_mm.v:37$480: $auto$alumacc.cc:365:replace_macc$1770
+  creating $macc cell for $mul$../tile_mm.v:37$482: $auto$alumacc.cc:365:replace_macc$1771
+  creating $macc cell for $mul$../tile_mm.v:37$484: $auto$alumacc.cc:365:replace_macc$1772
+  creating $macc cell for $mul$../tile_mm.v:37$486: $auto$alumacc.cc:365:replace_macc$1773
+  creating $macc cell for $mul$../tile_mm.v:37$488: $auto$alumacc.cc:365:replace_macc$1774
+  creating $macc cell for $mul$../tile_mm.v:37$490: $auto$alumacc.cc:365:replace_macc$1775
+  creating $macc cell for $mul$../tile_mm.v:37$492: $auto$alumacc.cc:365:replace_macc$1776
+  creating $macc cell for $mul$../tile_mm.v:37$494: $auto$alumacc.cc:365:replace_macc$1777
+  creating $macc cell for $mul$../tile_mm.v:37$496: $auto$alumacc.cc:365:replace_macc$1778
+  creating $macc cell for $mul$../tile_mm.v:37$498: $auto$alumacc.cc:365:replace_macc$1779
+  creating $macc cell for $mul$../tile_mm.v:37$500: $auto$alumacc.cc:365:replace_macc$1780
+  creating $macc cell for $mul$../tile_mm.v:37$502: $auto$alumacc.cc:365:replace_macc$1781
+  creating $macc cell for $mul$../tile_mm.v:37$504: $auto$alumacc.cc:365:replace_macc$1782
+  creating $macc cell for $mul$../tile_mm.v:37$506: $auto$alumacc.cc:365:replace_macc$1783
+  creating $macc cell for $mul$../tile_mm.v:37$508: $auto$alumacc.cc:365:replace_macc$1784
+  creating $macc cell for $mul$../tile_mm.v:37$510: $auto$alumacc.cc:365:replace_macc$1785
+  creating $macc cell for $mul$../tile_mm.v:37$512: $auto$alumacc.cc:365:replace_macc$1786
+  creating $macc cell for $mul$../tile_mm.v:37$514: $auto$alumacc.cc:365:replace_macc$1787
+  creating $macc cell for $mul$../tile_mm.v:37$516: $auto$alumacc.cc:365:replace_macc$1788
+  creating $macc cell for $mul$../tile_mm.v:37$518: $auto$alumacc.cc:365:replace_macc$1789
+  creating $macc cell for $mul$../tile_mm.v:37$520: $auto$alumacc.cc:365:replace_macc$1790
+  creating $macc cell for $mul$../tile_mm.v:37$522: $auto$alumacc.cc:365:replace_macc$1791
+  creating $macc cell for $mul$../tile_mm.v:37$524: $auto$alumacc.cc:365:replace_macc$1792
+  creating $macc cell for $mul$../tile_mm.v:37$526: $auto$alumacc.cc:365:replace_macc$1793
+  creating $macc cell for $mul$../tile_mm.v:37$528: $auto$alumacc.cc:365:replace_macc$1794
+  creating $macc cell for $mul$../tile_mm.v:37$530: $auto$alumacc.cc:365:replace_macc$1795
+  creating $macc cell for $mul$../tile_mm.v:37$532: $auto$alumacc.cc:365:replace_macc$1796
+  creating $macc cell for $mul$../tile_mm.v:37$534: $auto$alumacc.cc:365:replace_macc$1797
+  creating $macc cell for $mul$../tile_mm.v:37$536: $auto$alumacc.cc:365:replace_macc$1798
+  creating $macc cell for $mul$../tile_mm.v:37$538: $auto$alumacc.cc:365:replace_macc$1799
+  creating $macc cell for $mul$../tile_mm.v:37$540: $auto$alumacc.cc:365:replace_macc$1800
+  creating $macc cell for $mul$../tile_mm.v:37$542: $auto$alumacc.cc:365:replace_macc$1801
+  creating $macc cell for $mul$../tile_mm.v:37$544: $auto$alumacc.cc:365:replace_macc$1802
+  creating $macc cell for $mul$../tile_mm.v:37$546: $auto$alumacc.cc:365:replace_macc$1803
+  creating $macc cell for $mul$../tile_mm.v:37$548: $auto$alumacc.cc:365:replace_macc$1804
+  creating $macc cell for $mul$../tile_mm.v:37$550: $auto$alumacc.cc:365:replace_macc$1805
+  creating $macc cell for $mul$../tile_mm.v:37$552: $auto$alumacc.cc:365:replace_macc$1806
+  creating $macc cell for $mul$../tile_mm.v:37$554: $auto$alumacc.cc:365:replace_macc$1807
+  creating $macc cell for $mul$../tile_mm.v:37$556: $auto$alumacc.cc:365:replace_macc$1808
+  creating $macc cell for $mul$../tile_mm.v:37$558: $auto$alumacc.cc:365:replace_macc$1809
+  creating $macc cell for $mul$../tile_mm.v:37$560: $auto$alumacc.cc:365:replace_macc$1810
+  creating $macc cell for $mul$../tile_mm.v:37$562: $auto$alumacc.cc:365:replace_macc$1811
+  creating $macc cell for $mul$../tile_mm.v:37$564: $auto$alumacc.cc:365:replace_macc$1812
+  creating $macc cell for $mul$../tile_mm.v:37$566: $auto$alumacc.cc:365:replace_macc$1813
+  creating $macc cell for $mul$../tile_mm.v:37$568: $auto$alumacc.cc:365:replace_macc$1814
+  creating $macc cell for $mul$../tile_mm.v:37$570: $auto$alumacc.cc:365:replace_macc$1815
+  creating $macc cell for $mul$../tile_mm.v:37$572: $auto$alumacc.cc:365:replace_macc$1816
+  creating $macc cell for $mul$../tile_mm.v:37$574: $auto$alumacc.cc:365:replace_macc$1817
+  creating $macc cell for $mul$../tile_mm.v:37$576: $auto$alumacc.cc:365:replace_macc$1818
+  creating $macc cell for $mul$../tile_mm.v:37$578: $auto$alumacc.cc:365:replace_macc$1819
+  creating $macc cell for $mul$../tile_mm.v:37$452: $auto$alumacc.cc:365:replace_macc$1820
+  creating $macc cell for $mul$../tile_mm.v:37$454: $auto$alumacc.cc:365:replace_macc$1821
+  creating $macc cell for $mul$../tile_mm.v:37$456: $auto$alumacc.cc:365:replace_macc$1822
+  creating $alu cell for $add$../tile_mm.v:24$421: $auto$alumacc.cc:485:replace_alu$1823
+  creating $alu cell for $add$../tile_mm.v:24$422: $auto$alumacc.cc:485:replace_alu$1826
+  creating $alu cell for $add$../tile_mm.v:28$438: $auto$alumacc.cc:485:replace_alu$1829
+  creating $alu cell for $add$../tile_mm.v:28$439: $auto$alumacc.cc:485:replace_alu$1832
+  creating $alu cell for $add$../tile_mm.v:29$442: $auto$alumacc.cc:485:replace_alu$1835
+  creating $alu cell for $add$../tile_mm.v:29$443: $auto$alumacc.cc:485:replace_alu$1838
+  creating $alu cell for $add$../tile_mm.v:30$444: $auto$alumacc.cc:485:replace_alu$1841
+  creating $alu cell for $add$../tile_mm.v:45$580: $auto$alumacc.cc:485:replace_alu$1844
+  creating $alu cell for $add$../tile_mm.v:45$584: $auto$alumacc.cc:485:replace_alu$1847
+  creating $alu cell for $add$../tile_mm.v:45$588: $auto$alumacc.cc:485:replace_alu$1850
+  creating $alu cell for $add$../tile_mm.v:45$592: $auto$alumacc.cc:485:replace_alu$1853
+  creating $alu cell for $add$../tile_mm.v:45$596: $auto$alumacc.cc:485:replace_alu$1856
+  creating $alu cell for $add$../tile_mm.v:45$600: $auto$alumacc.cc:485:replace_alu$1859
+  creating $alu cell for $add$../tile_mm.v:45$604: $auto$alumacc.cc:485:replace_alu$1862
+  creating $alu cell for $add$../tile_mm.v:45$608: $auto$alumacc.cc:485:replace_alu$1865
+  creating $alu cell for $add$../tile_mm.v:45$612: $auto$alumacc.cc:485:replace_alu$1868
+  creating $alu cell for $add$../tile_mm.v:45$616: $auto$alumacc.cc:485:replace_alu$1871
+  creating $alu cell for $add$../tile_mm.v:45$620: $auto$alumacc.cc:485:replace_alu$1874
+  creating $alu cell for $add$../tile_mm.v:45$624: $auto$alumacc.cc:485:replace_alu$1877
+  creating $alu cell for $add$../tile_mm.v:45$628: $auto$alumacc.cc:485:replace_alu$1880
+  creating $alu cell for $add$../tile_mm.v:45$632: $auto$alumacc.cc:485:replace_alu$1883
+  creating $alu cell for $add$../tile_mm.v:45$636: $auto$alumacc.cc:485:replace_alu$1886
+  creating $alu cell for $add$../tile_mm.v:45$640: $auto$alumacc.cc:485:replace_alu$1889
+  creating $alu cell for $add$../tile_mm.v:45$644: $auto$alumacc.cc:485:replace_alu$1892
+  creating $alu cell for $add$../tile_mm.v:45$648: $auto$alumacc.cc:485:replace_alu$1895
+  creating $alu cell for $add$../tile_mm.v:45$652: $auto$alumacc.cc:485:replace_alu$1898
+  creating $alu cell for $add$../tile_mm.v:45$656: $auto$alumacc.cc:485:replace_alu$1901
+  creating $alu cell for $add$../tile_mm.v:45$660: $auto$alumacc.cc:485:replace_alu$1904
+  creating $alu cell for $add$../tile_mm.v:45$664: $auto$alumacc.cc:485:replace_alu$1907
+  creating $alu cell for $add$../tile_mm.v:45$668: $auto$alumacc.cc:485:replace_alu$1910
+  creating $alu cell for $add$../tile_mm.v:45$672: $auto$alumacc.cc:485:replace_alu$1913
+  creating $alu cell for $add$../tile_mm.v:45$676: $auto$alumacc.cc:485:replace_alu$1916
+  creating $alu cell for $add$../tile_mm.v:45$680: $auto$alumacc.cc:485:replace_alu$1919
+  creating $alu cell for $add$../tile_mm.v:45$684: $auto$alumacc.cc:485:replace_alu$1922
+  creating $alu cell for $add$../tile_mm.v:45$688: $auto$alumacc.cc:485:replace_alu$1925
+  creating $alu cell for $add$../tile_mm.v:45$692: $auto$alumacc.cc:485:replace_alu$1928
+  creating $alu cell for $add$../tile_mm.v:45$696: $auto$alumacc.cc:485:replace_alu$1931
+  creating $alu cell for $add$../tile_mm.v:45$700: $auto$alumacc.cc:485:replace_alu$1934
+  creating $alu cell for $add$../tile_mm.v:45$704: $auto$alumacc.cc:485:replace_alu$1937
+  creating $alu cell for $add$../tile_mm.v:45$708: $auto$alumacc.cc:485:replace_alu$1940
+  creating $alu cell for $add$../tile_mm.v:45$712: $auto$alumacc.cc:485:replace_alu$1943
+  creating $alu cell for $add$../tile_mm.v:45$716: $auto$alumacc.cc:485:replace_alu$1946
+  creating $alu cell for $add$../tile_mm.v:45$720: $auto$alumacc.cc:485:replace_alu$1949
+  creating $alu cell for $add$../tile_mm.v:45$724: $auto$alumacc.cc:485:replace_alu$1952
+  creating $alu cell for $add$../tile_mm.v:45$728: $auto$alumacc.cc:485:replace_alu$1955
+  creating $alu cell for $add$../tile_mm.v:45$732: $auto$alumacc.cc:485:replace_alu$1958
+  creating $alu cell for $add$../tile_mm.v:45$736: $auto$alumacc.cc:485:replace_alu$1961
+  creating $alu cell for $add$../tile_mm.v:45$740: $auto$alumacc.cc:485:replace_alu$1964
+  creating $alu cell for $add$../tile_mm.v:45$744: $auto$alumacc.cc:485:replace_alu$1967
+  creating $alu cell for $add$../tile_mm.v:45$748: $auto$alumacc.cc:485:replace_alu$1970
+  creating $alu cell for $add$../tile_mm.v:45$752: $auto$alumacc.cc:485:replace_alu$1973
+  creating $alu cell for $add$../tile_mm.v:45$756: $auto$alumacc.cc:485:replace_alu$1976
+  creating $alu cell for $add$../tile_mm.v:45$760: $auto$alumacc.cc:485:replace_alu$1979
+  creating $alu cell for $add$../tile_mm.v:45$764: $auto$alumacc.cc:485:replace_alu$1982
+  creating $alu cell for $add$../tile_mm.v:45$768: $auto$alumacc.cc:485:replace_alu$1985
+  creating $alu cell for $add$../tile_mm.v:45$772: $auto$alumacc.cc:485:replace_alu$1988
+  creating $alu cell for $add$../tile_mm.v:45$776: $auto$alumacc.cc:485:replace_alu$1991
+  creating $alu cell for $add$../tile_mm.v:45$780: $auto$alumacc.cc:485:replace_alu$1994
+  creating $alu cell for $add$../tile_mm.v:45$784: $auto$alumacc.cc:485:replace_alu$1997
+  creating $alu cell for $add$../tile_mm.v:45$788: $auto$alumacc.cc:485:replace_alu$2000
+  creating $alu cell for $add$../tile_mm.v:45$792: $auto$alumacc.cc:485:replace_alu$2003
+  creating $alu cell for $add$../tile_mm.v:45$796: $auto$alumacc.cc:485:replace_alu$2006
+  creating $alu cell for $add$../tile_mm.v:45$800: $auto$alumacc.cc:485:replace_alu$2009
+  creating $alu cell for $add$../tile_mm.v:45$804: $auto$alumacc.cc:485:replace_alu$2012
+  creating $alu cell for $add$../tile_mm.v:45$808: $auto$alumacc.cc:485:replace_alu$2015
+  creating $alu cell for $add$../tile_mm.v:45$812: $auto$alumacc.cc:485:replace_alu$2018
+  creating $alu cell for $add$../tile_mm.v:45$816: $auto$alumacc.cc:485:replace_alu$2021
+  creating $alu cell for $add$../tile_mm.v:45$820: $auto$alumacc.cc:485:replace_alu$2024
+  creating $alu cell for $add$../tile_mm.v:45$824: $auto$alumacc.cc:485:replace_alu$2027
+  creating $alu cell for $add$../tile_mm.v:45$828: $auto$alumacc.cc:485:replace_alu$2030
+  creating $alu cell for $add$../tile_mm.v:45$832: $auto$alumacc.cc:485:replace_alu$2033
+  creating $alu cell for $sub$../tile_mm.v:24$424: $auto$alumacc.cc:485:replace_alu$2036
+  creating $alu cell for $sub$../tile_mm.v:25$428: $auto$alumacc.cc:485:replace_alu$2039
+  creating $alu cell for $sub$../tile_mm.v:25$431: $auto$alumacc.cc:485:replace_alu$2042
+  created 74 $alu and 64 $macc cells.
+
+5.14. Executing SHARE pass (SAT-based resource sharing).
+
+5.15. Executing OPT pass (performing simple optimizations).
+
+5.15.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.15.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.15.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.15.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.15.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.15.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.15.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+5.15.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.15.9. Finished OPT passes. (There is nothing left to do.)
+
+5.16. Executing MEMORY pass.
+
+5.16.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+5.16.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+5.16.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+5.16.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+5.16.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+5.16.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+5.16.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+5.16.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+5.16.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+5.16.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.17. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+5.18. Executing OPT pass (performing simple optimizations).
+
+5.18.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.18.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.18.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.18.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 0 unused cells and 12 unused wires.
+
+5.18.5. Finished fast OPT passes.
+
+5.19. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+5.20. Executing OPT pass (performing simple optimizations).
+
+5.20.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.20.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.20.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.20.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.20.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.20.6. Executing OPT_SHARE pass.
+
+5.20.7. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $auto$ff.cc:266:slice$1726 ($sdffce) from module tile_mm (D = $add$../tile_mm.v:30$444_Y [11:0], Q = \ks, rval = 12'000000000000).
+Adding SRST signal on $auto$ff.cc:266:slice$1718 ($sdffce) from module tile_mm (D = $add$../tile_mm.v:29$442_Y, Q = \bs, rval = 12'000000000000).
+Adding SRST signal on $auto$ff.cc:266:slice$1696 ($sdffce) from module tile_mm (D = $add$../tile_mm.v:29$443_Y, Q = \wb, rval = 20'00000000000000000000).
+
+5.20.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 3 unused cells and 3 unused wires.
+
+5.20.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.20.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.20.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.20.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.20.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 1 cells.
+
+5.20.14. Executing OPT_SHARE pass.
+
+5.20.15. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.20.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 0 unused cells and 1 unused wires.
+
+5.20.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.20.18. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.20.19. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+5.20.20. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+5.20.21. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+5.20.22. Executing OPT_SHARE pass.
+
+5.20.23. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.20.24. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+5.20.25. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.20.26. Finished OPT passes. (There is nothing left to do.)
+
+5.21. Executing TECHMAP pass (map to technology primitives).
+
+5.21.1. Executing Verilog-2005 frontend: /opt/eda_pdk/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/eda_pdk/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+5.21.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $dffe.
+Using extmapper simplemap for cells of type $sdff.
+Using extmapper simplemap for cells of type $dff.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $reduce_or.
+Using extmapper simplemap for cells of type $sdffce.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $logic_and.
+Using template $paramod$2407cc82e5cb694244124c65ef486a1415b4b030\_90_alu for cells of type $alu.
+Using template $paramod$4723f36546de75c7b865d95396fc0936b66ab54e\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $eq.
+Using template $paramod$8f780356cb6cdb52f6a744190131b65634639c4e\_90_alu for cells of type $alu.
+Using template $paramod$bee2d9b174e5d569acba3e70eed4e815564102b5\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper maccmap for cells of type $macc.
+  add \w_data [15:8] * \a_data (8x8 bits, signed)
+  add \w_data [23:16] * \a_data (8x8 bits, signed)
+  add \w_data [39:32] * \a_data (8x8 bits, signed)
+  add \w_data [47:40] * \a_data (8x8 bits, signed)
+  add \w_data [55:48] * \a_data (8x8 bits, signed)
+  add \w_data [63:56] * \a_data (8x8 bits, signed)
+  add \w_data [71:64] * \a_data (8x8 bits, signed)
+  add \w_data [79:72] * \a_data (8x8 bits, signed)
+  add \w_data [87:80] * \a_data (8x8 bits, signed)
+  add \w_data [95:88] * \a_data (8x8 bits, signed)
+  add \w_data [103:96] * \a_data (8x8 bits, signed)
+  add \w_data [111:104] * \a_data (8x8 bits, signed)
+  add \w_data [119:112] * \a_data (8x8 bits, signed)
+  add \w_data [127:120] * \a_data (8x8 bits, signed)
+  add \w_data [135:128] * \a_data (8x8 bits, signed)
+  add \w_data [143:136] * \a_data (8x8 bits, signed)
+  add \w_data [151:144] * \a_data (8x8 bits, signed)
+  add \w_data [159:152] * \a_data (8x8 bits, signed)
+  add \w_data [167:160] * \a_data (8x8 bits, signed)
+  add \w_data [175:168] * \a_data (8x8 bits, signed)
+  add \w_data [183:176] * \a_data (8x8 bits, signed)
+  add \w_data [191:184] * \a_data (8x8 bits, signed)
+  add \w_data [199:192] * \a_data (8x8 bits, signed)
+  add \w_data [207:200] * \a_data (8x8 bits, signed)
+  add \w_data [215:208] * \a_data (8x8 bits, signed)
+  add \w_data [223:216] * \a_data (8x8 bits, signed)
+  add \w_data [231:224] * \a_data (8x8 bits, signed)
+  add \w_data [239:232] * \a_data (8x8 bits, signed)
+  add \w_data [247:240] * \a_data (8x8 bits, signed)
+  add \w_data [255:248] * \a_data (8x8 bits, signed)
+  add \w_data [263:256] * \a_data (8x8 bits, signed)
+  add \w_data [271:264] * \a_data (8x8 bits, signed)
+  add \w_data [279:272] * \a_data (8x8 bits, signed)
+  add \w_data [287:280] * \a_data (8x8 bits, signed)
+  add \w_data [295:288] * \a_data (8x8 bits, signed)
+  add \w_data [303:296] * \a_data (8x8 bits, signed)
+  add \w_data [311:304] * \a_data (8x8 bits, signed)
+  add \w_data [319:312] * \a_data (8x8 bits, signed)
+  add \w_data [327:320] * \a_data (8x8 bits, signed)
+  add \w_data [335:328] * \a_data (8x8 bits, signed)
+  add \w_data [343:336] * \a_data (8x8 bits, signed)
+  add \w_data [351:344] * \a_data (8x8 bits, signed)
+  add \w_data [359:352] * \a_data (8x8 bits, signed)
+  add \w_data [367:360] * \a_data (8x8 bits, signed)
+  add \w_data [375:368] * \a_data (8x8 bits, signed)
+  add \w_data [383:376] * \a_data (8x8 bits, signed)
+  add \w_data [391:384] * \a_data (8x8 bits, signed)
+  add \w_data [399:392] * \a_data (8x8 bits, signed)
+  add \w_data [407:400] * \a_data (8x8 bits, signed)
+  add \w_data [415:408] * \a_data (8x8 bits, signed)
+  add \w_data [423:416] * \a_data (8x8 bits, signed)
+  add \w_data [431:424] * \a_data (8x8 bits, signed)
+  add \w_data [439:432] * \a_data (8x8 bits, signed)
+  add \w_data [447:440] * \a_data (8x8 bits, signed)
+  add \w_data [455:448] * \a_data (8x8 bits, signed)
+  add \w_data [463:456] * \a_data (8x8 bits, signed)
+  add \w_data [471:464] * \a_data (8x8 bits, signed)
+  add \w_data [479:472] * \a_data (8x8 bits, signed)
+  add \w_data [487:480] * \a_data (8x8 bits, signed)
+  add \w_data [495:488] * \a_data (8x8 bits, signed)
+  add \w_data [503:496] * \a_data (8x8 bits, signed)
+  add \w_data [511:504] * \a_data (8x8 bits, signed)
+  add \w_data [7:0] * \a_data (8x8 bits, signed)
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $ne.
+  add \w_data [31:24] * \a_data (8x8 bits, signed)
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000010100 for cells of type $lcu.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000001101 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000001100 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000100000 for cells of type $lcu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010000 for cells of type $fa.
+Using template $paramod$6df0329addda9228fcc2546de2aaf14ad26c98e1\_90_alu for cells of type $alu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000010000 for cells of type $lcu.
+No more expansions possible.
+
+5.22. Executing OPT pass (performing simple optimizations).
+
+5.22.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.22.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 7272 cells.
+
+5.22.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.22.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 5212 unused cells and 10547 unused wires.
+
+5.22.5. Finished fast OPT passes.
+
+5.23. Executing ABC pass (technology mapping using ABC).
+
+5.23.1. Extracting gate netlist of module `\tile_mm' to `<abc-temp-dir>/input.blif'..
+Extracted 44085 gates and 47798 wires to a netlist network with 3711 inputs and 3204 outputs.
+
+5.23.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 13 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + strash 
+ABC: + dretime 
+ABC: + map 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+5.23.1.2. Re-integrating ABC results.
+ABC RESULTS:               NOT cells:      787
+ABC RESULTS:              NAND cells:     2802
+ABC RESULTS:               MUX cells:       65
+ABC RESULTS:               AND cells:     3384
+ABC RESULTS:              XNOR cells:     3443
+ABC RESULTS:             ORNOT cells:      449
+ABC RESULTS:                OR cells:     5439
+ABC RESULTS:               NOR cells:     4258
+ABC RESULTS:            ANDNOT cells:    13859
+ABC RESULTS:               XOR cells:     9790
+ABC RESULTS:        internal signals:    40883
+ABC RESULTS:           input signals:     3711
+ABC RESULTS:          output signals:     3204
+Removing temp directory.
+
+5.24. Executing OPT pass (performing simple optimizations).
+
+5.24.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+5.24.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 9 cells.
+
+5.24.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.24.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 0 unused cells and 17865 unused wires.
+
+5.24.5. Finished fast OPT passes.
+
+5.25. Executing HIERARCHY pass (managing design hierarchy).
+
+5.25.1. Analyzing design hierarchy..
+Top module:  \tile_mm
+
+5.25.2. Analyzing design hierarchy..
+Top module:  \tile_mm
+Removed 0 unused modules.
+
+5.26. Printing statistics.
+
+=== tile_mm ===
+
+   Number of wires:              41901
+   Number of wire bits:          57461
+   Number of public wires:         362
+   Number of public wire bits:    9014
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              49650
+     $_ANDNOT_                   13859
+     $_AND_                       3384
+     $_DFFE_PP_                   4223
+     $_DFF_P_                     1080
+     $_MUX_                         65
+     $_NAND_                      2802
+     $_NOR_                       4258
+     $_NOT_                        787
+     $_ORNOT_                      449
+     $_OR_                        5430
+     $_SDFFCE_PP0P_                 76
+     $_SDFF_PP0_                     4
+     $_XNOR_                      3443
+     $_XOR_                       9790
+
+5.27. Executing CHECK pass (checking for obvious problems).
+Checking module tile_mm...
+Found and reported 0 problems.
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_SHARE pass.
+
+6.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+6.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+6.10. Finished OPT passes. (There is nothing left to do.)
+
+7. Executing TECHMAP pass (map to technology primitives).
+
+7.1. Executing Verilog-2005 frontend: /opt/eda_pdk/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/eda_pdk/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+7.2. Continuing TECHMAP pass.
+No more expansions possible.
+
+8. Executing OPT pass (performing simple optimizations).
+
+8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \tile_mm..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \tile_mm.
+Performed a total of 0 changes.
+
+8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\tile_mm'.
+Removed a total of 0 cells.
+
+8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+
+8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module tile_mm.
+
+8.9. Finished OPT passes. (There is nothing left to do.)
+
+9. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  cell sky130_fd_sc_hd__dfxtp_1 (noninv, pins=3, area=20.02) is a direct match for cell type $_DFF_P_.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+  cell sky130_fd_sc_hd__dfrtn_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_NN0_.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  cell sky130_fd_sc_hd__dfrtp_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_PN0_.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  cell sky130_fd_sc_hd__dfstp_2 (noninv, pins=4, area=26.28) is a direct match for cell type $_DFF_PN1_.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+  cell sky130_fd_sc_hd__dfbbn_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_NNN_.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  cell sky130_fd_sc_hd__dfbbp_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_PNN_.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  final dff cell mappings:
+    unmapped dff cell: $_DFF_N_
+    \sky130_fd_sc_hd__dfxtp_1 _DFF_P_ (.CLK( C), .D( D), .Q( Q));
+    \sky130_fd_sc_hd__dfrtn_1 _DFF_NN0_ (.CLK_N( C), .D( D), .Q( Q), .RESET_B( R));
+    unmapped dff cell: $_DFF_NN1_
+    unmapped dff cell: $_DFF_NP0_
+    unmapped dff cell: $_DFF_NP1_
+    \sky130_fd_sc_hd__dfrtp_1 _DFF_PN0_ (.CLK( C), .D( D), .Q( Q), .RESET_B( R));
+    \sky130_fd_sc_hd__dfstp_2 _DFF_PN1_ (.CLK( C), .D( D), .Q( Q), .SET_B( R));
+    unmapped dff cell: $_DFF_PP0_
+    unmapped dff cell: $_DFF_PP1_
+    \sky130_fd_sc_hd__dfbbn_1 _DFFSR_NNN_ (.CLK_N( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_NNP_
+    unmapped dff cell: $_DFFSR_NPN_
+    unmapped dff cell: $_DFFSR_NPP_
+    \sky130_fd_sc_hd__dfbbp_1 _DFFSR_PNN_ (.CLK( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_PNP_
+    unmapped dff cell: $_DFFSR_PPN_
+    unmapped dff cell: $_DFFSR_PPP_
+
+9.1. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+Mapping DFF cells in module `\tile_mm':
+  mapped 5383 $_DFF_P_ cells to \sky130_fd_sc_hd__dfxtp_1 cells.
+
+10. Executing ABC pass (technology mapping using ABC).
+
+10.1. Extracting gate netlist of module `\tile_mm' to `<abc-temp-dir>/input.blif'..
+Extracted 48646 gates and 54557 wires to a netlist network with 5910 inputs and 5327 outputs.
+
+10.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/asicsyn/hd_tt.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.09 sec
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_12" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_3" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_6" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_8" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfbbn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfbbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfbbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfsbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfsbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfstp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfstp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfstp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxtp_4".
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__diode_2" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__dlclkp_1" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__dlclkp_2" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__dlclkp_4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrbn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtn_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxbn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__ebufn_1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__ebufn_2".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__ebufn_4".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__ebufn_8".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__edfxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__edfxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvn_0".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvn_1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvn_2".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvn_4".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvn_8".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvp_1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvp_2".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvp_4".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "sky130_fd_sc_hd__einvp_8".
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__lpflow_bleeder_1" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__lpflow_decapkapwr_12" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__lpflow_decapkapwr_3" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__lpflow_decapkapwr_4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__lpflow_decapkapwr_6" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__lpflow_decapkapwr_8" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__lpflow_inputisolatch_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfbbn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfbbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfbbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrtp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfsbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfsbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfstp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfstp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfstp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxtp_4".
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__sdlclkp_1" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__sdlclkp_2" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__sdlclkp_4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxtp_4".
+ABC: Library "sky130_fd_sc_hd__tt_025C_1v80" from "/tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/asicsyn/hd_tt.lib" has 334 cells (94 skipped: 63 seq; 13 tri-state; 18 no func; 0 dont_use).  Time =     0.13 sec
+ABC: Memory =   19.85 MB. Time =     0.13 sec
+ABC: Warning: Detected 9 multi-output gates (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + retime -o -D 10000 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf -D 10000 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+10.1.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__and4_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a2bb2oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o221ai_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__o22a_1 cells:       64
+ABC RESULTS:   sky130_fd_sc_hd__o32ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o21ba_1 cells:       17
+ABC RESULTS:   sky130_fd_sc_hd__o22ai_1 cells:      219
+ABC RESULTS:   sky130_fd_sc_hd__o221a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a22oi_1 cells:      496
+ABC RESULTS:   sky130_fd_sc_hd__a221o_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a2111o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a41oi_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__or3b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a21bo_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__a31o_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__a211o_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__o41ai_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__mux2i_1 cells:       29
+ABC RESULTS:   sky130_fd_sc_hd__a22o_1 cells:      169
+ABC RESULTS:   sky130_fd_sc_hd__or4_1 cells:      130
+ABC RESULTS:   sky130_fd_sc_hd__o2bb2ai_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__o32a_1 cells:       24
+ABC RESULTS:   sky130_fd_sc_hd__or3_1 cells:       93
+ABC RESULTS:   sky130_fd_sc_hd__a21boi_0 cells:       40
+ABC RESULTS:   sky130_fd_sc_hd__xnor3_1 cells:       16
+ABC RESULTS:   sky130_fd_sc_hd__o311a_1 cells:       16
+ABC RESULTS:   sky130_fd_sc_hd__a221oi_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__a211oi_1 cells:       90
+ABC RESULTS:   sky130_fd_sc_hd__o211a_1 cells:       54
+ABC RESULTS:   sky130_fd_sc_hd__a32oi_1 cells:       48
+ABC RESULTS:   sky130_fd_sc_hd__o21bai_1 cells:      164
+ABC RESULTS:   sky130_fd_sc_hd__o21a_1 cells:      196
+ABC RESULTS:   sky130_fd_sc_hd__a311o_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__and3b_1 cells:       62
+ABC RESULTS:   sky130_fd_sc_hd__o211ai_1 cells:       55
+ABC RESULTS:   sky130_fd_sc_hd__o31ai_1 cells:      135
+ABC RESULTS:   sky130_fd_sc_hd__clkinv_1 cells:      788
+ABC RESULTS:   sky130_fd_sc_hd__and2_0 cells:      305
+ABC RESULTS:   sky130_fd_sc_hd__a311oi_1 cells:      173
+ABC RESULTS:   sky130_fd_sc_hd__maj3_1 cells:     1580
+ABC RESULTS:   sky130_fd_sc_hd__nor4_1 cells:       20
+ABC RESULTS:   sky130_fd_sc_hd__a21o_1 cells:      474
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_isobufsrc_1 cells:     1276
+ABC RESULTS:   sky130_fd_sc_hd__o2111ai_1 cells:       19
+ABC RESULTS:   sky130_fd_sc_hd__nor3b_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__o31a_1 cells:       25
+ABC RESULTS:   sky130_fd_sc_hd__nand3b_1 cells:       70
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_1 cells:      361
+ABC RESULTS:   sky130_fd_sc_hd__nand4_1 cells:      411
+ABC RESULTS:   sky130_fd_sc_hd__nand2b_1 cells:     1141
+ABC RESULTS:   sky130_fd_sc_hd__and3_1 cells:      914
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_inputiso1p_1 cells:      476
+ABC RESULTS:   sky130_fd_sc_hd__a2111oi_0 cells:       16
+ABC RESULTS:   sky130_fd_sc_hd__nor3_1 cells:      507
+ABC RESULTS:   sky130_fd_sc_hd__xor2_1 cells:     3199
+ABC RESULTS:   sky130_fd_sc_hd__nor2b_1 cells:      241
+ABC RESULTS:   sky130_fd_sc_hd__o311ai_0 cells:      164
+ABC RESULTS:   sky130_fd_sc_hd__nand3_1 cells:     1600
+ABC RESULTS:   sky130_fd_sc_hd__a32o_1 cells:       28
+ABC RESULTS:   sky130_fd_sc_hd__xnor2_1 cells:     5922
+ABC RESULTS:   sky130_fd_sc_hd__mux2_1 cells:      129
+ABC RESULTS:   sky130_fd_sc_hd__nor2_1 cells:     6429
+ABC RESULTS:   sky130_fd_sc_hd__a21oi_1 cells:     6019
+ABC RESULTS:   sky130_fd_sc_hd__nand2_1 cells:     4890
+ABC RESULTS:   sky130_fd_sc_hd__o21ai_0 cells:     1465
+ABC RESULTS:        internal signals:    43320
+ABC RESULTS:           input signals:     5910
+ABC RESULTS:          output signals:     5327
+Removing temp directory.
+
+11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \tile_mm..
+Removed 0 unused cells and 52470 unused wires.
+
+12. Printing statistics.
+
+=== tile_mm ===
+
+   Number of wires:              40535
+   Number of wire bits:          53893
+   Number of public wires:         298
+   Number of public wire bits:    6966
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              46198
+     sky130_fd_sc_hd__a2111o_1       2
+     sky130_fd_sc_hd__a2111oi_0     16
+     sky130_fd_sc_hd__a211o_1        5
+     sky130_fd_sc_hd__a211oi_1      90
+     sky130_fd_sc_hd__a21bo_1        4
+     sky130_fd_sc_hd__a21boi_0      40
+     sky130_fd_sc_hd__a21o_1       474
+     sky130_fd_sc_hd__a21oi_1     6019
+     sky130_fd_sc_hd__a221o_1        1
+     sky130_fd_sc_hd__a221oi_1       4
+     sky130_fd_sc_hd__a22o_1       169
+     sky130_fd_sc_hd__a22oi_1      496
+     sky130_fd_sc_hd__a2bb2oi_1      1
+     sky130_fd_sc_hd__a311o_1        8
+     sky130_fd_sc_hd__a311oi_1     173
+     sky130_fd_sc_hd__a31o_1         4
+     sky130_fd_sc_hd__a31oi_1      361
+     sky130_fd_sc_hd__a32o_1        28
+     sky130_fd_sc_hd__a32oi_1       48
+     sky130_fd_sc_hd__a41oi_1        3
+     sky130_fd_sc_hd__and2_0       305
+     sky130_fd_sc_hd__and3_1       914
+     sky130_fd_sc_hd__and3b_1       62
+     sky130_fd_sc_hd__and4_1         1
+     sky130_fd_sc_hd__clkinv_1     788
+     sky130_fd_sc_hd__dfxtp_1     5383
+     sky130_fd_sc_hd__lpflow_inputiso1p_1    476
+     sky130_fd_sc_hd__lpflow_isobufsrc_1   1276
+     sky130_fd_sc_hd__maj3_1      1580
+     sky130_fd_sc_hd__mux2_1       129
+     sky130_fd_sc_hd__mux2i_1       29
+     sky130_fd_sc_hd__nand2_1     4890
+     sky130_fd_sc_hd__nand2b_1    1141
+     sky130_fd_sc_hd__nand3_1     1600
+     sky130_fd_sc_hd__nand3b_1      70
+     sky130_fd_sc_hd__nand4_1      411
+     sky130_fd_sc_hd__nor2_1      6429
+     sky130_fd_sc_hd__nor2b_1      241
+     sky130_fd_sc_hd__nor3_1       507
+     sky130_fd_sc_hd__nor3b_1        5
+     sky130_fd_sc_hd__nor4_1        20
+     sky130_fd_sc_hd__o2111ai_1     19
+     sky130_fd_sc_hd__o211a_1       54
+     sky130_fd_sc_hd__o211ai_1      55
+     sky130_fd_sc_hd__o21a_1       196
+     sky130_fd_sc_hd__o21ai_0     1465
+     sky130_fd_sc_hd__o21ba_1       17
+     sky130_fd_sc_hd__o21bai_1     164
+     sky130_fd_sc_hd__o221a_1        1
+     sky130_fd_sc_hd__o221ai_1       4
+     sky130_fd_sc_hd__o22a_1        64
+     sky130_fd_sc_hd__o22ai_1      219
+     sky130_fd_sc_hd__o2bb2ai_1      3
+     sky130_fd_sc_hd__o311a_1       16
+     sky130_fd_sc_hd__o311ai_0     164
+     sky130_fd_sc_hd__o31a_1        25
+     sky130_fd_sc_hd__o31ai_1      135
+     sky130_fd_sc_hd__o32a_1        24
+     sky130_fd_sc_hd__o32ai_1        1
+     sky130_fd_sc_hd__o41ai_1        8
+     sky130_fd_sc_hd__or3_1         93
+     sky130_fd_sc_hd__or3b_1         1
+     sky130_fd_sc_hd__or4_1        130
+     sky130_fd_sc_hd__xnor2_1     5922
+     sky130_fd_sc_hd__xnor3_1       16
+     sky130_fd_sc_hd__xor2_1      3199
+
+   Chip area for module '\tile_mm': 355420.876800
+     of which used for sequential elements: 107763.353600 (30.32%)
+
+13. Executing Verilog backend.
+Dumping module `\tile_mm'.
+
+Warnings: 28 unique messages, 238 total
+End of script. Logfile hash: ad3a8a250b, CPU: user 21.31s system 0.26s, MEM: 270.57 MB peak
+Yosys 0.38+92 (git sha1 84116c9a3, x86_64-conda-linux-gnu-cc 11.2.0 -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -fdebug-prefix-map=/root/conda-eda/conda-eda/workdir/conda-env/conda-bld/yosys_1708682838165/work=/usr/local/src/conda/yosys-0.38_93_g84116c9a3 -fdebug-prefix-map=/opt/eda_pdk=/usr/local/src/conda-prefix -fPIC -Os -fno-merge-constants)
+Time spent: 33% 2x abc (10 sec), 25% 32x opt_expr (7 sec), ...

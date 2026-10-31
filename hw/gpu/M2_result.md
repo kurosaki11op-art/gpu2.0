@@ -40,6 +40,10 @@ Against the corrected reference (batch 1: 35.6 microseconds, 3.62 mJ; batch 64: 
 - **M2-e (latency, as pre-set, variant A against the corrected reference): still FAIL** (0.60 and 0.72). The gap fell from 5.7x and 2.4x to 1.7x and 1.4x. **What remains is the overhead factor:** the reference multiplies its ideal latency by 1.8 (calibrated on vendor figures for software, synchronisation and imperfect overlap) and the bottom-up model has none; with the same factor applied the batch-1 value agrees to 8% and the batch-64 value is 30% above (the batch-64 reference includes eleven chip-to-chip layer crossings that the on-chip model does not charge).
 - **Planning range until hardware data exists:** about **21 to 36 microseconds per token at batch 1** (28,000 to 47,000 tokens per second per user) and **67 to 93 microseconds per step at batch 64**, for a dense 1B decoder in 4-bit on one to twelve chips. Either end is far above what a GPU does for the same model; the 2x spread between the two ends is an unresolved overhead factor, not a difference in what the design can do.
 
+## Update after M3 (31 Oct 2026)
+
+The RTL tile of M3 runs 256 multiply-adds on 256 weight bytes per cycle, so the M2 constants (368 and 2,000) were inconsistent at batch 1. With the RTL tile rate the bottom-up latency is 31.7 microseconds at batch 1 and 93.0 at batch 64, **within 11% and 0.3% of the corrected reference**: the M2-e bar is met on this re-evaluation (the original result above stays recorded as a fail). Details and the caution about a possible coincidence with the reference's overhead factor in the [M3 result](M3_result.md).
+
 ## Status of milestone M2
 
 **Partly passed:** counts, cycles, decode equivalence and energy pass; **the speed bar against the earlier latency model fails (a factor of 2.4 to 5.7 faster in the new model)**. M2 delivers the cycle and energy model and its validation against the simulator; the open item is which latency figure to trust at small scale. Proposal for the next steps: keep both numbers (the bottom-up 21 microseconds and the conservative 122 microseconds) as a range for a 1B model on one chip until M3 gives cycle counts from RTL.

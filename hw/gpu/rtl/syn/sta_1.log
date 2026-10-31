@@ -1,0 +1,56 @@
+OpenSTA 2.3.1 4f13a213e1 Copyright (c) 2021, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+Startpoint: _2905_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _3135_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _2905_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.45    0.45 ^ _2905_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.24    0.69 v _2547_/X (sky130_fd_sc_hd__and3b_1)
+   0.36    1.05 v _2557_/X (sky130_fd_sc_hd__maj3_1)
+   0.37    1.43 v _2563_/X (sky130_fd_sc_hd__maj3_1)
+   0.37    1.80 v _2569_/X (sky130_fd_sc_hd__maj3_1)
+   0.37    2.17 v _2575_/X (sky130_fd_sc_hd__maj3_1)
+   0.37    2.54 v _2581_/X (sky130_fd_sc_hd__maj3_1)
+   0.37    2.91 v _2587_/X (sky130_fd_sc_hd__maj3_1)
+   0.39    3.30 v _2593_/X (sky130_fd_sc_hd__maj3_1)
+   0.38    3.67 ^ _2609_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.17    3.84 v _2626_/Y (sky130_fd_sc_hd__o211ai_1)
+   0.39    4.23 ^ _2642_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.18    4.41 v _2657_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.39    4.80 ^ _2673_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.18    4.98 v _2687_/Y (sky130_fd_sc_hd__o41ai_1)
+   0.33    5.31 ^ _2705_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.18    5.48 v _2721_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.40    5.88 ^ _2737_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.22    6.11 v _2753_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.37    6.48 ^ _2769_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.12    6.60 v _2774_/Y (sky130_fd_sc_hd__o31ai_1)
+   0.15    6.75 v _2777_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.29    7.04 v _2778_/X (sky130_fd_sc_hd__mux2_1)
+   0.00    7.04 v _3135_/D (sky130_fd_sc_hd__dfxtp_1)
+           7.04   data arrival time
+
+  10.00   10.00   clock clk (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+          10.00 ^ _3135_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.13    9.87   library setup time
+           9.87   data required time
+---------------------------------------------------------
+           9.87   data required time
+          -7.04   data arrival time
+---------------------------------------------------------
+           2.83   slack (MET)
+
+
+worst slack 2.83

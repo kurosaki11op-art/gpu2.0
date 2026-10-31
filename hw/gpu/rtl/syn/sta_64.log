@@ -1,0 +1,37 @@
+OpenSTA 2.3.1 4f13a213e1 Copyright (c) 2021, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+Startpoint: _85426_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _85362_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _85426_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  67.30   67.30 ^ _85426_/Q (sky130_fd_sc_hd__dfxtp_1)
+ 144.35  211.65 v _61527_/Y (sky130_fd_sc_hd__nand2_1)
+   6.32  217.96 ^ _76658_/Y (sky130_fd_sc_hd__nor2_1)
+   0.39  218.35 v _76660_/X (sky130_fd_sc_hd__mux2_1)
+   0.00  218.36 v _85362_/D (sky130_fd_sc_hd__dfxtp_1)
+         218.36   data arrival time
+
+  10.00   10.00   clock clk (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+          10.00 ^ _85362_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.15    9.85   library setup time
+           9.85   data required time
+---------------------------------------------------------
+           9.85   data required time
+        -218.36   data arrival time
+---------------------------------------------------------
+        -208.51   slack (VIOLATED)
+
+
+worst slack -208.51

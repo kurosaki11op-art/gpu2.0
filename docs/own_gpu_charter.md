@@ -37,7 +37,7 @@ tags: [spark, gpu, accelerator, charter, plan, milestones]
 |---|---|---|
 | **M1** | **Instruction set, programming model and a functional simulator** of one tile and a mesh of tiles, with a mapper for a transformer decoder block (d = 256, 4 heads) and a small convolutional layer stack | outputs match PyTorch fp32 within a relative error of 1e-2; with INT8 weights, top-1 agreement at least 99% on 1,000 inputs; the simulator's counted multiply-adds and SRAM bytes per layer match the analytic model within 5% |
 | **M2** | **Cycle and energy model validated against the simulator** for batch-1 and batch-64 decode of a 1B-parameter model (4-bit) | modelled energy per token within 20% of the step 6 model's value at the same constants; speed within 20% of the latency model |
-| **M3** | **RTL of one tile**, synthesised for the open 130 nm flow | bit-exact with the simulator on a layer; area, cells and cycle count reported; counted energy per multiply-add within 2x of the model's assumption |
+| **M3** | **RTL of one tile** (done 31 Oct 2026, first slice: [result](../hw/gpu/M3_result.md)), synthesised for the open 130 nm flow | bit-exact with the simulator on a layer; area, cells and cycle count reported; counted energy per multiply-add within 2x of the model's assumption |
 | **M4** | **Compiler front end**: import a small ONNX model and map it automatically | a 2-layer decoder and a small convolutional network run end to end with no hand mapping, same tolerance as M1 |
 | **M5** | **A test chip** on a multi-project open shuttle or an FPGA board (both need money: the board purchase was skipped on 30 Oct) | one tile's measured energy per multiply-add and per SRAM bit read, replacing the model constants |
 

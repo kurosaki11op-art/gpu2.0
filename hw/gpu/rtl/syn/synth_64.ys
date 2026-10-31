@@ -1,0 +1,13 @@
+read_verilog -sv ../tile_mm.v
+hierarchy -check -top tile_mm
+chparam -set LANES 64 tile_mm
+hierarchy -check -top tile_mm
+synth -top tile_mm -flatten
+opt -full
+techmap
+opt
+dfflibmap -liberty /tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/asicsyn/hd_tt.lib
+abc -D 10000 -liberty /tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/asicsyn/hd_tt.lib
+opt_clean
+tee -o stat_64.txt stat -liberty /tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/asicsyn/hd_tt.lib
+write_verilog -noattr -noexpr -nohex -nodec netlist_64.v

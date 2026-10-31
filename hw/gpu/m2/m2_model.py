@@ -4,7 +4,7 @@ Validates against the simulator on the small transformer decoded for 64 steps (b
 usage: python m2_model.py WORKDIR   (WORKDIR from export_models.py/export_decode.py with the simulator run in decode mode; /tmp/s5 = built step5_worst_case_model.rs)"""
 import json, math, os, subprocess, sys
 # ASSUMED constants, identical to gpu_sim.rs
-MACPC, SRAMBW, VECL, HOPCYC = 368.0, 2000.0, 64.0, 2
+MACPC, SRAMBW, VECL, HOPCYC = float(os.environ.get('M2_MACPC', 368.0)), float(os.environ.get('M2_SRAMBW', 2000.0)), 64.0, 2   # env overrides used by M3 to apply the RTL tile's rate
 E_SRAM_BYTE, E_VEC, E_HOP_BYTE, LEAK_W_PER_TILE = 0.55 * 8, 0.4, 0.1 * 8, 1.6 * (4 * 1024 * 1024 / 2 ** 30)
 CLOCK = 1e9
 
@@ -67,4 +67,4 @@ EMAC = 1.5
 for name, NL2, d2, ff2, H2, V2, kvd2, vendor in (("70B", 80, 8192, 28672, 64, 128256, 1024, 2100), ("405B", 126, 16384, 53248, 128, 128256, 1024, 969)):
     prm = NL2 * (2 * d2 * d2 + 2 * d2 * kvd2 + 2 * d2 * ff2 * 1.5) + d2 * V2; tiles = math.ceil((prm * 2) / (4 * 1024 * 1024)); cyc, dyn, per = cost(step_ops(NL2, d2, ff2, H2, V2, 1024, 1, 2, 2, 2, kvd2), R=tiles, fabric_phases_per_layer=6, NL=NL2, B=1, d=d2, a=2)
     res["crosscheck_" + name] = dict(tiles=tiles, tokens_per_s_model=CLOCK / cyc, vendor_reported_tokens_per_s=vendor, ratio_model_to_vendor=(CLOCK / cyc) / vendor)
-print(json.dumps(res, indent=1)); json.dump(res, open(os.path.join(W, "m2_model.json"), "w"), indent=1)
+print(json.dumps(res, indent=1)); json.dump(res, open(os.path.join(W, os.environ.get("M2_OUT", "m2_model.json")), "w"), indent=1)

@@ -1,0 +1,195 @@
+{
+ "validation": {
+  "per_tag": {
+   "emb": {
+    "macs": [
+     0,
+     0
+    ],
+    "read": [
+     98560,
+     98560
+    ],
+    "write": [
+     98304,
+     98304
+    ],
+    "cycles": [
+     896,
+     384
+    ],
+    "ok_counts": true
+   },
+   "L0.attn": {
+    "macs": [
+     17842176,
+     17842176
+    ],
+    "read": [
+     19234816,
+     19234816
+    ],
+    "write": [
+     294912,
+     294912
+    ],
+    "cycles": [
+     77056,
+     52717
+    ],
+    "ok_counts": true
+   },
+   "L0.mlp": {
+    "macs": [
+     33554432,
+     33554432
+    ],
+    "read": [
+     33947648,
+     33947648
+    ],
+    "write": [
+     360448,
+     360448
+    ],
+    "cycles": [
+     134784,
+     94848
+    ],
+    "ok_counts": true
+   },
+   "L1.attn": {
+    "macs": [
+     17842176,
+     17842176
+    ],
+    "read": [
+     19234816,
+     19234816
+    ],
+    "write": [
+     294912,
+     294912
+    ],
+    "cycles": [
+     77056,
+     52717
+    ],
+    "ok_counts": true
+   },
+   "L1.mlp": {
+    "macs": [
+     33554432,
+     33554432
+    ],
+    "read": [
+     33947648,
+     33947648
+    ],
+    "write": [
+     360448,
+     360448
+    ],
+    "cycles": [
+     134784,
+     94848
+    ],
+    "ok_counts": true
+   },
+   "head": {
+    "macs": [
+     2097152,
+     2097152
+    ],
+    "read": [
+     2162688,
+     2162688
+    ],
+    "write": [
+     49152,
+     49152
+    ],
+    "cycles": [
+     9408,
+     7552
+    ],
+    "ok_counts": true
+   }
+  },
+  "counts_within_5pct": true,
+  "cycles_analytic_per_token": 6781.0,
+  "cycles_simulator_per_token": 4735.40625,
+  "cycles_ratio": 1.4319785129311766,
+  "cycles_within_20pct": false
+ },
+ "decode_vs_full_pass_relative_error": 0.0,
+ "one_b_parameters_read_per_token": 870842368,
+ "one_b_batch1": {
+  "latency_variants_s": {
+   "A_occupied_tiles": 3.1672e-05,
+   "B_whole_chips": 1.856e-05,
+   "A_with_factor_1_8": 5.70096e-05,
+   "B_with_factor_1_8": 3.3408e-05
+  },
+  "latency_variants_ratio_to_reference": {
+   "A_occupied_tiles": 0.8907611096939457,
+   "B_whole_chips": 0.5219918601894302,
+   "A_with_factor_1_8": 1.6033699974491022,
+   "B_with_factor_1_8": 0.9395853483409744
+  },
+  "tiles": 168,
+  "chips_equivalent": 0.37481014468085105,
+  "cycles_per_step": 31672.0,
+  "step_time_s": 3.1672e-05,
+  "energy_per_token_J": 0.003272504288320004,
+  "dynamic_J_per_token": 0.003239248688320004,
+  "static_J_per_token": 3.32556e-05,
+  "step5_energy_per_token_J": 0.003621689,
+  "step5_latency_s": 3.555611e-05,
+  "step5_chips": 1,
+  "energy_ratio": 0.9035851196278875,
+  "latency_ratio": 0.8907611096939457,
+  "energy_within_20pct": true,
+  "latency_within_20pct": true
+ },
+ "one_b_batch64": {
+  "latency_variants_s": {
+   "A_occupied_tiles": 9.2994e-05,
+   "B_whole_chips": 8.9567e-05,
+   "A_with_factor_1_8": 0.0001673892,
+   "B_with_factor_1_8": 0.0001612206
+  },
+  "latency_variants_ratio_to_reference": {
+   "A_occupied_tiles": 1.0027499766279482,
+   "B_whole_chips": 0.9657967950258667,
+   "A_with_factor_1_8": 1.804949957930307,
+   "B_with_factor_1_8": 1.73843423104656
+  },
+  "tiles": 4200,
+  "chips_equivalent": 9.370253617021277,
+  "cycles_per_step": 92994.0,
+  "step_time_s": 9.2994e-05,
+  "energy_per_token_J": 0.0014241883266324987,
+  "dynamic_J_per_token": 0.0013860462563199988,
+  "static_J_per_token": 3.81420703125e-05,
+  "step5_energy_per_token_J": 0.001406291,
+  "step5_latency_s": 9.273897e-05,
+  "step5_chips": 12,
+  "energy_ratio": 1.012726616775972,
+  "latency_ratio": 1.0027499766279482,
+  "energy_within_20pct": true,
+  "latency_within_20pct": true
+ },
+ "crosscheck_70B": {
+  "tiles": 33141,
+  "tokens_per_s_model": 2729.168258681484,
+  "vendor_reported_tokens_per_s": 2100,
+  "ratio_model_to_vendor": 1.2996039327054687
+ },
+ "crosscheck_405B": {
+  "tiles": 192522,
+  "tokens_per_s_model": 744.463056020845,
+  "vendor_reported_tokens_per_s": 969,
+  "ratio_model_to_vendor": 0.7682797275756914
+ }
+}
