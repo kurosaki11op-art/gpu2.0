@@ -2134,4 +2134,6 @@ Founder: wafer first, then reticle. Work order set accordingly: wafer striping a
 
 Founder: research says up to 30 lakh for a single process (unclear what it covers; asked); build a wafer GPU with a CUDA-class software layer, from a deep study of GPUs, fixing their problems and what holds AI back, using no existing concepts. Answered: keep the founder's method rule (study, then own fix, then test) rather than banning all existing ideas; AGI limits are hypotheses; compatibility layer needed. Written: [deep study plan](gpu_deep_study_plan.md).
 
+Founder: Rust is rising in AI (especially OpenAI), keep watching GPU and research news. Searched; OpenAI-Rust claim not confirmed, Rust trend in AI tooling is. Competitor items found (Cerebras CS-4 and a roadmap with stacked DRAM, Vera Rubin, others), all unverified. Written: [watch list](watch_radar.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

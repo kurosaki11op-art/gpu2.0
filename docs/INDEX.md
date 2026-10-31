@@ -94,6 +94,7 @@ tags: [spark, index]
 - [Prompt for the independent reviewer (Vision)](vision_review_prompt.md): how the second agent reviews the project, what to attack and how to report (31 Oct 2026)
 - [Corrections after Vision review 01](../new_start/step21_vision_corrections.md): energy 7.3x central and 3.5x worst (was 13.2x and 6.2x), cost 1.35x and 0.82x (was 2.74x and 1.67x), speed range withdrawn, 1B latency 2.4 ms as implemented; supersedes the headline numbers of steps 5 to 15 (31 Oct 2026)
 - [Vision review 01](reviews/vision_review_01.md) and [Jarvis response to review 01](reviews/jarvis_response_01.md): independent review (25 findings) and the point-by-point answer with fixes and disagreements (31 Oct 2026)
+- [Watch list](watch_radar.md): Rust in AI and competitor hardware news, unverified until primary sources are checked (31 Oct 2026).
 - [Deep study plan](gpu_deep_study_plan.md): GPU concepts to study, hypotheses on what holds AI back, software layer (31 Oct 2026).
 - [Wafer price research prompt](wafer_price_research_prompt.md): the design we plan and the prices to find (31 Oct 2026).
 - [Striping plan and bars](../hw/gpu/stripe_plan.md): the gate for any latency claim (Vision V-01); written before the work.
