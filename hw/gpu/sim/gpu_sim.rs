@@ -21,7 +21,7 @@ impl Ct { fn diff(&self, b: &Ct) -> Ct { Ct { macs: self.macs - b.macs, macs16: 
 fn numel(d: &[usize]) -> usize { d.iter().product() }
 fn dist(a: usize, b: usize, side: usize) -> u64 { let (ax, ay, bx, by) = ((a % side) as i64, (a / side) as i64, (b % side) as i64, (b / side) as i64); ((ax - bx).abs() + (ay - by).abs()) as u64 }
 
-struct Sim { t: HashMap<String, Tn>, wq: HashMap<String, Wq>, prec: HashMap<String, u8>, int8: bool, a8: bool, side: usize, tile_bytes: usize, used: HashMap<usize, usize>, ct: HashMap<String, Ct>, tag: String, cyc: HashMap<String, f64>, en: HashMap<String, f64>, stripe: usize, ltiles: usize, striped: std::collections::HashSet<String>, ovr: Option<f64>, macpc: f64, srambw: f64 }
+struct Sim { t: HashMap<String, Tn>, wq: HashMap<String, Wq>, prec: HashMap<String, u8>, int8: bool, a8: bool, side: usize, tile_bytes: usize, used: HashMap<usize, usize>, ct: HashMap<String, Ct>, tag: String, cyc: HashMap<String, f64>, en: HashMap<String, f64>, stripe: usize, ltiles: usize, striped: std::collections::HashSet<String>, ovr: Option<f64>, macpc: f64, srambw: f64, stripe_attn: bool }
 impl Sim {
     fn wb(&self) -> u64 { if self.int8 { 1 } else { 4 } }
     fn ab(&self) -> u64 { if self.int8 { 2 } else { 4 } }
@@ -113,7 +113,16 @@ impl Sim {
             let mut z = 0f32; for j in 0..t { s[j] = (s[j] - mx).exp(); z += s[j]; }
             for j in 0..t { let p = s[j] / z; for c in 0..dh { o[h * dh + c] += p * vt.d[j * d + h * dh + c]; } }
         }
-        let ab = self.ab(); self.c().macs += (2 * d * t) as u64; self.c().rd += (2 * t * d) as u64 * ab; self.c().vec += (heads * t * 3) as u64; self.put(out, vec![1, d], o, tile);
+        let ab = self.ab(); self.c().macs += (2 * d * t) as u64; self.c().rd += (2 * t * d) as u64 * ab; self.c().vec += (heads * t * 3) as u64;
+        if self.stripe > 1 && self.stripe_attn {
+            // striped attention: the cache is split by head and by context chunk over `stripe` tiles (tile home + i*ltiles); each tile reads its share of the cache and does 1/stripe of the multiply-adds; the query is broadcast and each tile returns one partial (dh values plus the softmax maximum and sum) per head it touches, merged on the home tile
+            let sn = self.stripe; let mut maxd = 0u64; for i in 0..sn { maxd = maxd.max(dist(tile, tile + i * self.ltiles, self.side)); }
+            let per_macs = ((2 * d * t) as f64 / sn as f64).ceil(); let per_rd = ((2 * t * d) as u64 * ab) as f64 / sn as f64;
+            let bc = (d as u64 * ab) / LINKBW + HOPCYC * maxd; let part = (sn.min(heads * 8) * (dh + 2)) as u64 * ab; let ga = part / LINKBW + HOPCYC * maxd;
+            self.c().hop += (d as u64 * ab) * maxd + part * maxd;
+            self.ovr = Some((per_macs / self.macpc).max(per_rd / self.srambw).ceil() + (bc + ga) as f64 + ((heads * t * 3) as f64 / sn as f64 / VECL).ceil());
+        }
+        self.put(out, vec![1, d], o, tile);
     }
     fn kvapp(&mut self, cache: &str, newt: &str, tile: usize) {
         let n = self.fetch(newt, tile); let d = *n.dims.last().unwrap(); let ab = self.ab();
@@ -164,7 +173,7 @@ fn main() {
     let tile_of = |l: &String| -> Option<usize> { let tk: Vec<&str> = l.split_whitespace().collect(); match tk.first().copied() { Some("W") => tk.get(2).and_then(|v| v.parse().ok()), Some("MM") => tk.get(5).and_then(|v| v.parse().ok()), Some("GATHER") => tk.get(4).and_then(|v| v.parse().ok()), Some("ATTN") | Some("ATTNC") => tk.get(6).and_then(|v| v.parse().ok()), Some("KVAPP") => tk.get(3).and_then(|v| v.parse().ok()), Some("CONV") => tk.get(8).and_then(|v| v.parse().ok()), _ => None } };
     let stripe: usize = std::env::var("GPU_STRIPE").ok().and_then(|v| v.parse().ok()).unwrap_or(1); let macpc: f64 = std::env::var("GPU_MACPC").ok().and_then(|v| v.parse().ok()).unwrap_or(MACPC); let srambw: f64 = std::env::var("GPU_SRAMBW").ok().and_then(|v| v.parse().ok()).unwrap_or(SRAMBW);
     let ltiles = prog.iter().filter_map(|l| tile_of(l)).max().unwrap_or(0) + 1; let striped: std::collections::HashSet<String> = prog.iter().filter_map(|l| { let tk: Vec<&str> = l.split_whitespace().collect(); if tk.first() == Some(&"MM") { Some(tk[3].to_string()) } else { None } }).collect(); let tiles = ltiles * stripe.max(1); let side = ((tiles as f64).sqrt().ceil() as usize).max(1);
-    let mut sim = Sim { t, wq: HashMap::new(), prec: HashMap::new(), int8, a8, side, tile_bytes, used: HashMap::new(), ct: HashMap::new(), tag: "load".to_string(), cyc: HashMap::new(), en: HashMap::new(), stripe, ltiles, striped, ovr: None, macpc, srambw };
+    let mut sim = Sim { t, wq: HashMap::new(), prec: HashMap::new(), int8, a8, side, tile_bytes, used: HashMap::new(), ct: HashMap::new(), tag: "load".to_string(), cyc: HashMap::new(), en: HashMap::new(), stripe, ltiles, striped, ovr: None, macpc, srambw, stripe_attn: std::env::var("GPU_STRIPE_ATTN").map_or(false, |v| v == "1") };
     let mut outs: Vec<f32> = Vec::new(); let mut last_out = String::new();
     for s in 0..ns {
         sim.t.insert(iname.clone(), Tn { dims: idims.clone(), d: idata[s * isz..(s + 1) * isz].to_vec(), home: 0 });
