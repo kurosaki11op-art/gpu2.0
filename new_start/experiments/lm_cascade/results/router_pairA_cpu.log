@@ -1,2 +1,45 @@
 Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:   0%|          | 1/290 [00:01<06:54,  1.43s/it]Loading weights:  63%|██████▎   | 183/290 [00:01<00:00, 160.18it/s]Loading weights:  90%|█████████ | 262/290 [00:02<00:00, 139.57it/s]Loading weights: 100%|██████████| 290/290 [00:02<00:00, 119.21it/s]
-Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:05<31:22,  5.59s/it]Loading weights:  40%|███▉      | 135/338 [00:05<00:06, 33.52it/s]Loading weights:  62%|██████▏   | 208/338 [00:07<00:03, 35.68it/s]
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:05<31:22,  5.59s/it]Loading weights:  40%|███▉      | 135/338 [00:05<00:06, 33.52it/s]Loading weights:  62%|██████▏   | 208/338 [00:07<00:03, 35.68it/s]Loading weights:  74%|███████▍  | 250/338 [00:08<00:02, 36.76it/s]Loading weights:  82%|████████▏ | 277/338 [00:09<00:01, 37.68it/s]Loading weights:  88%|████████▊ | 296/338 [00:09<00:01, 36.20it/s]Loading weights:  92%|█████████▏| 310/338 [00:10<00:00, 36.00it/s]Loading weights:  95%|█████████▍| 321/338 [00:10<00:00, 35.27it/s]Loading weights: 100%|██████████| 338/338 [00:10<00:00, 31.59it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (2518423 > 131072). Running this sequence through the model will result in indexing errors
+{'train': 19929, 'test': 9709, 'val': 4599}
+DIAGNOSIS (test slice): {
+ "spearman_margin_gain": -0.17574591179186433,
+ "mean_gain": 0.3346318304538727,
+ "share_low30_gain_under_005": 0.3671016483516483,
+ "mean_gain_low30": 0.48336413502693176,
+ "mean_gain_rest": 0.2709112763404846,
+ "decile_gain": [
+  0.5764458775520325,
+  0.46058034896850586,
+  0.4131620526313782,
+  0.37124329805374146,
+  0.3938285708427429,
+  0.4540508985519409,
+  0.3272101581096649,
+  0.2239447832107544,
+  0.08618322759866714,
+  0.039918120950460434
+ ],
+ "hypothesis_supported": true
+}
+router A (scalar): alpha 1.0, held-out MSE 1.3564 (train variance 1.4355)
+router B (scalar + hidden): alpha 10000.0, held-out MSE 1.3462 (train variance 1.4355)
+
+[test] tokens 9709  nll small 2.9585  big 2.6238
+  esc | margin x big    gap | router A x big    gap | router B x big    gap | random gap | oracle gap
+ 0.10 |        1.106  0.172 |          1.100  0.214 |          1.096  0.248 |      0.100 |      0.891
+ 0.20 |        1.088  0.310 |          1.082  0.359 |          1.074  0.421 |      0.200 |      1.260
+ 0.30 |        1.072  0.434 |          1.063  0.508 |          1.055  0.572 |      0.304 |      1.465
+ 0.40 |        1.058  0.544 |          1.047  0.634 |          1.041  0.679 |      0.395 |      1.575
+ 0.50 |        1.043  0.662 |          1.033  0.745 |          1.029  0.770 |      0.508 |      1.626
+
+[val] tokens 4599  nll small 2.5006  big 2.1631
+  esc | margin x big    gap | router A x big    gap | router B x big    gap | random gap | oracle gap
+ 0.10 |        1.128  0.177 |          1.124  0.203 |          1.113  0.273 |      0.098 |      0.871
+ 0.20 |        1.101  0.355 |          1.089  0.427 |          1.088  0.436 |      0.185 |      1.205
+ 0.30 |        1.078  0.498 |          1.064  0.589 |          1.056  0.640 |      0.315 |      1.379
+ 0.40 |        1.059  0.621 |          1.045  0.713 |          1.038  0.757 |      0.366 |      1.471
+ 0.50 |        1.037  0.760 |          1.030  0.810 |          1.025  0.842 |      0.522 |      1.512
+
+BARS (router B): {"test": {"R1": false, "R2": false, "R3": true}, "val": {"R1": false, "R2": false, "R3": true}}

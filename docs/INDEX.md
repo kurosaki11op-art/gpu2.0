@@ -86,6 +86,7 @@ tags: [spark, index]
 
 - [Lessons from L version 1](lessons_L_v1.md): wins, failures and what the new start must do differently (30 Oct 2026)
 
+- [Diagnosis and learned router, result](../new_start/step9_router_result.md): MEASURED; router B fails R1 and R2 on both slices, stop rule applied: language cascade claim dropped (31 Oct 2026)
 - [Diagnosis and learned router, bars](../new_start/step9_router_plan.md): bars R1-R3 written before the run; CPU in the cloud container (31 Oct 2026)
 - [Cascade on real language models, pair A on the RTX 3050](../new_start/step8_pairA_gpu_result.md): MEASURED; stage A agrees with CPU (C1, C3 fail); live energy 29-41% lower gross, speed gain small (loop overhead), fidelity metric flawed (31 Oct 2026)
 - [Cascade on real language models, pair A CPU result](../new_start/step8_pairA_cpu_result.md): margin trigger fails C1 (7.4% worse than the large model at 30% escalation) and C3 (1.6x random, bar 2x); learned router proposed (31 Oct 2026)
