@@ -11,6 +11,7 @@ Charter and milestones: [own GPU charter](../../docs/own_gpu_charter.md).
 - [M3_plan.md](M3_plan.md) and [M3_result.md](M3_result.md): milestone M3 plan, bars and result (RTL of one tile, INT8 matrix engine: bit-exact, 98% decode utilisation, synthesised; the RTL rate recalibrates M2).
 - [M4_plan.md](M4_plan.md): milestone M4 plan and bars (compiler front end, real pretrained model).
 - [stripe_plan.md](stripe_plan.md): striping plan and bars (split every matrix over many tiles; latency claim gated on it).
+- [stripe_result.md](stripe_result.md): striping result (S-a, S-b, S-d pass; S-c passes at short context only).
 - [M2_plan.md](M2_plan.md) and [M2_result.md](M2_result.md): milestone M2 plan, bars and result (cycle and energy model: counts, cycles, decode and energy pass; latency against the earlier model fails).
 - [M1_result.md](M1_result.md): milestone M1 result (SIMULATED); [M1_fix_plan.md](M1_fix_plan.md) and [M1_fix_result.md](M1_fix_result.md): the W8A8 transformer fix (bars met with mixed precision; the loss shows quantisation was already harmless).
 - `sim/gpu_sim.rs`: functional simulator (Rust, `rustc -O gpu_sim.rs`; usage in the file header).

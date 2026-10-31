@@ -1,0 +1,43 @@
+== S-a: md5 of simulator outputs at stripe widths 1, 4, 16 (must be equal per row)
+lm int8 S=1 957327acaf56f174cac0eaa3d773707e
+lm int8 S=4 957327acaf56f174cac0eaa3d773707e
+lm int8 S=16 957327acaf56f174cac0eaa3d773707e
+lm w8 S=1 cf51144518d82e9cf066f5c0276dd54d
+lm w8 S=4 cf51144518d82e9cf066f5c0276dd54d
+lm w8 S=16 cf51144518d82e9cf066f5c0276dd54d
+lm fp32 S=1 a7357edab5d37a80658e283251b4792b
+lm fp32 S=4 a7357edab5d37a80658e283251b4792b
+lm fp32 S=16 a7357edab5d37a80658e283251b4792b
+lm_dec int8 S=1 8513a18dcc1ad7c71e08c13cfa39058d
+lm_dec int8 S=4 8513a18dcc1ad7c71e08c13cfa39058d
+lm_dec int8 S=16 8513a18dcc1ad7c71e08c13cfa39058d
+lm_dec w8 S=1 322b7a29495fd7e09207ec6c7ddd184d
+lm_dec w8 S=4 322b7a29495fd7e09207ec6c7ddd184d
+lm_dec w8 S=16 322b7a29495fd7e09207ec6c7ddd184d
+lm_dec fp32 S=1 dfd88f6fd4e3b497d4f77b48bb8b7121
+lm_dec fp32 S=4 dfd88f6fd4e3b497d4f77b48bb8b7121
+lm_dec fp32 S=16 dfd88f6fd4e3b497d4f77b48bb8b7121
+cnn int8 S=1 fb01e12e283aa078bb8bdb69d3632635
+cnn int8 S=4 fb01e12e283aa078bb8bdb69d3632635
+cnn int8 S=16 fb01e12e283aa078bb8bdb69d3632635
+cnn w8 S=1 12a31329588904ef4e3beb13eedda614
+cnn w8 S=4 12a31329588904ef4e3beb13eedda614
+cnn w8 S=16 12a31329588904ef4e3beb13eedda614
+cnn fp32 S=1 3e71a2a222f7a6b4f41773216c9ec5f1
+cnn fp32 S=4 3e71a2a222f7a6b4f41773216c9ec5f1
+cnn fp32 S=16 3e71a2a222f7a6b4f41773216c9ec5f1
+== S-b: counters of the transformer (int8) at stripe widths 1, 4, 16
+S=1 {'macs': 104890368, 'sram_read_bytes': 3211520, 'sram_write_bytes': 2981888, 'mesh_byte_hops': 458752, 'cycles': 300217}
+S=4 {'macs': 104890368, 'sram_read_bytes': 3211520, 'sram_write_bytes': 2981888, 'mesh_byte_hops': 5332992, 'cycles': 110468}
+S=16 {'macs': 104890368, 'sram_read_bytes': 3211520, 'sram_write_bytes': 2981888, 'mesh_byte_hops': 58810368, 'cycles': 58528}
+== S-c: scaled decoder (16 layers, d 512, ff 2048, 4 heads, vocab 8000), M3 tile rates 256 MAC and 256 B per cycle, 1 GHz
+written /tmp/claude-0/-home-user-gpu2-0/320c8e52-5b63-5218-8e07-5330166bbbbd/scratchpad/stripe_chk/dec params 58671936
+S=1 steps=1 cycles_per_token 218503.0 macs_per_token 54444032.0
+S=1 steps=64 cycles_per_token 222535.0 macs_per_token 54960128.0
+S=8 steps=1 cycles_per_token 43467.0 macs_per_token 54444032.0
+S=8 steps=64 cycles_per_token 47499.0 macs_per_token 54960128.0
+S=16 steps=1 cycles_per_token 32517.0 macs_per_token 54444032.0
+S=16 steps=64 cycles_per_token 36549.0 macs_per_token 54960128.0
+== S-d: PyTorch hook counts
+step 0 linear 54427648 attention 16384 total 54444032
+step 63 linear 54427648 attention 1048576 total 55476224

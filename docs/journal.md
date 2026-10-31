@@ -2136,4 +2136,6 @@ Founder: research says up to 30 lakh for a single process (unclear what it cover
 
 Founder: Rust is rising in AI (especially OpenAI), keep watching GPU and research news. Searched; OpenAI-Rust claim not confirmed, Rust trend in AI tooling is. Competitor items found (Cerebras CS-4 and a roadmap with stacked DRAM, Vera Rubin, others), all unverified. Written: [watch list](watch_radar.md).
 
+Founder: proceed with the test. Striping built as a simulator mapping option and run against the pre-set bars ([result](../hw/gpu/stripe_result.md), SIMULATED): outputs byte-identical at widths 1/4/16 (S-a pass), MACs and SRAM bytes unchanged (S-b pass), PyTorch-hook MAC count equal (S-d pass), scaled decoder 36.5 us per token at width 16 against 222.5 us unstriped (S-c pass at short context). Open: attention and cache not striped (at 2,048 tokens about 131 us extra, MODELLED), latency dominated by ASSUMED link constants, full 1B shape not simulated. Latency claim stays withdrawn at the reference context.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
