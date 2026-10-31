@@ -2132,4 +2132,6 @@ Founder objection: a single unified architecture would fail since wafer and chip
 
 Founder: wafer first, then reticle. Work order set accordingly: wafer striping and system model first, reticle-chip system design after. Recorded in [project memory](PROJECT_MEMORY.md).
 
+Founder: research says up to 30 lakh for a single process (unclear what it covers; asked); build a wafer GPU with a CUDA-class software layer, from a deep study of GPUs, fixing their problems and what holds AI back, using no existing concepts. Answered: keep the founder's method rule (study, then own fix, then test) rather than banning all existing ideas; AGI limits are hypotheses; compatibility layer needed. Written: [deep study plan](gpu_deep_study_plan.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
