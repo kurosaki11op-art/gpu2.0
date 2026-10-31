@@ -1,0 +1,24 @@
+--- latency floor 0.5 ms
+I1 L-wafer A at the cited price: $1.55 per Mtok against GPU $1.336 (needs <= GPU): FAIL
+I2 L-wafer A bottom-up: $0.110 per Mtok against GPU $1.336 (needs <= 0.5x = $0.668): PASS
+I3 break-even price per wafer system (bottom-up energy): $2148268  (85.9% of the cited $2500000; bottom-up estimate $168687)
+J1 heat density while serving: 0.096 W/mm2 (needs <= 1.0): PASS  (a wafer-scale part also needs the heat carried out of a 46,225 mm2 plate, which no air heatsink does; that is a cooling-system cost, not shown here)
+J2 facility energy per token, GPU / L-wafer A (pessimistic SRAM, cooling overheads included): 7.8x (needs >= 5x): PASS
+--- latency floor 2 ms
+I1 L-wafer A at the cited price: $6.20 per Mtok against GPU $1.336 (needs <= GPU): FAIL
+I2 L-wafer A bottom-up: $0.424 per Mtok against GPU $1.336 (needs <= 0.5x = $0.668): PASS
+I3 break-even price per wafer system (bottom-up energy): $536804  (21.5% of the cited $2500000; bottom-up estimate $168687)
+J1 heat density while serving: 0.027 W/mm2 (needs <= 1.0): PASS  (a wafer-scale part also needs the heat carried out of a 46,225 mm2 plate, which no air heatsink does; that is a cooling-system cost, not shown here)
+J2 facility energy per token, GPU / L-wafer A (pessimistic SRAM, cooling overheads included): 6.9x (needs >= 5x): PASS
+--- latency floor 10 ms
+I1 L-wafer A at the cited price: $30.98 per Mtok against GPU $1.336 (needs <= GPU): FAIL
+I2 L-wafer A bottom-up: $2.099 per Mtok against GPU $1.336 (needs <= 0.5x = $0.668): FAIL
+I3 break-even price per wafer system (bottom-up energy): $107080  (4.3% of the cited $2500000; bottom-up estimate $168687)
+J1 heat density while serving: 0.008 W/mm2 (needs <= 1.0): PASS  (a wafer-scale part also needs the heat carried out of a 46,225 mm2 plate, which no air heatsink does; that is a cooling-system cost, not shown here)
+J2 facility energy per token, GPU / L-wafer A (pessimistic SRAM, cooling overheads included): 4.4x (needs >= 5x): FAIL
+--- latency floor 35 ms
+I1 L-wafer A at the cited price: $108.40 per Mtok against GPU $1.336 (needs <= GPU): FAIL
+I2 L-wafer A bottom-up: $7.334 per Mtok against GPU $1.336 (needs <= 0.5x = $0.668): FAIL
+I3 break-even price per wafer system (bottom-up energy): $30344  (1.2% of the cited $2500000; bottom-up estimate $168687)
+J1 heat density while serving: 0.005 W/mm2 (needs <= 1.0): PASS  (a wafer-scale part also needs the heat carried out of a 46,225 mm2 plate, which no air heatsink does; that is a cooling-system cost, not shown here)
+J2 facility energy per token, GPU / L-wafer A (pessimistic SRAM, cooling overheads included): 2.1x (needs >= 5x): FAIL

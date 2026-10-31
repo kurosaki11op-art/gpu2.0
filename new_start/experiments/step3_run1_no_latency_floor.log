@@ -1,0 +1,30 @@
+MODEL, not a measurement. 4-bit weights, 64 sequences, context 4096. GPU board power while decoding 350 W (ASSUMED, env GPU_W). Cooling overhead: GPU hall 1.4 (air), wafer systems 1.15 (liquid), both ASSUMED. Electricity $0.1/kWh, life 4 years, utilisation 50% (ASSUMED).
+Yield (ASSUMED defect density 0.1 per cm2): 46 expected defects on the 46225 mm2 wafer; each kills one 0.05 mm2 tile (derived from the cited 900,000 cores), so 0.0050% of the tiles are lost against 1% spare area -> redundancy covers the point defects by a wide margin; clustered defects, the periphery and the fabric are NOT modelled.
+Prices: silicon of one wafer-scale part $18500 (N5 wafer $18500, a 300 mm wafer holds 70686 mm2); L-wafer A bottom-up $168687 (silicon / (1 - spare) + $150000 assumed system hardware); cited system $2500000.
+Raw silicon cost per GB of SRAM on L-wafer A: $89 per GB at the whole-wafer price (341 mm2 per GB at $0.26 per mm2); the project cost model says $174 to $223 per GB; HBM3E sells for $12 to $17 per GB (price, not cost).
+
+model         machine                     n   capex $M   J/token  power kW    W/mm2     tok/s | $/Mtok cap $/Mtok en    $/Mtok
+dense 70B     GPU cluster (H100-class)    2       0.07     0.303       1.1    0.660      1773 |    0.335    0.012     0.347
+dense 70B     cited wafer system          3       7.50     0.051     126.0    0.909   1233934 |    0.048    0.002     0.050
+dense 70B     L-wafer A, cited price      2       5.00     0.052      13.9    0.150    132681 |    0.299    0.002     0.300
+dense 70B     L-wafer A, bottom-up        2       0.34     0.052      13.9    0.150    132681 |    0.020    0.002     0.022
+dense 70B     L-wafer A, bottom-up, 1.0pJ    2       0.34     0.025       6.5    0.071    132681 |    0.020    0.001     0.021
+
+MoE 671B/37B  GPU cluster (H100-class)    6       0.23     0.845       3.1    0.626      1811 |    0.985    0.033     1.018
+MoE 671B/37B  cited wafer system          9      22.50     0.128    1764.4    4.241   6874980 |    0.026    0.004     0.030
+MoE 671B/37B  L-wafer A, cited price      4      10.00     0.129     127.2    0.688    492830 |    0.161    0.004     0.165
+MoE 671B/37B  L-wafer A, bottom-up        4       0.67     0.129     127.2    0.688    492830 |    0.011    0.004     0.015
+MoE 671B/37B  L-wafer A, bottom-up, 1.0pJ    4       0.67     0.050      48.8    0.264    492830 |    0.011    0.002     0.012
+
+MoE 1T/32B    GPU cluster (H100-class)    8       0.30     1.105       4.1    0.624      1839 |    1.293    0.043     1.336
+MoE 1T/32B    cited wafer system         13      32.50     0.166    3767.1    6.269  11325972 |    0.023    0.005     0.028
+MoE 1T/32B    L-wafer A, cited price      5      12.50     0.167     234.6    1.015    702604 |    0.141    0.005     0.146
+MoE 1T/32B    L-wafer A, bottom-up        5       0.84     0.167     234.6    1.015    702604 |    0.010    0.005     0.015
+MoE 1T/32B    L-wafer A, bottom-up, 1.0pJ    5       0.84     0.063      88.2    0.382    702604 |    0.010    0.002     0.012
+
+BAR RESULTS (pre-set, applied as written; MoE 1T/32B, 4-bit, 64 sequences):
+I1 L-wafer A at the cited price: $0.15 per Mtok against GPU $1.336 (needs <= GPU): PASS
+I2 L-wafer A bottom-up: $0.015 per Mtok against GPU $1.336 (needs <= 0.5x = $0.668): PASS
+I3 break-even price per wafer system (bottom-up energy): $23587581  (943.5% of the cited $2500000; bottom-up estimate $168687)
+J1 heat density while serving: 1.015 W/mm2 (needs <= 1.0): FAIL  (a wafer-scale part also needs the heat carried out of a 46,225 mm2 plate, which no air heatsink does; that is a cooling-system cost, not shown here)
+J2 facility energy per token, GPU / L-wafer A (pessimistic SRAM, cooling overheads included): 8.1x (needs >= 5x): PASS

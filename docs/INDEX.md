@@ -86,6 +86,7 @@ tags: [spark, index]
 
 - [Lessons from L version 1](lessons_L_v1.md): wins, failures and what the new start must do differently (30 Oct 2026)
 
+- [Rows I and J result](../new_start/step3_cost_power_result.md): cost per token, yield, power and heat of an SRAM wafer vs a GPU cluster and a Cerebras-class wafer; MODELLED, hinges on an assumed latency floor and system price (31 Oct 2026)
 - [Rows B and A result](../new_start/step2_wafer_sram_result.md): existing models on an SRAM wafer vs a GPU cluster and a Cerebras-class wafer; capacity 2.46x (pass), energy 3.4x vs 5x bar (fail at pessimistic SRAM), MODELLED (31 Oct 2026)
 - [Workload map](gpu_workload_map.md): rows A-H of what a chip must do to replace a GPU, including running existing (not only ternary) models, with mechanism, bar and status per row (31 Oct 2026)
 - [GPU workload census](gpu_workload_census.md): the 19 computation patterns a GPU is used for, what version 1 tested, and how coverage would be tested (30 Oct 2026)
