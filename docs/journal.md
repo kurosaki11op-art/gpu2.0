@@ -2128,4 +2128,6 @@ Founder: pursue both wafer and reticle. Recorded as one tile design with two int
 
 Founder: offer both, reticle for low-cost buyers and wafer for high-cost buyers. Answered: one architecture at two scales; striping and mapper to be tile-count independent; two physical paths double supplier and packaging work. Recorded in [project memory](PROJECT_MEMORY.md).
 
+Founder objection: a single unified architecture would fail since wafer and chips have different advantages and limits. Accepted in part: only the tile and instruction set are shared; the two system designs are separate with their own bars. Recorded in [project memory](PROJECT_MEMORY.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

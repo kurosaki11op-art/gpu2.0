@@ -315,6 +315,8 @@ Founder: go with the wafer-scale design as the target; if people and investors r
 
 Founder follow-up (31 Oct 2026): sell both, reticle chips to low-cost buyers and the wafer system to high-cost buyers. Read as one architecture at two scales: same tile, instruction set and compiler; striping and the mapper are written to be independent of tile count. Which scale is built first is decided by the money gate and investor feedback. Cost of two paths (separate power, cooling, packaging, suppliers, yield work) is not yet estimated.
 
+Founder objection, same day: one unified architecture would fail because each scale has its own advantages and limits. Accepted in part. Revised reading: share only the tile and the instruction set; interconnect, mapper, redundancy, packaging and power are separate system designs, each with its own plan, bars and model (wafer: cheap on-wafer hops, defect routing, 7.6 kW density; chips: link latency and energy per crossing, per-die yield, host cost). Striping takes the mesh and link parameters as inputs and is simulated separately for each.
+
 ## Decision 30 Oct 2026: stop version 1, start a new project
 
 Founder's decision: the three-layer L design is not carried forward as it stands; version 1 stays in the repository (commit recorded in [lessons](lessons_L_v1.md)); the new start is problem-first (target and bar in numbers, incumbent measured first, one GPU weakness chosen from the founder's list). The new project's target has not been chosen yet. Standing rules (labels, no AI model identifiers in repo content, journal and index updates, regression before RTL changes) still apply.
