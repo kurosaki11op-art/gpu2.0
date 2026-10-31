@@ -24,4 +24,13 @@ Why: [Vision review 01, V-01](../../docs/reviews/vision_review_01.md). The 19 to
 
 Hardware timing of the mesh, congestion, and arrival rates (batching) are ASSUMED/unmodelled; the result will say so.
 
+## Added 31 Oct 2026, before the run: sweep of the assumed network constants (S-e)
+
+The striping result depends on two ASSUMED constants: link bandwidth between tiles (64 bytes per cycle) and cycles per hop (2). Question: how much of the 36 to 51 microsecond result survives worse values, including a chip-to-chip crossing (Vision research: 2 to 3 microseconds per crossing on a shipping system, 2,000 to 3,000 cycles at 1 GHz).
+
+- Grid: link bandwidth 16, 32, 64, 128, 256 bytes per cycle; hop cost 2, 16, 200, 2,000 cycles. Scaled decoder of the S-c test, stripe width 16, striped attention on, M3 tile rates, 1 GHz.
+- Measured quantity: marginal cost per token near 480 tokens of context (difference of the 448-step and 512-step totals, divided by 64). Cost at 2,048 tokens was measured only for the reference cell (the earlier run); the sweep uses 480 tokens to keep it feasible.
+- **S-e bar:** per-token cost at most **95 microseconds** (3x the 31.7 microsecond estimate) for link bandwidth of at least 32 bytes per cycle with hop cost up to 16 cycles (on-wafer style). Reported without a bar: the chip-crossing corner (200 to 2,000 cycles); if it exceeds 95 microseconds by more than 10x there, striping every matrix across chips is not viable and the reticle design needs a different mapping.
+- Results are reported for all 20 cells, whichever way they go.
+
 Related: [Response to Vision review 01](../../docs/reviews/jarvis_response_01.md), [M3 result](M3_result.md), [M2 result](M2_result.md), [Finish plan](../../docs/product_finish_plan.md), [Docs index](../../docs/INDEX.md)
