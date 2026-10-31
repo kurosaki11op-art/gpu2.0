@@ -91,6 +91,7 @@ tags: [spark, index]
 - [Cascade on real language models, pair A on the RTX 3050](../new_start/step8_pairA_gpu_result.md): MEASURED; stage A agrees with CPU (C1, C3 fail); live energy 29-41% lower gross, speed gain small (loop overhead), fidelity metric flawed (31 Oct 2026)
 - [Cascade on real language models, pair A CPU result](../new_start/step8_pairA_cpu_result.md): margin trigger fails C1 (7.4% worse than the large model at 30% escalation) and C3 (1.6x random, bar 2x); learned router proposed (31 Oct 2026)
 - [Cascade on real language models, bars and test plan](../new_start/step8_cascade_lm_plan.md): small plus large model, margin-gated; bars written before any run, script included (31 Oct 2026)
+- [Charter: our own GPU](own_gpu_charter.md): scope (inference first, then compiler, then training), what the evidence supports, milestones M1-M5 with pre-set bars (31 Oct 2026)
 - [Data and quotes to obtain before manufacturing](manufacturing_data_requests.md): ten figures the cost, energy and capacity models still assume, with who can answer and which result each decides (31 Oct 2026)
 - [Redesign test 5, bars](../new_start/step20_k5_plan.md): a hidden layer (4,608-256-10, sparse first layer) on the code; bars written before the run (31 Oct 2026)
 - [Redesign test 4, result](../new_start/step19_k4_result.md): prototype layer plus ridge at full data stays at 88.7% clothing (code ceiling for linear readouts); K4-a, b, d, e fail (31 Oct 2026)
