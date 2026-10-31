@@ -1,0 +1,31 @@
+{
+ "version": "v2",
+ "gpu": "Tesla T4",
+ "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+ "predictions": [
+  {
+   "batch": 1,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 106.92266251342805,
+   "tokens_per_s_total": 106.92266251342805,
+   "power_w": 71.38480357089863,
+   "joules_per_token_gross": 0.6676302468799227
+  },
+  {
+   "batch": 4,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 94.15126517434506,
+   "tokens_per_s_total": 376.6050606973802,
+   "power_w": 67.92258363145463,
+   "joules_per_token_gross": 0.18035494134273888
+  },
+  {
+   "batch": 16,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 63.71125452198861,
+   "tokens_per_s_total": 1019.3800723518177,
+   "power_w": 59.67054910153192,
+   "joules_per_token_gross": 0.05853611495844298
+  }
+ ]
+}

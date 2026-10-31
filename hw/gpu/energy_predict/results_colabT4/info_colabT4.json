@@ -1,0 +1,20 @@
+{
+ "gpu": "Tesla T4",
+ "vram_gb": 15.637086208,
+ "device": "cuda",
+ "torch": "2.11.0+cu130",
+ "model": "x",
+ "prompt": 256,
+ "new": 128,
+ "runs": [],
+ "bandwidth_copy_gbs": 241.55888131616754,
+ "idle_power_w": 32.60631147540983,
+ "launch_us_per_op": 9.843969345092773,
+ "matmul_tflops": 19.029252322401035,
+ "memory_before_model": {
+  "free_gb": 15.476785152,
+  "total_gb": 15.637086208,
+  "torch_allocated_gb": 0.00851968,
+  "torch_reserved_gb": 0.02097152
+ }
+}

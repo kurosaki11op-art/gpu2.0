@@ -1,0 +1,31 @@
+{
+ "version": "v2",
+ "gpu": "Tesla T4",
+ "model": "distilgpt2",
+ "predictions": [
+  {
+   "batch": 1,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 428.2312498363479,
+   "tokens_per_s_total": 428.2312498363479,
+   "power_w": 49.76359897460987,
+   "joules_per_token_gross": 0.1162073038659076
+  },
+  {
+   "batch": 4,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 410.7502217600684,
+   "tokens_per_s_total": 1643.0008870402737,
+   "power_w": 50.332976375396356,
+   "joules_per_token_gross": 0.030634783445593224
+  },
+  {
+   "batch": 16,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 353.09482583652334,
+   "tokens_per_s_total": 5649.5172133843735,
+   "power_w": 52.21087962736861,
+   "joules_per_token_gross": 0.009241653340514633
+  }
+ ]
+}

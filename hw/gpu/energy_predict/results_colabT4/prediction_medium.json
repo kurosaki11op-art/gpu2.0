@@ -1,0 +1,31 @@
+{
+ "version": "v2",
+ "gpu": "Tesla T4",
+ "model": "Qwen/Qwen2.5-0.5B",
+ "predictions": [
+  {
+   "batch": 1,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 105.2624732234406,
+   "tokens_per_s_total": 105.2624732234406,
+   "power_w": 53.9651581139954,
+   "joules_per_token_gross": 0.5126723366972727
+  },
+  {
+   "batch": 4,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 99.30041458379286,
+   "tokens_per_s_total": 397.20165833517143,
+   "power_w": 53.33729876302886,
+   "joules_per_token_gross": 0.134282668875519
+  },
+  {
+   "batch": 16,
+   "fits_in_memory": true,
+   "tokens_per_s_per_user": 80.95848447248424,
+   "tokens_per_s_total": 1295.335751559748,
+   "power_w": 51.40572562173546,
+   "joules_per_token_gross": 0.039685251920080544
+  }
+ ]
+}
