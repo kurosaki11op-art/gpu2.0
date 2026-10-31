@@ -17,7 +17,7 @@ void setup() {
   btStop();
   pinMode(MARK_PIN, OUTPUT);
   l_clock = clk_us;   // per-stage timing (adds a few microseconds per image)
-  Serial.printf("L algorithm, MODE 0, CPU %d MHz, WiFi and Bluetooth off, code version 2 (shift-add popcount, per-stage timing)\n", getCpuFrequencyMhz());
+  Serial.printf("L algorithm, MODE 0, CPU %d MHz, WiFi and Bluetooth off, code version 3 (table popcount, O3, per-stage timing)\n", getCpuFrequencyMhz());
 }
 void loop() {
   uint32_t checksum = 0;

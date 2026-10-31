@@ -11,11 +11,15 @@
 
 #define NCODE 4608
 #define NB 6176
-/* bit count of the low 25 bits with shifts, masks and adds only (31 Oct 2026): the ESP32's Xtensa core has no popcount instruction, so __builtin_popcount calls a slow library routine
- * (measured 25 ms per image with it); this version needs no multiply and no table */
-static inline int pop25(uint32_t v) {
-    v &= 0x1FFFFFFu; v = v - ((v >> 1) & 0x55555555u); v = (v & 0x33333333u) + ((v >> 2) & 0x33333333u); v = (v + (v >> 4)) & 0x0F0F0F0Fu; v = v + (v >> 8); v = v + (v >> 16); return (int)(v & 0x3Fu);
-}
+/* speed (31 Oct 2026): the Arduino ESP32 build uses -Os (small code); the detector matching is the hot loop, so ask for speed for this file */
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC optimize ("O3")
+#endif
+/* bit count of the low 25 bits (31 Oct 2026): the ESP32's Xtensa core has no popcount instruction, so __builtin_popcount calls a slow library routine (measured 25.05 ms per image with it, 18.3 ms with
+ * a shift-and-add version); this version uses two lookups into an 8 KB table of 13-bit counts built once (adds, shifts and loads only, no multiply) */
+static uint8_t POP13[8192]; static int pop_ready = 0;
+static void pop_init(void) { for (int i = 0; i < 8192; i++) { int c = 0; for (int b = 0; b < 13; b++) c += (i >> b) & 1; POP13[i] = (uint8_t)c; } pop_ready = 1; }
+static inline int pop25(uint32_t v) { return POP13[v & 0x1FFFu] + POP13[(v >> 13) & 0xFFFu]; }
 
 /* receptor map: bit0 pixel > 50, bit1 pixel > 150, bit2 ON cell (pixel - (sum of 8 neighbours >> 3) > 8), bit3 OFF cell ((sum >> 3) - pixel > 8); image edges repeat the border pixel */
 static void receptors(const uint8_t *img, uint8_t *bmap) {
@@ -58,6 +62,7 @@ uint32_t (*l_clock)(void) = 0; uint32_t l_prof[4] = {0, 0, 0, 0};
 #define TICK() (l_clock ? l_clock() : 0u)
 void l_classify(const uint8_t *img, int32_t reject_t, l_result *r) {
     uint8_t bmap[784], code[NCODE]; static uint8_t in[NB];
+    if (!pop_ready) pop_init();
     uint32_t t0 = TICK(); receptors(img, bmap); uint32_t t1 = TICK(); encode(bmap, code); uint32_t t2 = TICK();
     int32_t s1[10] = {0}, s2[10] = {0}, m1;
     for (int b = 0; b < NCODE; b++) if (code[b]) for (int c = 0; c < 10; c++) s1[c] += L_W1[b * 10 + c];

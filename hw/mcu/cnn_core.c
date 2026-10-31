@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include "cnn_core.h"
 #include "cnn_tables.h"
+/* speed (31 Oct 2026): the Arduino ESP32 build uses -Os (small code); ask for speed for this file, the same as l_core.c, so both methods get the same treatment */
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC optimize ("O3")
+#endif
 
 static uint8_t c1[32][28][28], p1[32][14][14], c2[64][14][14], p2[64][7][7];
 static inline uint8_t rq(int32_t acc, int32_t m) { if (acc < 0) acc = 0; int64_t v = ((int64_t)acc * m + 32768) >> 16; return v > 255 ? 255 : (uint8_t)v; }

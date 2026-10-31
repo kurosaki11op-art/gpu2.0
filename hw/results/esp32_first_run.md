@@ -13,4 +13,12 @@ The founder flashed `hw/mcu/esp32_mode0` (an ESP32 Dev Module on COM7, 240 MHz, 
 
 Reading: the PC runs the same code in about 0.21 ms, about 120 times faster. The likely cause is the encoder's bit counting: the ESP32's Xtensa core has no popcount instruction and `__builtin_popcount` calls a slow library routine, about 76,000 times per image (576 spots, four channels, 33 counts each). Fix applied the same day: a shift, mask and add version (no multiply, no table) in `l_core.c`, verified bit-exact on the PC (200 images, 0 mismatches; the stand-in run of the sketch 1,000 of 1,000 identical, checksum 4500). The ESP32 time with it is to be remeasured; the 25.05 ms figure is kept here as the before value. The CNN baseline (MODE 1) is expected to be far slower on the ESP32 and is set to one pass of 40 images per report line.
 
+## Second and third run (31 Oct 2026)
+
+**Version 2 (shift-add popcount):** MEASURED 18.34 ms per image, 54.5 images per second (from 25.05 ms), checksum 4500, 1,000 of 1,000 identical to the model. Two upload mix-ups cost a round trip: the IDE first ran a mixed build (new `l_core.c`, old sketch banner), so the stage timing was missed; the per-stage line then arrived with the correct build.
+
+**MEASURED per-stage time on the ESP32 (version 2, 18.53 ms per image with the timing on):** receptors 0.68 ms (4%), **detectors 16.36 ms (88%)**, stage 1 0.86 ms (5%), stage 2 0.62 ms averaged over all images (about 4.1 ms per routed image, 150 of 1,000 routed). The detectors take about 3.9 million cycles per image, about 53 cycles per template match (74,000 matches).
+
+**Version 3 (table popcount, -O3):** the Arduino ESP32 build compiles with -Os; `l_core.c` and `cnn_core.c` now ask for -O3 and the bit count is two lookups into an 8 KB table. PC checks: L core 200 of 200 bit-exact (0.09 ms per image on the PC), CNN 200 of 200 identical to the numpy int8 model (1.46 ms per image on the PC with -O3; it was 6.02 ms at -O2, so the PC ratio between the two is now about 16x). The ESP32 time with version 3 is to be measured. Self-contained sketch folders for the meter day: `esp32_mode0` (L), `esp32_mode1` (CNN), `esp32_mode2` (idle).
+
 Related: [MCU port](mcu_port.md), [hw/mcu README](../mcu/README.md), [Results index](INDEX.md)
