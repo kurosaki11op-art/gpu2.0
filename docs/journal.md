@@ -2122,4 +2122,6 @@ Vision review 01 merged (25 findings, [response](reviews/jarvis_response_01.md))
 
 Founder asked whether the reduced claims come from switching away from wafer. Answered: no, the published numbers were already the reticle-chip option; the drop is the review corrections (largest: M3 tile rates for cost, attention pricing and cooling for energy). Started striping: [plan and bars](../hw/gpu/stripe_plan.md) written before any code (bars S-a to S-d).
 
+Founder decision: wafer-scale first; reticle chip if people and investors reject it. Recorded in [project memory](PROJECT_MEMORY.md) with the open facts (wafer worst-corner cost 0.17x, price unsourced, not yet re-run under the Vision corrections). Both options stay modelled.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
