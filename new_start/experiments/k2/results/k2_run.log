@@ -3,3 +3,11 @@
 [fashion] N=  1000 (5 seeds)  L 0.7833+-0.0049 | CNN 0.7492+-0.0248 | kNN 0.7494 | linear 0.7926 | randfeat 0.7886 | best baseline linear  | energy ratio (L x28) 41x  wall L 1s CNN 6s
 [fashion] N=  3000 (5 seeds)  L 0.8313+-0.0025 | CNN 0.7995+-0.0091 | kNN 0.7858 | linear 0.8162 | randfeat 0.8145 | best baseline linear  | energy ratio (L x28) 59x  wall L 1s CNN 8s
 [fashion] N= 10000 (3 seeds)  L 0.8667+-0.0043 | CNN 0.8537+-0.0044 | kNN 0.8157 | linear 0.8339 | randfeat 0.8507 | best baseline cnn  | energy ratio (L x28) 143x  wall L 1s CNN 33s
+[fashion] N= 60000 (1 seeds)  L 0.8885+-0.0000 | CNN 0.8822+-0.0000 | kNN 0.8554 | linear 0.8453 | randfeat 0.8584 | best baseline cnn  | energy ratio (L x28) 352x  wall L 7s CNN 371s
+[mnist] N=   100 (5 seeds)  L 0.6601+-0.0738 | CNN 0.7949+-0.0430 | kNN 0.7024 | linear 0.7312 | randfeat 0.6835 | best baseline cnn  | energy ratio (L x28) 19x  wall L 1s CNN 3s
+[mnist] N=   300 (5 seeds)  L 0.8252+-0.0248 | CNN 0.9120+-0.0177 | kNN 0.8122 | linear 0.8311 | randfeat 0.7996 | best baseline cnn  | energy ratio (L x28) 28x  wall L 1s CNN 4s
+[mnist] N=  1000 (5 seeds)  L 0.9259+-0.0048 | CNN 0.9447+-0.0034 | kNN 0.8861 | linear 0.8752 | randfeat 0.8707 | best baseline cnn  | energy ratio (L x28) 44x  wall L 1s CNN 5s
+[mnist] N=  3000 (5 seeds)  L 0.9571+-0.0029 | CNN 0.9687+-0.0011 | kNN 0.9245 | linear 0.8963 | randfeat 0.9228 | best baseline cnn  | energy ratio (L x28) 56x  wall L 1s CNN 7s
+[mnist] N= 10000 (3 seeds)  L 0.9741+-0.0011 | CNN 0.9810+-0.0019 | kNN 0.9487 | linear 0.9153 | randfeat 0.9463 | best baseline cnn  | energy ratio (L x28) 138x  wall L 2s CNN 24s
+[mnist] N= 60000 (1 seeds)  L 0.9860+-0.0000 | CNN 0.9895+-0.0000 | kNN 0.9691 | linear 0.9265 | randfeat 0.9468 | best baseline cnn  | energy ratio (L x28) 316x  wall L 7s CNN 230s
+BARS: K2-a PASS (L minus best baseline, points: fashion 1,000 -0.93, 3,000 +1.51; need >= -1);  K2-b PASS (ratio 352x at N=60000 with L x28; need >= 20);  K2-c PASS (60,000: +0.63; need >= -3);  K2-d FAIL (mnist 1,000 -1.88, 60,000 -0.35)
