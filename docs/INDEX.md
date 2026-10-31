@@ -94,6 +94,7 @@ tags: [spark, index]
 - [Our GPU, M1 result](../hw/gpu/M1_result.md): the functional simulator runs a CNN and a transformer on a tile mesh and matches PyTorch (SIMULATED); bars a and c pass, b passes for INT8 weights and misses in W8A8 on the transformer (98.73%) (31 Oct 2026)
 - [Charter: our own GPU](own_gpu_charter.md): scope (inference first, then compiler, then training), what the evidence supports, milestones M1-M5 with pre-set bars (31 Oct 2026)
 - [Data and quotes to obtain before manufacturing](manufacturing_data_requests.md): ten figures the cost, energy and capacity models still assume, with who can answer and which result each decides (31 Oct 2026)
+- [Redesign test 5, result](../new_start/step20_k5_result.md): hidden layer on the code gives 90.0% clothing and 98.75% digits (bars K5-a, b fail; c, d, e pass); end of the L accuracy work (31 Oct 2026)
 - [Redesign test 5, bars](../new_start/step20_k5_plan.md): a hidden layer (4,608-256-10, sparse first layer) on the code; bars written before the run (31 Oct 2026)
 - [Redesign test 4, result](../new_start/step19_k4_result.md): prototype layer plus ridge at full data stays at 88.7% clothing (code ceiling for linear readouts); K4-a, b, d, e fail (31 Oct 2026)
 - [Redesign test 4, bars](../new_start/step19_k4_plan.md): prototype layer (3,000 prototypes learned without labels) plus closed-form readout at full data; can L reach a tuned network on clothing? bars written before the run (31 Oct 2026)

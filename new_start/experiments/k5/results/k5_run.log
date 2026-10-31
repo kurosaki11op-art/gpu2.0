@@ -6,3 +6,6 @@
 [mnist] main_256 seed 0: float 0.9880  int8 weights 0.9881  (epochs 8, 47s)
 [mnist] main_256 seed 1: float 0.9869  int8 weights 0.9870  (epochs 16, 105s)
 [mnist] abl_1024 seed 0: float 0.9872  int8 weights 0.9871  (epochs 23, 1603s)
+[mnist] abl_512_256 seed 0: float 0.9886  int8 weights 0.9887  (epochs 9, 119s)
+[mnist] counted inference 10.4 nJ raw, 292 nJ with the layout factor; counted training 8.78 J
+BARS: K5-a clothing >= 90.5%: FAIL (90.02);  K5-b digits >= 98.9%: FAIL (98.75);  K5-c int8 loss <= 0.3 pt: PASS (clothing 0.03, digits -0.01);  K5-d inference <= 1.0 uJ (x28): PASS (298 nJ);  K5-e training <= 12.5 J: PASS (8.8 J)
