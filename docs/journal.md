@@ -2120,4 +2120,6 @@ Founder: without a real product a startup cannot be made; first finish the produ
 
 Vision review 01 merged (25 findings, [response](reviews/jarvis_response_01.md)). Reproduced the major findings with a switchable model ([step 21](../new_start/step21_vision_corrections.md), MODELLED): energy advantage 13.2x/6.2x becomes 7.3x/3.5x, cost 2.74x/1.67x becomes 1.35x/0.82x (fails in the worst corner), speed range withdrawn, 1B latency 2.39 ms as implemented. Disagreement only on the scope of the model-identifier rule (asked founder). Banners and corrections added to the affected notes; M4 plan gets 4-bit bar M4-f and strict-width bar M4-g.
 
+Founder asked whether the reduced claims come from switching away from wafer. Answered: no, the published numbers were already the reticle-chip option; the drop is the review corrections (largest: M3 tile rates for cost, attention pricing and cooling for energy). Started striping: [plan and bars](../hw/gpu/stripe_plan.md) written before any code (bars S-a to S-d).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
