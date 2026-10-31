@@ -92,6 +92,8 @@ tags: [spark, index]
 - [Cascade on real language models, pair A CPU result](../new_start/step8_pairA_cpu_result.md): margin trigger fails C1 (7.4% worse than the large model at 30% escalation) and C3 (1.6x random, bar 2x); learned router proposed (31 Oct 2026)
 - [Cascade on real language models, bars and test plan](../new_start/step8_cascade_lm_plan.md): small plus large model, margin-gated; bars written before any run, script included (31 Oct 2026)
 - [Data and quotes to obtain before manufacturing](manufacturing_data_requests.md): ten figures the cost, energy and capacity models still assume, with who can answer and which result each decides (31 Oct 2026)
+- [Redesign test 5, bars](../new_start/step20_k5_plan.md): a hidden layer (4,608-256-10, sparse first layer) on the code; bars written before the run (31 Oct 2026)
+- [Redesign test 4, result](../new_start/step19_k4_result.md): prototype layer plus ridge at full data stays at 88.7% clothing (code ceiling for linear readouts); K4-a, b, d, e fail (31 Oct 2026)
 - [Redesign test 4, bars](../new_start/step19_k4_plan.md): prototype layer (3,000 prototypes learned without labels) plus closed-form readout at full data; can L reach a tuned network on clothing? bars written before the run (31 Oct 2026)
 - [Row K test 3, result](../new_start/step18_k3_result.md): ridge readout and prototypes from unlabelled images close most of the few-label gap from 300 labels (+3 to +5 pts over every baseline); K3-a missed by 0.02 pts at 100 labels, K3-b, c, d pass (31 Oct 2026)
 - [Row K test 3, bars](../new_start/step18_k3_plan.md): the few-label weakness, methods using unlabelled images (cluster features plus ridge readout); bars written before the run (31 Oct 2026)

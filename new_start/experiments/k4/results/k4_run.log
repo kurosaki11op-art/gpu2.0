@@ -1,0 +1,13 @@
+[fashion] R1 ridge on the code (lambda 100.0): 0.8862  (40s)
+[fashion] R2 K=1000 seed 0: float 0.8781  int8 readout 0.8749  5-bit readout 0.3585  (lambda 1.0, 10s)
+[fashion] R2 K=1000 seed 1: float 0.8769  int8 readout 0.8754  5-bit readout 0.8081  (lambda 10.0, 10s)
+[fashion] R3 K=3000 seed 0: float 0.8864  int8 readout 0.8817  5-bit readout 0.5245  (lambda 1.0, 36s)
+[fashion] R3 K=3000 seed 1: float 0.8870  int8 readout 0.8795  5-bit readout 0.3207  (lambda 1.0, 36s)
+[fashion] counted inference 86.5 nJ per image; counted training 1.235 J
+[mnist] R1 ridge on the code (lambda 100.0): 0.9775  (38s)
+[mnist] R2 K=1000 seed 0: float 0.9769  int8 readout 0.9760  5-bit readout 0.8339  (lambda 1.0, 10s)
+[mnist] R2 K=1000 seed 1: float 0.9769  int8 readout 0.9764  5-bit readout 0.8645  (lambda 1.0, 9s)
+[mnist] R3 K=3000 seed 0: float 0.9768  int8 readout 0.9768  5-bit readout 0.9527  (lambda 10.0, 34s)
+[mnist] R3 K=3000 seed 1: float 0.9772  int8 readout 0.9777  5-bit readout 0.9578  (lambda 10.0, 33s)
+[mnist] counted inference 86.5 nJ per image; counted training 1.235 J
+BARS: K4-a clothing >= 90.0%: FAIL (88.67);  K4-b digits >= 98.9%: FAIL (97.70);  K4-c inference <= 1.0 uJ: PASS (86 nJ);  K4-d training <= 0.5 J: FAIL (1.23 J);  K4-e int8 loss <= 0.5 pt: FAIL
