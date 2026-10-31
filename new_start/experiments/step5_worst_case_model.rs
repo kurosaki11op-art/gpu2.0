@@ -8,7 +8,10 @@
 // PRE-SET BARS, in the WORST corner: W1 cost per million tokens at most 0.5x the GPU cluster; W2 facility energy per token at least 5x below the GPU cluster.
 // IF A BAR FAILS the output prints the lever that would fix it and the value needed (system price for W1; SRAM read energy for W2); a lever counts as a fix only if a design change (named in the result note) supports it.
 // Build: rustc -O step5_worst_case_model.rs   Standard library only. Inputs, labels and sources: see step3_cost_power_result.md and step4_close_i_j_result.md.
-const WAFER_PRICE: f64 = 18500.0; const WAFER_MM2: f64 = 46225.0; const MM2_PER_GB: f64 = 341.0; const TILE_MM2: f64 = 0.05; const SPARE: f64 = 0.01; const SYS_HW: f64 = 150000.0;
+const WAFER_PRICE: f64 = 18500.0; const WAFER_MM2: f64 = 46225.0;
+// step 6 overrides (defaults = the step 5 values): MM2GB = area per GB of SRAM, SRAM_PJ = all-in read energy per bit
+fn mm2gb() -> f64 { std::env::var("MM2GB").ok().and_then(|v| v.parse().ok()).unwrap_or(341.0) }
+fn sram_pj() -> f64 { std::env::var("SRAM_PJ").ok().and_then(|v| v.parse().ok()).unwrap_or(2.78) } const TILE_MM2: f64 = 0.05; const SPARE: f64 = 0.01; const SYS_HW: f64 = 150000.0;
 const E_HBM: f64 = 5.74; const L: f64 = 4096.0; const E_LINK: f64 = 10.0; const HOP_S: f64 = 1e-9; const PHASES: f64 = 6.0; const LINK_S: f64 = 1e-6;
 const GPU_BW: f64 = 3.35e12; const GPU_PEAK: f64 = 495e12; const GPU_CAP: f64 = 72e9; const GPU_OVERHEAD: f64 = 1.5;
 const LW_PEAK: f64 = 10e15; const BW_PER_BYTE: f64 = 21e15 / 44e9; const CB_PRICE: f64 = 2.5e6;
@@ -28,7 +31,7 @@ fn gpu(m: &M, bits: f64, b: f64, w: f64, price: f64) -> R {
     let e = s.bytes * 8.0 * E_HBM * 1e-12 + s.macs * 0.25e-12 + w * n * t; R { n, lat: t, t, ej: e / b, capex: n * price * GPU_OVERHEAD, pue: PUE_AIR, b }
 }
 fn lw(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, unit_price: f64, scale: f64) -> R {
-    let gb = 0.8 * WAFER_MM2 / MM2_PER_GB; let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap);
+    let gb = 0.8 * WAFER_MM2 / mm2gb(); let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap);
     let lpw = (m.layers / n).ceil(); let hops = (WAFER_MM2 / lpw).sqrt() / TILE_MM2.sqrt(); let q = (b / m.layers).max(1.0);
     let fabric = PHASES * hops * HOP_S; let comp = q * (m.active / m.layers + 2.0 * m.d * L) / (LW_PEAK / lpw);
     let read = (s.wtot * s.touched / m.layers + q * s.kvseq / m.layers) / (BW_PER_BYTE * cap / lpw);
@@ -40,7 +43,7 @@ fn lw(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, unit_price: f64, scale: 
 // Chip 800 mm2 (an ordinary reticle-size die, ASSUMED), 80% SRAM (1.88 GB), die cost = N5 wafer $18,500 / 70 dies per wafer / 80% yield = $330 (dies per wafer and yield ASSUMED);
 // package, board share, power and cooling per chip ASSUMED $1,000 (no source); inter-chip link 0.5 us per crossing and 10 pJ/bit (ASSUMED); compute per chip = the wafer's peak share by area.
 fn chips(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, per_chip: f64, scale: f64) -> R {
-    let gb = 0.8 * 800.0 / MM2_PER_GB; let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap); let cpl = (n / m.layers).ceil().max(1.0);
+    let gb = 0.8 * 800.0 / mm2gb(); let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap); let cpl = (n / m.layers).ceil().max(1.0);
     let q = (b / m.layers).max(1.0); let peak = LW_PEAK * 800.0 / WAFER_MM2; let bwc = BW_PER_BYTE * cap;
     let fabric = PHASES * ((800.0f64).sqrt() / TILE_MM2.sqrt() * HOP_S + 0.5e-6 * cpl.log2().ceil().max(1.0));
     let comp = q * (m.active / m.layers + 2.0 * m.d * L) / (peak * cpl); let read = (s.wtot * s.touched / m.layers + q * s.kvseq / m.layers) / (bwc * cpl);
@@ -57,7 +60,7 @@ fn main() {
     let corners: [(&str, f64, f64, f64, f64); 4] = [("central (350 W, $25k, x1.8, bottom-up)", 350.0, 25000.0, 1.8, bu), ("worst: 100 W, $15k, x2.7, cited price", 100.0, 15000.0, 2.7, CB_PRICE), ("worst but bottom-up price", 100.0, 15000.0, 2.7, bu), ("GPU 220 W, $25k, x2.7, cited price", 220.0, 25000.0, 2.7, CB_PRICE)];
     let mut worst = None;
     for (nm, w, p, sc, price) in corners.iter() {
-        let (g, gt) = best(&|b| gpu(&m, bits, b, *w, *p)); let (a, at) = best(&|b| lw(&m, bits, b, 2.78, 1.6, *price, *sc));
+        let (g, gt) = best(&|b| gpu(&m, bits, b, *w, *p)); let (a, at) = best(&|b| lw(&m, bits, b, sram_pj(), 1.6, *price, *sc));
         let ex = (g.ej * g.pue) / (a.ej * a.pue);
         println!("{:<34} | {:>4.0} {:>5.0} {:>9.3} {:>9.3} {:>8.0} | {:>4.0} {:>5.0} {:>9.3} {:>9.3} {:>8.0} | {:>7.2}x {:>7.1}x", nm, g.b, g.n, gt, g.ej, 1.0 / g.lat, a.b, a.n, at, a.ej, 1.0 / a.lat, gt / at, ex);
         if nm.starts_with("worst: ") { worst = Some((gt, at, ex, a.b, a.n, *w, *p, *sc)); }
@@ -66,14 +69,14 @@ fn main() {
     println!("{:<34} {:>10} | {:>5} {:>6} {:>9} {:>9} {:>8} | {:>8} {:>8}", "corner", "$ per chip", "batch", "chips", "$/Mtok", "J/tok", "tok/s/sq", "cost x", "energy x");
     for (nm, w, p, sc, _) in corners.iter().take(2) {
         for &pc in &[1330.0, 2330.0, 5330.0] {
-            let (g, gt) = best(&|b| gpu(&m, bits, b, *w, *p)); let (a, at) = best(&|b| chips(&m, bits, b, 2.78, 1.6, pc, *sc));
+            let (g, gt) = best(&|b| gpu(&m, bits, b, *w, *p)); let (a, at) = best(&|b| chips(&m, bits, b, sram_pj(), 1.6, pc, *sc));
             println!("{:<34} {:>10.0} | {:>5.0} {:>6.0} {:>9.3} {:>9.3} {:>8.0} | {:>7.2}x {:>7.1}x", nm, pc, a.b, a.n, at, a.ej, 1.0 / a.lat, gt / at, (g.ej * g.pue) / (a.ej * a.pue));
         }
     }
     if let Some((gt, at, ex, ab, an, w, p, sc)) = worst {
         println!("\nBARS in the worst corner (pre-set): W1 cost at most 0.5x the GPU: ours is {:.2}x of GPU cost ({}) ; W2 facility energy at least 5x below: {:.1}x ({})", at / gt, if at <= 0.5 * gt { "PASS" } else { "FAIL" }, ex, if ex >= 5.0 { "PASS" } else { "FAIL" });
         // lever for W1: the system price that makes cost exactly 0.5x
-        let (a0, _) = best(&|b| lw(&m, bits, b, 2.78, 1.6, 0.0, sc)); let (_, e0) = cost(&a0); let toks = a0.b / a0.t * UTIL; let allow = (0.5 * gt - e0) / 1e6 * toks * LIFE_S / a0.n;
+        let (a0, _) = best(&|b| lw(&m, bits, b, sram_pj(), 1.6, 0.0, sc)); let (_, e0) = cost(&a0); let toks = a0.b / a0.t * UTIL; let allow = (0.5 * gt - e0) / 1e6 * toks * LIFE_S / a0.n;
         println!("LEVER W1: the wafer system price at which cost = 0.5x the GPU (worst corner): ${:.0} per wafer system ({:.0}% of the cited $2.5M); bottom-up estimate ${:.0}", allow, allow / CB_PRICE * 100.0, bu);
         // lever for W2: SRAM read energy and leakage that give 5x, scanning
         let mut found = None; for &e in &[2.78, 2.4, 2.0, 1.6, 1.2, 1.0, 0.8, 0.495] { for &lk in &[1.6, 0.5, 0.2] { let (a, _) = best(&|b| lw(&m, bits, b, e, lk, CB_PRICE, sc)); let (g, _) = best(&|b| gpu(&m, bits, b, w, p)); if found.is_none() && (g.ej * g.pue) / (a.ej * a.pue) >= 5.0 { found = Some((e, lk, (g.ej * g.pue) / (a.ej * a.pue))); } } }

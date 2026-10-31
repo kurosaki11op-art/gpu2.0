@@ -1,0 +1,36 @@
+MODEL, not a measurement. All-in read energy per weight bit (pJ/bit) and area per GB by bank size, access width, bank-to-multiplier distance.
+Cross-check at 45 nm-equivalent (E_REF x6.7, from the ratio of the quoted 1 MB figure to this model at 1 MB; a calibration, not an independent test): printed below.
+
+     bank  width |   d mm   pJ/bit   pJ/bit   pJ/bit |    mm2/GB
+                 |           d=0.1    d=0.5      d=3 |          
+     16KB     32 |           0.053    0.075    0.215 |       546
+     16KB     64 |           0.044    0.066    0.206 |       546
+     16KB    128 |           0.037    0.059    0.199 |       546
+     16KB    256 |           0.031    0.053    0.193 |       546
+     32KB     32 |           0.072    0.094    0.234 |       546
+     32KB     64 |           0.060    0.082    0.222 |       546
+     32KB    128 |           0.049    0.072    0.212 |       546
+     32KB    256 |           0.041    0.064    0.204 |       546
+    128KB     32 |           0.138    0.161    0.301 |       420
+    128KB     64 |           0.113    0.136    0.276 |       420
+    128KB    128 |           0.093    0.116    0.256 |       420
+    128KB    256 |           0.077    0.099    0.239 |       420
+    512KB     32 |           0.271    0.294    0.434 |       364
+    512KB     64 |           0.221    0.244    0.384 |       364
+    512KB    128 |           0.181    0.203    0.343 |       364
+    512KB    256 |           0.148    0.170    0.310 |       364
+   1024KB     32 |           0.381    0.404    0.544 |       341
+   1024KB     64 |           0.311    0.333    0.473 |       341
+   1024KB    128 |           0.253    0.276    0.416 |       341
+   1024KB    256 |           0.207    0.229    0.369 |       341
+   4096KB     32 |           0.757    0.779    0.919 |       321
+   4096KB     64 |           0.616    0.638    0.778 |       321
+   4096KB    128 |           0.501    0.523    0.663 |       321
+   4096KB    256 |           0.408    0.430    0.570 |       321
+
+45 nm-equivalent cross-check (per 64-bit read, wire ignored): 8 KB 0.18 pJ/bit, 32 KB 0.36, 1 MB 2.04   (quoted from memory, unverified: 0.16, 0.31, 1.56)
+
+BAR RESULTS (pre-set):
+S1 PASS: best point within the area limit: bank 128 KB, width 256 bit, distance 0.1 mm -> 0.077 pJ/bit all in, 420 mm2 per GB (1.23x the project figure)
+S3 pessimistic ends (E_REF x2, overhead 1.6, wire 0.11 pJ/bit/mm, W_REF 32, width kept at 256 bit): 0.296 pJ/bit -> PASS; same with the width cut to 32 bit: 0.542 pJ/bit
+S2: feed 0.077 pJ/bit and 420 mm2 per GB to step 5 (see the result note).

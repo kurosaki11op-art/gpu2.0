@@ -86,6 +86,7 @@ tags: [spark, index]
 
 - [Lessons from L version 1](lessons_L_v1.md): wins, failures and what the new start must do differently (30 Oct 2026)
 
+- [SRAM bank energy model](../new_start/step6_sram_energy_result.md): all-in weight read 0.08-0.55 pJ/bit, worst-case energy bar passes on the model (8.0x to 5.1x); cost bar still open on the packaged-chip price (31 Oct 2026)
 - [Rows I and J, fair comparison and worst case](../new_start/step5_worst_case_result.md): correction of the earlier "closed"; each machine at its best batch, worst-corner failures and the levers that would fix them (31 Oct 2026)
 - [Closing rows I and J](../new_start/step4_close_i_j_result.md): calibrated wafer latency model and thresholds; all pre-set bars pass on the model at central assumptions, three external numbers named (31 Oct 2026)
 - [Rows I and J result](../new_start/step3_cost_power_result.md): cost per token, yield, power and heat of an SRAM wafer vs a GPU cluster and a Cerebras-class wafer; MODELLED, hinges on an assumed latency floor and system price (31 Oct 2026)

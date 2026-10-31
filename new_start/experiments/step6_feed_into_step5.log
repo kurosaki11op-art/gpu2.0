@@ -1,0 +1,39 @@
+=== SRAM_PJ=0.077 pJ/bit, MM2GB=420
+central (350 W, $25k, x1.8, bottom-up) | 1024    14     0.172     0.150       49 | 1024    11     0.030     0.006      950 |    5.65x    28.2x
+worst: 100 W, $15k, x2.7, cited price | 1024    14     0.103     0.080       49 | 1024    11     0.672     0.007      634 |    0.15x    13.4x
+worst but bottom-up price          | 1024    14     0.103     0.080       49 | 1024    11     0.046     0.007      634 |    2.26x    13.4x
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.010      481 |    6.30x    17.7x
+central (350 W, $25k, x1.8, bottom-up)       2330 |  1024    630     0.048     0.010      481 |    3.61x    17.7x
+central (350 W, $25k, x1.8, bottom-up)       5330 |  1024    630     0.108     0.010      481 |    1.59x    17.7x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.012      321 |    2.52x     8.0x
+worst: 100 W, $15k, x2.7, cited price       2330 |  1024    630     0.071     0.012      321 |    1.44x     8.0x
+worst: 100 W, $15k, x2.7, cited price       5330 |  1024    630     0.163     0.012      321 |    0.63x     8.0x
+BARS in the worst corner (pre-set): W1 cost at most 0.5x the GPU: ours is 6.54x of GPU cost (FAIL) ; W2 facility energy at least 5x below: 13.4x (PASS)
+LEVER W1: the wafer system price at which cost = 0.5x the GPU (worst corner): $190325 per wafer system (8% of the cited $2.5M); bottom-up estimate $168687
+LEVER W2: first scanned setting reaching 5x: SRAM read 1.60 pJ/bit with leakage 1.6 W/GB -> 5.2x (needs a bank-level design that delivers it; the central project range is 0.495 to 2.78 pJ/bi
+=== SRAM_PJ=0.55 pJ/bit, MM2GB=420
+central (350 W, $25k, x1.8, bottom-up) | 1024    14     0.172     0.150       49 | 1024    11     0.031     0.010      950 |    5.63x    18.2x
+worst: 100 W, $15k, x2.7, cited price | 1024    14     0.103     0.080       49 | 1024    11     0.672     0.011      634 |    0.15x     9.0x
+worst but bottom-up price          | 1024    14     0.103     0.080       49 | 1024    11     0.046     0.011      634 |    2.25x     9.0x
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    6.27x    13.2x
+central (350 W, $25k, x1.8, bottom-up)       2330 |  1024    630     0.048     0.014      481 |    3.60x    13.2x
+central (350 W, $25k, x1.8, bottom-up)       5330 |  1024    630     0.109     0.014      481 |    1.58x    13.2x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    2.51x     6.2x
+worst: 100 W, $15k, x2.7, cited price       2330 |  1024    630     0.071     0.016      321 |    1.44x     6.2x
+worst: 100 W, $15k, x2.7, cited price       5330 |  1024    630     0.163     0.016      321 |    0.63x     6.2x
+BARS in the worst corner (pre-set): W1 cost at most 0.5x the GPU: ours is 6.54x of GPU cost (FAIL) ; W2 facility energy at least 5x below: 9.0x (PASS)
+LEVER W1: the wafer system price at which cost = 0.5x the GPU (worst corner): $189904 per wafer system (8% of the cited $2.5M); bottom-up estimate $168687
+LEVER W2: first scanned setting reaching 5x: SRAM read 1.60 pJ/bit with leakage 1.6 W/GB -> 5.2x (needs a bank-level design that delivers it; the central project range is 0.495 to 2.78 pJ/bi
+=== SRAM_PJ=1.0 pJ/bit, MM2GB=420
+central (350 W, $25k, x1.8, bottom-up) | 1024    14     0.172     0.150       49 | 1024    11     0.031     0.013      950 |    5.61x    13.6x
+worst: 100 W, $15k, x2.7, cited price | 1024    14     0.103     0.080       49 | 1024    11     0.672     0.014      634 |    0.15x     6.9x
+worst but bottom-up price          | 1024    14     0.103     0.080       49 | 1024    11     0.046     0.014      634 |    2.24x     6.9x
+central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.028     0.017      481 |    6.25x    10.6x
+central (350 W, $25k, x1.8, bottom-up)       2330 |  1024    630     0.048     0.017      481 |    3.60x    10.6x
+central (350 W, $25k, x1.8, bottom-up)       5330 |  1024    630     0.109     0.017      481 |    1.58x    10.6x
+worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.019      321 |    2.50x     5.1x
+worst: 100 W, $15k, x2.7, cited price       2330 |  1024    630     0.072     0.019      321 |    1.44x     5.1x
+worst: 100 W, $15k, x2.7, cited price       5330 |  1024    630     0.163     0.019      321 |    0.63x     5.1x
+BARS in the worst corner (pre-set): W1 cost at most 0.5x the GPU: ours is 6.54x of GPU cost (FAIL) ; W2 facility energy at least 5x below: 6.9x (PASS)
+LEVER W1: the wafer system price at which cost = 0.5x the GPU (worst corner): $189504 per wafer system (8% of the cited $2.5M); bottom-up estimate $168687
+LEVER W2: first scanned setting reaching 5x: SRAM read 1.60 pJ/bit with leakage 1.6 W/GB -> 5.2x (needs a bank-level design that delivers it; the central project range is 0.495 to 2.78 pJ/bi
