@@ -2156,4 +2156,6 @@ Reference GPU results arrived (branch results/ref-3050; committed under hw/gpu/e
 
 Reference info with micro-benchmarks received (RTX 3050 6 GB laptop: launch cost 26.7 microseconds per tiny GPU operation, matmul 11.0 TFLOPs, copy bandwidth 123.6 GB/s, idle 8.0 W). Rule v2 fitted on the reference runs and committed as results_3050/fit2.json before any other GPU is measured. The launch cost of 26.7 us times about 38 operations per layer matches the measured 1.0 to 1.2 ms per layer, which supports the reading that small-model decode here is launch-bound. Waiting for the friends' info files.
 
+Founder: friends mostly have the same GPU as the reference, one has a 4060. Protocol amendment 2: same-GPU machines are a noise and CPU-scaling check, the cross-GPU bar applies to the 4060 and any free cloud GPUs (Colab, Kaggle) added; bars unchanged.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
