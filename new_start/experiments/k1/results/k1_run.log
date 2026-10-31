@@ -1,0 +1,2 @@
+mean active code bits 582; L per example: encoder 0.006 uJ, learning 15140.4032 adds = 0.00045 uJ; fixed encoder fitting 132.7 uJ
+N=   100  L 0.6395  CNN 0.5002 (seeds [0.3895, 0.6109], 94.5 epochs)  energy L 133.3 uJ, CNN 26311.0 uJ, ratio 197x   wall L 1s CNN 6s
