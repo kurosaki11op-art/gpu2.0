@@ -2126,4 +2126,6 @@ Founder decision: wafer-scale first; reticle chip if people and investors reject
 
 Founder: pursue both wafer and reticle. Recorded as one tile design with two integration targets ([project memory](PROJECT_MEMORY.md)); claims labelled per target; one built first.
 
+Founder: offer both, reticle for low-cost buyers and wafer for high-cost buyers. Answered: one architecture at two scales; striping and mapper to be tile-count independent; two physical paths double supplier and packaging work. Recorded in [project memory](PROJECT_MEMORY.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
