@@ -14,7 +14,7 @@
      no backprop in the chip design. Do not reframe it as a GPU helper or an FPGA builder. (28 Oct 2026: hybrid
      additions beyond this are allowed only as separately labelled options, per the founder's decision below.)
    - **L accelerator** (the dedicated chip for the L language model, the alternative to a GPU; see
-     `docs/L_accelerator_design.md`): **matrix-free by default, hybrid where a test shows a need** (founder's decision,
+     `docs/L_accelerator_design.md`): **UPDATE 31 Oct 2026 (founder): the no-matrix / no-multiply rule is withdrawn for the accelerator; multiplication and matrices are ordinary tools, and the chip must run existing models (see `docs/gpu_workload_map.md`). The text below is the superseded 28 Oct rule, kept for history; the "no CNN as a component" and "label every number" rules stand.** Superseded: **matrix-free by default, hybrid where a test shows a need** (founder's decision,
      28 Oct 2026, replacing the 22 Oct rule that forbade every matrix: use ternary weights AND matrices / multiplication
      wherever they are needed, and keep the design light-weight). Default tools: scans, event-driven sparse row lookups,
      table and hash lookups, counters, small state, ternary add-only paths. A multiplier or matrix path is added only
