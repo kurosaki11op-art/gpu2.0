@@ -31,6 +31,10 @@ Status words: **not covered** (no mechanism tested), **partly** (some evidence b
 | G | **Exact numerics: FP32/FP64, spectral, N-body, grids** (3, 4, 5, 7) | a floating-point unit, not our mechanism; best case is equal results at lower energy | v1 lane model only | identical results to an FP64 reference within a stated error, energy against a GPU | not covered |
 | H | **Graphics and fixed-function** (16, 17, 18, 19, 8, 13) | dedicated blocks, as on a GPU | none | n/a: a dedicated block per job is already cheap on a GPU, so no efficiency claim is available without a design | not covered, likely out of scope |
 
+## Update, 31 Oct 2026: rows B and A run
+
+The model was run ([result](../new_start/step2_wafer_sram_result.md), MODELLED): **row B capacity passes its bar** (2.46x the cited 44 GB wafer; 5 wafers for a 1T model at 4-bit against 12), **row A energy misses its bar** (3.4x against 5x at the pessimistic SRAM energy; 9.2x at 1.0 pJ/bit; 5x needs 1.87 pJ/bit or less). Both rows stay "partly covered"; the open question is the real read energy per bit of weight-stationary SRAM, and the GPU's real decode power.
+
 ## Order of work (proposal, for the founder to confirm)
 
 1. **Row B, then A** (the capacity and dense paths, because they decide whether "run existing models" can beat a GPU at all). First test: extend the Rust decode model of target 3 with the weight-tier axis and the dense multiply-add unit, **with the founder's models and existing ones (for example a 7B and a 70B dense model, one mixture-of-experts model) as inputs**. Bar above; written before the run.

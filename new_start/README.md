@@ -28,6 +28,7 @@ Graph traversal, sparse matrix-vector product, sequence matching. Reason: it is 
 
 - Step 1 run 30 Oct 2026: **failed the bar on the skewed graph; target 2 dropped as a first target.** See [step 1 result](step1_result.md). Experiments are written in Rust (standard library only) where speed matters.
 
+- Rows B and A of the [workload map](../docs/gpu_workload_map.md), run 31 Oct 2026 (existing models on an SRAM wafer, against a GPU cluster and a Cerebras-class wafer): capacity 2.46x the cited wafer (pass), energy 3.4x at the pessimistic SRAM value against a 5x bar (fail; 5x needs reads at 1.87 pJ/bit or less); see [step 2 result](step2_wafer_sram_result.md).
 - Target 3 (batch-1 language-model decode) step 1 run 30 Oct 2026: **failed the pre-set bar (3.6x at the pessimistic SRAM energy, 5x needed; passes at the middle value; capacity fits)**; dropped as a first target. See [step 1 result, target 3](step1_lm_result.md). Two of two new targets failed their first step: the premise "a different architecture beats a GPU by a wide margin on general workloads" is not supported by our models.
 
 ## Folder

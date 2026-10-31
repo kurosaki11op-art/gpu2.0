@@ -1,0 +1,50 @@
+MODEL, not a measurement. Context 4096 tokens. Architectures are stand-ins for the model classes (layer counts and widths from memory, not exact).
+Capacity: cited wafer 44 GB (46225 mm2); L-wafer A 108.4 GB (80% of the wafer at 341 mm2/GB, today's technology) = 2.46x; L-wafer B 216.9 GB (two stacked layers, an OPTION) = 4.93x.
+Cited wafer density implied: 7.61 Mbit/mm2 of whole wafer; project SRAM density 25.2 Mbit/mm2 -> the cited wafer spends about 32% of its area on SRAM at that density (a derived figure, ASSUMED density).
+
+Parameters that fit in ONE wafer of SRAM (billions), by weight width:
+wafer                    16-bit    8-bit    4-bit
+cited wafer (44 GB)        22.0     44.0     88.0
+L-wafer A                  54.2    108.4    216.9
+L-wafer B (stacked)       108.4    216.9    433.8
+
+Energy per token in joules (J/tok) and speed (tok/s per sequence). GPU = H100-class cluster; CB = cited wafer(s), dyn = no static power, 23kW = quoted system power drawn during the step; LA = L-wafer A at SRAM energy hi/mid/lo.
+model         bits   B | gpu     J/tok   tok/s | CBw       dyn      23kW | LAw        hi       mid        lo   tok/s |  GPU/hi GPU/mid  GPU/lo | E* for 5x
+dense 7B        16   1 |   1     1.114   230.4 |   1     0.335      0.35 |   1     0.336     0.128     0.070 1238583.1 |    3.3x    8.7x   16.0x |   1.81 pJ
+dense 7B        16  32 |   1     0.086   107.4 |   1     0.034      0.04 |   1     0.034     0.020     0.016 38705.7 |    2.5x    4.3x    5.4x |   0.63 pJ
+dense 7B         8   1 |   1     0.573   444.5 |   1     0.170      0.18 |   1     0.170     0.062     0.032 1238583.1 |    3.4x    9.2x   18.0x |   1.87 pJ
+dense 7B         8  32 |   1     0.059   138.5 |   1     0.019      0.02 |   1     0.019     0.008     0.005 38705.7 |    3.1x    7.3x   11.8x |   1.60 pJ
+dense 7B         4   1 |   1     0.308   829.9 |   1     0.091      0.10 |   1     0.091     0.033     0.017 1238583.1 |    3.4x    9.2x   18.1x |   1.87 pJ
+dense 7B         4  32 |   1     0.051   162.0 |   1     0.015      0.02 |   1     0.015     0.006     0.004 38705.7 |    3.3x    8.2x   14.4x |   1.76 pJ
+dense 70B       16   1 |   2    10.823    47.4 |   4     3.257      3.41 |   2     3.258     1.244     0.673 265362.1 |    3.3x    8.7x   16.1x |   1.81 pJ
+dense 70B       16  32 |   3     0.546    54.9 |   5     0.240      0.27 |   2     0.242     0.159     0.136  8292.6 |    2.3x    3.4x    4.0x |     never
+dense 70B        8   1 |   1     5.424    47.0 |   2     1.605      1.68 |   1     1.607     0.590     0.302 132681.1 |    3.4x    9.2x   18.0x |   1.87 pJ
+dense 70B        8  32 |   2     0.286    59.3 |   3     0.097      0.13 |   2     0.099     0.047     0.033  8292.6 |    2.9x    6.0x    8.7x |   1.31 pJ
+dense 70B        4   1 |   1     2.773    92.2 |   1     0.817      0.86 |   1     0.819     0.300     0.153 132681.1 |    3.4x    9.2x   18.1x |   1.87 pJ
+dense 70B        4  32 |   2     0.203    86.0 |   2     0.063      0.09 |   1     0.065     0.029     0.019  4146.3 |    3.2x    7.0x   10.8x |   1.56 pJ
+dense 405B      16   1 |  12    62.328    49.4 |  19    18.741     19.63 |   8    18.749     7.149     3.858 189613.3 |    3.3x    8.7x   16.2x |   1.82 pJ
+dense 405B      16  32 |  14     2.871    49.6 |  22     1.290      1.45 |   9     1.297     0.872     0.751  6666.1 |    2.2x    3.3x    3.8x |     never
+dense 405B       8   1 |   6    31.113    49.1 |  10     9.207      9.65 |   4     9.214     3.382     1.727 94806.6 |    3.4x    9.2x   18.0x |   1.87 pJ
+dense 405B       8  32 |   8     1.385    49.6 |  13     0.481      0.64 |   5     0.488     0.243     0.173  3703.4 |    2.8x    5.7x    8.0x |   1.22 pJ
+dense 405B       4   1 |   3    15.769    48.6 |   5     4.648      4.87 |   2     4.656     1.707     0.870 47403.3 |    3.4x    9.2x   18.1x |   1.87 pJ
+dense 405B       4  32 |   5     0.905    49.6 |   8     0.285      0.44 |   4     0.293     0.137     0.093  2962.7 |    3.1x    6.6x    9.7x |   1.46 pJ
+MoE 671B/37B    16   1 |  19     5.702   855.0 |  31     1.717      1.80 |  13     1.717     0.657     0.356 3203395.7 |    3.3x    8.7x   16.0x |   1.81 pJ
+MoE 671B/37B    16  32 |  19     2.755    55.9 |  31     0.852      0.89 |  13     0.852     0.346     0.202 100106.1 |    3.2x    8.0x   13.7x |   1.72 pJ
+MoE 671B/37B     8   1 |  10     2.848   894.6 |  16     0.843      0.88 |   7     0.844     0.310     0.159 1724905.4 |    3.4x    9.2x   18.0x |   1.86 pJ
+MoE 671B/37B     8  32 |  10     1.374    58.2 |  16     0.411      0.43 |   7     0.411     0.154     0.082 53903.3 |    3.3x    8.9x   16.9x |   1.83 pJ
+MoE 671B/37B     4   1 |   5     1.446   884.0 |   8     0.426      0.45 |   4     0.427     0.157     0.080 985660.2 |    3.4x    9.2x   18.1x |   1.87 pJ
+MoE 671B/37B     4  32 |   5     0.709    56.7 |   8     0.210      0.23 |   4     0.211     0.079     0.041 30801.9 |    3.4x    9.0x   17.1x |   1.85 pJ
+MoE 1T/32B      16   1 |  28     4.937  1455.4 |  46     1.487      1.56 |  19     1.487     0.569     0.309 5339788.2 |    3.3x    8.7x   16.0x |   1.81 pJ
+MoE 1T/32B      16  32 |  28     3.150    71.7 |  46     0.962      1.01 |  19     0.963     0.381     0.215 166868.4 |    3.3x    8.3x   14.6x |   1.76 pJ
+MoE 1T/32B       8   1 |  14     2.467  1445.4 |  23     0.731      0.77 |  10     0.731     0.269     0.137 2810414.8 |    3.4x    9.2x   17.9x |   1.86 pJ
+MoE 1T/32B       8  32 |  15     1.574    76.0 |  24     0.468      0.49 |  10     0.469     0.174     0.091 87825.5 |    3.4x    9.0x   17.3x |   1.85 pJ
+MoE 1T/32B       4   1 |   7     1.255  1425.7 |  12     0.370      0.39 |   5     0.371     0.136     0.069 1405207.4 |    3.4x    9.2x   18.1x |   1.87 pJ
+MoE 1T/32B       4  32 |   8     0.809    79.4 |  12     0.239      0.25 |   5     0.240     0.089     0.046 43912.7 |    3.4x    9.1x   17.5x |   1.86 pJ
+
+BAR RESULTS (pre-set, applied as written):
+B1 capacity: L-wafer A holds 2.46x the cited wafer (needs >= 2x): PASS   (an area-share choice at the project SRAM density; whether the rest of the wafer can carry the compute and routing is NOT shown by this model)
+B2 energy dense 70B: ratio 3.4x at the pessimistic 2.78 pJ/bit (needs >= 5x), 9.2x at 1.0 pJ/bit; SRAM energy needed for 5x: 1.87 pJ/bit: FAIL
+B2 energy MoE 1T/32B: ratio 3.4x at the pessimistic 2.78 pJ/bit (needs >= 5x), 9.2x at 1.0 pJ/bit; SRAM energy needed for 5x: 1.87 pJ/bit: FAIL
+B3 vs cited wafer, MoE 1T at 4-bit, batch 1: energy no worse (same SRAM energy, L static included, cited dyn only) no; wafers 12 vs 5 (needs cited >= 1.5x ours: 2.4): FAIL
+B3 vs cited wafer, MoE 1T at 4-bit, batch 32: energy no worse (same SRAM energy, L static included, cited dyn only) no; wafers 12 vs 5 (needs cited >= 1.5x ours: 2.4): FAIL
+B4 speed: 70B dense, 4-bit, batch 1, L-wafer A tok/s >= GPU cluster tok/s: PASS
