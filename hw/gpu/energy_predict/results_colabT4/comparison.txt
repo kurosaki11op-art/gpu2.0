@@ -1,0 +1,12 @@
+Colab Tesla T4 vs rule v2 predictions (committed before this comparison). MEASURED vs MODELLED. Bar: within 20% on at least 7 of 9 points, separately for speed and energy.
+model   batch | speed tok/s/user: meas  pred  err%  | J/token gross: meas  pred  err%
+small     1  |    168.0   428.2    155 |    0.247   0.116    -53
+small     4  |    157.5   410.8    161 |    0.071   0.031    -57
+small    16  |    159.6   353.1    121 |    0.025   0.009    -63
+medium    1  |     27.1   105.3    288 |    1.622   0.513    -68
+medium    4  |     27.2    99.3    265 |    0.432   0.134    -69
+medium   16  |     24.7    81.0    228 |    0.163   0.040    -76
+large     1  |     29.4   106.9    263 |    2.111   0.668    -68
+large     4  |     24.2    94.2    289 |    0.630   0.180    -71
+large    16  |     16.4    63.7    288 |    0.246   0.059    -76
+within 20%: speed 0 of 9, energy 0 of 9

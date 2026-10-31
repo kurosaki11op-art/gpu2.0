@@ -2158,4 +2158,6 @@ Reference info with micro-benchmarks received (RTX 3050 6 GB laptop: launch cost
 
 Founder: friends mostly have the same GPU as the reference, one has a 4060. Protocol amendment 2: same-GPU machines are a noise and CPU-scaling check, the cross-GPU bar applies to the 4060 and any free cloud GPUs (Colab, Kaggle) added; bars unchanged.
 
+Colab T4 results arrived (info and three models). Predictions from rule v2 were committed from the info file before the comparison. Result ([RESULT](../hw/gpu/energy_predict/RESULT.md), MEASURED vs MODELLED): speed 0 of 9 and energy 0 of 9 points within 20% (T4 predicted 2 to 4x too fast); the T4's tiny-kernel launch cost was lower than the laptop's yet it ran the larger models slower per layer, so the micro-benchmark does not predict decode speed. Per the protocol's kill rule the predictor idea is withdrawn as stated; the 4060 result will still be recorded. Findings that stand: batching cuts energy per token 8 to 14x on both machines; the T4 is 2 to 3x less energy-efficient than the gaming laptop on these small models; small-model decode here is software and CPU bound. Possible product reading: a cheap measurement tool, not a predictor; demand untested.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -42,6 +42,8 @@ Most friends have the same GPU model as the reference (an RTX 3050); one has an 
 
 Four consumer GPUs in laptops or desktops say little about data-centre cards; board power from `nvidia-smi` is not wall power and its accuracy is not known; software versions and power modes change results (record them, same mains and mode for each run); half precision only; one decode implementation (the library's default); no quality measure.
 
+Result so far: [RESULT](RESULT.md).
+
 Files: [`measure.py`](measure.py), [`predict.py`](predict.py), [`report.py`](report.py); friends' guide: [README](README.md); tested end to end on a CPU with a tiny model only (no GPU available to the builder).
 
 Related: [Research 01 summary](../../../docs/reviews/research_01_summary.md), [Jarvis response to research 01](../../../docs/reviews/jarvis_response_research_01.md), [Measurement protocol](../../../docs/measurement_protocol.md), [Hardware index](../../HARDWARE_INDEX.md)

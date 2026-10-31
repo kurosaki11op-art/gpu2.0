@@ -1,0 +1,84 @@
+{
+ "gpu": "Tesla T4",
+ "vram_gb": 15.637086208,
+ "device": "cuda",
+ "torch": "2.11.0+cu130",
+ "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+ "prompt": 256,
+ "new": 128,
+ "runs": [
+  {
+   "batch": 1,
+   "seconds": 4.350914716720581,
+   "new_tokens": 128,
+   "tokens_per_s_total": 29.41910111639181,
+   "tokens_per_s_per_user": 29.41910111639181,
+   "mean_power_w": 62.098181818181814,
+   "peak_mem_gb": 2.248809984,
+   "joules_per_token_gross": 2.110811665268107,
+   "joules_per_token_net": 0.8457983187243641,
+   "memory_before": {
+    "free_gb": 13.180403712,
+    "total_gb": 15.637086208,
+    "torch_allocated_gb": 2.210714624,
+    "torch_reserved_gb": 2.31735296
+   }
+  },
+  {
+   "batch": 4,
+   "seconds": 5.289554834365845,
+   "new_tokens": 128,
+   "tokens_per_s_total": 96.79453489612662,
+   "tokens_per_s_per_user": 24.198633724031655,
+   "mean_power_w": 60.98439024390244,
+   "peak_mem_gb": 2.362301952,
+   "joules_per_token_gross": 0.6300396020224364,
+   "joules_per_token_net": 0.24555967662692932,
+   "memory_before": {
+    "free_gb": 13.180403712,
+    "total_gb": 15.637086208,
+    "torch_allocated_gb": 2.210714624,
+    "torch_reserved_gb": 2.31735296
+   }
+  },
+  {
+   "batch": 16,
+   "seconds": 7.801817178726196,
+   "new_tokens": 128,
+   "tokens_per_s_total": 262.50294682429063,
+   "tokens_per_s_per_user": 16.406434176518164,
+   "mean_power_w": 64.58483333333334,
+   "peak_mem_gb": 2.816269824,
+   "joules_per_token_gross": 0.2460346983326017,
+   "joules_per_token_net": 0.10426274489062294,
+   "memory_before": {
+    "free_gb": 13.180403712,
+    "total_gb": 15.637086208,
+    "torch_allocated_gb": 2.210714624,
+    "torch_reserved_gb": 2.31735296
+   }
+  }
+ ],
+ "bandwidth_copy_gbs": 241.43974070639712,
+ "idle_power_w": 37.21555555555556,
+ "launch_us_per_op": 9.09113883972168,
+ "matmul_tflops": 15.690703402472128,
+ "memory_before_model": {
+  "free_gb": 15.476785152,
+  "total_gb": 15.637086208,
+  "torch_allocated_gb": 0.00851968,
+  "torch_reserved_gb": 0.02097152
+ },
+ "weight_bytes": 2200096768,
+ "layers": 22,
+ "hidden": 2048,
+ "heads": 32,
+ "kv_heads": 4,
+ "dtype_bytes": 2,
+ "memory_after_load": {
+  "free_gb": 13.180403712,
+  "total_gb": 15.637086208,
+  "torch_allocated_gb": 2.210714624,
+  "torch_reserved_gb": 2.31735296
+ }
+}
