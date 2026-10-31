@@ -14,6 +14,7 @@ Version 1 (the three-layer L Cortex, L Deep, L Forge design) was dropped on 30 O
 | item | result | source |
 |---|---|---|
 | L algorithm on an ESP32 (software, not the chip) | bit-exact with the model on 1,000 of 1,000 images; **8.69 ms per image** (115 images per second) after two optimisations; first run 25.05 ms | [first ESP32 run](../hw/results/esp32_first_run.md) |
+| **the whole 10,000-image test set on the ESP32** (image server over USB, laptop as the fallback) | **0 of 10,000 mismatching the reference model**; 89.73% accuracy; 95.09% on the answered images at 16.3% flagged; hardware cascade 91.24%; 9.09 ms per image on the board | [full test set on the ESP32](../hw/results/esp32_full_testset.md) |
 | small int8 CNN on the same ESP32, same build flags | **255.2 ms per image**; checksum equals the PC run; **29x slower than the L algorithm** (a time ratio) | same |
 | founder's laptop RTX 3050 6 GB | idle about 6 W; a first throughput run was invalid (a second job shared the GPU and Windows energy saver pinned the clock at 210 MHz); the baseline has to be rerun on an idle GPU at full clock | [measurement protocol](measurement_protocol.md) |
 

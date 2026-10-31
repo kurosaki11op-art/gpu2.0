@@ -2046,4 +2046,8 @@ Founder ordered a USB power meter (two days) to measure power with an ESP32. Bui
 
 Founder flashed the sketches on an ESP32 (COM7). MEASURED (software, not the chip): L algorithm bit-exact on the board, 25.05 ms per image at first, 18.53 ms with a shift-add popcount, **8.69 ms with a table popcount and -O3**; per-stage timing shows the detectors dominate (6.64 of 8.69 ms); the small int8 CNN **255.2 ms per image**, checksum identical to the PC run: a **29x time ratio** on the same processor. Energy still waits for the USB meter (expected in two days). Two upload mix-ups (an old copy of the sketch folder; the IDE running a mixed build) cost round trips and are recorded. See [first ESP32 run](../hw/results/esp32_first_run.md).
 
+## 31 Oct 2026: the whole test set on a real ESP32
+
+After fixing three setup problems (the old firmware was still on the board, the Serial Monitor held the port, and the auto-reset upload failed until the board was put into download mode by hand with BOOT and EN), the founder ran `serve_host.py` against the ESP32 image server: **10,000 of 10,000 images identical to the reference model** (prediction, routed bit, margin), 89.73% accuracy, 95.09% on the answered images at 16.3% flagged, hardware cascade 91.24% against the fallback alone 91.53%, 9.09 ms per image on the board, 182 s in all. MEASURED on hardware (software on a microcontroller, not the chip). See [full test set on the ESP32](../hw/results/esp32_full_testset.md). Energy still waits for the USB meter.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
