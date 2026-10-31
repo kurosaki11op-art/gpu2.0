@@ -36,6 +36,24 @@ Option `GPU_STRIPE_ATTN=1`: the key and value cache is split by head and by cont
 
 The first prediction above (131 microseconds extra for one-tile attention, MODELLED arithmetic) was too low: the simulation gives about 258 microseconds extra, because the cache bytes read per token also bind. Limits: tile size was set to 16 MB (the embedding and position tables on tile 0 need it); the cache is assumed to be spread evenly with no imbalance; the merge and broadcast use the same ASSUMED link constants; no contention; no queueing; scaled model, not the full 1B shape.
 
+## Sweep of the assumed network constants (bar S-e, 31 Oct 2026, SIMULATED; plan and bar committed before the run)
+
+Per-token cost near 480 tokens of context, microseconds, scaled decoder, width 16, striped attention ([log](stripe/results/sweep_network.log), script [`sweep_network.sh`](stripe/sweep_network.sh)):
+
+| link bytes per cycle \ cycles per hop | 2 | 16 | 200 | 2,000 |
+|---|---|---|---|---|
+| 16 | 62.1 | 139.0 | 1,150 | 11,045 |
+| 32 | 46.6 | 123.6 | 1,135 | 11,030 |
+| 64 (assumed so far) | 38.9 | 115.8 | 1,127 | 11,022 |
+| 128 | 35.0 | 112.0 | 1,123 | 11,018 |
+| 256 | 33.1 | 110.0 | 1,122 | 11,016 |
+
+- **S-e FAILS as pre-registered.** The bar was at most 95 microseconds for link bandwidth of at least 32 bytes per cycle with hop cost up to 16 cycles. At 2 cycles per hop it holds for every link width (33 to 62 microseconds, 62 at the narrowest 16); at 16 cycles per hop it fails at every link width (110 to 139 microseconds).
+- **The hop cost is what matters, not the link width.** Going from 16 to 256 bytes per cycle changes the result by less than 2x; going from 2 to 16 cycles per hop triples it, and the chip-crossing corner (200 and 2,000 cycles, i.e. 0.2 to 2 microseconds per hop at 1 GHz) gives about 1.1 and 11 **milliseconds** per token.
+- **Why:** every striped matrix and every attention pays one broadcast and one gather, each costing a hop cost times the farthest stripe tile's distance. In this mapping the 16 stripe tiles of a layer sit on tile numbers home + i x 18 on a 17 x 17 mesh, so the farthest is up to about 30 hops away; with 16 layers and about 8 striped operations per layer, that is thousands of serial hops per token. The fixed per-token chain of dependent hops, not the compute, sets the latency.
+- **What it means:** the 33 to 51 microsecond results hold only if a hop costs about 2 cycles (2 nanoseconds at 1 GHz) with this placement. On-wafer wires might do that; chip-to-chip links cannot (Vision research: 2 to 3 microseconds per crossing), so **striping every matrix across chips is not viable** in this form: at 200 cycles per hop it is already more than 10x over the bar's limit, which was the pre-set trigger for rethinking the reticle mapping.
+- **Not yet tried (next experiment, new bar needed):** compact placement (the 16 stripe tiles of a layer in a 4 x 4 block, farthest tile about 6 hops), tree broadcast, and overlapping the broadcast with compute. Compact placement alone should cut the serial hop count by about 5x; that is a prediction, not a result.
+
 ## Status
 
 The Vision V-01 gate is **met on the scaled model in simulation**: striped weights and striped attention give 32.5 microseconds per token with an empty cache and 51.5 microseconds at 2,048 tokens of context. The latency claim stays withdrawn from charter-level statements until it is run on the full 1B shape and with network contention, and its dependence on the assumed link constants is tested (a width or hop-cost sweep is the next run). Next: the link-constant sweep, then the wafer and reticle system models under the Vision corrections.

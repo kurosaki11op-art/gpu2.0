@@ -2148,4 +2148,6 @@ Founder: four friends with consumer GPUs (RTX 3050 4 GB and 6 GB, 4060 6 GB) can
 
 Founder: build something they can test this week. Built a one-command check for a friend's GPU ([guide](../hw/gpu/energy_predict/README.md)): `measure.py` (now with CPU test mode), `report.py` (speed, board power, joules and electricity cost per million tokens, best batch size), `predict.py`. Tested end to end on a CPU with a tiny model and on made-up power data; not yet on any real GPU.
 
+Sweep of the assumed network constants (bar S-e pre-registered in the stripe plan; [result](../hw/gpu/stripe_result.md), SIMULATED): FAILED. Striped decode of the scaled model stays under 95 microseconds only at 2 cycles per hop (33 to 62 microseconds); at 16 cycles per hop it is 110 to 139 microseconds, at chip-crossing cost (200 and 2,000 cycles) 1.1 and 11 ms per token. Hop cost, not link width, sets the latency. Striping every matrix across chips is not viable as mapped; compact placement and tree broadcast are untried. The GPU test could not be run by the builder (no GPU, no connected computer); commands given to the founder.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
