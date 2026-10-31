@@ -25,8 +25,19 @@ tags: [spark, gpu, striping, latency, result, vision-v01]
 - **Wafer versus chips:** the mesh constants here are the on-wafer kind (cheap hops). Chip crossings would cost more; the reticle case needs its own run.
 - **Batch 1 only, one request, no queueing, no host.**
 
+## Update: attention and cache striped (31 Oct 2026, SIMULATED)
+
+Option `GPU_STRIPE_ATTN=1`: the key and value cache is split by head and by context chunk over the stripe tiles; each tile reads its share and does 1/S of the multiply-adds; the query is broadcast and one partial (head dimension plus the softmax maximum and sum) per tile is merged on the home tile. Outputs are unchanged (the arithmetic is the same; only the cycle model changes). Measured directly on the scaled decoder at width 16, as the marginal cost of the 64 decode steps ending at 2,048 tokens ([log](stripe/results/attention_2048.log)):
+
+| attention | per-token cost near 2,016 tokens of context |
+|---|---|
+| on one tile (unstriped) | **290.5 us** (bar of 95 us missed by 3x) |
+| striped over 16 tiles | **51.5 us** (**S-c passes at the reference context**, bar 95 us) |
+
+The first prediction above (131 microseconds extra for one-tile attention, MODELLED arithmetic) was too low: the simulation gives about 258 microseconds extra, because the cache bytes read per token also bind. Limits: tile size was set to 16 MB (the embedding and position tables on tile 0 need it); the cache is assumed to be spread evenly with no imbalance; the merge and broadcast use the same ASSUMED link constants; no contention; no queueing; scaled model, not the full 1B shape.
+
 ## Status
 
-The Vision V-01 gate is **partly open**: striped weights work and cost 32 to 37 microseconds per token on the scaled model at short context, but the latency claim stays withdrawn at the reference context until attention is striped. Next: stripe attention by head with the cache split across tiles, rerun S-c at 2,048 tokens, then the wafer system model under the Vision corrections.
+The Vision V-01 gate is **met on the scaled model in simulation**: striped weights and striped attention give 32.5 microseconds per token with an empty cache and 51.5 microseconds at 2,048 tokens of context. The latency claim stays withdrawn from charter-level statements until it is run on the full 1B shape and with network contention, and its dependence on the assumed link constants is tested (a width or hop-cost sweep is the next run). Next: the link-constant sweep, then the wafer and reticle system models under the Vision corrections.
 
 Related: [Stripe plan](stripe_plan.md), [Response to Vision review 01](../../docs/reviews/jarvis_response_01.md), [M3 result](M3_result.md), [M2 result](M2_result.md), [Hardware index](../HARDWARE_INDEX.md), [Docs index](../../docs/INDEX.md)

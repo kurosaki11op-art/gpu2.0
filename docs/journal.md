@@ -2142,4 +2142,6 @@ Founder: a newcomer must understand what Nvidia and Cerebras do, how, why, wheth
 
 Vision research 01 merged ([summary](reviews/research_01_summary.md), 8 topic notes). Response: [verdicts](reviews/jarvis_response_research_01.md). Accepted: SRAM-resident decode is not open ground; capacity is our weakness too; GPU baseline is moving and out of date; per-prompt energy gain is smaller than the accelerator gain (about 1.7x to 2.0x, one fleet). Wafer: 7.6 kW is a serving average not a design power; bottom-up price is an unsourced floor. Recommended to the founder: keep wafer as a modelled option until a sourced price exists, do the money-free work first (RTX 3050 energy prediction, M4 quality by format, tile utilisation, SRAM plus Flash tier scan). Decision on 'wafer first' left to the founder.
 
+Striped attention built (GPU_STRIPE_ATTN) and measured on the scaled decoder at 2,048 tokens ([result update](../hw/gpu/stripe_result.md), SIMULATED): attention on one tile 290.5 us per token (bar 95 us missed), striped over 16 tiles 51.5 us (bar met). Earlier MODELLED guess of the one-tile cost (131 us extra) was too low. Dependence on ASSUMED link constants and contention untested; next a link-constant sweep.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

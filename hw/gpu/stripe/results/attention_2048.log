@@ -1,0 +1,9 @@
+attn_striped=0 N=1984 total_cycles 316307136
+attn_striped=0 N=2048 total_cycles 334899200
+attn_striped=1 N=1984 total_cycles 85468992
+attn_striped=1 N=2048 total_cycles 88762496
+
+[exited with code 0]
+
+# Marginal per-token cost near context 2,016 = (total at 2048 - total at 1984) / 64 steps, width 16, M3 tile rates, 1 GHz. Command: GPU_STRIPE_ATTN=A GPU_MACPC=256 GPU_SRAMBW=256 GPU_STRIPE=16 gpu_sim DEC int8 N 16777216 decode (decoder from gen_decoder.py DEC 2048). Tile 0 (embedding and position tables) needs 16 MB, so tile size was set to 16 MB for this run.
+# unstriped attention: 290485 cycles = 290.5 us ; striped attention: 51461 cycles = 51.5 us
