@@ -3,7 +3,11 @@
 // Arduino IDE or PlatformIO, board "ESP32 Dev Module". The two cores are included as source from the parent folder (one translation unit).
 #define MODE 0                // 0 = L algorithm, 1 = small CNN (int8), 2 = idle baseline (the CPU awake, no inference)
 #define REJECT_T 3304         // reject threshold of the L chip (MODE 0): flagged answers would go to a fallback; 3304 flags about 20% of the images
+#if MODE == 1
+#define PASSES 1              // the CNN is slow on an ESP32: one pass over the 40 embedded images per report line
+#else
 #define PASSES 25             // passes over the 40 embedded images per report line (40 x 25 = 1,000 images)
+#endif
 #include <WiFi.h>
 extern "C" {
 #include "../l_core.h"

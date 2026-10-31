@@ -11,7 +11,11 @@
 
 #define NCODE 4608
 #define NB 6176
-static inline int pop25(uint32_t v) { return __builtin_popcount(v & 0x1FFFFFFu); }
+/* bit count of the low 25 bits with shifts, masks and adds only (31 Oct 2026): the ESP32's Xtensa core has no popcount instruction, so __builtin_popcount calls a slow library routine
+ * (measured 25 ms per image with it); this version needs no multiply and no table */
+static inline int pop25(uint32_t v) {
+    v &= 0x1FFFFFFu; v = v - ((v >> 1) & 0x55555555u); v = (v & 0x33333333u) + ((v >> 2) & 0x33333333u); v = (v + (v >> 4)) & 0x0F0F0F0Fu; v = v + (v >> 8); v = v + (v >> 16); return (int)(v & 0x3Fu);
+}
 
 /* receptor map: bit0 pixel > 50, bit1 pixel > 150, bit2 ON cell (pixel - (sum of 8 neighbours >> 3) > 8), bit3 OFF cell ((sum >> 3) - pixel > 8); image edges repeat the border pixel */
 static void receptors(const uint8_t *img, uint8_t *bmap) {
