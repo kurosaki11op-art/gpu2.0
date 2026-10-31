@@ -1,0 +1,13 @@
+{
+"mode": "int8", "tiles": 4, "mesh_side": 2, "steps": 64,
+"total": {"macs": 104890368, "macs_int16_activations": 0, "sram_read_bytes": 108626176, "sram_write_bytes": 3112960, "mesh_byte_hops": 458752, "vector_ops": 893696, "cycles": 303066, "dynamic_energy_pj": 511318220.8, "static_energy_pj": 7576650.0, "total_energy_pj": 518894870.8},
+"per_tag": {
+  "L0.attn": {"macs": 17842176, "macs_int16_activations": 0, "sram_read_bytes": 19234816, "sram_write_bytes": 294912, "mesh_byte_hops": 131072, "vector_ops": 172416, "cycles": 52717, "dynamic_energy_pj": 90565171.2},
+  "L0.mlp": {"macs": 33554432, "macs_int16_activations": 0, "sram_read_bytes": 33947648, "sram_write_bytes": 360448, "mesh_byte_hops": 65536, "vector_ops": 229376, "cycles": 94848, "dynamic_energy_pj": 159488409.6},
+  "L1.attn": {"macs": 17842176, "macs_int16_activations": 0, "sram_read_bytes": 19234816, "sram_write_bytes": 294912, "mesh_byte_hops": 131072, "vector_ops": 172416, "cycles": 52717, "dynamic_energy_pj": 90565171.2},
+  "L1.mlp": {"macs": 33554432, "macs_int16_activations": 0, "sram_read_bytes": 33947648, "sram_write_bytes": 360448, "mesh_byte_hops": 65536, "vector_ops": 229376, "cycles": 94848, "dynamic_energy_pj": 159488409.6},
+  "emb": {"macs": 0, "macs_int16_activations": 0, "sram_read_bytes": 98560, "sram_write_bytes": 98304, "mesh_byte_hops": 0, "vector_ops": 16384, "cycles": 384, "dynamic_energy_pj": 872755.2},
+  "head": {"macs": 2097152, "macs_int16_activations": 0, "sram_read_bytes": 2162688, "sram_write_bytes": 49152, "mesh_byte_hops": 65536, "vector_ops": 73728, "cycles": 7552, "dynamic_energy_pj": 10338304.0},
+  "load": {"macs": 0, "macs_int16_activations": 0, "sram_read_bytes": 0, "sram_write_bytes": 1654784, "mesh_byte_hops": 0, "vector_ops": 0, "cycles": 0, "dynamic_energy_pj": 0.0}
+}
+}

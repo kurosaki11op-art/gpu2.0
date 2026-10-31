@@ -1,0 +1,48 @@
+W L0.wq 1
+W L0.wk 1
+W L0.wv 1
+W L0.wo 1
+W L0.w1 1
+W L0.w2 1
+W L1.wq 2
+W L1.wk 2
+W L1.wv 2
+W L1.wo 2
+W L1.w1 2
+W L1.w2 2
+W headw 3
+W tok 0
+W pos 0
+GATHER x0 tok tokid 0 #emb
+GATHER p0 pos posn 0 #emb
+ADD x x0 p0 #emb
+LN h x L0.ln1g L0.ln1b #L0.attn
+MM q h L0.wq L0.bq 1 #L0.attn
+MM k h L0.wk L0.bk 1 #L0.attn
+MM v h L0.wv L0.bv 1 #L0.attn
+KVAPP kc0 k 1 #L0.attn
+KVAPP vc0 v 1 #L0.attn
+ATTNC a q kc0 vc0 4 1 #L0.attn
+MM o a L0.wo L0.bo 1 #L0.attn
+ADD x x o #L0.attn
+LN h x L0.ln2g L0.ln2b #L0.mlp
+MM u h L0.w1 L0.b1 1 #L0.mlp
+GELU u u #L0.mlp
+MM dn u L0.w2 L0.b2 1 #L0.mlp
+ADD x x dn #L0.mlp
+LN h x L1.ln1g L1.ln1b #L1.attn
+MM q h L1.wq L1.bq 2 #L1.attn
+MM k h L1.wk L1.bk 2 #L1.attn
+MM v h L1.wv L1.bv 2 #L1.attn
+KVAPP kc1 k 2 #L1.attn
+KVAPP vc1 v 2 #L1.attn
+ATTNC a q kc1 vc1 4 2 #L1.attn
+MM o a L1.wo L1.bo 2 #L1.attn
+ADD x x o #L1.attn
+LN h x L1.ln2g L1.ln2b #L1.mlp
+MM u h L1.w1 L1.b1 2 #L1.mlp
+GELU u u #L1.mlp
+MM dn u L1.w2 L1.b2 2 #L1.mlp
+ADD x x dn #L1.mlp
+LN x x lnfg lnfb #head
+MM logits x headw headb 3 #head

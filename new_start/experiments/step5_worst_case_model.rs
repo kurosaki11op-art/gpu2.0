@@ -26,8 +26,11 @@ fn sla() -> f64 { std::env::var("SLA").ok().and_then(|v| v.parse().ok()).unwrap_
 // BAR: at $2,660 per chip, worst corner: cost per token to the buyer at least 2x below the GPU cluster AND energy at least 5x below. The markup that just reaches 2x is printed. NRE recovery is computed separately in the note (assumed NRE).
 // STEP 14 PRICE-CUT TEST (bar written before the run): sweep the GPU selling price per GPU (env GPU_PRICE_ABS) at our price of $2,660 per chip (2x cost). PC1: after a 40% Nvidia cut ($15,000 per GPU) the buyer still pays at least 2x less per token (central corner). PC2: the largest cut at which the buyer still pays less (advantage above 1x, central corner) is at least 50%. PC3: the cut at which the advantage falls to 1x is printed for both corners; the floor of Nvidia pricing (its cost, $3,320) is shown as the lower limit.
 // STEP 15 BOTTOM-UP PACKAGED COST (bar written before the run): per-chip all-in cost from the die (800 mm2, N5, third-party wafer price, dies per wafer by the standard formula, yield 45% without repair or 85% with SRAM repair) plus $150 for package, board share, power and cooling of a chip drawing about 10 W (ASSUMED, unsourced; the old $1,000 was set for a hot chip). Cases: $480 (85% yield) and $780 (45% yield). BAR: central corner, like-for-like (GPU at manufacturing cost, GPU_PRICE_ABS=3320), cost advantage at least 2x at $480; the $780 case and the worst corner are reported.
+// STEP M2 reference (hw/gpu/M2_plan.md): env MODEL_TOTAL, MODEL_ACTIVE, MODEL_LAYERS, MODEL_D, MODEL_KVDIV, CTX, FIXED_B select a model, a context length and one batch; the machine-readable line M2REF is printed and the program ends.
+fn ctxl() -> f64 { std::env::var("CTX").ok().and_then(|v| v.parse().ok()).unwrap_or(4096.0) }
+fn envf(k: &str) -> Option<f64> { std::env::var(k).ok().and_then(|v| v.parse().ok()) }
 fn sram_pj() -> f64 { std::env::var("SRAM_PJ").ok().and_then(|v| v.parse().ok()).unwrap_or(2.78) } const TILE_MM2: f64 = 0.05; const SPARE: f64 = 0.01; const SYS_HW: f64 = 150000.0;
-const E_HBM: f64 = 5.74; const L: f64 = 4096.0; const E_LINK: f64 = 10.0; const HOP_S: f64 = 1e-9; const PHASES: f64 = 6.0; const LINK_S: f64 = 1e-6;
+const E_HBM: f64 = 5.74; const E_LINK: f64 = 10.0; const HOP_S: f64 = 1e-9; const PHASES: f64 = 6.0; const LINK_S: f64 = 1e-6;
 const GPU_BW: f64 = 3.35e12; const GPU_PEAK: f64 = 495e12; const GPU_CAP: f64 = 72e9; const GPU_OVERHEAD: f64 = 1.5;
 const LW_PEAK: f64 = 10e15; const CB_PRICE: f64 = 2.5e6;
 const KWH: f64 = 0.10; const LIFE_S: f64 = 4.0 * 365.0 * 86400.0; const UTIL: f64 = 0.5; const PUE_AIR: f64 = 1.4; const PUE_LIQ: f64 = 1.15; 
@@ -36,7 +39,7 @@ struct M { total: f64, active: f64, layers: f64, d: f64, kv_div: f64 }
 struct S { wtot: f64, touched: f64, bytes: f64, kvseq: f64, macs: f64 }
 fn step(m: &M, bits: f64, b: f64) -> S {
     let wtot = m.total * bits / 8.0; let f = m.active / m.total; let touched = if f >= 0.999 { 1.0 } else { 1.0 - (1.0 - f).powf(b) };
-    let kvseq = 2.0 * m.layers * (m.d / m.kv_div) * L * kv_bytes(); let macs = b * (m.active + 2.0 * m.layers * m.d * L);
+    let kvseq = 2.0 * m.layers * (m.d / m.kv_div) * ctxl() * kv_bytes(); let macs = b * (m.active + 2.0 * m.layers * m.d * ctxl());
     S { wtot, touched, bytes: wtot * touched + b * kvseq, kvseq, macs }
 }
 struct R { n: f64, lat: f64, t: f64, ej: f64, capex: f64, pue: f64, b: f64 } // lat: seconds per token per sequence; t: seconds per step of b tokens
@@ -49,7 +52,7 @@ fn gpu(m: &M, bits: f64, b: f64, w: f64, price: f64) -> R {
 fn lw(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, unit_price: f64, scale: f64) -> R {
     let gb = 0.8 * WAFER_MM2 / mm2gb(); let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap);
     let lpw = (m.layers / n).ceil(); let hops = (WAFER_MM2 / lpw).sqrt() / TILE_MM2.sqrt(); let q = (b / m.layers).max(1.0);
-    let fabric = PHASES * hops * HOP_S; let comp = q * (m.active / m.layers + 2.0 * m.d * L) / (LW_PEAK / lpw);
+    let fabric = PHASES * hops * HOP_S; let comp = q * (m.active / m.layers + 2.0 * m.d * ctxl()) / (LW_PEAK / lpw);
     let read = (s.wtot * s.touched / m.layers + q * s.kvseq / m.layers) / (bw_per_byte() * cap / lpw);
     let lat = (m.layers * (fabric + comp + read) + (n - 1.0) * LINK_S) * scale; let t = b * lat / b.max(1.0); let thr_t = lat; let _ = thr_t;
     let link = (n - 1.0) * m.d * 2.0 * 8.0 * E_LINK * 1e-12 * b;
@@ -62,7 +65,7 @@ fn chips(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, per_chip: f64, scale:
     let gb = 0.8 * 800.0 / mm2gb(); let cap = gb * 1e9; let s = step(m, bits, b); let n = units_for(&s, b, cap); let cpl = (n / m.layers).ceil().max(1.0);
     let q = (b / m.layers).max(1.0); let peak = LW_PEAK * 800.0 / WAFER_MM2; let bwc = bw_per_byte() * cap;
     let fabric = PHASES * ((800.0f64).sqrt() / TILE_MM2.sqrt() * HOP_S + 0.5e-6 * cpl.log2().ceil().max(1.0));
-    let comp = q * (m.active / m.layers + 2.0 * m.d * L) / (peak * cpl); let read = (s.wtot * s.touched / m.layers + q * s.kvseq / m.layers) / (bwc * cpl);
+    let comp = q * (m.active / m.layers + 2.0 * m.d * ctxl()) / (peak * cpl); let read = (s.wtot * s.touched / m.layers + q * s.kvseq / m.layers) / (bwc * cpl);
     let lat = (m.layers * (fabric + comp + read)) * scale; let link = m.layers * PHASES * (m.d * 2.0 * 8.0 * E_LINK * 1e-12) * cpl.log2().ceil().max(1.0) * b;
     let e = s.bytes * 8.0 * e_sram * 1e-12 + s.macs * mac_pj(bits) * 1e-12 + (0.5 + leak * gb) * n * lat + link; R { n, lat, t: lat, ej: e / b, capex: n * per_chip, pue: PUE_LIQ, b }
 }
@@ -70,8 +73,12 @@ fn chips(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, per_chip: f64, scale:
 fn cost(r: &R) -> (f64, f64) { let toks = r.b / r.t * UTIL; (r.capex / LIFE_S / toks * 1e6, r.ej * r.pue * KWH / 3.6e6 * 1e6) }
 fn best(f: &dyn Fn(f64) -> R) -> (R, f64) { let mut bb: Option<(R, f64)> = None; for &b in &[8.0, 16.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0] { let r = f(b); if 1.0 / r.lat < sla() { continue; } let (c, e) = cost(&r); let tot = c + e; if bb.as_ref().map_or(true, |x| tot < x.1) { bb = Some((r, tot)); } } bb.unwrap_or_else(|| { let r = f(64.0); let (c, e) = cost(&r); (r, c + e) }) }
 fn main() {
+    if let Some(total) = envf("MODEL_TOTAL") {
+        let m = M { total, active: envf("MODEL_ACTIVE").unwrap_or(total), layers: envf("MODEL_LAYERS").unwrap(), d: envf("MODEL_D").unwrap(), kv_div: envf("MODEL_KVDIV").unwrap_or(1.0) }; let b = envf("FIXED_B").unwrap_or(1.0);
+        let r = chips(&m, w_bits(), b, sram_pj(), leak(), 1330.0, envf("LAT_SCALE").unwrap_or(1.8)); println!("M2REF j_per_token {:.6e} latency_s {:.6e} chips {}", r.ej, r.lat, r.n); return;
+    }
     let m = M { total: 1000e9, active: 32e9, layers: 61.0, d: 7168.0, kv_div: 16.0 }; let bits = w_bits(); let bu = WAFER_PRICE / (1.0 - SPARE) + SYS_HW;
-    println!("MODEL, not a measurement. 1T MoE (32B active), 4-bit, context {}, speed floor {} tokens/s per sequence, each machine at its own best batch (8 to 1,024).", L, sla());
+    println!("MODEL, not a measurement. 1T MoE (32B active), 4-bit, context {}, speed floor {} tokens/s per sequence, each machine at its own best batch (8 to 1,024).", ctxl(), sla());
     println!("{:<34} | {:>4} {:>5} {:>9} {:>9} {:>8} | {:>4} {:>5} {:>9} {:>9} {:>8} | {:>8} {:>8}", "corner", "gpuB", "gpus", "gpu $/Mt", "gpu J/tok", "tok/s/sq", "wafB", "wfrs", "wf $/Mt", "wf J/tok", "tok/s/sq", "cost x", "energy x");
     let corners: [(&str, f64, f64, f64, f64); 4] = [("central (350 W, $25k, x1.8, bottom-up)", 350.0, 25000.0, 1.8, bu), ("worst: 100 W, $15k, x2.7, cited price", 100.0, 15000.0, 2.7, CB_PRICE), ("worst but bottom-up price", 100.0, 15000.0, 2.7, bu), ("GPU 220 W, $25k, x2.7, cited price", 220.0, 25000.0, 2.7, CB_PRICE)];
     let mut worst = None;

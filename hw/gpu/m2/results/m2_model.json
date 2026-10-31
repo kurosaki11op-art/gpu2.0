@@ -1,0 +1,171 @@
+{
+ "validation": {
+  "per_tag": {
+   "emb": {
+    "macs": [
+     0,
+     0
+    ],
+    "read": [
+     98560,
+     98560
+    ],
+    "write": [
+     98304,
+     98304
+    ],
+    "cycles": [
+     384,
+     384
+    ],
+    "ok_counts": true
+   },
+   "L0.attn": {
+    "macs": [
+     17842176,
+     17842176
+    ],
+    "read": [
+     19234816,
+     19234816
+    ],
+    "write": [
+     294912,
+     294912
+    ],
+    "cycles": [
+     50157,
+     52717
+    ],
+    "ok_counts": true
+   },
+   "L0.mlp": {
+    "macs": [
+     33554432,
+     33554432
+    ],
+    "read": [
+     33947648,
+     33947648
+    ],
+    "write": [
+     360448,
+     360448
+    ],
+    "cycles": [
+     93568,
+     94848
+    ],
+    "ok_counts": true
+   },
+   "L1.attn": {
+    "macs": [
+     17842176,
+     17842176
+    ],
+    "read": [
+     19234816,
+     19234816
+    ],
+    "write": [
+     294912,
+     294912
+    ],
+    "cycles": [
+     50157,
+     52717
+    ],
+    "ok_counts": true
+   },
+   "L1.mlp": {
+    "macs": [
+     33554432,
+     33554432
+    ],
+    "read": [
+     33947648,
+     33947648
+    ],
+    "write": [
+     360448,
+     360448
+    ],
+    "cycles": [
+     93568,
+     94848
+    ],
+    "ok_counts": true
+   },
+   "head": {
+    "macs": [
+     2097152,
+     2097152
+    ],
+    "read": [
+     2162688,
+     2162688
+    ],
+    "write": [
+     49152,
+     49152
+    ],
+    "cycles": [
+     6784,
+     7552
+    ],
+    "ok_counts": true
+   }
+  },
+  "counts_within_5pct": true,
+  "cycles_analytic_per_token": 4603.40625,
+  "cycles_simulator_per_token": 4735.40625,
+  "cycles_ratio": 0.9721248836887014,
+  "cycles_within_20pct": true
+ },
+ "decode_vs_full_pass_relative_error": 0.0,
+ "one_b_parameters_read_per_token": 870842368,
+ "one_b_batch1": {
+  "tiles": 168,
+  "chips_equivalent": 0.37481014468085105,
+  "cycles_per_step": 21401.0,
+  "step_time_s": 2.1401e-05,
+  "energy_per_token_J": 0.003261719738320004,
+  "dynamic_J_per_token": 0.003239248688320004,
+  "static_J_per_token": 2.2471050000000002e-05,
+  "step5_energy_per_token_J": 0.003906998,
+  "step5_latency_s": 0.0001219561,
+  "step5_chips": 1,
+  "energy_ratio": 0.8348403910931114,
+  "latency_ratio": 0.1754811772432867,
+  "energy_within_20pct": true,
+  "latency_within_20pct": false
+ },
+ "one_b_batch64": {
+  "tiles": 4200,
+  "chips_equivalent": 9.370253617021277,
+  "cycles_per_step": 66783.0,
+  "step_time_s": 6.6783e-05,
+  "energy_per_token_J": 0.0014134377211637488,
+  "dynamic_J_per_token": 0.0013860462563199988,
+  "static_J_per_token": 2.739146484375e-05,
+  "step5_energy_per_token_J": 0.001470833,
+  "step5_latency_s": 0.000159339,
+  "step5_chips": 12,
+  "energy_ratio": 0.9609777052620854,
+  "latency_ratio": 0.4191252612354791,
+  "energy_within_20pct": true,
+  "latency_within_20pct": false
+ },
+ "crosscheck_70B": {
+  "tiles": 33141,
+  "tokens_per_s_model": 2798.8390415655585,
+  "vendor_reported_tokens_per_s": 2100,
+  "ratio_model_to_vendor": 1.3327804959835994
+ },
+ "crosscheck_405B": {
+  "tiles": 192522,
+  "tokens_per_s_model": 749.6982464558015,
+  "vendor_reported_tokens_per_s": 969,
+  "ratio_model_to_vendor": 0.7736824008831801
+ }
+}
