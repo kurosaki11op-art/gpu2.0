@@ -2130,4 +2130,6 @@ Founder: offer both, reticle for low-cost buyers and wafer for high-cost buyers.
 
 Founder objection: a single unified architecture would fail since wafer and chips have different advantages and limits. Accepted in part: only the tile and instruction set are shared; the two system designs are separate with their own bars. Recorded in [project memory](PROJECT_MEMORY.md).
 
+Founder: wafer first, then reticle. Work order set accordingly: wafer striping and system model first, reticle-chip system design after. Recorded in [project memory](PROJECT_MEMORY.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
