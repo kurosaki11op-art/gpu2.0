@@ -2146,4 +2146,6 @@ Striped attention built (GPU_STRIPE_ATTN) and measured on the scaled decoder at 
 
 Founder: four friends with consumer GPUs (RTX 3050 4 GB and 6 GB, 4060 6 GB) can take the first test. Written: [test G1 protocol](../hw/gpu/energy_predict/PROTOCOL.md) with pre-set bars (speed and energy within 20% on 7 of 9 points per GPU), measurement script `measure.py` and predictor `predict.py` (fit on the founder's GPU, predict the friends' before they run). The predictor was checked on synthetic data only (recovers its parameters); `measure.py` is untested on a real GPU because this container has none.
 
+Founder: build something they can test this week. Built a one-command check for a friend's GPU ([guide](../hw/gpu/energy_predict/README.md)): `measure.py` (now with CPU test mode), `report.py` (speed, board power, joules and electricity cost per million tokens, best batch size), `predict.py`. Tested end to end on a CPU with a tiny model and on made-up power data; not yet on any real GPU.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
