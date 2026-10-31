@@ -1,0 +1,82 @@
+{
+ "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+ "vram_gb": 6.441926656,
+ "device": "cuda",
+ "torch": "2.14.1+cu126",
+ "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+ "prompt": 256,
+ "new": 128,
+ "runs": [
+  {
+   "batch": 1,
+   "seconds": 2.933290719985962,
+   "new_tokens": 128,
+   "tokens_per_s_total": 43.63699756313707,
+   "tokens_per_s_per_user": 43.63699756313707,
+   "mean_power_w": 34.57,
+   "peak_mem_gb": 2.229402624,
+   "joules_per_token_gross": 0.7922176577337087,
+   "joules_per_token_net": 0.6068675530656403,
+   "memory_before": {
+    "free_gb": 3.110076416,
+    "total_gb": 6.441926656,
+    "torch_allocated_gb": 2.202194944,
+    "torch_reserved_gb": 2.29638144
+   }
+  },
+  {
+   "batch": 4,
+   "seconds": 3.3680408000946045,
+   "new_tokens": 128,
+   "tokens_per_s_total": 152.017160832974,
+   "tokens_per_s_per_user": 38.0042902082435,
+   "mean_power_w": 37.15391304347826,
+   "peak_mem_gb": 2.28742656,
+   "joules_per_token_gross": 0.24440604494844118,
+   "joules_per_token_net": 0.1912007224611046,
+   "memory_before": {
+    "free_gb": 3.059744768,
+    "total_gb": 6.441926656,
+    "torch_allocated_gb": 2.210714624,
+    "torch_reserved_gb": 2.31735296
+   }
+  },
+  {
+   "batch": 16,
+   "seconds": 4.768723487854004,
+   "new_tokens": 128,
+   "tokens_per_s_total": 429.46503508041104,
+   "tokens_per_s_per_user": 26.84156469252569,
+   "mean_power_w": 41.28181818181818,
+   "peak_mem_gb": 2.509691904,
+   "joules_per_token_gross": 0.09612381639890373,
+   "joules_per_token_net": 0.07729079995971137,
+   "memory_before": {
+    "free_gb": 3.059744768,
+    "total_gb": 6.441926656,
+    "torch_allocated_gb": 2.210714624,
+    "torch_reserved_gb": 2.31735296
+   }
+  }
+ ],
+ "bandwidth_copy_gbs": 123.10163969808158,
+ "idle_power_w": 8.088122065727699,
+ "memory_before_model": {
+  "free_gb": 5.406457856,
+  "total_gb": 6.441926656,
+  "torch_allocated_gb": 0.0,
+  "torch_reserved_gb": 0.0
+ },
+ "weight_bytes": 2200096768,
+ "layers": 22,
+ "hidden": 2048,
+ "heads": 32,
+ "kv_heads": 4,
+ "dtype_bytes": 2,
+ "memory_after_load": {
+  "free_gb": 3.110076416,
+  "total_gb": 6.441926656,
+  "torch_allocated_gb": 2.202194944,
+  "torch_reserved_gb": 2.29638144
+ }
+}
