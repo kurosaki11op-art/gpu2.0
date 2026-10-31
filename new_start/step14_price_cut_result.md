@@ -33,6 +33,21 @@ GPU price per GPU is applied to both corners here (so the "worst" column at $25,
 - **What a price cut does not erase:** energy per token (5x to 13x lower), heat, and per-user speed (7x to 20x higher), which are properties of the design. A defensible position is one that sells on those, with the price advantage as a bonus, not the other way round.
 - **Margin trade-off:** every 10% we cut our own price adds about 11% to the advantage, so a price war can be met only by giving up the margin we need for the design cost (about 113 systems at 2x markup for an assumed $150M).
 
+## Can we undercut Nvidia and keep a high margin? (31 Oct 2026, derived from the table above)
+
+The buyer's advantage scales as 1 over our price (checked: 3.16x at $2,660 and 2.11x at $3,990), so for a chosen discount to the buyer the price per chip and our gross margin follow. GPU cluster at $25,000 per GPU (third-party estimate; its cost about $3,320 gives a margin of about 87% on that price).
+
+| the buyer pays this much less per token than the GPU cluster | price per chip | gross margin if our cost is $1,330 / $2,330 / $3,330 | gross profit per 630-chip system (cost $1,330) |
+|---|---|---|---|
+| **central corner** 10% | $7,565 | 82% / 69% / 56% | $3.9M |
+| central 33% | $5,632 | **76%** / 59% / 41% | $2.7M |
+| central 50% | $4,203 | 68% / 45% / 21% | $1.8M |
+| **worst corner** 10% | $4,980 | 73% / 53% / 33% | $2.3M |
+| worst 33% | $3,707 | 64% / 37% / 10% | $1.5M |
+| worst 50% | $2,766 | 52% / 16% / -20% | $0.9M |
+
+**Yes, in the central case:** we can sell the same tokens for 33% less than an H100-class cluster and still keep about a 76% gross margin, close to Nvidia's reported company-wide margin of about 75% (from memory, not verified). In the worst corner the same undercut leaves 64%. The condition is our cost per chip: the $1,000 packaging figure is unsourced, and at $2,330 per chip the same 33% undercut leaves 59% central and 37% worst; at $3,330 it leaves 41% and 10%. The same Nvidia price-cut limit applies: if Nvidia lowers its price, the room disappears (previous section).
+
 ## Status of row I
 
 Conditional win on price, fragile to a Nvidia price cut (survives 40% at 1.9x, breaks even at 69%), no win on manufacturing cost. Open inputs: the packaged-chip cost ($1,000 assumed, unsourced) and the design cost ($150M assumed). Row K still waits.

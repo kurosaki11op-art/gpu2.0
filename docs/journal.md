@@ -2090,4 +2090,6 @@ Founder: row J is win or tie (answered: a win on energy per token, 6.2x worst to
 
 Price-cut test ([result](../new_start/step14_price_cut_result.md), MODELLED, bars written first): at our $2,660 per chip the central cost advantage is 3.16x at $25k per GPU, 1.94x after a 40% Nvidia cut (PC1 bar 2x: FAIL, narrowly), above 1x until a cut of about 69% (GPU about $7,700; PC2 bar 50%: PASS central; worst corner about 51%); at our cost price ($1,330) the central advantage holds down to Nvidia's cost (1.02x). The price advantage is real but not durable; energy, heat and speed advantages do not depend on price. Row I stays conditional. Files: `new_start/experiments/step14_price_cut.log`.
 
+Founder: can we sell below Nvidia and keep the margin? Derived from the step 13 and 14 model (advantage scales as 1 over our price) and added to the [price-cut note](../new_start/step14_price_cut_result.md): central corner, buyer pays 33% less than the GPU cluster at $25k per GPU: price about $5,632 per chip, gross margin 76% at our cost of $1,330 (59% at $2,330, 41% at $3,330), about $2.7M gross profit per 630-chip system, about 55 systems to recover an assumed $150M; worst corner 64% / 37% / 10%. Depends on the unsourced $1,000 packaging cost and on Nvidia not cutting its price.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
