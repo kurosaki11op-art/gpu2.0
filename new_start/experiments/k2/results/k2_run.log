@@ -1,0 +1,5 @@
+[fashion] N=   100 (5 seeds)  L 0.6065+-0.0488 | CNN 0.6178+-0.0518 | kNN 0.6340 | linear 0.6896 | randfeat 0.6783 | best baseline linear  | energy ratio (L x28) 17x  wall L 1s CNN 4s
+[fashion] N=   300 (5 seeds)  L 0.6888+-0.0191 | CNN 0.7235+-0.0160 | kNN 0.6974 | linear 0.7503 | randfeat 0.7392 | best baseline linear  | energy ratio (L x28) 31x  wall L 1s CNN 5s
+[fashion] N=  1000 (5 seeds)  L 0.7833+-0.0049 | CNN 0.7492+-0.0248 | kNN 0.7494 | linear 0.7926 | randfeat 0.7886 | best baseline linear  | energy ratio (L x28) 41x  wall L 1s CNN 6s
+[fashion] N=  3000 (5 seeds)  L 0.8313+-0.0025 | CNN 0.7995+-0.0091 | kNN 0.7858 | linear 0.8162 | randfeat 0.8145 | best baseline linear  | energy ratio (L x28) 59x  wall L 1s CNN 8s
+[fashion] N= 10000 (3 seeds)  L 0.8667+-0.0043 | CNN 0.8537+-0.0044 | kNN 0.8157 | linear 0.8339 | randfeat 0.8507 | best baseline cnn  | energy ratio (L x28) 143x  wall L 1s CNN 33s

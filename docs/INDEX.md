@@ -91,6 +91,7 @@ tags: [spark, index]
 - [Cascade on real language models, pair A on the RTX 3050](../new_start/step8_pairA_gpu_result.md): MEASURED; stage A agrees with CPU (C1, C3 fail); live energy 29-41% lower gross, speed gain small (loop overhead), fidelity metric flawed (31 Oct 2026)
 - [Cascade on real language models, pair A CPU result](../new_start/step8_pairA_cpu_result.md): margin trigger fails C1 (7.4% worse than the large model at 30% escalation) and C3 (1.6x random, bar 2x); learned router proposed (31 Oct 2026)
 - [Cascade on real language models, bars and test plan](../new_start/step8_cascade_lm_plan.md): small plus large model, margin-gated; bars written before any run, script included (31 Oct 2026)
+- [Data and quotes to obtain before manufacturing](manufacturing_data_requests.md): ten figures the cost, energy and capacity models still assume, with who can answer and which result each decides (31 Oct 2026)
 - [Row K test 2, bars](../new_start/step17_k2_plan.md): stronger baselines, more seeds, MNIST as a second task, conservative energy accounting (L x28); bars written before the run (31 Oct 2026)
 - [Row K test 1, result](../new_start/step16_k1_result.md): MEASURED accuracy, COUNTED compute; all three bars pass (L 88.85% vs network 89.4% at 60,000 labels, ahead at 1,000-10,000; about 200x to 5,000x less training energy); basic baseline, one task (31 Oct 2026)
 - [Row K test 1, bars](../new_start/step16_k1_plan.md): training cost to reach an accuracy, counting rule against gradient descent on Fashion-MNIST; bars written before the run (31 Oct 2026)
