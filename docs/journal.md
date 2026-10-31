@@ -2144,4 +2144,6 @@ Vision research 01 merged ([summary](reviews/research_01_summary.md), 8 topic no
 
 Striped attention built (GPU_STRIPE_ATTN) and measured on the scaled decoder at 2,048 tokens ([result update](../hw/gpu/stripe_result.md), SIMULATED): attention on one tile 290.5 us per token (bar 95 us missed), striped over 16 tiles 51.5 us (bar met). Earlier MODELLED guess of the one-tile cost (131 us extra) was too low. Dependence on ASSUMED link constants and contention untested; next a link-constant sweep.
 
+Founder: four friends with consumer GPUs (RTX 3050 4 GB and 6 GB, 4060 6 GB) can take the first test. Written: [test G1 protocol](../hw/gpu/energy_predict/PROTOCOL.md) with pre-set bars (speed and energy within 20% on 7 of 9 points per GPU), measurement script `measure.py` and predictor `predict.py` (fit on the founder's GPU, predict the friends' before they run). The predictor was checked on synthetic data only (recovers its parameters); `measure.py` is untested on a real GPU because this container has none.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
