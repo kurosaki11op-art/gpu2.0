@@ -5,6 +5,8 @@ tags: [spark, new-start, cost, power, heat, closure, failure, final]
 
 # Rows I and J: final disposition (31 Oct 2026)
 
+> **Update, same day:** the founder reopened row I (no row K before winning on I). The like-for-like cost failure below stands; the [buyer's price view](step13_buyer_price_result.md) makes row I a conditional win (3.2x at central assumptions at a 2x markup, 1.26x in the worst corner, bar missed).
+
 Founder's instruction: fix the I and J failures and close them. This note fixes what can be fixed, tests the last remaining route for cost, and closes each row with an honest status. Models: [`step5_worst_case_model.rs`](experiments/step5_worst_case_model.rs) with the new `SLA` switch, [log](experiments/step12_equal_speed.log). Bars written in the source before the run.
 
 ## Row J (power, heat, energy): CLOSED, passes

@@ -22,6 +22,8 @@ fn leak() -> f64 { std::env::var("LEAK").ok().and_then(|v| v.parse().ok()).unwra
 // STEP 12 (new claim, bar written before the run): COST AT EQUAL PER-USER SPEED. env SLA = tokens per second per sequence each machine must deliver (default 30, the step 5 value). The GPU cluster adds GPUs until its step time meets the floor (interconnect latency between GPUs is NOT charged, which favours the GPU).
 // NEW BAR (separate from the old 30 tokens/s cost bar, which stays FAILED): at 100 and at 200 tokens/s per user, worst corner, GPU priced at manufacturing cost (3,320), reticle-chip option at 1,330 per chip, SRAM 0.55 pJ/bit and 420 mm2 per GB: cost advantage >= 2x AND energy advantage >= 5x.
 fn sla() -> f64 { std::env::var("SLA").ok().and_then(|v| v.parse().ok()).unwrap_or(30.0) }
+// STEP 13 (buyer-price view, bar written before the run): the buyer compares OUR SELLING PRICE with the GPU cluster SELLING PRICE ($25,000 per GPU central, $15,000 worst, third-party estimate of the DGX-class price, x1.5 host and network). Our cost is $1,330 per chip (330 die + 1,000 assumed, unsourced); selling at 2x cost = $2,660 (50% gross margin).
+// BAR: at $2,660 per chip, worst corner: cost per token to the buyer at least 2x below the GPU cluster AND energy at least 5x below. The markup that just reaches 2x is printed. NRE recovery is computed separately in the note (assumed NRE).
 fn sram_pj() -> f64 { std::env::var("SRAM_PJ").ok().and_then(|v| v.parse().ok()).unwrap_or(2.78) } const TILE_MM2: f64 = 0.05; const SPARE: f64 = 0.01; const SYS_HW: f64 = 150000.0;
 const E_HBM: f64 = 5.74; const L: f64 = 4096.0; const E_LINK: f64 = 10.0; const HOP_S: f64 = 1e-9; const PHASES: f64 = 6.0; const LINK_S: f64 = 1e-6;
 const GPU_BW: f64 = 3.35e12; const GPU_PEAK: f64 = 495e12; const GPU_CAP: f64 = 72e9; const GPU_OVERHEAD: f64 = 1.5;
@@ -80,7 +82,7 @@ fn main() {
     println!("\nOPTION B: many reticle-size SRAM chips (die $330 + package, board share, power and cooling per chip as shown, ASSUMED), same corners and SRAM constants (2.78 pJ/bit, 1.6 W/GB):");
     println!("{:<34} {:>10} | {:>5} {:>6} {:>9} {:>9} {:>8} | {:>8} {:>8}", "corner", "$ per chip", "batch", "chips", "$/Mtok", "J/tok", "tok/s/sq", "cost x", "energy x");
     for (nm, w, p, sc, _) in corners.iter().take(2) {
-        for &pc in &[1330.0, 2330.0, 5330.0] {
+        for &pc in &[1330.0, 2660.0, 3990.0, 5330.0] {
             let (g, gt) = best(&|b| gpu(&m, bits, b, *w, *p)); let (a, at) = best(&|b| chips(&m, bits, b, sram_pj(), leak(), pc, *sc));
             println!("{:<34} {:>10.0} | {:>5.0} {:>6.0} {:>9.3} {:>9.3} {:>8.0} | {:>7.2}x {:>7.1}x", nm, pc, a.b, a.n, at, a.ej, 1.0 / a.lat, gt / at, (g.ej * g.pue) / (a.ej * a.pue));
         }
