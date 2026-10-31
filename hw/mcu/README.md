@@ -15,7 +15,8 @@ Purpose: turn the energy claim into a **MEASURED** number on a real device, with
 | `cnn_core.c`, `cnn_core.h` | the small reference CNN (conv 32, conv 64, fully connected), int8 weights, uint8 activations, int32 accumulators, about 3.9 million multiply-adds per image |
 | `gen_tables.py`, `gen_cnn.py` | generate `l_tables.h`, `l_testimg.h`, `test_images.bin` and `cnn_tables.h` (the CNN is trained and quantised here) |
 | `main_pc.c`, `main_pc_cnn.c` | PC checks: L core against the model's expected scores, CNN against the numpy int8 model |
-| `esp32_bench/esp32_bench.ino` | the ESP32 sketch: MODE 0 = L algorithm, 1 = CNN, 2 = idle baseline |
+| `esp32_bench/esp32_bench.ino` | the ESP32 sketch: MODE 0 = L algorithm, 1 = CNN, 2 = idle baseline (includes the cores from the parent folder; use PlatformIO or copy the files next to it) |
+| `esp32_mode0/` | a self-contained Arduino sketch folder for MODE 0 only (L algorithm): esp32_mode0.ino, l_core.c, l_core.h, l_tables.h, l_testimg.h; open this folder in the Arduino IDE; its logic was compiled and run on a PC against an Arduino stand-in, 1,000 of 1,000 identical to the model |
 
 PC checks (done): L core 200 images, 0 mismatches against the model in routed flag, all ten scores and prediction; the CNN checks are in the results note.
 
