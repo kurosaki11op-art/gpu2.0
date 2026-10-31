@@ -19,11 +19,14 @@ fn w_bits() -> f64 { std::env::var("W_BITS").ok().and_then(|v| v.parse().ok()).u
 // Scenario knobs (env): MM2GB (area per GB; 420 = SRAM; smaller = denser), SRAM_PJ (read energy per bit), BW_SCALE (bandwidth per GB relative to the SRAM wafer figure, 1 = SRAM), LEAK (static or refresh watts per GB, 1.6 = the SRAM figure used so far).
 fn bw_per_byte() -> f64 { std::env::var("BW_SCALE").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(1.0) * 21e15 / 44e9 }
 fn leak() -> f64 { std::env::var("LEAK").ok().and_then(|v| v.parse().ok()).unwrap_or(1.6) }
+// STEP 12 (new claim, bar written before the run): COST AT EQUAL PER-USER SPEED. env SLA = tokens per second per sequence each machine must deliver (default 30, the step 5 value). The GPU cluster adds GPUs until its step time meets the floor (interconnect latency between GPUs is NOT charged, which favours the GPU).
+// NEW BAR (separate from the old 30 tokens/s cost bar, which stays FAILED): at 100 and at 200 tokens/s per user, worst corner, GPU priced at manufacturing cost (3,320), reticle-chip option at 1,330 per chip, SRAM 0.55 pJ/bit and 420 mm2 per GB: cost advantage >= 2x AND energy advantage >= 5x.
+fn sla() -> f64 { std::env::var("SLA").ok().and_then(|v| v.parse().ok()).unwrap_or(30.0) }
 fn sram_pj() -> f64 { std::env::var("SRAM_PJ").ok().and_then(|v| v.parse().ok()).unwrap_or(2.78) } const TILE_MM2: f64 = 0.05; const SPARE: f64 = 0.01; const SYS_HW: f64 = 150000.0;
 const E_HBM: f64 = 5.74; const L: f64 = 4096.0; const E_LINK: f64 = 10.0; const HOP_S: f64 = 1e-9; const PHASES: f64 = 6.0; const LINK_S: f64 = 1e-6;
 const GPU_BW: f64 = 3.35e12; const GPU_PEAK: f64 = 495e12; const GPU_CAP: f64 = 72e9; const GPU_OVERHEAD: f64 = 1.5;
 const LW_PEAK: f64 = 10e15; const CB_PRICE: f64 = 2.5e6;
-const KWH: f64 = 0.10; const LIFE_S: f64 = 4.0 * 365.0 * 86400.0; const UTIL: f64 = 0.5; const PUE_AIR: f64 = 1.4; const PUE_LIQ: f64 = 1.15; const SLA: f64 = 30.0;
+const KWH: f64 = 0.10; const LIFE_S: f64 = 4.0 * 365.0 * 86400.0; const UTIL: f64 = 0.5; const PUE_AIR: f64 = 1.4; const PUE_LIQ: f64 = 1.15; 
 fn mac_pj(bits: f64) -> f64 { if bits >= 16.0 { 1.5 } else if bits >= 8.0 { 0.25 } else { 0.12 } }
 struct M { total: f64, active: f64, layers: f64, d: f64, kv_div: f64 }
 struct S { wtot: f64, touched: f64, bytes: f64, kvseq: f64, macs: f64 }
@@ -36,7 +39,7 @@ struct R { n: f64, lat: f64, t: f64, ej: f64, capex: f64, pue: f64, b: f64 } // 
 fn units_for(s: &S, b: f64, cap: f64) -> f64 { ((s.wtot + b * s.kvseq) / cap).ceil().max(1.0) }
 fn gpu(m: &M, bits: f64, b: f64, w: f64, price: f64) -> R {
     let price = std::env::var("GPU_PRICE_ABS").ok().and_then(|v| v.parse().ok()).unwrap_or(price); // step 7: price the GPU at its estimated manufacturing cost instead of its selling price
-    let s = step(m, bits, b); let n = units_for(&s, b, GPU_CAP); let t = (s.bytes / (GPU_BW * n)).max(s.macs / (GPU_PEAK * n));
+    let s = step(m, bits, b); let tt = 1.0 / sla(); let n = units_for(&s, b, GPU_CAP).max((s.bytes / (GPU_BW * tt)).ceil()).max((s.macs / (GPU_PEAK * tt)).ceil()); let t = (s.bytes / (GPU_BW * n)).max(s.macs / (GPU_PEAK * n));
     let e = s.bytes * 8.0 * E_HBM * 1e-12 + s.macs * 0.25e-12 + w * n * t; R { n, lat: t, t, ej: e / b, capex: n * price * GPU_OVERHEAD, pue: PUE_AIR, b }
 }
 fn lw(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, unit_price: f64, scale: f64) -> R {
@@ -61,10 +64,10 @@ fn chips(m: &M, bits: f64, b: f64, e_sram: f64, leak: f64, per_chip: f64, scale:
 }
 // cost per million tokens: tokens per second = b / t_step where one step yields b tokens; for the wafer a step of b tokens takes lat (all sequences advance together through the pipeline)
 fn cost(r: &R) -> (f64, f64) { let toks = r.b / r.t * UTIL; (r.capex / LIFE_S / toks * 1e6, r.ej * r.pue * KWH / 3.6e6 * 1e6) }
-fn best(f: &dyn Fn(f64) -> R) -> (R, f64) { let mut bb: Option<(R, f64)> = None; for &b in &[64.0, 128.0, 256.0, 512.0, 1024.0] { let r = f(b); if 1.0 / r.lat < SLA { continue; } let (c, e) = cost(&r); let tot = c + e; if bb.as_ref().map_or(true, |x| tot < x.1) { bb = Some((r, tot)); } } bb.unwrap_or_else(|| { let r = f(64.0); let (c, e) = cost(&r); (r, c + e) }) }
+fn best(f: &dyn Fn(f64) -> R) -> (R, f64) { let mut bb: Option<(R, f64)> = None; for &b in &[8.0, 16.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0] { let r = f(b); if 1.0 / r.lat < sla() { continue; } let (c, e) = cost(&r); let tot = c + e; if bb.as_ref().map_or(true, |x| tot < x.1) { bb = Some((r, tot)); } } bb.unwrap_or_else(|| { let r = f(64.0); let (c, e) = cost(&r); (r, c + e) }) }
 fn main() {
     let m = M { total: 1000e9, active: 32e9, layers: 61.0, d: 7168.0, kv_div: 16.0 }; let bits = w_bits(); let bu = WAFER_PRICE / (1.0 - SPARE) + SYS_HW;
-    println!("MODEL, not a measurement. 1T MoE (32B active), 4-bit, context {}, speed floor {} tokens/s per sequence, each machine at its own best batch (64 to 1,024).", L, SLA);
+    println!("MODEL, not a measurement. 1T MoE (32B active), 4-bit, context {}, speed floor {} tokens/s per sequence, each machine at its own best batch (8 to 1,024).", L, sla());
     println!("{:<34} | {:>4} {:>5} {:>9} {:>9} {:>8} | {:>4} {:>5} {:>9} {:>9} {:>8} | {:>8} {:>8}", "corner", "gpuB", "gpus", "gpu $/Mt", "gpu J/tok", "tok/s/sq", "wafB", "wfrs", "wf $/Mt", "wf J/tok", "tok/s/sq", "cost x", "energy x");
     let corners: [(&str, f64, f64, f64, f64); 4] = [("central (350 W, $25k, x1.8, bottom-up)", 350.0, 25000.0, 1.8, bu), ("worst: 100 W, $15k, x2.7, cited price", 100.0, 15000.0, 2.7, CB_PRICE), ("worst but bottom-up price", 100.0, 15000.0, 2.7, bu), ("GPU 220 W, $25k, x2.7, cited price", 220.0, 25000.0, 2.7, CB_PRICE)];
     let mut worst = None;

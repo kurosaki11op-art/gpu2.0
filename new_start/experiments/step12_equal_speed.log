@@ -1,0 +1,28 @@
+=== per-user speed floor 30 tokens/s (GPU at manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB; chips at 1,330 each)
+GPU line (central corner, wafer cols ignore): central (350 W, $25k, x1.8, bottom-up) | 1024    14     0.028     0.150       49 | 1024    11     0.031     0.010      950 |    0.91x    18.2x
+chips: central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+chips: worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    0.61x     6.2x
+=== per-user speed floor 60 tokens/s (GPU at manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB; chips at 1,330 each)
+GPU line (central corner, wafer cols ignore): central (350 W, $25k, x1.8, bottom-up) | 1024    18     0.028     0.150       63 | 1024    11     0.031     0.010      950 |    0.91x    18.2x
+chips: central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+chips: worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    0.61x     6.2x
+=== per-user speed floor 100 tokens/s (GPU at manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB; chips at 1,330 each)
+GPU line (central corner, wafer cols ignore): central (350 W, $25k, x1.8, bottom-up) | 1024    29     0.028     0.150      101 | 1024    11     0.031     0.010      950 |    0.91x    18.2x
+chips: central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+chips: worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    0.61x     6.2x
+=== per-user speed floor 150 tokens/s (GPU at manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB; chips at 1,330 each)
+GPU line (central corner, wafer cols ignore): central (350 W, $25k, x1.8, bottom-up) | 1024    43     0.028     0.150      150 | 1024    11     0.031     0.010      950 |    0.91x    18.2x
+chips: central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+chips: worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    0.61x     6.2x
+=== per-user speed floor 200 tokens/s (GPU at manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB; chips at 1,330 each)
+GPU line (central corner, wafer cols ignore): central (350 W, $25k, x1.8, bottom-up) | 1024    58     0.028     0.150      203 | 1024    11     0.031     0.010      950 |    0.91x    18.2x
+chips: central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+chips: worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    0.61x     6.2x
+=== per-user speed floor 300 tokens/s (GPU at manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB; chips at 1,330 each)
+GPU line (central corner, wafer cols ignore): central (350 W, $25k, x1.8, bottom-up) | 1024    86     0.028     0.150      301 | 1024    11     0.031     0.010      950 |    0.91x    18.2x
+chips: central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+chips: worst: 100 W, $15k, x2.7, cited price       1330 |  1024    630     0.041     0.016      321 |    0.61x     6.2x
+=== per-user speed floor 400 tokens/s (GPU at manufacturing cost 3,320; SRAM 0.55 pJ/bit, 420 mm2/GB; chips at 1,330 each)
+GPU line (central corner, wafer cols ignore): central (350 W, $25k, x1.8, bottom-up) | 1024   115     0.028     0.150      402 | 1024    11     0.031     0.010      950 |    0.91x    18.2x
+chips: central (350 W, $25k, x1.8, bottom-up)       1330 |  1024    630     0.027     0.014      481 |    1.02x    13.2x
+chips: worst: 100 W, $15k, x2.7, cited price       1330 |   512    479     0.048     0.018      413 |    0.52x     5.3x
