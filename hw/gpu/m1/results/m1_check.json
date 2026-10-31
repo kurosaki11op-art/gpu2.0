@@ -1,0 +1,212 @@
+{
+ "selftest_int8_max_abs_diff_vs_numpy_w8a8": 0.0,
+ "selftest_fp32_max_abs_diff_vs_numpy": 9.5367431640625e-07,
+ "cnn": {
+  "fp32": {
+   "rel_err": 7.76646686517779e-07,
+   "top1_agreement": 1.0,
+   "positions": 1000,
+   "accuracy_vs_labels": 0.869
+  },
+  "w8": {
+   "rel_err": 0.004012286197394133,
+   "top1_agreement": 0.999,
+   "positions": 1000,
+   "accuracy_vs_labels": 0.868
+  },
+  "int8": {
+   "rel_err": 0.006012302357703447,
+   "top1_agreement": 0.998,
+   "positions": 1000,
+   "accuracy_vs_labels": 0.867
+  },
+  "macs": {
+   "analytic_total": 662912,
+   "simulator_total": 662912,
+   "per_tag": {
+    "conv1": {
+     "analytic": 97344,
+     "simulator": 97344,
+     "within_5pct": true
+    },
+    "conv2": {
+     "analytic": 557568,
+     "simulator": 557568,
+     "within_5pct": true
+    },
+    "fc": {
+     "analytic": 8000,
+     "simulator": 8000,
+     "within_5pct": true
+    }
+   },
+   "all_within_5pct": true
+  },
+  "sram_bytes_per_sample_int8": {
+   "per_tag": {
+    "load": {
+     "analytic_read": 0,
+     "simulator_read": 0,
+     "analytic_write": 12752,
+     "simulator_write": 12752,
+     "within_5pct": true
+    },
+    "conv1": {
+     "analytic_read": 44976,
+     "simulator_read": 44976,
+     "analytic_write": 48672,
+     "simulator_write": 48672,
+     "within_5pct": true
+    },
+    "conv2": {
+     "analytic_read": 25504,
+     "simulator_read": 25504,
+     "analytic_write": 17088,
+     "simulator_write": 17088,
+     "within_5pct": true
+    },
+    "fc": {
+     "analytic_read": 9600,
+     "simulator_read": 9600,
+     "analytic_write": 20,
+     "simulator_write": 20,
+     "within_5pct": true
+    }
+   },
+   "all_within_5pct": true
+  },
+  "w8_counters_equal_int8": true,
+  "counters_int8_total": {
+   "macs": 662912,
+   "sram_read_bytes": 80080,
+   "sram_write_bytes": 78532,
+   "mesh_byte_hops": 8608,
+   "vector_ops": 44074
+  },
+  "mesh_side": 2
+ },
+ "lm": {
+  "fp32": {
+   "rel_err": 6.830782695033122e-07,
+   "top1_agreement": 1.0,
+   "positions": 1024
+  },
+  "w8": {
+   "rel_err": 0.005058346316218376,
+   "top1_agreement": 0.994140625,
+   "positions": 1024
+  },
+  "int8": {
+   "rel_err": 0.014770086854696274,
+   "top1_agreement": 0.9873046875,
+   "positions": 1024
+  },
+  "macs": {
+   "analytic_total": 104890368,
+   "simulator_total": 104890368,
+   "per_tag": {
+    "emb": {
+     "analytic": 0,
+     "simulator": 0,
+     "within_5pct": true
+    },
+    "head": {
+     "analytic": 2097152,
+     "simulator": 2097152,
+     "within_5pct": true
+    },
+    "L0.attn": {
+     "analytic": 17842176,
+     "simulator": 17842176,
+     "within_5pct": true
+    },
+    "L0.mlp": {
+     "analytic": 33554432,
+     "simulator": 33554432,
+     "within_5pct": true
+    },
+    "L1.attn": {
+     "analytic": 17842176,
+     "simulator": 17842176,
+     "within_5pct": true
+    },
+    "L1.mlp": {
+     "analytic": 33554432,
+     "simulator": 33554432,
+     "within_5pct": true
+    }
+   },
+   "all_within_5pct": true
+  },
+  "sram_bytes_per_sample_int8": {
+   "per_tag": {
+    "load": {
+     "analytic_read": 0,
+     "simulator_read": 0,
+     "analytic_write": 1654784,
+     "simulator_write": 1654784,
+     "within_5pct": true
+    },
+    "emb": {
+     "analytic_read": 98560,
+     "simulator_read": 98560,
+     "analytic_write": 98304,
+     "simulator_write": 98304,
+     "within_5pct": true
+    },
+    "L0.attn": {
+     "analytic_read": 589824,
+     "simulator_read": 589824,
+     "analytic_write": 229376,
+     "simulator_write": 229376,
+     "within_5pct": true
+    },
+    "L0.mlp": {
+     "analytic_read": 917504,
+     "simulator_read": 917504,
+     "analytic_write": 360448,
+     "simulator_write": 360448,
+     "within_5pct": true
+    },
+    "L1.attn": {
+     "analytic_read": 589824,
+     "simulator_read": 589824,
+     "analytic_write": 229376,
+     "simulator_write": 229376,
+     "within_5pct": true
+    },
+    "L1.mlp": {
+     "analytic_read": 917504,
+     "simulator_read": 917504,
+     "analytic_write": 360448,
+     "simulator_write": 360448,
+     "within_5pct": true
+    },
+    "head": {
+     "analytic_read": 98304,
+     "simulator_read": 98304,
+     "analytic_write": 49152,
+     "simulator_write": 49152,
+     "within_5pct": true
+    }
+   },
+   "all_within_5pct": true
+  },
+  "w8_counters_equal_int8": true,
+  "counters_int8_total": {
+   "macs": 104890368,
+   "sram_read_bytes": 3211520,
+   "sram_write_bytes": 2981888,
+   "mesh_byte_hops": 458752,
+   "vector_ops": 893696
+  },
+  "mesh_side": 2
+ },
+ "lm_int8_disagreements": {
+  "count": 13,
+  "of": 1024,
+  "median_fp32_top1_top2_gap_at_disagreements": 0.01446080207824707,
+  "max_gap_at_disagreements": 0.03620576858520508,
+  "median_gap_all": 0.9594471454620361
+ }
+}

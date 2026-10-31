@@ -14,7 +14,7 @@ struct Ct { macs: u64, rd: u64, wr: u64, hop: u64, vec: u64 }
 fn numel(d: &[usize]) -> usize { d.iter().product() }
 fn dist(a: usize, b: usize, side: usize) -> u64 { let (ax, ay, bx, by) = ((a % side) as i64, (a / side) as i64, (b % side) as i64, (b / side) as i64); ((ax - bx).abs() + (ay - by).abs()) as u64 }
 
-struct Sim { t: HashMap<String, Tn>, wq: HashMap<String, Wq>, int8: bool, side: usize, tile_bytes: usize, used: HashMap<usize, usize>, ct: HashMap<String, Ct>, tag: String }
+struct Sim { t: HashMap<String, Tn>, wq: HashMap<String, Wq>, int8: bool, a8: bool, side: usize, tile_bytes: usize, used: HashMap<usize, usize>, ct: HashMap<String, Ct>, tag: String }
 impl Sim {
     fn wb(&self) -> u64 { if self.int8 { 1 } else { 4 } }
     fn ab(&self) -> u64 { if self.int8 { 2 } else { 4 } }
@@ -27,6 +27,10 @@ impl Sim {
         let (n, out);
         if self.int8 {
             let w = &self.wq[wname]; assert_eq!(w.k, k); n = w.n; let mut o = vec![0f32; m * n];
+            if !self.a8 { // weight-only INT8 (mode w8): activations stay FP32, weights dequantised per output channel
+                for i in 0..m { for kk in 0..k { let x = a[i * k + kk]; let wr = &w.q[kk * n..(kk + 1) * n]; for j in 0..n { o[i * n + j] += x * (wr[j] as f32 * w.s[j]); } } }
+                let wbytes = self.wb(); self.c().macs += (m * k * n) as u64; self.c().rd += (k * n) as u64 * wbytes; return o;
+            }
             for i in 0..m {
                 let row = &a[i * k..(i + 1) * k]; let mx = row.iter().fold(0f32, |x, &v| x.max(v.abs())); let sa = if mx > 0.0 { mx / 127.0 } else { 1.0 };
                 let qa: Vec<i32> = row.iter().map(|&v| (v / sa).round().clamp(-127.0, 127.0) as i32).collect(); let mut acc = vec![0i32; n];
@@ -84,7 +88,7 @@ impl Sim {
 }
 
 fn main() {
-    let a: Vec<String> = std::env::args().collect(); let dir = &a[1]; let mode = &a[2]; let ns: usize = a[3].parse().unwrap(); let tile_bytes: usize = a.get(4).map_or(4 * 1024 * 1024, |v| v.parse().unwrap()); let int8 = mode == "int8";
+    let a: Vec<String> = std::env::args().collect(); let dir = &a[1]; let mode = &a[2]; let ns: usize = a[3].parse().unwrap(); let tile_bytes: usize = a.get(4).map_or(4 * 1024 * 1024, |v| v.parse().unwrap()); let int8 = mode == "int8" || mode == "w8"; let a8 = mode == "int8";
     let raw = fs::read(format!("{}/tensors.bin", dir)).unwrap(); let all: Vec<f32> = raw.chunks(4).map(|c| f32::from_le_bytes([c[0], c[1], c[2], c[3]])).collect();
     let mut t = HashMap::new();
     for l in fs::read_to_string(format!("{}/manifest.txt", dir)).unwrap().lines() { let p: Vec<&str> = l.split_whitespace().collect(); let off: usize = p[1].parse().unwrap(); let nd: usize = p[2].parse().unwrap(); let dims: Vec<usize> = p[3..3 + nd].iter().map(|v| v.parse().unwrap()).collect(); let n = numel(&dims); t.insert(p[0].to_string(), Tn { dims, d: all[off..off + n].to_vec(), home: 0 }); }
@@ -94,7 +98,7 @@ fn main() {
     let tiles = prog.iter().filter_map(|l| l.split_whitespace().last().and_then(|v| v.parse::<usize>().ok())).max().unwrap_or(0).max(
         prog.iter().filter(|l| l.starts_with("W ")).filter_map(|l| l.split_whitespace().nth(2).and_then(|v| v.parse::<usize>().ok())).max().unwrap_or(0)) + 1;
     let side = (tiles as f64).sqrt().ceil() as usize;
-    let mut sim = Sim { t, wq: HashMap::new(), int8, side: side.max(1), tile_bytes, used: HashMap::new(), ct: HashMap::new(), tag: "load".to_string() };
+    let mut sim = Sim { t, wq: HashMap::new(), int8, a8, side: side.max(1), tile_bytes, used: HashMap::new(), ct: HashMap::new(), tag: "load".to_string() };
     let mut outs: Vec<f32> = Vec::new(); let mut last_out = String::new();
     for s in 0..ns {
         let pristine: Vec<(String, Tn)> = if s == 0 { Vec::new() } else { Vec::new() }; let _ = pristine;

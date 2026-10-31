@@ -25,6 +25,7 @@ tags: [spark, index, hardware]
 - [L Forge RTL](rtl/forge/README.md): the block floating-point multiply-accumulate lane, bit-exact against the integer golden model (3,288 ops, 0 mismatches, 28 Oct 2026).
 - [L chip top](rtl/top/README.md): dispatcher over Cortex, Deep and Forge with activity flags; 40 recognitions and a matrix product, 0 mismatches (28 Oct 2026).
 - [Virtual FPGA device and tests](virtual/README.md): VFPGA-L1, the full regression, stress tests and the 3D board (28 Oct 2026).
+- [Our GPU, M1: instruction set, programming model and functional simulator](gpu/ISA_M1.md) and [M1 result](gpu/M1_result.md): CNN and transformer match PyTorch, INT8 agreement 99.4-99.9% (weight-only), W8A8 transformer 98.7% (31 Oct 2026)
 - [L Forge tile mesh](rtl/mesh/README.md): routers and a distributed matrix product on 4 to 64 tiles, bit-exact against the lane golden model (28 Oct 2026).
 - [FPGA bring-up kit](board/fpga_bringup/README.md): files and constraint template for the chosen board (pins left blank until the board is chosen and bought).
 - [MCU port and ESP32 measurement](mcu/README.md): the L algorithm and a reference CNN in portable C, the ESP32 sketch and the USB-meter procedure.

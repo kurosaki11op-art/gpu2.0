@@ -1,0 +1,10 @@
+{
+"mode": "int8", "tiles": 3, "mesh_side": 2,
+"total": {"macs": 662912, "sram_read_bytes": 80080, "sram_write_bytes": 78532, "mesh_byte_hops": 8608, "vector_ops": 44074},
+"per_tag": {
+  "conv1": {"macs": 97344, "sram_read_bytes": 44976, "sram_write_bytes": 48672, "mesh_byte_hops": 0, "vector_ops": 32448},
+  "conv2": {"macs": 557568, "sram_read_bytes": 25504, "sram_write_bytes": 17088, "mesh_byte_hops": 5408, "vector_ops": 11616},
+  "fc": {"macs": 8000, "sram_read_bytes": 9600, "sram_write_bytes": 20, "mesh_byte_hops": 3200, "vector_ops": 10},
+  "load": {"macs": 0, "sram_read_bytes": 0, "sram_write_bytes": 12752, "mesh_byte_hops": 0, "vector_ops": 0}
+}
+}

@@ -1,0 +1,13 @@
+{
+"mode": "int8", "tiles": 4, "mesh_side": 2,
+"total": {"macs": 104890368, "sram_read_bytes": 3211520, "sram_write_bytes": 2981888, "mesh_byte_hops": 458752, "vector_ops": 893696},
+"per_tag": {
+  "L0.attn": {"macs": 17842176, "sram_read_bytes": 589824, "sram_write_bytes": 229376, "mesh_byte_hops": 131072, "vector_ops": 172416},
+  "L0.mlp": {"macs": 33554432, "sram_read_bytes": 917504, "sram_write_bytes": 360448, "mesh_byte_hops": 65536, "vector_ops": 229376},
+  "L1.attn": {"macs": 17842176, "sram_read_bytes": 589824, "sram_write_bytes": 229376, "mesh_byte_hops": 131072, "vector_ops": 172416},
+  "L1.mlp": {"macs": 33554432, "sram_read_bytes": 917504, "sram_write_bytes": 360448, "mesh_byte_hops": 65536, "vector_ops": 229376},
+  "emb": {"macs": 0, "sram_read_bytes": 98560, "sram_write_bytes": 98304, "mesh_byte_hops": 0, "vector_ops": 16384},
+  "head": {"macs": 2097152, "sram_read_bytes": 98304, "sram_write_bytes": 49152, "mesh_byte_hops": 65536, "vector_ops": 73728},
+  "load": {"macs": 0, "sram_read_bytes": 0, "sram_write_bytes": 1654784, "mesh_byte_hops": 0, "vector_ops": 0}
+}
+}

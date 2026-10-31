@@ -1,0 +1,11 @@
+W c1w 0
+W c2w 1
+W fcw 2
+CONV a1 x c1w c1b 1 3 3 0 #conv1
+RELU a1 a1 #conv1
+MAXPOOL2 a1 a1 #conv1
+CONV a2 a1 c2w c2b 16 3 3 1 #conv2
+RELU a2 a2 #conv2
+MAXPOOL2 a2 a2 #conv2
+FLATTEN f a2 #fc
+MM logits f fcw fcb 2 #fc

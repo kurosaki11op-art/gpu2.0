@@ -5,3 +5,4 @@
 [fashion] counted inference 10.6 nJ raw, 298 nJ with the layout factor; counted training 8.78 J
 [mnist] main_256 seed 0: float 0.9880  int8 weights 0.9881  (epochs 8, 47s)
 [mnist] main_256 seed 1: float 0.9869  int8 weights 0.9870  (epochs 16, 105s)
+[mnist] abl_1024 seed 0: float 0.9872  int8 weights 0.9871  (epochs 23, 1603s)

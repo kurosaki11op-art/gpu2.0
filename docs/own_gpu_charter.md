@@ -49,6 +49,6 @@ A programmable chip with a compiler is a very large effort for a small team; the
 
 ## Next action
 
-Start **M1**: write the instruction set and programming model note, then the simulator. Bars above stand; no work starts on M2 to M5 until M1 passes.
+**M1 done 31 Oct 2026** ([result](../hw/gpu/M1_result.md): bars a and c pass, b passes for INT8 weights and misses in W8A8 on the transformer at 98.73%). Next: M2 (cycle and energy model validated against the simulator). Bars above stand.
 
 Related: [Workload map](gpu_workload_map.md), [GPU problem analysis](gpu_problem_analysis.md), [New start charter](../new_start/README.md), [Manufacturing data requests](manufacturing_data_requests.md), [Project memory](PROJECT_MEMORY.md), [Docs index](INDEX.md)
