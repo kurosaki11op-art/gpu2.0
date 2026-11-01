@@ -2168,4 +2168,6 @@ Vision research 02 merged ([summary](reviews/research_02_summary.md)). Response 
 
 Test B first run on the founder's RTX 3050 laptop (Windows): Qwen 0.5B-class eager 26.1 ms per token, 31% of the weights-only floor; the CUDA-graphs mode could not run (Triton missing on Windows); the 1.1B-class model failed to load in both modes (CUDA out of memory, then Windows error 1455, paging file too small, right after the previous run: the same sequence as the first crash), and a bug in graphs_test.py (cleanup of a model that never loaded) hid the rest. Fixed the bug and made the script skip compile cleanly without Triton and save after each mode. Test B is still open; the Colab T4 results were pending.
 
+Test B on the Colab T4 (console output; MEASURED): eager 12.8% (0.5B-class) and 31.2% (1.1B-class) of the weights-only floor. The library's static cache plus torch.compile did not give a valid CUDA-graphs run (graphs skipped because of mutated inputs, then a CUDAGraphs overwrite error), so bars B-kill and B-open are undecided. Wrote `graphs_vllm.py` (engine with graphs on versus off) for the next run; vLLM may not start on a T4 with every version, in which case the error is the result.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
