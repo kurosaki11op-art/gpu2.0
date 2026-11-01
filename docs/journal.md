@@ -2182,4 +2182,6 @@ USB meter in use: the ESP32 is now correctly powered through the meter (5.1 V, 0
 
 Step 22 (SRAM plus DRAM tier; [plan and bars](../new_start/step22_tier_plan.md) committed first, [result](../new_start/step22_tier_result.md), MODELLED): count bar passes at 48 GB or more of tier per chip (11 chips, 1.6x the 7 GPUs); the 4x speed bar needs 82 to 95% of per-token reads served from SRAM, while uniform expert routing would give about 3 to 4% (speed 0.5x to 1x of the GPU cluster). Verdict: both bars together not shown; a tiered chip competes on chip count and cost, not speed, unless routing is strongly skewed. Next, a one-script test of real expert-routing hit rates.
 
+Wrote the one-page [offer for the GPU cost and speed check](measurement_report_offer.md) (what it is, the measured findings, what we ask, stated limits, an outreach message) to show the founder's contacts; the founder's relatives and friends say they would buy a cheaper, faster, proven product, which is a conditional statement, not demand evidence.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
