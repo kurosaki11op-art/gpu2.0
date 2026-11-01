@@ -2162,4 +2162,6 @@ Colab T4 results arrived (info and three models). Predictions from rule v2 were 
 
 Compact stripe placement (bar S-f pre-registered; [result](../hw/gpu/stripe_result.md), SIMULATED): PASS. 69.9 microseconds per token at 16 cycles per hop and 64 bytes per cycle (bar 95; spread placement gave 115.8), 33.1 at 2 cycles per hop; outputs byte-identical. At chip-crossing cost (200 cycles per hop) still about 550 microseconds, 5.3 ms at 2,000: striping every matrix across chips remains not viable; the reticle design needs a different mapping (pipeline across chips, tree broadcast or overlap, untried).
 
+Founder: restart from scratch; study GPUs and CUDA, their weaknesses and controversies on the web, or ask Vision; prove a fix in simulation before seeking money; a small startup working with big companies. Done: first web pass ([restart 2 note](restart_2_weakness_study.md), unverified leads: launch-bound small-batch decode matches our own measurement and a 2026 preprint; decode under-uses compute; power and grid limits; CUDA lock-in is ecosystem plus a licence clause on translation layers; challenger chips lose on software maturity) and a brief for Vision ([task 02](vision_research_task_02.md)). Next: CUDA-graphs test on the 3050 and T4.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

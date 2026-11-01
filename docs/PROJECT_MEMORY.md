@@ -319,6 +319,10 @@ Founder objection, same day: one unified architecture would fail because each sc
 
 Founder order, same day: wafer first, then reticle. Work order: striping and the system model for the wafer design first (cheap on-wafer hops, defect routing, power), re-run under the Vision corrections; the reticle-chip system design follows after the wafer result.
 
+## Founder decision 1 Nov 2026: restart from scratch, weakness first
+
+Founder: start everything again on the right path; Jarvis studies GPUs and CUDA (articles, controversies, complaints) and Vision does an independent pass; find the weakness worth attacking, prove a fix in simulation, then seek money; a small startup working with big companies (partner or technology supplier, not employee) is an accepted route. The earlier chip designs and results stay in the repo as evidence. Order: [restart 2 study](restart_2_weakness_study.md), [Vision task 02](vision_research_task_02.md), CUDA-graphs test on the founder's RTX 3050 and the Colab T4 (does the launch-overhead weakness survive incumbents' own fixes), then pick one weakness and define the product in simulation with a bar written first.
+
 ## Decision 30 Oct 2026: stop version 1, start a new project
 
 Founder's decision: the three-layer L design is not carried forward as it stands; version 1 stays in the repository (commit recorded in [lessons](lessons_L_v1.md)); the new start is problem-first (target and bar in numbers, incumbent measured first, one GPU weakness chosen from the founder's list). The new project's target has not been chosen yet. Standing rules (labels, no AI model identifiers in repo content, journal and index updates, regression before RTL changes) still apply.
