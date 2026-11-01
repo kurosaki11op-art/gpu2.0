@@ -5,7 +5,7 @@ tags: [spark, gpu, weakness, decode, utilisation, result, vision-research-02]
 
 # Weakness A: does our design keep the compute busy at batch 1?
 
-**DERIVED from existing SIMULATED counters** ([striping result](stripe_result.md)); no new run. **Honesty note on the bar:** [Vision's proposed bar](../docs/reviews/research_02_summary.md) was at least 60% matrix-unit utilisation at batch 1 on a 7B-class layer, stalls included. The numbers below were already in hand from the striping runs, so this is a **computed result against that bar, not a pre-registered prediction test**; I say so to avoid presenting it as one.
+**DERIVED from existing SIMULATED counters** ([striping result](stripe_result.md)); no new run. **Honesty note on the bar:** [Vision's proposed bar](../../docs/reviews/research_02_summary.md) was at least 60% matrix-unit utilisation at batch 1 on a 7B-class layer, stalls included. The numbers below were already in hand from the striping runs, so this is a **computed result against that bar, not a pre-registered prediction test**; I say so to avoid presenting it as one.
 
 ## The arithmetic
 
@@ -36,4 +36,4 @@ Cut the communication from about 98% of the time to a few percent: fewer, larger
 - Weakness A as a **design claim: not supported** (2.3% against a bar of 60%; the same order as a GPU's idle compute).
 - The shortlist now rests on **memory bandwidth and energy per bit against capacity and cost** (weakness E and the capacity gap G3), and on the measurement report. Next: decide, with Vision, whether a tiered-memory design (SRAM plus larger, slower memory) can fix capacity at a sensible cost; that is bar G3 in the step 5 model.
 
-Related: [Striping result](stripe_result.md), [Test B plan and result](graphs_test/PLAN.md), [Research 02 summary](../docs/reviews/research_02_summary.md), [Response to research 02](../docs/reviews/jarvis_response_research_02.md), [Hardware index](HARDWARE_INDEX.md)
+Related: [Striping result](stripe_result.md), [Test B plan and result](graphs_test/PLAN.md), [Research 02 summary](../../docs/reviews/research_02_summary.md), [Response to research 02](../../docs/reviews/jarvis_response_research_02.md), [Hardware index](../HARDWARE_INDEX.md)
