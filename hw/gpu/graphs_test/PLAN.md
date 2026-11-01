@@ -31,6 +31,10 @@ Fraction of the floor reached: RTX 3050 laptop: 20% (0.16 GB model), 28% (0.99 G
 - **Colab T4, the library's static cache plus `torch.compile(reduce-overhead)`:** **no valid CUDA-graphs run.** The compiler printed `skipping cudagraphs due to mutated inputs (72 instances)` (cause: the cache update mutates a counter tensor) for the 0.5B-class model, and the 1.1B-class run ended in `RuntimeError: accessing tensor output of CUDAGraphs that has been overwritten by a subsequent run`. So this path did **not** test graphs; it failed on library incompatibility.
 - **Verdict on bars:** B-kill and B-open are **not decided**. The eager fractions (13% to 31%) leave a large gap, but the question (does the incumbents' own best engine close it) needs an engine with working graphs. Next run: [`graphs_vllm.py`](graphs_vllm.py) on the T4, graphs on against graphs off on the same engine (vLLM), then the same bars.
 
+### vLLM on the Colab T4 (1 Nov 2026, MEASURED, console output)
+
+vLLM 0.32.0 starts on the T4 (it uses the Triton attention backend because the T4 is too old for FlashAttention 2). **0.5B-class model, eager mode (graphs off), batch 1: 26.8 ms per token, 37.3 tokens per second.** With the 0.99 GB weights and the measured 240.6 GB/s copy bandwidth the floor is about 4.1 ms, so **about 15% of the floor** (weight bytes taken from the earlier run, 988,065,536; the engine did not report them). The graphs-on run has not been done yet. Script fixed afterwards (main-guard for the engine's helper processes; weight bytes read from the downloaded files).
+
 ## Limits
 
 Two machines (one a laptop GPU with a slow memory system, one a shared cloud GPU); small models only; the floor ignores the cache and the output layer; engines change quickly.

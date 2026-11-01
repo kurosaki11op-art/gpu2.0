@@ -2170,4 +2170,6 @@ Test B first run on the founder's RTX 3050 laptop (Windows): Qwen 0.5B-class eag
 
 Test B on the Colab T4 (console output; MEASURED): eager 12.8% (0.5B-class) and 31.2% (1.1B-class) of the weights-only floor. The library's static cache plus torch.compile did not give a valid CUDA-graphs run (graphs skipped because of mutated inputs, then a CUDAGraphs overwrite error), so bars B-kill and B-open are undecided. Wrote `graphs_vllm.py` (engine with graphs on versus off) for the next run; vLLM may not start on a T4 with every version, in which case the error is the result.
 
+Test B, vLLM on the Colab T4 (console output, MEASURED): the engine runs; 0.5B-class model, graphs off (eager), batch 1: 26.8 ms per token, about 15% of the weights-only floor. Graphs-on run still to do. Script bug fixed (missing main guard made the engine's helper processes re-run it; weight bytes now read from the files). The founder's laptop run of the 1.1B-class model failed again with a driver allocation error of 22 MiB while 3.53 GiB were free and a nonsensical memory figure, consistent with a Windows virtual-memory (paging file) limit, not VRAM; advised raising the paging file.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
