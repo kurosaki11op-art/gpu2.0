@@ -27,6 +27,10 @@ tags: [spark, new-start, tier, capacity, result, vision-research-02, vision-rese
 - **G3-speed: not met on any evidence in hand.** It holds only at an SRAM hit rate of 0.82 or more, which is unsupported. **Both bars together: not shown.**
 - **What a tiered chip is:** a GPU-like card (an HBM-class stack next to a large SRAM cache) whose advantage is **chip count and cost, not speed** unless caching is very good. At h of 0.5 the energy per token is 1.8x lower than the GPU's, at h of 0.9 5.4x (not the 10x of the SRAM-only case).
 
+## Caveat added the same day, after a literature search ([watch list](../docs/watch_radar.md))
+
+The "uniform routing gives h of 3 to 4%" reading above ignores **time locality and prediction**. Published work reports much higher hit rates for small expert caches: 72% to 92% with predicted routing (ExpertFlow, MoE-Beyond), and an ICLR 2026 study of 20 models says a cache of about twice the active experts is a good balance for most of them. Our 17 GB of SRAM is about 1.06 times the 16 GB of weights one token reads, so h is plausibly well above 4% but is **not established at 82% or more**. The sources disagree on how skewed popularity is, and they measure different things (hit rate over short windows, per layer, with prediction). So the correct statement is: **h is unknown between a few percent and about 90%**; the speed bar needs 82% to 95%; the next step is to read the primary papers and compute h for a 1T-class model's routing trace.
+
 ## Cost (reported beside the bars, weak)
 
 Cost per million tokens: GPU cluster $0.51 (manufacturing-cost basis, $3,320 per GPU) to $3.68 (selling-price basis, $25,000). Tier chip at 48 GB and 1.6 TB/s: $0.255 at h = 0 down to $0.037 at h = 0.9. **Do not quote this as a cost advantage.** It rests on an assumed $605 per chip (die plus host adder) plus $15 per GB of tier memory, against an H100-class cost of $3,320 that is itself an estimate; both are unsourced for our volume, and Vision's research suggests the real costs are higher for a new entrant.

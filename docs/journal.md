@@ -2184,4 +2184,6 @@ Step 22 (SRAM plus DRAM tier; [plan and bars](../new_start/step22_tier_plan.md) 
 
 Wrote the one-page [offer for the GPU cost and speed check](measurement_report_offer.md) (what it is, the measured findings, what we ask, stated limits, an outreach message) to show the founder's contacts; the founder's relatives and friends say they would buy a cheaper, faster, proven product, which is a conditional statement, not demand evidence.
 
+Founder asked for articles, papers, repositories and community discussions on GPU problems. Searched ([leads](watch_radar.md), unverified): hardware-limit papers (Ma and Patterson; an NVIDIA limit study), expert-routing and expert-cache papers (hit rates 72% to 92% with prediction; sources disagree on skew), community complaints (VRAM capacity and bandwidth), memory-supply claims, vLLM issues. Effect: the step 22 conclusion that h is only 3 to 4% under uniform routing was too pessimistic, since it ignores time locality; corrected in the step 22 result to 'h unknown between a few percent and about 90%'; next, read the primary routing papers.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
