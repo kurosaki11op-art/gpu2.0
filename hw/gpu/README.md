@@ -12,6 +12,7 @@ Charter and milestones: [own GPU charter](../../docs/own_gpu_charter.md).
 - [M4_plan.md](M4_plan.md): milestone M4 plan and bars (compiler front end, real pretrained model).
 - [stripe_plan.md](stripe_plan.md): striping plan and bars (split every matrix over many tiles; latency claim gated on it).
 - [stripe_result.md](stripe_result.md): striping result (S-a, S-b, S-d pass; S-c passes at short context only).
+- [weakness_A_result.md](weakness_A_result.md): decode utilisation at batch 1; our striped design reaches 2.3%, same order as a GPU (DERIVED).
 - [energy_predict/PROTOCOL.md](energy_predict/PROTOCOL.md): test G1, predict then measure decode speed and energy per token on friends' GPUs (pre-registered).
 - [energy_predict/RESULT.md](energy_predict/RESULT.md): test G1 result so far (predictor failed on a second GPU; batching saves 8x or more energy).
 - [M2_plan.md](M2_plan.md) and [M2_result.md](M2_result.md): milestone M2 plan, bars and result (cycle and energy model: counts, cycles, decode and energy pass; latency against the earlier model fails).
