@@ -94,6 +94,7 @@ tags: [spark, index]
 - [Prompt for the independent reviewer (Vision)](vision_review_prompt.md): how the second agent reviews the project, what to attack and how to report (31 Oct 2026)
 - [Corrections after Vision review 01](../new_start/step21_vision_corrections.md): energy 7.3x central and 3.5x worst (was 13.2x and 6.2x), cost 1.35x and 0.82x (was 2.74x and 1.67x), speed range withdrawn, 1B latency 2.4 ms as implemented; supersedes the headline numbers of steps 5 to 15 (31 Oct 2026)
 - [Vision review 01](reviews/vision_review_01.md) and [Jarvis response to review 01](reviews/jarvis_response_01.md): independent review (25 findings) and the point-by-point answer with fixes and disagreements (31 Oct 2026)
+- [Vision research task 03](vision_research_task_03.md): is GPU cost and capacity a real pain (primary evidence), and expert-routing hit rates for the step 22 speed bar (1 Nov 2026).
 - [The GPU cost and speed check: one-page offer](measurement_report_offer.md): what it is, what we measured, what we ask, limits, an outreach message (1 Nov 2026).
 - [Step 22 result: SRAM plus DRAM tier](../new_start/step22_tier_result.md): chip count fixed at 48 GB per chip, but the 4x speed bar needs 82 to 95% SRAM hit rate, unsupported (1 Nov 2026, MODELLED).
 - [Step 22 plan: SRAM plus DRAM tier](../new_start/step22_tier_plan.md): bars G3-count and G3-speed written before the run (1 Nov 2026).

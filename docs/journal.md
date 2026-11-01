@@ -2186,4 +2186,6 @@ Wrote the one-page [offer for the GPU cost and speed check](measurement_report_o
 
 Founder asked for articles, papers, repositories and community discussions on GPU problems. Searched ([leads](watch_radar.md), unverified): hardware-limit papers (Ma and Patterson; an NVIDIA limit study), expert-routing and expert-cache papers (hit rates 72% to 92% with prediction; sources disagree on skew), community complaints (VRAM capacity and bandwidth), memory-supply claims, vLLM issues. Effect: the step 22 conclusion that h is only 3 to 4% under uniform routing was too pessimistic, since it ignores time locality; corrected in the step 22 result to 'h unknown between a few percent and about 90%'; next, read the primary routing papers.
 
+Founder: have Vision find out whether the GPU problem is a real pain. Wrote [research task 03](vision_research_task_03.md): Part A (pain as frequency x severity x lack of workarounds x money spent, by group, from primary evidence), Part B (primary-paper expert-routing hit rates for a 3% to 6% cache, to decide the step 22 speed bar).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
