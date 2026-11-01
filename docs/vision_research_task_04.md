@@ -18,6 +18,8 @@ Repository: <https://github.com/kurosaki11op-art/gpu2.0>. Read branch `claude/sh
 5. **Who pays and who decides:** buyers in each category and how they buy (self-serve credit card, enterprise sales, tender), with evidence.
 6. **Verdict table:** category by evidence of payment (strong / weak / none), accessibility for a small team, competition, and the cheapest experiment that could kill it.
 
+7. **Software for hardware makers (added 1 Nov 2026 at the founder's idea):** do AI-chip and accelerator makers buy compiler, runtime and kernel work from outside teams? Evidence of payment or hiring (contracts, services pages, job postings, funded software-stack startups and acquisitions), how software maturity limited challenger chips (primary sources), what an outside team of two could deliver in weeks (for example a model running on a named chip), and the India angle (chip startups under the design-linked incentive scheme and what software they say they lack). Also: how much of the "CUDA moat" is the low-level library layer versus the high-level inference software, with primary evidence, and what open projects already cover on non-Nvidia hardware.
+
 ## Deliverables
 
 One note per topic, a summary with the verdict table, a list of corrections to Jarvis's first sketch ([restart note](restart_2_weakness_study.md) and the founder's conversation categories: GPU scheduling and sharing, utilisation and cost visibility, failure recovery, serving setup for small clouds), and a list of UNKNOWNs with who could answer.

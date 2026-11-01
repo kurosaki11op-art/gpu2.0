@@ -2196,4 +2196,6 @@ Founder: if it works most developers would buy. Answered: developers are hard to
 
 Founder: after learning Jevons paradox and seeing the market reward access to powerful GPUs and infrastructure, change focus from efficiency to real GPU problems that companies pay for. Recorded in [project memory](PROJECT_MEMORY.md). Wrote [research task 04](vision_research_task_04.md): evidence of paid categories (orchestration, sharing, utilisation and cost visibility, serving, reliability, on-premises, India programmes), Jevons evidence, accessibility for a small team; Vision does evidence and attack, not ideas. Recollections I gave in chat (an orchestration acquisition in 2024, the scale of an Indian GPU programme) are unverified and flagged as such.
 
+Founder: the dark GPUs cannot be helped by efficiency (infrastructure, not chips); everyone wants powerful GPUs; only Nvidia has inference software; proposed software first, chip later. Answered: right order, but others have inference software too and the moat is the low-level library layer; a general CUDA rival needs funding; the reachable piece may be software for chip makers who lack software maturity. Added that category (item 7) to [research task 04](vision_research_task_04.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
