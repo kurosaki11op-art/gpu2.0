@@ -9,6 +9,8 @@ Founder's decision (1 Nov 2026): start again from scratch on the right path: stu
 
 > **Correction, 1 Nov 2026 ([Vision research 02](reviews/research_02_summary.md), [response](reviews/jarvis_response_research_02.md)):** W1 was overstated. Our runs used eager mode with no CUDA graphs, so launch overhead was never isolated; the 1.1B-class model on the laptop GPU reached 78% of the weights-only floor. Several rows below (the licence wording, the French probe, the 92% versus 30% figure, the Gartner and challenger claims) are corrected in the response. The batch-1 check is planned in [graphs_test/PLAN](../hw/gpu/graphs_test/PLAN.md).
 
+> **Test B result, 1 Nov 2026:** W1 is closed by the incumbents' own engine on a T4: graphs on reach 72% and 95% of the weights-only floor at batch 1 ([result](../hw/gpu/graphs_test/PLAN.md)). Batch-1 decode on a well-configured GPU is memory-bandwidth-bound, which points to bandwidth and energy per bit, not launch overhead, as the real weakness.
+
 ## What the first pass found
 
 | # | weakness | evidence (label) | what incumbents already do | our measured or built evidence |

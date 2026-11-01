@@ -35,6 +35,8 @@ Rule v2 was fitted on the reference runs and committed ([fit2.json](results_3050
 
 **Correction, 1 Nov 2026:** the runs above used the library's default eager decode (no CUDA graphs, no compile), so 'launch-bound' is not established. Fraction of the weights-only floor at batch 1: laptop 20%, 28%, 78%; T4 11%, 11%, 27% (small, medium, large). The 1.1B-class model on the laptop was close to memory-bound. See [graphs test plan](../graphs_test/PLAN.md).
 
+**Second correction, 1 Nov 2026 ([test B](../graphs_test/PLAN.md)):** with CUDA graphs on in a serving engine, the T4 reaches 72% and 95% of the memory floor at batch 1 (graphs off: 15% and 37%), so the 'software-bound' finding above describes the default eager path, not what a well-configured GPU does.
+
 ## Limits
 
 One run per point; two machines only; the T4 is a shared cloud machine whose CPU and load vary; board power is not wall power; one decode implementation; half precision; small models only. No claim about large models, where decode is more likely memory bound.

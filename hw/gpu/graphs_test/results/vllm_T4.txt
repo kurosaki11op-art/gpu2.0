@@ -1,0 +1,10 @@
+Test B, vLLM 0.32.0 on a Colab Tesla T4, batch 1, 128 new tokens from a 256-token prompt, best of 3. MEASURED. Numbers transcribed from the founder's screenshot of the JSON files (1 Nov 2026); the JSON files themselves were not uploaded.
+floor_ms = weight bytes / measured copy bandwidth (DERIVED).
+
+model            mode    copy_bw_GBs  weight_bytes  ms_per_token  tokens_per_s  floor_ms  fraction_of_floor
+Qwen2.5-0.5B     eager   240.6        (0.99 GB)     26.81         37.3          4.1       0.15   (about; weight bytes from the HF run)
+Qwen2.5-0.5B     graphs  239.2        988097824     5.718         174.9         4.130     0.722
+TinyLlama-1.1B   eager   241.4        2200119864    24.51         40.8          9.114     0.372
+TinyLlama-1.1B   graphs  239.3        2200119864    9.691         103.2         9.195     0.949
+
+Speed-up from graphs on the same engine: 0.5B-class 4.7x, 1.1B-class 2.5x.

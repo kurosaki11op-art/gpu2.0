@@ -35,6 +35,19 @@ Fraction of the floor reached: RTX 3050 laptop: 20% (0.16 GB model), 28% (0.99 G
 
 vLLM 0.32.0 starts on the T4 (it uses the Triton attention backend because the T4 is too old for FlashAttention 2). **0.5B-class model, eager mode (graphs off), batch 1: 26.8 ms per token, 37.3 tokens per second.** With the 0.99 GB weights and the measured 240.6 GB/s copy bandwidth the floor is about 4.1 ms, so **about 15% of the floor** (weight bytes taken from the earlier run, 988,065,536; the engine did not report them). The graphs-on run has not been done yet. Script fixed afterwards (main-guard for the engine's helper processes; weight bytes read from the downloaded files).
 
+## Result of test B (1 Nov 2026, MEASURED on one Colab T4; [numbers](results/vllm_T4.txt))
+
+| model | graphs off | graphs on | floor | fraction of floor (graphs on) |
+|---|---|---|---|---|
+| 0.5B-class | 26.8 ms per token | **5.72 ms** (174.9 tokens/s) | 4.13 ms | **72%** |
+| 1.1B-class | 24.5 ms | **9.69 ms** (103.2 tokens/s) | 9.19 ms | **95%** |
+
+- **B-kill is met on this machine:** with the engine's graphs on, batch-1 decode reaches **72% and 95% of the weights-only floor** (bar: at least 70%). The 'launch overhead' gap is **closed by the incumbents' own engine** on the T4, for both models. Graphs make the same engine 4.7x and 2.5x faster.
+- **What this overturns:** the earlier reading that small-model decode is stuck at 1.0 to 1.5 ms per layer on GPUs is a property of the default library path in eager mode, not of the GPU. With graphs the 0.5B-class model needs about 0.24 ms per layer. **Weakness B (batch-1 gap from launch overhead) is dead as a differentiator** for this size on this machine; a statically scheduled machine would not beat a well-configured GPU on launch cost.
+- **What it leaves standing:** with a good engine, batch-1 decode on a GPU sits at **95% of its memory-bandwidth floor** for the larger model. So the limit is how fast weights can be read (bandwidth and energy per bit), which is the argument for on-chip memory, and also the same limit that Cerebras and the others already attack. Weakness A (idle compute) is the same fact seen from the compute side.
+- **Useful by-product for the measurement idea:** a default eager setup is 2.5x to 4.7x slower than a graphs-enabled engine on the same GPU, so a report that tells a GPU owner 'switch the engine and settings' has real value. The first predictor rule (bytes over bandwidth) failed on eager runs but would be close to right for graphs runs (72% and 95%); not tested as a prediction.
+- **Limits:** one GPU (a T4, old, with a slower attention backend in this engine); one engine; two small models; batch 1; the 3050 laptop could not run graphs (no Triton on Windows; the 1.1B-class model also hit a Windows virtual-memory limit); the engine's weight size for the 0.5B eager row was taken from the other run.
+
 ## Limits
 
 Two machines (one a laptop GPU with a slow memory system, one a shared cloud GPU); small models only; the floor ignores the cache and the output layer; engines change quickly.
