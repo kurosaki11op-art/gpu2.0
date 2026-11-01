@@ -14,6 +14,7 @@ Charter and milestones: [own GPU charter](../../docs/own_gpu_charter.md).
 - [stripe_result.md](stripe_result.md): striping result (S-a, S-b, S-d pass; S-c passes at short context only).
 - [weakness_A_result.md](weakness_A_result.md): decode utilisation at batch 1; our striped design reaches 2.3%, same order as a GPU (DERIVED).
 - [energy_predict/PROTOCOL.md](energy_predict/PROTOCOL.md): test G1, predict then measure decode speed and energy per token on friends' GPUs (pre-registered).
+- [small_gpu/PLAN.md](small_gpu/PLAN.md): candidate 2, big models on a 6 GB GPU, baseline test and bar written first.
 - [energy_predict/RESULT.md](energy_predict/RESULT.md): test G1 result so far (predictor failed on a second GPU; batching saves 8x or more energy).
 - [M2_plan.md](M2_plan.md) and [M2_result.md](M2_result.md): milestone M2 plan, bars and result (cycle and energy model: counts, cycles, decode and energy pass; latency against the earlier model fails).
 - [M1_result.md](M1_result.md): milestone M1 result (SIMULATED); [M1_fix_plan.md](M1_fix_plan.md) and [M1_fix_result.md](M1_fix_result.md): the W8A8 transformer fix (bars met with mixed precision; the loss shows quantisation was already harmless).

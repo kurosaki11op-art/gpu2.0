@@ -2192,4 +2192,6 @@ Vision research 03 merged ([summary](reviews/research_03_summary.md)): pain prov
 
 Founder decision: quit manufacturing a chip; accepted the three candidates (serving tuner, big models on small GPUs, long context on small VRAM). Recorded in [project memory](PROJECT_MEMORY.md). Founder asked why the large companies do not already earn from such software; answered in chat (they partly do; their business models and attention differ; the niches are crowded in parts).
 
+Founder: if it works most developers would buy. Answered: developers are hard to sell to when free open tools exist (llama.cpp, Ollama, vLLM); a fix must be much better than free and needs a way to charge; the real signal is repeated use and a stated price from 5 to 10 developers. Wrote the [candidate 2 plan](../hw/gpu/small_gpu/PLAN.md): baseline with the best free tool on the 6 GB laptop GPU first, bar of 1.3x at no quality loss on two machines, kill rule.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
