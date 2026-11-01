@@ -2190,4 +2190,6 @@ Founder: have Vision find out whether the GPU problem is a real pain. Wrote [res
 
 Vision research 03 merged ([summary](reviews/research_03_summary.md)): pain proven for very large buyers only; no published expert cache reaches 82% at 1.06 times active experts. Ran Vision's first step ([step 23 plan](../new_start/step23_routing_replay_plan.md) committed first; [result](../new_start/step23_routing_replay_result.md)): offline-optimal cache at 1.17 x active on open FLAME traces 0.341 overall, 0.328 p10, bar 0.82 and 0.60: FAIL; the demand-cache route stops; routing there is near-flat; unexplained gap to published numbers. Response: [jarvis_response_research_03](reviews/jarvis_response_research_03.md). Recommendation to the founder: pause chip design until the evidence changes; keep the measurement and tuning work and the ESP32 result; the pain for small buyers is unproven and needs interviews.
 
+Founder decision: quit manufacturing a chip; accepted the three candidates (serving tuner, big models on small GPUs, long context on small VRAM). Recorded in [project memory](PROJECT_MEMORY.md). Founder asked why the large companies do not already earn from such software; answered in chat (they partly do; their business models and attention differ; the niches are crowded in parts).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
