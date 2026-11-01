@@ -2180,4 +2180,6 @@ Founder: proceed with the measurement and tuning report first. `report.py` rewri
 
 USB meter in use: the ESP32 is now correctly powered through the meter (5.1 V, 0.05 to 0.06 A while running the L algorithm). Serial repeat on hardware ([note](../hw/results/esp32_energy_run.md), MEASURED): 8.212 ms per image (earlier run 8.69 ms, 5.5% difference, same checksum 4500), 1,000 of 1,000 identical to the model. The 0.01 A display step is too coarse for mode differences, so the energy runs will use 30-minute accumulated-energy readings, order idle, L algorithm, CNN. The first garbled serial output was a baud mismatch (921,600 against 115,200).
 
+Step 22 (SRAM plus DRAM tier; [plan and bars](../new_start/step22_tier_plan.md) committed first, [result](../new_start/step22_tier_result.md), MODELLED): count bar passes at 48 GB or more of tier per chip (11 chips, 1.6x the 7 GPUs); the 4x speed bar needs 82 to 95% of per-token reads served from SRAM, while uniform expert routing would give about 3 to 4% (speed 0.5x to 1x of the GPU cluster). Verdict: both bars together not shown; a tiered chip competes on chip count and cost, not speed, unless routing is strongly skewed. Next, a one-script test of real expert-routing hit rates.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

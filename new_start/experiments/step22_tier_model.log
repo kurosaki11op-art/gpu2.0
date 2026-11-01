@@ -1,0 +1,53 @@
+MODELLED, not measured. 1T MoE (32B active), 4-bit, context 4096, batch 1. Bytes read per token 16.4 GB (weights 16.0, cache 0.45); weights plus cache 500.4 GB.
+GPU cluster: 7 GPUs, 1141 tokens/s per user at 80% of the memory floor, 0.755 J/token, cost per million tokens $0.512 (manufacturing-cost basis) to $3.676 (selling-price basis).
+Our chip: SRAM 1.52 GB, SRAM read bandwidth 93 TB/s, overhead 50 microseconds per token.
+
+tier GB tier TB/s  hit h |  chips  x GPUs |  tok/s   speed x   J/tok |     $/Mtok energy x | count ok
+      0     0.8   1.00 |    329   47.0x |  19787    17.35x   0.072 |      0.162    10.4x |       no
+      0     1.6   1.00 |    329   47.0x |  19787    17.35x   0.072 |      0.162    10.4x |       no
+     24     0.8   0.00 |     20    2.9x |    928     0.81x   0.755 |      0.357     1.0x |       no
+     24     0.8   0.25 |     20    2.9x |   1218     1.07x   0.585 |      0.272     1.3x |       no
+     24     0.8   0.50 |     20    2.9x |   1773     1.55x   0.414 |      0.188     1.8x |       no
+     24     0.8   0.75 |     20    2.9x |   3257     2.86x   0.243 |      0.103     3.1x |       no
+     24     0.8   0.90 |     20    2.9x |   6545     5.74x   0.141 |      0.052     5.4x |       no
+     24     0.8   1.00 |     20    2.9x |  16995    14.90x   0.072 |      0.021    10.4x |       no
+     24     1.6   0.00 |     20    2.9x |   1773     1.55x   0.755 |      0.200     1.0x |       no
+     24     1.6   0.25 |     20    2.9x |   2296     2.01x   0.585 |      0.154     1.3x |       no
+     24     1.6   0.50 |     20    2.9x |   3257     2.86x   0.414 |      0.109     1.8x |       no
+     24     1.6   0.75 |     20    2.9x |   5602     4.91x   0.243 |      0.063     3.1x |       no
+     24     1.6   0.90 |     20    2.9x |   9862     8.65x   0.141 |      0.036     5.4x |       no
+     24     1.6   1.00 |     20    2.9x |  16995    14.90x   0.072 |      0.021    10.4x |       no
+     48     0.8   0.00 |     11    1.6x |    521     0.46x   0.755 |      0.471     1.0x |      yes
+     48     0.8   0.25 |     11    1.6x |    689     0.60x   0.585 |      0.357     1.3x |      yes
+     48     0.8   0.50 |     11    1.6x |   1016     0.89x   0.414 |      0.242     1.8x |      yes
+     48     0.8   0.75 |     11    1.6x |   1933     1.69x   0.243 |      0.128     3.1x |      yes
+     48     0.8   0.90 |     11    1.6x |   4221     3.70x   0.141 |      0.060     5.4x |      yes
+     48     0.8   1.00 |     11    1.6x |  15134    13.27x   0.072 |      0.018    10.4x |      yes
+     48     1.6   0.00 |     11    1.6x |   1016     0.89x   0.755 |      0.255     1.0x |      yes
+     48     1.6   0.25 |     11    1.6x |   1332     1.17x   0.585 |      0.195     1.3x |      yes
+     48     1.6   0.50 |     11    1.6x |   1933     1.69x   0.414 |      0.134     1.8x |      yes
+     48     1.6   0.75 |     11    1.6x |   3526     3.09x   0.243 |      0.074     3.1x |      yes
+     48     1.6   0.90 |     11    1.6x |   6971     6.11x   0.141 |      0.038     5.4x |      yes
+     48     1.6   1.00 |     11    1.6x |  15134    13.27x   0.072 |      0.018    10.4x |      yes
+     96     0.8   0.00 |      6    0.9x |    288     0.25x   0.755 |      0.704     1.0x |      yes
+     96     0.8   0.25 |      6    0.9x |    382     0.33x   0.585 |      0.531     1.3x |      yes
+     96     0.8   0.50 |      6    0.9x |    567     0.50x   0.414 |      0.358     1.8x |      yes
+     96     0.8   0.75 |      6    0.9x |   1103     0.97x   0.243 |      0.185     3.1x |      yes
+     96     0.8   0.90 |      6    0.9x |   2547     2.23x   0.141 |      0.081     5.4x |      yes
+     96     0.8   1.00 |      6    0.9x |  12583    11.03x   0.072 |      0.018    10.4x |      yes
+     96     1.6   0.00 |      6    0.9x |    567     0.50x   0.755 |      0.370     1.0x |      yes
+     96     1.6   0.25 |      6    0.9x |    749     0.66x   0.585 |      0.281     1.3x |      yes
+     96     1.6   0.50 |      6    0.9x |   1103     0.97x   0.414 |      0.191     1.8x |      yes
+     96     1.6   0.75 |      6    0.9x |   2091     1.83x   0.243 |      0.102     3.1x |      yes
+     96     1.6   0.90 |      6    0.9x |   4518     3.96x   0.141 |      0.048     5.4x |      yes
+     96     1.6   1.00 |      6    0.9x |  12583    11.03x   0.072 |      0.018    10.4x |      yes
+
+BAR SUMMARY (G3-count: chips at most 2x the GPUs; G3-speed: at least 4x the GPU speed per user):
+  tier   0 GB at 0.8 TB/s: 329 chips (47.0x GPUs) -> count bar FAIL; speed bar needs SRAM hit rate h >= 0.000 -> cannot pass both
+  tier   0 GB at 1.6 TB/s: 329 chips (47.0x GPUs) -> count bar FAIL; speed bar needs SRAM hit rate h >= 0.000 -> cannot pass both
+  tier  24 GB at 0.8 TB/s: 20 chips (2.9x GPUs) -> count bar FAIL; speed bar needs SRAM hit rate h >= 0.836 -> cannot pass both
+  tier  24 GB at 1.6 TB/s: 20 chips (2.9x GPUs) -> count bar FAIL; speed bar needs SRAM hit rate h >= 0.671 -> cannot pass both
+  tier  48 GB at 0.8 TB/s: 11 chips (1.6x GPUs) -> count bar PASS; speed bar needs SRAM hit rate h >= 0.910 -> both bars can hold together only at that h (h is UNKNOWN)
+  tier  48 GB at 1.6 TB/s: 11 chips (1.6x GPUs) -> count bar PASS; speed bar needs SRAM hit rate h >= 0.819 -> both bars can hold together only at that h (h is UNKNOWN)
+  tier  96 GB at 0.8 TB/s: 6 chips (0.9x GPUs) -> count bar PASS; speed bar needs SRAM hit rate h >= 0.951 -> both bars can hold together only at that h (h is UNKNOWN)
+  tier  96 GB at 1.6 TB/s: 6 chips (0.9x GPUs) -> count bar PASS; speed bar needs SRAM hit rate h >= 0.902 -> both bars can hold together only at that h (h is UNKNOWN)
