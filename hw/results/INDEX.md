@@ -118,6 +118,7 @@ Labels: MEASURED, SIMULATED, ESTIMATED, PROJECTED. JSON files beside each note h
 - [Integrated chip in silicon terms](chip_asic_estimate.md): sky130 synthesis, logic 0.186 mm2, 1.5 Mbit of memories, a free 15% memory saving (31 Oct 2026).
 - [Full test set on a real ESP32](esp32_full_testset.md): 10,000 images on the board, 0 mismatches against the model, hardware cascade 91.24% (31 Oct 2026).
 - [First run on a real ESP32](esp32_first_run.md): the L algorithm bit-exact on hardware, 25.05 ms per image before the popcount fix (31 Oct 2026).
+- [ESP32 energy run with the USB meter](esp32_energy_run.md): repeat timing 8.21 ms per image, bit-exact again, first current readings 0.05 to 0.06 A (in progress, 1 Nov 2026).
 - [MCU port](mcu_port.md): the L algorithm and a reference int8 CNN in portable C for an ESP32, bit-exact on a PC; the energy measurement waits for the USB meter (30 Oct 2026).
 
 Related: [Home](../../README.md), [Project memory](../../docs/PROJECT_MEMORY.md)

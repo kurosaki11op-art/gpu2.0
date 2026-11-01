@@ -2178,4 +2178,6 @@ Weakness A computed ([result](../hw/gpu/weakness_A_result.md), DERIVED from the 
 
 Founder: proceed with the measurement and tuning report first. `report.py` rewritten as a one-page plain-language report (md and html): speed and power by batch, joules per token, electricity and GPU cost per million tokens from the user's own prices, best batch size, how close the setup runs to the memory limit, and a clearly labelled not-measured-here pointer to the CUDA-graphs gain found on the T4. Sample from the founder's 3050 runs saved. Tested on real result files; one cosmetic fix applied. Not yet shown to any outsider.
 
+USB meter in use: the ESP32 is now correctly powered through the meter (5.1 V, 0.05 to 0.06 A while running the L algorithm). Serial repeat on hardware ([note](../hw/results/esp32_energy_run.md), MEASURED): 8.212 ms per image (earlier run 8.69 ms, 5.5% difference, same checksum 4500), 1,000 of 1,000 identical to the model. The 0.01 A display step is too coarse for mode differences, so the energy runs will use 30-minute accumulated-energy readings, order idle, L algorithm, CNN. The first garbled serial output was a baud mismatch (921,600 against 115,200).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
