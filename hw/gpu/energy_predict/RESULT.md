@@ -33,6 +33,8 @@ Rule v2 was fitted on the reference runs and committed ([fit2.json](results_3050
 - **The datacentre-class T4 is slower and less efficient than the gaming laptop on these small models** (2 to 3 times the joules per token at batch 1), because it idles at 33 to 37 W and draws 44 to 65 W while decoding at lower speed. It also shows that board power at idle matters: gross energy at batch 1 is mostly idle power.
 - This is evidence for a **measurement tool** (cheap, 5 minutes per model) not for a predictor: the number a GPU owner needs is cheap to measure and not cheap to predict.
 
+**Correction, 1 Nov 2026:** the runs above used the library's default eager decode (no CUDA graphs, no compile), so 'launch-bound' is not established. Fraction of the weights-only floor at batch 1: laptop 20%, 28%, 78%; T4 11%, 11%, 27% (small, medium, large). The 1.1B-class model on the laptop was close to memory-bound. See [graphs test plan](../graphs_test/PLAN.md).
+
 ## Limits
 
 One run per point; two machines only; the T4 is a shared cloud machine whose CPU and load vary; board power is not wall power; one decode implementation; half precision; small models only. No claim about large models, where decode is more likely memory bound.

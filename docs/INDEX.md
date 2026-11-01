@@ -95,6 +95,7 @@ tags: [spark, index]
 - [Corrections after Vision review 01](../new_start/step21_vision_corrections.md): energy 7.3x central and 3.5x worst (was 13.2x and 6.2x), cost 1.35x and 0.82x (was 2.74x and 1.67x), speed range withdrawn, 1B latency 2.4 ms as implemented; supersedes the headline numbers of steps 5 to 15 (31 Oct 2026)
 - [Vision review 01](reviews/vision_review_01.md) and [Jarvis response to review 01](reviews/jarvis_response_01.md): independent review (25 findings) and the point-by-point answer with fixes and disagreements (31 Oct 2026)
 - [Restart 2: weakness-first study](restart_2_weakness_study.md) and [Vision research task 02](vision_research_task_02.md): the restart, first-pass weaknesses of GPUs and CUDA, and the independent research brief (1 Nov 2026).
+- [Vision research 02 and the response](reviews/research_02_summary.md), [Jarvis response](reviews/jarvis_response_research_02.md), [graphs test plan](../hw/gpu/graphs_test/PLAN.md): which GPU weaknesses are real, the corrections, and the one-day batch-1 check (1 Nov 2026).
 - [Test G1 result so far](../hw/gpu/energy_predict/RESULT.md): the v2 predictor failed on a Colab T4 (0 of 9); batching saves 8 to 14x energy per token (MEASURED, 31 Oct 2026).
 - [Test G1 protocol](../hw/gpu/energy_predict/PROTOCOL.md): predict, then measure speed and energy per token on four consumer GPUs; bars fixed in advance (31 Oct 2026).
 - [Vision research task 01](vision_research_task_01.md): broad research brief on Nvidia, Cerebras and rivals, the gaps and the wedges for a newcomer (31 Oct 2026).

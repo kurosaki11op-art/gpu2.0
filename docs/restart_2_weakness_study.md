@@ -7,6 +7,8 @@ tags: [spark, gpu, restart, weakness, cuda, study]
 
 Founder's decision (1 Nov 2026): start again from scratch on the right path: study GPUs and CUDA, their weak spots and the public controversies, find the weakness worth attacking, then build and prove it in simulation, then look for money. Nobody has to win quickly; the order matters. Method (standing rule): for each weakness, evidence, who suffers, what incumbents already do about it, our candidate fix, a test with a bar written first. **This note is a first pass from web search; every item is a lead until a primary source is read.** Vision is doing an independent pass ([research task 02](vision_research_task_02.md)).
 
+> **Correction, 1 Nov 2026 ([Vision research 02](reviews/research_02_summary.md), [response](reviews/jarvis_response_research_02.md)):** W1 was overstated. Our runs used eager mode with no CUDA graphs, so launch overhead was never isolated; the 1.1B-class model on the laptop GPU reached 78% of the weights-only floor. Several rows below (the licence wording, the French probe, the 92% versus 30% figure, the Gartner and challenger claims) are corrected in the response. The batch-1 check is planned in [graphs_test/PLAN](../hw/gpu/graphs_test/PLAN.md).
+
 ## What the first pass found
 
 | # | weakness | evidence (label) | what incumbents already do | our measured or built evidence |
