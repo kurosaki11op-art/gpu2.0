@@ -17,7 +17,7 @@ What you get: how fast a language model really runs on your GPU, how much power 
 
 1. Quick GPU info (30 seconds, runs no model): `python measure.py x --info-only --out info.json`. Send me `info.json` first; I will send back predictions so nothing is tuned afterwards.
 2. For each model I give you: `python measure.py MODEL_NAME --out result_MODEL.json` (a few minutes each; the first run downloads the model).
-3. Report: `python report.py result_*.json --kwh-price 8 --currency INR` (use your own price per kWh). It prints and saves `report.md`.
+3. Report: `python report.py result_*.json --kwh-price 8 --gpu-hour-price 25 --currency INR` (use your own electricity price per kWh and what an hour of your GPU costs you, rented or your estimate). It prints a one-page report and saves `report.md` and `report.html` (open the html in a browser). Example from the founder's laptop (prices are illustrative): [sample_report_3050.md](sample_report_3050.md).
 4. Send me the `result_*.json` files. They contain your GPU name, memory speed, power readings and timings; no personal data.
 
 If a batch size runs out of memory the tool says so and goes on; that is a useful result too.
