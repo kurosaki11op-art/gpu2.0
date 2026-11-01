@@ -2188,4 +2188,6 @@ Founder asked for articles, papers, repositories and community discussions on GP
 
 Founder: have Vision find out whether the GPU problem is a real pain. Wrote [research task 03](vision_research_task_03.md): Part A (pain as frequency x severity x lack of workarounds x money spent, by group, from primary evidence), Part B (primary-paper expert-routing hit rates for a 3% to 6% cache, to decide the step 22 speed bar).
 
+Vision research 03 merged ([summary](reviews/research_03_summary.md)): pain proven for very large buyers only; no published expert cache reaches 82% at 1.06 times active experts. Ran Vision's first step ([step 23 plan](../new_start/step23_routing_replay_plan.md) committed first; [result](../new_start/step23_routing_replay_result.md)): offline-optimal cache at 1.17 x active on open FLAME traces 0.341 overall, 0.328 p10, bar 0.82 and 0.60: FAIL; the demand-cache route stops; routing there is near-flat; unexplained gap to published numbers. Response: [jarvis_response_research_03](reviews/jarvis_response_research_03.md). Recommendation to the founder: pause chip design until the evidence changes; keep the measurement and tuning work and the ESP32 result; the pain for small buyers is unproven and needs interviews.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

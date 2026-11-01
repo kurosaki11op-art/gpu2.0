@@ -1,0 +1,18 @@
+Step 23 expert-cache replay, flame-moe-1.7b iter_11000, first 100000 tokens per layer, top-6 of 64 routed experts, every miss counted as a tier read
+layer  2: top-7 experts carry 0.122 of reads, top-13 0.221 | cap 7: Belady 0.326 LRU 0.087 LFU 0.109 | cap 13: Belady 0.487 LRU 0.178 LFU 0.211 |
+layer  4: top-7 experts carry 0.120 of reads, top-13 0.219 | cap 7: Belady 0.329 LRU 0.085 LFU 0.106 | cap 13: Belady 0.493 LRU 0.176 LFU 0.206 |
+layer  6: top-7 experts carry 0.116 of reads, top-13 0.213 | cap 7: Belady 0.337 LRU 0.085 LFU 0.109 | cap 13: Belady 0.510 LRU 0.175 LFU 0.211 |
+layer  8: top-7 experts carry 0.117 of reads, top-13 0.214 | cap 7: Belady 0.349 LRU 0.085 LFU 0.113 | cap 13: Belady 0.539 LRU 0.176 LFU 0.219 |
+layer 10: top-7 experts carry 0.117 of reads, top-13 0.216 | cap 7: Belady 0.350 LRU 0.085 LFU 0.126 | cap 13: Belady 0.542 LRU 0.176 LFU 0.235 |
+layer 12: top-7 experts carry 0.120 of reads, top-13 0.219 | cap 7: Belady 0.352 LRU 0.086 LFU 0.125 | cap 13: Belady 0.548 LRU 0.176 LFU 0.234 |
+layer 14: top-7 experts carry 0.121 of reads, top-13 0.219 | cap 7: Belady 0.346 LRU 0.086 LFU 0.126 | cap 13: Belady 0.533 LRU 0.177 LFU 0.236 |
+layer 16: top-7 experts carry 0.120 of reads, top-13 0.219 | cap 7: Belady 0.342 LRU 0.087 LFU 0.129 | cap 13: Belady 0.524 LRU 0.178 LFU 0.240 |
+
+cap  7 (1.17 x active) belady overall mean 0.341, 10th-percentile layer 0.328, min 0.326
+cap  7 (1.17 x active) lru    overall mean 0.086, 10th-percentile layer 0.085, min 0.085
+cap  7 (1.17 x active) lfu    overall mean 0.118, 10th-percentile layer 0.108, min 0.106
+cap 13 (2.17 x active) belady overall mean 0.522, 10th-percentile layer 0.491, min 0.487
+cap 13 (2.17 x active) lru    overall mean 0.177, 10th-percentile layer 0.176, min 0.175
+cap 13 (2.17 x active) lfu    overall mean 0.224, 10th-percentile layer 0.210, min 0.206
+
+BAR (capacity 7 = 1.17 x active here, offline optimum: overall >= 0.82 and 10th-percentile layer >= 0.60): overall 0.341, p10 0.328 -> FAIL (the demand-cache route stops)
