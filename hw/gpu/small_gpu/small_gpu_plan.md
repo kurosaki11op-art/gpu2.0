@@ -5,7 +5,7 @@ tags: [spark, gpu, small-gpu, offload, plan, solution-candidate]
 
 # Candidate 2: running a model that does not fit on a small GPU (plan and bar first)
 
-Founder-accepted candidate (1 Nov 2026, [decision](../../docs/PROJECT_MEMORY.md)). Pain: the loudest community complaint is models that do not fit in 4 to 8 GB of VRAM ([leads](../../docs/watch_radar.md); secondhand). Hardware: the founder's RTX 3050 6 GB laptop GPU (122.9 GB/s copy bandwidth, [results](../energy_predict/results_3050/)). Everything here is **MEASURED once run**; nothing has been run.
+Founder-accepted candidate (1 Nov 2026, [decision](../../../docs/PROJECT_MEMORY.md)). Pain: the loudest community complaint is models that do not fit in 4 to 8 GB of VRAM ([leads](../../../docs/watch_radar.md); secondhand). Hardware: the founder's RTX 3050 6 GB laptop GPU (122.9 GB/s copy bandwidth, [results](../energy_predict/results_3050/)). Everything here is **MEASURED once run**; nothing has been run.
 
 ## Step 1: baseline with the best free tool (no code of ours)
 
@@ -29,4 +29,4 @@ Examples to try only after the baseline exists: mixed quantisation (more bits on
 
 One laptop; one model family; the offloaded speed depends strongly on the CPU and memory; llama.cpp changes fast and the baseline will move; not a general claim about all small GPUs.
 
-Related: [Restart 2 study](../../docs/restart_2_weakness_study.md), [Test G1 result](../energy_predict/RESULT.md), [Test B plan](../graphs_test/PLAN.md), [Project memory](../../docs/PROJECT_MEMORY.md), [Hardware index](../HARDWARE_INDEX.md)
+Related: [Restart 2 study](../../../docs/restart_2_weakness_study.md), [Test G1 result](../energy_predict/RESULT.md), [Test B plan](../graphs_test/PLAN.md), [Project memory](../../../docs/PROJECT_MEMORY.md), [Hardware index](../../HARDWARE_INDEX.md)
