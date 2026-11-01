@@ -2194,4 +2194,6 @@ Founder decision: quit manufacturing a chip; accepted the three candidates (serv
 
 Founder: if it works most developers would buy. Answered: developers are hard to sell to when free open tools exist (llama.cpp, Ollama, vLLM); a fix must be much better than free and needs a way to charge; the real signal is repeated use and a stated price from 5 to 10 developers. Wrote the [candidate 2 plan](../hw/gpu/small_gpu/small_gpu_plan.md): baseline with the best free tool on the 6 GB laptop GPU first, bar of 1.3x at no quality loss on two machines, kill rule.
 
+Founder: after learning Jevons paradox and seeing the market reward access to powerful GPUs and infrastructure, change focus from efficiency to real GPU problems that companies pay for. Recorded in [project memory](PROJECT_MEMORY.md). Wrote [research task 04](vision_research_task_04.md): evidence of paid categories (orchestration, sharing, utilisation and cost visibility, serving, reliability, on-premises, India programmes), Jevons evidence, accessibility for a small team; Vision does evidence and attack, not ideas. Recollections I gave in chat (an orchestration acquisition in 2024, the scale of an Indian GPU programme) are unverified and flagged as such.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
