@@ -27,8 +27,11 @@ def timed(model, gen_kwargs):
         torch.cuda.synchronize(); t = time.time(); out = model.generate(ids, max_new_tokens=a.new, min_new_tokens=a.new, **kw); torch.cuda.synchronize(); dt = time.time() - t
     return dt / (out.shape[1] - a.prompt)
 for mode in ["eager", "static_compile_graphs"]:
-    r = {"mode": mode}
+    r = {"mode": mode}; model = None
     try:
+        if mode != "eager":
+            try: import triton  # torch.compile on the GPU needs Triton (not installed on plain Windows)
+            except Exception as e: raise RuntimeError("Triton is not available (%s); on Windows try: pip install triton-windows" % type(e).__name__)
         model = load(); wb = sum(p.numel() * p.element_size() for p in model.parameters()); res["weight_bytes"] = wb
         if mode == "eager": t = timed(model, {})
         else:
@@ -36,7 +39,9 @@ for mode in ["eager", "static_compile_graphs"]:
         floor = wb / (res["copy_bandwidth_gbs"] * 1e9); r.update({"ms_per_token": t * 1e3, "tokens_per_s": 1 / t, "floor_ms": floor * 1e3, "fraction_of_floor": floor / t})
     except Exception as e:
         r["error"] = "%s: %s" % (type(e).__name__, str(e)[:300])
-    print(r); res["runs"].append(r); del model; torch.cuda.empty_cache()
+    print(r); res["runs"].append(r)
+    if model is not None: del model
+    import gc; gc.collect(); torch.cuda.empty_cache(); json.dump(res, open(a.out, "w"), indent=1)  # save after every mode
 json.dump(res, open(a.out, "w"), indent=1); print("written", a.out)
 # vLLM on Linux (Colab T4): in a notebook, !pip -q install vllm, then
 #   from vllm import LLM, SamplingParams; import time
