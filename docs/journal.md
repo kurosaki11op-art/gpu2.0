@@ -2226,4 +2226,8 @@ L Compute step 1 fixed: two-level (per-tile) summation in the tiled matrix kerne
 
 Founder: proceed with step 2; study what CUDA is for and build what people need. Wrote [WHY](../lcompute/docs/WHY.md) (history, uses, requirements, flaws, what it means for our design; from my knowledge, unchecked against primary documents), the step 2 bars first, then the runtime ([result](../lcompute/docs/lc_step2_result.md), MEASURED): buffers, in-order streams, checked errors; all of R1 to R5 pass (the step 1 kernels through the runtime only, dependent launches in order, four streams, 100 chained launches exact, seven kinds of mistake reported, no live buffers left). A deadlock in `free` (lock guard held across a loop) was found by the test hanging and fixed. Next: step 3, a fast CPU back end.
 
+## 2 Nov 2026 - L Compute step 3: fast CPU back end
+
+Founder: proceed with step 3. Built the lockstep block executor ([fast.rs](../lcompute/src/fast.rs)) and tests ([step3.rs](../lcompute/src/step3.rs)). MEASURED: C1 16 of 16 launches bit-identical, C2 both negative tests detected, C3 step 2 suite passes on the fast back end; **C4 speed bar missed: 12.9x to 15.0x against 20x** (bar not moved). Cause: about 17 IR instructions per multiply-add; next work is an IR optimiser, not a faster loop. Details: [step 3 result](../lcompute/docs/lc_step3_result.md); log [step3_run.txt](../lcompute/logs/step3_run.txt).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

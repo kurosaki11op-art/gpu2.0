@@ -1,0 +1,86 @@
+vec_add       n=1       max relative error 0.0e0  ok
+vec_add       n=255     max relative error 0.0e0  ok
+vec_add       n=256     max relative error 0.0e0  ok
+vec_add       n=1000    max relative error 0.0e0  ok
+vec_add       n=100003  max relative error 0.0e0  ok
+matmul_tiled  1x768x2304: max relative error 2.89e-6  ok   | step 1b: exact vs sequential fp32 yes, error is 0.001 of the rounding bound  ok
+matmul_tiled  17x33x45: max relative error 7.61e-7  ok   | step 1b: exact vs sequential fp32 yes, error is 0.049 of the rounding bound  ok
+matmul_tiled  64x64x64: max relative error 8.24e-7  ok   | step 1b: exact vs sequential fp32 yes, error is 0.019 of the rounding bound  ok
+matmul_tiled  100x50x70: max relative error 6.76e-7  ok   | step 1b: exact vs sequential fp32 yes, error is 0.031 of the rounding bound  ok
+matmul_tiled  33x129x17: max relative error 9.98e-7  ok   | step 1b: exact vs sequential fp32 yes, error is 0.006 of the rounding bound  ok
+matmul_tiled  128x128x128: max relative error 1.31e-6  ok   | step 1b: exact vs sequential fp32 yes, error is 0.007 of the rounding bound  ok
+block_reduce  n=1       max relative error 0.0e0  ok
+block_reduce  n=256     max relative error 2.1e-7  ok
+block_reduce  n=1000    max relative error 2.1e-7  ok
+block_reduce  n=12345   max relative error 3.6e-7  ok
+block_reduce  n=65537   max relative error 1.2e-6  ok
+negative test barrier divergence: detected  (barrier_divergence: barrier divergence in block [0, 0, 0]: 1 thread(s) returned while 3 wait at a barrier)
+negative test out-of-range load: detected  (out_of_range: out-of-range global load, index 8 of 8 (block [0, 0, 0], thread [0, 0, 0]))
+
+STEP 1 BAR as first written (each kernel on at least 5 shapes within 1e-5, two negative tests detected): worst relative error 2.9e-6, PASS
+STEP 1b RULE for matrix products (written after the step 1 run; a re-specification, not a pass of the first bar): all shapes meet it
+
+STEP 2: runtime (streams, buffers, checked errors), back end Interp
+  R1 vec_add n=100003 through the runtime                    ok  max error 0.0e0
+  R1 matmul 33x129x17 through the runtime (bar 1e-5)         ok  max relative error 1.0e-6
+  R1 block_reduce n=12345 through the runtime (bar 1e-5)     ok  max relative error 3.6e-7
+  R2 two dependent launches on one stream, no wait between   ok  max error 0.0e0
+  R3 four independent streams, each correct                  ok  max error 0.0e0
+  R3 100 chained launches on one stream end at exactly 100   ok  first 100, last 100
+  R4.1 wrong-size copy                                       ok  copy of 5 floats into buffer 27 of 8
+  R4.2 use of a freed buffer                                 ok  buffer 28 was freed (use after free)
+  R4.3 double free                                           ok  double free of buffer 28
+  R4.4 unknown buffer handle                                 ok  out_of_range: argument 0: unknown buffer handle 999
+  R4.5 wrong number of arguments                             ok  vec_add: expected 4 arguments, got 3
+  R4.6 argument of the wrong kind                            ok  out_of_range: argument 0 has the wrong kind (expected BufF32)
+  R4.7 out-of-range access inside a kernel, reported by synchronize ok  out_of_range: out-of-range global load, index 8 of 8 (block [0, 0, 0], thread [0, 0, 0])
+  R4.8 (extra) the error is reported once, then the stream is usable again ok  
+  R5 live buffers after freeing everything                   ok  0 live
+  R5 dropping the runtime joined its stream threads          ok  
+STEP 2 BARS R1 to R5: PASS
+
+STEP 3: fast lockstep back end
+  C1 vec_add n=1       bit-identical true 
+  C1 vec_add n=255     bit-identical true 
+  C1 vec_add n=256     bit-identical true 
+  C1 vec_add n=1000    bit-identical true 
+  C1 vec_add n=100003  bit-identical true 
+  C1 matmul 1x768x2304 bit-identical true 
+  C1 matmul 17x33x45 bit-identical true 
+  C1 matmul 64x64x64 bit-identical true 
+  C1 matmul 100x50x70 bit-identical true 
+  C1 matmul 33x129x17 bit-identical true 
+  C1 matmul 128x128x128 bit-identical true 
+  C1 block_reduce n=1       bit-identical true 
+  C1 block_reduce n=256     bit-identical true 
+  C1 block_reduce n=1000    bit-identical true 
+  C1 block_reduce n=12345   bit-identical true 
+  C1 block_reduce n=65537   bit-identical true 
+C1 16/16 launches bit-identical: PASS
+  C2 barrier divergence: true (barrier_divergence: barrier divergence in block [0, 0, 0]: 1 thread(s) returned while 3 wait at a barrier) | out-of-range: true (out_of_range: out-of-range global load, index 8 of 8 (block [0, 0, 0], thread [0, 0, 0]))
+C2 PASS
+
+STEP 2: runtime (streams, buffers, checked errors), back end Fast
+  R1 vec_add n=100003 through the runtime                    ok  max error 0.0e0
+  R1 matmul 33x129x17 through the runtime (bar 1e-5)         ok  max relative error 1.0e-6
+  R1 block_reduce n=12345 through the runtime (bar 1e-5)     ok  max relative error 3.6e-7
+  R2 two dependent launches on one stream, no wait between   ok  max error 0.0e0
+  R3 four independent streams, each correct                  ok  max error 0.0e0
+  R3 100 chained launches on one stream end at exactly 100   ok  first 100, last 100
+  R4.1 wrong-size copy                                       ok  copy of 5 floats into buffer 27 of 8
+  R4.2 use of a freed buffer                                 ok  buffer 28 was freed (use after free)
+  R4.3 double free                                           ok  double free of buffer 28
+  R4.4 unknown buffer handle                                 ok  out_of_range: argument 0: unknown buffer handle 999
+  R4.5 wrong number of arguments                             ok  vec_add: expected 4 arguments, got 3
+  R4.6 argument of the wrong kind                            ok  out_of_range: argument 0 has the wrong kind (expected BufF32)
+  R4.7 out-of-range access inside a kernel, reported by synchronize ok  out_of_range: out-of-range global load, index 8 of 8 (block [0, 0, 0], thread [0, 0, 0])
+  R4.8 (extra) the error is reported once, then the stream is usable again ok  
+  R5 live buffers after freeing everything                   ok  0 live
+  R5 dropping the runtime joined its stream threads          ok  
+STEP 2 BARS R1 to R5: PASS
+C3 step 2 suite with the fast back end: PASS
+  C4 512x512x512 matmul: interpreter 2.20 s (0.122 GFLOP/s), fast best of 3 0.170 s (1.578 GFLOP/s), outputs identical true
+C4 speed-up 12.9x (bar >= 20x): FAIL
+  C5 vec_add n=1e6: interpreter 0.036 s, fast 0.0076 s (4.7x)
+  C5 block_reduce n=1e6: interpreter 0.145 s, fast 0.1143 s (1.3x)
+STEP 3 BARS C1 to C5: FAIL

@@ -3,10 +3,10 @@ use crate::interp::dim;
 use crate::runtime::*;
 use std::sync::Arc;
 
-pub fn run() -> bool {
-    let rt = Runtime::new(); let s0 = rt.create_stream(); let mut ok_all = true; let mut report = |name: &str, ok: bool, note: String| { println!("  {:<58} {}  {}", name, if ok { "ok" } else { "FAIL" }, note); ok_all &= ok; };
+pub fn run(be: Backend) -> bool {
+    let rt = Runtime::with_backend(be); let s0 = rt.create_stream(); let mut ok_all = true; let mut report = |name: &str, ok: bool, note: String| { println!("  {:<58} {}  {}", name, if ok { "ok" } else { "FAIL" }, note); ok_all &= ok; };
     let kv = Arc::new(crate::vec_add()); let km = Arc::new(crate::matmul_tiled()); let kr = Arc::new(crate::block_reduce()); let ko = Arc::new(crate::out_of_range());
-    println!("\nSTEP 2: runtime (streams, buffers, checked errors)");
+    println!("\nSTEP 2: runtime (streams, buffers, checked errors), back end {:?}", be);
     // R1: the step 1 kernels through the runtime only
     { let n = 100003usize; let (a, b) = (crate::rnd(n, 1), crate::rnd(n, 2)); let (ba, bb, bc) = (rt.alloc(n).unwrap(), rt.alloc(n).unwrap(), rt.alloc(n).unwrap());
       rt.copy_to_device(s0, ba, &a).unwrap(); rt.copy_to_device(s0, bb, &b).unwrap();

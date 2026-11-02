@@ -1,5 +1,5 @@
 // L Compute step 1: kernels written with the builder, run by the reference interpreter, checked against independent plain references (bars: docs/ROADMAP.md step 1).
-mod ir; mod builder; mod interp; mod runtime; mod step2;
+mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3;
 use builder::B; use interp::*;
 
 fn vec_add() -> ir::Kernel {
@@ -54,6 +54,7 @@ fn rnd(n: usize, seed: u64) -> Vec<f32> { let mut s = seed; (0..n).map(|_| { s =
 fn relerr(got: f32, want: f64) -> f64 { (got as f64 - want).abs() / want.abs().max(1.0) }
 
 fn main() {
+    if std::env::var("LC_PROF").is_ok() { step3::prof(); return; } // profiling entry: fast back end only
     let mut all_ok = true; let mut worst = 0f64; let mut ok_1b = true; // ok_1b: the step 1b rule of docs/ROADMAP.md (exact agreement with the sequential fp32 sum, and within k x 6e-8 x sum of |terms| of a float64 reference)
     let kv = vec_add();
     for &n in &[1usize, 255, 256, 1000, 100003] {
@@ -86,5 +87,6 @@ fn main() {
     let ok = matches!(&r, Err(e) if e.contains("out-of-range")); all_ok &= ok; println!("negative test out-of-range load: {}  ({})", if ok { "detected" } else { "NOT DETECTED" }, r.err().unwrap_or_default());
     println!("\nSTEP 1 BAR as first written (each kernel on at least 5 shapes within 1e-5, two negative tests detected): worst relative error {:.1e}, {}", worst, if all_ok { "PASS" } else { "FAIL" });
     println!("STEP 1b RULE for matrix products (written after the step 1 run; a re-specification, not a pass of the first bar): {}", if ok_1b { "all shapes meet it" } else { "NOT MET" });
-    step2::run();
+    step2::run(runtime::Backend::Interp);
+    step3::run();
 }
