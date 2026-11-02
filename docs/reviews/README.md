@@ -13,6 +13,7 @@ Independent reviews by Vision. Reviewers write only in this folder; findings are
 - [Research 02 summary](research_02_summary.md) (1 Nov 2026): independent study of GPU and CUDA weaknesses, incumbents' fixes, ranked shortlist, and corrections to the first pass.
 - [Research 03 summary](research_03_summary.md) (1 Nov 2026): is GPU cost and capacity a real pain, and expert-routing hit rates against the step 22 speed bar; notes: [pain](research_03_pain.md), [routing](research_03_routing.md).
 - [Research 04 summary](research_04_summary.md) (1 Nov 2026): what GPU buyers pay for, Jevons paradox, India, and software for chip makers; notes: [item 7](research_04_chip_software.md), [categories](research_04_categories.md), [India](research_04_india.md), [Jevons](research_04_jevons.md).
+- [Jarvis response to research 04](jarvis_response_research_04.md): accepted; the founder builds the software layer anyway; CUDA researched first.
 - [Jarvis response to research 03](jarvis_response_research_03.md): corrections accepted, expert-routing replay (bar failed), what it does to the plan.
 - [Jarvis response to research 02](jarvis_response_research_02.md): corrections accepted, order of work (batch-1 gap check, then decode idle compute in simulation).
 - [Jarvis response to research 01](jarvis_response_research_01.md): verdicts, wafer checks, plan change, pre-registered kill tests.

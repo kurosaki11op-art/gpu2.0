@@ -2198,4 +2198,6 @@ Founder: after learning Jevons paradox and seeing the market reward access to po
 
 Founder: the dark GPUs cannot be helped by efficiency (infrastructure, not chips); everyone wants powerful GPUs; only Nvidia has inference software; proposed software first, chip later. Answered: right order, but others have inference software too and the moat is the low-level library layer; a general CUDA rival needs funding; the reachable piece may be software for chip makers who lack software maturity. Added that category (item 7) to [research task 04](vision_research_task_04.md).
 
+Vision research 04 merged ([summary](reviews/research_04_summary.md)): chip makers buy whole software teams (four deals in 13 months), no evidence they buy from small outside teams; paid categories need capital; Jevons evidence weak; India compute portal usable. Founder: Vision says no one would buy from us but we will build it anyway; research CUDA. Wrote [research task 05](../docs/vision_research_task_05.md) (layers, moat, flaws, alternatives, licence boundary, what two people could build, development hardware) and the [response](reviews/jarvis_response_research_04.md); decision and reservations recorded in [project memory](PROJECT_MEMORY.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -331,6 +331,10 @@ Founder: quit manufacturing a chip; accept the three solution candidates: (1) a 
 
 Founder, after learning about Jevons paradox and seeing that the market rewards access to powerful GPUs and infrastructure, not efficiency: the earlier track (efficiency and the chip) was wrong; change focus to real GPU problems that companies pay for. Paid categories to be evidenced by Vision ([task 04](vision_research_task_04.md)): access and power, utilisation and scheduling, sharing, cost visibility, serving, reliability, on-premises support, India-specific compute programmes. The three software candidates of the earlier decision stay as candidates but are re-ranked by evidence of payment. Vision gathers evidence and attacks; it is not asked for ideas.
 
+## Founder decision 2 Nov 2026: build the software layer anyway; research CUDA first
+
+After [research 04](reviews/research_04_summary.md) (chip makers pay for the software layer but no evidence they buy from small outside teams), the founder will build the inference software layer regardless, as the base for a later chip, and asked Vision to research CUDA properly ([task 05](vision_research_task_05.md)). Method: study CUDA's layers, flaws and existing alternatives, then design our own (not a clone) and test before building. Jarvis's reservations on record: no buyer evidence yet; the build needs a narrow scope, a pre-set bar and a date; first test of the idea: ten conversations with software leads at chip companies, at least two scoped pilots or written access within six weeks.
+
 ## Decision 30 Oct 2026: stop version 1, start a new project
 
 Founder's decision: the three-layer L design is not carried forward as it stands; version 1 stays in the repository (commit recorded in [lessons](lessons_L_v1.md)); the new start is problem-first (target and bar in numbers, incumbent measured first, one GPU weakness chosen from the founder's list). The new project's target has not been chosen yet. Standing rules (labels, no AI model identifiers in repo content, journal and index updates, regression before RTL changes) still apply.
