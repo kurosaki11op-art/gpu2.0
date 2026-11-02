@@ -34,6 +34,27 @@ Vision's [task 05](vision_research_task_05.md) is pending because Vision is unre
 3. **The part of the stack worth owning first** is the layer between a model graph and the kernels: a compiler and runtime that schedules weights and cache across memory tiers (the small-GPU problem, candidate 2), using generated kernels or existing ones.
 4. **Kill criteria before building:** a defined model family, a pre-set bar (speed against the best free tool on the founder's laptop GPU), a date, and a stop rule.
 
+## Ultron's reply, checked (2 Nov 2026)
+
+- **Form:** it gave **no source links** despite the prompt, answered "I do not know" to three of eight questions (flaws, what two people could build, objections) and wrote that it relied on "the provided search results". Its numbers (MI355X within 5% to 10% of the H100; an RX 7900 XTX 15% to 20% behind an RTX 3090 on an 8B model; an A100 at $1.09 per hour) have **no source and are unverified**.
+- **Agrees with my pass:** SASS is not documented; the ZLUDA code was taken down in August 2024 at AMD's request; lock-in sits in the tuned libraries (it names TensorRT-LLM and FlashAttention 3 as having no real ROCm equivalent, unverified) and in developer habit more than in raw hardware.
+- **Adds one real item:** the legal debate cites Google v. Oracle (the 2021 US Supreme Court ruling on re-implementing an API) and EU interoperability rules. Relevant to a clean implementation of our own programming model; **not legal advice, a lawyer must check.**
+- **Empty on the questions that matter most** (what two people can build, objections), so I searched.
+
+## Precedents for what a very small team can build (search summaries, unverified)
+
+- **llama.cpp:** started by one person in March 2023 as a dependency-free C and C++ inference engine, built on the tensor library GGML he had begun in September 2022 after an earlier speech-recognition port; later a community project in an organisation ([Wikipedia](https://en.wikipedia.org/wiki/Llama.cpp)). It began on CPUs, which is the lesson: a narrow first target and a timing advantage.
+- **tinygrad:** about 19,000 lines (one wiki estimate, early 2026), generates its own kernels for several back ends, a company with a $5.1M seed round (May 2023) and a headcount listed as 11 to 50 by one directory ([directory](https://www.ai-market-watch.com/company/tiny-corp), [author's blog](https://geohot.github.io/blog/jekyll/update/2025/12/29/five-years-of-tinygrad)).
+- **What this shows:** one person can build a useful inference engine for a narrow case; a competitive stack on GPUs took funded teams years. It does not show a buyer.
+
+## Strongest objections to "software first, chip later" (my own, none verified by a source)
+
+1. **No buyer evidence** (research 04): nobody has been found paying a small outside team for this.
+2. **The free engines already cover the case** (vLLM, SGLang, llama.cpp with many back ends); a new stack must beat them on a measured bar, not exist.
+3. **The library layer is the moat** and takes years; a new stack starts with none.
+4. **NVIDIA ships its software free** to sell hardware; a software-only company has no such subsidy.
+5. **A later chip needs the software to be better than the free alternatives first**, which is the hard part and the unproven one.
+
 ## Open items for Vision (when reachable) and Ultron
 
 [Task 05](vision_research_task_05.md) in full; the missing items above; and checking this note.
