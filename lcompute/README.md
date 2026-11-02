@@ -18,7 +18,7 @@ A compute platform with the layers CUDA has, designed by us from public specific
 | 3. Reference execution | none public | our interpreter, the ground truth for semantics ([`src/interp.rs`](src/interp.rs)) | step 1 built |
 | 4. Kernel front end | nvcc, CUDA C++ | a Rust builder API ([`src/builder.rs`](src/builder.rs)), a text language later | step 1 built (builder) |
 
-Step 1 result: [STEP1_result](docs/STEP1_result.md) (16 of 17 checks pass; one misses the written bar by a hair, explained there).
+Step 1 result: [lc_step1_result](docs/lc_step1_result.md) (16 of 17 checks pass; one misses the written bar by a hair, explained there).
 | 5. Back ends | PTX to machine code | CPU native, PTX for NVIDIA GPUs, a second non-NVIDIA route | steps 3 to 5 |
 | 6. Runtime and driver API | cudaMalloc, memcpy, launch, streams | device, buffers, streams per back end | step 2 |
 | 7. Libraries | cuBLAS, cuDNN and others | matmul, softmax, layer norm, attention first | step 6 |
