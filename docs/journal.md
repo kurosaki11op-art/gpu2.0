@@ -2222,4 +2222,6 @@ Founder: start from scratch and build CUDA step by step properly. Created the [L
 
 Founder asked how the step 1 miss will be fixed. Answer: the kernel was not wrong (exact match to a sequential fp32 sum); the bar was mis-specified for long inner dimensions. Implemented the step 1b check in `lcompute/src/main.rs` and ran it ([result](../lcompute/docs/lc_step1_result.md)): all six matrix shapes exact against the sequential fp32 sum and between 0.003 and 0.07 of the rounding bound; original bar stays recorded as missed; lesson: derive error bounds from numerical analysis before writing a bar.
 
+L Compute step 1 fixed: two-level (per-tile) summation in the tiled matrix kernel; re-run of the original bar on the same inputs: 17 of 17, worst relative error 2.9e-6 (the 1x768x2304 case from 1.00e-5 to 2.89e-6); first run stays recorded as a miss, second as a pass after a fix ([result](../lcompute/docs/lc_step1_result.md)).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

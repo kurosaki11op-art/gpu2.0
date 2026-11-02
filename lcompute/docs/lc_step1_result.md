@@ -1,5 +1,5 @@
 ---
-title: L Compute step 1 result - IR, interpreter and builder: 16 of 17 checks pass, one misses the written bar by a hair, kernels are exact (2 Nov 2026, MEASURED)
+title: L Compute step 1 result - IR, interpreter and builder: first run missed the bar by a hair, fixed with two-level summation, second run 17 of 17 (2 Nov 2026, MEASURED)
 tags: [spark, lcompute, result, step1, interpreter]
 ---
 
@@ -27,6 +27,10 @@ tags: [spark, lcompute, result, step1, interpreter]
 The diagnostic run compares the kernel with a **sequential fp32 sum in the same order: the difference is exactly 0 on all six shapes.** So the kernel computes exactly what the specification says; the 1.00e-5 is the rounding error of adding 768 float32 products, measured against a float64 reference. **The bar was mis-specified for long inner dimensions**; I am **not** calling step 1 passed on the original bar and I do not change it after the run. **Step 1b (new, written now, applied to later steps):** matrix products are checked against a bound that scales with the rounding the sum can incur, error at most `k x 6e-8 x sum of |terms|` (the standard fp32 bound) **and** exact agreement with the sequential fp32 sum for the interpreter's own kernels. Under step 1b the results above pass (stated as a re-specification, not as a pass of the first bar).
 
 **Step 1b check, implemented and run the same day (MEASURED):** all six matrix shapes agree **exactly** with the sequential fp32 sum and the error against the float64 reference is between **0.003 and 0.07 of the standard rounding bound** (`k x 6e-8 x sum of |terms|`). The 1x768x2304 case, the one that missed 1e-5, is at 0.003 of its bound. This is a re-specification written after the run, **not a pass of the first bar**, which stays recorded as missed.
+
+## The fix, and the second run (same day, MEASURED)
+
+The cause was a long single running sum in the matrix kernel. **Kernel change:** each 16-term tile is summed on its own and the tile sum is then added to the total (two-level summation, a standard way to make rounding error grow more slowly with the inner length); nothing else changed. **Re-run of the original bar on the same inputs: PASS, 17 of 17 checks, worst relative error 2.9e-6** (the 1x768x2304 case fell from 1.00e-5 to 2.89e-6; the other matrix shapes 6.8e-7 to 1.3e-6); both negative tests detected; step 1b also holds (exact against a sequential two-level fp32 reference, errors 0.001 to 0.05 of the rounding bound). **Honest reading:** the first run missed; the second run passes after a kernel change made in response to the miss, on the same inputs. The first result stays recorded as a miss; the pass should be read as 'fixed', not as 'passed first time'.
 
 ## Limits
 

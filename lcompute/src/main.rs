@@ -22,11 +22,12 @@ fn matmul_tiled() -> ir::Kernel {
         let brow = b.add_i(toff, ty); let q1 = b.lt_i(brow, k); let q2 = b.lt_i(col, n); let pb_ok = b.and_p(q1, q2);
         b.if_(pb_ok, |b| { let rn = b.mul_i(brow, n); let ix = b.add_i(rn, col); let v = b.load_g(pb, ix); b.store_s(sb, sidx, v); });
         b.barrier();
-        let z0 = b.ci(0); let c16 = b.ci(16);
+        let z0 = b.ci(0); let c16 = b.ci(16); let tacc = b.var_f(zero); // per-tile partial sum: summing 16 terms first and then adding the tile sum grows the rounding error more slowly than one running sum over all k
         b.for_range(z0, c16, 1, |b, kk| {
             let t16d = b.ci(16); let ai = { let r = b.mul_i(ty, t16d); b.add_i(r, kk) }; let bi = { let r = b.mul_i(kk, t16d); b.add_i(r, tx) };
-            let x = b.load_s(sa, ai); let y = b.load_s(sb, bi); let pr = b.mul_f(x, y); let na = b.add_f(acc, pr); b.mov(acc, na);
+            let x = b.load_s(sa, ai); let y = b.load_s(sb, bi); let pr = b.mul_f(x, y); let na = b.add_f(tacc, pr); b.mov(tacc, na);
         });
+        let nacc = b.add_f(acc, tacc); b.mov(acc, nacc);
         b.barrier();
     });
     let p1 = b.lt_i(row, m); let p2 = b.lt_i(col, n); let pc_ok = b.and_p(p1, p2);
@@ -66,7 +67,7 @@ fn main() {
         let (mut a, mut bb, mut c) = (rnd(m * k, 3), rnd(k * n, 4), vec![0f32; m * n]); let args = [host(&mut a), host(&mut bb), host(&mut c), Arg::I32(m as i32), Arg::I32(k as i32), Arg::I32(n as i32)];
         launch(&km, dim((n + 15) / 16, (m + 15) / 16, 1), dim(16, 16, 1), &args).unwrap();
         let mut e = 0f64; for i in 0..m { for j in 0..n { let mut s = 0f64; for kk in 0..k { s += a[i * k + kk] as f64 * bb[kk * n + j] as f64; } e = e.max(relerr(c[i * n + j], s)); } }
-        let mut e32 = 0f32; for i in 0..m { for j in 0..n { let mut s = 0f32; for kk in 0..k { s += a[i * k + kk] * bb[kk * n + j]; } e32 = e32.max((c[i * n + j] - s).abs()); } }
+        let mut e32 = 0f32; for i in 0..m { for j in 0..n { let mut s = 0f32; let mut t0 = 0; while t0 < k { let mut tp = 0f32; for kk in t0..(t0 + 16).min(k) { tp += a[i * k + kk] * bb[kk * n + j]; } s += tp; t0 += 16; } e32 = e32.max((c[i * n + j] - s).abs()); } }
         let mut ratio = 0f64; for i in 0..m { for j in 0..n { let (mut s, mut sa) = (0f64, 0f64); for kk in 0..k { let t = a[i * k + kk] as f64 * bb[kk * n + j] as f64; s += t; sa += t.abs(); } ratio = ratio.max((c[i * n + j] as f64 - s).abs() / (k as f64 * 6e-8 * sa).max(1e-30)); } }
         let b1 = e32 == 0.0 && ratio <= 1.0; ok_1b &= b1;
         worst = worst.max(e); let ok = e <= 1e-5; all_ok &= ok; println!("matmul_tiled  {}x{}x{}: max relative error {:.2e}  {}   | step 1b: exact vs sequential fp32 {}, error is {:.3} of the rounding bound  {}", m, k, n, e, if ok { "ok" } else { "FAIL" }, if e32 == 0.0 { "yes" } else { "NO" }, ratio, if b1 { "ok" } else { "FAIL" });
