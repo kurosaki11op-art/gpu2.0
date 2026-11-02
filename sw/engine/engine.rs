@@ -50,6 +50,9 @@ fn linear(x: &[f32], t: usize, k: usize, w: &[f32], m: usize, b: &[f32]) -> Vec<
     for r in 0..t { let yr = &mut y[r * m..(r + 1) * m]; yr.copy_from_slice(b); for kk in 0..k { let xv = x[r * k + kk]; let wr = &w[kk * m..(kk + 1) * m]; for j in 0..m { yr[j] += xv * wr[j]; } } }
     y
 }
+// dot products with 8 independent accumulators: a single accumulator makes every add wait for the previous one (E2c)
+fn dot_f32(x: &[f32], w: &[f32]) -> f32 { let mut a = [0f32; 8]; let (cx, cw) = (x.chunks_exact(8), w.chunks_exact(8)); let (rx, rw) = (cx.remainder(), cw.remainder()); for (p, q) in cx.zip(cw) { for i in 0..8 { a[i] += p[i] * q[i]; } } let mut s: f32 = a.iter().sum(); for i in 0..rx.len() { s += rx[i] * rw[i]; } s }
+fn dot_i8(x: &[f32], w: &[i8]) -> f32 { let mut a = [0f32; 8]; let (cx, cw) = (x.chunks_exact(8), w.chunks_exact(8)); let (rx, rw) = (cx.remainder(), cw.remainder()); for (p, q) in cx.zip(cw) { for i in 0..8 { a[i] += p[i] * q[i] as f32; } } let mut s: f32 = a.iter().sum(); for i in 0..rx.len() { s += rx[i] * rw[i] as f32; } s }
 fn gelu_new(x: f32) -> f32 { 0.5 * x * (1.0 + (0.7978845608028654f32 * (x + 0.044715 * x * x * x)).tanh()) }
 
 fn forward(m: &HashMap<String, T>, nl: usize, nh: usize, ids: &[usize]) -> Vec<f32> {
@@ -105,7 +108,7 @@ fn step(m: &HashMap<String, T>, nl: usize, nh: usize, c: &mut Cache, id: usize) 
     }
     c.len += 1;
     let xf = layer_norm(&x, 1, n, g("transformer.ln_f.weight"), g("transformer.ln_f.bias")); let mut logits = vec![0f32; vocab];
-    for v in 0..vocab { let w = &wte.d[v * n..(v + 1) * n]; let mut d = 0f32; for j in 0..n { d += xf[j] * w[j]; } logits[v] = d; }
+    for v in 0..vocab { logits[v] = dot_f32(&xf, &wte.d[v * n..(v + 1) * n]); }
     logits
 }
 
@@ -153,7 +156,7 @@ fn step_q(m: &HashMap<String, T>, qm: &QModel, nh: usize, c: &mut Cache, id: usi
     }
     c.len += 1;
     let xf = layer_norm(&x, 1, n, g("transformer.ln_f.weight"), g("transformer.ln_f.bias")); let mut logits = vec![0f32; vocab];
-    for v in 0..vocab { let w = &qm.wte.q[v * n..(v + 1) * n]; let mut d = 0f32; for j in 0..n { d += xf[j] * w[j] as f32; } logits[v] = d * qm.wte.s[v]; }
+    for v in 0..vocab { logits[v] = dot_i8(&xf, &qm.wte.q[v * n..(v + 1) * n]) * qm.wte.s[v]; }
     logits
 }
 fn nll(logits: &[f32], target: usize) -> f64 { let mx = logits.iter().cloned().fold(f32::NEG_INFINITY, f32::max); let z: f64 = logits.iter().map(|&v| ((v - mx) as f64).exp()).sum(); (z.ln() + mx as f64) - logits[target] as f64 }

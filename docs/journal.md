@@ -2212,4 +2212,6 @@ Founder: build with knowledge and in the right manner. Accepted: I had started E
 
 Engine E2 ([result](../sw/engine/E2_result.md), MEASURED): INT8 weight-only: memory 0.251x (bar 0.3: pass), quality +0.01407 nats per token with interval [0.0086, 0.0195] against the bar of 0.01 (FAIL), speed only 1.2x faster against a prediction of 3.5x to 4x (prediction failed). The study's claim that the engine sat at the memory limit was wrong (a coincidence of two numbers); hypothesis: a dependent float-add chain in the 38.6 million-multiply output layer (about 70 ms); test E2c prediction (8 accumulators at least 1.4x faster) written before the change. Quality: ablation and per-block scales next, same bar.
 
+E2c ([in the E2 result](../sw/engine/E2_result.md), MEASURED): 8 accumulators in the output-layer dot products gave only 1.20x (fp32) and 1.22x (INT8) against a prediction of at least 1.4x; the add-chain diagnosis was mostly wrong; I do not yet know where the rest of the time goes. Next: section timers (layer matrices, attention, output layer) before any further change; quality ablation and per-block scales for E2b under the same bar.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

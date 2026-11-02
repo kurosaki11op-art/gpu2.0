@@ -12,6 +12,8 @@ tags: [spark, engine, software, result, e4, kv-cache]
 - **Same outputs:** decoding one token at a time with the key-value cache, over the 16 E1 prompts (173 positions), gives logits that differ from the full-recompute pass by a **maximum of 0.0** (bit-identical: the arithmetic is done in the same order). Bar: within the E1 bar (1e-3, full greedy agreement). **PASS.**
 - **Per-token cost against position** (one 512-token sequence, mean time per token over each 64-position window, single run): 68.2, 67.7, 72.3, 79.6, 78.5, 75.2, 81.0, 78.3 ms for positions 0 to 511. The slowest window is **19.6% above the fastest** (81.0 against 67.7 ms). Bar: within 20%. **PASS, with a thin margin** (single run, no repeat; timer noise on a shared container is of that order).
 
+**Note, 2 Nov 2026 (later change):** after the output-layer dot products were split over 8 accumulators ([E2 result](E2_result.md)) the cached decode differs from the full pass by up to 3.2e-4, still inside the E4 bar (1e-3); the bit-identical result above is for the earlier build.
+
 ## Reading and limits
 
 - Per-token cost is nearly flat because at this size (6 layers, 768 wide) the per-token matrix work and the 50,257-way output layer dominate; attention over the cache adds little up to 512 positions. For longer contexts or wider models the cache cost will grow, as expected.
