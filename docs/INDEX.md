@@ -94,6 +94,7 @@ tags: [spark, index]
 - [Prompt for the independent reviewer (Vision)](vision_review_prompt.md): how the second agent reviews the project, what to attack and how to report (31 Oct 2026)
 - [Corrections after Vision review 01](../new_start/step21_vision_corrections.md): energy 7.3x central and 3.5x worst (was 13.2x and 6.2x), cost 1.35x and 0.82x (was 2.74x and 1.67x), speed range withdrawn, 1B latency 2.4 ms as implemented; supersedes the headline numbers of steps 5 to 15 (31 Oct 2026)
 - [Vision review 01](reviews/vision_review_01.md) and [Jarvis response to review 01](reviews/jarvis_response_01.md): independent review (25 findings) and the point-by-point answer with fixes and disagreements (31 Oct 2026)
+- [CUDA study, first pass](cuda_study_jarvis.md) and [prompt for Ultron](ultron_prompt_cuda.md): layers, what is public (PTX yes, SASS no), the licence clause, alternatives, consequences for our own design (2 Nov 2026).
 - [Vision research task 04](vision_research_task_04.md): what GPU buyers actually pay for, Jevons paradox, India, accessibility for a small team (1 Nov 2026).
 - [Vision research task 05](vision_research_task_05.md): CUDA layer by layer, its flaws, existing alternatives, legal boundary and what two people could build (2 Nov 2026); [Jarvis response to research 04](reviews/jarvis_response_research_04.md).
 - [Candidate 2 plan: big models on a 6 GB GPU](../hw/gpu/small_gpu/small_gpu_plan.md): baseline with the best free tool, improvement bar of 1.3x at no quality loss, kill rule (1 Nov 2026).
