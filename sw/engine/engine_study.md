@@ -31,6 +31,10 @@ Founder's correction (2 Nov 2026): build with knowledge and in the right manner.
 - **P2 memory:** weights at 0.26 to 0.30 times the fp32 size (8 bits plus scales), inside the 0.3 bar.
 - **P3 speed:** if the engine is memory-bound as section 2 reads, bytes per token fall from 324 MB to about 82 MB, so time per token should fall from 68 ms to **about 17 ms (3.5x to 4x faster)**. If the measured gain is under 2x, the engine is not memory-bound at that point (the conversion from integer to float or the scalar loop is the limit) and the next step is SIMD, not more quantisation.
 
+## Update after E2 (2 Nov 2026)
+
+**Predictions P1 (quality) and P3 (speed) failed; P2 (memory) held** ([E2 result](E2_result.md)). Section 2's reading that the engine already sat at the memory limit was wrong: INT8 (a quarter of the bytes) was only 1.2x faster. The likely cause is a chain of dependent floating-point adds in the output-layer dot products (hypothesis, test E2c in the result note), i.e. compute-latency-bound, not bandwidth-bound. Lesson recorded: two numbers agreeing (68 ms and 67.5 ms) was not evidence; the prediction test was.
+
 ## 5. What this does not settle
 
 Whether llama.cpp is faster on this machine (E3 measures it); thread scaling of this virtual machine's memory system; behaviour on larger models; the 4-bit case (ggml-style block formats were not read from primary sources: the search returned no usable page).
