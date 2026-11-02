@@ -79,8 +79,50 @@ fn forward(m: &HashMap<String, T>, nl: usize, nh: usize, ids: &[usize]) -> Vec<f
     logits
 }
 
+// ---- E4: incremental decoding with a key-value cache. One token per call: computes this position's keys and values, appends them, attends over the cache, returns this position's logits.
+struct Cache { k: Vec<Vec<f32>>, v: Vec<Vec<f32>>, len: usize }
+impl Cache { fn new(nl: usize) -> Cache { Cache { k: vec![Vec::new(); nl], v: vec![Vec::new(); nl], len: 0 } } }
+fn step(m: &HashMap<String, T>, nl: usize, nh: usize, c: &mut Cache, id: usize) -> Vec<f32> {
+    let g = |k: &str| &m.get(k).unwrap_or_else(|| panic!("missing tensor {}", k)).d[..];
+    let wte = m.get("transformer.wte.weight").unwrap(); let (vocab, n) = (wte.shape[0], wte.shape[1]); let wpe = g("transformer.wpe.weight"); let pos = c.len; let dh = n / nh;
+    let mut x = vec![0f32; n]; for j in 0..n { x[j] = wte.d[id * n + j] + wpe[pos * n + j]; }
+    for l in 0..nl {
+        let p = |s: &str| format!("transformer.h.{}.{}", l, s);
+        let h = layer_norm(&x, 1, n, g(&p("ln_1.weight")), g(&p("ln_1.bias")));
+        let qkv = linear(&h, 1, n, g(&p("attn.c_attn.weight")), 3 * n, g(&p("attn.c_attn.bias")));
+        c.k[l].extend_from_slice(&qkv[n..2 * n]); c.v[l].extend_from_slice(&qkv[2 * n..3 * n]); let t = pos + 1;
+        let mut a = vec![0f32; n]; let sc = 1.0 / (dh as f32).sqrt();
+        for hd in 0..nh {
+            let mut s = vec![0f32; t]; let mut mx = f32::NEG_INFINITY;
+            for j in 0..t { let mut d = 0f32; for cc in 0..dh { d += qkv[hd * dh + cc] * c.k[l][j * n + hd * dh + cc]; } s[j] = d * sc; if s[j] > mx { mx = s[j]; } }
+            let mut z = 0f32; for j in 0..t { s[j] = (s[j] - mx).exp(); z += s[j]; }
+            for j in 0..t { let pj = s[j] / z; for cc in 0..dh { a[hd * dh + cc] += pj * c.v[l][j * n + hd * dh + cc]; } }
+        }
+        let o = linear(&a, 1, n, g(&p("attn.c_proj.weight")), n, g(&p("attn.c_proj.bias"))); for i in 0..n { x[i] += o[i]; }
+        let h2 = layer_norm(&x, 1, n, g(&p("ln_2.weight")), g(&p("ln_2.bias")));
+        let mut u = linear(&h2, 1, n, g(&p("mlp.c_fc.weight")), 4 * n, g(&p("mlp.c_fc.bias"))); for v in u.iter_mut() { *v = gelu_new(*v); }
+        let dn = linear(&u, 1, 4 * n, g(&p("mlp.c_proj.weight")), n, g(&p("mlp.c_proj.bias"))); for i in 0..n { x[i] += dn[i]; }
+    }
+    c.len += 1;
+    let xf = layer_norm(&x, 1, n, g("transformer.ln_f.weight"), g("transformer.ln_f.bias")); let mut logits = vec![0f32; vocab];
+    for v in 0..vocab { let w = &wte.d[v * n..(v + 1) * n]; let mut d = 0f32; for j in 0..n { d += xf[j] * w[j]; } logits[v] = d; }
+    logits
+}
+
 fn main() {
-    let a: Vec<String> = std::env::args().collect(); if a.len() < 5 { eprintln!("usage: engine MODEL.safetensors N_HEAD IDS.txt OUT.bin"); std::process::exit(2); }
+    let a: Vec<String> = std::env::args().collect(); if a.len() < 5 { eprintln!("usage: engine MODEL.safetensors N_HEAD IDS.txt OUT.bin [decode]"); std::process::exit(2); }
+    if a.len() > 5 && a[5] == "decode" {
+        // E4: one token at a time with the cache; writes the logits of every position (same format as the full pass) and prints the time per token by position window
+        let m = load(&a[1]); let nh: usize = a[2].parse().unwrap(); let mut nl = 0; while m.contains_key(&format!("transformer.h.{}.ln_1.weight", nl)) { nl += 1; }
+        let prompts: Vec<Vec<usize>> = fs::read_to_string(&a[3]).unwrap().lines().filter(|l| !l.trim().is_empty()).map(|l| l.split_whitespace().map(|v| v.parse().unwrap()).collect()).collect();
+        let mut out = fs::File::create(&a[4]).unwrap(); let win = 64usize; let mut tw: Vec<(f64, usize)> = Vec::new();
+        for p in &prompts { let mut c = Cache::new(nl); for (i, &id) in p.iter().enumerate() {
+            let t0 = std::time::Instant::now(); let lg = step(&m, nl, nh, &mut c, id); let dt = t0.elapsed().as_secs_f64();
+            if p.len() >= 256 { let w = i / win; if tw.len() <= w { tw.resize(w + 1, (0.0, 0)); } tw[w].0 += dt; tw[w].1 += 1; }
+            let bytes: Vec<u8> = lg.iter().flat_map(|v| v.to_le_bytes()).collect(); out.write_all(&bytes).unwrap(); } }
+        for (w, (s, n)) in tw.iter().enumerate() { if *n > 0 { eprintln!("positions {:>4}..{:>4}: {:.2} ms per token", w * win, (w + 1) * win - 1, s / *n as f64 * 1e3); } }
+        return;
+    }
     let m = load(&a[1]); let nh: usize = a[2].parse().unwrap(); let mut nl = 0; while m.contains_key(&format!("transformer.h.{}.ln_1.weight", nl)) { nl += 1; }
     let prompts: Vec<Vec<usize>> = fs::read_to_string(&a[3]).unwrap().lines().filter(|l| !l.trim().is_empty()).map(|l| l.split_whitespace().map(|v| v.parse().unwrap()).collect()).collect();
     let mut out = fs::File::create(&a[4]).unwrap(); let t0 = std::time::Instant::now();

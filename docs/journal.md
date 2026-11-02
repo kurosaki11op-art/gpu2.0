@@ -2206,4 +2206,6 @@ Ultron's reply on CUDA checked ([study](cuda_study_jarvis.md)): no links despite
 
 Founder: build it; treat the open projects as competitors. Wrote the [engine plan](../sw/engine/engine_plan.md) (bars E1 to E5, dates, stop rule) first, then the first engine ([E1 result](../sw/engine/E1_result.md), MEASURED): a Rust standard-library-only fp32 forward pass of a GPT-2-family decoder from a safetensors file matches PyTorch within 3.8e-4 on 173 positions with 173 of 173 greedy tokens (bar 1e-3 and full agreement): PASS. Unoptimised (about 48 ms per position); no speed claim. Next: key-value cache (E4), INT8 (E2), speed against llama.cpp (E3, bar 0.8x).
 
+Engine E4 ([result](../sw/engine/E4_result.md), MEASURED): incremental decoding with a key-value cache gives logits bit-identical to the full pass (max difference 0.0) and per-token cost flat within 19.6% over 512 positions (bar 20%, thin margin, single run): PASS. Speed is poor (about 68 ms per token, 15 tokens per second, one thread, fp32), so E3 will fail without threads, blocked matrix multiplies and INT8; stop rule unchanged. Next E2.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -94,6 +94,7 @@ tags: [spark, index]
 - [Prompt for the independent reviewer (Vision)](vision_review_prompt.md): how the second agent reviews the project, what to attack and how to report (31 Oct 2026)
 - [Corrections after Vision review 01](../new_start/step21_vision_corrections.md): energy 7.3x central and 3.5x worst (was 13.2x and 6.2x), cost 1.35x and 0.82x (was 2.74x and 1.67x), speed range withdrawn, 1B latency 2.4 ms as implemented; supersedes the headline numbers of steps 5 to 15 (31 Oct 2026)
 - [Vision review 01](reviews/vision_review_01.md) and [Jarvis response to review 01](reviews/jarvis_response_01.md): independent review (25 findings) and the point-by-point answer with fixes and disagreements (31 Oct 2026)
+- [Engine E4 result](../sw/engine/E4_result.md): key-value cache decoding bit-identical to the full pass, per-token cost flat within 19.6% over 512 positions; speed still poor (2 Nov 2026).
 - [Engine E1 result](../sw/engine/E1_result.md): our own Rust engine reproduces a real pretrained decoder (max logit error 3.8e-4, 173 of 173 greedy tokens) (2 Nov 2026).
 - [Engine plan: our own inference engine](../sw/engine/engine_plan.md): scope, bars E1 to E5, dates and stop rule, written before the code (2 Nov 2026).
 - [CUDA study, first pass](cuda_study_jarvis.md) and [prompt for Ultron](ultron_prompt_cuda.md): layers, what is public (PTX yes, SASS no), the licence clause, alternatives, consequences for our own design (2 Nov 2026).
