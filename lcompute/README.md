@@ -34,4 +34,6 @@ Every step has a **bar written before the code** ([ROADMAP](docs/ROADMAP.md)), a
 cd lcompute/src && rustc --edition 2021 -O main.rs -o /tmp/lcompute && /tmp/lcompute
 ```
 
+Documents: [index](docs/INDEX.md), [WHY](docs/WHY.md).
+
 Related: [Stack plan](../sw/stack/stack_plan.md), [CUDA study](../docs/cuda_study_jarvis.md), [Engine plan](../sw/engine/engine_plan.md), [Docs index](../docs/INDEX.md)
