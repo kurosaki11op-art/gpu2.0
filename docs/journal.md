@@ -2208,4 +2208,6 @@ Founder: build it; treat the open projects as competitors. Wrote the [engine pla
 
 Engine E4 ([result](../sw/engine/E4_result.md), MEASURED): incremental decoding with a key-value cache gives logits bit-identical to the full pass (max difference 0.0) and per-token cost flat within 19.6% over 512 positions (bar 20%, thin margin, single run): PASS. Speed is poor (about 68 ms per token, 15 tokens per second, one thread, fp32), so E3 will fail without threads, blocked matrix multiplies and INT8; stop rule unchanged. Next E2.
 
+Founder: build with knowledge and in the right manner. Accepted: I had started E2 and E3 without studying; wrote the [engine study](../sw/engine/engine_study.md) first: decode time is bytes per token over bandwidth; our engine reads 324 MB per token (the output embedding is 47% of it) and measured 68 ms against a 67.5 ms floor from a 4.8 GB/s single-thread read on this machine, so it is already at the memory limit here; INT8 design (per-channel scales, weight-only) and predictions P1 to P3 (quality 0.01 nats, memory 0.26 to 0.30, speed about 17 ms per token or the engine is not memory-bound at that point) written before the code.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
