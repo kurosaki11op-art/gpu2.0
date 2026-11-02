@@ -2214,4 +2214,6 @@ Engine E2 ([result](../sw/engine/E2_result.md), MEASURED): INT8 weight-only: mem
 
 E2c ([in the E2 result](../sw/engine/E2_result.md), MEASURED): 8 accumulators in the output-layer dot products gave only 1.20x (fp32) and 1.22x (INT8) against a prediction of at least 1.4x; the add-chain diagnosis was mostly wrong; I do not yet know where the rest of the time goes. Next: section timers (layer matrices, attention, output layer) before any further change; quality ablation and per-block scales for E2b under the same bar.
 
+Founder: the engine already exists as free software; what companies need is CUDA-like software. Wrote the [stack plan](../sw/stack/stack_plan.md) as a proposal (a small tensor IR, CPU and PTX code generators plus a non-NVIDIA route, a runtime; bars K1 to K6, stop rule 23 Nov / 21 Dec); the engine becomes the correctness reference; the licence boundary and Vision's CUDA research are pending inputs.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
