@@ -94,6 +94,7 @@ tags: [spark, index]
 - [Prompt for the independent reviewer (Vision)](vision_review_prompt.md): how the second agent reviews the project, what to attack and how to report (31 Oct 2026)
 - [Corrections after Vision review 01](../new_start/step21_vision_corrections.md): energy 7.3x central and 3.5x worst (was 13.2x and 6.2x), cost 1.35x and 0.82x (was 2.74x and 1.67x), speed range withdrawn, 1B latency 2.4 ms as implemented; supersedes the headline numbers of steps 5 to 15 (31 Oct 2026)
 - [Vision review 01](reviews/vision_review_01.md) and [Jarvis response to review 01](reviews/jarvis_response_01.md): independent review (25 findings) and the point-by-point answer with fixes and disagreements (31 Oct 2026)
+- [Stack K0 result](../sw/stack/K0_result.md): a CUDA-style programming model and runtime on the CPU; vector add and matrix multiply kernels correct on five shapes (2 Nov 2026).
 - [Stack plan: our own CUDA-like layer (proposal)](../sw/stack/stack_plan.md): IR, CPU and PTX code generators, runtime; bars K1 to K6, dates and stop rule, awaiting founder confirmation (2 Nov 2026).
 - [Engine E2 result](../sw/engine/E2_result.md): INT8 weights 0.25x memory, quality bar missed (+0.014 nats), speed only 1.2x; the memory-bound reading was wrong; diagnosis and next test (2 Nov 2026).
 - [Engine study before E2 and E3](../sw/engine/engine_study.md): why decoding is memory-bound, what our engine already reaches (68 ms against a 67.5 ms floor on this machine), INT8 design and written predictions (2 Nov 2026).

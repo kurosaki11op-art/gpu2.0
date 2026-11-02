@@ -2216,4 +2216,6 @@ E2c ([in the E2 result](../sw/engine/E2_result.md), MEASURED): 8 accumulators in
 
 Founder: the engine already exists as free software; what companies need is CUDA-like software. Wrote the [stack plan](../sw/stack/stack_plan.md) as a proposal (a small tensor IR, CPU and PTX code generators plus a non-NVIDIA route, a runtime; bars K1 to K6, stop rule 23 Nov / 21 Dec); the engine becomes the correctness reference; the licence boundary and Vision's CUDA research are pending inputs.
 
+Founder, angry that I kept stating odds instead of building: fair. Explained CUDA in four concrete layers (programming model, compiler to PTX and machine code, runtime and driver API, tuned libraries with gradients) and built layers 1 and 3 on the CPU first ([K0 result](../sw/stack/K0_result.md), MEASURED): kernels with blockIdx and threadIdx launched over a grid; vector add and matrix multiply correct (error 0) on five shapes. Next: shared memory and barriers, then a code generator to PTX for the Colab T4 and the founder's 3050.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
