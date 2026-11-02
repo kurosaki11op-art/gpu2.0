@@ -25,6 +25,15 @@ Deliverable: a runtime API (`alloc`, `free`, `create_stream`, `copy_to_device`, 
 - **R4 errors detected and reported with a message** (7 cases): wrong-size copy; use of a freed buffer; double free; unknown buffer handle; launch with the wrong number of arguments; launch with an argument of the wrong kind; an out-of-range access inside a kernel reported by `synchronize`.
 - **R5 resources:** after all buffers are freed the runtime reports zero live buffers; dropping the runtime joins its stream threads without hanging.
 
+## Step 3 bars (written before the code, 2 Nov 2026)
+
+Deliverable: a **lockstep block executor**: the threads of a block run together, every instruction applied to all active threads at once as a tight loop (registers stored per instruction, not per thread), divergent branches handled by running the lowest-numbered instruction among the active threads first so that threads re-join (barriers become waiting points). Same meaning as the interpreter; selectable behind the runtime.
+- **C1 equality:** every launch of the step 1 suite (all shapes of all three kernels) gives **bit-identical output buffers** from the fast back end and the interpreter.
+- **C2 errors:** both negative tests (barrier divergence, out-of-range access) are still detected, with the same kind of message.
+- **C3 runtime:** the step 2 suite R1 to R5 passes with the fast back end behind the runtime.
+- **C4 speed:** the 512 x 512 x 512 tiled matrix multiply runs **at least 20x faster** than the interpreter on the same machine (wall-clock; interpreter measured once, fast back end best of 3); GFLOP/s reported.
+- **C5 reported, no bar:** vector add and block reduction at 1,000,000 elements, both back ends.
+
 ## Note, 2 Nov 2026 (after the step 1 run)
 
 The step 1 bar (every shape within 1e-5 relative error) was **mis-specified for long inner dimensions**: one of 17 checks measured 1.00e-5; the kernel equals a sequential fp32 sum exactly ([result](lc_step1_result.md)). The original bar is recorded as **missed** on the first run, and **passed on a second run after a kernel fix** (two-level tile summation; worst error 2.9e-6). **Step 1b** replaces it for later steps: matrix products must agree with the sequential fp32 sum exactly in the interpreter and stay within `k x 6e-8 x sum of |terms|` of a float64 reference on every back end.
