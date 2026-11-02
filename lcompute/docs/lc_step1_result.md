@@ -26,6 +26,8 @@ tags: [spark, lcompute, result, step1, interpreter]
 
 The diagnostic run compares the kernel with a **sequential fp32 sum in the same order: the difference is exactly 0 on all six shapes.** So the kernel computes exactly what the specification says; the 1.00e-5 is the rounding error of adding 768 float32 products, measured against a float64 reference. **The bar was mis-specified for long inner dimensions**; I am **not** calling step 1 passed on the original bar and I do not change it after the run. **Step 1b (new, written now, applied to later steps):** matrix products are checked against a bound that scales with the rounding the sum can incur, error at most `k x 6e-8 x sum of |terms|` (the standard fp32 bound) **and** exact agreement with the sequential fp32 sum for the interpreter's own kernels. Under step 1b the results above pass (stated as a re-specification, not as a pass of the first bar).
 
+**Step 1b check, implemented and run the same day (MEASURED):** all six matrix shapes agree **exactly** with the sequential fp32 sum and the error against the float64 reference is between **0.003 and 0.07 of the standard rounding bound** (`k x 6e-8 x sum of |terms|`). The 1x768x2304 case, the one that missed 1e-5, is at 0.003 of its bound. This is a re-specification written after the run, **not a pass of the first bar**, which stays recorded as missed.
+
 ## Limits
 
 Float32 buffers and scalar parameters only; no atomics, no warp operations, no f16 or int8; the interpreter is slow (it defines meaning, it is not a back end); the matrix multiply is one tile size; tests run on the CPU only.

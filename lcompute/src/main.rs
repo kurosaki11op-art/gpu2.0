@@ -53,7 +53,7 @@ fn rnd(n: usize, seed: u64) -> Vec<f32> { let mut s = seed; (0..n).map(|_| { s =
 fn relerr(got: f32, want: f64) -> f64 { (got as f64 - want).abs() / want.abs().max(1.0) }
 
 fn main() {
-    let mut all_ok = true; let mut worst = 0f64;
+    let mut all_ok = true; let mut worst = 0f64; let mut ok_1b = true; // ok_1b: the step 1b rule of docs/ROADMAP.md (exact agreement with the sequential fp32 sum, and within k x 6e-8 x sum of |terms| of a float64 reference)
     let kv = vec_add();
     for &n in &[1usize, 255, 256, 1000, 100003] {
         let (mut a, mut bb, mut c) = (rnd(n, 1), rnd(n, 2), vec![0f32; n]); let args = [host(&mut a), host(&mut bb), host(&mut c), Arg::I32(n as i32)];
@@ -67,7 +67,9 @@ fn main() {
         launch(&km, dim((n + 15) / 16, (m + 15) / 16, 1), dim(16, 16, 1), &args).unwrap();
         let mut e = 0f64; for i in 0..m { for j in 0..n { let mut s = 0f64; for kk in 0..k { s += a[i * k + kk] as f64 * bb[kk * n + j] as f64; } e = e.max(relerr(c[i * n + j], s)); } }
         let mut e32 = 0f32; for i in 0..m { for j in 0..n { let mut s = 0f32; for kk in 0..k { s += a[i * k + kk] * bb[kk * n + j]; } e32 = e32.max((c[i * n + j] - s).abs()); } }
-        worst = worst.max(e); let ok = e <= 1e-5; all_ok &= ok; println!("matmul_tiled  {}x{}x{}: max relative error {:.2e}  {}   (diagnostic: max difference to a sequential fp32 sum {:.1e})", m, k, n, e, if ok { "ok" } else { "FAIL" }, e32);
+        let mut ratio = 0f64; for i in 0..m { for j in 0..n { let (mut s, mut sa) = (0f64, 0f64); for kk in 0..k { let t = a[i * k + kk] as f64 * bb[kk * n + j] as f64; s += t; sa += t.abs(); } ratio = ratio.max((c[i * n + j] as f64 - s).abs() / (k as f64 * 6e-8 * sa).max(1e-30)); } }
+        let b1 = e32 == 0.0 && ratio <= 1.0; ok_1b &= b1;
+        worst = worst.max(e); let ok = e <= 1e-5; all_ok &= ok; println!("matmul_tiled  {}x{}x{}: max relative error {:.2e}  {}   | step 1b: exact vs sequential fp32 {}, error is {:.3} of the rounding bound  {}", m, k, n, e, if ok { "ok" } else { "FAIL" }, if e32 == 0.0 { "yes" } else { "NO" }, ratio, if b1 { "ok" } else { "FAIL" });
     }
     let kr = block_reduce();
     for &n in &[1usize, 256, 1000, 12345, 65537] {
@@ -81,5 +83,6 @@ fn main() {
     let ok = matches!(&r, Err(e) if e.contains("barrier divergence")); all_ok &= ok; println!("negative test barrier divergence: {}  ({})", if ok { "detected" } else { "NOT DETECTED" }, r.err().unwrap_or_default());
     let args = [host(&mut z), Arg::I32(8)]; let r = launch(&out_of_range(), dim(1, 1, 1), dim(1, 1, 1), &args);
     let ok = matches!(&r, Err(e) if e.contains("out-of-range")); all_ok &= ok; println!("negative test out-of-range load: {}  ({})", if ok { "detected" } else { "NOT DETECTED" }, r.err().unwrap_or_default());
-    println!("\nSTEP 1 BAR (each kernel on at least 5 shapes within 1e-5, two negative tests detected): worst relative error {:.1e}, {}", worst, if all_ok { "PASS" } else { "FAIL" });
+    println!("\nSTEP 1 BAR as first written (each kernel on at least 5 shapes within 1e-5, two negative tests detected): worst relative error {:.1e}, {}", worst, if all_ok { "PASS" } else { "FAIL" });
+    println!("STEP 1b RULE for matrix products (written after the step 1 run; a re-specification, not a pass of the first bar): {}", if ok_1b { "all shapes meet it" } else { "NOT MET" });
 }
