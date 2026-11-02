@@ -1,5 +1,5 @@
 // L Compute step 1: kernels written with the builder, run by the reference interpreter, checked against independent plain references (bars: docs/ROADMAP.md step 1).
-mod ir; mod builder; mod interp;
+mod ir; mod builder; mod interp; mod runtime; mod step2;
 use builder::B; use interp::*;
 
 fn vec_add() -> ir::Kernel {
@@ -86,4 +86,5 @@ fn main() {
     let ok = matches!(&r, Err(e) if e.contains("out-of-range")); all_ok &= ok; println!("negative test out-of-range load: {}  ({})", if ok { "detected" } else { "NOT DETECTED" }, r.err().unwrap_or_default());
     println!("\nSTEP 1 BAR as first written (each kernel on at least 5 shapes within 1e-5, two negative tests detected): worst relative error {:.1e}, {}", worst, if all_ok { "PASS" } else { "FAIL" });
     println!("STEP 1b RULE for matrix products (written after the step 1 run; a re-specification, not a pass of the first bar): {}", if ok_1b { "all shapes meet it" } else { "NOT MET" });
+    step2::run();
 }

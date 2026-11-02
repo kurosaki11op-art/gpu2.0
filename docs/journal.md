@@ -2224,4 +2224,6 @@ Founder asked how the step 1 miss will be fixed. Answer: the kernel was not wron
 
 L Compute step 1 fixed: two-level (per-tile) summation in the tiled matrix kernel; re-run of the original bar on the same inputs: 17 of 17, worst relative error 2.9e-6 (the 1x768x2304 case from 1.00e-5 to 2.89e-6); first run stays recorded as a miss, second as a pass after a fix ([result](../lcompute/docs/lc_step1_result.md)).
 
+Founder: proceed with step 2; study what CUDA is for and build what people need. Wrote [WHY](../lcompute/docs/WHY.md) (history, uses, requirements, flaws, what it means for our design; from my knowledge, unchecked against primary documents), the step 2 bars first, then the runtime ([result](../lcompute/docs/lc_step2_result.md), MEASURED): buffers, in-order streams, checked errors; all of R1 to R5 pass (the step 1 kernels through the runtime only, dependent launches in order, four streams, 100 chained launches exact, seven kinds of mistake reported, no live buffers left). A deadlock in `free` (lock guard held across a loop) was found by the test hanging and fixed. Next: step 3, a fast CPU back end.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
