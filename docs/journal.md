@@ -2282,4 +2282,8 @@ Founder ran suite 5. MEASURED: 64 of 64 cases bit-identical; best kernel matmul_
 
 Founder ran suite 6. MEASURED: 113 of 113 cases bit-identical (including out-of-range load and store in the cheap check mode). With cheap checks the kernels reach **0.70x to 1.07x of cuBLAS** (2784 GFLOP/s for matmul_fma8db), 2.1x faster than the full checks; no-check variants up to 3828 GFLOP/s (1.48x). Hypothesis from the machine-code count confirmed. The above-1.0x numbers are flagged as unreliable (cuBLAS looks throttled, runs not interleaved, one size); a controlled repeat is next. See [step 4 result](../lcompute/docs/lc_step4_result.md).
 
+## 3 Nov 2026 - L Compute step 4d: controlled repeat on the T4 retracts the 'beats cuBLAS' reading; Q7b missed
+
+Founder ran the controlled interleaved comparison. MEASURED: the earlier cuBLAS time (2590 GFLOP/s) was a cold-clock first call; steady cuBLAS is 4100 to 5200 GFLOP/s. **No kernel beats cuBLAS.** Cheap-check kernel: 0.58x at 1024^3 (**Q7b bar 0.6x missed**), 0.53x at 2048^3, 0.64x at 4096^3; no-check unrolled kernel 0.85x to 0.95x. The first 'Q7b passes' and all 1.07x to 1.48x statements are retracted in the [step 4 result](../lcompute/docs/lc_step4_result.md). Lesson recorded: a ratio against a vendor library is only believed from an interleaved, event-timed, clock-logged run. Next lever: range analysis to remove provably safe checks.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

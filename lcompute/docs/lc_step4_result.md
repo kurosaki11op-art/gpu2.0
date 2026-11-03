@@ -87,9 +87,31 @@ Double buffering gained 2 to 4 percent, a smaller tile for occupancy nothing, a 
 
 Full checks with the k loop unrolled: fma8db 1632 (0.63x), fma8x4 1247 (0.48x), fma8x4db 1184 (0.46x). Earlier kernels in the same run: matmul_tiled 325, matmul_reg 1052, matmul_fma 1054, matmul_fma4 1077, matmul_fma8 1270, matmul_fma8k32 1216 GFLOP/s.
 
-**Q7b: PASS (at least 0.6x of cuBLAS with checks kept):** every cheap-check variant is at 0.70x or more; the best, `matmul_fma8db` with cheap checks, is 2784 GFLOP/s (1.07x in this run). The hypothesis is confirmed: the full bounds checks (about 85 extra instructions per 32 multiply-adds) were what held the kernel at 0.5x. Cheap checking (one unsigned compare per access, the error code kept in a register and written once at the end, loads on a clamped index, stores predicated, 32-bit shared addressing) costs about 3 to 7 percent against no checks for the 128 x 128 kernel and about 12 percent for the 128 x 64 kernel (fma8x4 cheap 1913 against none 2095), and is 2.1x faster than full checking.
+**Q7b as first judged (single non-interleaved run): looked like a pass; RETRACTED after the controlled repeat below (0.58x at 1024^3, a miss).** In that first run every cheap-check variant was at 0.70x or more; the best, `matmul_fma8db` with cheap checks, is 2784 GFLOP/s (1.07x in this run). The hypothesis is confirmed: the full bounds checks (about 85 extra instructions per 32 multiply-adds) were what held the kernel at 0.5x. Cheap checking (one unsigned compare per access, the error code kept in a register and written once at the end, loads on a clamped index, stores predicated, 32-bit shared addressing) costs about 3 to 7 percent against no checks for the 128 x 128 kernel and about 12 percent for the 128 x 64 kernel (fma8x4 cheap 1913 against none 2095), and is 2.1x faster than full checking.
 
 **Not to be believed yet: results above 1.0x of cuBLAS (up to 1.48x).** A hand-written kernel from our own IR beating the vendor library by that much is extraordinary and may be an artefact of the measurement: the cuBLAS number (2590 GFLOP/s, 0.83 ms) is low for this GPU class, which suggests clock or power throttling that differed between the cuBLAS loop (run first) and our loops; the two were not interleaved; sizes other than 1024^3 were not tried; and cuBLAS may simply pick a poor kernel for this one shape. The outputs agree with cuBLAS to 1.6e-6 (the results are right). A controlled re-measurement (interleaved runs, clocks logged, CUDA event timing, several sizes) is the next step; until it is done the honest statement is: **with cheap checks the kernel is at 0.70x to 1.07x of cuBLAS in this one run, and the comparison needs a controlled repeat.** Run-to-run variation seen so far: the same kernel measured 0.52x and 0.48x in two sessions.
+
+### Controlled repeat (3 Nov 2026, same T4, MEASURED, [gpu_verify.py](../tools/gpu_verify.py)): the above-1.0x results were an artefact
+
+cuBLAS and six of our variants interleaved over 5 rounds, 20 launches per timing, CUDA event timing, clocks logged. The GPU starts idle (585 MHz, 27 W) and ramps to about 1500 MHz: the first cuBLAS call of the first run (0.83 ms at 1024^3) was a cold-clock timing; steady cuBLAS at 1024^3 is 0.35 ms (6170 GFLOP/s, rounds: 0.830 0.523 0.445 0.348 0.350). Medians of 5 rounds (ours / cuBLAS in brackets):
+
+| size | cuBLAS GFLOP/s | fma8db full | fma8db cheap | fma8db cheap, unrolled | fma8db no checks, unrolled | fma8x4 cheap | fma8x4db cheap |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 512 | 2015 | 341 (0.17) | 533 (0.26) | 579 (0.29) | 905 (0.45) | 767 (0.38) | 691 (0.34) |
+| 1024 | 4821 | 1047 (0.22) | 2785 (0.58) | 2659 (0.55) | 4463 (0.93) | 2112 (0.44) | 2070 (0.43) |
+| 2048 | 5182 | 1422 (0.27) | 2772 (0.53) | 2676 (0.52) | 4390 (0.85) | 2090 (0.40) | 1958 (0.38) |
+| 4096 | 4102 | 1476 (0.36) | 2609 (0.64) | 2574 (0.63) | 3896 (0.95) | 1902 (0.46) | 1776 (0.43) |
+
+(Clock range during the runs 585 to 1575 MHz, power 27 to 118 W; the early rounds include the clock ramp, which is why 512 and 1024 are noisy. At 1024^3 using the best round of each instead of the median, cuBLAS 6170 GFLOP/s against fma8db cheap 2970 (0.48x) and no-check unrolled 4740 (0.77x).)
+
+**Corrected conclusions.**
+- **No kernel beats cuBLAS.** The 1.07x to 1.48x of the first run came from a cold-clock cuBLAS timing and are withdrawn.
+- **Bar Q7b is MISSED under the controlled measurement:** the best cheap-check variant is 0.58x at 1024^3 (the size the bar names), 0.53x at 2048^3, 0.64x at 4096^3 (the only size at or above 0.6x), 0.26x at 512^3. The first judgement of Q7b as passed was based on the throttled comparison and is retracted.
+- What stands: full bounds checking is the main cost (full 1047 against cheap 2785 GFLOP/s at 1024^3, 2.7x), and the best no-check kernel reaches 0.85x to 0.95x of cuBLAS at 1024^3 and above, which is a strong result for a kernel generated from our own IR (a plain 128 x 128 tile, scalar shared loads, no vector instructions).
+- The check cost is 30 to 40 percent once the loop is unrolled: cheap checks cost 3 percent against no checks without unrolling (suite 6: 2784 against 2874), but unrolling helps the no-check kernel by 33 percent (2874 to 3828) and the cheap-check kernel not at all (2784 to 2631): the compiler cannot optimise the unrolled loop around the per-load compare and clamp.
+- Small sizes are poor: at 512^3 the 128 x 128 tile gives only 16 blocks for the 40 multiprocessors of the T4.
+
+Next lever (not started): remove checks that can be proved safe at code generation time (the index ranges inside the unrolled loops come from thread ids and constants), keeping the check only where it cannot be proved. That is a range analysis; it needs the thread-block shape declared in the kernel.
 
 Semantics note on the cheap mode: loads past the end read a clamped (wrong but defined) element and set the error word, stores past the end are skipped, and the error code of the last failing access is written when the thread exits; unlike the full mode, a failing kernel keeps running to its end. The error word is zero if and only if no access was out of range.
 
