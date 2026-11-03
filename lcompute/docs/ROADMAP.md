@@ -38,6 +38,17 @@ Deliverable: a **lockstep block executor**: the threads of a block run together,
 
 C5 showed block_reduce only 1.5x faster than the interpreter at 1,000,000 elements (about 400 ns per element). Cause not yet measured (guesses: per-block allocation, divergence rescans, the partial-lane path). **D1:** after the fix, block_reduce at 1,000,000 elements is **at least 4x faster than the interpreter** (interpreter once, fast best of 3), **and** C1 (16 of 16 bit-identical), C2, C3 and C4 (still at least 20x) still pass. Reported whether it passes or not.
 
+## Step 4 bars: PTX back end for NVIDIA GPUs (written before the code, 3 Nov 2026)
+
+Deliverable: [`ptx.rs`](../src/ptx.rs), a translator from the IR to PTX text (public NVIDIA ISA), a hidden-parameter ABI for checked memory access, a suite exporter, and a small GPU runner script ([`tools/gpu_runner.py`](../tools/gpu_runner.py), driver API through ctypes). This container has no GPU, so the bars split into what is checked here and what needs your GPU.
+
+- **P1 (here, MEASURED):** every kernel of the suite (vec_add, matmul_tiled, block_reduce, the two negative kernels) translates, and NVIDIA's own assembler `ptxas` accepts every file for sm_75 (T4) and sm_86 (RTX 3050) with zero errors and zero warnings.
+- **P2 (needs a GPU, written now, not yet run):** all 16 step 1 launches run on a real NVIDIA GPU give outputs **bit-identical** to the interpreter (explicit round-to-nearest multiply and add, no fused multiply-add, so the sums match). Float exp and tanh are excluded (PTX has only approximate versions); no suite kernel uses them.
+- **P3 (needs a GPU):** the out-of-range kernel is reported through the error word (the access is skipped, not performed). Barrier divergence is **not** detectable on a GPU (undefined behaviour there); it stays a CPU back end check, and this is stated as a limit, not a pass.
+- **P4 (needs a GPU, report only):** 1024 x 1024 x 1024 fp32 matmul with our tiled kernel against cuBLAS (PyTorch, TF32 off) on the same GPU: GFLOP/s of both and the ratio. No bar at this step; step 6 has the 0.5x of vendor bar.
+
+Until P2 to P4 are run on a GPU they are **not claimed**.
+
 ## Note, 2 Nov 2026 (after the step 1 run)
 
 The step 1 bar (every shape within 1e-5 relative error) was **mis-specified for long inner dimensions**: one of 17 checks measured 1.00e-5; the kernel equals a sequential fp32 sum exactly ([result](lc_step1_result.md)). The original bar is recorded as **missed** on the first run, and **passed on a second run after a kernel fix** (two-level tile summation; worst error 2.9e-6). **Step 1b** replaces it for later steps: matrix products must agree with the sequential fp32 sum exactly in the interpreter and stay within `k x 6e-8 x sum of |terms|` of a float64 reference on every back end.
