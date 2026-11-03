@@ -49,6 +49,15 @@ Deliverable: [`ptx.rs`](../src/ptx.rs), a translator from the IR to PTX text (pu
 
 Until P2 to P4 are run on a GPU they are **not claimed**.
 
+## Step 4b bars: matmul speed on the GPU (written before the work, 3 Nov 2026)
+
+Start: our plain tiled matmul is 0.10x of cuBLAS on the T4 at 1024^3 (250 vs 2568 GFLOP/s, [step 4 result](lc_step4_result.md)). Planned change: a second kernel, `matmul_reg`, with a 64 x 64 block tile and 4 x 4 outputs per thread, written in the same builder, no change to the IR. It keeps the summation order of `matmul_tiled` (sum 16 products per tile, then add to the running total), so it must give the same bits.
+- **Q1 equality (CPU, here):** `matmul_reg` output is bit-identical to `matmul_tiled` output on the six step 1 shapes plus two shapes that are not multiples of 64, on the interpreter and on the fast back end; C1 to C4 and D1 still pass.
+- **Q2 GPU equality (T4):** the GPU result of `matmul_reg` is bit-identical to the interpreter on all those cases.
+- **Q3 speed, first target:** `matmul_reg` reaches **at least 0.25x of cuBLAS** at 1024^3 on the T4 (cuBLAS measured in the same run, TF32 off).
+- **Q4 speed, second target (only if Q3 is met or missed with a clear cause):** adding a fused multiply-add instruction to the IR (explicitly specified, its own bits, not comparable to the unfused kernels) reaches **at least 0.5x of cuBLAS**, which is the step 6 bar.
+Misses are reported as misses; the GPU numbers are single runs on one T4 unless repeated.
+
 ## Note, 2 Nov 2026 (after the step 1 run)
 
 The step 1 bar (every shape within 1e-5 relative error) was **mis-specified for long inner dimensions**: one of 17 checks measured 1.00e-5; the kernel equals a sequential fp32 sum exactly ([result](lc_step1_result.md)). The original bar is recorded as **missed** on the first run, and **passed on a second run after a kernel fix** (two-level tile summation; worst error 2.9e-6). **Step 1b** replaces it for later steps: matrix products must agree with the sequential fp32 sum exactly in the interpreter and stay within `k x 6e-8 x sum of |terms|` of a float64 reference on every back end.
