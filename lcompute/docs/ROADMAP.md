@@ -75,6 +75,13 @@ Accuracy checks use the rounding-bound rule (error within k x 6e-8 x the sum of 
 
 **C4' (CPU speed bar made stricter).** C4 (matmul 512^3 at least 20x faster than the interpreter) passed only about half of the re-runs (19.0x to 24.4x). Work: measure where the fast back end loses time (cache behaviour of the per-lane register file), and reduce it if the measurement says that is the cause. The bar: repeat the whole C4 measurement 10 times in one process (interpreter once and fast best of 3 each time) and report all ten; **C4' passes if the minimum of the ten is at least 20x.** The same 16 / 16 bit-identity (C1), C2, C3 and D1 must still pass.
 
+## Bar Q7: what the bounds checks cost, and unrolling (written before the work, 3 Nov 2026)
+
+Q6 (0.6x of cuBLAS) was missed: best 0.515x (`matmul_fma8x4db`, 1334 vs 2590 GFLOP/s on the T4). The machine code of that kernel (ptxas, sm_75, CPU-side disassembly, COUNTED) shows 32 multiply-adds and 12 shared loads per inner step against about 85 other instructions, mostly the bounds checks, and the k loop is not unrolled. Hypothesis (to be tested, not assumed): the checks, not the arithmetic or the memory, are the limit. Variants of the same three kernels (`matmul_fma8x4db`, `matmul_fma8db`, `matmul_fma8x4`): check mode **full** (today), **cheap** (an unsigned compare per access, an error code kept in a register and written once at the end, the index clamped for loads and the store predicated, 32-bit shared addressing), **none** (no checks, like CUDA), each with and without full unrolling of the k loop in the IR.
+- **Q7a (T4):** all variants of valid kernels bit-identical to the interpreter on 6 shapes each; the cheap mode still reports the out-of-range test through the error word.
+- **Q7b (T4, speed):** the best **cheap-check** variant reaches at least 0.6x of cuBLAS (checks kept). Also reported: the best no-check variant. If cheap misses and none passes, the cost of checking is the finding, reported as such.
+Misses are reported with all variants side by side.
+
 ## Note, 2 Nov 2026 (after the step 1 run)
 
 The step 1 bar (every shape within 1e-5 relative error) was **mis-specified for long inner dimensions**: one of 17 checks measured 1.00e-5; the kernel equals a sequential fp32 sum exactly ([result](lc_step1_result.md)). The original bar is recorded as **missed** on the first run, and **passed on a second run after a kernel fix** (two-level tile summation; worst error 2.9e-6). **Step 1b** replaces it for later steps: matrix products must agree with the sequential fp32 sum exactly in the interpreter and stay within `k x 6e-8 x sum of |terms|` of a float64 reference on every back end.
