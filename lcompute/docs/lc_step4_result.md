@@ -31,9 +31,11 @@ Bars Q1 to Q4: [ROADMAP](ROADMAP.md). Kernel `matmul_reg` (64 x 64 block tile, 4
 | Q1 bit-identical to `matmul_tiled` on CPU (interpreter and fast back end), 8 shapes | PASS |
 | Q2 GPU bit-identical to the interpreter | PASS: 25 of 25 cases on the Tesla T4, and `matmul_reg` equals `matmul_tiled` bit for bit at 1024^3 on the GPU |
 | Q3 at least 0.25x of cuBLAS at 1024^3 | **PASS: matmul_reg 2.10 ms = 1024 GFLOP/s; cuBLAS 0.74 ms = 2911 GFLOP/s; ratio 0.35** (matmul_tiled in the same run: 329 GFLOP/s, 0.11; an earlier run had cuBLAS at 2568, so cuBLAS timing varies between runs by about 10 percent) |
-| Q4 at least 0.5x with a fused multiply-add instruction | not yet run |
+| Q4 at least 0.5x with a fused multiply-add instruction | **MISS: matmul_fma 2.00 ms = 1076 GFLOP/s; cuBLAS 0.83 ms = 2586 GFLOP/s; ratio 0.42** (same run: matmul_tiled 327 GFLOP/s = 0.13, matmul_reg 1044 GFLOP/s = 0.40). 30 of 30 cases bit-identical to the interpreter, including the fused kernel. |
 
 One T4, best of three timing loops of 20 launches each, one session.
+
+**Reading of the Q4 miss:** the fused instruction gave only 3 percent (1044 to 1076 GFLOP/s), so the kernel is not limited by floating-point instruction count. Reasoning from the design (not measured yet): each thread does 8 shared-memory loads per 16 multiply-adds, which at the T4's shared-memory rate costs about as much issue time as the arithmetic, and the global-to-shared tile loads recompute index arithmetic (divisions) every tile. Next attempt (bar Q5 in the ROADMAP, written before the work): hoist the loop-invariant index arithmetic, and an 8 x 8 outputs-per-thread version (64 multiply-adds per 16 loads).
 
 ## Design notes
 

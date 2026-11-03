@@ -2258,4 +2258,8 @@ Founder ran suite 2 on the Colab T4. MEASURED: 25 of 25 cases bit-identical; **m
 
 Added `Fma` to the IR (interpreter, fast back end, optimiser, PTX `fma.rn.f32`) and the kernel `matmul_fma`. MEASURED on CPU: fast back end equals the interpreter on 5 of 5 shapes, error against float64 at most 3.1e-6; ptxas 63 to 64 registers. **Q4 (0.5x of cuBLAS on the T4) not yet run**; suite 3 sent. Also recorded honestly: re-running the step 3 C4 speed bar gave 19.0x to 24.4x over many runs, so it is marginal (about half the runs below 20x), see the [step 3 result](../lcompute/docs/lc_step3_result.md).
 
+## 3 Nov 2026 - L Compute step 4b on the T4: Q4 missed (0.42x of cuBLAS)
+
+Founder ran suite 3. MEASURED: 30 of 30 cases bit-identical; matmul_fma 1076 GFLOP/s vs cuBLAS 2586 = **0.42x, Q4 bar 0.5x missed**; the fused instruction gained only 3 percent, so the limit is not arithmetic instructions. Wrote bar Q5 first (two new kernels, hoisted index arithmetic, 8 x 8 outputs per thread) and am building it. See [step 4 result](../lcompute/docs/lc_step4_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

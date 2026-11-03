@@ -58,6 +58,13 @@ Start: our plain tiled matmul is 0.10x of cuBLAS on the T4 at 1024^3 (250 vs 256
 - **Q4 speed, second target (only if Q3 is met or missed with a clear cause):** adding a fused multiply-add instruction to the IR (explicitly specified, its own bits, not comparable to the unfused kernels) reaches **at least 0.5x of cuBLAS**, which is the step 6 bar.
 Misses are reported as misses; the GPU numbers are single runs on one T4 unless repeated.
 
+## Step 4c bar: second attempt at 0.5x of cuBLAS (written before the work, 3 Nov 2026)
+
+Q4 was missed (0.42x on the T4, [step 4 result](../docs/lc_step4_result.md)). Three new fused-multiply-add kernels are built so one T4 run shows which change matters: `matmul_fma4` (4 x 4 outputs per thread, loop-invariant index arithmetic hoisted, one running sum per output), `matmul_fma8` (8 x 8 outputs per thread, 128 x 128 block tile, same hoisting). They sum each output sequentially over k (their own bits, defined by the interpreter).
+- **Q5 correctness (CPU, here):** both kernels equal the interpreter on the fast back end bit for bit on 5 shapes, and are within 1e-5 relative error of a float64 sum.
+- **Q5 GPU equality (T4):** bit-identical to the interpreter on all those cases.
+- **Q5 speed (T4):** the best of `matmul_fma4` and `matmul_fma8` reaches **at least 0.5x of cuBLAS** at 1024^3 (cuBLAS measured in the same run, TF32 off). If missed, the result is reported as a miss with the three numbers side by side.
+
 ## Note, 2 Nov 2026 (after the step 1 run)
 
 The step 1 bar (every shape within 1e-5 relative error) was **mis-specified for long inner dimensions**: one of 17 checks measured 1.00e-5; the kernel equals a sequential fp32 sum exactly ([result](lc_step1_result.md)). The original bar is recorded as **missed** on the first run, and **passed on a second run after a kernel fix** (two-level tile summation; worst error 2.9e-6). **Step 1b** replaces it for later steps: matrix products must agree with the sequential fp32 sum exactly in the interpreter and stay within `k x 6e-8 x sum of |terms|` of a float64 reference on every back end.
