@@ -21,6 +21,9 @@ fn same(k: &Kernel, grid: Dim3, block: Dim3, spec: &[Sp]) -> (bool, String) {
 }
 
 pub fn prof() {
+    if std::env::var("LC_PROF").map(|v| v == "reduce").unwrap_or(false) {
+        let n = 300_000usize; let nb = (n + 255) / 256; let kr = crate::block_reduce(); let s = [Sp::B(crate::rnd(n, 5)), Sp::B(vec![0f32; nb]), Sp::I(n as i32)];
+        std::env::set_var("LC_THREADS", "1"); run_on(true, &kr, dim(nb, 1, 1), dim(256, 1, 1), &s).0.unwrap(); return; }
     let (m, k, n) = (128usize, 128usize, 128usize); let km = crate::matmul_tiled();
     let s = [Sp::B(crate::rnd(m * k, 3)), Sp::B(crate::rnd(k * n, 4)), Sp::B(vec![0f32; m * n]), Sp::I(m as i32), Sp::I(k as i32), Sp::I(n as i32)];
     run_on(true, &km, dim(n / 16, m / 16, 1), dim(16, 16, 1), &s).0.unwrap();

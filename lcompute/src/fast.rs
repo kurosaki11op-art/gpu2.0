@@ -22,27 +22,28 @@ fn fb(v: u32) -> f32 { f32::from_bits(v) } fn tb(v: f32) -> u32 { v.to_bits() }
     }
     while t < nt { *pd.add(t) = (*sp.add(*pi.add(t) as usize)).to_bits(); t += 1; }
 }
-unsafe fn run_block(k: &Kernel, labels: &[usize], args: &[Arg], grid: Dim3, block: Dim3, bid: [usize; 3]) -> Result<(), String> {
+unsafe fn run_block(k: &Kernel, labels: &[usize], simple: &[bool], args: &[Arg], grid: Dim3, block: Dim3, bid: [usize; 3]) -> Result<(), String> {
     let nt = block.x * block.y * block.z; let mut regs = vec![0u32; k.regs.len() * nt]; let mut shared: Vec<Vec<f32>> = k.shared.iter().map(|&n| vec![0f32; n]).collect();
     let tid: Vec<[usize; 3]> = (0..nt).map(|t| [t % block.x, (t / block.x) % block.y, t / (block.x * block.y)]).collect();
     let mut pc = vec![0usize; nt]; let mut done = vec![false; nt]; let mut waiting = vec![false; nt];
     let mut act: Vec<usize> = (0..nt).collect(); let mut diverged = false; let mut ndone = 0usize;
     macro_rules! lanes { ($t:ident, $body:block) => { if act.len() == nt { for $t in 0..nt $body } else { for &$t in act.iter() $body } } }
-    let mut stale = false; let mut upc = 0usize; let rp = regs.as_mut_ptr(); let sptr: Vec<(*mut f32, usize)> = shared.iter_mut().map(|v| (v.as_mut_ptr(), v.len())).collect(); macro_rules! r { ($reg:expr, $t:expr) => { (*rp.add($reg.0 as usize * nt + $t)) } }
+    let mut saved: Vec<usize> = Vec::new(); let mut recon = usize::MAX; let mut stale = false; let mut upc = 0usize; let rp = regs.as_mut_ptr(); let sptr: Vec<(*mut f32, usize)> = shared.iter_mut().map(|v| (v.as_mut_ptr(), v.len())).collect(); macro_rules! r { ($reg:expr, $t:expr) => { (*rp.add($reg.0 as usize * nt + $t)) } }
     macro_rules! bin2 { ($d:expr, $a:expr, $b:expr, $f:expr) => { if act.len() == nt { bin(rp, nt, $d.0 as usize, $a.0 as usize, $b.0 as usize, $f) } else { for &t in act.iter() { r!($d, t) = $f(r!($a, t), r!($b, t)); } } } }
     loop {
         if diverged || act.is_empty() {
             if stale { pc.fill(upc); stale = false; }
-            let mut minpc = usize::MAX; for t in 0..nt { if !done[t] && !waiting[t] && pc[t] < minpc { minpc = pc[t]; } }
+            let mut minpc = usize::MAX; let mut sched = 0usize; for t in 0..nt { if !(*done.get_unchecked(t) | *waiting.get_unchecked(t)) { sched += 1; let q = *pc.get_unchecked(t); if q < minpc { minpc = q; } } }
             if minpc == usize::MAX {
                 let nwait = (0..nt).filter(|&t| waiting[t]).count();
                 if ndone == nt { return Ok(()); }
                 if ndone > 0 { return Err(format!("{}: barrier divergence in block {:?}: {} thread(s) returned while {} wait at a barrier", k.name, bid, ndone, nwait)); }
                 let p0 = (0..nt).find(|&t| waiting[t]).map(|t| pc[t]).unwrap(); if (0..nt).any(|t| waiting[t] && pc[t] != p0) { return Err(format!("{}: barrier divergence in block {:?}: threads wait at different barriers", k.name, bid)); }
-                for t in 0..nt { waiting[t] = false; } act = (0..nt).collect(); diverged = false; continue;
+                for t in 0..nt { waiting[t] = false; } act.clear(); act.extend(0..nt); diverged = false; continue;
             }
-            act = (0..nt).filter(|&t| !done[t] && !waiting[t] && pc[t] == minpc).collect(); let sched = (0..nt).filter(|&t| !done[t] && !waiting[t]).count(); diverged = act.len() != sched;
+            act.clear(); for t in 0..nt { if !(*done.get_unchecked(t) | *waiting.get_unchecked(t)) && *pc.get_unchecked(t) == minpc { act.push(t); } } diverged = act.len() != sched; // one buffer reused for the active list (no allocation per rescan)
         }
+        if recon != usize::MAX && pc[act[0]] == recon { act.clear(); act.extend(saved.iter().copied()); recon = usize::MAX; } // the fall-through lanes reached the branch target: everyone is together again
         let p = if stale { upc } else { pc[act[0]] }; if p >= k.code.len() { for &t in act.iter() { done[t] = true; ndone += 1; } diverged = true; continue; }
         let ins = &k.code[p]; let mut next = p + 1;
         match ins {
@@ -84,7 +85,7 @@ unsafe fn run_block(k: &Kernel, labels: &[usize], args: &[Arg], grid: Dim3, bloc
                 let cnt = if n == nt { let mut c = 0u32; for t in 0..nt { c += ((r!(pr, t) != 0) == want) as u32; } c as usize } else { usize::MAX }; // dense case: count lanes that branch (vectorised); all or none keeps the lanes together
                 if cnt == nt { next = target; } else if cnt == 0 { next = p + 1; } else {
                 for &t in act.iter() { let go = (r!(pr, t) != 0) == want; if go { pc[t] = target; taken += 1; } else { pc[t] = p + 1; } }
-                if taken != 0 && taken != n { diverged = true; } next = usize::MAX; /* pcs already set */ } }
+                if taken != 0 && taken != n { if simple[p] && recon == usize::MAX { saved.clear(); saved.extend(act.iter().copied()); act.retain(|&t| pc[t] == p + 1); recon = target; } else { diverged = true; } } next = usize::MAX; /* pcs already set */ } }
             Inst::Barrier => { for &t in act.iter() { waiting[t] = true; pc[t] = p + 1; } diverged = true; next = usize::MAX; }
             Inst::Ret => { for &t in act.iter() { done[t] = true; ndone += 1; } diverged = true; next = usize::MAX; }
         }
@@ -96,11 +97,13 @@ pub fn launch(k: &Kernel, grid: Dim3, block: Dim3, args: &[Arg]) -> Result<(), S
     let optimised = crate::opt::optimise(k); let k = &optimised; // the fast back end runs the optimised kernel; the interpreter always runs the kernel as written
     if args.len() != k.params.len() { return Err(format!("{}: expected {} arguments, got {}", k.name, k.params.len(), args.len())); }
     let nl = k.code.iter().filter_map(|i| if let Inst::Label(l) = i { Some(*l as usize + 1) } else { None }).max().unwrap_or(0); let mut labels = vec![0usize; nl]; for (i, ins) in k.code.iter().enumerate() { if let Inst::Label(l) = ins { labels[*l as usize] = i; } }
+    // simple[p]: a forward conditional branch whose skipped region is straight-line code without barriers; the lanes that fall through can run it alone and rejoin at the target without a rescan
+    let simple: Vec<bool> = k.code.iter().enumerate().map(|(p, ins)| match ins { Inst::BrIf(_, l) | Inst::BrIfNot(_, l) => { let t = labels[*l as usize]; t > p && k.code[p + 1..t].iter().all(|x| !matches!(x, Inst::Label(_) | Inst::Br(_) | Inst::BrIf(..) | Inst::BrIfNot(..) | Inst::Ret | Inst::Barrier)) } _ => false }).collect();
     let nblocks = grid.x * grid.y * grid.z; let nw = std::env::var("LC_THREADS").ok().and_then(|s| s.parse().ok()).unwrap_or_else(|| std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1)).min(nblocks.max(1));
     let next = AtomicUsize::new(0); let err: std::sync::Mutex<Option<String>> = std::sync::Mutex::new(None);
     std::thread::scope(|s| { for _ in 0..nw { s.spawn(|| loop {
         let b = next.fetch_add(1, Ordering::Relaxed); if b >= nblocks || err.lock().unwrap().is_some() { break; }
-        if let Err(e) = unsafe { run_block(k, &labels, args, grid, block, [b % grid.x, (b / grid.x) % grid.y, b / (grid.x * grid.y)]) } { *err.lock().unwrap() = Some(e); break; }
+        if let Err(e) = unsafe { run_block(k, &labels, &simple, args, grid, block, [b % grid.x, (b / grid.x) % grid.y, b / (grid.x * grid.y)]) } { *err.lock().unwrap() = Some(e); break; }
     }); } });
     match err.into_inner().unwrap() { Some(e) => Err(e), None => Ok(()) }
 }

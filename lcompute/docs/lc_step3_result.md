@@ -39,4 +39,10 @@ Final C4 numbers: interpreter about 2.2 s (0.12 GFLOP/s), fast about 0.10 s (2.5
 
 Honest limits: a 20x pass with a 21x worst run is a thin margin on a shared cloud CPU; the speed number will move on other machines. The 'fast' back end is still a CPU interpreter of the IR, about 2.5 GFLOP/s against a single core's native peak of tens of GFLOP/s.
 
+## block_reduce fix (bar D1, 3 Nov 2026, MEASURED)
+
+Bar D1 ([ROADMAP](ROADMAP.md), written before the work): block_reduce at 1,000,000 elements at least 4x faster than the interpreter, with C1 to C4 still passing. **PASS: 6.3x, 5.3x, 6.6x, 5.6x in four runs** (from 1.5x); C1 16 of 16, C2, C3 pass and C4 is 20.7x to 24.4x in the same runs.
+
+My earlier statement that block_reduce was "dominated by barriers" was a guess and was wrong in detail: callgrind (COUNTED, 300,000 elements, one thread) showed about 1.1 million instructions per block, most of them in the rescans that find which lanes run next (building a new list each time, three slice-checked passes over 256 lanes). Two changes: (1) one reusable active-list buffer and one fused unchecked pass per rescan (1.5x to 3.7x); (2) a forward branch over straight-line code with no barrier (the `if (tid < s)` of the tree reduction) now lets the fall-through lanes run the region alone and rejoin at the branch target with no rescan (3.7x to 5.3x to 6.6x). Not done: per-block buffers are still allocated for every block.
+
 Related: [ROADMAP](ROADMAP.md), [Step 2 result](lc_step2_result.md), [Docs index](INDEX.md), [README](../README.md)

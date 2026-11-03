@@ -2234,4 +2234,8 @@ Founder: proceed with step 3. Built the lockstep block executor ([fast.rs](../lc
 
 Founder: build the IR optimiser and fix the miss. Built [opt.rs](../lcompute/src/opt.rs) (unrolling, constant folding, AddImm, value numbering, mov fusion, dead code) and a vector/broadcast shared-load path in the fast back end. MEASURED: all of C1 to C5 pass; **C4 = 22.5x, 24.0x, 23.5x, 21.0x against the unchanged 20x bar** (first run was 12.9x to 15.0x). Optimiser alone did not help; profiling the time (not the instruction count) found shared loads done as gathers. Details: [step 3 result](../lcompute/docs/lc_step3_result.md); log [step3_run.txt](../lcompute/logs/step3_run.txt).
 
+## 3 Nov 2026 - L Compute: block_reduce slowness fixed (bar D1 passes)
+
+Founder: do block_reduce first, then step 4. Wrote bar D1 (at least 4x at 1e6 elements) into the ROADMAP first, profiled (the cause was the divergence rescans, not barriers as I had guessed), fixed. MEASURED: block_reduce 1.5x -> 5.3x to 6.6x; C1 to C4 still pass (C4 20.7x to 24.4x). Details in the [step 3 result](../lcompute/docs/lc_step3_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
