@@ -73,6 +73,26 @@ Double buffering gained 2 to 4 percent, a smaller tile for occupancy nothing, a 
 
 **Where the time goes (COUNTED, machine code):** disassembling the ptxas output of `matmul_fma8x4db` (sm_75) shows, per inner k step, 32 multiply-adds and 12 shared loads against about 85 other instructions (integer multiplies and compares, predicated error stores, selects): the bounds checks. The multiply-adds are about 27 percent of the issued instructions, and the k loop is not unrolled. So the limit is probably the checking code, not memory or arithmetic. That is a hypothesis; bar Q7 ([ROADMAP](ROADMAP.md)) tests it with check modes full / cheap / none and loop unrolling.
 
+## Bar Q7: what the bounds checks cost (3 Nov 2026, Colab Tesla T4, MEASURED, suite 6)
+
+**Q7a: 113 of 113 cases bit-identical to the interpreter** (every check-mode and unrolling variant, on 3 shapes each), and the out-of-range **load and store** tests are reported in both the full and the cheap check mode (error words 2 and 3, access skipped).
+
+1024^3 fp32, one session, cuBLAS (TF32 off) 0.83 ms = 2590 GFLOP/s. Best of three loops of 20 launches (a synchronise after each launch):
+
+| kernel variant | full checks | cheap checks | no checks | cheap, unrolled k loop | no checks, unrolled |
+| --- | --- | --- | --- | --- | --- |
+| matmul_fma8db (128 x 128 tile) | 1315 (0.51x) | 2784 (1.07x) | 2874 (1.11x) | 2631 (1.02x) | 3828 (1.48x) |
+| matmul_fma8x4 (128 x 64 tile) | 1288 (0.50x) | 1913 (0.74x) | 2095 (0.81x) | 1802 (0.70x) | 3514 (1.36x) |
+| matmul_fma8x4db | 1237 (0.48x; 1334 = 0.52x in the previous session) | 1896 (0.73x) | 2176 (0.84x) | 1816 (0.70x) | 3510 (1.36x) |
+
+Full checks with the k loop unrolled: fma8db 1632 (0.63x), fma8x4 1247 (0.48x), fma8x4db 1184 (0.46x). Earlier kernels in the same run: matmul_tiled 325, matmul_reg 1052, matmul_fma 1054, matmul_fma4 1077, matmul_fma8 1270, matmul_fma8k32 1216 GFLOP/s.
+
+**Q7b: PASS (at least 0.6x of cuBLAS with checks kept):** every cheap-check variant is at 0.70x or more; the best, `matmul_fma8db` with cheap checks, is 2784 GFLOP/s (1.07x in this run). The hypothesis is confirmed: the full bounds checks (about 85 extra instructions per 32 multiply-adds) were what held the kernel at 0.5x. Cheap checking (one unsigned compare per access, the error code kept in a register and written once at the end, loads on a clamped index, stores predicated, 32-bit shared addressing) costs about 3 to 7 percent against no checks for the 128 x 128 kernel and about 12 percent for the 128 x 64 kernel (fma8x4 cheap 1913 against none 2095), and is 2.1x faster than full checking.
+
+**Not to be believed yet: results above 1.0x of cuBLAS (up to 1.48x).** A hand-written kernel from our own IR beating the vendor library by that much is extraordinary and may be an artefact of the measurement: the cuBLAS number (2590 GFLOP/s, 0.83 ms) is low for this GPU class, which suggests clock or power throttling that differed between the cuBLAS loop (run first) and our loops; the two were not interleaved; sizes other than 1024^3 were not tried; and cuBLAS may simply pick a poor kernel for this one shape. The outputs agree with cuBLAS to 1.6e-6 (the results are right). A controlled re-measurement (interleaved runs, clocks logged, CUDA event timing, several sizes) is the next step; until it is done the honest statement is: **with cheap checks the kernel is at 0.70x to 1.07x of cuBLAS in this one run, and the comparison needs a controlled repeat.** Run-to-run variation seen so far: the same kernel measured 0.52x and 0.48x in two sessions.
+
+Semantics note on the cheap mode: loads past the end read a clamped (wrong but defined) element and set the error word, stores past the end are skipped, and the error code of the last failing access is written when the thread exits; unlike the full mode, a failing kernel keeps running to its end. The error word is zero if and only if no access was out of range.
+
 ## Design notes
 
 - ABI: a buffer is two parameters (device pointer, length in floats), a scalar one parameter, and a last pointer to a u32 error word. Every global and shared access is bounds checked in the generated code; a failing access is skipped and the instruction number + 1 is written to the error word. Integer division by zero is reported and made harmless.

@@ -2278,4 +2278,8 @@ Founder: proceed with items 1 and 2. Wrote bars Q6 (GPU matmul 0.6x of cuBLAS) a
 
 Founder ran suite 5. MEASURED: 64 of 64 cases bit-identical; best kernel matmul_fma8x4db 1334 GFLOP/s vs cuBLAS 2590 = **0.52x; Q6 (0.6x) missed**. All four levers (double buffering, 8 x 4 tile, k tile 32) gave 0 to 4 percent. Disassembled the machine code (COUNTED): 32 multiply-adds against about 85 other instructions per inner step, mostly my bounds checks; the k loop is not unrolled. Wrote bar Q7 first, then built check modes full / cheap / none and an unrolled-loop option in the PTX back end (all 32 variant files pass ptxas); suite 6 sent. See [step 4 result](../lcompute/docs/lc_step4_result.md).
 
+## 3 Nov 2026 - L Compute step 4d on the T4: the bounds checks were the limit (Q7 passes), results above cuBLAS not yet trusted
+
+Founder ran suite 6. MEASURED: 113 of 113 cases bit-identical (including out-of-range load and store in the cheap check mode). With cheap checks the kernels reach **0.70x to 1.07x of cuBLAS** (2784 GFLOP/s for matmul_fma8db), 2.1x faster than the full checks; no-check variants up to 3828 GFLOP/s (1.48x). Hypothesis from the machine-code count confirmed. The above-1.0x numbers are flagged as unreliable (cuBLAS looks throttled, runs not interleaved, one size); a controlled repeat is next. See [step 4 result](../lcompute/docs/lc_step4_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
