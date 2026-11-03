@@ -1,5 +1,5 @@
 // L Compute step 1: kernels written with the builder, run by the reference interpreter, checked against independent plain references (bars: docs/ROADMAP.md step 1).
-mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3; mod opt; mod ptx; mod gpusuite;
+mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3; mod opt; mod ptx; mod gpusuite; mod step4b;
 use builder::B; use interp::*;
 
 fn vec_add() -> ir::Kernel {
@@ -32,6 +32,49 @@ fn matmul_tiled() -> ir::Kernel {
     });
     let p1 = b.lt_i(row, m); let p2 = b.lt_i(col, n); let pc_ok = b.and_p(p1, p2);
     b.if_(pc_ok, |b| { let rn = b.mul_i(row, n); let ix = b.add_i(rn, col); b.store_g(pc, ix, acc); }); b.finish()
+}
+// C[m,n] = A[m,k] @ B[k,n], register blocked: a 64 x 64 block tile, 16 x 16 threads, each thread computes 4 x 4 outputs (rows ty*4+i, columns tx+16*j), k tile 16.
+// Same summation order as matmul_tiled (16 products summed first, then added to the running total), so the bits are the same.
+fn matmul_reg() -> ir::Kernel {
+    let mut b = B::new("matmul_reg"); let (pa, pb, pc) = (b.param_buf(), b.param_buf(), b.param_buf()); let (m, k, n) = (b.param_i32(), b.param_i32(), b.param_i32());
+    let (tx, ty) = (b.tid(0), b.tid(1)); let (bx, by) = (b.bid(0), b.bid(1)); let (c16, c64, c256) = (b.ci(16), b.ci(64), b.ci(256)); let c15 = b.ci(15);
+    let (sa, sb) = (b.shared(1024), b.shared(1024)); let zero = b.cf(0.0);
+    let t = { let r = b.mul_i(ty, c16); b.add_i(r, tx) }; let row0 = b.mul_i(by, c64); let col0 = b.mul_i(bx, c64);
+    let acc: Vec<ir::Reg> = (0..16).map(|_| b.var_f(zero)).collect();
+    let kk15 = b.add_i(k, c15); let ntiles = b.div_i(kk15, c16); let z = b.ci(0);
+    let ty64 = b.mul_i(ty, c64); // ty * 4 rows * 16 floats = row base of this thread's A rows in shared memory
+    b.for_range(z, ntiles, 1, |b, tile| {
+        let c16b = b.ci(16); let toff = b.mul_i(tile, c16b);
+        for j in 0..4 {
+            let cj = b.ci(j * 256); let e = b.add_i(t, cj);
+            // A tile: 64 rows x 16 columns, element e = row * 16 + column
+            let (c16a, c64a) = (b.ci(16), b.ci(64)); let ar = b.div_i(e, c16a); let ac = b.rem_i(e, c16a); let grow = b.add_i(row0, ar); let gcol = b.add_i(toff, ac);
+            let p1 = b.lt_i(grow, m); let p2 = b.lt_i(gcol, k); let pa_ok = b.and_p(p1, p2); let z0 = b.cf(0.0); let va = b.var_f(z0);
+            b.if_(pa_ok, |b| { let rk = b.mul_i(grow, k); let ix = b.add_i(rk, gcol); let v = b.load_g(pa, ix); b.mov(va, v); }); b.store_s(sa, e, va);
+            // B tile: 16 rows x 64 columns, element e = row * 64 + column
+            let br = b.div_i(e, c64a); let bc = b.rem_i(e, c64a); let grow2 = b.add_i(toff, br); let gcol2 = b.add_i(col0, bc);
+            let q1 = b.lt_i(grow2, k); let q2 = b.lt_i(gcol2, n); let pb_ok = b.and_p(q1, q2); let vb = b.var_f(z0);
+            b.if_(pb_ok, |b| { let rn = b.mul_i(grow2, n); let ix = b.add_i(rn, gcol2); let v = b.load_g(pb, ix); b.mov(vb, v); }); b.store_s(sb, e, vb);
+        }
+        b.barrier();
+        let tacc: Vec<ir::Reg> = (0..16).map(|_| b.var_f(zero)).collect(); let z1 = b.ci(0); let c16c = b.ci(16);
+        b.for_range(z1, c16c, 1, |b, kk| {
+            let c16d = b.ci(16); let c64d = b.ci(64);
+            let av: Vec<ir::Reg> = (0..4).map(|i| { let off = b.ci(i * 16); let r = b.add_i(ty64, off); let ix = b.add_i(r, kk); b.load_s(sa, ix) }).collect();
+            let kb = { let r = b.mul_i(kk, c64d); b.add_i(r, tx) };
+            let bv: Vec<ir::Reg> = (0..4).map(|j| { let off = b.ci(j * 16); let ix = b.add_i(kb, off); b.load_s(sb, ix) }).collect();
+            let _ = c16d;
+            for i in 0..4 { for j in 0..4 { let pr = b.mul_f(av[i], bv[j]); let na = b.add_f(tacc[i * 4 + j], pr); b.mov(tacc[i * 4 + j], na); } }
+        });
+        for q in 0..16 { let na = b.add_f(acc[q], tacc[q]); b.mov(acc[q], na); }
+        b.barrier();
+    });
+    for i in 0..4 { for j in 0..4 {
+        let ci_ = b.ci(i as i32 * 0); let _ = ci_; let four = b.ci(4); let ty4 = b.mul_i(ty, four); let io = b.ci(i as i32); let r1 = b.add_i(ty4, io); let row = b.add_i(row0, r1);
+        let jo = b.ci(j as i32 * 16); let c1 = b.add_i(tx, jo); let col = b.add_i(col0, c1);
+        let p1 = b.lt_i(row, m); let p2 = b.lt_i(col, n); let ok = b.and_p(p1, p2); let a = acc[(i * 4 + j) as usize];
+        b.if_(ok, |b| { let rn = b.mul_i(row, n); let ix = b.add_i(rn, col); b.store_g(pc, ix, a); });
+    } } b.finish()
 }
 // per-block sum of 256 elements with a shared-memory tree reduction
 fn block_reduce() -> ir::Kernel {
@@ -90,4 +133,5 @@ fn main() {
     println!("STEP 1b RULE for matrix products (written after the step 1 run; a re-specification, not a pass of the first bar): {}", if ok_1b { "all shapes meet it" } else { "NOT MET" });
     step2::run(runtime::Backend::Interp);
     step3::run();
+    step4b::run();
 }

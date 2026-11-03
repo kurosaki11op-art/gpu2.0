@@ -2246,4 +2246,8 @@ Wrote bars P1 to P4 first, then [ptx.rs](../lcompute/src/ptx.rs), the suite expo
 
 Founder ran the pre-generated suite on a Colab Tesla T4. MEASURED: **P2 and P3 pass** (17 of 17 cases, bit-identical to the interpreter, out-of-range reported through the error word). **P4: ours 250 GFLOP/s vs cuBLAS 2568 GFLOP/s = 0.10x** (step 6 needs 0.5x). Barrier divergence stays CPU-only. First time our own IR ran on NVIDIA hardware. See [step 4 result](../lcompute/docs/lc_step4_result.md).
 
+## 3 Nov 2026 - L Compute step 4b: register-blocked matmul built, GPU speed pending
+
+Founder: improve the matmul speed first. Wrote bars Q1 to Q4 first ([ROADMAP](../lcompute/docs/ROADMAP.md)), then `matmul_reg` (64 x 64 block tile, 4 x 4 outputs per thread, same summation order). MEASURED here: **Q1 passes** (8 of 8 shapes bit-identical to `matmul_tiled` on the interpreter and the fast back end); ptxas: 64 registers, no spills; CPU fast back end 0.052 s vs 0.109 s at 512^3 (information). **Q2 to Q4 (T4 speed against cuBLAS) not yet run**; suite 2 sent to the founder.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

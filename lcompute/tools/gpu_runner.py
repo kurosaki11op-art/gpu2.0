@@ -79,22 +79,32 @@ def run_case(cu, d, c):
     return ok, "; ".join(n for n in notes if n)
 
 def perf(cu, d):
-    n = 1024; a = np.random.default_rng(1).uniform(-1, 1, (n, n)).astype(np.float32); b = np.random.default_rng(2).uniform(-1, 1, (n, n)).astype(np.float32)
-    fn = cu.function(os.path.join(d, "ptx", "matmul_tiled.ptx"), "matmul_tiled"); pa, pb, pc = cu.to_dev(a.ravel()), cu.to_dev(b.ravel()), cu.to_dev(np.zeros(n * n, np.float32)); perr = cu.to_dev(np.zeros(1, np.float32))
-    ps = [ctypes.c_uint64(pa), ctypes.c_int32(n * n), ctypes.c_uint64(pb), ctypes.c_int32(n * n), ctypes.c_uint64(pc), ctypes.c_int32(n * n), ctypes.c_int32(n), ctypes.c_int32(n), ctypes.c_int32(n), ctypes.c_uint64(perr)]
-    g = ((n + 15) // 16, (n + 15) // 16, 1); b16 = (16, 16, 1); cu.launch(fn, g, b16, ps)
-    t = time.perf_counter(); reps = 10
-    for _ in range(reps): cu.launch(fn, g, b16, ps)
-    ours = (time.perf_counter() - t) / reps; got = cu.from_dev(pc, n * n).reshape(n, n); flop = 2.0 * n ** 3
-    print(f"P4 ours: 1024^3 fp32 matmul {ours*1e3:.2f} ms = {flop/ours/1e9:.0f} GFLOP/s")
+    n = 1024; a = np.random.default_rng(1).uniform(-1, 1, (n, n)).astype(np.float32); b = np.random.default_rng(2).uniform(-1, 1, (n, n)).astype(np.float32); flop = 2.0 * n ** 3; reps = 20
+    pa, pb = cu.to_dev(a.ravel()), cu.to_dev(b.ravel()); results = {}
+    ref = None; refms = None
     try:
         import torch
-        torch.backends.cuda.matmul.allow_tf32 = False; ta, tb = torch.from_numpy(a).cuda(), torch.from_numpy(b).cuda(); torch.matmul(ta, tb); torch.cuda.synchronize(); t = time.perf_counter()
-        for _ in range(reps): r = torch.matmul(ta, tb)
-        torch.cuda.synchronize(); ref = (time.perf_counter() - t) / reps
-        print(f"P4 cuBLAS (PyTorch, TF32 off): {ref*1e3:.2f} ms = {flop/ref/1e9:.0f} GFLOP/s; ours / cuBLAS = {ref/ours:.2f}")
-        rel = np.abs(got - r.cpu().numpy()).max() / np.abs(r.cpu().numpy()).max(); print(f"P4 sanity: max |ours - cuBLAS| / max|cuBLAS| = {rel:.1e}")
+        torch.backends.cuda.matmul.allow_tf32 = False; ta, tb = torch.from_numpy(a).cuda(), torch.from_numpy(b).cuda(); torch.matmul(ta, tb); torch.cuda.synchronize(); best = 1e9
+        for _ in range(3):
+            t = time.perf_counter()
+            for _ in range(reps): r = torch.matmul(ta, tb)
+            torch.cuda.synchronize(); best = min(best, (time.perf_counter() - t) / reps)
+        ref = r.cpu().numpy(); refms = best; print(f"P4 cuBLAS (PyTorch, TF32 off): {best*1e3:.2f} ms = {flop/best/1e9:.0f} GFLOP/s")
     except ImportError: print("P4: PyTorch not installed, cuBLAS comparison skipped")
+    for name, tile in (("matmul_tiled", 16), ("matmul_reg", 64)):
+        path = os.path.join(d, "ptx", name + ".ptx")
+        if not os.path.exists(path): continue
+        fn = cu.function(path, name); pc = cu.to_dev(np.zeros(n * n, np.float32)); perr = cu.to_dev(np.zeros(1, np.float32))
+        ps = [ctypes.c_uint64(pa), ctypes.c_int32(n * n), ctypes.c_uint64(pb), ctypes.c_int32(n * n), ctypes.c_uint64(pc), ctypes.c_int32(n * n), ctypes.c_int32(n), ctypes.c_int32(n), ctypes.c_int32(n), ctypes.c_uint64(perr)]
+        g = (n // tile, n // tile, 1); b16 = (16, 16, 1); cu.launch(fn, g, b16, ps); best = 1e9
+        for _ in range(3):
+            t = time.perf_counter()
+            for _ in range(reps): cu.launch(fn, g, b16, ps)
+            best = min(best, (time.perf_counter() - t) / reps)
+        got = cu.from_dev(pc, n * n).reshape(n, n); line = f"P4 {name}: {best*1e3:.2f} ms = {flop/best/1e9:.0f} GFLOP/s"
+        if refms: line += f"; ours / cuBLAS = {refms/best:.2f}; max |ours - cuBLAS| / max|cuBLAS| = {np.abs(got - ref).max() / np.abs(ref).max():.1e}"
+        print(line); results[name] = got
+    if "matmul_tiled" in results and "matmul_reg" in results: print("P4 matmul_reg bit-identical to matmul_tiled at 1024^3:", np.array_equal(results["matmul_tiled"].view(np.uint32), results["matmul_reg"].view(np.uint32)))
 
 def main():
     d = sys.argv[1]; cases = load_cases(d)

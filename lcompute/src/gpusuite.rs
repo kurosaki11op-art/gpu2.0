@@ -18,12 +18,14 @@ fn case(dir: &str, name: &str, k: &Kernel, grid: crate::interp::Dim3, block: cra
 
 pub fn export(dir: &str) {
     fs::create_dir_all(format!("{}/ptx", dir)).unwrap();
-    let (kv, km, kr, kb, ko) = (crate::vec_add(), crate::matmul_tiled(), crate::block_reduce(), crate::barrier_divergence(), crate::out_of_range());
-    for k in [&kv, &km, &kr, &kb, &ko] { fs::write(format!("{}/ptx/{}.ptx", dir, k.name), crate::ptx::to_ptx(k)).unwrap(); }
+    let (kv, km, kr, kb, ko, kg) = (crate::vec_add(), crate::matmul_tiled(), crate::block_reduce(), crate::barrier_divergence(), crate::out_of_range(), crate::matmul_reg());
+    for k in [&kv, &km, &kr, &kb, &ko, &kg] { fs::write(format!("{}/ptx/{}.ptx", dir, k.name), crate::ptx::to_ptx(k)).unwrap(); }
     for &n in &[1usize, 255, 256, 1000, 100003] { case(dir, &format!("vec_add_{}", n), &kv, dim((n + 255) / 256, 1, 1), dim(256, 1, 1), vec![Sp::B(crate::rnd(n, 1)), Sp::B(crate::rnd(n, 2)), Sp::B(vec![0f32; n]), Sp::I(n as i32)], true); }
     for &(m, k, n) in &[(1usize, 768usize, 2304usize), (17, 33, 45), (64, 64, 64), (100, 50, 70), (33, 129, 17), (128, 128, 128)] {
         case(dir, &format!("matmul_{}x{}x{}", m, k, n), &km, dim((n + 15) / 16, (m + 15) / 16, 1), dim(16, 16, 1), vec![Sp::B(crate::rnd(m * k, 3)), Sp::B(crate::rnd(k * n, 4)), Sp::B(vec![0f32; m * n]), Sp::I(m as i32), Sp::I(k as i32), Sp::I(n as i32)], true); }
     for &n in &[1usize, 256, 1000, 12345, 65537] { let nb = (n + 255) / 256; case(dir, &format!("block_reduce_{}", n), &kr, dim(nb, 1, 1), dim(256, 1, 1), vec![Sp::B(crate::rnd(n, 5)), Sp::B(vec![0f32; nb]), Sp::I(n as i32)], true); }
+    for &(m, k, n) in &[(1usize, 768usize, 2304usize), (17, 33, 45), (64, 64, 64), (100, 50, 70), (33, 129, 17), (128, 128, 128), (65, 17, 130), (1, 16, 64)] {
+        case(dir, &format!("matmulreg_{}x{}x{}", m, k, n), &kg, dim((n + 63) / 64, (m + 63) / 64, 1), dim(16, 16, 1), vec![Sp::B(crate::rnd(m * k, 3)), Sp::B(crate::rnd(k * n, 4)), Sp::B(vec![0f32; m * n]), Sp::I(m as i32), Sp::I(k as i32), Sp::I(n as i32)], true); }
     case(dir, "negative_out_of_range", &ko, dim(1, 1, 1), dim(1, 1, 1), vec![Sp::B(vec![0f32; 8]), Sp::I(8)], false);
-    println!("wrote PTX for 5 kernels and 17 cases to {}", dir);
+    println!("wrote PTX for 6 kernels and 25 cases to {}", dir);
 }
