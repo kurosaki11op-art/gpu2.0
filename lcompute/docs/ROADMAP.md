@@ -34,6 +34,10 @@ Deliverable: a **lockstep block executor**: the threads of a block run together,
 - **C4 speed:** the 512 x 512 x 512 tiled matrix multiply runs **at least 20x faster** than the interpreter on the same machine (wall-clock; interpreter measured once, fast back end best of 3); GFLOP/s reported.
 - **C5 reported, no bar:** vector add and block reduction at 1,000,000 elements, both back ends.
 
+## Step 3c bar: block_reduce (written before the work, 3 Nov 2026)
+
+C5 showed block_reduce only 1.5x faster than the interpreter at 1,000,000 elements (about 400 ns per element). Cause not yet measured (guesses: per-block allocation, divergence rescans, the partial-lane path). **D1:** after the fix, block_reduce at 1,000,000 elements is **at least 4x faster than the interpreter** (interpreter once, fast best of 3), **and** C1 (16 of 16 bit-identical), C2, C3 and C4 (still at least 20x) still pass. Reported whether it passes or not.
+
 ## Note, 2 Nov 2026 (after the step 1 run)
 
 The step 1 bar (every shape within 1e-5 relative error) was **mis-specified for long inner dimensions**: one of 17 checks measured 1.00e-5; the kernel equals a sequential fp32 sum exactly ([result](lc_step1_result.md)). The original bar is recorded as **missed** on the first run, and **passed on a second run after a kernel fix** (two-level tile summation; worst error 2.9e-6). **Step 1b** replaces it for later steps: matrix products must agree with the sequential fp32 sum exactly in the interpreter and stay within `k x 6e-8 x sum of |terms|` of a float64 reference on every back end.
