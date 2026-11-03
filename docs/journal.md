@@ -2270,4 +2270,8 @@ Built `matmul_fma4` and `matmul_fma8` (hoisted index arithmetic, 4x4 and 8x8 out
 
 Founder ran suite 4. MEASURED: 40 of 40 cases bit-identical. matmul_fma8 1281 GFLOP/s vs cuBLAS 2588 = **0.495x; bar 0.5x not met** (tool printed 0.50 after rounding; not counted). Hoisting index arithmetic gave nothing (1074 to 1082); 8 x 8 outputs per thread gave +18 percent. Next levers (untried): double buffering, vector shared loads, occupancy. See [step 4 result](../lcompute/docs/lc_step4_result.md).
 
+## 3 Nov 2026 - L Compute: failures worked on (items 1 and 2)
+
+Founder: proceed with items 1 and 2. Wrote bars Q6 (GPU matmul 0.6x of cuBLAS) and C4' (CPU: minimum of ten runs at least 20x) first. **Item 2 (CPU speed):** cache hypothesis rejected by measurement (L1 data miss rate 1.4 percent); an optimiser fusion that cut instructions 160 to 128 made the fast back end about 15 percent slower and was reverted; C4' passes in 4 of 5 ten-run repetitions (minimum 19.3x to 23.7x), so it stays marginal, no further CPU work planned. **Item 1 (GPU matmul):** built four variants (double buffering, 8x4 tile, k tile 32); CPU check 24 of 24 bit-identical to matmul_fma8; T4 speed not yet run (suite 5 sent). Disk space in the container ran out once (old suite zips); cleaned. See the [step 3](../lcompute/docs/lc_step3_result.md) and [step 4](../lcompute/docs/lc_step4_result.md) results.
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

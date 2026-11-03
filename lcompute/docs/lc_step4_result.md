@@ -53,6 +53,10 @@ CPU part (MEASURED here, before the GPU run): the three fused kernels (`matmul_f
 
 `matmul_fma8` is 0.495 of cuBLAS (the tool printed 0.50 after rounding; the bar was written as 'at least 0.5x', so this is not counted as met). What the numbers say: hoisting the index arithmetic (`matmul_fma` to `matmul_fma4`) gave nothing (1074 to 1082), so tile-load index arithmetic was not the limit; going to 8 x 8 outputs per thread gave +18 percent (1082 to 1281). The remaining gap (about 2x to the vendor library) is not yet explained by measurement. Untried levers: overlapping the next tile's loads with the current tile's arithmetic (double buffering), vector shared-memory loads, a deeper k tile, and the low occupancy of the 163-register kernel (one block of 256 threads per multiprocessor). One T4, one session; cuBLAS varied 2568 to 2911 GFLOP/s across the three sessions, so ratios carry about 10 percent uncertainty.
 
+## Step 4c, bar Q6: four more matmul variants (3 Nov 2026)
+
+Bar Q6 ([ROADMAP](ROADMAP.md), written before the work): best new kernel at least 0.6x of cuBLAS on the T4. Kernels from one generator (`matmul_v3`): `matmul_fma8db` (double-buffered shared tiles), `matmul_fma8x4` (8 x 4 outputs per thread, 128 x 64 tile), `matmul_fma8x4db` (both), `matmul_fma8k32` (k tile 32). **Q6a (CPU, MEASURED):** 24 of 24 runs (4 kernels x 6 shapes) bit-identical to `matmul_fma8` and to their own interpreter run. ptxas (no spills for any): fma8db 178 registers and 32 KB shared memory, fma8x4 116 registers and 12 KB, fma8x4db 128 registers and 24 KB, fma8k32 241 registers and 32 KB. **Q6b and Q6c (T4): not yet run**, suite 5 sent.
+
 ## Design notes
 
 - ABI: a buffer is two parameters (device pointer, length in floats), a scalar one parameter, and a last pointer to a u32 error word. Every global and shared access is bounds checked in the generated code; a failing access is skipped and the instruction number + 1 is written to the error word. Integer division by zero is reported and made harmless.

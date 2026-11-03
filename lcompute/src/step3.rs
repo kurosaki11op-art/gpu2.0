@@ -21,6 +21,7 @@ fn same(k: &Kernel, grid: Dim3, block: Dim3, spec: &[Sp]) -> (bool, String) {
 }
 
 pub fn prof() {
+    if std::env::var("LC_DUMP").is_ok() { for (i, ins) in crate::opt::optimise(&crate::matmul_tiled()).code.iter().enumerate() { println!("{:3} {:?}", i, ins); } return; }
     if std::env::var("LC_PROF").map(|v| v == "reduce").unwrap_or(false) {
         let n = 300_000usize; let nb = (n + 255) / 256; let kr = crate::block_reduce(); let s = [Sp::B(crate::rnd(n, 5)), Sp::B(vec![0f32; nb]), Sp::I(n as i32)];
         std::env::set_var("LC_THREADS", "1"); run_on(true, &kr, dim(nb, 1, 1), dim(256, 1, 1), &s).0.unwrap(); return; }
@@ -48,15 +49,21 @@ pub fn run() -> bool {
     println!("  C2 barrier divergence: {} ({}) | out-of-range: {} ({})", c2a, r1.err().unwrap_or_default(), c2b, r2.err().unwrap_or_default()); ok_all &= c2a && c2b; println!("C2 {}", if c2a && c2b { "PASS" } else { "FAIL" });
     // C3: step 2 suite on the fast back end
     let c3 = crate::step2::run(crate::runtime::Backend::Fast); ok_all &= c3; println!("C3 step 2 suite with the fast back end: {}", if c3 { "PASS" } else { "FAIL" });
-    // C4: 512^3 matmul speed
+    // C4': the C4 measurement repeated 10 times in one process (interpreter once and fast best of 3 each time); passes if the minimum of the ten speed-ups is at least 20x
     let (m, k, n) = (512usize, 512usize, 512usize); let s = [Sp::B(crate::rnd(m * k, 3)), Sp::B(crate::rnd(k * n, 4)), Sp::B(vec![0f32; m * n]), Sp::I(m as i32), Sp::I(k as i32), Sp::I(n as i32)];
     let g = dim(n / 16, m / 16, 1); let b = dim(16, 16, 1); let flop = 2.0 * (m * k * n) as f64;
-    { let o = crate::opt::optimise(&km); println!("  optimiser: matmul_tiled registers {} -> {} used;", km.regs.len(), crate::opt::used_regs(&o)); println!("  optimiser: matmul_tiled {} -> {} instructions; vec_add {} -> {}; block_reduce {} -> {}", km.code.len(), o.code.len(), kv.code.len(), crate::opt::optimise(&kv).code.len(), kr.code.len(), crate::opt::optimise(&kr).code.len()); }
-    let t = Instant::now(); let (_, oi) =run_on(false, &km, g, b, &s); let ti = t.elapsed().as_secs_f64();
-    let mut tf = f64::MAX; let mut of = Vec::new(); for _ in 0..3 { let t = Instant::now(); let (_, o) = run_on(true, &km, g, b, &s); tf = tf.min(t.elapsed().as_secs_f64()); of = o; }
-    let same_out = oi[2].iter().zip(&of[2]).all(|(a, b)| a.to_bits() == b.to_bits()); let sp = ti / tf; let c4 = sp >= 20.0 && same_out; ok_all &= c4;
-    println!("  C4 512x512x512 matmul: interpreter {:.2} s ({:.3} GFLOP/s), fast best of 3 {:.3} s ({:.3} GFLOP/s), outputs identical {}", ti, flop / ti / 1e9, tf, flop / tf / 1e9, same_out);
-    println!("C4 speed-up {:.1}x (bar >= 20x): {}", sp, if c4 { "PASS" } else { "FAIL" });
+    { let o = crate::opt::optimise(&km); println!("  optimiser: matmul_tiled registers {} -> {} used; instructions {} -> {}; vec_add {} -> {}; block_reduce {} -> {}", km.regs.len(), crate::opt::used_regs(&o), km.code.len(), o.code.len(), kv.code.len(), crate::opt::optimise(&kv).code.len(), kr.code.len(), crate::opt::optimise(&kr).code.len()); }
+    let mut sps = Vec::new(); let mut all_same = true; let mut last = (0.0, 0.0);
+    for _ in 0..10 {
+        let t = Instant::now(); let (_, oi) = run_on(false, &km, g, b, &s); let ti = t.elapsed().as_secs_f64();
+        let mut tf = f64::MAX; let mut of = Vec::new(); for _ in 0..3 { let t = Instant::now(); let (_, o) = run_on(true, &km, g, b, &s); tf = tf.min(t.elapsed().as_secs_f64()); of = o; }
+        all_same &= oi[2].iter().zip(&of[2]).all(|(a, b)| a.to_bits() == b.to_bits()); sps.push(ti / tf); last = (ti, tf);
+    }
+    let mn = sps.iter().cloned().fold(f64::MAX, f64::min); let mx = sps.iter().cloned().fold(0.0, f64::max); let mut sorted = sps.clone(); sorted.sort_by(|a, b| a.partial_cmp(b).unwrap()); let med = (sorted[4] + sorted[5]) / 2.0;
+    let c4 = mn >= 20.0 && all_same; ok_all &= c4;
+    println!("  C4' ten repetitions of 512^3 matmul, speed-up over the interpreter: {}", sps.iter().map(|x| format!("{:.1}", x)).collect::<Vec<_>>().join(" "));
+    println!("  C4' last repetition: interpreter {:.2} s ({:.3} GFLOP/s), fast {:.3} s ({:.3} GFLOP/s); outputs identical in all ten: {}", last.0, flop / last.0 / 1e9, last.1, flop / last.1 / 1e9, all_same);
+    println!("C4' minimum {:.1}x, median {:.1}x, maximum {:.1}x (bar: minimum >= 20x): {}", mn, med, mx, if c4 { "PASS" } else { "FAIL" });
     // C5: report only
     let n = 1_000_000usize; let nb = (n + 255) / 256;
     for (name, kk, g, spec) in [("vec_add", &kv, dim(nb, 1, 1), vec![Sp::B(crate::rnd(n, 1)), Sp::B(crate::rnd(n, 2)), Sp::B(vec![0f32; n]), Sp::I(n as i32)]), ("block_reduce", &kr, dim(nb, 1, 1), vec![Sp::B(crate::rnd(n, 5)), Sp::B(vec![0f32; nb]), Sp::I(n as i32)])] {

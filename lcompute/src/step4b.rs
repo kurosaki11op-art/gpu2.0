@@ -29,6 +29,19 @@ pub fn run() -> bool {
         println!("  Q4/Q5 {} {}x{}x{}: fast == interpreter {}, max relative error vs float64 {:.1e} (bar as first written 1e-5: {}), {:.3} of the rounding bound (step 1b rule: {})", kf.name, m, k, n, same, e, if ok_first { "ok" } else { "FAIL" }, ratio, if ok_rule { "ok" } else { "FAIL" });
     } }
     println!("Q4/Q5 CPU part (3 fused kernels), bar as first written (1e-5): {}/{} {}; re-specified with the step 1b rule: {}/{} {}", fg, ft, if fg == ft { "PASS" } else { "FAIL" }, fr, ft, if fr == ft { "PASS" } else { "FAIL" });
+    // Q6a: the double-buffered / other-shaped variants must give the same bits as matmul_fma8 (same sequential fused sum over k) and equal their own interpreter run
+    let (mut vg, mut vt) = (0, 0); let k8 = crate::matmul_fma8();
+    for (kv, bm, bn) in [(crate::matmul_fma8db(), 128usize, 128usize), (crate::matmul_fma8x4(), 128, 64), (crate::matmul_fma8x4db(), 128, 64), (crate::matmul_fma8k32(), 128, 128)] {
+        for &(m, k, n) in &[(1usize, 768usize, 2304usize), (17, 33, 45), (100, 50, 70), (128, 128, 128), (65, 17, 130), (130, 70, 200)] {
+            let spec = || vec![Sp::B(crate::rnd(m * k, 3)), Sp::B(crate::rnd(k * n, 4)), Sp::B(vec![0f32; m * n]), Sp::I(m as i32), Sp::I(k as i32), Sp::I(n as i32)];
+            let (r0, o0) = run_on(false, &k8, dim((n + 127) / 128, (m + 127) / 128, 1), dim(16, 16, 1), &spec());
+            let g = dim((n + bn - 1) / bn, (m + bm - 1) / bm, 1); let (r1, o1) = run_on(false, &kv, g, dim(16, 16, 1), &spec()); let (r2, o2) = run_on(true, &kv, g, dim(16, 16, 1), &spec());
+            let same = |a: &Vec<Vec<f32>>, b: &Vec<Vec<f32>>| a[2].iter().zip(&b[2]).all(|(x, y)| x.to_bits() == y.to_bits());
+            let ok = r0.is_ok() && r1.is_ok() && r2.is_ok() && same(&o0, &o1) && same(&o1, &o2); vt += 1; vg += ok as i32;
+            if !ok { println!("  Q6a {} {}x{}x{}: == matmul_fma8 {}, fast == interpreter {}  FAIL", kv.name, m, k, n, same(&o0, &o1), same(&o1, &o2)); }
+        }
+    }
+    println!("Q6a (4 new kernels, 6 shapes each): {}/{} bit-identical to matmul_fma8 and to their own interpreter run: {}", vg, vt, if vg == vt { "PASS" } else { "FAIL" });
     let q1 = good == tot; println!("Q1 {}/{} shapes bit-identical: {}", good, tot, if q1 { "PASS" } else { "FAIL" });
     // information only: CPU back end speed of both kernels at 512^3 (the register-blocked kernel needs many more registers per thread, which the lockstep CPU executor stores per lane)
     let n = 512usize; let spec = || vec![Sp::B(crate::rnd(n * n, 3)), Sp::B(crate::rnd(n * n, 4)), Sp::B(vec![0f32; n * n]), Sp::I(n as i32), Sp::I(n as i32), Sp::I(n as i32)];

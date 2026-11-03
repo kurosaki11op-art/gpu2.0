@@ -91,12 +91,12 @@ def perf(cu, d):
             torch.cuda.synchronize(); best = min(best, (time.perf_counter() - t) / reps)
         ref = r.cpu().numpy(); refms = best; print(f"P4 cuBLAS (PyTorch, TF32 off): {best*1e3:.2f} ms = {flop/best/1e9:.0f} GFLOP/s")
     except ImportError: print("P4: PyTorch not installed, cuBLAS comparison skipped")
-    for name, tile in (("matmul_tiled", 16), ("matmul_reg", 64), ("matmul_fma", 64), ("matmul_fma4", 64), ("matmul_fma8", 128)):
+    for name, bm, bn in (("matmul_tiled", 16, 16), ("matmul_reg", 64, 64), ("matmul_fma", 64, 64), ("matmul_fma4", 64, 64), ("matmul_fma8", 128, 128), ("matmul_fma8db", 128, 128), ("matmul_fma8x4", 128, 64), ("matmul_fma8x4db", 128, 64), ("matmul_fma8k32", 128, 128)):
         path = os.path.join(d, "ptx", name + ".ptx")
         if not os.path.exists(path): continue
         fn = cu.function(path, name); pc = cu.to_dev(np.zeros(n * n, np.float32)); perr = cu.to_dev(np.zeros(1, np.float32))
         ps = [ctypes.c_uint64(pa), ctypes.c_int32(n * n), ctypes.c_uint64(pb), ctypes.c_int32(n * n), ctypes.c_uint64(pc), ctypes.c_int32(n * n), ctypes.c_int32(n), ctypes.c_int32(n), ctypes.c_int32(n), ctypes.c_uint64(perr)]
-        g = (n // tile, n // tile, 1); b16 = (16, 16, 1); cu.launch(fn, g, b16, ps); best = 1e9
+        g = (n // bn, n // bm, 1); b16 = (16, 16, 1); cu.launch(fn, g, b16, ps); best = 1e9
         for _ in range(3):
             t = time.perf_counter()
             for _ in range(reps): cu.launch(fn, g, b16, ps)
