@@ -39,7 +39,19 @@ One T4, best of three timing loops of 20 launches each, one session.
 
 ## Step 4c: second attempt at 0.5x (bar Q5, 3 Nov 2026)
 
-CPU part (MEASURED here, before the GPU run): the three fused kernels (`matmul_fma`, `matmul_fma4`, `matmul_fma8`) equal the interpreter bit for bit on the fast back end on all 15 runs. **The accuracy bar as first written (1e-5 relative error against float64) failed on 2 of 15 runs** (`matmul_fma4` and `matmul_fma8` at 1 x 768 x 2304, both 1.0e-5): the same mis-specification as step 1 (a sequential fp32 sum over 768 terms rounds to about 1e-5). Re-specified, as in step 1b, with the rounding-bound rule (error within k x 6e-8 x the sum of absolute terms): all 15 pass, the worst at 0.143 of the bound. This is a re-specification, not a pass of the first bar, and I should have applied the step 1b rule when writing Q5. ptxas: `matmul_fma4` 70 registers, `matmul_fma8` 163 registers (one block of 256 threads per multiprocessor on the T4), no spills. GPU speed: not yet run.
+CPU part (MEASURED here, before the GPU run): the three fused kernels (`matmul_fma`, `matmul_fma4`, `matmul_fma8`) equal the interpreter bit for bit on the fast back end on all 15 runs. **The accuracy bar as first written (1e-5 relative error against float64) failed on 2 of 15 runs** (`matmul_fma4` and `matmul_fma8` at 1 x 768 x 2304, both 1.0e-5): the same mis-specification as step 1 (a sequential fp32 sum over 768 terms rounds to about 1e-5). Re-specified, as in step 1b, with the rounding-bound rule (error within k x 6e-8 x the sum of absolute terms): all 15 pass, the worst at 0.143 of the bound. This is a re-specification, not a pass of the first bar, and I should have applied the step 1b rule when writing Q5. ptxas: `matmul_fma4` 70 registers, `matmul_fma8` 163 registers (one block of 256 threads per multiprocessor on the T4), no spills. 
+
+**GPU result (Colab Tesla T4, 3 Nov 2026, MEASURED, suite 4): 40 of 40 cases bit-identical to the interpreter. Q5 speed bar (at least 0.5x of cuBLAS): MISSED by about 1 percent.** Same run, 1024^3 fp32, cuBLAS (TF32 off) 0.83 ms = 2588 GFLOP/s:
+
+| kernel | ms | GFLOP/s | ours / cuBLAS |
+| --- | --- | --- | --- |
+| matmul_tiled | 6.56 | 327 | 0.13 |
+| matmul_reg | 2.04 | 1053 | 0.41 |
+| matmul_fma | 2.00 | 1074 | 0.42 |
+| matmul_fma4 | 1.98 | 1082 | 0.42 |
+| **matmul_fma8** | **1.68** | **1281** | **0.495** |
+
+`matmul_fma8` is 0.495 of cuBLAS (the tool printed 0.50 after rounding; the bar was written as 'at least 0.5x', so this is not counted as met). What the numbers say: hoisting the index arithmetic (`matmul_fma` to `matmul_fma4`) gave nothing (1074 to 1082), so tile-load index arithmetic was not the limit; going to 8 x 8 outputs per thread gave +18 percent (1082 to 1281). The remaining gap (about 2x to the vendor library) is not yet explained by measurement. Untried levers: overlapping the next tile's loads with the current tile's arithmetic (double buffering), vector shared-memory loads, a deeper k tile, and the low occupancy of the 163-register kernel (one block of 256 threads per multiprocessor). One T4, one session; cuBLAS varied 2568 to 2911 GFLOP/s across the three sessions, so ratios carry about 10 percent uncertainty.
 
 ## Design notes
 

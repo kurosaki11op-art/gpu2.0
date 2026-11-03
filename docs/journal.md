@@ -2266,4 +2266,8 @@ Founder ran suite 3. MEASURED: 30 of 30 cases bit-identical; matmul_fma 1076 GFL
 
 Built `matmul_fma4` and `matmul_fma8` (hoisted index arithmetic, 4x4 and 8x8 outputs per thread). MEASURED on CPU: bit-identical to the interpreter; the Q5 accuracy bar as written (1e-5) **failed on 2 of 15 runs** (k=768, same cause as step 1), re-specified with the step 1b rule, then 15 of 15 pass. T4 speed (Q5, 0.5x of cuBLAS) not yet run; suite 4 sent. See [step 4 result](../lcompute/docs/lc_step4_result.md).
 
+## 3 Nov 2026 - L Compute step 4c on the T4: matmul_fma8 reaches 0.495x of cuBLAS, bar Q5 missed by about 1 percent
+
+Founder ran suite 4. MEASURED: 40 of 40 cases bit-identical. matmul_fma8 1281 GFLOP/s vs cuBLAS 2588 = **0.495x; bar 0.5x not met** (tool printed 0.50 after rounding; not counted). Hoisting index arithmetic gave nothing (1074 to 1082); 8 x 8 outputs per thread gave +18 percent. Next levers (untried): double buffering, vector shared loads, occupancy. See [step 4 result](../lcompute/docs/lc_step4_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
