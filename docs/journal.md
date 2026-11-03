@@ -2262,4 +2262,8 @@ Added `Fma` to the IR (interpreter, fast back end, optimiser, PTX `fma.rn.f32`) 
 
 Founder ran suite 3. MEASURED: 30 of 30 cases bit-identical; matmul_fma 1076 GFLOP/s vs cuBLAS 2586 = **0.42x, Q4 bar 0.5x missed**; the fused instruction gained only 3 percent, so the limit is not arithmetic instructions. Wrote bar Q5 first (two new kernels, hoisted index arithmetic, 8 x 8 outputs per thread) and am building it. See [step 4 result](../lcompute/docs/lc_step4_result.md).
 
+## 3 Nov 2026 - L Compute step 4c: two faster kernels built, GPU run pending; accuracy bar re-specified
+
+Built `matmul_fma4` and `matmul_fma8` (hoisted index arithmetic, 4x4 and 8x8 outputs per thread). MEASURED on CPU: bit-identical to the interpreter; the Q5 accuracy bar as written (1e-5) **failed on 2 of 15 runs** (k=768, same cause as step 1), re-specified with the step 1b rule, then 15 of 15 pass. T4 speed (Q5, 0.5x of cuBLAS) not yet run; suite 4 sent. See [step 4 result](../lcompute/docs/lc_step4_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

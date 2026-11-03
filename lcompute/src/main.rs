@@ -79,6 +79,50 @@ fn matmul_reg_impl(name: &str, fma: bool) -> ir::Kernel {
         b.if_(ok, |b| { let rn = b.mul_i(row, n); let ix = b.add_i(rn, col); b.store_g(pc, ix, a); });
     } } b.finish()
 }
+// Second-generation matmul (step 4c): thread tile tm x tm (4 or 8) with 16 x 16 threads, block tile (16*tm) x (16*tm), k tile 16, fused multiply-add, one running sum per output over all k (its own bits).
+// The index arithmetic that does not depend on the k tile (which element of the tile this thread loads, its row/column predicates) is computed once before the tile loop.
+fn matmul_fma4() -> ir::Kernel { matmul_v2("matmul_fma4", 4) }
+fn matmul_fma8() -> ir::Kernel { matmul_v2("matmul_fma8", 8) }
+fn matmul_v2(name: &str, tm: i32) -> ir::Kernel {
+    let bt = 16 * tm; let nl = tm; // elements of each tile loaded per thread: bt * 16 / 256 = tm
+    let mut b = B::new(name); let (pa, pb, pc) = (b.param_buf(), b.param_buf(), b.param_buf()); let (m, k, n) = (b.param_i32(), b.param_i32(), b.param_i32());
+    let (tx, ty) = (b.tid(0), b.tid(1)); let (bx, by) = (b.bid(0), b.bid(1)); let (c16, cbt, c15) = (b.ci(16), b.ci(bt), b.ci(15));
+    let (sa, sb) = (b.shared((bt * 16) as usize), b.shared((16 * bt) as usize)); let zero = b.cf(0.0);
+    let t = { let r = b.mul_i(ty, c16); b.add_i(r, tx) }; let row0 = b.mul_i(by, cbt); let col0 = b.mul_i(bx, cbt);
+    let (mut a_e, mut a_ac, mut a_rowk, mut a_rowok, mut b_e, mut b_br, mut b_col, mut b_colok) = (vec![], vec![], vec![], vec![], vec![], vec![], vec![], vec![]);
+    for j in 0..nl {
+        let cj = b.ci(j * 256); let e = b.add_i(t, cj);
+        let ar = b.div_i(e, c16); let ac = b.rem_i(e, c16); let grow = b.add_i(row0, ar); let rowk = b.mul_i(grow, k); let rowok = b.lt_i(grow, m); a_e.push(e); a_ac.push(ac); a_rowk.push(rowk); a_rowok.push(rowok);
+        let br = b.div_i(e, cbt); let bc = b.rem_i(e, cbt); let bcol = b.add_i(col0, bc); let colok = b.lt_i(bcol, n); b_e.push(e); b_br.push(br); b_col.push(bcol); b_colok.push(colok);
+    }
+    let acc: Vec<ir::Reg> = (0..tm * tm).map(|_| b.var_f(zero)).collect();
+    let kk15 = b.add_i(k, c15); let ntiles = b.div_i(kk15, c16); let z = b.ci(0); let ctm16 = b.ci(tm * 16); let ty_base = b.mul_i(ty, ctm16);
+    b.for_range(z, ntiles, 1, |b, tile| {
+        let c16b = b.ci(16); let toff = b.mul_i(tile, c16b);
+        for j in 0..nl as usize {
+            let gcol = b.add_i(toff, a_ac[j]); let p2 = b.lt_i(gcol, k); let ok = b.and_p(a_rowok[j], p2); let z0 = b.cf(0.0); let va = b.var_f(z0);
+            b.if_(ok, |b| { let ix = b.add_i(a_rowk[j], gcol); let v = b.load_g(pa, ix); b.mov(va, v); }); b.store_s(sa, a_e[j], va);
+            let grow2 = b.add_i(toff, b_br[j]); let q1 = b.lt_i(grow2, k); let ok2 = b.and_p(q1, b_colok[j]); let vb = b.var_f(z0);
+            b.if_(ok2, |b| { let rn = b.mul_i(grow2, n); let ix = b.add_i(rn, b_col[j]); let v = b.load_g(pb, ix); b.mov(vb, v); }); b.store_s(sb, b_e[j], vb);
+        }
+        b.barrier();
+        let z1 = b.ci(0); let c16c = b.ci(16);
+        b.for_range(z1, c16c, 1, |b, kk| {
+            let cbt2 = b.ci(bt);
+            let av: Vec<ir::Reg> = (0..tm).map(|i| { let off = b.ci(i * 16); let r = b.add_i(ty_base, off); let ix = b.add_i(r, kk); b.load_s(sa, ix) }).collect();
+            let kb = { let r = b.mul_i(kk, cbt2); b.add_i(r, tx) };
+            let bv: Vec<ir::Reg> = (0..tm).map(|j| { let off = b.ci(j * 16); let ix = b.add_i(kb, off); b.load_s(sb, ix) }).collect();
+            for i in 0..tm as usize { for j in 0..tm as usize { let na = b.fma_f(av[i], bv[j], acc[i * tm as usize + j]); b.mov(acc[i * tm as usize + j], na); } }
+        });
+        b.barrier();
+    });
+    for i in 0..tm { for j in 0..tm {
+        let ctm = b.ci(tm); let ty4 = b.mul_i(ty, ctm); let io = b.ci(i); let r1 = b.add_i(ty4, io); let row = b.add_i(row0, r1);
+        let jo = b.ci(j * 16); let c1 = b.add_i(tx, jo); let col = b.add_i(col0, c1);
+        let p1 = b.lt_i(row, m); let p2 = b.lt_i(col, n); let ok = b.and_p(p1, p2); let a = acc[(i * tm + j) as usize];
+        b.if_(ok, |b| { let rn = b.mul_i(row, n); let ix = b.add_i(rn, col); b.store_g(pc, ix, a); });
+    } } b.finish()
+}
 // per-block sum of 256 elements with a shared-memory tree reduction
 fn block_reduce() -> ir::Kernel {
     let mut b = B::new("block_reduce"); let (px, po) = (b.param_buf(), b.param_buf()); let n = b.param_i32(); let sd = b.shared(256);

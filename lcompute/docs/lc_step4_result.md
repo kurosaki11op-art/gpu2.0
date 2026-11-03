@@ -37,6 +37,10 @@ One T4, best of three timing loops of 20 launches each, one session.
 
 **Reading of the Q4 miss:** the fused instruction gave only 3 percent (1044 to 1076 GFLOP/s), so the kernel is not limited by floating-point instruction count. Reasoning from the design (not measured yet): each thread does 8 shared-memory loads per 16 multiply-adds, which at the T4's shared-memory rate costs about as much issue time as the arithmetic, and the global-to-shared tile loads recompute index arithmetic (divisions) every tile. Next attempt (bar Q5 in the ROADMAP, written before the work): hoist the loop-invariant index arithmetic, and an 8 x 8 outputs-per-thread version (64 multiply-adds per 16 loads).
 
+## Step 4c: second attempt at 0.5x (bar Q5, 3 Nov 2026)
+
+CPU part (MEASURED here, before the GPU run): the three fused kernels (`matmul_fma`, `matmul_fma4`, `matmul_fma8`) equal the interpreter bit for bit on the fast back end on all 15 runs. **The accuracy bar as first written (1e-5 relative error against float64) failed on 2 of 15 runs** (`matmul_fma4` and `matmul_fma8` at 1 x 768 x 2304, both 1.0e-5): the same mis-specification as step 1 (a sequential fp32 sum over 768 terms rounds to about 1e-5). Re-specified, as in step 1b, with the rounding-bound rule (error within k x 6e-8 x the sum of absolute terms): all 15 pass, the worst at 0.143 of the bound. This is a re-specification, not a pass of the first bar, and I should have applied the step 1b rule when writing Q5. ptxas: `matmul_fma4` 70 registers, `matmul_fma8` 163 registers (one block of 256 threads per multiprocessor on the T4), no spills. GPU speed: not yet run.
+
 ## Design notes
 
 - ABI: a buffer is two parameters (device pointer, length in floats), a scalar one parameter, and a last pointer to a u32 error word. Every global and shared access is bounds checked in the generated code; a failing access is skipped and the instruction number + 1 is written to the error word. Integer division by zero is reported and made harmless.
