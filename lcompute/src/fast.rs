@@ -11,6 +11,12 @@ fn fb(v: u32) -> f32 { f32::from_bits(v) } fn tb(v: f32) -> u32 { v.to_bits() }
     while t < nt { *pd.add(t) = f(*pa.add(t), *pb.add(t)); t += 1; }
 }
 
+// three-operand dense helper (fused multiply-add): same chunking idea as `bin`
+#[inline(always)] unsafe fn tri(rp: *mut u32, nt: usize, d: usize, a: usize, b: usize, c: usize, f: impl Fn(u32, u32, u32) -> u32) {
+    let (pd, pa, pb, pc) = (rp.add(d * nt), rp.add(a * nt), rp.add(b * nt), rp.add(c * nt)); let mut t = 0;
+    while t + 8 <= nt { let mut x = [0u32; 8]; let mut y = [0u32; 8]; let mut z = [0u32; 8]; for i in 0..8 { x[i] = *pa.add(t + i); y[i] = *pb.add(t + i); z[i] = *pc.add(t + i); } for i in 0..8 { x[i] = f(x[i], y[i], z[i]); } for i in 0..8 { *pd.add(t + i) = x[i]; } t += 8; }
+    while t < nt { *pd.add(t) = f(*pa.add(t), *pb.add(t), *pc.add(t)); t += 1; }
+}
 // dense shared load after the index check: groups of 8 lanes that read 8 consecutive floats are one vector load, groups that all read the same float are a broadcast, anything else is a gather
 #[inline(always)] unsafe fn ld_dense(rp: *mut u32, nt: usize, d: usize, i: usize, sp: *const f32) {
     let (pd, pi) = (rp.add(d * nt), rp.add(i * nt) as *const u32); let mut t = 0;
@@ -50,6 +56,7 @@ unsafe fn run_block(k: &Kernel, labels: &[usize], simple: &[bool], args: &[Arg],
             Inst::ConstI(d, v) => { lanes!(t, { r!(d, t) = *v as u32; }) } Inst::ConstF(d, v) => { let b = tb(*v); lanes!(t, { r!(d, t) = b; }) }
             Inst::Special(d, s) => { lanes!(t, { r!(d, t) = (match s { Sp::Tid(a) => tid[t][*a as usize], Sp::Bid(a) => bid[*a as usize], Sp::Bdim(a) => [block.x, block.y, block.z][*a as usize], Sp::Gdim(a) => [grid.x, grid.y, grid.z][*a as usize] }) as u32; }) }
             Inst::ParamS(d, pi) => { let v = match args[*pi as usize] { Arg::I32(v) => v as u32, Arg::F32(v) => tb(v), Arg::Buf(_) => return Err(format!("{}: parameter {} is a buffer, not a scalar", k.name, pi)) }; lanes!(t, { r!(d, t) = v; }) }
+            Inst::Fma(d, a, b, c) => { let f = |x: u32, y: u32, z: u32| tb(fb(x).mul_add(fb(y), fb(z))); if act.len() == nt { tri(rp, nt, d.0 as usize, a.0 as usize, b.0 as usize, c.0 as usize, f) } else { for &t in act.iter() { r!(d, t) = f(r!(a, t), r!(b, t), r!(c, t)); } } }
             Inst::AddImm(d, s, c) => { let c = *c; bin2!(d, s, s, |x: u32, _y: u32| (x as i32).wrapping_add(c) as u32) }
             Inst::Mov(d, s) => { if act.len() == nt { std::ptr::copy(rp.add(s.0 as usize * nt), rp.add(d.0 as usize * nt), nt); } else { lanes!(t, { r!(d, t) = r!(s, t); }) } }
             Inst::BinI(d, op, a, b) => { match op {

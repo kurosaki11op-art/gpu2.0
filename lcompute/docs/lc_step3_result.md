@@ -45,4 +45,8 @@ Bar D1 ([ROADMAP](ROADMAP.md), written before the work): block_reduce at 1,000,0
 
 My earlier statement that block_reduce was "dominated by barriers" was a guess and was wrong in detail: callgrind (COUNTED, 300,000 elements, one thread) showed about 1.1 million instructions per block, most of them in the rescans that find which lanes run next (building a new list each time, three slice-checked passes over 256 lanes). Two changes: (1) one reusable active-list buffer and one fused unchecked pass per rescan (1.5x to 3.7x); (2) a forward branch over straight-line code with no barrier (the `if (tid < s)` of the tree reduction) now lets the fall-through lanes run the region alone and rejoin at the branch target with no rescan (3.7x to 5.3x to 6.6x). Not done: per-block buffers are still allocated for every block.
 
+## Update 3 Nov 2026 (later): C4 is not robustly met (MEASURED)
+
+Re-running the same code later the same day, C4 read 19.8x, 22.6x, 24.0x, 23.9x, 19.0x, 19.2x. Together with the earlier runs the range is **19.0x to 24.4x**: the speed bar (20x) passes in roughly half of the runs on this shared cloud CPU (the fast back end varies between 0.093 s and 0.118 s; the interpreter stays near 2.2 s). So the honest status of C4 is **marginal, not reliably met**. The bar was not changed. The register-blocked kernel (`matmul_reg`, step 4b) runs about twice as fast on the same CPU back end (0.052 s against 0.109 s), but that is a different kernel and does not count for C4.
+
 Related: [ROADMAP](ROADMAP.md), [Step 2 result](lc_step2_result.md), [Docs index](INDEX.md), [README](../README.md)

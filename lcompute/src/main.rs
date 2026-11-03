@@ -35,8 +35,11 @@ fn matmul_tiled() -> ir::Kernel {
 }
 // C[m,n] = A[m,k] @ B[k,n], register blocked: a 64 x 64 block tile, 16 x 16 threads, each thread computes 4 x 4 outputs (rows ty*4+i, columns tx+16*j), k tile 16.
 // Same summation order as matmul_tiled (16 products summed first, then added to the running total), so the bits are the same.
-fn matmul_reg() -> ir::Kernel {
-    let mut b = B::new("matmul_reg"); let (pa, pb, pc) = (b.param_buf(), b.param_buf(), b.param_buf()); let (m, k, n) = (b.param_i32(), b.param_i32(), b.param_i32());
+fn matmul_reg() -> ir::Kernel { matmul_reg_impl("matmul_reg", false) }
+// the same kernel with a fused multiply-add in the inner loop (its own bits: one rounding per multiply-add)
+fn matmul_fma() -> ir::Kernel { matmul_reg_impl("matmul_fma", true) }
+fn matmul_reg_impl(name: &str, fma: bool) -> ir::Kernel {
+    let mut b = B::new(name); let (pa, pb, pc) = (b.param_buf(), b.param_buf(), b.param_buf()); let (m, k, n) = (b.param_i32(), b.param_i32(), b.param_i32());
     let (tx, ty) = (b.tid(0), b.tid(1)); let (bx, by) = (b.bid(0), b.bid(1)); let (c16, c64, c256) = (b.ci(16), b.ci(64), b.ci(256)); let c15 = b.ci(15);
     let (sa, sb) = (b.shared(1024), b.shared(1024)); let zero = b.cf(0.0);
     let t = { let r = b.mul_i(ty, c16); b.add_i(r, tx) }; let row0 = b.mul_i(by, c64); let col0 = b.mul_i(bx, c64);
@@ -64,7 +67,7 @@ fn matmul_reg() -> ir::Kernel {
             let kb = { let r = b.mul_i(kk, c64d); b.add_i(r, tx) };
             let bv: Vec<ir::Reg> = (0..4).map(|j| { let off = b.ci(j * 16); let ix = b.add_i(kb, off); b.load_s(sb, ix) }).collect();
             let _ = c16d;
-            for i in 0..4 { for j in 0..4 { let pr = b.mul_f(av[i], bv[j]); let na = b.add_f(tacc[i * 4 + j], pr); b.mov(tacc[i * 4 + j], na); } }
+            for i in 0..4 { for j in 0..4 { let na = if fma { b.fma_f(av[i], bv[j], tacc[i * 4 + j]) } else { let pr = b.mul_f(av[i], bv[j]); b.add_f(tacc[i * 4 + j], pr) }; b.mov(tacc[i * 4 + j], na); } }
         });
         for q in 0..16 { let na = b.add_f(acc[q], tacc[q]); b.mov(acc[q], na); }
         b.barrier();

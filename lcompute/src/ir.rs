@@ -8,6 +8,7 @@
 #[derive(Clone, Debug)]
 pub enum Inst {
     ConstI(Reg, i32), ConstF(Reg, f32), Special(Reg, Sp), ParamS(Reg, u32), Mov(Reg, Reg),
+    Fma(Reg, Reg, Reg, Reg), // dst = a * b + c with ONE rounding (fused multiply-add, IEEE fma); results differ from separate multiply and add
     AddImm(Reg, Reg, i32), // dst = src + constant (wrapping); written only by the optimiser (opt.rs), never by the builder
     BinI(Reg, BinOp, Reg, Reg), BinF(Reg, BinOp, Reg, Reg), CmpI(Reg, CmpOp, Reg, Reg), CmpF(Reg, CmpOp, Reg, Reg),
     UnF(Reg, UnOp, Reg), CvtIF(Reg, Reg), CvtFI(Reg, Reg), SelF(Reg, Reg, Reg, Reg), // SelF(dst, pred, if_true, if_false)

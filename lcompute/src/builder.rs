@@ -26,6 +26,7 @@ impl B {
     pub fn and_p(&mut self, a: Reg, b: Reg) -> Reg { let r = self.reg(Ty::Pred); self.code.push(Inst::BinI(r, BinOp::And, a, b)); r }
     pub fn add_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Add, a, b) } pub fn sub_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Sub, a, b) }
     pub fn mul_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Mul, a, b) } pub fn div_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Div, a, b) }
+    pub fn fma_f(&mut self, a: Reg, b: Reg, c: Reg) -> Reg { let r = self.reg(Ty::F32); self.code.push(Inst::Fma(r, a, b, c)); r }
     pub fn max_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Max, a, b) }
     pub fn un_f(&mut self, op: UnOp, a: Reg) -> Reg { let r = self.reg(Ty::F32); self.code.push(Inst::UnF(r, op, a)); r }
     pub fn cvt_if(&mut self, a: Reg) -> Reg { let r = self.reg(Ty::F32); self.code.push(Inst::CvtIF(r, a)); r }

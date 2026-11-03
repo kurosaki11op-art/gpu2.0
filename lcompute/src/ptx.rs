@@ -28,6 +28,7 @@ pub fn to_ptx(k: &Kernel) -> String {
                 writeln!(o, "    mov.u32 %u0, %{}.{};\n    mov.b32 {}, %u0;", reg, c, n(k, *d)) }
             Inst::ParamS(d, p) => match k.params[*p as usize] { ParamKind::I32 => writeln!(o, "    ld.param.s32 {}, [a{}];", n(k, *d), p), ParamKind::F32 => writeln!(o, "    ld.param.f32 {}, [a{}];", n(k, *d), p), ParamKind::BufF32 => panic!("buffer used as scalar") },
             Inst::Mov(d, a) => writeln!(o, "    mov.{} {}, {};", match k.regs[d.0 as usize] { Ty::I32 => "s32", Ty::F32 => "f32", Ty::Pred => "pred" }, n(k, *d), n(k, *a)),
+            Inst::Fma(d, a, b, c) => writeln!(o, "    fma.rn.f32 {}, {}, {}, {};", n(k, *d), n(k, *a), n(k, *b), n(k, *c)),
             Inst::AddImm(d, a, c) => writeln!(o, "    add.s32 {}, {}, {};", n(k, *d), n(k, *a), c),
             Inst::BinI(d, op, a, b) => { let (dn, an, bn) = (n(k, *d), n(k, *a), n(k, *b));
                 if k.regs[d.0 as usize] == Ty::Pred { match op { BinOp::And => writeln!(o, "    and.pred {}, {}, {};", dn, an, bn), BinOp::Or => writeln!(o, "    or.pred {}, {}, {};", dn, an, bn), _ => panic!("operator {:?} on predicates", op) } }

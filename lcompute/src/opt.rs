@@ -5,14 +5,14 @@ use std::collections::HashMap;
 
 fn dst(i: &Inst) -> Option<Reg> { use Inst::*; match i {
     ConstI(d, _) | ConstF(d, _) | Special(d, _) | ParamS(d, _) | Mov(d, _) | AddImm(d, _, _) | BinI(d, _, _, _) | BinF(d, _, _, _) | CmpI(d, _, _, _) | CmpF(d, _, _, _)
-    | UnF(d, _, _) | CvtIF(d, _) | CvtFI(d, _) | SelF(d, _, _, _) | LdG(d, _, _) | LdS(d, _, _) => Some(*d), _ => None } }
+    | UnF(d, _, _) | CvtIF(d, _) | CvtFI(d, _) | SelF(d, _, _, _) | Fma(d, _, _, _) | LdG(d, _, _) | LdS(d, _, _) => Some(*d), _ => None } }
 fn set_dst(i: &mut Inst, n: Reg) { use Inst::*; match i {
     ConstI(d, _) | ConstF(d, _) | Special(d, _) | ParamS(d, _) | Mov(d, _) | AddImm(d, _, _) | BinI(d, _, _, _) | BinF(d, _, _, _) | CmpI(d, _, _, _) | CmpF(d, _, _, _)
-    | UnF(d, _, _) | CvtIF(d, _) | CvtFI(d, _) | SelF(d, _, _, _) | LdG(d, _, _) | LdS(d, _, _) => *d = n, _ => {} } }
+    | UnF(d, _, _) | CvtIF(d, _) | CvtFI(d, _) | SelF(d, _, _, _) | Fma(d, _, _, _) | LdG(d, _, _) | LdS(d, _, _) => *d = n, _ => {} } }
 fn srcs(i: &Inst) -> Vec<Reg> { use Inst::*; match i {
     Mov(_, a) | AddImm(_, a, _) | UnF(_, _, a) | CvtIF(_, a) | CvtFI(_, a) | LdG(_, _, a) | LdS(_, _, a) | BrIf(a, _) | BrIfNot(a, _) => vec![*a],
     BinI(_, _, a, b) | BinF(_, _, a, b) | CmpI(_, _, a, b) | CmpF(_, _, a, b) | StG(_, a, b) | StS(_, a, b) => vec![*a, *b],
-    SelF(_, p, a, b) => vec![*p, *a, *b], _ => vec![] } }
+    SelF(_, p, a, b) => vec![*p, *a, *b], Fma(_, a, b, c) => vec![*a, *b, *c], _ => vec![] } }
 // can be dropped when its result is unused / merged with an identical earlier one
 fn pure(i: &Inst) -> bool { use Inst::*; match i { LdG(..) | LdS(..) => false, BinI(_, BinOp::Div, _, _) | BinI(_, BinOp::Rem, _, _) => false, _ => dst(i).is_some() } }
 fn straight(i: &Inst) -> bool { !matches!(i, Inst::Label(_) | Inst::Br(_) | Inst::BrIf(..) | Inst::BrIfNot(..) | Inst::Ret) }
@@ -84,6 +84,7 @@ fn fold(code: &[Inst], nregs: usize) -> Vec<Inst> {
             Inst::UnF(d, op, a) => emit_expr!(*d, (6, unn(*op), a.0, v(&ver, *a), 0, 0, 0), ins.clone()),
             Inst::CvtIF(d, a) => emit_expr!(*d, (7, 0, a.0, v(&ver, *a), 0, 0, 0), ins.clone()), Inst::CvtFI(d, a) => emit_expr!(*d, (8, 0, a.0, v(&ver, *a), 0, 0, 0), ins.clone()),
             Inst::SelF(d, p, a, b) => emit_expr!(*d, (9, p.0, v(&ver, *p), a.0, v(&ver, *a), b.0, v(&ver, *b)), ins.clone()),
+            Inst::Fma(d, a, b, c) => emit_expr!(*d, (12, a.0, v(&ver, *a), b.0, v(&ver, *b), c.0, v(&ver, *c)), ins.clone()),
             Inst::Special(d, s) => { let (t, ax) = match s { Sp::Tid(a) => (0, *a), Sp::Bid(a) => (1, *a), Sp::Bdim(a) => (2, *a), Sp::Gdim(a) => (3, *a) }; emit_expr!(*d, (10, t, ax as u32, 0, 0, 0, 0), ins.clone()) }
             Inst::ParamS(d, p) => emit_expr!(*d, (11, *p, 0, 0, 0, 0, 0), ins.clone()),
             Inst::AddImm(d, s, c) => emit_expr!(*d, (1, v(&ver, *s), s.0, *c as u32, 0, 0, 0), ins.clone()),

@@ -2254,4 +2254,8 @@ Founder: improve the matmul speed first. Wrote bars Q1 to Q4 first ([ROADMAP](..
 
 Founder ran suite 2 on the Colab T4. MEASURED: 25 of 25 cases bit-identical; **matmul_reg 1024 GFLOP/s = 0.35x of cuBLAS** (bar 0.25x), up from 0.11x; bit-identical to the plain tiled kernel at 1024^3. Next: Q4, a fused multiply-add instruction in the IR (bar 0.5x). See [step 4 result](../lcompute/docs/lc_step4_result.md).
 
+## 3 Nov 2026 - L Compute: fused multiply-add added (Q4 pending on the T4); C4 found not robust
+
+Added `Fma` to the IR (interpreter, fast back end, optimiser, PTX `fma.rn.f32`) and the kernel `matmul_fma`. MEASURED on CPU: fast back end equals the interpreter on 5 of 5 shapes, error against float64 at most 3.1e-6; ptxas 63 to 64 registers. **Q4 (0.5x of cuBLAS on the T4) not yet run**; suite 3 sent. Also recorded honestly: re-running the step 3 C4 speed bar gave 19.0x to 24.4x over many runs, so it is marginal (about half the runs below 20x), see the [step 3 result](../lcompute/docs/lc_step3_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)
