@@ -197,6 +197,7 @@ fn block_reduce() -> ir::Kernel {
 }
 // two kernels that must be rejected
 fn barrier_divergence() -> ir::Kernel { let mut b = B::new("barrier_divergence"); let _x = b.param_buf(); let tid = b.tid(0); let one = b.ci(1); let p = b.lt_i(tid, one); let _s = b.shared(4); b.if_(p, |b| b.ret()); b.barrier(); b.finish() }
+fn out_of_range_store() -> ir::Kernel { let mut b = B::new("out_of_range_store"); let x = b.param_buf(); let n = b.param_i32(); let v = b.cf(1.0); b.store_g(x, n, v); b.finish() }
 fn out_of_range() -> ir::Kernel { let mut b = B::new("out_of_range"); let x = b.param_buf(); let n = b.param_i32(); let _v = b.load_g(x, n); b.finish() }
 
 fn host(v: &mut Vec<f32>) -> Arg { Arg::Buf(Buf { ptr: v.as_mut_ptr(), len: v.len() }) }

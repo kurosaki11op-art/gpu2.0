@@ -57,6 +57,22 @@ CPU part (MEASURED here, before the GPU run): the three fused kernels (`matmul_f
 
 Bar Q6 ([ROADMAP](ROADMAP.md), written before the work): best new kernel at least 0.6x of cuBLAS on the T4. Kernels from one generator (`matmul_v3`): `matmul_fma8db` (double-buffered shared tiles), `matmul_fma8x4` (8 x 4 outputs per thread, 128 x 64 tile), `matmul_fma8x4db` (both), `matmul_fma8k32` (k tile 32). **Q6a (CPU, MEASURED):** 24 of 24 runs (4 kernels x 6 shapes) bit-identical to `matmul_fma8` and to their own interpreter run. ptxas (no spills for any): fma8db 178 registers and 32 KB shared memory, fma8x4 116 registers and 12 KB, fma8x4db 128 registers and 24 KB, fma8k32 241 registers and 32 KB. **Q6b and Q6c (T4): not yet run**, suite 5 sent.
 
+## Step 4c result for bar Q6 (3 Nov 2026, Colab Tesla T4, MEASURED, suite 5)
+
+64 of 64 cases bit-identical to the interpreter (Q6b passes). cuBLAS (TF32 off) 0.83 ms = 2590 GFLOP/s at 1024^3. **Q6c (at least 0.6x) MISSED: best 0.515x.**
+
+| kernel | GFLOP/s | ours / cuBLAS |
+| --- | --- | --- |
+| matmul_fma8 (previous best) | 1283 | 0.50 |
+| matmul_fma8db (double buffering) | 1315 | 0.51 |
+| matmul_fma8x4 (8 x 4 tile) | 1279 | 0.49 |
+| **matmul_fma8x4db** | **1334** | **0.52** |
+| matmul_fma8k32 (k tile 32) | 1271 | 0.49 |
+
+Double buffering gained 2 to 4 percent, a smaller tile for occupancy nothing, a deeper k tile nothing. All four levers I had guessed at were small, so the limit is elsewhere. Note that this run measured `matmul_fma8` at 0.495x (1283 / 2590) again: the Q5 bar (0.5x) stays recorded as missed.
+
+**Where the time goes (COUNTED, machine code):** disassembling the ptxas output of `matmul_fma8x4db` (sm_75) shows, per inner k step, 32 multiply-adds and 12 shared loads against about 85 other instructions (integer multiplies and compares, predicated error stores, selects): the bounds checks. The multiply-adds are about 27 percent of the issued instructions, and the k loop is not unrolled. So the limit is probably the checking code, not memory or arithmetic. That is a hypothesis; bar Q7 ([ROADMAP](ROADMAP.md)) tests it with check modes full / cheap / none and loop unrolling.
+
 ## Design notes
 
 - ABI: a buffer is two parameters (device pointer, length in floats), a scalar one parameter, and a last pointer to a u32 error word. Every global and shared access is bounds checked in the generated code; a failing access is skipped and the instruction number + 1 is written to the error word. Integer division by zero is reported and made harmless.

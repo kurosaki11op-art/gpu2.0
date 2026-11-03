@@ -18,7 +18,7 @@ fn pure(i: &Inst) -> bool { use Inst::*; match i { LdG(..) | LdS(..) => false, B
 fn straight(i: &Inst) -> bool { !matches!(i, Inst::Label(_) | Inst::Br(_) | Inst::BrIf(..) | Inst::BrIfNot(..) | Inst::Ret) }
 
 // ---------- pass 1: unrolling ----------
-fn unroll_one(code: &[Inst], nregs: usize) -> Option<Vec<Inst>> {
+fn unroll_one(code: &[Inst], nregs: usize, limit: usize) -> Option<Vec<Inst>> {
     let mut writes = vec![0u32; nregs]; let mut cval: Vec<Option<i32>> = vec![None; nregs];
     for ins in code { if let Some(d) = dst(ins) { writes[d.0 as usize] += 1; if let Inst::ConstI(_, v) = ins { cval[d.0 as usize] = Some(*v); } } }
     let konst = |r: Reg| if writes[r.0 as usize] == 1 { cval[r.0 as usize] } else { None };
@@ -38,7 +38,7 @@ fn unroll_one(code: &[Inst], nregs: usize) -> Option<Vec<Inst>> {
         if !code[m + 1..l].iter().all(straight) { continue; }
         let (start, e, step) = match (konst(s), konst(end), konst(st)) { (Some(a), Some(b2), Some(c)) if c > 0 => (a, b2, c), _ => continue };
         let trips = (if e > start { ((e - start) + step - 1) / step } else { 0 }) as usize;
-        if trips > 64 || trips * (body.len() + 1) > 700 { continue; }
+        if trips > 64 || trips * (body.len() + 1) > limit { continue; }
         let mut out_code: Vec<Inst> = code[..l].to_vec(); let mut v = start;
         for _ in 0..trips { out_code.push(Inst::ConstI(i, v)); out_code.extend(body.iter().cloned()); v += step; }
         out_code.push(Inst::ConstI(i, v)); // the value the loop variable has after the loop
@@ -112,9 +112,11 @@ fn dce(code: &mut Vec<Inst>, nregs: usize) {
     }
 }
 
-pub fn optimise(k: &Kernel) -> Kernel {
+pub fn optimise(k: &Kernel) -> Kernel { optimise_with(k, 700) }
+/// The same passes with a larger unrolling limit (instructions after unrolling one loop); the GPU back end uses this to unroll the k loop of a matmul fully.
+pub fn optimise_with(k: &Kernel, limit: usize) -> Kernel {
     let n = k.regs.len(); let mut code = k.code.clone();
-    for _ in 0..8 { match unroll_one(&code, n) { Some(c) => code = c, None => break } }
+    for _ in 0..8 { match unroll_one(&code, n, limit) { Some(c) => code = c, None => break } }
     code = fold(&code, n); dce(&mut code, n); fuse(&mut code, n); dce(&mut code, n);
     Kernel { name: k.name.clone(), params: k.params.clone(), shared: k.shared.clone(), regs: k.regs.clone(), code }
 }

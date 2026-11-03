@@ -2274,4 +2274,8 @@ Founder ran suite 4. MEASURED: 40 of 40 cases bit-identical. matmul_fma8 1281 GF
 
 Founder: proceed with items 1 and 2. Wrote bars Q6 (GPU matmul 0.6x of cuBLAS) and C4' (CPU: minimum of ten runs at least 20x) first. **Item 2 (CPU speed):** cache hypothesis rejected by measurement (L1 data miss rate 1.4 percent); an optimiser fusion that cut instructions 160 to 128 made the fast back end about 15 percent slower and was reverted; C4' passes in 4 of 5 ten-run repetitions (minimum 19.3x to 23.7x), so it stays marginal, no further CPU work planned. **Item 1 (GPU matmul):** built four variants (double buffering, 8x4 tile, k tile 32); CPU check 24 of 24 bit-identical to matmul_fma8; T4 speed not yet run (suite 5 sent). Disk space in the container ran out once (old suite zips); cleaned. See the [step 3](../lcompute/docs/lc_step3_result.md) and [step 4](../lcompute/docs/lc_step4_result.md) results.
 
+## 3 Nov 2026 - L Compute step 4c on the T4: Q6 missed (0.52x); the bounds checks look like the limit
+
+Founder ran suite 5. MEASURED: 64 of 64 cases bit-identical; best kernel matmul_fma8x4db 1334 GFLOP/s vs cuBLAS 2590 = **0.52x; Q6 (0.6x) missed**. All four levers (double buffering, 8 x 4 tile, k tile 32) gave 0 to 4 percent. Disassembled the machine code (COUNTED): 32 multiply-adds against about 85 other instructions per inner step, mostly my bounds checks; the k loop is not unrolled. Wrote bar Q7 first, then built check modes full / cheap / none and an unrolled-loop option in the PTX back end (all 32 variant files pass ptxas); suite 6 sent. See [step 4 result](../lcompute/docs/lc_step4_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

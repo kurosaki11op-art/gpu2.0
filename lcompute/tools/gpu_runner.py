@@ -91,7 +91,16 @@ def perf(cu, d):
             torch.cuda.synchronize(); best = min(best, (time.perf_counter() - t) / reps)
         ref = r.cpu().numpy(); refms = best; print(f"P4 cuBLAS (PyTorch, TF32 off): {best*1e3:.2f} ms = {flop/best/1e9:.0f} GFLOP/s")
     except ImportError: print("P4: PyTorch not installed, cuBLAS comparison skipped")
-    for name, bm, bn in (("matmul_tiled", 16, 16), ("matmul_reg", 64, 64), ("matmul_fma", 64, 64), ("matmul_fma4", 64, 64), ("matmul_fma8", 128, 128), ("matmul_fma8db", 128, 128), ("matmul_fma8x4", 128, 64), ("matmul_fma8x4db", 128, 64), ("matmul_fma8k32", 128, 128)):
+    def tile(stem):
+        if "fma8x4" in stem: return 128, 64
+        if "fma8" in stem: return 128, 128
+        if "fma4" in stem or "matmul_reg" in stem or stem == "matmul_fma": return 64, 64
+        return 16, 16
+    stems = sorted(f[:-4] for f in os.listdir(os.path.join(d, "ptx")) if f.startswith("matmul_") and f.endswith(".ptx"))
+    order = ["matmul_tiled", "matmul_reg", "matmul_fma", "matmul_fma4", "matmul_fma8"]
+    stems = [x for x in order if x in stems] + [x for x in stems if x not in order]
+    for name in stems:
+        bm, bn = tile(name)
         path = os.path.join(d, "ptx", name + ".ptx")
         if not os.path.exists(path): continue
         fn = cu.function(path, name); pc = cu.to_dev(np.zeros(n * n, np.float32)); perr = cu.to_dev(np.zeros(1, np.float32))
