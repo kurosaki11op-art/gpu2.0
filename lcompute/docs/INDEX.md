@@ -11,5 +11,6 @@ tags: [spark, lcompute, index]
 - [Step 1 result](lc_step1_result.md): IR, interpreter, builder, three kernels.
 - [Step 2 result](lc_step2_result.md): the runtime layer, streams and checked errors.
 - [Step 3 result](lc_step3_result.md): fast CPU back end; first run missed C4 (13x), fixed with the IR optimiser (21x to 24x).
+- [Step 4 result](lc_step4_result.md): PTX back end; P1 passes, P2 to P4 await a GPU run.
 
 Related: [README](../README.md), [Docs index](../../docs/INDEX.md)

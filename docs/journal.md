@@ -2238,4 +2238,8 @@ Founder: build the IR optimiser and fix the miss. Built [opt.rs](../lcompute/src
 
 Founder: do block_reduce first, then step 4. Wrote bar D1 (at least 4x at 1e6 elements) into the ROADMAP first, profiled (the cause was the divergence rescans, not barriers as I had guessed), fixed. MEASURED: block_reduce 1.5x -> 5.3x to 6.6x; C1 to C4 still pass (C4 20.7x to 24.4x). Details in the [step 3 result](../lcompute/docs/lc_step3_result.md).
 
+## 3 Nov 2026 - L Compute step 4: PTX back end built; P1 passes, GPU runs pending
+
+Wrote bars P1 to P4 first, then [ptx.rs](../lcompute/src/ptx.rs), the suite exporter and the GPU runner [gpu_runner.py](../lcompute/tools/gpu_runner.py). MEASURED: ptxas 12.9 accepts all 5 generated PTX files for sm_75 and sm_86 (negative control rejected). **P2 to P4 are not run: no GPU in the container**; they need a Colab T4 or the RTX 3050 (commands in the [step 4 result](../lcompute/docs/lc_step4_result.md)). Also added the L Compute status paragraph to PROJECT_MEMORY (it was missing).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

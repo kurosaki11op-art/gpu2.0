@@ -1,5 +1,5 @@
 // L Compute step 1: kernels written with the builder, run by the reference interpreter, checked against independent plain references (bars: docs/ROADMAP.md step 1).
-mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3; mod opt;
+mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3; mod opt; mod ptx; mod gpusuite;
 use builder::B; use interp::*;
 
 fn vec_add() -> ir::Kernel {
@@ -54,6 +54,7 @@ fn rnd(n: usize, seed: u64) -> Vec<f32> { let mut s = seed; (0..n).map(|_| { s =
 fn relerr(got: f32, want: f64) -> f64 { (got as f64 - want).abs() / want.abs().max(1.0) }
 
 fn main() {
+    { let a: Vec<String> = std::env::args().collect(); if a.len() == 3 && a[1] == "--emit-gpu" { gpusuite::export(&a[2]); return; } }
     if std::env::var("LC_PROF").is_ok() { step3::prof(); return; } // profiling entry: fast back end only
     let mut all_ok = true; let mut worst = 0f64; let mut ok_1b = true; // ok_1b: the step 1b rule of docs/ROADMAP.md (exact agreement with the sequential fp32 sum, and within k x 6e-8 x sum of |terms| of a float64 reference)
     let kv = vec_add();

@@ -3,9 +3,9 @@ use crate::interp::{self, dim, Arg, Buf, Dim3};
 use crate::ir::Kernel;
 use std::time::Instant;
 
-enum Sp { B(Vec<f32>), I(i32) }
+pub(crate) enum Sp { B(Vec<f32>), I(i32) }
 
-fn run_on(fast: bool, k: &Kernel, grid: Dim3, block: Dim3, spec: &[Sp]) -> (Result<(), String>, Vec<Vec<f32>>) {
+pub(crate) fn run_on(fast: bool, k: &Kernel, grid: Dim3, block: Dim3, spec: &[Sp]) -> (Result<(), String>, Vec<Vec<f32>>) {
     let mut bufs: Vec<Vec<f32>> = spec.iter().filter_map(|s| if let Sp::B(v) = s { Some(v.clone()) } else { None }).collect();
     let mut args = Vec::new(); let mut bi = 0;
     for s in spec { match s { Sp::B(_) => { args.push(Arg::Buf(Buf { ptr: bufs[bi].as_mut_ptr(), len: bufs[bi].len() })); bi += 1; } Sp::I(v) => args.push(Arg::I32(*v)) } }
