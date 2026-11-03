@@ -2230,4 +2230,8 @@ Founder: proceed with step 2; study what CUDA is for and build what people need.
 
 Founder: proceed with step 3. Built the lockstep block executor ([fast.rs](../lcompute/src/fast.rs)) and tests ([step3.rs](../lcompute/src/step3.rs)). MEASURED: C1 16 of 16 launches bit-identical, C2 both negative tests detected, C3 step 2 suite passes on the fast back end; **C4 speed bar missed: 12.9x to 15.0x against 20x** (bar not moved). Cause: about 17 IR instructions per multiply-add; next work is an IR optimiser, not a faster loop. Details: [step 3 result](../lcompute/docs/lc_step3_result.md); log [step3_run.txt](../lcompute/logs/step3_run.txt).
 
+## 3 Nov 2026 - L Compute step 3 fix: IR optimiser, C4 now passes
+
+Founder: build the IR optimiser and fix the miss. Built [opt.rs](../lcompute/src/opt.rs) (unrolling, constant folding, AddImm, value numbering, mov fusion, dead code) and a vector/broadcast shared-load path in the fast back end. MEASURED: all of C1 to C5 pass; **C4 = 22.5x, 24.0x, 23.5x, 21.0x against the unchanged 20x bar** (first run was 12.9x to 15.0x). Optimiser alone did not help; profiling the time (not the instruction count) found shared loads done as gathers. Details: [step 3 result](../lcompute/docs/lc_step3_result.md); log [step3_run.txt](../lcompute/logs/step3_run.txt).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

@@ -79,8 +79,10 @@ STEP 2: runtime (streams, buffers, checked errors), back end Fast
   R5 dropping the runtime joined its stream threads          ok  
 STEP 2 BARS R1 to R5: PASS
 C3 step 2 suite with the fast back end: PASS
-  C4 512x512x512 matmul: interpreter 2.20 s (0.122 GFLOP/s), fast best of 3 0.170 s (1.578 GFLOP/s), outputs identical true
-C4 speed-up 12.9x (bar >= 20x): FAIL
-  C5 vec_add n=1e6: interpreter 0.036 s, fast 0.0076 s (4.7x)
-  C5 block_reduce n=1e6: interpreter 0.145 s, fast 0.1143 s (1.3x)
-STEP 3 BARS C1 to C5: FAIL
+  optimiser: matmul_tiled registers 61 -> 50 used;
+  optimiser: matmul_tiled 86 -> 160 instructions; vec_add 13 -> 13; block_reduce 39 -> 37
+  C4 512x512x512 matmul: interpreter 2.23 s (0.120 GFLOP/s), fast best of 3 0.107 s (2.520 GFLOP/s), outputs identical true
+C4 speed-up 21.0x (bar >= 20x): PASS
+  C5 vec_add n=1e6: interpreter 0.037 s, fast 0.0078 s (4.7x)
+  C5 block_reduce n=1e6: interpreter 0.140 s, fast 0.1036 s (1.3x)
+STEP 3 BARS C1 to C5: PASS

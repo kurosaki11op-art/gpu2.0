@@ -48,7 +48,8 @@ pub fn run() -> bool {
     // C4: 512^3 matmul speed
     let (m, k, n) = (512usize, 512usize, 512usize); let s = [Sp::B(crate::rnd(m * k, 3)), Sp::B(crate::rnd(k * n, 4)), Sp::B(vec![0f32; m * n]), Sp::I(m as i32), Sp::I(k as i32), Sp::I(n as i32)];
     let g = dim(n / 16, m / 16, 1); let b = dim(16, 16, 1); let flop = 2.0 * (m * k * n) as f64;
-    let t = Instant::now(); let (_, oi) = run_on(false, &km, g, b, &s); let ti = t.elapsed().as_secs_f64();
+    { let o = crate::opt::optimise(&km); println!("  optimiser: matmul_tiled registers {} -> {} used;", km.regs.len(), crate::opt::used_regs(&o)); println!("  optimiser: matmul_tiled {} -> {} instructions; vec_add {} -> {}; block_reduce {} -> {}", km.code.len(), o.code.len(), kv.code.len(), crate::opt::optimise(&kv).code.len(), kr.code.len(), crate::opt::optimise(&kr).code.len()); }
+    let t = Instant::now(); let (_, oi) =run_on(false, &km, g, b, &s); let ti = t.elapsed().as_secs_f64();
     let mut tf = f64::MAX; let mut of = Vec::new(); for _ in 0..3 { let t = Instant::now(); let (_, o) = run_on(true, &km, g, b, &s); tf = tf.min(t.elapsed().as_secs_f64()); of = o; }
     let same_out = oi[2].iter().zip(&of[2]).all(|(a, b)| a.to_bits() == b.to_bits()); let sp = ti / tf; let c4 = sp >= 20.0 && same_out; ok_all &= c4;
     println!("  C4 512x512x512 matmul: interpreter {:.2} s ({:.3} GFLOP/s), fast best of 3 {:.3} s ({:.3} GFLOP/s), outputs identical {}", ti, flop / ti / 1e9, tf, flop / tf / 1e9, same_out);

@@ -1,5 +1,5 @@
 // L Compute step 1: kernels written with the builder, run by the reference interpreter, checked against independent plain references (bars: docs/ROADMAP.md step 1).
-mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3;
+mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3; mod opt;
 use builder::B; use interp::*;
 
 fn vec_add() -> ir::Kernel {

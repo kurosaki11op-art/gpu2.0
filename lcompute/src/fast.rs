@@ -11,6 +11,17 @@ fn fb(v: u32) -> f32 { f32::from_bits(v) } fn tb(v: f32) -> u32 { v.to_bits() }
     while t < nt { *pd.add(t) = f(*pa.add(t), *pb.add(t)); t += 1; }
 }
 
+// dense shared load after the index check: groups of 8 lanes that read 8 consecutive floats are one vector load, groups that all read the same float are a broadcast, anything else is a gather
+#[inline(always)] unsafe fn ld_dense(rp: *mut u32, nt: usize, d: usize, i: usize, sp: *const f32) {
+    let (pd, pi) = (rp.add(d * nt), rp.add(i * nt) as *const u32); let mut t = 0;
+    while t + 8 <= nt {
+        let mut ix = [0u32; 8]; for k in 0..8 { ix[k] = *pi.add(t + k); }
+        let f = ix[0]; let (mut seq, mut same) = (true, true); for k in 0..8 { seq &= ix[k] == f.wrapping_add(k as u32); same &= ix[k] == f; }
+        if seq { for k in 0..8 { *pd.add(t + k) = (*sp.add(f as usize + k)).to_bits(); } } else if same { let v = (*sp.add(f as usize)).to_bits(); for k in 0..8 { *pd.add(t + k) = v; } } else { for k in 0..8 { *pd.add(t + k) = (*sp.add(ix[k] as usize)).to_bits(); } }
+        t += 8;
+    }
+    while t < nt { *pd.add(t) = (*sp.add(*pi.add(t) as usize)).to_bits(); t += 1; }
+}
 unsafe fn run_block(k: &Kernel, labels: &[usize], args: &[Arg], grid: Dim3, block: Dim3, bid: [usize; 3]) -> Result<(), String> {
     let nt = block.x * block.y * block.z; let mut regs = vec![0u32; k.regs.len() * nt]; let mut shared: Vec<Vec<f32>> = k.shared.iter().map(|&n| vec![0f32; n]).collect();
     let tid: Vec<[usize; 3]> = (0..nt).map(|t| [t % block.x, (t / block.x) % block.y, t / (block.x * block.y)]).collect();
@@ -38,6 +49,7 @@ unsafe fn run_block(k: &Kernel, labels: &[usize], args: &[Arg], grid: Dim3, bloc
             Inst::ConstI(d, v) => { lanes!(t, { r!(d, t) = *v as u32; }) } Inst::ConstF(d, v) => { let b = tb(*v); lanes!(t, { r!(d, t) = b; }) }
             Inst::Special(d, s) => { lanes!(t, { r!(d, t) = (match s { Sp::Tid(a) => tid[t][*a as usize], Sp::Bid(a) => bid[*a as usize], Sp::Bdim(a) => [block.x, block.y, block.z][*a as usize], Sp::Gdim(a) => [grid.x, grid.y, grid.z][*a as usize] }) as u32; }) }
             Inst::ParamS(d, pi) => { let v = match args[*pi as usize] { Arg::I32(v) => v as u32, Arg::F32(v) => tb(v), Arg::Buf(_) => return Err(format!("{}: parameter {} is a buffer, not a scalar", k.name, pi)) }; lanes!(t, { r!(d, t) = v; }) }
+            Inst::AddImm(d, s, c) => { let c = *c; bin2!(d, s, s, |x: u32, _y: u32| (x as i32).wrapping_add(c) as u32) }
             Inst::Mov(d, s) => { if act.len() == nt { std::ptr::copy(rp.add(s.0 as usize * nt), rp.add(d.0 as usize * nt), nt); } else { lanes!(t, { r!(d, t) = r!(s, t); }) } }
             Inst::BinI(d, op, a, b) => { match op {
                 BinOp::Add => bin2!(d, a, b, |x: u32, y: u32| (x as i32).wrapping_add(y as i32) as u32), BinOp::Sub => bin2!(d, a, b, |x: u32, y: u32| (x as i32).wrapping_sub(y as i32) as u32),
@@ -63,7 +75,7 @@ unsafe fn run_block(k: &Kernel, labels: &[usize], args: &[Arg], grid: Dim3, bloc
                 lanes!(t, { let ix = r!(i, t) as i32; if ix < 0 || ix as usize >= b.len { return Err(format!("{}: out-of-range global store, index {} of {} (block {:?}, thread {:?})", k.name, ix, b.len, bid, tid[t])); } unsafe { *b.ptr.add(ix as usize) = fb(r!(v, t)); } }) }
             Inst::LdS(d, ai, i) => { let (sp, len) = sptr[*ai as usize];
                 // dense case: one pass checks every index, then the loads run without per-lane checks; on any bad index the checked loop below reports it
-                if act.len() == nt && { let mut bad = 0u32; for t in 0..nt { let ix = r!(i, t) as i32; bad |= (ix < 0 || ix as usize >= len) as u32; } bad == 0 } { for t in 0..nt { r!(d, t) = tb(*sp.add(r!(i, t) as usize)); } }
+                if act.len() == nt && { let mut bad = 0u32; for t in 0..nt { let ix = r!(i, t) as i32; bad |= (ix < 0 || ix as usize >= len) as u32; } bad == 0 } { ld_dense(rp, nt, d.0 as usize, i.0 as usize, sp); }
                 else { lanes!(t, { let ix = r!(i, t) as i32; if ix < 0 || ix as usize >= len { return Err(format!("{}: out-of-range shared load, index {} of {}", k.name, ix, len)); } r!(d, t) = tb(*sp.add(ix as usize)); }) } }
             Inst::StS(ai, i, v) => { let (sp, len) = sptr[*ai as usize]; lanes!(t, { let ix = r!(i, t) as i32; if ix < 0 || ix as usize >= len { return Err(format!("{}: out-of-range shared store, index {} of {}", k.name, ix, len)); } *sp.add(ix as usize) = fb(r!(v, t)); }) }
             Inst::Label(_) => {}
@@ -81,9 +93,10 @@ unsafe fn run_block(k: &Kernel, labels: &[usize], args: &[Arg], grid: Dim3, bloc
 }
 
 pub fn launch(k: &Kernel, grid: Dim3, block: Dim3, args: &[Arg]) -> Result<(), String> {
+    let optimised = crate::opt::optimise(k); let k = &optimised; // the fast back end runs the optimised kernel; the interpreter always runs the kernel as written
     if args.len() != k.params.len() { return Err(format!("{}: expected {} arguments, got {}", k.name, k.params.len(), args.len())); }
     let nl = k.code.iter().filter_map(|i| if let Inst::Label(l) = i { Some(*l as usize + 1) } else { None }).max().unwrap_or(0); let mut labels = vec![0usize; nl]; for (i, ins) in k.code.iter().enumerate() { if let Inst::Label(l) = ins { labels[*l as usize] = i; } }
-    let nblocks = grid.x * grid.y * grid.z; let nw = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1).min(nblocks.max(1));
+    let nblocks = grid.x * grid.y * grid.z; let nw = std::env::var("LC_THREADS").ok().and_then(|s| s.parse().ok()).unwrap_or_else(|| std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1)).min(nblocks.max(1));
     let next = AtomicUsize::new(0); let err: std::sync::Mutex<Option<String>> = std::sync::Mutex::new(None);
     std::thread::scope(|s| { for _ in 0..nw { s.spawn(|| loop {
         let b = next.fetch_add(1, Ordering::Relaxed); if b >= nblocks || err.lock().unwrap().is_some() { break; }
