@@ -65,6 +65,16 @@ Q4 was missed (0.42x on the T4, [step 4 result](../docs/lc_step4_result.md)). Th
 - **Q5 GPU equality (T4):** bit-identical to the interpreter on all those cases.
 - **Q5 speed (T4):** the best of `matmul_fma4` and `matmul_fma8` reaches **at least 0.5x of cuBLAS** at 1024^3 (cuBLAS measured in the same run, TF32 off). If missed, the result is reported as a miss with the three numbers side by side.
 
+## Bars Q6 and C4' (written before the work, 3 Nov 2026)
+
+**Q6, GPU matmul (replaces the missed Q5 target; Q5 stays recorded as missed at 0.495x).** New kernels from one generator (`matmul_v3`), each its own variant so one T4 run shows which lever matters: `matmul_fma8db` (8 x 8 outputs per thread, double-buffered shared tiles, one barrier per tile), `matmul_fma8x4` (8 x 4 outputs per thread, 128 x 64 block tile, fewer registers for higher occupancy), `matmul_fma8x4db` (both), `matmul_fma8k32` (k tile 32). All sum each output sequentially over k with a fused multiply-add, so they must equal `matmul_fma8` bit for bit.
+- **Q6a (CPU, here):** every new kernel is bit-identical to `matmul_fma8` and to its own interpreter run on 5 shapes (3 not multiples of the tile), fast back end and interpreter.
+- **Q6b (T4):** all cases bit-identical to the interpreter.
+- **Q6c (T4, speed):** the best new kernel reaches **at least 0.6x of cuBLAS** at 1024^3 (cuBLAS measured in the same run, TF32 off). Misses are reported with all variants side by side.
+Accuracy checks use the rounding-bound rule (error within k x 6e-8 x the sum of absolute terms), never a fixed absolute bound on long sums.
+
+**C4' (CPU speed bar made stricter).** C4 (matmul 512^3 at least 20x faster than the interpreter) passed only about half of the re-runs (19.0x to 24.4x). Work: measure where the fast back end loses time (cache behaviour of the per-lane register file), and reduce it if the measurement says that is the cause. The bar: repeat the whole C4 measurement 10 times in one process (interpreter once and fast best of 3 each time) and report all ten; **C4' passes if the minimum of the ten is at least 20x.** The same 16 / 16 bit-identity (C1), C2, C3 and D1 must still pass.
+
 ## Note, 2 Nov 2026 (after the step 1 run)
 
 The step 1 bar (every shape within 1e-5 relative error) was **mis-specified for long inner dimensions**: one of 17 checks measured 1.00e-5; the kernel equals a sequential fp32 sum exactly ([result](lc_step1_result.md)). The original bar is recorded as **missed** on the first run, and **passed on a second run after a kernel fix** (two-level tile summation; worst error 2.9e-6). **Step 1b** replaces it for later steps: matrix products must agree with the sequential fp32 sum exactly in the interpreter and stay within `k x 6e-8 x sum of |terms|` of a float64 reference on every back end.
