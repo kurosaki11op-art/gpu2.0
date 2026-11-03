@@ -53,6 +53,7 @@ fn run_block(k: &Kernel, labels: &HashMap<u32, usize>, args: &[Arg], grid: Dim3,
 }
 
 pub fn launch(k: &Kernel, grid: Dim3, block: Dim3, args: &[Arg]) -> Result<(), String> {
+    if let Some(b) = k.bounds { if [block.x, block.y, block.z] != b { return Err(format!("{}: launched with block shape [{}, {}, {}] but the kernel declares launch bounds {:?}", k.name, block.x, block.y, block.z, b)); } }
     if args.len() != k.params.len() { return Err(format!("{}: expected {} arguments, got {}", k.name, k.params.len(), args.len())); }
     let mut labels = HashMap::new(); for (i, ins) in k.code.iter().enumerate() { if let Inst::Label(l) = ins { labels.insert(*l, i); } }
     let nblocks = grid.x * grid.y * grid.z; let nw = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1).min(nblocks.max(1));

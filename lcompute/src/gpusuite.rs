@@ -43,15 +43,28 @@ pub fn export(dir: &str) {
         for (chk, cn) in [(crate::ptx::Checks::Full, "full"), (crate::ptx::Checks::Cheap, "cheap"), (crate::ptx::Checks::None, "none")] { for unroll in [false, true] {
             if chk == crate::ptx::Checks::Full && !unroll { continue; }
             let suffix = format!("_{}{}", cn, if unroll { "_u" } else { "" }); let src = if unroll { crate::opt::optimise_with(kk, 40000) } else { kk.clone() };
-            let entry = format!("{}{}", kk.name, suffix); fs::write(format!("{}/ptx/{}.ptx", dir, entry), crate::ptx::to_ptx_opts(&src, chk, &suffix)).unwrap();
+            let entry = format!("{}{}", kk.name, suffix); fs::write(format!("{}/ptx/{}.ptx", dir, entry), crate::ptx::to_ptx_opts(&src, chk, false, &suffix)).unwrap();
             for &(m, k, n) in &[(100usize, 50usize, 70usize), (128, 128, 128), (65, 17, 130)] {
                 case_entry(dir, &format!("{}_{}x{}x{}", entry.replace("matmul_", "v"), m, k, n), kk, &entry, dim((n + bn - 1) / bn, (m + bm - 1) / bm, 1), dim(16, 16, 1), vec![Sp::B(crate::rnd(m * k, 3)), Sp::B(crate::rnd(k * n, 4)), Sp::B(vec![0f32; m * n]), Sp::I(m as i32), Sp::I(k as i32), Sp::I(n as i32)], true); }
         } }
     }
+    // step 4d (bar Q8): the same kernels with the range analysis on (shared-memory checks proved away), full and cheap global checks, with and without unrolling
+    for (kk, bm, bn) in [(&v3[2].0, 128usize, 64usize), (&v3[0].0, 128, 128), (&v3[1].0, 128, 64)] {
+        for (chk, cn) in [(crate::ptx::Checks::Full, "full"), (crate::ptx::Checks::Cheap, "cheap")] { for unroll in [false, true] {
+            let suffix = format!("_{}_p{}", cn, if unroll { "_u" } else { "" }); let src = if unroll { crate::opt::optimise_with(kk, 40000) } else { kk.clone() };
+            let entry = format!("{}{}", kk.name, suffix); fs::write(format!("{}/ptx/{}.ptx", dir, entry), crate::ptx::to_ptx_opts(&src, chk, true, &suffix)).unwrap();
+            for &(m, k, n) in &[(100usize, 50usize, 70usize), (128, 128, 128), (65, 17, 130)] {
+                case_entry(dir, &format!("{}_{}x{}x{}", entry.replace("matmul_", "v"), m, k, n), kk, &entry, dim((n + bn - 1) / bn, (m + bm - 1) / bm, 1), dim(16, 16, 1), vec![Sp::B(crate::rnd(m * k, 3)), Sp::B(crate::rnd(k * n, 4)), Sp::B(vec![0f32; m * n]), Sp::I(m as i32), Sp::I(k as i32), Sp::I(n as i32)], true); }
+        } }
+    }
+    // shared-memory out-of-range kernel (index = thread id + 1 on an array exactly as long as the block): the analysis must NOT prove it, so the access is still reported
+    { let ks = crate::shared_oob(); for (chk, cn) in [(crate::ptx::Checks::Full, "full"), (crate::ptx::Checks::Cheap, "cheap")] { let suffix = format!("_{}_p", cn); let entry = format!("{}{}", ks.name, suffix);
+        fs::write(format!("{}/ptx/{}.ptx", dir, entry), crate::ptx::to_ptx_opts(&ks, chk, true, &suffix)).unwrap();
+        case_entry(dir, &format!("negative_{}", entry), &ks, &entry, dim(1, 1, 1), dim(16, 1, 1), vec![Sp::B(vec![0f32; 16])], false); } }
     // out-of-range tests for the cheap check mode (a load and a store)
     { let (kl, ks) = (crate::out_of_range(), crate::out_of_range_store());
       for (chk, cn) in [(crate::ptx::Checks::Full, "full"), (crate::ptx::Checks::Cheap, "cheap")] {
-        for kk in [&kl, &ks] { let suffix = format!("_{}", cn); let entry = format!("{}{}", kk.name, suffix); fs::write(format!("{}/ptx/{}.ptx", dir, entry), crate::ptx::to_ptx_opts(kk, chk, &suffix)).unwrap();
+        for kk in [&kl, &ks] { let suffix = format!("_{}", cn); let entry = format!("{}{}", kk.name, suffix); fs::write(format!("{}/ptx/{}.ptx", dir, entry), crate::ptx::to_ptx_opts(kk, chk, false, &suffix)).unwrap();
             case_entry(dir, &format!("negative_{}", entry), kk, &entry, dim(1, 1, 1), dim(1, 1, 1), vec![Sp::B(vec![0f32; 8]), Sp::I(8)], false); } } }
     case(dir, "negative_out_of_range", &ko, dim(1, 1, 1), dim(1, 1, 1), vec![Sp::B(vec![0f32; 8]), Sp::I(8)], false);
     println!("wrote PTX for many kernels and cases to {}", dir);

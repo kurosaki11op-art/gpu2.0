@@ -102,6 +102,7 @@ unsafe fn run_block(k: &Kernel, labels: &[usize], simple: &[bool], args: &[Arg],
 
 pub fn launch(k: &Kernel, grid: Dim3, block: Dim3, args: &[Arg]) -> Result<(), String> {
     let optimised = crate::opt::optimise(k); let k = &optimised; // the fast back end runs the optimised kernel; the interpreter always runs the kernel as written
+    if let Some(b) = k.bounds { if [block.x, block.y, block.z] != b { return Err(format!("{}: launched with block shape [{}, {}, {}] but the kernel declares launch bounds {:?}", k.name, block.x, block.y, block.z, b)); } }
     if args.len() != k.params.len() { return Err(format!("{}: expected {} arguments, got {}", k.name, k.params.len(), args.len())); }
     let nl = k.code.iter().filter_map(|i| if let Inst::Label(l) = i { Some(*l as usize + 1) } else { None }).max().unwrap_or(0); let mut labels = vec![0usize; nl]; for (i, ins) in k.code.iter().enumerate() { if let Inst::Label(l) = ins { labels[*l as usize] = i; } }
     // simple[p]: a forward conditional branch whose skipped region is straight-line code without barriers; the lanes that fall through can run it alone and rejoin at the target without a rescan

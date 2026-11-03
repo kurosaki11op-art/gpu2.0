@@ -115,6 +115,20 @@ Next lever (not started): remove checks that can be proved safe at code generati
 
 Semantics note on the cheap mode: loads past the end read a clamped (wrong but defined) element and set the error word, stores past the end are skipped, and the error code of the last failing access is written when the thread exits; unlike the full mode, a failing kernel keeps running to its end. The error word is zero if and only if no access was out of range.
 
+## Step 4d: range analysis removes the provably unnecessary checks (bar Q8, 3 Nov 2026)
+
+Bar Q8 ([ROADMAP](ROADMAP.md), written before the work). Code: [`range.rs`](../src/range.rs) (interval analysis over the IR), launch bounds in the kernel (`B::launch_bounds`, enforced by the interpreter, the fast back end and the runtime; `.reqntid` in the PTX), `ptx.rs` (`to_ptx_opts(.., prove, ..)`), tests [`step4d.rs`](../src/step4d.rs).
+
+**Q8a coverage (CPU, MEASURED): PASS.** Shared-memory accesses proved safe: `matmul_fma8db` 48 of 48 as written and 288 of 288 after unrolling; `matmul_fma8x4` 24 of 24 and 204 of 204; `matmul_fma8x4db` 36 of 36 and 216 of 216 (bar: at least 95 percent). Global-memory accesses are never proved (their sizes are run-time values) and keep their checks.
+
+**Q8b soundness (CPU, MEASURED): PASS.** A fuzz test of 20,000 random kernels (index expressions over thread ids, constants, add, subtract, multiply, divide, remainder, shifts, masks, min, max; straight line, one loop, and two nested loops; 8 block shapes, 8 array sizes, some kernels without declared bounds): the analysis proved 11,334 safe, the reference interpreter reported 6,384 genuinely out of range, and **there was not one case that was proved safe and out of range**. The negative kernel (index = thread id + 1 on an array exactly as long as the block) is not proved and is reported; launching a kernel that declares 16 x 16 with an 8 x 8 block is rejected by the interpreter, the fast back end and the runtime.
+
+**How the analysis got there (misses on the way, recorded):** the first version proved only 12 of 24 (`matmul_fma8x4`) and 16 of 48 (`matmul_fma8db`) accesses, below the bar. Three precision bugs, each found by looking at the actual intervals, none a soundness bug (the fuzz stayed clean throughout): (1) widening was applied at every instruction instead of only at loop heads, so the inner loop counter was widened past its loop bound; (2) after widening, the loop counter incremented past the top of the 32-bit range and became unknown; (3) an outer loop counter creeping through the head of an inner loop was widened there, and an ascending fixpoint with narrowing cannot undo a bound that feeds itself around a loop. Fixes: widen only at labels that a later branch jumps back to, and only the registers that the loop writes, plus a narrowing pass (recompute every state from its predecessors, intersect, six rounds).
+
+**What the machine code looks like (COUNTED, ptxas sm_75):** share of multiply-adds among all instructions of `matmul_fma8db` variants: cheap checks 4 percent, proved shared checks 4 percent (not unrolled: the loop body repeats once), cheap checks with unrolled loop and proved shared checks 37 percent, no checks and unrolled 45 percent, full global checks and proved shared checks unrolled 32 percent. All 46 generated PTX files assemble without errors.
+
+**Q8c and Q8d (T4): not yet run**, suite 7 sent.
+
 ## Design notes
 
 - ABI: a buffer is two parameters (device pointer, length in floats), a scalar one parameter, and a last pointer to a u32 error word. Every global and shared access is bounds checked in the generated code; a failing access is skipped and the instruction number + 1 is written to the error word. Integer division by zero is reported and made harmless.

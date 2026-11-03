@@ -1,9 +1,11 @@
 // Kernel builder: a Rust API that writes IR, so kernels are written as ordinary code (the front end of version 0.1).
 use crate::ir::*;
-pub struct B { name: String, params: Vec<ParamKind>, shared: Vec<usize>, regs: Vec<Ty>, code: Vec<Inst>, nlabel: u32 }
+pub struct B { name: String, params: Vec<ParamKind>, shared: Vec<usize>, regs: Vec<Ty>, code: Vec<Inst>, nlabel: u32, bounds: Option<[usize; 3]> }
 impl B {
-    pub fn new(name: &str) -> B { B { name: name.to_string(), params: Vec::new(), shared: Vec::new(), regs: Vec::new(), code: Vec::new(), nlabel: 0 } }
-    pub fn finish(self) -> Kernel { Kernel { name: self.name, params: self.params, shared: self.shared, regs: self.regs, code: self.code } }
+    pub fn new(name: &str) -> B { B { name: name.to_string(), params: Vec::new(), shared: Vec::new(), regs: Vec::new(), code: Vec::new(), nlabel: 0, bounds: None } }
+    /// Declare the one thread-block shape this kernel is launched with (like CUDA's __launch_bounds__ but exact): allows the compiler to prove shared-memory accesses in range.
+    pub fn launch_bounds(&mut self, x: usize, y: usize, z: usize) { self.bounds = Some([x, y, z]); }
+    pub fn finish(self) -> Kernel { Kernel { name: self.name, params: self.params, shared: self.shared, regs: self.regs, code: self.code, bounds: self.bounds } }
     fn reg(&mut self, t: Ty) -> Reg { self.regs.push(t); Reg(self.regs.len() as u32 - 1) }
     fn label(&mut self) -> u32 { self.nlabel += 1; self.nlabel - 1 }
     // parameters
@@ -27,6 +29,8 @@ impl B {
     pub fn add_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Add, a, b) } pub fn sub_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Sub, a, b) }
     pub fn mul_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Mul, a, b) } pub fn div_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Div, a, b) }
     pub fn fma_f(&mut self, a: Reg, b: Reg, c: Reg) -> Reg { let r = self.reg(Ty::F32); self.code.push(Inst::Fma(r, a, b, c)); r }
+    pub fn min_i(&mut self, a: Reg, b: Reg) -> Reg { self.bi(BinOp::Min, a, b) } pub fn max_i(&mut self, a: Reg, b: Reg) -> Reg { self.bi(BinOp::Max, a, b) }
+    pub fn and_i(&mut self, a: Reg, b: Reg) -> Reg { self.bi(BinOp::And, a, b) } pub fn shl_i(&mut self, a: Reg, b: Reg) -> Reg { self.bi(BinOp::Shl, a, b) }
     pub fn max_f(&mut self, a: Reg, b: Reg) -> Reg { self.bf(BinOp::Max, a, b) }
     pub fn un_f(&mut self, op: UnOp, a: Reg) -> Reg { let r = self.reg(Ty::F32); self.code.push(Inst::UnF(r, op, a)); r }
     pub fn cvt_if(&mut self, a: Reg) -> Reg { let r = self.reg(Ty::F32); self.code.push(Inst::CvtIF(r, a)); r }

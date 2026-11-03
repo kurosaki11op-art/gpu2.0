@@ -1,5 +1,5 @@
 // L Compute step 1: kernels written with the builder, run by the reference interpreter, checked against independent plain references (bars: docs/ROADMAP.md step 1).
-mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3; mod opt; mod ptx; mod gpusuite; mod step4b;
+mod ir; mod builder; mod interp; mod runtime; mod step2; mod fast; mod step3; mod opt; mod ptx; mod gpusuite; mod step4b; mod range; mod step4d;
 use builder::B; use interp::*;
 
 fn vec_add() -> ir::Kernel {
@@ -131,7 +131,7 @@ fn matmul_fma8x4db() -> ir::Kernel { matmul_v3("matmul_fma8x4db", 8, 4, 16, true
 fn matmul_fma8k32() -> ir::Kernel { matmul_v3("matmul_fma8k32", 8, 8, 32, false) }
 fn matmul_v3(name: &str, tm: i32, tn: i32, bk: i32, dbuf: bool) -> ir::Kernel {
     let (bm, bn) = (16 * tm, 16 * tn); let (nla, nlb) = (bm * bk / 256, bk * bn / 256); let (asz, bsz) = (bm * bk, bk * bn); let nbuf = if dbuf { 2 } else { 1 };
-    let mut b = B::new(name); let (pa, pb, pc) = (b.param_buf(), b.param_buf(), b.param_buf()); let (m, k, n) = (b.param_i32(), b.param_i32(), b.param_i32());
+    let mut b = B::new(name); b.launch_bounds(16, 16, 1); let (pa, pb, pc) = (b.param_buf(), b.param_buf(), b.param_buf()); let (m, k, n) = (b.param_i32(), b.param_i32(), b.param_i32());
     let (tx, ty) = (b.tid(0), b.tid(1)); let (bx, by) = (b.bid(0), b.bid(1)); let (cbk, cbn, cbm) = (b.ci(bk), b.ci(bn), b.ci(bm)); let c16 = b.ci(16);
     let (sa, sb) = (b.shared((asz * nbuf) as usize), b.shared((bsz * nbuf) as usize)); let zero = b.cf(0.0);
     let t = { let r = b.mul_i(ty, c16); b.add_i(r, tx) }; let row0 = b.mul_i(by, cbm); let col0 = b.mul_i(bx, cbn);
@@ -197,6 +197,8 @@ fn block_reduce() -> ir::Kernel {
 }
 // two kernels that must be rejected
 fn barrier_divergence() -> ir::Kernel { let mut b = B::new("barrier_divergence"); let _x = b.param_buf(); let tid = b.tid(0); let one = b.ci(1); let p = b.lt_i(tid, one); let _s = b.shared(4); b.if_(p, |b| b.ret()); b.barrier(); b.finish() }
+// shared array exactly as long as the block; thread t reads element t + 1, so the last thread reads one past the end (launch bounds 16 x 1 x 1)
+fn shared_oob() -> ir::Kernel { let mut b = B::new("shared_oob"); b.launch_bounds(16, 1, 1); let x = b.param_buf(); let sh = b.shared(16); let t = b.tid(0); let z = b.cf(0.0); b.store_s(sh, t, z); b.barrier(); let one = b.ci(1); let ix = b.add_i(t, one); let v = b.load_s(sh, ix); b.store_g(x, t, v); b.finish() }
 fn out_of_range_store() -> ir::Kernel { let mut b = B::new("out_of_range_store"); let x = b.param_buf(); let n = b.param_i32(); let v = b.cf(1.0); b.store_g(x, n, v); b.finish() }
 fn out_of_range() -> ir::Kernel { let mut b = B::new("out_of_range"); let x = b.param_buf(); let n = b.param_i32(); let _v = b.load_g(x, n); b.finish() }
 
@@ -242,4 +244,5 @@ fn main() {
     step2::run(runtime::Backend::Interp);
     step3::run();
     step4b::run();
+    step4d::run();
 }

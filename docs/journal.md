@@ -2286,4 +2286,8 @@ Founder ran suite 6. MEASURED: 113 of 113 cases bit-identical (including out-of-
 
 Founder ran the controlled interleaved comparison. MEASURED: the earlier cuBLAS time (2590 GFLOP/s) was a cold-clock first call; steady cuBLAS is 4100 to 5200 GFLOP/s. **No kernel beats cuBLAS.** Cheap-check kernel: 0.58x at 1024^3 (**Q7b bar 0.6x missed**), 0.53x at 2048^3, 0.64x at 4096^3; no-check unrolled kernel 0.85x to 0.95x. The first 'Q7b passes' and all 1.07x to 1.48x statements are retracted in the [step 4 result](../lcompute/docs/lc_step4_result.md). Lesson recorded: a ratio against a vendor library is only believed from an interleaved, event-timed, clock-logged run. Next lever: range analysis to remove provably safe checks.
 
+## 3 Nov 2026 - L Compute step 4d: range analysis built (CPU bars Q8a, Q8b pass), T4 speed pending
+
+Founder asked to fix the check cost. Wrote bar Q8 first, then built launch bounds (declared block shape, enforced everywhere, `.reqntid` in the PTX) and a range analysis ([range.rs](../lcompute/src/range.rs)) that proves shared-memory accesses in range so the PTX has no check for them. MEASURED on CPU: 100 percent of the shared accesses of the three best matmul kernels proved; fuzz of 20,000 random kernels (including nested loops): **zero proved-but-out-of-range**; wrong block shape rejected by all back ends. First version missed the coverage bar (12 of 24, 16 of 48) because of three precision bugs, fixed one by one and recorded. T4 speed (Q8d, at least 0.7x of cuBLAS at 1024^3, 2048^3 and 4096^3) not yet run; suite 7 sent. See [step 4 result](../lcompute/docs/lc_step4_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

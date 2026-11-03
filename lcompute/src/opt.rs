@@ -118,7 +118,7 @@ pub fn optimise_with(k: &Kernel, limit: usize) -> Kernel {
     let n = k.regs.len(); let mut code = k.code.clone();
     for _ in 0..8 { match unroll_one(&code, n, limit) { Some(c) => code = c, None => break } }
     code = fold(&code, n); dce(&mut code, n); fuse(&mut code, n); dce(&mut code, n);
-    Kernel { name: k.name.clone(), params: k.params.clone(), shared: k.shared.clone(), regs: k.regs.clone(), code }
+    Kernel { name: k.name.clone(), params: k.params.clone(), shared: k.shared.clone(), regs: k.regs.clone(), code, bounds: k.bounds }
 }
 
 // registers actually used by the code (the fast back end allocates one row of lanes per register, so unused rows cost cache space)

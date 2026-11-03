@@ -55,6 +55,7 @@ impl Runtime {
     }
     pub fn copy_to_host(&self, s: StreamId, id: BufId) -> Result<Vec<f32>, String> { let (tx, rx) = channel(); self.send(s, Cmd::CopyOut(id, tx))?; rx.recv().map_err(|_| "stream died".to_string())? }
     pub fn launch(&self, s: StreamId, k: &Arc<Kernel>, grid: Dim3, block: Dim3, args: &[RtArg]) -> Result<(), String> {
+        if let Some(b) = k.bounds { if [block.x, block.y, block.z] != b { return Err(format!("{}: launched with block shape [{}, {}, {}] but the kernel declares launch bounds {:?}", k.name, block.x, block.y, block.z, b)); } }
         if args.len() != k.params.len() { return Err(format!("{}: expected {} arguments, got {}", k.name, k.params.len(), args.len())); }
         { let m = self.mem.lock().unwrap(); for (i, (a, p)) in args.iter().zip(&k.params).enumerate() { match (a, p) {
             (RtArg::Buf(id), ParamKind::BufF32) => { resolve(&m, *id).map_err(|e| format!("{}: argument {}: {}", k.name, i, e))?; }

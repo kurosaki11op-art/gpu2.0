@@ -18,4 +18,4 @@ pub enum Inst {
 }
 #[derive(Clone, Copy, Debug, PartialEq)] pub enum ParamKind { BufF32, I32, F32 }
 #[derive(Clone, Debug)]
-pub struct Kernel { pub name: String, pub params: Vec<ParamKind>, pub shared: Vec<usize>, pub regs: Vec<Ty>, pub code: Vec<Inst> }
+pub struct Kernel { pub name: String, pub params: Vec<ParamKind>, pub shared: Vec<usize>, pub regs: Vec<Ty>, pub code: Vec<Inst>, pub bounds: Option<[usize; 3]> } // bounds: the only thread-block shape the kernel may be launched with (declared by the kernel; every back end rejects another shape; the range analysis relies on it)

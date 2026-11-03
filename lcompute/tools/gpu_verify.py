@@ -12,7 +12,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gpu_runner import Cuda
 
-KERNELS = [("matmul_fma8db", 128, 128), ("matmul_fma8db_cheap", 128, 128), ("matmul_fma8db_cheap_u", 128, 128), ("matmul_fma8db_none_u", 128, 128), ("matmul_fma8x4_cheap", 128, 64), ("matmul_fma8x4db_cheap", 128, 64)]
+KERNELS = [("matmul_fma8db_cheap", 128, 128), ("matmul_fma8db_cheap_p", 128, 128), ("matmul_fma8db_cheap_p_u", 128, 128), ("matmul_fma8db_full_p_u", 128, 128), ("matmul_fma8x4_cheap_p_u", 128, 64), ("matmul_fma8x4db_cheap_p_u", 128, 64), ("matmul_fma8db_none_u", 128, 128)]
 SIZES = [512, 1024, 2048, 4096]; ROUNDS = 5; REPS = 20
 
 def smi():

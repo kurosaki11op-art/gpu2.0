@@ -21,6 +21,8 @@ fn same(k: &Kernel, grid: Dim3, block: Dim3, spec: &[Sp]) -> (bool, String) {
 }
 
 pub fn prof() {
+    if std::env::var("LC_RANGE2").is_ok() { let mut b = crate::builder::B::new("loop"); b.launch_bounds(16, 1, 1); let sh = b.shared(16); let z = b.ci(0); let n = b.ci(16); b.for_range(z, n, 1, |b, i| { let _v = b.load_s(sh, i); }); let k = b.finish(); for (i, ins) in k.code.iter().enumerate() { println!("{:2} {:?}", i, ins); } println!("{:?}", crate::range::analyse(&k)); return; }
+    if std::env::var("LC_RANGE").is_ok() { let k = if std::env::var("LC_RANGE").unwrap() == "db" { crate::matmul_fma8db() } else { crate::matmul_fma8x4() }; let (safe, det) = crate::range::analyse(&k); for (i, lo, hi, len) in det { println!("pc {:3} {:?} index [{}, {}] of {} {}", i, if let crate::ir::Inst::LdS(..) = k.code[i] { "LdS" } else { "StS" }, lo, hi, len, if safe[i] { "proved" } else { "NOT proved" }); } return; }
     if std::env::var("LC_DUMP").is_ok() { for (i, ins) in crate::opt::optimise(&crate::matmul_tiled()).code.iter().enumerate() { println!("{:3} {:?}", i, ins); } return; }
     if std::env::var("LC_PROF").map(|v| v == "reduce").unwrap_or(false) {
         let n = 300_000usize; let nb = (n + 255) / 256; let kr = crate::block_reduce(); let s = [Sp::B(crate::rnd(n, 5)), Sp::B(vec![0f32; nb]), Sp::I(n as i32)];

@@ -115,6 +115,15 @@ def perf(cu, d):
         print(line); results[name] = got
     if "matmul_tiled" in results and "matmul_reg" in results: print("P4 matmul_reg bit-identical to matmul_tiled at 1024^3:", np.array_equal(results["matmul_tiled"].view(np.uint32), results["matmul_reg"].view(np.uint32)))
 
+def bounds_test(cu, d):
+    # a kernel with declared launch bounds carries .reqntid: the driver must refuse any other block shape
+    path = os.path.join(d, "ptx", "matmul_fma8db_cheap_p.ptx")
+    if not os.path.exists(path): return
+    fn = cu.function(path, "matmul_fma8db_cheap_p"); n = 128; z = np.zeros(n * n, np.float32); pa, pb, pc, pe = cu.to_dev(z), cu.to_dev(z), cu.to_dev(z), cu.to_dev(np.zeros(1, np.float32))
+    ps = [ctypes.c_uint64(pa), ctypes.c_int32(n * n), ctypes.c_uint64(pb), ctypes.c_int32(n * n), ctypes.c_uint64(pc), ctypes.c_int32(n * n), ctypes.c_int32(n), ctypes.c_int32(n), ctypes.c_int32(n), ctypes.c_uint64(pe)]
+    try: cu.launch(fn, (1, 1, 1), (32, 8, 1), ps); print("Q8c wrong block shape (32 x 8 for a kernel declaring 16 x 16): ACCEPTED by the driver -> FAIL")
+    except RuntimeError as e: print(f"Q8c wrong block shape (32 x 8 for a kernel declaring 16 x 16): rejected by the driver ({e}) -> ok")
+
 def main():
     d = sys.argv[1]; cases = load_cases(d)
     if "--parse" in sys.argv: print(f"parsed {len(cases)} cases"); return
@@ -123,6 +132,7 @@ def main():
         ok, note = run_case(cu, d, c); good += ok; print(f"  {c['name']:<28} {'ok' if ok else 'FAIL'}  {note}")
     print(f"P2/P3: {good} of {len(cases)} cases {'PASS' if good == len(cases) else 'FAIL'} (bit-identical to the interpreter; out-of-range reported through the error word)")
     print("P3 note: barrier divergence is not checkable on a GPU (undefined behaviour); it is a CPU back end check only.")
+    bounds_test(cu, d)
     perf(cu, d)
 
 if __name__ == "__main__": main()
