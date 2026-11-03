@@ -2250,4 +2250,8 @@ Founder ran the pre-generated suite on a Colab Tesla T4. MEASURED: **P2 and P3 p
 
 Founder: improve the matmul speed first. Wrote bars Q1 to Q4 first ([ROADMAP](../lcompute/docs/ROADMAP.md)), then `matmul_reg` (64 x 64 block tile, 4 x 4 outputs per thread, same summation order). MEASURED here: **Q1 passes** (8 of 8 shapes bit-identical to `matmul_tiled` on the interpreter and the fast back end); ptxas: 64 registers, no spills; CPU fast back end 0.052 s vs 0.109 s at 512^3 (information). **Q2 to Q4 (T4 speed against cuBLAS) not yet run**; suite 2 sent to the founder.
 
+## 3 Nov 2026 - L Compute step 4b on the T4: Q2 and Q3 pass
+
+Founder ran suite 2 on the Colab T4. MEASURED: 25 of 25 cases bit-identical; **matmul_reg 1024 GFLOP/s = 0.35x of cuBLAS** (bar 0.25x), up from 0.11x; bit-identical to the plain tiled kernel at 1024^3. Next: Q4, a fused multiply-add instruction in the IR (bar 0.5x). See [step 4 result](../lcompute/docs/lc_step4_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

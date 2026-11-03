@@ -22,6 +22,19 @@ P1 proves the text is valid PTX; P2 and P3 on the T4 show the generated kernels 
 
 **What P4 says:** a first, plain 16 x 16 tiled kernel with one output per thread, plus a bounds check on every access, runs at one tenth of the vendor library. Step 6 carries a bar of 0.5x vendor, so this is a gap of five times still to close; the likely levers are larger tiles with several outputs per thread, vector loads and fewer checks (not yet measured, so not claimed). The timing includes a synchronise after each launch (a small part of 8.6 ms). One GPU, one run; not repeated.
 
+## Step 4b: register-blocked matmul on the T4 (3 Nov 2026, MEASURED)
+
+Bars Q1 to Q4: [ROADMAP](ROADMAP.md). Kernel `matmul_reg` (64 x 64 block tile, 4 x 4 outputs per thread, same summation order; 64 registers, no spills by ptxas).
+
+| Bar | Result |
+| --- | --- |
+| Q1 bit-identical to `matmul_tiled` on CPU (interpreter and fast back end), 8 shapes | PASS |
+| Q2 GPU bit-identical to the interpreter | PASS: 25 of 25 cases on the Tesla T4, and `matmul_reg` equals `matmul_tiled` bit for bit at 1024^3 on the GPU |
+| Q3 at least 0.25x of cuBLAS at 1024^3 | **PASS: matmul_reg 2.10 ms = 1024 GFLOP/s; cuBLAS 0.74 ms = 2911 GFLOP/s; ratio 0.35** (matmul_tiled in the same run: 329 GFLOP/s, 0.11; an earlier run had cuBLAS at 2568, so cuBLAS timing varies between runs by about 10 percent) |
+| Q4 at least 0.5x with a fused multiply-add instruction | not yet run |
+
+One T4, best of three timing loops of 20 launches each, one session.
+
 ## Design notes
 
 - ABI: a buffer is two parameters (device pointer, length in floats), a scalar one parameter, and a last pointer to a u32 error word. Every global and shared access is bounds checked in the generated code; a failing access is skipped and the instruction number + 1 is written to the error word. Integer division by zero is reported and made harmless.
