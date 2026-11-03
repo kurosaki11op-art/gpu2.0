@@ -2242,4 +2242,8 @@ Founder: do block_reduce first, then step 4. Wrote bar D1 (at least 4x at 1e6 el
 
 Wrote bars P1 to P4 first, then [ptx.rs](../lcompute/src/ptx.rs), the suite exporter and the GPU runner [gpu_runner.py](../lcompute/tools/gpu_runner.py). MEASURED: ptxas 12.9 accepts all 5 generated PTX files for sm_75 and sm_86 (negative control rejected). **P2 to P4 are not run: no GPU in the container**; they need a Colab T4 or the RTX 3050 (commands in the [step 4 result](../lcompute/docs/lc_step4_result.md)). Also added the L Compute status paragraph to PROJECT_MEMORY (it was missing).
 
+## 3 Nov 2026 - L Compute step 4 run on a real GPU
+
+Founder ran the pre-generated suite on a Colab Tesla T4. MEASURED: **P2 and P3 pass** (17 of 17 cases, bit-identical to the interpreter, out-of-range reported through the error word). **P4: ours 250 GFLOP/s vs cuBLAS 2568 GFLOP/s = 0.10x** (step 6 needs 0.5x). Barrier divergence stays CPU-only. First time our own IR ran on NVIDIA hardware. See [step 4 result](../lcompute/docs/lc_step4_result.md).
+
 Related: [Project memory](PROJECT_MEMORY.md), [Home](../README.md)

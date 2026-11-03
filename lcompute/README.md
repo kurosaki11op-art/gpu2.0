@@ -19,7 +19,7 @@ A compute platform with the layers CUDA has, designed by us from public specific
 | 4. Kernel front end | nvcc, CUDA C++ | a Rust builder API ([`src/builder.rs`](src/builder.rs)), a text language later | step 1 built (builder) |
 
 Step 1 result: [lc_step1_result](docs/lc_step1_result.md) (first run 16 of 17, one missed the written bar by a hair; fixed with two-level summation; second run 17 of 17, worst error 2.9e-6).
-| 5. Back ends | PTX to machine code | CPU native, PTX for NVIDIA GPUs, a second non-NVIDIA route | CPU back end built (step 3, [result](docs/lc_step3_result.md)); PTX back end written, assembles with ptxas, not yet run on a GPU (step 4, [result](docs/lc_step4_result.md)); second route is step 5 |
+| 5. Back ends | PTX to machine code | CPU native, PTX for NVIDIA GPUs, a second non-NVIDIA route | CPU back end built (step 3, [result](docs/lc_step3_result.md)); PTX back end runs bit-identically on a real T4, matmul 0.10x of cuBLAS (step 4, [result](docs/lc_step4_result.md)); second route is step 5 |
 | 6. Runtime and driver API | cudaMalloc, memcpy, launch, streams | device, buffers, in-order streams, checked errors ([`src/runtime.rs`](src/runtime.rs)) | step 2 built; step 3 fast back end built with IR optimiser, bars C1-C5 pass after one miss and fix ([step 3](docs/lc_step3_result.md)); ([result](docs/lc_step2_result.md)) |
 | 7. Libraries | cuBLAS, cuDNN and others | matmul, softmax, layer norm, attention first | step 6 |
 | 8. Autodiff for training | frameworks on top | gradients as IR transforms | step 7 |
